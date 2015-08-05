@@ -1,0 +1,31 @@
+# Format: path_to_brr loop_start
+# Loop start is in samples, not file offset.
+# The BRR file itself determines if the sample is looped or not.
+# For details, see: http://fdwr.tripod.com/docs/brr.txt
+
+samples/flute.brr      12784
+samples/strings.brr    336
+samples/bass.brr       1120
+samples/sample_03.brr  2192
+samples/snare.brr      0
+samples/closed_hat.brr 1376
+samples/piano.brr      16
+samples/brass.brr      64
+samples/sample_08.brr  0
+samples/sample_09.brr  1578
+samples/sample_0a.brr  64
+samples/sample_0b.brr  256
+samples/sample_0c.brr  0
+samples/sample_0d.brr  0
+samples/sample_0e.brr  512
+samples/sample_0f.brr  1536
+samples/sample_10.brr  0
+samples/sample_11.brr  0
+samples/sample_12.brr  508
+samples/sample_13.brr  5016
+samples/sample_14.brr  608
+samples/sample_15.brr  64
+samples/sample_16.brr  0
+samples/sample_17.brr  0
+samples/sample_18.brr  0
+samples/sample_19.brr  0

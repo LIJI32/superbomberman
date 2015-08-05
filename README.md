@@ -8,7 +8,7 @@ Super Bomberman 1 (US): d83699a009a62480a7e7e9f1bb5bff6e
 Super Bomberman 1 (J) : cbef5f02304a2b821a0e1642a6307564
 Super Bomberman 1 (E) : ddee4ddff2f3b6e31b8f73d0cb597ef1
 </pre>
-It can also build a bugfix version, based on the US version, that fixes some (mostly graphical) bugs, and can also restore access to the debug menu used during development. The configuration files let you mix-and-match specific regional changes.
+It can also build a bugfix version, based on the US version, that fixes some (mostly graphical) bugs, and can also restore access to the debug menu used during development with a debug version. The configuration files let you mix-and-match specific regional changes.
 
 # Requirements
 The following are required to build a ROM:
@@ -16,6 +16,8 @@ The following are required to build a ROM:
 * ca65 and ld65, from the [cc65 package](https://github.com/cc65/cc65). It is required for assembling and linking the ROM.
 * md5 or md5sum, for verifying the ROM after compilation
 * python, required to run many of the game- and SNES-specific tools in this repository, such as graphic and audio conversion tools
+
+Build by running <code>make</code> or <code>make CONFIG=x</code>, where x is us, j, e, bugfix, debug or any other configuration file in the config folder. Using the -s and -j flags is recommended
 
 # What is done
 * Naming many of the subroutines (285 out of 817!)
@@ -39,10 +41,10 @@ The following are required to build a ROM:
 * The RAM is not entirely mapped, and ram.asm is a *huge* mess. Also, not all *RAM* offsets are marked as such in code, meaning data can't easily be inserted in the RAM.
 
 # Hidden secrets
-* There were at least two levels in the game that never saw the day of light, judging by leftover data:
- * Two unused level structures. One has its palettes right after the park palettes, and one has its deleted palettes after the tunnel zone palettes. The first structure was not structured like a regular level, but had a big unpassable object in the middle of the level, making the level ring-like. There structures do not match any of the existing tilesets, and no unused tileset exists in code.
+* There were at least two levels in the game that never saw the light of day, judging by leftover data:
+ * Two unused level structures. One has its palettes right after the park palettes, and one has its deleted palettes after the tunnel zone palettes. The first structure was not structured like a regular level, but had a big unpassable object in the middle of the level, making the level ring-like. These structures do not match any of the existing tilesets, and no unused tileset exists in code.
  * Groups of 5 unused or delete palettes in the middle of background palettes section.
- * A few chunk of empty tiles inside the animated tiles graphic file, and an unused animated tile. The unused tile does not match any palette in the game.
+ * A few chunks of empty tiles inside the animated tiles graphic file, and an unused animated tile. The unused tile does not match any palette in the game.
 * A strange purple palette that seems to match the Bomberman sprite. It's unused.
 * Old palette used for the Starnuts enemy, and an old palette used for the Gold Mecha Bomberman (This is neither the final US or J palette of the same graphic)
 * An unused palette shows that there used to be green bombs in the game.

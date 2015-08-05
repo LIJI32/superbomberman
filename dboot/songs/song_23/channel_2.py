@@ -1,0 +1,3 @@
+nop()
+halt	()
+halt	()

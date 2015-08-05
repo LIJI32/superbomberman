@@ -1,0 +1,2 @@
+.INCLUDE "bugfix.asm"
+.DEFINE DEBUG TRUE

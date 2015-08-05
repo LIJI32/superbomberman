@@ -1,0 +1,12 @@
+graphics/**/*.bin
+dboot/songs/**/*.bin
+dboot/data.bin
+dboot/songs.bin
+dboot/samples.bin
+level_structures/*.bin
+tilemaps/*.bin
+*.sfc
+*.dep
+*.o
+*.pyc
+config.asm

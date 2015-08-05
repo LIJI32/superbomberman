@@ -1,0 +1,7 @@
+nop()
+track	(0x6)
+inst	(0x5)
+c6(0x7)
+volume	(90)
+halt	()
+halt	()

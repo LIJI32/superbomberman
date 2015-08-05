@@ -1,0 +1,5 @@
+nop()
+track	(0x1)
+inst	(0x2)
+halt	()
+halt	()
