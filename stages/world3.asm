@@ -326,34 +326,3 @@ stage_3_8:	.BYTE 0			; saved_to_d1c
         .FARADDR create_crane_hand
         .WORD 0
         .WORD 0
-level_3_8_graphics_array:.FARADDR bomberman_graphic_0
-        .FARADDR bomberman_graphic_1
-        .FARADDR bomberman_graphic_2
-        .FARADDR bomberman_graphic_3
-        .FARADDR mook_graphic_0
-        .FARADDR mook_graphic_1
-        .FARADDR crane_graphic
-        .FARADDR bomberman_extra_graphic_1
-        .FARADDR missle_graphic_0
-        .FARADDR missle_graphic_1
-        .FARADDR menu_graphic_0
-        .FARADDR big_explosion_graphic_0
-        .FARADDR big_explosion_graphic_1
-        .FARADDR big_explosion_graphic_2
-        .FARADDR score_banner_and_bomb_graphic
-        .FARADDR enemy_explosion_graphic
-garden_palettes:.BYTE HUD_PALETTE, GARDEN_PALETTE_1, GARDEN_PALETTE_2; a_palettes
-        .BYTE GARDEN_PALETTE_3,	BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
-        .BYTE GARDEN_BOMB_PALETTE, GARDEN_FIRE_PALETTE;	a_palettes
-        .BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
-factory_palettes:.BYTE HUD_PALETTE, FACTORY_PALETTE_1, FACTORY_PALETTE_2; a_palettes
-        .BYTE FACTORY_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
-        .BYTE FACTORY_BOMB_PALETTE, FACTORY_FIRE_PALETTE; a_palettes
-        .BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
-crane_hand_boss_palettes:.BYTE HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE;	a_palettes
-        .BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BONUS_PALETTE_2, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE BLACK_PALETTE, BLACK_PALETTE, MISSLE_PALETTE, WHITE_PALETTE; b_palettes

@@ -814,8 +814,172 @@ password_decryption_key:.WORD 1, 3, 4, 6, 2, 0,	5, 7
 .ENDIF
 		.WORD 0
 .INCLUDE "stages/world1.asm"
+.INCLUDE "stages/world2.asm"
+.INCLUDE "stages/world3.asm"
+.INCLUDE "stages/world4.asm"
+.INCLUDE "stages/world5.asm"
+.INCLUDE "stages/world6.asm"
 
-; Common to all worlds, but annoyingly it's directly after the world 1 level definitions.
+peace_town_palettes:.BYTE HUD_PALETTE, PEACE_TOWN_PALETTE_1, PEACE_TOWN_PALETTE_2; a_palettes
+		.BYTE PEACE_TOWN_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE PEACE_TOWN_BOMB_PALETTE, PEACE_TOWN_FIRE_PALETTE;	a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+village_palettes:.BYTE HUD_PALETTE, VILLAGE_PALETTE_1, VILLAGE_PALETTE_2; a_palettes
+		.BYTE VILLAGE_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE VILLAGE_BOMB_PALETTE, VILLAGE_FIRE_PALETTE; a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+castle_palettes:.BYTE HUD_PALETTE, CASTLE_PALETTE_1, CASTLE_PALETTE_2; a_palettes
+		.BYTE CASTLE_PALETTE_3,	BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE CASTLE_BOMB_PALETTE, CASTLE_FIRE_PALETTE;	a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+bigaron_boss_palettes:.BYTE HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE,	BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE BLACK_PALETTE, BLACK_PALETTE, BLACK_PALETTE, BLACK_PALETTE; b_palettes
+park_palettes:	.BYTE HUD_PALETTE, PARK_PALETTE_1, PARK_PALETTE_2, PARK_PALETTE_3; a_palettes
+		.BYTE BONUS_PALETTE_1, BONUS_PALETTE_2,	PARK_BOMB_PALETTE; a_palettes
+		.BYTE PARK_FIRE_PALETTE	; a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+circus_palettes:.BYTE HUD_PALETTE, CIRCUS_PALETTE_1, CIRCUS_PALETTE_2; a_palettes
+		.BYTE CIRCUS_PALETTE_3,	BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE CIRCUS_BOMB_PALETTE, CIRCUS_FIRE_PALETTE;	a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+clown_mask_boss_palettes:.BYTE HUD_PALETTE, CIRCUS_PALETTE_1, CIRCUS_PALETTE_2; a_palettes
+		.BYTE CIRCUS_PALETTE_3,	BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE CIRCUS_BOMB_PALETTE, CIRCUS_FIRE_PALETTE;	a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE CLOWN_MASK_PALETTE_0, CLOWN_MASK_PALETTE_1, CLOWN_MASK_PALETTE_2;	b_palettes
+		.BYTE WHITE_PALETTE	; b_palettes
+garden_palettes:.BYTE HUD_PALETTE, GARDEN_PALETTE_1, GARDEN_PALETTE_2; a_palettes
+		.BYTE GARDEN_PALETTE_3,	BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE GARDEN_BOMB_PALETTE, GARDEN_FIRE_PALETTE;	a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+factory_palettes:.BYTE HUD_PALETTE, FACTORY_PALETTE_1, FACTORY_PALETTE_2; a_palettes
+		.BYTE FACTORY_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE FACTORY_BOMB_PALETTE, FACTORY_FIRE_PALETTE; a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+crane_hand_boss_palettes:.BYTE HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE;	a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BONUS_PALETTE_2, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE BLACK_PALETTE, BLACK_PALETTE, MISSLE_PALETTE, WHITE_PALETTE; b_palettes
+level_3_8_graphics_array:.FARADDR bomberman_graphic_0
+.FARADDR bomberman_graphic_1
+.FARADDR bomberman_graphic_2
+.FARADDR bomberman_graphic_3
+.FARADDR mook_graphic_0
+.FARADDR mook_graphic_1
+.FARADDR crane_graphic
+.FARADDR bomberman_extra_graphic_1
+.FARADDR missle_graphic_0
+.FARADDR missle_graphic_1
+.FARADDR menu_graphic_0
+.FARADDR big_explosion_graphic_0
+.FARADDR big_explosion_graphic_1
+.FARADDR big_explosion_graphic_2
+.FARADDR score_banner_and_bomb_graphic
+.FARADDR enemy_explosion_graphic
+off_C31A35:	.FARADDR bomberman_graphic_0
+		.FARADDR bomberman_graphic_1
+		.FARADDR bomberman_graphic_2
+		.FARADDR bomberman_graphic_3
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.WORD 0
+		.BYTE 0
+		.FARADDR score_banner_and_bomb_graphic
+		.FARADDR explosion_graphic
+dome_palettes:	.BYTE HUD_PALETTE, DOME_PALETTE_1, DOME_PALETTE_2, DOME_PALETTE_3; a_palettes
+		.BYTE BONUS_PALETTE_1, BONUS_PALETTE_2,	DOME_BOMB_PALETTE; a_palettes
+		.BYTE DOME_FIRE_PALETTE	; a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+mecha_onita_boss_palettes:.BYTE	HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE;	a_palettes
+		.BYTE BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE BLACK_PALETTE, ONITA_FADE_PALETTE_1, ONITA_FADE_PALETTE_2; b_palettes
+		.BYTE WHITE_PALETTE	; b_palettes
+arena_palettes:	.BYTE HUD_PALETTE, ARENA_PALETTE_1, ARENA_PALETTE_2, ARENA_PALETTE_3; a_palettes
+.BYTE BONUS_PALETTE_1, BONUS_PALETTE_2,	ARENA_BOMB_PALETTE; a_palettes
+.BYTE ARENA_FIRE_PALETTE; a_palettes
+.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+.BYTE MECHA_BOMBER_GOLD_PALETTE, ARENA_GATE_PALETTE, BLACK_PALETTE; b_palettes
+.BYTE WHITE_PALETTE	; b_palettes
+off_C31D6D:	.FARADDR bomberman_graphic_0
+		.FARADDR bomberman_graphic_1
+		.FARADDR bomberman_graphic_2
+		.FARADDR bomberman_graphic_3
+		.FARADDR mecha_bomberman_graphic_0
+		.FARADDR mecha_bomberman_graphic_1
+		.FARADDR mecha_bomberman_graphic_2
+		.FARADDR mecha_bomberman_graphic_3
+		.FARADDR mook_graphic_0
+		.FARADDR mook_graphic_1
+		.FARADDR carat_diamond_graphic_0
+		.FARADDR carat_diamond_graphic_1
+		.FARADDR carat_diamond_graphic_2
+		.FARADDR arena_gate_graphic
+		.FARADDR bomb_graphic
+		.FARADDR time_up_graphic_0
+spiderer_boss_graphics:
+		.FARADDR bomberman_graphic_0
+		.FARADDR bomberman_graphic_1
+		.FARADDR bomberman_graphic_2
+		.FARADDR bomberman_graphic_3
+		.FARADDR spiderer_graphic_0
+		.FARADDR spiderer_graphic_1
+		.FARADDR spiderer_graphic_2
+		.FARADDR spiderer_graphic_3
+		.FARADDR spiderer_graphic_4
+		.FARADDR carat_diamond_graphic_0
+		.FARADDR carat_diamond_graphic_1
+		.FARADDR carat_diamond_graphic_2
+		.FARADDR mook_graphic_0
+		.FARADDR mook_graphic_1
+		.FARADDR score_banner_and_bomb_graphic
+		.FARADDR explosion_graphic
+speed_zone_palettes:.BYTE HUD_PALETTE, SPEED_ZONE_PALETTE_1, SPEED_ZONE_PALETTE_2; a_palettes
+		.BYTE SPEED_ZONE_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE SPEED_ZONE_BOMB_PALETTE, SPEED_ZONE_FIRE_PALETTE;	a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+diamond_tower_palettes:.BYTE HUD_PALETTE, DIAMOND_TOWER_PALETTE_1, DIAMOND_TOWER_PALETTE_2; a_palettes
+		.BYTE DIAMOND_TOWER_BOMB_PALETTE, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+		.BYTE DIAMOND_TOWER_BOMB_PALETTE, DIAMOND_TOWER_FIRE_PALETTE; a_palettes
+		.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
+spiderer_boss_palettes:.BYTE HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
+		.BYTE BACKGROUND_BLACK_PALETTE;	a_palettes
+		.BYTE BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+		.BYTE BLACK_PALETTE, BLACK_PALETTE, BLACK_PALETTE, WHITE_PALETTE; b_palettes
 standard_level_graphics:.FARADDR bomberman_graphic_0
 		.FARADDR bomberman_graphic_1
 		.FARADDR bomberman_graphic_2
@@ -869,11 +1033,6 @@ boss_level_graphics:.FARADDR bomberman_graphic_0;	...
 		.FARADDR score_banner_and_bomb_graphic
 		.FARADDR explosion_graphic
 
-.INCLUDE "stages/world2.asm"
-.INCLUDE "stages/world3.asm"
-.INCLUDE "stages/world4.asm"
-.INCLUDE "stages/world5.asm"
-.INCLUDE "stages/world6.asm"
 .INCLUDE "stages/battle.asm"
 .INCLUDE "special_screens.asm"
 

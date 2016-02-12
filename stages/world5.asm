@@ -321,25 +321,3 @@ stage_5_8:	.BYTE $E		; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD 0
-arena_palettes:	.BYTE HUD_PALETTE, ARENA_PALETTE_1, ARENA_PALETTE_2, ARENA_PALETTE_3; a_palettes
-.BYTE BONUS_PALETTE_1, BONUS_PALETTE_2,	ARENA_BOMB_PALETTE; a_palettes
-.BYTE ARENA_FIRE_PALETTE; a_palettes
-.BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-.BYTE MECHA_BOMBER_GOLD_PALETTE, ARENA_GATE_PALETTE, BLACK_PALETTE; b_palettes
-.BYTE WHITE_PALETTE	; b_palettes
-off_C31D6D:	.FARADDR bomberman_graphic_0
-        .FARADDR bomberman_graphic_1
-        .FARADDR bomberman_graphic_2
-        .FARADDR bomberman_graphic_3
-        .FARADDR mecha_bomberman_graphic_0
-        .FARADDR mecha_bomberman_graphic_1
-        .FARADDR mecha_bomberman_graphic_2
-        .FARADDR mecha_bomberman_graphic_3
-        .FARADDR mook_graphic_0
-        .FARADDR mook_graphic_1
-        .FARADDR carat_diamond_graphic_0
-        .FARADDR carat_diamond_graphic_1
-        .FARADDR carat_diamond_graphic_2
-        .FARADDR arena_gate_graphic
-        .FARADDR bomb_graphic
-        .FARADDR time_up_graphic_0

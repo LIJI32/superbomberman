@@ -1,4 +1,4 @@
-stage_6_1:	.BYTE $E		; saved_to_d1c 
+stage_6_1:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -46,7 +46,7 @@ stage_6_1:	.BYTE $E		; saved_to_d1c
         .FARADDR create_denkyun
         .WORD 0
         .WORD BOMB_UP, FIRE_UP,	WALL_PASS, 0
-stage_6_2:	.BYTE $E		; saved_to_d1c 
+stage_6_2:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -100,7 +100,7 @@ stage_6_2:	.BYTE $E		; saved_to_d1c
         .FARADDR create_bakuda
         .WORD 0
         .WORD KICK, SPEED_UP, 0
-stage_6_3:	.BYTE $E		; saved_to_d1c 
+stage_6_3:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -150,7 +150,7 @@ stage_6_3:	.BYTE $E		; saved_to_d1c
         .FARADDR create_metal_u
         .WORD 0
         .WORD BOMB_UP, 3, $D, 0
-stage_6_4:	.BYTE $E		; saved_to_d1c 
+stage_6_4:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -186,7 +186,7 @@ stage_6_4:	.BYTE $E		; saved_to_d1c
         .FARADDR create_yoroisu
         .WORD 0
         .WORD BOMB_UP, 9, 6, 0
-stage_6_5:	.BYTE $E		; saved_to_d1c 
+stage_6_5:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -228,7 +228,7 @@ stage_6_5:	.BYTE $E		; saved_to_d1c
         .FARADDR create_pakupa
         .WORD 0
         .WORD BOMB_UP, KICK, 9,	0
-stage_6_6:	.BYTE $E		; saved_to_d1c 
+stage_6_6:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -265,7 +265,7 @@ stage_6_6:	.BYTE $E		; saved_to_d1c
         .FARADDR create_robocom
         .WORD 0
         .WORD 3, WALL_PASS, 0
-stage_6_7:	.BYTE $E		; saved_to_d1c 
+stage_6_7:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -307,7 +307,7 @@ stage_6_7:	.BYTE $E		; saved_to_d1c
         .FARADDR create_robocom
         .WORD 0
         .WORD 6, 3, $A,	0
-stage_6_8:	.BYTE $E		; saved_to_d1c 
+stage_6_8:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 3			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -337,36 +337,3 @@ stage_6_8:	.BYTE $E		; saved_to_d1c
         .FARADDR create_spiderer
         .WORD 0
         .WORD 0
-spiderer_boss_graphics:
-        .FARADDR bomberman_graphic_0
-        .FARADDR bomberman_graphic_1
-        .FARADDR bomberman_graphic_2
-        .FARADDR bomberman_graphic_3
-        .FARADDR spiderer_graphic_0
-        .FARADDR spiderer_graphic_1
-        .FARADDR spiderer_graphic_2
-        .FARADDR spiderer_graphic_3
-        .FARADDR spiderer_graphic_4
-        .FARADDR carat_diamond_graphic_0
-        .FARADDR carat_diamond_graphic_1
-        .FARADDR carat_diamond_graphic_2
-        .FARADDR mook_graphic_0
-        .FARADDR mook_graphic_1
-        .FARADDR score_banner_and_bomb_graphic
-        .FARADDR explosion_graphic
-speed_zone_palettes:.BYTE HUD_PALETTE, SPEED_ZONE_PALETTE_1, SPEED_ZONE_PALETTE_2; a_palettes
-        .BYTE SPEED_ZONE_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
-        .BYTE SPEED_ZONE_BOMB_PALETTE, SPEED_ZONE_FIRE_PALETTE;	a_palettes
-        .BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
-diamond_tower_palettes:.BYTE HUD_PALETTE, DIAMOND_TOWER_PALETTE_1, DIAMOND_TOWER_PALETTE_2; a_palettes
-        .BYTE DIAMOND_TOWER_BOMB_PALETTE, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
-        .BYTE DIAMOND_TOWER_BOMB_PALETTE, DIAMOND_TOWER_FIRE_PALETTE; a_palettes
-        .BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
-spiderer_boss_palettes:.BYTE HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BACKGROUND_BLACK_PALETTE;	a_palettes
-        .BYTE BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE BLACK_PALETTE, BLACK_PALETTE, BLACK_PALETTE, WHITE_PALETTE; b_palettes

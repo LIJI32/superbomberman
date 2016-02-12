@@ -1,4 +1,4 @@
-stage_4_1:	.BYTE $E		; saved_to_d1c 
+stage_4_1:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -43,7 +43,7 @@ stage_4_1:	.BYTE $E		; saved_to_d1c
         .FARADDR create_senshiyan
         .WORD 0
         .WORD BOMB_UP, FIRE_UP,	$D, 0
-stage_4_2:	.BYTE $E		; saved_to_d1c 
+stage_4_2:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -83,7 +83,7 @@ stage_4_2:	.BYTE $E		; saved_to_d1c
         .FARADDR create_denkyun
         .WORD 0
         .WORD WALL_PASS, 5, 0
-stage_4_3:	.BYTE $E		; saved_to_d1c 
+stage_4_3:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -123,7 +123,7 @@ stage_4_3:	.BYTE $E		; saved_to_d1c
         .FARADDR create_kinkaru
         .WORD 0
         .WORD BOMB_UP, SPEED_UP, KICK, 0
-stage_4_4:	.BYTE $E		; saved_to_d1c 
+stage_4_4:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -167,7 +167,7 @@ stage_4_4:	.BYTE $E		; saved_to_d1c
         .FARADDR create_metal_propene
         .WORD 0
         .WORD 7, FIRE_UP, 0
-stage_4_5:	.BYTE $E		; saved_to_d1c 
+stage_4_5:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -210,7 +210,7 @@ stage_4_5:	.BYTE $E		; saved_to_d1c
         .FARADDR create_red_bakuda
         .WORD 0
         .WORD 6, 9, 9, 0
-stage_4_6:	.BYTE $E		; saved_to_d1c 
+stage_4_6:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -249,7 +249,7 @@ stage_4_6:	.BYTE $E		; saved_to_d1c
         .FARADDR create_metal_kuwagen
         .WORD 0
         .WORD $B, 3, 0
-stage_4_7:	.BYTE $E		; saved_to_d1c 
+stage_4_7:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -294,7 +294,7 @@ stage_4_7:	.BYTE $E		; saved_to_d1c
         .FARADDR create_kinkaru
         .WORD 0
         .WORD SPEED_UP,	$D, BOMB_UP, 0
-stage_4_8:	.BYTE $E		; saved_to_d1c 
+stage_4_8:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 3			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -345,41 +345,3 @@ stage_4_8:	.BYTE $E		; saved_to_d1c
         .FARADDR create_mecha_onita
         .WORD 0
         .WORD 0
-off_C31A35:	.FARADDR bomberman_graphic_0
-        .FARADDR bomberman_graphic_1
-        .FARADDR bomberman_graphic_2
-        .FARADDR bomberman_graphic_3
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .WORD 0
-        .BYTE 0
-        .FARADDR score_banner_and_bomb_graphic
-        .FARADDR explosion_graphic
-dome_palettes:	.BYTE HUD_PALETTE, DOME_PALETTE_1, DOME_PALETTE_2, DOME_PALETTE_3; a_palettes
-        .BYTE BONUS_PALETTE_1, BONUS_PALETTE_2,	DOME_BOMB_PALETTE; a_palettes
-        .BYTE DOME_FIRE_PALETTE	; a_palettes
-        .BYTE SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE FREE, FREE, FREE,	WHITE_PALETTE; b_palettes
-mecha_onita_boss_palettes:.BYTE	HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BACKGROUND_BLACK_PALETTE,	BACKGROUND_BLACK_PALETTE; a_palettes
-        .BYTE BACKGROUND_BLACK_PALETTE;	a_palettes
-        .BYTE BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-        .BYTE BLACK_PALETTE, ONITA_FADE_PALETTE_1, ONITA_FADE_PALETTE_2; b_palettes
-        .BYTE WHITE_PALETTE	; b_palettes
