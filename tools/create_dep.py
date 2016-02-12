@@ -1,5 +1,10 @@
 def deps_for_asm(filename):
-    lines = open(filename).readlines()
+    try:
+        lines = open(filename).readlines()
+    except:
+        # An auto generated file, assume no deps
+        return []
+
     global deps
     for line in lines:
         line = line.split(";")[0].strip()

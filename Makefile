@@ -167,6 +167,10 @@ tilemaps/compressed_%.bin: tilemaps/%.def
 	@echo -e $(TITLE)Encoding $@...$(TITLE_END)
 	python tools/tilemap.py compress $< $@
 
+# Randomized Levels
+stages/randomized.asm: tools/level_gen.py
+	python $^ > $@
+
 
 clean:
 	-@rm -f *.o *.dep rom.sfc $(TARGETS)

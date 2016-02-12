@@ -813,12 +813,7 @@ password_decryption_key:.WORD 1, 3, 4, 6, 2, 0,	5, 7
 ; These moves weren't enough to prevent the overflow. :(
 .ENDIF
 		.WORD 0
-.INCLUDE "stages/world1.asm"
-.INCLUDE "stages/world2.asm"
-.INCLUDE "stages/world3.asm"
-.INCLUDE "stages/world4.asm"
-.INCLUDE "stages/world5.asm"
-.INCLUDE "stages/world6.asm"
+.INCLUDE "stages/randomized.asm"
 
 peace_town_palettes:.BYTE HUD_PALETTE, PEACE_TOWN_PALETTE_1, PEACE_TOWN_PALETTE_2; a_palettes
 		.BYTE PEACE_TOWN_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
