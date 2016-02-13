@@ -421,7 +421,7 @@ wrap_zone_demo: .BYTE 0   ; saved_to_d1c
         .FARADDR warp_zone_graphic; tileset_pointer  ; tileset_bank
         .FARADDR bomb_and_explosions_graphic; unknown_pointer2  ; unknown_bank2
         .FARADDR empty_tilemap
-        .FARADDR wrap_zone_level_structure
+        .FARADDR warp_zone_level_structure
         .FARADDR empty_tilemap
         .WORD 0   ; level_representation
         .WORD 0   ; hard_blocks

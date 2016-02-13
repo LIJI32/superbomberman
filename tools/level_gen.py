@@ -32,7 +32,7 @@ areas = [
         .WORD 6
         .FARADDR tile_animation
         .FARADDR byte_C52688
-        .WORD 2""", ""),
+        .WORD 2""", ".FARADDR create_flower_zone_handler"),
     ("factory_graphic", "factory_level_structure", "factory_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
         .FARADDR byte_C52504
@@ -59,6 +59,11 @@ areas = [
         .FARADDR tile_animation
         .FARADDR byte_C527F3
         .WORD 4""", ""),
+
+    # Stages from battle mode
+    ("normal_zone_graphic", "normal_zone_level_structure", "normal_zone_level_palettes", "standard_level_graphics", "", ""),
+    ("tunnel_zone_graphic", "tunnel_zone_level_structure", "tunnel_zone_level_palettes", "standard_level_graphics", "", ""),
+    ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", ""),
 ]
 
 def generate_random_level(world, level):
