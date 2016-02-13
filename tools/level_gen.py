@@ -74,6 +74,12 @@ random.shuffle(easy_enemies)
 random.shuffle(medium_enemies)
 random.shuffle(hard_enemies)
 
+basic_bonuses = ["BOMB_UP", "BOMB_UP", "BOMB_UP", "FIRE_UP", "FIRE_UP", "SPEED_UP"]
+special_bonuses = ["REMOTE_CONTROL", "BOMB_PASS", "WALL_PASS", "RED_BOMBS", "KICK", "PUNCH", "FULL_FIRE"]
+random.shuffle(special_bonuses)
+diff_reduce_bonuses = ["VEST", "EXTRA_LIFE", "EXTRA_TIME"]
+hidden_bonuses = ["RANDOM", "RANDOM", "RANDOM", "ONIGIRI", "CAKE", "KENDAMA", "APPLE", "FIRE_EXT", "POPSICLE", "ICE_CREAM"]
+
 def difficulty_for_level(world, level):
     return math.sqrt(world * 5 + level + 3) * 5 - 12
 
@@ -110,11 +116,20 @@ def generate_random_level(world, level):
     .FARADDR load_global_sprites
     .FARADDR %s
     .WORD $10 ; Number of graphic lists
-    .BYTE 0 ; Unused?
-%s
-%s
-    .WORD $F0F0        ; F0F0 marks the end of the init function list
-    ; List of enemy create functions"""  % (area[0], area[1], world * 16 + level, random.randint(0, 32), random.randint(24, 48), area[2], area[3], area[4], "" if random.randint(0, 1) else area[5])
+    .BYTE 0 ; Unused?""" % (area[0], area[1], world * 16 + level, random.randint(0, 32), random.randint(24, 48), area[2], area[3])
+
+    print area[4]
+    if random.randint(0, 1):
+        print area[5]
+    if random.randint(0, 1) or level == 7:
+        print """
+        .FARADDR hidden_bonus_object
+        .WORD %d
+        .BYTE 0
+        .WORD %s
+        .BYTE 0""" % (random.randint(0, 11), random.choice(hidden_bonuses) if level != 7 else "HEART")
+    print """.WORD $F0F0        ; F0F0 marks the end of the init function list
+    ; List of enemy create functions"""
     diff = difficulty_for_level(world, level)
     # Extend the pool as the game progresses
     enemy_pool = []
@@ -133,9 +148,26 @@ def generate_random_level(world, level):
         print ".FARADDR create_%s" % (enemy[1])
         diff -= enemy[0]
 
-    print """
-    .WORD 0            ; null terminator
-    .WORD BOMB_UP, BOMB_UP, FIRE_UP, 0 ; null terminated bonus array"""
+    print ".WORD 0            ; null terminator"
+    n_basic_bonuses = random.randint(1, 2)
+    n_special_bonuses = random.randint(0, 1)
+    is_first_two_levels = world == 1 and level < 3
+    if random.randint(0, 3) == 0 and not is_first_two_levels:
+        n_basic_bonuses -= 1
+        n_special_bonuses += 1
+    elif is_first_two_levels:
+        n_special_bonuses = 0
+        n_basic_bonuses += 1
+
+    for i in xrange(n_basic_bonuses):
+        print ".WORD", random.choice(basic_bonuses)
+    for i in xrange(n_special_bonuses):
+        print ".WORD", random.choice(special_bonuses[:world * 2])
+    while diff < -1.5: # Level is too hard, add difficulty reducing bonuses
+        diff += 1
+        print ".WORD", random.choice(diff_reduce_bonuses)
+
+    print ".WORD 0            ; null terminator"
 
 
 # How areas the divided between worlds. This will later be altered to take the arena and bosses into account
