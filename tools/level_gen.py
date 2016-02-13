@@ -68,7 +68,7 @@ areas = [
 
 def generate_random_level(world, level):
     # Just repeat the first level with differnt backgrounds, and optionally random features.
-    area = random.choice(areas)
+    area = areas[world_areas[world - 1][level - 1]]
     print """
     .BYTE $E
     .BYTE 0
@@ -111,6 +111,11 @@ def generate_random_level(world, level):
     .WORD 0            ; null terminator
     .WORD BOMB_UP, BOMB_UP, FIRE_UP, 0 ; null terminated bonus array""" % (area[0], area[1], world * 16 + level, random.randint(0, 32), random.randint(24, 48), area[2], area[3], area[4], "" if random.randint(0, 1) else area[5])
 
+
+# How areas the divided between worlds. This will later be altered to take the arena and bosses into account
+world_areas = [[0,0,0,0,1,1,1,1], [2,2,2,2,3,3,3,3], [4,4,4,4,5,5,5,5], [6,6,6,6,7,7,7,7], [8,8,8,8,9,9,9,9], [10,10,11,11,11,12,12,12]]
+random.shuffle(world_areas)
+random.shuffle(areas)
 for world in xrange(0, 6):
     for level in xrange(0, 8):
         print "stage_%d_%d:" % (world + 1, level + 1)

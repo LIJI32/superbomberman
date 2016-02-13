@@ -10,3 +10,5 @@ tilemaps/*.bin
 *.o
 *.pyc
 config.asm
+
+stages/randomized.asm
