@@ -1,4 +1,4 @@
-stage_6_1:	.BYTE $E		; saved_to_d1c 
+stage_6_1:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -46,7 +46,7 @@ stage_6_1:	.BYTE $E		; saved_to_d1c
         .FARADDR create_denkyun
         .WORD 0
         .WORD BOMB_UP, FIRE_UP,	WALL_PASS, 0
-stage_6_2:	.BYTE $E		; saved_to_d1c 
+stage_6_2:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -88,7 +88,7 @@ stage_6_2:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD 9
         .BYTE 0
-        .WORD $12
+        .WORD CAKE
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_moguchan
@@ -100,7 +100,7 @@ stage_6_2:	.BYTE $E		; saved_to_d1c
         .FARADDR create_bakuda
         .WORD 0
         .WORD KICK, SPEED_UP, 0
-stage_6_3:	.BYTE $E		; saved_to_d1c 
+stage_6_3:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -149,8 +149,8 @@ stage_6_3:	.BYTE $E		; saved_to_d1c
         .FARADDR create_metal_u
         .FARADDR create_metal_u
         .WORD 0
-        .WORD BOMB_UP, 3, $D, 0
-stage_6_4:	.BYTE $E		; saved_to_d1c 
+        .WORD BOMB_UP, REMOTE_CONTROL, PUNCH, 0
+stage_6_4:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -179,14 +179,14 @@ stage_6_4:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD $B
         .BYTE 0
-        .WORD $15
+        .WORD APPLE
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_yoroisu
         .FARADDR create_yoroisu
         .WORD 0
-        .WORD BOMB_UP, 9, 6, 0
-stage_6_5:	.BYTE $E		; saved_to_d1c 
+        .WORD BOMB_UP, EXTRA_TIME, EXTRA_LIFE, 0
+stage_6_5:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -215,7 +215,7 @@ stage_6_5:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD 8
         .BYTE 0
-        .WORD $18
+        .WORD ICE_CREAM
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_robocom
@@ -227,8 +227,8 @@ stage_6_5:	.BYTE $E		; saved_to_d1c
         .FARADDR create_pakupa
         .FARADDR create_pakupa
         .WORD 0
-        .WORD BOMB_UP, KICK, 9,	0
-stage_6_6:	.BYTE $E		; saved_to_d1c 
+        .WORD BOMB_UP, KICK, EXTRA_TIME,	0
+stage_6_6:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -264,8 +264,8 @@ stage_6_6:	.BYTE $E		; saved_to_d1c
         .FARADDR create_robocom
         .FARADDR create_robocom
         .WORD 0
-        .WORD 3, WALL_PASS, 0
-stage_6_7:	.BYTE $E		; saved_to_d1c 
+        .WORD REMOTE_CONTROL, WALL_PASS, 0
+stage_6_7:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -306,8 +306,8 @@ stage_6_7:	.BYTE $E		; saved_to_d1c
         .FARADDR create_robocom
         .FARADDR create_robocom
         .WORD 0
-        .WORD 6, 3, $A,	0
-stage_6_8:	.BYTE $E		; saved_to_d1c 
+        .WORD EXTRA_LIFE, REMOTE_CONTROL, FULL_FIRE,	0
+stage_6_8:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 3			; spawn_and_flags
         .BYTE 0			; more_flags

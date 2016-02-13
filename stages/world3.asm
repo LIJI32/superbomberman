@@ -35,7 +35,7 @@ stage_3_1:	.BYTE $E		; saved_to_d1c
         .FARADDR create_moguchan
         .FARADDR create_moguchan
         .WORD 0
-        .WORD BOMB_UP, KICK, $B, 0
+        .WORD BOMB_UP, KICK, RED_BOMBS, 0
 stage_3_2:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
@@ -75,7 +75,7 @@ stage_3_2:	.BYTE $E		; saved_to_d1c
         .FARADDR create_kouraru
         .FARADDR create_kouraru
         .WORD 0
-        .WORD $D, 5, 0
+        .WORD PUNCH, VEST, 0
 stage_3_3:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
@@ -108,7 +108,7 @@ stage_3_3:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD $B
         .BYTE 0
-        .WORD $15
+        .WORD APPLE
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_kierun
@@ -118,7 +118,7 @@ stage_3_3:	.BYTE $E		; saved_to_d1c
         .FARADDR create_dengurin
         .FARADDR create_dengurin
         .WORD 0
-        .WORD BOMB_UP, $A, BOMB_UP, 0
+        .WORD BOMB_UP, FULL_FIRE, BOMB_UP, 0
 stage_3_4:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
@@ -152,7 +152,7 @@ stage_3_4:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD 0
         .BYTE 0
-        .WORD $14
+        .WORD KENDAMA
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_anzenda
@@ -164,7 +164,7 @@ stage_3_4:	.BYTE $E		; saved_to_d1c
         .FARADDR create_keibin
         .FARADDR create_keibin
         .WORD 0
-        .WORD 3, $D, 0
+        .WORD REMOTE_CONTROL, PUNCH, 0
 stage_3_5:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
@@ -205,7 +205,7 @@ stage_3_5:	.BYTE $E		; saved_to_d1c
         .FARADDR create_kuwagen
         .FARADDR create_anzenda
         .WORD 0
-        .WORD 9, 6, 9, 0
+        .WORD EXTRA_TIME, EXTRA_LIFE, EXTRA_TIME, 0
 stage_3_6:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
@@ -239,7 +239,7 @@ stage_3_6:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD $A
         .BYTE 0
-        .WORD $16
+        .WORD FIRE_EXT
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_chameleoman
@@ -250,7 +250,7 @@ stage_3_6:	.BYTE $E		; saved_to_d1c
         .FARADDR create_chameleoman
         .FARADDR create_chameleoman
         .WORD 0
-        .WORD BOMB_UP, $B, 0
+        .WORD BOMB_UP, RED_BOMBS, 0
 stage_3_7:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
@@ -296,13 +296,13 @@ stage_3_7:	.BYTE $E		; saved_to_d1c
         .FARADDR create_chameleoman
         .FARADDR create_chameleoman
         .WORD 0
-        .WORD KICK, SPEED_UP, $D, 0
+        .WORD KICK, SPEED_UP, PUNCH, 0
 stage_3_8:	.BYTE 0			; saved_to_d1c
         .BYTE 0
         .BYTE 2			; spawn_and_flags
         .BYTE $80		; $80 here sets a flags that disables "automatic" detection
-						; of hard block and free spaces tiles, and forces the hard
-						; coded values of 0804 and 0808.
+                        ; of hard block and free spaces tiles, and forces the hard
+                        ; coded values of 0804 and 0808.
         .WORD 2			; screen_mode
         .WORD $80		; saved_to_d3a
         .FARADDR factory_graphic

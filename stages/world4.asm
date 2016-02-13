@@ -1,4 +1,4 @@
-stage_4_1:	.BYTE $E		; saved_to_d1c 
+stage_4_1:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -43,7 +43,7 @@ stage_4_1:	.BYTE $E		; saved_to_d1c
         .FARADDR create_senshiyan
         .WORD 0
         .WORD BOMB_UP, FIRE_UP,	$D, 0
-stage_4_2:	.BYTE $E		; saved_to_d1c 
+stage_4_2:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -83,7 +83,7 @@ stage_4_2:	.BYTE $E		; saved_to_d1c
         .FARADDR create_denkyun
         .WORD 0
         .WORD WALL_PASS, 5, 0
-stage_4_3:	.BYTE $E		; saved_to_d1c 
+stage_4_3:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -123,7 +123,7 @@ stage_4_3:	.BYTE $E		; saved_to_d1c
         .FARADDR create_kinkaru
         .WORD 0
         .WORD BOMB_UP, SPEED_UP, KICK, 0
-stage_4_4:	.BYTE $E		; saved_to_d1c 
+stage_4_4:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -155,7 +155,7 @@ stage_4_4:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD 6
         .BYTE 0
-        .WORD $13
+        .WORD RANDOM
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_senshiyan
@@ -166,8 +166,8 @@ stage_4_4:	.BYTE $E		; saved_to_d1c
         .FARADDR create_metal_u
         .FARADDR create_metal_propene
         .WORD 0
-        .WORD 7, FIRE_UP, 0
-stage_4_5:	.BYTE $E		; saved_to_d1c 
+        .WORD BOMB_PASS, FIRE_UP, 0
+stage_4_5:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -199,7 +199,7 @@ stage_4_5:	.BYTE $E		; saved_to_d1c
         .FARADDR hidden_bonus_object
         .WORD 0
         .BYTE 0
-        .WORD $16
+        .WORD FIRE_EXT
         .BYTE 0
         .WORD $F0F0
         .FARADDR create_metal_propene
@@ -209,8 +209,8 @@ stage_4_5:	.BYTE $E		; saved_to_d1c
         .FARADDR create_red_bakuda
         .FARADDR create_red_bakuda
         .WORD 0
-        .WORD 6, 9, 9, 0
-stage_4_6:	.BYTE $E		; saved_to_d1c 
+        .WORD EXTRA_LIFE, EXTRA_TIME, EXTRA_TIME, 0
+stage_4_6:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -248,8 +248,8 @@ stage_4_6:	.BYTE $E		; saved_to_d1c
         .FARADDR create_metal_kuwagen
         .FARADDR create_metal_kuwagen
         .WORD 0
-        .WORD $B, 3, 0
-stage_4_7:	.BYTE $E		; saved_to_d1c 
+        .WORD RED_BOMBS, REMOTE_CONTROL, 0
+stage_4_7:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 1			; spawn_and_flags
         .BYTE 0			; more_flags
@@ -293,8 +293,8 @@ stage_4_7:	.BYTE $E		; saved_to_d1c
         .FARADDR create_kinkaru
         .FARADDR create_kinkaru
         .WORD 0
-        .WORD SPEED_UP,	$D, BOMB_UP, 0
-stage_4_8:	.BYTE $E		; saved_to_d1c 
+        .WORD SPEED_UP,	PUNCH, BOMB_UP, 0
+stage_4_8:	.BYTE $E		; saved_to_d1c
         .BYTE 0
         .BYTE 3			; spawn_and_flags
         .BYTE 0			; more_flags

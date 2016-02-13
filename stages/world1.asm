@@ -81,7 +81,7 @@ stage_1_2:	.BYTE $E		; saved_to_d1c
 		.FARADDR hidden_bonus_object
 		.WORD 7
 		.BYTE 0
-		.WORD $18
+		.WORD ICE_CREAM
 		.BYTE 0
 		.WORD $F0F0
 		.FARADDR create_propene
@@ -157,7 +157,7 @@ stage_1_4:	.BYTE $F		; saved_to_d1c
 		.FARADDR hidden_bonus_object
 		.WORD 2
 		.BYTE 0
-		.WORD $12
+		.WORD CAKE
 		.BYTE 0
 		.WORD $F0F0
 		.FARADDR create_propene
@@ -167,7 +167,7 @@ stage_1_4:	.BYTE $F		; saved_to_d1c
 		.FARADDR create_bakuda
 		.FARADDR create_bakuda
 		.WORD 0
-		.WORD SPEED_UP,	5, 0
+		.WORD SPEED_UP,	VEST, 0
 stage_1_5:	.BYTE $F		; saved_to_d1c
 		.BYTE 0
 		.BYTE 1			; spawn_and_flags
@@ -194,7 +194,7 @@ stage_1_5:	.BYTE $F		; saved_to_d1c
 		.FARADDR hidden_bonus_object
 		.WORD 4
 		.BYTE 0
-		.WORD $13
+		.WORD RANDOM
 		.BYTE 0
 		.WORD $F0F0
 		.FARADDR create_bakuda
@@ -204,7 +204,7 @@ stage_1_5:	.BYTE $F		; saved_to_d1c
 		.FARADDR create_propene
 		.FARADDR create_propene
 		.WORD 0
-		.WORD 9, 3, KICK, 0
+		.WORD EXTRA_TIME, REMOTE_CONTROL, KICK, 0
 stage_1_6:	.BYTE $E		; saved_to_d1c
 		.BYTE 0
 		.BYTE 1			; spawn_and_flags
@@ -293,7 +293,7 @@ stage_1_7:	.BYTE $E		; saved_to_d1c
 		.FARADDR create_bakuda
 		.FARADDR create_bakuda
 		.WORD 0
-		.WORD BOMB_UP, SPEED_UP, 6, 0
+		.WORD BOMB_UP, SPEED_UP, EXTRA_LIFE, 0
 stage_1_8:	.BYTE $E		; saved_to_d1c
 		.BYTE 0
 		.BYTE 2			; spawn_and_flags

@@ -25,8 +25,8 @@ normal_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP
-        .WORD FIRE_UP, FIRE_UP,	SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, KICK,	$D, $D
-        .WORD $D, POISON, POISON, 0
+        .WORD FIRE_UP, FIRE_UP,	SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, KICK,	PUNCH, PUNCH
+        .WORD PUNCH, POISON, POISON, 0
         .BYTE $17, $17,	0, $83,	$E5, 0,	0, 0, 0, 0
 western_zone_graphics:.FARADDR bomberman_graphic_0
         .FARADDR bomberman_graphic_1
@@ -71,7 +71,7 @@ western_zone:	.BYTE 1			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, SPEED_UP, KICK
-        .WORD KICK, KICK, $D, $D, $D, POISON, POISON, $A, $A, 0
+        .WORD KICK, KICK, PUNCH, PUNCH, PUNCH, POISON, POISON, FULL_FIRE, FULL_FIRE, 0
         .BYTE $17, $17,	0, $83,	$E7, 0,	0, 0, 0, 0
 bomb_zone:	.BYTE 0			; saved_to_d1c
         .BYTE 0
@@ -106,7 +106,7 @@ bomb_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP,	SPEED_UP
-        .WORD SPEED_UP,	KICK, KICK, KICK, $D, $D, $D, POISON, POISON, 0
+        .WORD SPEED_UP,	KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, POISON, POISON, 0
         .BYTE $17, $17,	0, $83,	$E8, 0,	0, 0, 0, 0
 bomb_zone_graphics:.FARADDR bomberman_graphic_0
         .FARADDR bomberman_graphic_1
@@ -157,7 +157,7 @@ jump_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP,	SPEED_UP
-        .WORD SPEED_UP,	POISON,	POISON,	KICK, KICK, KICK, $D, $D, $D, 0
+        .WORD SPEED_UP,	POISON,	POISON,	KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, 0
         .BYTE $17, $17,	0, $83,	$E8, 0,	0, 0, 0, 0
 belt_zone:	.BYTE 0			; saved_to_d1c
         .BYTE 0
@@ -204,7 +204,7 @@ belt_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP
-        .WORD SPEED_UP,	SPEED_UP, SPEED_UP, KICK, KICK,	KICK, $D, $D, $D, 0
+        .WORD SPEED_UP,	SPEED_UP, SPEED_UP, KICK, KICK,	KICK, PUNCH, PUNCH, PUNCH, 0
         .BYTE $17, $17,	0, $83,	$E8, 0,	0, 0, 0, 0
 belt_zone_graphics:.FARADDR bomberman_graphic_0
         .FARADDR bomberman_graphic_1
@@ -318,8 +318,8 @@ flower_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP,	SPEED_UP
-        .WORD SPEED_UP,	POISON,	POISON,	3, 3, KICK, KICK, KICK,	$D, $D
-        .WORD $D, 0
+        .WORD SPEED_UP,	POISON,	POISON,	REMOTE_CONTROL, REMOTE_CONTROL, KICK, KICK, KICK,	PUNCH, PUNCH
+        .WORD PUNCH, 0
         .BYTE $17, 0, 2, $83, $E4, 0, 0, 0, 0, 0
 light_zone:	.BYTE 0			; saved_to_d1c
         .BYTE 0
@@ -354,7 +354,7 @@ light_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP
-        .WORD SPEED_UP,	SPEED_UP, SPEED_UP, KICK, KICK,	$D, $D,	POISON,	POISON,	POISON
+        .WORD SPEED_UP,	SPEED_UP, SPEED_UP, KICK, KICK,	PUNCH, PUNCH,	POISON,	POISON,	POISON
         .WORD POISON, POISON, POISON, POISON, POISON, 0
         .BYTE $12, $1D,	2, $83,	$E0, 0,	$80, 0,	$80, 0
 power_zone:	.BYTE 0			; saved_to_d1c
@@ -440,8 +440,8 @@ wrap_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP
-        .WORD SPEED_UP,	SPEED_UP, SPEED_UP, POISON, POISON, KICK, KICK,	KICK, $D, $D
-        .WORD $D, $A, $A, 0
+        .WORD SPEED_UP,	SPEED_UP, SPEED_UP, POISON, POISON, KICK, KICK,	KICK, PUNCH, PUNCH
+        .WORD PUNCH, FULL_FIRE, FULL_FIRE, 0
         .BYTE $17, $17,	0, $83,	$E8, 0,	0, 0, 0, 0
 warp_zone_graphics:.FARADDR bomberman_graphic_0
         .FARADDR bomberman_graphic_1
@@ -496,8 +496,8 @@ speed_zone:	.BYTE 0			; saved_to_d1c
         .WORD $F0F0
         .WORD 0
         .WORD BOMB_UP, BOMB_UP,	BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP
-        .WORD POISON, POISON, KICK, KICK, KICK,	$D, $D,	$D, $A,	$A
-        .WORD 3, 3, 0
+        .WORD POISON, POISON, KICK, KICK, KICK,	PUNCH, PUNCH,	PUNCH, FULL_FIRE,	FULL_FIRE
+        .WORD REMOTE_CONTROL, REMOTE_CONTROL, 0
         .BYTE $17, $17,	0, $83,	$E8, 0,	0, 0, 0, 0
 normal_zone_palettes:.BYTE HUD_PALETTE,	PEACE_TOWN_PALETTE_1, NORMAL_ZONE_PALETTE; a_palettes
         .BYTE PEACE_TOWN_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
