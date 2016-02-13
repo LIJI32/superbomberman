@@ -412,7 +412,7 @@ light_zone_demo:.BYTE 0   ; saved_to_d1c
         .WORD SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, $D, $D, POISON, POISON, POISON
         .WORD POISON, POISON, POISON, POISON, POISON, 0
         .BYTE $12, $1D, 2, $83, $E0, 0, $80, 0, $80, 0
-wrap_zone_demo: .BYTE 0   ; saved_to_d1c
+warp_zone_demo: .BYTE 0   ; saved_to_d1c
         .BYTE 0
         .BYTE $21  ; spawn_and_flags
         .BYTE 0   ; more_flags
