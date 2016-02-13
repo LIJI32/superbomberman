@@ -1,4 +1,4 @@
-import random
+import random, math
 
 # Each tuple is: (graphics, structure, palettes, graphic list, forced features, optional features)
 # Not included yet: areas from battle mode
@@ -66,8 +66,18 @@ areas = [
     ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", ""),
 ]
 
+easy_enemies = [(1, x) for x in ["banen", "douken", "starnuts", "propene"]]
+medium_enemies = [(2, x) for x in ["anzenda", "bakuda", "chameleoman", "cuppen", "dengurin", "denkyun", "kierun", "kouraru", "kuwagen"]]
+hard_enemies = [(3, x) for x in ["keibin", "kinkaru", "metal_kuwagen", "metal_propene", "metal_u", "moguchan", "pakupa", "red_bakuda", "robocom", "senshiyan"]] + [(5, "yoroisu")]
+
+random.shuffle(easy_enemies)
+random.shuffle(medium_enemies)
+random.shuffle(hard_enemies)
+
+def difficulty_for_level(world, level):
+    return math.sqrt(world * 5 + level + 3) * 5 - 12
+
 def generate_random_level(world, level):
-    # Just repeat the first level with differnt backgrounds, and optionally random features.
     area = areas[world_areas[world - 1][level - 1]]
     print """
     .BYTE $E
@@ -104,12 +114,28 @@ def generate_random_level(world, level):
 %s
 %s
     .WORD $F0F0        ; F0F0 marks the end of the init function list
-    ; List of enemy create functions
-    .FARADDR create_propene
-    .FARADDR create_propene
-    .FARADDR create_propene
+    ; List of enemy create functions"""  % (area[0], area[1], world * 16 + level, random.randint(0, 32), random.randint(24, 48), area[2], area[3], area[4], "" if random.randint(0, 1) else area[5])
+    diff = difficulty_for_level(world, level)
+    # Extend the pool as the game progresses
+    enemy_pool = []
+    if diff < 17:
+        enemy_pool += easy_enemies[:world * 2]
+    if diff > 3 and diff < 19:
+        enemy_pool += medium_enemies[:world * 2]
+    if diff > 12:
+        enemy_pool += hard_enemies[max(world * 2 - 8, 0):world * 2]
+    random.shuffle(enemy_pool)
+    enemy_pool = enemy_pool[:3] # Each level may only have up to 3 different enemies
+    if area[0] == "factory_graphic":
+        enemy_pool = enemy_pool[:2] # We can only have 2 enemies in the factory area. This is because moving platforms take one more palette
+    while (diff > 0):
+        enemy = random.choice(enemy_pool)
+        print ".FARADDR create_%s" % (enemy[1])
+        diff -= enemy[0]
+
+    print """
     .WORD 0            ; null terminator
-    .WORD BOMB_UP, BOMB_UP, FIRE_UP, 0 ; null terminated bonus array""" % (area[0], area[1], world * 16 + level, random.randint(0, 32), random.randint(24, 48), area[2], area[3], area[4], "" if random.randint(0, 1) else area[5])
+    .WORD BOMB_UP, BOMB_UP, FIRE_UP, 0 ; null terminated bonus array"""
 
 
 # How areas the divided between worlds. This will later be altered to take the arena and bosses into account
