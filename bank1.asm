@@ -41,7 +41,7 @@ ASSET level_structures, power_zone_level_structure
 ASSET level_structures, diamond_tower_level_structure
 ASSET level_structures, speed_zone_level_structure
 ASSET level_structures, normal_zone_level_structure
-ASSET level_structures, wrap_zone_level_structure
+ASSET level_structures, warp_zone_level_structure
 ASSET level_structures, tunnel_zone_level_structure
 ASSET level_structures, unused_level_structure
 

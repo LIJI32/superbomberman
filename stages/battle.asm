@@ -410,7 +410,7 @@ power_zone:	.BYTE 0			; saved_to_d1c
         .WORD POISON, POISON, POISON, POISON, POISON, POISON, POISON, POISON, POISON, POISON
         .WORD 3, 0
         .BYTE $17, $17,	0, $83,	$E8, 0,	0, 0, 0, 0
-wrap_zone:	.BYTE 0			; saved_to_d1c
+warp_zone:	.BYTE 0			; saved_to_d1c
         .BYTE 0
         .BYTE $20		; spawn_and_flags
         .BYTE 0			; more_flags
@@ -419,7 +419,7 @@ wrap_zone:	.BYTE 0			; saved_to_d1c
         .FARADDR warp_zone_graphic
         .FARADDR bomb_and_explosions_graphic
         .FARADDR empty_tilemap
-        .FARADDR wrap_zone_level_structure
+        .FARADDR warp_zone_level_structure
         .FARADDR empty_tilemap
         .WORD $14		; level_representation
         .WORD 0			; hard_blocks

@@ -646,7 +646,7 @@ battle_stages_labels:
 		.ADDR flower_zone_label	; 7
 		.ADDR light_zone_label	; 8
 		.ADDR power_zone_label	; 9
-		.ADDR wrap_zone_label	; 10
+		.ADDR warp_zone_label	; 10
 		.ADDR speed_zone_label	; 11
 explosion_related:.WORD	0, $FFC0, $40, 0
 		.WORD 0, $40, $FFC0, 0
@@ -884,9 +884,9 @@ screens_table:
 		.ADDR stage_4_1, stage_4_2, stage_4_3, stage_4_4, stage_4_5, stage_4_6,	stage_4_7, stage_4_8; $18
 		.ADDR stage_5_1, stage_5_2, stage_5_3, stage_5_4, stage_5_5, stage_5_6,	stage_5_7, stage_5_8; $20
 		.ADDR stage_6_1, stage_6_2, stage_6_3, stage_6_4, stage_6_5, stage_6_6,	stage_6_7, stage_6_8; $28
-		.ADDR credits_screen, title_screen, battle_screen, introduction_screen,	light_zone_demo, wrap_zone_demo, jump_zone_demo, continue_screen; $30
+		.ADDR credits_screen, title_screen, battle_screen, introduction_screen,	light_zone_demo, warp_zone_demo, jump_zone_demo, continue_screen; $30
 		.ADDR password_screen, map_screen, draw_screen,	victory_screen,	sound_test, normal_zone, western_zone, bomb_zone; $38
-		.ADDR jump_zone, belt_zone, tunnel_zone, duel_zone, flower_zone, light_zone, power_zone, wrap_zone; $40
+		.ADDR jump_zone, belt_zone, tunnel_zone, duel_zone, flower_zone, light_zone, power_zone, warp_zone; $40
 		.ADDR speed_zone	; $48
 word_C32F81:
         .WORD $3D
