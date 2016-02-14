@@ -67,7 +67,7 @@ areas = [
 ]
 
 easy_enemies = [(1, x) for x in ["banen", "douken", "starnuts", "propene"]]
-medium_enemies = [(2, x) for x in ["anzenda", "bakuda", "chameleoman", "cuppen", "dengurin", "denkyun", "kierun", "kouraru", "kuwagen"]]
+medium_enemies = [(1.4, x) for x in ["anzenda", "denkyun", "kierun" ]] + [(2, x) for x in ["bakuda", "chameleoman", "cuppen", "dengurin", "kouraru", "kuwagen"]]
 hard_enemies = [(3, x) for x in ["keibin", "kinkaru", "metal_kuwagen", "metal_propene", "metal_u", "moguchan", "pakupa", "red_bakuda", "robocom", "senshiyan"]] + [(5, "yoroisu")]
 
 random.shuffle(easy_enemies)
@@ -116,7 +116,7 @@ def generate_random_level(world, level):
     .FARADDR load_global_sprites
     .FARADDR %s
     .WORD $10 ; Number of graphic lists
-    .BYTE 0 ; Unused?""" % (area[0], area[1], world * 16 + level, random.randint(0, 32), random.randint(24, 48), area[2], area[3])
+    .BYTE 0 ; Unused?""" % (area[0], area[1], world * 16 + level, random.randint(0, 28), random.randint(20, 36), area[2], area[3])
 
     print area[4]
     if random.randint(0, 1):
@@ -143,6 +143,8 @@ def generate_random_level(world, level):
     enemy_pool = enemy_pool[:3] # Each level may only have up to 3 different enemies
     if area[0] == "factory_graphic":
         enemy_pool = enemy_pool[:2] # We can only have 2 enemies in the factory area. This is because moving platforms take one more palette
+    if "yoroisu" in [x[1] for x in enemy_pool]:
+        enemy_pool = enemy_pool[:2] # We can only have 2 enemies if yoroisu is in use, as it uses too much sprite data.
     while (diff > 0):
         enemy = random.choice(enemy_pool)
         print ".FARADDR create_%s" % (enemy[1])
