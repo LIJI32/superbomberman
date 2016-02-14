@@ -10,6 +10,8 @@ Super Bomberman 1 (E) : ddee4ddff2f3b6e31b8f73d0cb597ef1
 </pre>
 It can also build a bugfix version, based on the US version, that fixes some (mostly graphical) bugs, and can also restore access to the debug menu used during development with a debug version. The configuration files let you mix-and-match specific regional changes.
 
+The [randomizer branch](https://github.com/LIJI32/superbomberman/tree/randomizer) can also build ROMs with randomly generated levels.
+
 # Requirements
 The following are required to build a ROM:
 * A UNIX-like system to build the ROM on. I generally use OS X to build, but I also correctly built a ROM on a Linux system. I did not test on other UNIX-like systems or Windows.
