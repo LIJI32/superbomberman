@@ -171,12 +171,64 @@ def generate_random_level(world, level):
 
     print ".WORD 0            ; null terminator"
 
+def generate_arena_level(world, level):
+    print """
+            .BYTE $E		; saved_to_d1c
+            .BYTE 0
+            .BYTE 5			; spawn_and_flags
+            .BYTE $80		; $80 here sets a flags that disables "automatic" detection
+                            ; of hard block and free spaces tiles, and forces the hard
+                            ; coded values of 0804 and 0808. It is used in all stages in
+                            ; world 5.
+            .WORD 2			; screen_mode
+            .WORD $30		; saved_to_d3a
+            .FARADDR arena_graphic		; tileset_bank
+            .FARADDR bomb_and_explosions_graphic
+            .FARADDR empty_tilemap
+            .FARADDR arena_level_structure
+            .FARADDR empty_tilemap
+            .WORD $%x		; level_representation
+            .WORD 0			; hard_blocks
+            .WORD 0			; soft_blocks
+                        ; Off by one in	story mode, for	the level exit
+            .FARADDR load_palettes
+            .FARADDR arena_palettes
+            .WORD $10
+            .BYTE 0
+            .FARADDR load_global_sprites
+            .FARADDR off_C31D6D
+            .WORD $10
+            .BYTE 0
+            .FARADDR loc_C436C1
+            .FARADDR locret_C463DD
+            .FARADDR tile_animation
+            .FARADDR byte_C536D5
+            .WORD $20
+            .FARADDR tile_animation
+            .FARADDR byte_C53716
+            .WORD $22
+            .FARADDR tile_animation
+            .FARADDR byte_C53716+$61
+            .WORD $24
+            .FARADDR tile_animation
+            .FARADDR byte_C537C4
+            .WORD $26
+            .WORD $F0F0
+            .WORD 0
+            .WORD 0""" % (world * 0x10 + level, )
 
-# How areas the divided between worlds. This will later be altered to take the arena and bosses into account
-world_areas = [[0,0,0,0,1,1,1,1], [2,2,2,2,3,3,3,3], [4,4,4,4,5,5,5,5], [6,6,6,6,7,7,7,7], [8,8,8,8,9,9,9,9], [10,10,11,11,11,12,12,12]]
+# How areas the divided between worlds. This will later be altered to bosses into account
+world_areas = [[0,0,0,0,1,1,1,1], [2,2,2,2,3,3,3,3], [4,4,4,5,5,5,6,6], [7,7,7,8,8,9,9,9], [10,10,11,11,11,12,12,12]]
 random.shuffle(world_areas)
 random.shuffle(areas)
-for world in xrange(0, 6):
-    for level in xrange(0, 8):
-        print "stage_%d_%d:" % (world + 1, level + 1)
-        generate_random_level(world + 1, level + 1)
+# Todo: we need to modify Dboot banks so crowd sounds will play in the Arena, even if it's not in world 5.
+arena_world = random.randint(2, 5) # We don't want the arena world to be the first or last level
+print "ARENA_WORLD = %d" % (arena_world)
+world_areas.insert(arena_world - 1, None)
+for world in xrange(1, 6 + 1):
+    for level in xrange(1, 8 + 1):
+        print "stage_%d_%d:" % (world, level)
+        if world != arena_world:
+            generate_random_level(world, level)
+        else:
+            generate_arena_level(world, level)

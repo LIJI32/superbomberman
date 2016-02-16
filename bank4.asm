@@ -6190,7 +6190,7 @@ loc_C42C8B:
 		STA	z:2,X
 		SEP	#$20
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::level_representation) ; orig=0x0D24
-		CMP	#$58
+		CMP	#$8
 		BNE	loc_C42CDF
 		LDA	#$28
 		STA	z:$25,X
@@ -6869,7 +6869,7 @@ death_related:
 loc_C430D1:
 		SEP	#$20
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::level_representation) ; orig=0x0D24
-		CMP	#$58
+		CMP	#8 + ARENA_WORLD * $10
 		BNE	loc_C430DE
 		JML	f:loc_C430EB
 ; ---------------------------------------------------------------------------
@@ -7633,7 +7633,7 @@ loc_C43599:
 		STA	z:$20,X
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::level_representation) ; orig=0x0D24
 		AND	#$FF
-		CMP	#$58
+		CMP	#8 + ARENA_WORLD * $10
 		BNE	loc_C435C4
 		LDA	#$380
 		STA	z:$20,X
@@ -7698,7 +7698,7 @@ loc_C43614:
 		STA	z:$20,X
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::level_representation) ; orig=0x0D24
 		AND	#$FF
-		CMP	#$58
+		CMP	#8 + ARENA_WORLD * $10
 		BNE	loc_C4362B
 		LDA	#$300
 		STA	z:$20,X
@@ -7859,7 +7859,7 @@ loc_C43712:
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::enemy_count) ; orig=0x0D25
 		BNE	locret_C436FC
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::level_representation) ; orig=0x0D24
-		CMP	#$58
+		CMP	#8 + ARENA_WORLD * $10
 		BNE	loc_C43724
 		JML	f:loc_C4384A
 ; ---------------------------------------------------------------------------
@@ -7955,7 +7955,7 @@ loc_C43773:
 		PLX
 		SEP	#$20
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::level_representation) ; orig=0x0D24
-		CMP	#$58
+		CMP	#8 + ARENA_WORLD * $10
 		BNE	loc_C43807
 		REP	#$20
 .A16
