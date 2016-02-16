@@ -66,8 +66,8 @@ areas = [
     ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", ""),
 ]
 
-easy_enemies = [(1, x) for x in ["banen", "douken", "starnuts", "propene"]]
-medium_enemies = [(1.4, x) for x in ["anzenda", "denkyun", "kierun" ]] + [(2, x) for x in ["bakuda", "chameleoman", "cuppen", "dengurin", "kouraru", "kuwagen"]]
+easy_enemies = [(1, x) for x in ["banen", "douken", "kouraru", "starnuts", "propene"]]
+medium_enemies = [(1.4, x) for x in ["anzenda", "denkyun", "kierun" ]] + [(2, x) for x in ["bakuda", "chameleoman", "cuppen", "dengurin",  "kuwagen"]]
 hard_enemies = [(3, x) for x in ["keibin", "kinkaru", "metal_kuwagen", "metal_propene", "metal_u", "moguchan", "pakupa", "red_bakuda", "robocom", "senshiyan"]] + [(5, "yoroisu")]
 
 random.shuffle(easy_enemies)
