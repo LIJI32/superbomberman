@@ -8701,9 +8701,11 @@ locret_C43D2B:
 ; End of function sub_C43BE9
 
 ; ---------------------------------------------------------------------------
-byte_C43D2C:	.BYTE 0, 1, 1, 2, 2, 3,	3, 4
-hits_per_mecha_bomber:.BYTE 0, 0, 0, 0,	1, 1, 1, 4
-palette_per_mecha_bomber:.BYTE MECHA_BOMBER_WHITE_PALETTE, MECHA_BOMBER_BLACK_PALETTE, MECHA_BOMBER_RED_PALETTE, MECHA_BOMBER_BLUE_PALETTE, MECHA_BOMBER_GREEN_PALETTE,	MECHA_BOMBER_MAGENTA_PALETTE, MECHA_BOMBER_PURPLE_PALETTE, MECHA_BOMBER_GOLD_PALETTE
+; Modification: I assume this list is the difficulty list of the mecha-bombers
+byte_C43D2C:	.BYTE 0, 1, 2, 3, 4, 5, 6, 7
+; Modification: Make hit points per mecha-bomber more gardual and difficult
+hits_per_mecha_bomber:.BYTE 0, 0, 1, 1, 2, 2, 3, 5
+palette_per_mecha_bomber:.BYTE MECHA_PALETTES
 		.BYTE 1, 4, 1, $C, 2
 		.BYTE $D, 2
 ; ---------------------------------------------------------------------------

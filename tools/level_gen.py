@@ -221,9 +221,15 @@ def generate_arena_level(world, level):
 world_areas = [[0,0,0,0,1,1,1,1], [2,2,2,2,3,3,3,3], [4,4,4,5,5,5,6,6], [7,7,7,8,8,9,9,9], [10,10,11,11,11,12,12,12]]
 random.shuffle(world_areas)
 random.shuffle(areas)
+
 # Todo: we need to modify Dboot banks so crowd sounds will play in the Arena, even if it's not in world 5.
 arena_world = random.randint(2, 5) # We don't want the arena world to be the first or last level
 print "ARENA_WORLD = %d" % (arena_world)
+
+mecha_bomberman_palettes = ["MECHA_BOMBER_WHITE_PALETTE", "MECHA_BOMBER_BLACK_PALETTE", "MECHA_BOMBER_RED_PALETTE", "MECHA_BOMBER_BLUE_PALETTE", "MECHA_BOMBER_GREEN_PALETTE",	"MECHA_BOMBER_MAGENTA_PALETTE", "MECHA_BOMBER_PURPLE_PALETTE", "MECHA_BOMBER_GOLD_PALETTE"]
+random.shuffle(mecha_bomberman_palettes)
+print ".DEFINE MECHA_PALETTES", ", ".join(mecha_bomberman_palettes)
+
 world_areas.insert(arena_world - 1, None)
 for world in xrange(1, 6 + 1):
     for level in xrange(1, 8 + 1):
