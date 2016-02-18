@@ -66,22 +66,34 @@ areas = [
     ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", ""),
 ]
 
-easy_enemies = [(1, x) for x in ["banen", "douken", "kouraru", "starnuts", "propene"]]
-medium_enemies = [(1.4, x) for x in ["anzenda", "denkyun", "kierun" ]] + [(2, x) for x in ["bakuda", "chameleoman", "cuppen", "dengurin",  "kuwagen"]]
-hard_enemies = [(3, x) for x in ["keibin", "kinkaru", "metal_kuwagen", "metal_propene", "metal_u", "moguchan", "pakupa", "red_bakuda", "robocom", "senshiyan"]] + [(5, "yoroisu")]
+easy_enemies   = [(1,   x) for x in ["banen", "douken", "kouraru", "starnuts", "propene"]]
+medium_enemies = [(1.5, x) for x in ["anzenda", "denkyun", "cuppen", "dengurin", "bakuda"]] + \
+                 [(2.5, x) for x in ["moguchan", "red_bakuda", "kinkaru", "kierun", "chameleoman", "kuwagen"]]
+hard_enemies   = [(3,   x) for x in ["keibin",  "metal_kuwagen", "metal_u"]] + \
+                 [(4,   x) for x in ["metal_propene", "pakupa", "robocom", "senshiyan"]]
+
 
 random.shuffle(easy_enemies)
 random.shuffle(medium_enemies)
 random.shuffle(hard_enemies)
+
+print "; Shuffled Enemies:"
+print "; Easy:", easy_enemies
+print "; Medium:", medium_enemies
+print "; Hard:", hard_enemies
+print ";"
+
 
 basic_bonuses = ["BOMB_UP", "BOMB_UP", "BOMB_UP", "FIRE_UP", "FIRE_UP", "SPEED_UP"]
 special_bonuses = ["REMOTE_CONTROL", "BOMB_PASS", "WALL_PASS", "RED_BOMBS", "KICK", "PUNCH", "FULL_FIRE"]
 random.shuffle(special_bonuses)
 diff_reduce_bonuses = ["VEST", "EXTRA_LIFE", "EXTRA_TIME"]
 hidden_bonuses = ["RANDOM", "RANDOM", "RANDOM", "ONIGIRI", "CAKE", "KENDAMA", "APPLE", "FIRE_EXT", "POPSICLE", "ICE_CREAM"]
+print "; Shuffled special bonuses:", special_bonuses
 
 def difficulty_for_level(world, level):
-    return math.sqrt(world * 5 + level + 3) * 5 - 12
+    # Ugly, but creates quite a nice curve
+    return math.sqrt(world * 5 + level * (level + 1) / 4.0 + 3.5) * 6 - 16 + world
 
 def generate_random_level(world, level):
     area = areas[world_areas[world - 1][level - 1]]
@@ -133,19 +145,21 @@ def generate_random_level(world, level):
     diff = difficulty_for_level(world, level)
     # Extend the pool as the game progresses
     enemy_pool = []
-    if diff < 17:
+    if diff < 14:
         enemy_pool += easy_enemies[:world * 2]
-    if diff > 3 and diff < 19:
-        enemy_pool += medium_enemies[:world * 2]
-    if diff > 12:
-        enemy_pool += hard_enemies[max(world * 2 - 8, 0):world * 2]
+    if diff > 3 and diff < 20:
+        enemy_pool += medium_enemies[:world * 3]
+    if diff > 9:
+        enemy_pool += hard_enemies[:world * 2]
+    if world == 6:
+        enemy_pool += [(15, "yoroisu")] # Yoroisu is an overkill for world other than the last
     random.shuffle(enemy_pool)
     enemy_pool = enemy_pool[:3] # Each level may only have up to 3 different enemies
     if area[0] == "factory_graphic":
         enemy_pool = enemy_pool[:2] # We can only have 2 enemies in the factory area. This is because moving platforms take one more palette
     if "yoroisu" in [x[1] for x in enemy_pool]:
         enemy_pool = enemy_pool[:2] # We can only have 2 enemies if yoroisu is in use, as it uses too much sprite data.
-    while (diff > 0):
+    while diff > 0:
         enemy = random.choice(enemy_pool)
         print ".FARADDR create_%s" % (enemy[1])
         diff -= enemy[0]
