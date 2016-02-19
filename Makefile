@@ -168,8 +168,8 @@ tilemaps/compressed_%.bin: tilemaps/%.def
 	python tools/tilemap.py compress $< $@
 
 # Randomized Levels
-stages/randomized.asm: tools/level_gen.py
-	python $^ > $@
+stages/randomized.asm: tools/level_gen.py tools/level_gen_data.py
+	python $< > $@
 
 
 clean:

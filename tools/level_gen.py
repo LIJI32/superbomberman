@@ -1,94 +1,20 @@
 import random, math
-
-# Each tuple is: (graphics, structure, palettes, graphic list, forced features, optional features)
-# Not included yet: areas from battle mode
-areas = [
-    ("peace_town_graphic", "peace_town_level_structure", "peace_town_palettes", "standard_level_graphics", """
-        .FARADDR tile_animation
-        .FARADDR peace_town_unshaded_soft_animation
-        .WORD 6
-        .FARADDR tile_animation
-        .FARADDR peace_town_shaded_soft_animation
-        .WORD 2""", ".FARADDR create_random_bomb_drop"),
-    ("village_graphic", "village_level_structure", "village_palettes", "standard_level_graphics", "", ""),
-    ("castle_graphic", "castle_level_structure", "castle_palettes", "standard_level_graphics", """
-        .FARADDR tile_animation
-        .FARADDR byte_C51E3C
-        .WORD 6
-        .FARADDR tile_animation
-        .FARADDR byte_C51E3C
-        .WORD 2""", ""),
-    ("park_graphic", "park_level_structure", "park_palettes", "standard_level_graphics", "", ""),
-    ("circus_graphic", "circus_level_structure", "circus_palettes", "standard_level_graphics", "", """
-        .FARADDR tile_animation
-        .FARADDR byte_C522FA
-        .WORD 6
-        .FARADDR tile_animation
-        .FARADDR byte_C523FF
-        .WORD 2"""),
-    ("garden_graphic", "garden_level_structure", "garden_palettes", "standard_level_graphics", """
-        .FARADDR tile_animation
-        .FARADDR byte_C52565
-        .WORD 6
-        .FARADDR tile_animation
-        .FARADDR byte_C52688
-        .WORD 2""", ".FARADDR create_flower_zone_handler"),
-    ("factory_graphic", "factory_level_structure", "factory_palettes", "standard_level_graphics", """
-        .FARADDR tile_animation
-        .FARADDR byte_C52504
-        .WORD 2
-        .FARADDR tile_animation
-        .FARADDR byte_C52504
-        .WORD 6
-        .FARADDR create_moving_platforms""", ""),
-    ("dome_graphic", "dome_level_structure", "dome_palettes", "standard_level_graphics", """
-        .FARADDR tile_animation
-        .FARADDR byte_C51FED
-        .WORD 6
-        .FARADDR tile_animation
-        .FARADDR byte_C5200C
-        .WORD 2""", ""),
-    ("speed_zone_graphic", "speed_zone_level_structure", "speed_zone_palettes", "standard_level_graphics", """
-        .FARADDR tile_animation
-        .FARADDR byte_C52854
-        .WORD 2
-        .FARADDR tile_animation
-        .FARADDR byte_C52854
-        .WORD 6""", ""),
-    ("diamond_tower_tileset_graphic", "diamond_tower_level_structure", "diamond_tower_palettes", "standard_level_graphics", """
-        .FARADDR tile_animation
-        .FARADDR byte_C527F3
-        .WORD 4""", ""),
-
-    # Stages from battle mode
-    ("normal_zone_graphic", "normal_zone_level_structure", "normal_zone_level_palettes", "standard_level_graphics", "", ""),
-    ("tunnel_zone_graphic", "tunnel_zone_level_structure", "tunnel_zone_level_palettes", "standard_level_graphics", "", ""),
-    ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", ""),
-]
-
-easy_enemies   = [(1,   x) for x in ["banen", "douken", "kouraru", "starnuts", "propene"]]
-medium_enemies = [(1.5, x) for x in ["anzenda", "denkyun", "cuppen", "dengurin", "bakuda"]] + \
-                 [(2.5, x) for x in ["moguchan", "red_bakuda", "kinkaru", "kierun", "chameleoman", "kuwagen"]]
-hard_enemies   = [(3,   x) for x in ["keibin",  "metal_kuwagen", "metal_u"]] + \
-                 [(4,   x) for x in ["metal_propene", "pakupa", "robocom", "senshiyan"]]
-
+from level_gen_data import *
 
 random.shuffle(easy_enemies)
 random.shuffle(medium_enemies)
 random.shuffle(hard_enemies)
+random.shuffle(special_bonuses)
+random.shuffle(world_areas)
+random.shuffle(areas)
+random.shuffle(mecha_bomberman_palettes)
+random.shuffle(boss_stages)
 
 print "; Shuffled Enemies:"
 print "; Easy:", easy_enemies
 print "; Medium:", medium_enemies
 print "; Hard:", hard_enemies
 print ";"
-
-
-basic_bonuses = ["BOMB_UP", "BOMB_UP", "BOMB_UP", "FIRE_UP", "FIRE_UP", "SPEED_UP"]
-special_bonuses = ["REMOTE_CONTROL", "BOMB_PASS", "WALL_PASS", "RED_BOMBS", "KICK", "PUNCH", "FULL_FIRE"]
-random.shuffle(special_bonuses)
-diff_reduce_bonuses = ["VEST", "EXTRA_LIFE", "EXTRA_TIME"]
-hidden_bonuses = ["RANDOM", "RANDOM", "RANDOM", "ONIGIRI", "CAKE", "KENDAMA", "APPLE", "FIRE_EXT", "POPSICLE", "ICE_CREAM"]
 print "; Shuffled special bonuses:", special_bonuses
 
 def difficulty_for_level(world, level):
@@ -231,24 +157,21 @@ def generate_arena_level(world, level):
             .WORD 0
             .WORD 0""" % (world * 0x10 + level, )
 
-# How areas the divided between worlds. This will later be altered to bosses into account
-world_areas = [[0,0,0,0,1,1,1,1], [2,2,2,2,3,3,3,3], [4,4,4,5,5,5,6,6], [7,7,7,8,8,9,9,9], [10,10,11,11,11,12,12,12]]
-random.shuffle(world_areas)
-random.shuffle(areas)
-
 # Todo: we need to modify Dboot banks so crowd sounds will play in the Arena, even if it's not in world 5.
 arena_world = random.randint(2, 5) # We don't want the arena world to be the first or last level
 print "ARENA_WORLD = %d" % (arena_world)
-
-mecha_bomberman_palettes = ["MECHA_BOMBER_WHITE_PALETTE", "MECHA_BOMBER_BLACK_PALETTE", "MECHA_BOMBER_RED_PALETTE", "MECHA_BOMBER_BLUE_PALETTE", "MECHA_BOMBER_GREEN_PALETTE",	"MECHA_BOMBER_MAGENTA_PALETTE", "MECHA_BOMBER_PURPLE_PALETTE", "MECHA_BOMBER_GOLD_PALETTE"]
-random.shuffle(mecha_bomberman_palettes)
 print ".DEFINE MECHA_PALETTES", ", ".join(mecha_bomberman_palettes)
 
 world_areas.insert(arena_world - 1, None)
+boss_stages.insert(arena_world - 1, None)
+
 for world in xrange(1, 6 + 1):
     for level in xrange(1, 8 + 1):
         print "stage_%d_%d:" % (world, level)
         if world != arena_world:
-            generate_random_level(world, level)
+            if level == 8:
+                print boss_stages[world-1] % (world, )
+            else:
+                generate_random_level(world, level)
         else:
             generate_arena_level(world, level)
