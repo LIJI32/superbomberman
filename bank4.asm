@@ -5645,9 +5645,12 @@ locret_C4273E:
 .I16
 
 sub_C4273F:
+		; Modification: This function, related to players' animation on the ending
+		; sequence of the last boss, reuses the player's powerup states, causing them
+		; to reset. We reuse other, non-presistent values instead now.
 		REP	#$20
 		LDA	#$80
-		STA	z:$32,X
+		STA	z:$36,X
 		LDA	#8
 		STA	z:$40
 		JSL	f:change_direction_and_start_animation
@@ -5662,21 +5665,21 @@ sub_C4273F:
 loc_C4275C:
 		REP	#$20
 .A16
-		DEC	z:$32,X
+		DEC	z:$36,X
 		BNE	loc_C427DC
 		LDA	#$10
-		STA	z:$32,X
+		STA	z:$36,X
 		LDA	#2
 		STA	z:$40
 		LDA	#$FFFF
-		STA	z:$30,X
+		STA	z:$34,X
 		LDA	z:5,X
 		AND	#$FF
 		BNE	loc_C42782
 		LDA	#1
 		STA	z:$40
 		LDA	#1
-		STA	z:$30,X
+		STA	z:$34,X
 
 loc_C42782:
 		JSL	f:change_direction_and_start_animation
@@ -5691,11 +5694,11 @@ loc_C42782:
 loc_C42793:
 		REP	#$20
 .A16
-		LDA	z:$30,X
+		LDA	z:$34,X
 		CLC
 		ADC	z:$11,X
 		STA	z:$11,X
-		DEC	z:$32,X
+		DEC	z:$36,X
 		BNE	loc_C427B6
 		LDA	#4
 		STA	z:$40

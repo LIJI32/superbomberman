@@ -40,7 +40,6 @@ Build by running <code>make</code> or <code>make CONFIG=x</code>, where x is us,
  
 # Known Issues
 * In arena levels, the crowd will not make any sound if the arena is not world 5
-* After beating Spiderer, some of the bonuses will reset
 
 # Legal note
 I am not a copyright owner of Super Bomberman, and this repository is provided for education proposes only. Any non-educational use of this repository might be illegal if you do not legally own a copy of the game.
