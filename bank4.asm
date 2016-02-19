@@ -15875,7 +15875,8 @@ loc_C46B2A:
 		LDA	#$20
 		STA	a:.LOWORD(level_manager_object+level_manager_object::anonymous_6) ; orig=0x0D20
 		LDY	#4
-		LDA	#0
+		; Load the Story Mode HUD palette, which includes colors for clouds
+		LDA	#.LOWORD(STORY_HUD_PALETTE)
 		STA	z:$40
 		LDA	#0
 		JSL	f:palette_related
@@ -17216,6 +17217,17 @@ sub_C4757D:
 		REP	#$20
 .A16
 		INC	z:$53
+; Modification: Make this function also fade the second part of the STORY_HUD_PALETTE
+		SEP	#$20
+.A8
+		LDA #6
+		STA	a:.LOWORD(unk_7E1F80) + 1
+		LDA	#$20
+		STA	a:.LOWORD(unk_7E1F80) + 2
+		LDA	#5
+		STA	a:.LOWORD(unk_7E1F80) + 3
+		REP	#$20
+.A16
 		LDA	#1
 		STA	z:$42
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::anonymous_5) ; orig=0x0D1C

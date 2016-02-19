@@ -34,7 +34,7 @@ FIRE_PALETTE peace_town_palette_3 ; 0x7 PEACE_TOWN_FIRE_PALETTE
 .WORD $400, 0, 0, $108, $16B, $1EF, $2B5, $75A, $3BFD, $7FFF, $2108, $14A5, $2D8C, $5F, $4EEB, $2E09 ; [8]_PALETTE
 .WORD 0, $11C3, $4D43, 0, $D44, $1E66, $26E8, $3BCE, $1103, $69E7, $63F7, $3524, $730A, $2901, $7FFF, $7FD8 ; [9]_PALETTE
 PALETTE backgrounds, village_palette_0  ; 0xa VILLAGE_PALETTE_1
-PALETTE backgrounds, village_palette_2  ; 0xb VILLAGE_PALETTE_2
+PALETTE backgrounds, village_palette_2 ; 0xb VILLAGE_PALETTE_2
 PALETTE backgrounds, village_palette_3  ; 0xc VILLAGE_PALETTE_3
 BOMB_PALETTE village_palette_2 ; 0xd VILLAGE_BOMB_PALETTE
 FIRE_PALETTE village_palette_2 ; 0xe VILLAGE_FIRE_PALETTE
@@ -207,7 +207,14 @@ PALETTE overlays, credit_image_2_palette_0  ; 0x7f CREDITS_SEPIA_PALETTE_2
 PALETTE overlays, credit_image_1_palette_0  ; 0x80 CREDITS_SEPIA_PALETTE_3
 .WORD 0, $19F5, $D91, $110D, $2258, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F ; [$81]_PALETTE
 .WORD 0, $1A17, $D92, $110D, $267A, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F ; [$82]_PALETTE
-EMPTY_PALETTE ; [$83]_PALETTE
+
+; Some of the colors in the HUD palettes are not used in story mode.
+; We take advtange of this to allow clouds to appear in all levels
+; DEP: graphics/backgrounds/clouds_palette.bin
+; 0x83 STORY_HUD_PALETTE
+.incbin "graphics/bg3_tileset_palette.bin", 0, 14 * 2
+PARTTIAL_PALETTE backgrounds, clouds_palette, 14, 16
+
 EMPTY_PALETTE ; [$84]_PALETTE
 EMPTY_PALETTE ; [$85]_PALETTE
 EMPTY_PALETTE ; [$86]_PALETTE

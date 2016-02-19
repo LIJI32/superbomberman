@@ -4897,6 +4897,8 @@ loc_C62156:
 
 loc_C62163:
 		LDA	z:3,X
+; Modification: Make it possible to fade the two half-palettes of STORY_HUD_PALETTES separately
+		AND #3
 		BIT	#1
 		BEQ	loc_C6217D
 		CMP	#3
@@ -5199,7 +5201,19 @@ loc_C6230B:
 		CLC
 		ADC	z:$53
 		STA	z:$53
-		LDA	#$10
+		; Modification: Fade only the first 8 colors if the palette is STORY_HUD_PALETTE, depending on flag
+		LDA	z:3,X
+		AND #$4
+		BNE isNotStoryHUD
+		LDA	z:0,X
+		AND	#$FF
+		CMP #STORY_HUD_PALETTE
+		BNE isNotStoryHUD
+		LDA	#$08
+		BRA isNotStoryHUDEndif
+isNotStoryHUD:
+		LDA #$10
+isNotStoryHUDEndif:
 		STA	z:$4A
 
 loc_C62333:
@@ -5399,7 +5413,7 @@ palette_related:
 		ASL
 		ASL
 		CLC
-		ADC	#$1F80
+		ADC	#.LOWORD(unk_7E1F80)
 		TAX
 		SEP	#$20
 .A8

@@ -7,6 +7,10 @@ def deps_for_asm(filename):
 
     global deps
     for line in lines:
+        if line.startswith('; DEP: '):
+            dep = line[len('; DEP: '):].strip()
+            if dep not in deps:
+                deps += [dep]
         line = line.split(";")[0].strip()
         if line.startswith('.INCLUDE "') and line.endswith('"'):
             dep = line[10:-1]
