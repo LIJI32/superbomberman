@@ -29,8 +29,7 @@ Build by running <code>make</code> or <code>make CONFIG=x</code>, where x is us,
 * Difficulty is increased as the game progresses
 
 # What's not done
-* Boss levels are not included
-* The arena is not included
+* Boss and arena levels have constant difficulty, regardless of their position in the game progress
 * Most “traps” (clouds, trampolines, tunnels, etc) are not included.
 * Other planned features:
  * Inclusion of harder versions of existing enemies (Similar to Propene and Metal Propene, for example)
@@ -38,6 +37,10 @@ Build by running <code>make</code> or <code>make CONFIG=x</code>, where x is us,
  * Configurable difficulty function
  * Fixing bugs and design flaws that make the game easier (Such as the “Bombs Trick”)
  * Open to suggestions!
+ 
+# Known Issues
+* In arena levels, the crowd will not make any sound if the arena is not world 5
+* After beating Spiderer, some of the bonuses will reset
 
 # Legal note
 I am not a copyright owner of Super Bomberman, and this repository is provided for education proposes only. Any non-educational use of this repository might be illegal if you do not legally own a copy of the game.
