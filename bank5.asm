@@ -7195,8 +7195,30 @@ locret_C55ADA:
 .A8
 .I16
 
+spotlight_splash:
+		LDA	#$12
+		STA	a:.LOWORD(main_screen_status) ; orig=0x0C97
+		LDA	#$1D
+		STA	a:.LOWORD(subscreen_status) ; orig=0x0C98
+		LDA	#2
+		STA	a:.LOWORD(color_addition_settings)	; orig=0x0C99
+		LDA	#$83
+		STA	a:.LOWORD(add_substract_select_and_enable)	; orig=0x0C9A
+		LDA	#$FF
+		STA	a:.LOWORD(FIXED_COLOR_DATA)
+		REP	#$20
+.A16
+		LDA	#$80
+		STA	a:.LOWORD(bg2_h_scroll)
+		STA	a:.LOWORD(bg2_v_scroll)
+		RTL
+.A8
 spotlight:
 		SEP	#$20
+		; Modification: Spotlight should do some initializations while the splash is displaying in story mode
+		LDA game_flags
+		AND #$80
+		BNE spotlight_splash
 		LDA	#6
 		STA	a:.LOWORD(main_screen_status) ; orig=0x0C97
 		LDA	#$11

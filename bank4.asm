@@ -15600,6 +15600,17 @@ loc_C46896:
 
 screen_load_related:
 		SEP	#$20
+		; Modification: Reset screen blending mode
+		LDA     #$17
+		STA     main_screen_status ; orig=0x0C97
+		LDA     #$17
+		STA     subscreen_status ; orig=0x0C98
+		LDA     #0
+		STA     color_addition_settings ; orig=0x0C99
+		LDA     #0
+		STA     add_substract_select_and_enable ; orig=0x0C9A
+		LDA     #$E0 ; ''
+		STA     FIXED_COLOR_DATA
 		LDA	#$8F
 		STA	a:.LOWORD(SCREEN_DISPLAY_REGISTER)
 		LDA	#.BANKBYTE(stage_1_1)
@@ -15620,6 +15631,28 @@ screen_load_related:
 		LDX	#$D00
 		LDA	[$50]
 		STA	a:.LOWORD(level_manager_object+level_manager_object::spawn_and_flags) ;	orig=0x0D38
+; Modification: Force reload of all palettes, as we might have changed the spotlight flag
+		SEP	#$20
+.A8
+		LDA #3
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 0)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 1)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 2)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 3)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 4)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 5)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 6)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 7)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 8)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 9)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 10)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 11)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 12)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 13)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 14)
+		STA .LOWORD(unk_7E1F80 + 3 + 8 * 15)
+		REP	#$20
+.A16
 		INC	z:$50
 		INC	z:$50
 		LDA	[$50]
@@ -15878,6 +15911,12 @@ loc_C46B2A:
 		; Load the Story Mode HUD palette, which includes colors for clouds
 		LDA	#.LOWORD(STORY_HUD_PALETTE)
 		STA	z:$40
+		LDA	a:.LOWORD(level_manager_object+level_manager_object::spawn_and_flags + 1)
+		AND #$4 ; Spotlight bit
+		BEQ keepNormalHUDPalette
+		LDA	#.LOWORD(CLOWN_MASK_SPOTLIGHT_PALETTE)
+		STA	z:$40
+keepNormalHUDPalette:
 		LDA	#0
 		JSL	f:palette_related
 		LDY	#0

@@ -10,6 +10,8 @@ def photoshop_fix(palette):
     for i in xrange(len(palette) / 16):
         if palette[i * 16: i * 16 + 16] == default_photoshop_palette[i * 16: i * 16 + 16]:
             return palette[: i * 16]
+        if palette[i * 16: i * 16 + 16] == [(0,0,0)] * 16:
+            return palette[: i * 16]
     return palette
 
 

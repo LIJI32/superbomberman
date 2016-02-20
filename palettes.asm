@@ -122,7 +122,11 @@ PALETTE backgrounds, power_zone_palette_0  ; 0x3b POWER_ZONE_PALETTE_1
 PALETTE backgrounds, power_zone_palette_1  ; 0x3c POWER_ZONE_PALETTE_2
 BOMB_PALETTE power_zone_palette_0 ; 0x3d POWER_ZONE_BOMB_PALETTE
 FIRE_PALETTE power_zone_palette_0 ; 0x3e POWER_ZONE_FIRE_PALETTE
-PALETTE backgrounds, circus_palette_4  ; 0x3f CLOWN_MASK_SPOTLIGHT_PALETTE
+
+; 0x3f CLOWN_MASK_SPOTLIGHT_PALETTE
+.incbin "graphics/bg3_tileset_palette.bin", 0, 8 * 2
+PARTTIAL_PALETTE backgrounds, spotlights_palette, 8, 16  
+
 PALETTE backgrounds, diamond_tower_tileset_palette_0  ; 0x40 DIAMOND_TOWER_PALETTE_1
 PALETTE backgrounds, diamond_tower_tileset_palette_1  ; 0x41 DIAMOND_TOWER_PALETTE_2
 BOMB_PALETTE diamond_tower_tileset_palette_0  ; 0x42 DIAMOND_TOWER_BOMB_PALETTE
@@ -181,7 +185,7 @@ PALETTE backgrounds, battle_win_palette_0  ; 0x65 VICTORY_GRASS_PALETTE
 PALETTE backgrounds, battle_win_palette_6  ; 0x66 VICTORY_PURPLE_BOMBERMAN_PALETTE
 PALETTE overlays, title_palette_0  ; 0x67 LOGO_PALETTE_1
 PALETTE overlays, title_palette_1  ; 0x68 LOGO_PALETTE_2
-PALETTE backgrounds, dome_invert_palette_3  ; 0x69 DOME_PALETTE_1_INVERT
+PALETTE backgrounds, dome_battle_palette_3  ; 0x69 DOME_PALETTE_1_ALT
 PALETTE backgrounds, dome_invert_palette_1  ; 0x6a DOME_PALETTE_2_INVERT
 PALETTE backgrounds, dome_invert_palette_0  ; 0x6b DOME_PALETTE_3_INVERT
 .WORD $6000, $5297, $4278, $8AD, $7D40, $1DB4, $356E, 0, $56FA, $631B, $77FF, $3A58, $42FE, $1B7, $6B5D, $7BE0 ; 0x6c DOME_BOMB_PALETTE_INVERT
@@ -209,11 +213,13 @@ PALETTE overlays, credit_image_1_palette_0  ; 0x80 CREDITS_SEPIA_PALETTE_3
 .WORD 0, $1A17, $D92, $110D, $267A, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F, $7C1F ; [$82]_PALETTE
 
 ; Some of the colors in the HUD palettes are not used in story mode.
-; We take advtange of this to allow clouds to appear in all levels
-; DEP: graphics/backgrounds/clouds_palette.bin
+; We take advtange of this to allow clouds and spotlights to appear
+; in all levels
+; DEP: graphics/backgrounds/spotlights_palette.bin
 ; 0x83 STORY_HUD_PALETTE
-.incbin "graphics/bg3_tileset_palette.bin", 0, 14 * 2
-PARTTIAL_PALETTE backgrounds, clouds_palette, 14, 16
+.incbin "graphics/bg3_tileset_palette.bin", 0, 8 * 2
+.WORD 0, 0, 0, 0, 0, 0
+PARTTIAL_PALETTE backgrounds, spotlights_palette, 14, 16
 
 EMPTY_PALETTE ; [$84]_PALETTE
 EMPTY_PALETTE ; [$85]_PALETTE

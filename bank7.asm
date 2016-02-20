@@ -6015,7 +6015,8 @@ loc_C73D30:
 		LDY	#6
 		LDA	#.LOWORD(CLOWN_MASK_SPOTLIGHT_PALETTE)
 		STA	z:$40
-		LDA	#1
+; Modification: We now fade palette #0
+		LDA	#0
 		JSL	f:palette_related
 		REP	#$20
 .A16
@@ -6072,9 +6073,10 @@ loc_C73D7B:
 		AND	#$F7
 		STA	a:.LOWORD(game_flags) ; orig=0x0314
 		LDY	#3
-		LDA	#$24
+; Modification: We now fade palette #0
+		LDA	#STORY_HUD_PALETTE
 		STA	z:$40
-		LDA	#1
+		LDA	#0
 		JSL	f:palette_related
 		REP	#$20
 .A16
@@ -6084,6 +6086,9 @@ loc_C73D7B:
 .A8
 		LDA	#.BANKBYTE(sub_C73DBC)
 		STA	z:2,X
+; Modification: Force fading all 16 colors
+		LDA #5
+		STA	a:.LOWORD(unk_7E1F80) + 3
 .A16
 
 locret_C73DBB:
@@ -12914,4 +12919,8 @@ sub_C77897:
 ; ---------------------------------------------------------------------------
 off_C778E3:	.ADDR byte_C7695E, byte_C76963,	byte_C76968, byte_C7696D, byte_C76972, byte_C76977, byte_C7697C, byte_C76981
 		.ADDR byte_C76986, byte_C7698B,	byte_C76990, byte_C76995, byte_C7699A, byte_C7699F, byte_C769A4
+		
+ASSET2 graphics, backgrounds, spotlights_graphic
+ASSET tilemaps, compressed_clown_spotlight_tilemap
+ASSET tilemaps, compressed_story_spotlight_tilemap
 DATA_END

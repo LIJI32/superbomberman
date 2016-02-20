@@ -4868,6 +4868,21 @@ update_palettes:
 		LDX	#.LOWORD(unk_7E1F80)
 
 loc_C6213C:
+		; Modification: Invert palettes in runtime when using spotlights
+		LDA #0
+		STA $6E
+		STA $6F
+		LDA	a:.LOWORD(level_manager_object+level_manager_object::spawn_and_flags + 1)
+		AND #$4 ; Spotlight bit
+		BEQ notSpotlightA
+		TXA
+		; We don't want to invert the first palette palette:
+		CMP #.LOBYTE(unk_7E1F80)
+		BEQ notSpotlightA
+		LDA #$FF
+		STA $6E
+		STA $6F
+notSpotlightA:
 		LDA	z:3,X
 		BIT	#1
 		BEQ	loc_C62156
@@ -4896,6 +4911,39 @@ loc_C62156:
 		BNE	loc_C6213C
 
 loc_C62163:
+; Modification: Invert palettes in runtime when using spotlights
+		LDA #0
+		STA $6E
+		STA $6F
+		LDA	a:.LOWORD(level_manager_object+level_manager_object::spawn_and_flags + 1)
+		AND #$4 ; Spotlight bit
+		BEQ notSpotlightB
+		LDA	z:0,X
+		; We don't want to invert some palettes:
+		CMP #BATTLE_SCREEN_ORANGE_PALETTE
+		BEQ notSpotlightB
+		CMP #BATTLE_SCREEN_BLUE_PALETTE
+		BEQ notSpotlightB
+		CMP #BATTLE_SCREEN_RED_PALETTE
+		BEQ notSpotlightB
+		CMP #BATTLE_SCREEN_GREEN_PALETTE
+		BEQ notSpotlightB
+		CMP #SCOREBOARD_ICONS_PALETTE
+		BEQ notSpotlightB
+		CMP #SCOREBOARD_PALETTE_0
+		BEQ notSpotlightB
+		CMP #SCOREBOARD_PALETTE_1
+		BEQ notSpotlightB
+		CMP #SCOREBOARD_PALETTE_2
+		BEQ notSpotlightB
+		CMP #SCOREBOARD_PALETTE_3
+		BEQ notSpotlightB
+		CMP #SPLASH_PALETTE
+		BEQ notSpotlightB
+		LDA #$FF
+		STA $6E
+		STA $6F
+notSpotlightB:
 		LDA	z:3,X
 ; Modification: Make it possible to fade the two half-palettes of STORY_HUD_PALETTES separately
 		AND #3
@@ -4998,99 +5046,115 @@ load_palette_at_53:
 		CLC
 		ADC	z:$53
 		STA	z:$53
+		; Modification: XOR all loaded colors with value stored at 4E, to allow
+		; spotlights to work without special inverted palettes.
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
-		STA	[$50]
-		INC	z:$53
-
-loc_C621FF:
-		INC	z:$53
-		INC	z:$50
-		INC	z:$50
-		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
 		INC	z:$50
 		INC	z:$50
 		LDA	[$53]
+		EOR $6E
+		STA	[$50]
+		INC	z:$53
+		INC	z:$53
+		INC	z:$50
+		INC	z:$50
+		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
@@ -5227,9 +5291,13 @@ loc_C62333:
 ; ---------------------------------------------------------------------------
 ; START	OF FUNCTION CHUNK FOR sub_C62357
 
+; Modification: XOR all loaded colors with value stored at 6E, to allow
+; spotlights to work without special inverted palettes.
+		
 loc_C6233E:
 		REP	#$20
 		LDA	[$53]
+		EOR $6E
 		STA	[$50]
 		INC	z:$53
 		INC	z:$53
@@ -5256,6 +5324,7 @@ sub_C62357:
 		LDA	[$50]
 		STA	z:$42
 		LDA	[$53]
+		EOR $6E
 		STA	z:$48
 		STZ	z:$46
 		SEP	#$20

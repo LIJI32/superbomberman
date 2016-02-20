@@ -108,9 +108,9 @@ boss_stages = [
     .WORD $80		; saved_to_d3a
     .FARADDR circus_graphic
     .FARADDR bomb_and_explosions_graphic
-    .FARADDR empty_tilemap
+    .FARADDR spotlights_graphic
     .FARADDR circus_level_structure
-    .FARADDR compressed_spotlight_tilemap
+    .FARADDR compressed_clown_spotlight_tilemap
     .WORD $%d8		; level_representation
     .WORD 0			; hard_blocks
     .WORD 0			; soft_blocks
