@@ -170,7 +170,9 @@ for world in xrange(1, 6 + 1):
         print "stage_%d_%d:" % (world, level)
         if world != arena_world:
             if level == 8:
-                print boss_stages[world-1] % (world, )
+                area = areas[world_areas[world - 1][6]]
+                
+                print boss_stages[world-1].format(area[0], area[1], world, area[6])
             else:
                 generate_random_level(world, level)
         else:

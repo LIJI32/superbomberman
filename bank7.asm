@@ -3956,23 +3956,23 @@ loc_C72502:
 loc_C7250A:
 		SEP	#$20
 		LDY	#7
-		LDA	#$10
+		LDA	#BIGARON_BOSS_PALETTE_1
 		STA	z:$40
 		LDA	#1
 		JSL	f:palette_related
-		LDA	#$11
+		LDA	#BIGARON_BOSS_PALETTE_2
 		STA	z:$40
 		LDA	#2
 		JSL	f:palette_related
-		LDA	#$12
+		LDA	#BIGARON_BOSS_PALETTE_3
 		STA	z:$40
 		LDA	#3
 		JSL	f:palette_related
-		LDA	#$13
+		LDA	#BIGARON_BOSS_BOMB_PALETTE
 		STA	z:$40
 		LDA	#6
 		JSL	f:palette_related
-		LDA	#$14
+		LDA	#BIGARON_BOSS_FIRE_PALETTE
 		STA	z:$40
 		LDA	#7
 		JSL	f:palette_related

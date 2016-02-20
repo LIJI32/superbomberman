@@ -1,4 +1,4 @@
-# Each tuple is: (graphics, structure, palettes, graphic list, forced features, optional features)
+# Each tuple is: (graphics, structure, palettes, graphic list, forced features, optional features, palettes prefix)
 areas = [
     ("peace_town_graphic", "peace_town_level_structure", "peace_town_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
@@ -6,30 +6,30 @@ areas = [
         .WORD 6
         .FARADDR tile_animation
         .FARADDR peace_town_shaded_soft_animation
-        .WORD 2""", ".FARADDR create_random_bomb_drop"),
-    ("village_graphic", "village_level_structure", "village_palettes", "standard_level_graphics", "", ""),
+        .WORD 2""", ".FARADDR create_random_bomb_drop", "PEACE_TOWN_"),
+    ("village_graphic", "village_level_structure", "village_palettes", "standard_level_graphics", "", "", "VILLAGE_"),
     ("castle_graphic", "castle_level_structure", "castle_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
         .FARADDR byte_C51E3C
         .WORD 6
         .FARADDR tile_animation
         .FARADDR byte_C51E3C
-        .WORD 2""", ""),
-    ("park_graphic", "park_level_structure", "park_palettes", "standard_level_graphics", "", ""),
+        .WORD 2""", "", "CASTLE_"),
+    ("park_graphic", "park_level_structure", "park_palettes", "standard_level_graphics", "", "", "PARK_"),
     ("circus_graphic", "circus_level_structure", "circus_palettes", "standard_level_graphics", "", """
         .FARADDR tile_animation
         .FARADDR byte_C522FA
         .WORD 6
         .FARADDR tile_animation
         .FARADDR byte_C523FF
-        .WORD 2"""),
+        .WORD 2""", "CIRCUS_"),
     ("garden_graphic", "garden_level_structure", "garden_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
         .FARADDR byte_C52565
         .WORD 6
         .FARADDR tile_animation
         .FARADDR byte_C52688
-        .WORD 2""", ".FARADDR create_flower_zone_handler"),
+        .WORD 2""", ".FARADDR create_flower_zone_handler", "GARDEN_"),
     ("factory_graphic", "factory_level_structure", "factory_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
         .FARADDR byte_C52504
@@ -37,46 +37,51 @@ areas = [
         .FARADDR tile_animation
         .FARADDR byte_C52504
         .WORD 6
-        .FARADDR create_moving_platforms""", ""),
+        .FARADDR create_moving_platforms""", "", "FACTORY_"),
     ("dome_graphic", "dome_level_structure", "dome_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
         .FARADDR byte_C51FED
         .WORD 6
         .FARADDR tile_animation
         .FARADDR byte_C5200C
-        .WORD 2""", ""),
+        .WORD 2""", "", "DOME_"),
     ("speed_zone_graphic", "speed_zone_level_structure", "speed_zone_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
         .FARADDR byte_C52854
         .WORD 2
         .FARADDR tile_animation
         .FARADDR byte_C52854
-        .WORD 6""", ""),
+        .WORD 6""", "", "SPEED_ZONE_"),
     ("diamond_tower_tileset_graphic", "diamond_tower_level_structure", "diamond_tower_palettes", "standard_level_graphics", """
         .FARADDR tile_animation
         .FARADDR byte_C527F3
-        .WORD 4""", ""),
+        .WORD 4""", "", "DIAMOND_TOWER_"),
 
     # Stages from battle mode
-    ("normal_zone_graphic", "normal_zone_level_structure", "normal_zone_level_palettes", "standard_level_graphics", "", ""),
-    ("tunnel_zone_graphic", "tunnel_zone_level_structure", "tunnel_zone_level_palettes", "standard_level_graphics", "", ""),
-    ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", ""),
+    ("normal_zone_graphic", "normal_zone_level_structure", "normal_zone_level_palettes", "standard_level_graphics", "", "", "NORMAL_ZONE_"),
+    ("tunnel_zone_graphic", "tunnel_zone_level_structure", "tunnel_zone_level_palettes", "standard_level_graphics", "", "", "TUNNEL_ZONE_"),
+    ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", "", "WRAP_ZONE_"),
 ]
 
 boss_stages = [
 """
+    .DEFINE BIGARON_BOSS_PALETTE_1 {3}PALETTE_1
+    .DEFINE BIGARON_BOSS_PALETTE_2 {3}PALETTE_2
+    .DEFINE BIGARON_BOSS_PALETTE_3 {3}PALETTE_3
+    .DEFINE BIGARON_BOSS_BOMB_PALETTE {3}BOMB_PALETTE
+    .DEFINE BIGARON_BOSS_FIRE_PALETTE {3}FIRE_PALETTE
     .BYTE $E		; saved_to_d1c
     .BYTE 0
     .BYTE 2			; spawn_and_flags
     .BYTE 0			; more_flags
     .WORD 2			; screen_mode
     .WORD $70		; saved_to_d3a
-    .FARADDR castle_graphic
+    .FARADDR {0}
     .FARADDR bomb_and_explosions_graphic
     .FARADDR empty_tilemap
-    .FARADDR castle_level_structure
+    .FARADDR {1}
     .FARADDR empty_tilemap
-    .WORD $%d8		; level_representation
+    .WORD ${2}8		; level_representation
     .WORD 0			; hard_blocks
     .WORD 0			; soft_blocks
                 ; Off by one in	story mode, for	the level exit
@@ -100,18 +105,23 @@ boss_stages = [
     .WORD 0
 """,
 """
+    .DEFINE CLOWN_MASK_BOSS_PALETTE_1 {3}PALETTE_1
+    .DEFINE CLOWN_MASK_BOSS_PALETTE_2 {3}PALETTE_2
+    .DEFINE CLOWN_MASK_BOSS_PALETTE_3 {3}PALETTE_3
+    .DEFINE CLOWN_MASK_BOSS_BOMB_PALETTE {3}BOMB_PALETTE
+    .DEFINE CLOWN_MASK_BOSS_FIRE_PALETTE {3}FIRE_PALETTE
     .BYTE $E		; saved_to_d1c
     .BYTE 0
     .BYTE 2			; spawn_and_flags
     .BYTE 0			; more_flags
     .WORD 2			; screen_mode
     .WORD $80		; saved_to_d3a
-    .FARADDR circus_graphic
+    .FARADDR {0}
     .FARADDR bomb_and_explosions_graphic
     .FARADDR spotlights_graphic
-    .FARADDR circus_level_structure
+    .FARADDR {1}
     .FARADDR compressed_clown_spotlight_tilemap
-    .WORD $%d8		; level_representation
+    .WORD ${2}8		; level_representation
     .WORD 0			; hard_blocks
     .WORD 0			; soft_blocks
                 ; Off by one in	story mode, for	the level exit
@@ -138,11 +148,11 @@ boss_stages = [
     .WORD 2			; screen_mode
     .WORD $80		; saved_to_d3a
     .FARADDR factory_graphic
-    .FARADDR bomb_and_explosions_graphic
+    .FARADDR bomb_and_explosions_graphic ; {0}
     .FARADDR trampoline_and_crane_graphic; overlay_tileset_pointer
     .FARADDR crane_boss_level_structure
-    .FARADDR compressed_handcrane_tilemap
-    .WORD $%d8		; level_representation
+    .FARADDR compressed_handcrane_tilemap ; {1}
+    .WORD ${2}8		; level_representation
     .WORD 0			; hard_blocks
     .WORD 0			; soft_blocks
                 ; Off by one in	story mode, for	the level exit
@@ -166,12 +176,12 @@ boss_stages = [
     .BYTE 0			; more_flags
     .WORD 2			; screen_mode
     .WORD $80		; saved_to_d3a
-    .FARADDR power_zone_graphic; tileset_pointer
+    .FARADDR power_zone_graphic; {0}
     .FARADDR bomb_and_explosions_graphic
     .FARADDR empty_tilemap
-    .FARADDR power_zone_level_structure
+    .FARADDR power_zone_level_structure ; {1}
     .FARADDR empty_tilemap
-    .WORD $%d8		; level_representation
+    .WORD ${2}8		; level_representation
     .WORD 0			; hard_blocks
     .WORD 0			; soft_blocks
                 ; Off by one in	story mode, for	the level exit
@@ -219,12 +229,12 @@ boss_stages = [
     .BYTE 0			; more_flags
     .WORD 2			; screen_mode
     .WORD $90		; saved_to_d3a
-    .FARADDR diamond_tower_tileset_graphic
+    .FARADDR diamond_tower_tileset_graphic ; {0}
     .FARADDR bomb_and_explosions_graphic
     .FARADDR spiderer_bg_graphic; overlay_tileset_pointer
-    .FARADDR diamond_tower_level_structure
+    .FARADDR diamond_tower_level_structure ; {1}
     .FARADDR compressed_spiderer_tilemap
-    .WORD $%d8		; level_representation
+    .WORD ${2}8		; level_representation
     .WORD 0			; hard_blocks
     .WORD 0			; soft_blocks
                 ; Off by one in	story mode, for	the level exit
