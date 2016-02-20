@@ -3910,7 +3910,7 @@ bigaron_intro:
 		STA	z:$30,X
 		LDA	#0
 		STA	z:$31,X
-		LDA	#$A
+		LDA	#$9 + (BIGARON_WORLD - 1) * 3 / 2 ; Hitpoints
 		STA	z:$32,X
 		LDA	#0
 		STA	z:$26,X
@@ -4059,7 +4059,12 @@ loc_C725C8:
 		SEP	#$20
 		LDA	z:$36,X
 		BEQ	loc_C725D2
+.IF BIGARON_WORLD > 2
+		; Keep moving when hurt
+		JSL	f:bigaron_hurt
+.ELSE
 		JML	f:bigaron_hurt
+.ENDIF
 ; ---------------------------------------------------------------------------
 
 loc_C725D2:
@@ -4215,7 +4220,8 @@ sub_C726B9:
 		JSL	f:random2
 		REP	#$20
 		AND	#$FF
-		ORA	#$100
+		CLC
+		ADC	#$100 - (BIGARON_WORLD - 1) * $20 ; Hits frequency
 		STA	z:$34,X
 
 loc_C726C7:
@@ -4265,7 +4271,12 @@ loc_C72706:
 		SEP	#$20
 		LDA	z:$36,X
 		BEQ	loc_C72710
+.IF BIGARON_WORLD > 2
+		; Keep moving when hurt
+		JSL	f:bigaron_hurt
+.ELSE
 		JML	f:bigaron_hurt
+.ENDIF
 ; ---------------------------------------------------------------------------
 
 loc_C72710:
@@ -4369,7 +4380,12 @@ loc_C727B2:
 		PHA
 		LDA	z:$44
 		STA	z:$20,X
+.IF BIGARON_WORLD > 3
+		; Fly over bombs
+		LDA	#SOFT_BLOCK|HARD_BLOCK
+.ELSE
 		LDA	#BOMB|SOFT_BLOCK|HARD_BLOCK
+.ENDIF
 		STA	z:$42
 		JSL	f:test_collision_mask_for_enemy_next_square
 		REP	#$20
@@ -4403,7 +4419,12 @@ loc_C727DF:
 bigaron_straighten:
 		REP	#$20
 .A16
+.IF BIGARON_WORLD > 3
+		; Fly over bombs
+		LDA	#SOFT_BLOCK|HARD_BLOCK
+.ELSE
 		LDA	#BOMB|SOFT_BLOCK|HARD_BLOCK
+.ENDIF
 		STA	z:$42
 		JSL	f:test_collision_mask_for_enemy_next_square
 		BNE	loc_C72840
@@ -4418,7 +4439,7 @@ bigaron_straighten:
 		ASL
 		ASL
 		CLC
-		ADC	#.LOWORD(vectors_for_speed_and_direction)
+		ADC	#.LOWORD(vectors_for_speed_and_direction + $10 * ((BIGARON_WORLD - 1) / 2)) ; Increase speed if appears later in game
 		STA	z:$53
 		LDA	z:$20,X
 		BIT	#1
@@ -4736,19 +4757,19 @@ sub_C729EE:
 		REP	#$20
 		AND	#$1FF
 		CLC
-		ADC	#$FC00
+		ADC	#.LOWORD(-$400 - (BIGARON_WORLD-1) * $20) ; How high rocks fly
 		STA	z:$16,X
 		JSL	f:random2
 		REP	#$20
-		AND	#$1FF
+		AND	#($200 << ((BIGARON_WORLD-1) / 2)) - 1 ; How far rocks fly
 		CLC
-		ADC	#$FF00
+		ADC	#.LOWORD(-($100 << ((BIGARON_WORLD-1) / 2)))
 		STA	z:$1A,X
 		JSL	f:random2
 		REP	#$20
 		AND	#$F
 		CLC
-		ADC	#$10
+		ADC	#.LOWORD($10 * (BIGARON_WORLD + 5) / 6)
 		STA	z:$30,X
 		LDA	#.LOWORD(byte_C723F1)
 		STA	z:$50

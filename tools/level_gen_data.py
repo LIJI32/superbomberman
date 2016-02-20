@@ -60,7 +60,7 @@ areas = [
     # Stages from battle mode
     ("normal_zone_graphic", "normal_zone_level_structure", "normal_zone_level_palettes", "standard_level_graphics", "", "", "NORMAL_ZONE_"),
     ("tunnel_zone_graphic", "tunnel_zone_level_structure", "tunnel_zone_level_palettes", "standard_level_graphics", "", "", "TUNNEL_ZONE_"),
-    ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", "", "WRAP_ZONE_"),
+    ("warp_zone_graphic", "warp_zone_level_structure", "warp_zone_level_palettes", "standard_level_graphics", "", "", "WARP_ZONE_"),
 ]
 
 boss_stages = [
@@ -70,6 +70,7 @@ boss_stages = [
     .DEFINE BIGARON_BOSS_PALETTE_3 {3}PALETTE_3
     .DEFINE BIGARON_BOSS_BOMB_PALETTE {3}BOMB_PALETTE
     .DEFINE BIGARON_BOSS_FIRE_PALETTE {3}FIRE_PALETTE
+    .DEFINE BIGARON_WORLD {2}
     .BYTE $E		; saved_to_d1c
     .BYTE 0
     .BYTE 2			; spawn_and_flags
