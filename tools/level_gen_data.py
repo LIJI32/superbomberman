@@ -140,6 +140,11 @@ boss_stages = [
     .WORD 0
 """,
 """
+    .DEFINE CRANE_BOSS_PALETTE_1 {3}PALETTE_1
+    .DEFINE CRANE_BOSS_PALETTE_2 {3}PALETTE_2
+    .DEFINE CRANE_BOSS_PALETTE_3 {3}PALETTE_3
+    .DEFINE CRANE_BOSS_BOMB_PALETTE {3}BOMB_PALETTE
+    .DEFINE CRANE_BOSS_FIRE_PALETTE {3}FIRE_PALETTE
     .BYTE 0			; saved_to_d1c
     .BYTE 0
     .BYTE 2			; spawn_and_flags
@@ -148,11 +153,11 @@ boss_stages = [
                     ; coded values of 0804 and 0808.
     .WORD 2			; screen_mode
     .WORD $80		; saved_to_d3a
-    .FARADDR factory_graphic
-    .FARADDR bomb_and_explosions_graphic ; {0}
-    .FARADDR trampoline_and_crane_graphic; overlay_tileset_pointer
-    .FARADDR crane_boss_level_structure
-    .FARADDR compressed_handcrane_tilemap ; {1}
+    .FARADDR {0}
+    .FARADDR bomb_and_explosions_graphic
+    .FARADDR trampoline_and_crane_graphic
+    .FARADDR {1}_crane
+    .FARADDR compressed_handcrane_tilemap
     .WORD ${2}8		; level_representation
     .WORD 0			; hard_blocks
     .WORD 0			; soft_blocks
@@ -169,6 +174,7 @@ boss_stages = [
     .FARADDR create_crane_hand
     .WORD 0
     .WORD 0
+    ASSET level_structures, {1}_crane
 """,
 """
     .BYTE $E		; saved_to_d1c

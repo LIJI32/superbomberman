@@ -54,10 +54,6 @@ ASSET2 graphics, sprites, mecha_onita_graphic_1
 ASSET2 graphics, sprites, mecha_onita_graphic_2
 ASSET2 graphics, sprites, anzenda_graphic_0
 ASSET2 graphics, sprites, anzenda_graphic_1
-ASSET2 graphics, backgrounds, factory_graphic
-ASSET2 graphics, sprites, kinkaru_graphic_0
-ASSET2 graphics, sprites, kinkaru_graphic_1
-ASSET2 graphics, backgrounds, musical_note_graphic
 DATA_END
 
 ; Interrupt handlers

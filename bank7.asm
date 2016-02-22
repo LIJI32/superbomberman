@@ -1443,15 +1443,15 @@ loc_C71136:
 
 loc_C7113E:
 		LDY	#7
-		LDA	#$29
+		LDA	#CRANE_BOSS_PALETTE_1
 		STA	z:$40
 		LDA	#1
 		JSL	f:palette_related
-		LDA	#$2A
+		LDA	#CRANE_BOSS_PALETTE_2
 		STA	z:$40
 		LDA	#2
 		JSL	f:palette_related
-		LDA	#$2B
+		LDA	#CRANE_BOSS_PALETTE_3
 		STA	z:$40
 		LDA	#3
 		JSL	f:palette_related
@@ -1459,11 +1459,11 @@ loc_C7113E:
 		STA	z:$40
 		LDA	#4
 		JSL	f:palette_related
-		LDA	#$2C
+		LDA	#CRANE_BOSS_BOMB_PALETTE
 		STA	z:$40
 		LDA	#6
 		JSL	f:palette_related
-		LDA	#$2D
+		LDA	#CRANE_BOSS_FIRE_PALETTE
 		STA	z:$40
 		LDA	#7
 		JSL	f:palette_related
@@ -1887,15 +1887,15 @@ loc_C71432:
 		PLX
 		SEP	#$20
 		LDY	#7
-		LDA	#$29
+		LDA	#CRANE_BOSS_PALETTE_1
 		STA	z:$40
 		LDA	#1
 		JSL	f:palette_related
-		LDA	#$2A
+		LDA	#CRANE_BOSS_PALETTE_2
 		STA	z:$40
 		LDA	#2
 		JSL	f:palette_related
-		LDA	#$2B
+		LDA	#CRANE_BOSS_PALETTE_3
 		STA	z:$40
 		LDA	#3
 		JSL	f:palette_related
@@ -1907,11 +1907,11 @@ loc_C71432:
 		STA	z:$40
 		LDA	#5
 		JSL	f:palette_related
-		LDA	#$2C
+		LDA	#CRANE_BOSS_BOMB_PALETTE
 		STA	z:$40
 		LDA	#6
 		JSL	f:palette_related
-		LDA	#$2D
+		LDA	#CRANE_BOSS_FIRE_PALETTE
 		STA	z:$40
 		LDA	#7
 		JSL	f:palette_related

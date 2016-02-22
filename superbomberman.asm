@@ -40,3 +40,9 @@ FILL $C68000
 .INCLUDE "bank7.asm"
 FILL $C78000
 .INCBIN "dboot/data.bin", FIRST_DBOOT_BANK_SIZE + $10000
+
+; Save space on bank 0
+ASSET2 graphics, backgrounds, factory_graphic
+ASSET2 graphics, sprites, kinkaru_graphic_0
+ASSET2 graphics, sprites, kinkaru_graphic_1
+ASSET2 graphics, backgrounds, musical_note_graphic

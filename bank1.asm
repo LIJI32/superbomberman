@@ -34,7 +34,6 @@ ASSET level_structures, park_level_structure
 ASSET level_structures, unused_level_structure_2
 ASSET level_structures, circus_level_structure
 ASSET level_structures, factory_level_structure
-ASSET level_structures, crane_boss_level_structure
 ASSET level_structures, arena_level_structure
 ASSET level_structures, garden_level_structure
 ASSET level_structures, power_zone_level_structure
