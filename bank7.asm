@@ -5999,7 +5999,7 @@ clown_mask:
 		STA	z:$18,X
 		LDA	#0
 		STA	z:$30,X
-		LDA	#$12
+		LDA	#(CLOWN_MASK_WORLD + 16) ; Hitpoints
 		STA	z:$32,X
 		SEP	#$20
 .A8
@@ -6134,21 +6134,32 @@ loc_C73DC9:
 		JML	f:loc_C73E95
 ; ---------------------------------------------------------------------------
 
+.IF CLOWN_MASK_WORLD > 2
+.DEFINE CLOWN_ACC_SPEED 2
+.ELSE
+.DEFINE CLOWN_ACC_SPEED 1
+.ENDIF
+CLOWN_MAX_SPEED = ($20 + CLOWN_MASK_WORLD * $10)
+CLOWN_HURT_DURATION = ($40 + CLOWN_MASK_WORLD * $8)
+
 loc_C73DD1:
+	JSL clown_mask_movement
+	JML f:loc_C73E71
+clown_mask_movement: ; Modification: this became a function, to allow reuse
 		SEP	#$20
 		JSL	f:follower_movement_2
 		REP	#$20
 .A16
-		LDA	#1
+		LDA	#CLOWN_ACC_SPEED
 		STA	z:$40
-		LDA	#$40
+		LDA	#CLOWN_MAX_SPEED
 		STA	z:$42
 		LDA	a:.LOWORD($11),Y
 		CMP	z:$11,X
 		BCS	loc_C73DF4
-		LDA	#$FFFF
+		LDA	#.LOWORD(-CLOWN_ACC_SPEED)
 		STA	z:$40
-		LDA	#$FFC0
+		LDA	#.LOWORD(-CLOWN_MAX_SPEED)
 		STA	z:$42
 
 loc_C73DF4:
@@ -6170,31 +6181,31 @@ loc_C73E02:
 loc_C73E0D:
 		CLC
 		ADC	z:$10,X
-		CMP	#$3F00
+		CMP	#$3F00 - $1000 ; Bugfix: allow boss to reach the screen edges.
 		BCS	loc_C73E1A
-		LDA	#$3F00
+		LDA	#$3F00 - $1000
 		BRA	loc_C73E22
 ; ---------------------------------------------------------------------------
 
 loc_C73E1A:
-		CMP	#$D000
+		CMP	#$D000 + $1000
 		BCC	loc_C73E22
-		LDA	#$D000
+		LDA	#$D000 + $1000
 
 loc_C73E22:
 		STA	z:$10,X
-		LDA	#1
+		LDA	#CLOWN_ACC_SPEED
 		STA	z:$40
-		LDA	#$40
+		LDA	#CLOWN_MAX_SPEED
 		STA	z:$42
 		LDA	z:$14,X
 		SEC
 		SBC	#$20
 		CMP	a:.LOWORD($14),Y
 		BCC	loc_C73E43
-		LDA	#$FFFF
+		LDA	#.LOWORD(-CLOWN_ACC_SPEED)
 		STA	z:$40
-		LDA	#$FFC0
+		LDA	#.LOWORD(-CLOWN_MAX_SPEED)
 		STA	z:$42
 
 loc_C73E43:
@@ -6216,19 +6227,20 @@ loc_C73E51:
 loc_C73E5C:
 		CLC
 		ADC	z:$13,X
-		CMP	#$5000
+		CMP	#$5000 - $1000
 		BCS	loc_C73E69
-		LDA	#$5000
-		BRA	loc_C73E71
+		LDA	#$5000 - $1000
+		BRA	clown_movement_ret
 ; ---------------------------------------------------------------------------
 
 loc_C73E69:
-		CMP	#$C000
-		BCC	loc_C73E71
-		LDA	#$C000
-
-loc_C73E71:
+		CMP	#$C000 + $1000
+		BCC	clown_movement_ret
+		LDA	#$C000 + $1000
+clown_movement_ret:
 		STA	z:$13,X
+		RTL
+loc_C73E71:
 		REP	#$20
 		LDA	#$2020
 		STA	z:$42
@@ -6311,8 +6323,9 @@ loc_C73EF1:
 ; ---------------------------------------------------------------------------
 
 loc_C73EFB:
-		LDA	#$60
-		STA	z:$16,X
+		STZ	z:$16,X
+		LDA	#CLOWN_HURT_DURATION
+		STA	z:$3E,X ; Modification: Don't reuse the X-accelartion var
 		LDA	z:$31,X
 		AND	#$FF
 		PHX
@@ -6374,7 +6387,7 @@ loc_C73F78:
 loc_C73F80:
 		REP	#$20
 .A16
-		LDA	z:$16,X
+		LDA	z:$3E,X  ; Modification: Don't reuse the X-accelartion var
 		AND	#2
 		ASL
 		PHX
@@ -6397,7 +6410,7 @@ loc_C73F80:
 		PLX
 		REP	#$20
 .A16
-		DEC	z:$16,X
+		DEC	z:$3E,X  ; Modification: Don't reuse the X-accelartion var
 		BNE	loc_C73FCD
 		STZ	z:$18,X
 		JSL	f:loc_C73EC9
@@ -6410,6 +6423,16 @@ loc_C73F80:
 		STA	z:2,X
 
 loc_C73FCD:
+.IF CLOWN_MASK_WORLD > 3
+		SEP	#$20
+.A8
+		LDA	a:.LOWORD(game_flags) ; orig=0x0314
+		BIT	#$41
+		BNE clown_is_paused
+
+		JSL clown_mask_movement ; Modification: Move even when hurt
+.ENDIF
+clown_is_paused:
 		REP	#$20
 .A16
 		LDA	#$1010
