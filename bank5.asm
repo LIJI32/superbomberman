@@ -5369,7 +5369,7 @@ loc_C54F42:
 
 loc_C54F52:
 ; Sound test access
-.IFNDEF J
+.IF FIX_JOYPAD_5_BUG
 ; Bugfix: the Japanese version did not verify Joypad 5 is connected.
 		LDA	a:.LOWORD(joypad_5_connected) ; orig=0x0CEF
 		AND	#$1F
@@ -5928,7 +5928,7 @@ loc_C55284:
 		STA	z:$40
 		PLY
 		LDA	z:$40
-.IF USE_MULTI5_BIOS
+.IF JOYPAD_RELATED_BUGFIX
 		AND	#$1F
 		CMP	#1
 		BEQ	loc_C552D5
@@ -6082,7 +6082,7 @@ loc_C5539F:
 		STA	z:$40
 		PLY
 		LDA	z:$40
-.IF USE_MULTI5_BIOS
+.IF JOYPAD_RELATED_BUGFIX
 		AND	#$1F
 		CMP	#1
 		BEQ	loc_C55373

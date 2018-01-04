@@ -179,7 +179,9 @@ clean:
 compare: rom.sfc
 	$(eval MD5 := $(shell $(MD5SUM) $< | sed "s/.*\([0-9a-f]\{32\}\).*/\\1/"))
 	@echo -e "\033[1mrom.sfc               :" $(MD5) "\033[0m"
-	@echo "Super Bomberman 1 (US): d83699a009a62480a7e7e9f1bb5bff6e" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (J) : cbef5f02304a2b821a0e1642a6307564" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (E) : ddee4ddff2f3b6e31b8f73d0cb597ef1" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
+	@echo "Super Bomberman 1 (US)           : d83699a009a62480a7e7e9f1bb5bff6e" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
+	@echo "Super Bomberman 1 (J)            : cbef5f02304a2b821a0e1642a6307564" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
+	@echo "Super Bomberman 1 (E)            : ddee4ddff2f3b6e31b8f73d0cb597ef1" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
+	@echo "Super Bomberman 1 (US Prototype) : d67a1a2b0fac0564d950f8cd45fee3c2" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
+
 

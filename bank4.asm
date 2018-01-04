@@ -321,11 +321,11 @@ loc_C40280:
 		REP	#$20
 .A16
 		LDA	#.LOWORD(nullsub_1)
-		STA	AZ .LOWORD(unknown_function_pointer) ; orig=0x00D0
+		STA	AZ2 .LOWORD(unknown_function_pointer) ; orig=0x00D0
 		SEP	#$20
 .A8
 		LDA	#.BANKBYTE(nullsub_1)
-		STA	AZ .LOWORD(unknown_function_pointer+2) ; orig=0x00D2
+		STA	AZ2 .LOWORD(unknown_function_pointer+2) ; orig=0x00D2
 .ENDIF
 		SEP	#$20
 		CLI
@@ -760,8 +760,8 @@ loc_C405C9:
 loc_C405E2:
 		LDA	a:.LOWORD(level_manager_object+level_manager_object::gameover_related) ; orig=0x0D32
 		AND	#$FF
-.IFDEF J
-        BEQ	write_gameover
+.IF SHORT_GAMEOVER_BRANCH
+    BEQ write_gameover
 .ELSE
 		BNE	loc_C405EE
 		JML	f:write_gameover

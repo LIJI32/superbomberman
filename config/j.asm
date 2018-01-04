@@ -16,9 +16,13 @@ COUNTRY_CODE = 0 ; NTSC 0
 FALLING_BOMBERMEN_DRAW = 1
 TRADEMARK_LINE = 0
 FPS = 60
+FIX_JOYPAD_5_BUG = 0
+SHORT_GAMEOVER_BRANCH = 1
+JOYPAD_RELATED_BUGFIX = 0
 
 ; Some addressing modes were changed in the localizations
 .DEFINE AZ z:
+.DEFINE AZ2 z:
 
 ; Original bug fixes and features
 FIXED_KURO_VICTORY_PALETTE = 0
