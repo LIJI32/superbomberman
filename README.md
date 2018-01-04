@@ -4,9 +4,10 @@ Disassembly and remade build system for SNES game Super Bomberman, inspired by [
 # Output ROM
 This disassembly can build the following headerless SNES ROMs:
 <pre>
-Super Bomberman 1 (US): d83699a009a62480a7e7e9f1bb5bff6e
-Super Bomberman 1 (J) : cbef5f02304a2b821a0e1642a6307564
-Super Bomberman 1 (E) : ddee4ddff2f3b6e31b8f73d0cb597ef1
+Super Bomberman 1 (US)           : d83699a009a62480a7e7e9f1bb5bff6e
+Super Bomberman 1 (J)            : cbef5f02304a2b821a0e1642a6307564
+Super Bomberman 1 (E)            : ddee4ddff2f3b6e31b8f73d0cb597ef1
+Super Bomberman 1 (US Prototype) : d67a1a2b0fac0564d950f8cd45fee3c2
 </pre>
 It can also build a bugfix version, based on the US version, that fixes some (mostly graphical) bugs, and can also restore access to the debug menu used during development with a debug version. The configuration files let you mix-and-match specific regional changes.
 
