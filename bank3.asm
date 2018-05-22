@@ -622,13 +622,13 @@ interrupt_registers_init_table:
 		; Terminator
 		.BYTE $FF
 battle_menu_items:
-		battle_menu_item $D0, $18,	3, player_type,
-		battle_menu_item $D0, $38, 3, player_type,
-		battle_menu_item $D0, $58, 3, player_type,
-		battle_menu_item $D0, $78, 3, player_type,
-		battle_menu_item $E0, $98, $A,	cpu_level,
-		battle_menu_item $48, $118, 5,	match_count,
-		battle_menu_item $C4, $138, $C, stage_numbers,
+		battle_menu_item $D0, $18, 3, player_type
+		battle_menu_item $D0, $38, 3, player_type
+		battle_menu_item $D0, $58, 3, player_type
+		battle_menu_item $D0, $78, 3, player_type
+		battle_menu_item $E0, $98, $A, cpu_level
+		battle_menu_item $48, $118, 5, match_count
+		battle_menu_item $C4, $138, $C, stage_numbers
 cpu_level:      .ADDR byte_C500A6, byte_C500AB, byte_C500B0, byte_C500B5, byte_C500BA, byte_C500BF, byte_C500C4, byte_C500C9
                 .ADDR byte_C500CE, byte_C500D3
 match_count:    .ADDR byte_C500A6, byte_C500AB, byte_C500B0, byte_C500B5, byte_C500BA
