@@ -3604,19 +3604,19 @@ a16
     ASL A
     ASL A
     TAY
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x16,X
     INY
     INY
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x18,X
     INY
     INY
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x1A,X
     INY
     INY
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x1C,X
 
 loc_C53D2D:
@@ -4269,11 +4269,11 @@ i16
 
 set_overlay_blending:
     REP #0x20
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(main_screen_status) ; orig=0x0C97
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(color_addition_settings) ; orig=0x0C99
     INC z:0x50
     INC z:0x50
@@ -4285,23 +4285,23 @@ i16
 
 sub_C5414C:
     REP #0x20
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(main_screen_status) ; orig=0x0C97
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(color_addition_settings) ; orig=0x0C99
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(FIXED_COLOR_DATA)
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA a:addr(bg2_h_scroll) ; orig=0x0CA1
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA a:addr(bg2_v_scroll) ; orig=0x0CA3
     INC z:0x50
     INC z:0x50
@@ -4326,19 +4326,19 @@ a8
     BCS locret_C541C1
     REP #0x20
 a16
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x20),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x22),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x24),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x26),Y
     INC z:0x50
     INC z:0x50
@@ -5406,7 +5406,7 @@ a8
     JSL create_object
     REP #0x20
 a16
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x20),Y
     INC z:0x50
     INC z:0x50
@@ -5431,15 +5431,15 @@ a16
     LDA #8
     STA z:0x1E,X
     LDY z:0x20,X
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x50
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x11,X
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x14,X
     SEP #0x20
 a8
@@ -5698,7 +5698,7 @@ a16
     ASL A
     ASL A
     TAY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     SEC
     SBC #3
     STA z:0x14,X
@@ -5997,15 +5997,15 @@ tile_animation:
     REP #0x20
 a16
     BCS loc_C551AC
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x53
     STA a:addr(0x16),Y
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x54
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     ASL A
     ASL A
     ASL A
@@ -6015,7 +6015,7 @@ a16
     INC z:0x50
     LDA #0xFFFF
     STA a:addr(0xB),Y
-    LDA f:[0x53]
+    LDA f:[z:0x53]
     AND #0xFF
     STA a:addr(0xD),Y
     SEP #0x20
@@ -6058,7 +6058,7 @@ loc_C551D3:
     ADC z:0x16,X
     INC A
     STA z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x42
     LDA z:0x20,X
     STA z:0x40
@@ -6133,7 +6133,7 @@ sub_C55240:
     REP #0x20
 a16
     BCS loc_C55264
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x30),Y
     LDA z:0x48
     STA a:addr(0x31),Y
@@ -6172,21 +6172,21 @@ loc_C55284:
     ASL A
     ASL A
     TAY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:player.x_position,X
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:player.y_position,X
     INY
     INY
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x53
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x1E,X
     LDA z:0x30,X
     AND #0xFF
@@ -6212,10 +6212,10 @@ if JOYPAD_RELATED_BUGFIX
 else
     BNE loc_C552D5
 endif
-    LDA [0x50]
+    LDA [z:0x50]
     BNE loc_C552D5
     LDA #1
-    STA [0x50]
+    STA [z:0x50]
 
 loc_C552D5:
     SEP #0x20
@@ -6223,11 +6223,11 @@ loc_C552D5:
     STA z:0x55
     REP #0x20
 a16
-    LDA [0x50]
+    LDA [z:0x50]
     AND #0xFF
     ASL A
     TAY
-    LDA f:[0x53],Y
+    LDA f:[z:0x53],Y
     STA z:0x50
     SEP #0x20
 a8
@@ -6292,24 +6292,24 @@ a8
     BEQ loc_C5539A
     BIT #1
     BNE loc_C55360
-    LDA [0x53]
+    LDA [z:0x53]
     DEC A
-    STA [0x53]
+    STA [z:0x53]
     BPL loc_C5536D
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     DEC A
-    STA [0x53]
+    STA [z:0x53]
     BRA loc_C5536D
 ; ---------------------------------------------------------------------------
 
 loc_C55360:
-    LDA [0x53]
+    LDA [z:0x53]
     INC A
-    STA [0x53]
-    CMP f:[0xDB],Y
+    STA [z:0x53]
+    CMP f:[z:0xDB],Y
     BNE loc_C5536D
     LDA #0
-    STA [0x53]
+    STA [z:0x53]
 
 loc_C5536D:
     LDA z:0x30,X
@@ -6323,15 +6323,15 @@ loc_C55373:
 a16
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x50
-    LDA [0x53]
+    LDA [z:0x53]
     AND #0xFF
     ASL A
     TAY
     LDA #0xC3
     STA z:0x52
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x50
     SEP #0x20
 a8
@@ -6366,19 +6366,19 @@ if JOYPAD_RELATED_BUGFIX
 else
     BNE loc_C55373
 endif
-    LDA [0x53]
+    LDA [z:0x53]
     BNE loc_C55373
     LDA a:addr(level_manager_object.soft_blocks) ; orig=0x0D3C
     BIT #1
     BNE loc_C553C9
     LDA #2
-    STA [0x53]
+    STA [z:0x53]
     BRA loc_C55373
 ; ---------------------------------------------------------------------------
 
 loc_C553C9:
     LDA #1
-    STA [0x53]
+    STA [z:0x53]
     BRA loc_C55373
 ; End of function sub_C55267
 
@@ -6737,11 +6737,11 @@ a16
     ASL A
     ASL A
     TAY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x11,X
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x14,X
 a8
 
@@ -6988,23 +6988,23 @@ sub_C55794:
     JSL create_object
     REP #0x20
 a16
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x1E),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0xE),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x11),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x14),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0x16),Y
     INC z:0x50
     INC z:0x50
@@ -8659,7 +8659,7 @@ a16
     STA z:0x50
 
 loc_C5637B:
-    LDA [0x50]
+    LDA [z:0x50]
     AND #0xFF
     CMP #2
     BEQ loc_C5639A
@@ -8789,17 +8789,17 @@ loc_C56429:
     STA a:addr(0x22),Y
     LDA #0x88
     CLC
-    ADC f:[0x59]
+    ADC f:[z:0x59]
     AND #0xFF
     STA a:addr(0x11),Y
     INC z:0x59
     LDA #0x88
     CLC
-    ADC f:[0x59]
+    ADC f:[z:0x59]
     AND #0xFF
     STA a:addr(0x1A),Y
     INC z:0x59
-    LDA f:[0x59]
+    LDA f:[z:0x59]
     INC z:0x59
     INC z:0x59
     AND #0xFF
@@ -9515,7 +9515,7 @@ a16
     BNE loc_C56C65
     LDA z:0x30,X
     STA z:0x53
-    LDA f:[0x53]
+    LDA f:[z:0x53]
     TAY
     INC z:0x53
     INC z:0x53
@@ -10896,7 +10896,7 @@ sub_C57504:
 
     REP #0x20
     LDY #0xC
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     TAY
     LDA a:addr(4),Y
     AND #0xFF
@@ -10967,16 +10967,16 @@ sub_C57570:
     LDA #0x30
     STA z:0xE,X
     LDY #2
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x1E,X
     LDY #4
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x11,X
     LDY #6
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x14,X
     LDY #0xA
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x30,X
     REP #0x20
     LDA #addr(player_animation_list)
@@ -10986,7 +10986,7 @@ a8
     LDA #bank(player_animation_list)
     STA z:0x1A,X
     LDY #8
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x40
     JSL sub_C57F9F
     REP #0x20
@@ -11173,10 +11173,10 @@ a16
     STA z:0x50
 
 loc_C576D3:
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x53
     JSL call_function_at_0053
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     CMP #0xFFFF
     BNE loc_C576D3
     RTL
@@ -11573,7 +11573,7 @@ a16
 
 loc_C57B36:
     LDY #0x16
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     INC A
     ASL A
     ASL A
@@ -11598,38 +11598,38 @@ sub_C57B47:
     LDA #0x30
     STA z:0xE,X
     LDY #0xC
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0xF,X
     LDY #0xA
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x1E,X
     LDA #0
     STA z:0x10,X
     LDA #0
     STA z:0x13,X
     LDY #2
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x11,X
     LDY #4
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x14,X
     LDY #0x1C
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x18,X
     LDY #0x1E
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x1A,X
     LDY #0xE
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x30,X
     LDY #0x10
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x32,X
     LDY #0x12
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x34,X
     LDY #0x16
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x36,X
     STZ z:0x3C,X
     LDA #4
@@ -11675,7 +11675,7 @@ loc_C57BE3:
     LDA z:0x23,X
     STA z:0x51
     LDY #0x14
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     BIT #2
     BNE loc_C57BF9
     JSL sub_C57EF3
@@ -11697,7 +11697,7 @@ a16
     LDA z:0x23,X
     STA z:0x51
     LDY #0x14
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     BIT #2
     BNE loc_C57C3B
     CLC
@@ -11745,10 +11745,10 @@ loc_C57C53:
     LDA z:0x23,X
     STA z:0x51
     LDY #6
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x11,X
     LDY #8
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x14,X
     JSL sub_C57ABF
     REP #0x20
@@ -11757,7 +11757,7 @@ loc_C57C53:
     CMP #0x68
     BEQ loc_C57CC3
     LDY #0x14
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     BIT #1
     BNE loc_C57CBE
     LDA #4
@@ -11779,7 +11779,7 @@ a16
     LDA z:0x23,X
     STA z:0x51
     LDY #0x14
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     BIT #4
     BEQ loc_C57CB9
     INC z:0x3C,X
@@ -12177,19 +12177,19 @@ sub_C57EF3:
     LDA z:0x23,X
     STA z:0x51
     LDY #6
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     LDY #2
     SEC
-    SBC f:[0x50],Y
+    SBC f:[z:0x50],Y
     STA z:0x40
     JSL sub_C57F51
     LDA z:0x40
     STA z:0x38,X
     LDY #8
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     LDY #4
     SEC
-    SBC f:[0x50],Y
+    SBC f:[z:0x50],Y
     STA z:0x40
     JSL sub_C57F51
     LDA z:0x40
@@ -12290,7 +12290,7 @@ sub_C57F9F:
     CLC
     ADC z:0x18,X
     STA z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x50
     JSL start_animation
     RTL

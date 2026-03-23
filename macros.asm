@@ -2,7 +2,7 @@ macro fill addr
     if addr > .
         org addr
     elif addr < .
-        warning "Overflow detected at ", .
+        warning "Overflow detected at", .
     endif
 endmacro
 

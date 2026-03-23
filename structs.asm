@@ -60,7 +60,7 @@ macro battle_menu_item x_position, y_position, max_value, option_list
     dw x_position
     dw y_position
     dw max_value
-    dw option_list
+    da option_list
     ds 8
 endmacro
 

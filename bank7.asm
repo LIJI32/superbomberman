@@ -3357,7 +3357,7 @@ a16
     CLC
     ADC z:0x22,X
     STA z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     CLC
     STA z:0x50
     LDA z:0xC,X
@@ -3366,7 +3366,7 @@ a16
     CLC
     ADC z:0x50
     STA z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x44
     LDA #0x505
     STA z:0x42
@@ -3667,7 +3667,7 @@ sub_C71F0C:
     STA z:0x50
     LDA z:0x19,X
     STA z:0x51
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0x50
     SEP #0x20
 a8
@@ -4622,13 +4622,13 @@ a16
     REP #0x20
     LDA z:0x10,X
     CLC
-    ADC f:[0x53]
+    ADC f:[z:0x53]
     STA z:0x10,X
     INC z:0x53
     INC z:0x53
     LDA z:0x13,X
     CLC
-    ADC f:[0x53]
+    ADC f:[z:0x53]
     STA z:0x13,X
     CLC
     RTL
@@ -4639,13 +4639,13 @@ loc_C72826:
     REP #0x20
     LDA z:0x10,X
     CLC
-    ADC f:[0x53]
+    ADC f:[z:0x53]
     STA z:0x10,X
     INC z:0x53
     INC z:0x53
     LDA z:0x13,X
     CLC
-    ADC f:[0x53]
+    ADC f:[z:0x53]
     STA z:0x13,X
     CLC
     RTL
@@ -4847,16 +4847,16 @@ a16
     INC z:0x34,X
     INC z:0x34,X
     LDY #2
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     CLC
     ADC a:addr(bg1_h_scroll) ; orig=0x0C9D
     STA a:addr(bg1_h_scroll) ; orig=0x0C9D
     LDY #4
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     CLC
     ADC a:addr(bg1_v_scroll) ; orig=0x0C9F
     STA a:addr(bg1_v_scroll) ; orig=0x0C9F
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x20,X
     BNE locret_C729AC
     JSL delete_object
@@ -9292,11 +9292,11 @@ a16
     AND #0xF
     ASL A
     TAY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     BEQ loc_C759C1
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     BEQ loc_C759C1
     PHY
     LDY #0x1C
@@ -9309,7 +9309,7 @@ loc_C759C1:
 a16
     LDA z:0x14,X
     CLC
-    ADC f:[0xDB],Y
+    ADC f:[z:0xDB],Y
     STA z:0x3A,X
     SEC
     SBC #0x70
@@ -11026,7 +11026,7 @@ loc_C769FF:
     AND #0xE
     PHY
     TAY
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     PLY
     JSL create_bonus_object
 a8
@@ -11401,7 +11401,7 @@ loc_C76C66:
 loc_C76CA1:
     STA z:0x42
     LDA f:word_C76D91,X
-    EOR f:[0xDB],Y
+    EOR f:[z:0xDB],Y
     BIT #0x8000
     BEQ loc_C76CB2
     LSR z:0x42
@@ -11422,7 +11422,7 @@ loc_C76CC6:
     LDA f:word_C76D91+2,X
     INY
     INY
-    EOR f:[0xDB],Y
+    EOR f:[z:0xDB],Y
     BIT #0x8000
     BEQ loc_C76CD9
     LSR z:0x42
@@ -11456,7 +11456,7 @@ loc_C76CF6:
     ASL A
     TAY
     STZ z:0x40
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     BPL loc_C76D08
     DEC z:0x40
 
@@ -11474,7 +11474,7 @@ a16
     STZ z:0x40
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     BPL loc_C76D21
     DEC z:0x40
 
@@ -11689,7 +11689,7 @@ a16
     LDY #0
 
 loc_C76EC2:
-    LDA f:[0x53],Y
+    LDA f:[z:0x53],Y
     STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
     INY
     INY
@@ -12021,7 +12021,7 @@ a16
 a8
     LDA z:0x3F,X
     AND #0x3F
-    CMP f:[0xDE],Y
+    CMP f:[z:0xDE],Y
     BEQ loc_C770BC
     JML loc_C770F5
 ; ---------------------------------------------------------------------------
@@ -12057,7 +12057,7 @@ a16
     LDA z:0x3E,X
     AND #0x38
     TAY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x16,X
 a8
 
@@ -12072,13 +12072,13 @@ a8
     STA z:0xDD
     REP #0x20
 a16
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     STA z:0x40
     JSL sub_C4572E
     BCS locret_C77125
     INY
     INY
-    LDA f:[0xDB],Y
+    LDA f:[z:0xDB],Y
     CLC
     ADC z:0x10,X
     STA z:0x10,X
@@ -13194,11 +13194,11 @@ a16
     CLC
     ADC z:0x50
     STA z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA a:addr(0xC9D),Y
     INC z:0x50
     INC z:0x50
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     SEC
     SBC #0x50
     AND #0x3FF
@@ -13207,10 +13207,10 @@ a16
     INC z:0x50
     SEP #0x20
 a8
-    LDA f:[0x50]
+    LDA f:[z:0x50]
     STA z:0x40
     LDY #2
-    LDA f:[0x50],Y
+    LDA f:[z:0x50],Y
     STA z:0xD3
     LDY #7
     JSL palette_related
