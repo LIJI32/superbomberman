@@ -1,2 +1,2 @@
-.INCLUDE "bugfix.asm"
-.DEFINE DEBUG TRUE
+include "bugfix.asm"
+DEBUG = 1

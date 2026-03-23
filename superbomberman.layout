@@ -1,0 +1,55 @@
+BANK0:
+    address = 0xc00000
+    size = 0x10000
+    fill = 0
+    offset = 0x0
+    
+BANK1:
+    address = BANK0.address + BANK0.size
+    size = BANK0.size
+    fill = 0
+    offset = BANK0.offset + BANK0.size
+    
+BANK2:
+    address = BANK1.address + BANK1.size
+    size = BANK0.size
+    fill = 0
+    offset = BANK1.offset + BANK1.size
+    
+BANK3:
+    address = BANK2.address + BANK2.size
+    size = BANK0.size
+    fill = 0
+    offset = BANK2.offset + BANK2.size
+    
+BANK4:
+    address = BANK3.address + BANK3.size
+    size = BANK0.size
+    fill = 0
+    offset = BANK3.offset + BANK3.size
+    
+BANK5:
+    address = BANK4.address + BANK4.size
+    size = BANK0.size
+    fill = 0
+    offset = BANK4.offset + BANK4.size
+    
+BANK6:
+    address = BANK5.address + BANK5.size
+    size = BANK0.size
+    fill = 0
+    offset = BANK5.offset + BANK5.size
+    
+BANK7:
+    address = BANK6.address + BANK6.size
+    size = BANK0.size
+    fill = 0
+    offset = BANK6.offset + BANK6.size
+    
+RAM:
+    address = 0x7e0000
+    size = 0x20000
+    
+; Fake RAM segment for defining structs
+STRUCTS:
+    address = 0

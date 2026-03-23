@@ -1,339 +1,378 @@
-.struct registers_init_table_entry
-    offset .BYTE
-    value .BYTE
-.endstruct
+struct registers_init_table_entry
+.offset:
+    ds 1
+.value:
+    ds 1
+endstruct
 
-.macro registers_init_table_entry offset, value
-        .BYTE .LOBYTE(offset)
-        .BYTE value
-.endmacro
+macro registers_init_table_entry offset, value
+    db low(offset)
+    db value
+endmacro
 
-.struct animation_frame
-    address .FARADDR
-    length .BYTE
-.endstruct
+struct animation_frame
+.address:
+    ds 3
+.length:
+    ds 1
+endstruct
 
-.macro animation_frame address, length
-        .FARADDR address
-        .BYTE length
-.endmacro
+macro animation_frame address, length
+    df address
+    db length
+endmacro
 
-.struct frame_oam_tile
-x_position        .BYTE
-y_position        .BYTE
-tile              .WORD
-flags_and_palette .BYTE
-.endstruct
+struct frame_oam_tile
+.x_position:
+    ds 1
+.y_position:
+    ds 1
+.tile:
+    ds 2
+.flags_and_palette:
+    ds 1
+endstruct
 
-.macro frame_oam_tile x_position, y_position, tile, flags_and_palette
-        .BYTE (x_position) & $FF
-        .BYTE (y_position) & $FF
-        .WORD tile
-        .BYTE flags_and_palette
-.endmacro
+macro frame_oam_tile x_position, y_position, tile, flags_and_palette
+    db (x_position) & 0xFF
+    db (y_position) & 0xFF
+    dw tile
+    db flags_and_palette
+endmacro
 
-.struct battle_menu_item
-    x_position     .WORD
-    y_position     .WORD
-    max_value      .WORD
-    option_list    .ADDR
-    unused         .WORD
-                   .WORD
-                   .WORD
-                   .WORD
-.endstruct
+struct battle_menu_item
+.x_position:
+    ds 2
+.y_position:
+    ds 2
+.max_value:
+    ds 2
+.option_list:
+    ds 2
+.unused:
+    ds 2
+    ds 2
+    ds 2
+    ds 2
+endstruct
 
-.macro battle_menu_item x_position, y_position, max_value, option_list
-        .WORD x_position
-        .WORD y_position
-        .WORD max_value
-        .ADDR option_list
-        .RES 8
-.endmacro
+macro battle_menu_item x_position, y_position, max_value, option_list
+    dw x_position
+    dw y_position
+    dw max_value
+    dw option_list
+    ds 8
+endmacro
 
 
 ; Object structures
 
-.struct object
-    handler .FARADDR
-.endstruct
-
-.struct level_manager_object
-    .TAG object
-    bonus_count     .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-    fade_related_   .WORD
-    anonymous_1     .WORD
-                    .BYTE
-                    .BYTE
-    anonymous_2     .WORD
-    pointer_to_enemy_list .ADDR
-    pointer_to_bonus_list .ADDR
-    anonymous_5     .WORD
-                    .BYTE
-                    .BYTE
-    anonymous_6     .WORD
-                    .BYTE
-                    .BYTE
-    level_representation .BYTE
-    enemy_count     .WORD
-                    .BYTE
-    anonymous_7     .WORD
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-                    .BYTE
-    anonymous_8     .WORD
-    gameover_related .WORD
-                    .BYTE
-    anonymous_9     .BYTE
-    number_of_human_players .BYTE
-    number_of_ai_players .BYTE
-    spawn_and_flags .WORD
-    anonymous_10    .WORD
-    soft_blocks     .WORD
-    field_3E        .BYTE
-    current_screen        .BYTE
-.endstruct
+struct object
+.handler:
+    ds 3
+endstruct
 
 ; Fields that are common to both player, enemy and most other visible objects
-.struct sprite
-    .TAG object
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-current_animation .FARADDR
-max_frame       .BYTE
-current_frame   .BYTE
-ticks_left_for_frames .BYTE
-palette         .WORD
-                .BYTE
-x_position      .BYTE
-                .BYTE
-                .BYTE
-y_position      .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-effective_palette .BYTE
-real_palette    .BYTE
-direction       .BYTE
-                .BYTE
-                .WORD
-                .WORD
-                .BYTE
-                .BYTE
-                .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-.endstruct
+struct sprite
+    .handler:
+    ds 3
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.current_animation:
+    ds 3
+.max_frame:
+    ds 1
+.current_frame:
+    ds 1
+.ticks_left_for_frames:
+    ds 1
+.palette:
+    ds 2
+    ds 1
+.x_position:
+    ds 1
+    ds 1
+    ds 1
+.y_position:
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.effective_palette:
+    ds 1
+.real_palette:
+    ds 1
+.direction:
+    ds 1
+    ds 1
+    ds 2
+    ds 2
+    ds 1
+    ds 1
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+endstruct
 
-.struct player
-    .TAG object
-                .BYTE
-gameover_related .BYTE
-player_index    .BYTE
-                .BYTE
-is_ai           .BYTE
-current_animation .FARADDR
-max_frame       .BYTE
-current_frame   .BYTE
-ticks_left_for_frames .BYTE
-palette         .WORD
-wrap_delay      .BYTE
-x_position      .BYTE
-                .BYTE
-                .BYTE
-y_position      .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-score_digits_56 .BYTE
-score_digits_78 .BYTE
-socre_digits_12 .BYTE
-score_digits_34 .BYTE
-effective_palette .BYTE
-real_palette    .BYTE
-direction       .BYTE
-                .BYTE
-down_keys       .WORD
-current_bomb_count .WORD
-                .BYTE
-                .BYTE
-anonymous_6     .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-anonymous_7     .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-trampoline_state .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-position_related .BYTE
-                .BYTE
-                .BYTE
-number_of_lives .BYTE
-                .BYTE
-field_3F        .BYTE
-.endstruct
+struct player
+.handler:
+    ds 3
+    ds 1
+.gameover_related:
+    ds 1
+.player_index:
+    ds 1
+    ds 1
+.is_ai:
+    ds 1
+.current_animation:
+    ds 3
+.max_frame:
+    ds 1
+.current_frame:
+    ds 1
+.ticks_left_for_frames:
+    ds 1
+.palette:
+    ds 2
+.wrap_delay:
+    ds 1
+.x_position:
+    ds 1
+    ds 1
+    ds 1
+.y_position:
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.score_digits_56:
+    ds 1
+.score_digits_78:
+    ds 1
+.socre_digits_12:
+    ds 1
+.score_digits_34:
+    ds 1
+.effective_palette:
+    ds 1
+.real_palette:
+    ds 1
+.direction:
+    ds 1
+    ds 1
+.down_keys:
+    ds 2
+.current_bomb_count:
+    ds 2
+    ds 1
+    ds 1
+.anonymous_6:
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.anonymous_7:
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+.trampoline_state:
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.position_related:
+    ds 1
+    ds 1
+    ds 1
+.number_of_lives:
+    ds 1
+    ds 1
+.field_3F:
+    ds 1
+endstruct
 
-.struct enemy
-.TAG object
-                .BYTE
-prev            .WORD
-next            .WORD
-current_animation .FARADDR
-max_frame       .BYTE
-current_frame   .BYTE
-ticks_left_for_frames .BYTE
-palette         .WORD
-fractional_x    .BYTE
-x_position      .BYTE
-                .BYTE
-fractional_y    .BYTE
-y_position      .BYTE
-                .BYTE
-animation       .BYTE
-                .BYTE
-                .BYTE
-speed           .BYTE
-hitpoints_left  .BYTE
-                .BYTE
-collision_mask  .BYTE
-                .BYTE
-effective_palette .BYTE
-real_palette    .BYTE
-direction       .BYTE
-hits_left_for_direction_switch .BYTE
-animation_direction .WORD
-                .WORD
-                .BYTE
-                .BYTE
-anonymous_6     .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-anonymous_7     .BYTE
-field_30        .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-position_related .BYTE
-                .BYTE
-                .BYTE
-score_index     .BYTE
-carried_bonus   .BYTE
-flags           .BYTE
-.endstruct
+struct enemy
+.handler:
+    ds 3
+    ds 1
+.prev:
+    ds 2
+.next:
+    ds 2
+.current_animation:
+    ds 3
+.max_frame:
+    ds 1
+.current_frame:
+    ds 1
+.ticks_left_for_frames:
+    ds 1
+.palette:
+    ds 2
+.fractional_x:
+    ds 1
+.x_position:
+    ds 1
+    ds 1
+.fractional_y:
+    ds 1
+.y_position:
+    ds 1
+    ds 1
+.animation:
+    ds 1
+    ds 1
+    ds 1
+.speed:
+    ds 1
+.hitpoints_left:
+    ds 1
+    ds 1
+.collision_mask:
+    ds 1
+    ds 1
+.effective_palette:
+    ds 1
+.real_palette:
+    ds 1
+.direction:
+    ds 1
+.hits_left_for_direction_switch:
+    ds 1
+.animation_direction:
+    ds 2
+    ds 2
+    ds 1
+    ds 1
+.anonymous_6:
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.anonymous_7:
+    ds 1
+.field_30:
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.position_related:
+    ds 1
+    ds 1
+    ds 1
+.score_index:
+    ds 1
+.carried_bonus:
+    ds 1
+.flags:
+    ds 1
+endstruct
 
-.struct score_popup_object
-.TAG object
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .FARADDR
-                .BYTE
-                .BYTE
-                .BYTE
-palette         .WORD
-                .BYTE
-x_position      .BYTE
-                .BYTE
-                .BYTE
-y_position      .BYTE
-                .BYTE
-score_index     .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-effective_palette .BYTE
-real_palette    .BYTE
-                .BYTE
-                .BYTE
-                .WORD
-                .WORD
-                .BYTE
-                .BYTE
-                .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .WORD
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-                .BYTE
-field_3D        .BYTE
-carried_bonus   .BYTE
-flags           .BYTE
-.endstruct
+struct score_popup_object
+.handler:
+    ds 3
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 3
+    ds 1
+    ds 1
+    ds 1
+.palette:
+    ds 2
+    ds 1
+.x_position:
+    ds 1
+    ds 1
+    ds 1
+.y_position:
+    ds 1
+    ds 1
+.score_index:
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.effective_palette:
+    ds 1
+.real_palette:
+    ds 1
+    ds 1
+    ds 1
+    ds 2
+    ds 2
+    ds 1
+    ds 1
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 2
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+    ds 1
+.field_3D:
+    ds 1
+.carried_bonus:
+    ds 1
+.flags:
+    ds 1
+endstruct

@@ -1,4 +1,4 @@
-.DEFINE J TRUE
+J = 1
 
 TM_ON_LOGO = 0
 TIGHT_DRAW_SPACING = 1
@@ -21,8 +21,8 @@ SHORT_GAMEOVER_BRANCH = 1
 JOYPAD_RELATED_BUGFIX = 0
 
 ; Some addressing modes were changed in the localizations
-.DEFINE AZ z:
-.DEFINE AZ2 z:
+define az z
+define az2 z
 
 ; Original bug fixes and features
 FIXED_KURO_VICTORY_PALETTE = 0

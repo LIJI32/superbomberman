@@ -1,36 +1,30 @@
+macro fill addr
+    if addr > .
+        org addr
+    elif addr < .
+        warning "Overflow detected at ", .
+    endif
+endmacro
 
-.macro FILL addr
-.if addr > *
-		.RES addr - *, $00
-.elseif addr < *
-        .warning .concat("Overflow detected at ", .STRING(*))
-.endif
-.endmacro
+macro data_end
+    nop ; A nop opcode (EA) marks the end of most data sections
+endmacro
 
-.macro DATA_END
-		NOP ; A NOP command (EA) marks the end of most data sections
-.endmacro
-
-.macro ASSET type, name
+macro asset type, name
 name:
-.incbin .CONCAT(.STRING(type), "/", .STRING(name), ".bin")
-.endmacro
+incbin "type/name.bin"
+endmacro
 
-.macro ASSET2 type, subtype, name
+macro asset_j type, name
 name:
-.incbin .CONCAT(.STRING(type), "/", .STRING(subtype), "/", .STRING(name), ".bin")
-.endmacro
+incbin "type/name" + "_j.bin"
+endmacro
 
-.macro ASSET_J type, name
-name:
-.incbin .CONCAT(.STRING(type), "/", .STRING(name), "_j.bin")
-.endmacro
+macro struct struct_name
+org 0
+struct_name:
+endmacro
 
-.macro ASSET2_J type, subtype, name
-name:
-.incbin .CONCAT(.STRING(type), "/", .STRING(subtype), "/", .STRING(name), "_j.bin")
-.endmacro
-
-.macro DATA length
-.ORG * + length
-.endmacro
+macro endstruct
+.size
+endmacro

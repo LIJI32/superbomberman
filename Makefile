@@ -1,41 +1,25 @@
-#### General and ASM rules ####
-
 OUT :=
 CONFIG ?= us
 .SECONDARY:
 MD5SUM := $(shell which md5 md5sum | head -n 1)
 SHELL := $(shell which bash)
 
-# Update configuration selection file if needed
-CONFIG_LINE := '.DEFINE CONFIG "$(CONFIG)"'
-
-$(if $(shell ls config.asm 2>/dev/null), \
-	$(if $(shell grep -v $(CONFIG_LINE) config.asm), \
-		$(shell echo $(CONFIG_LINE) > config.asm) \
-	), \
-	$(shell echo $(CONFIG_LINE) > config.asm) \
-)
-
-all: rom.sfc compare
+all: superbomberman.sfc compare
 .PHONY: all compare clean
 
 -include superbomberman.dep
 # Files not caught by create_dep:
-superbomberman.o: config/$(CONFIG).asm graphics/overlays/bomb_and_explosions_palette_0.bin graphics/overlays/bomb_and_explosions_palette_1.bin
+superbomberman.sfc: config/$(CONFIG).asm graphics/overlays/bomb_and_explosions_palette_0.bin graphics/overlays/bomb_and_explosions_palette_1.bin
 
 TITLE = "\033[1m\033[36m"
 TITLE_END = "\033[0m"
 
-%.o: %.asm
-	@echo -e $(TITLE)Compiling $@...$(TITLE_END)
-	ca65 -g -t none --cpu 65816 $< -o $@
-
 %.dep: %.asm
 	@python tools/create_dep.py $< > $@
 
-rom.sfc: superbomberman.o tools/checksum.py
-	@echo -e $(TITLE)Creating $@...$(TITLE_END)
-	ld65 $< -o $@ -C snes.cfg
+superbomberman.sfc: superbomberman.asm superbomberman.layout tools/checksum.py
+	@echo -e $(TITLE)Compiling $@...$(TITLE_END)
+	sfcasm $< -o $@ -l superbomberman.layout -V "CONFIG=\"$(CONFIG)\""
 	python tools/checksum.py $@
 
 
@@ -169,16 +153,16 @@ tilemaps/compressed_%.bin: tilemaps/%.def
 
 
 clean:
-	-@rm -f *.o *.dep rom.sfc $(TARGETS)
+	-@rm -f *.dep superbomberman.sfc $(TARGETS)
 	-@find graphics -name "*.bin" -exec rm -rf {} \;
 	-@find level_structures -name "*.bin" -exec rm -rf {} \;
 	-@find tilemaps -name "*.bin" -exec rm -rf {} \;
 	-@find dboot/songs -name "*.bin" -exec rm -rf {} \;
 	-@find . -lname "*" -exec rm -rf {} \;
 
-compare: rom.sfc
+compare: superbomberman.sfc
 	$(eval MD5 := $(shell $(MD5SUM) $< | sed "s/.*\([0-9a-f]\{32\}\).*/\\1/"))
-	@echo -e "\033[1mrom.sfc               :" $(MD5) "\033[0m"
+	@echo -e "\033[1msuperbomberman.sfc               :" $(MD5) "\033[0m"
 	@echo "Super Bomberman 1 (US)           : d83699a009a62480a7e7e9f1bb5bff6e" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
 	@echo "Super Bomberman 1 (J)            : cbef5f02304a2b821a0e1642a6307564" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
 	@echo "Super Bomberman 1 (E)            : ddee4ddff2f3b6e31b8f73d0cb597ef1" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E

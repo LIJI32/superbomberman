@@ -16,7 +16,7 @@ The [randomizer branch](https://github.com/LIJI32/superbomberman/tree/randomizer
 # Requirements
 The following are required to build a ROM:
 * A UNIX-like system to build the ROM on. I generally use OS X to build, but I also correctly built a ROM on a Linux system. I did not test on other UNIX-like systems or Windows.
-* ca65 and ld65, from the [cc65 package](https://github.com/cc65/cc65). It is required for assembling and linking the ROM.
+* sfcasm (tbd)
 * md5 or md5sum, for verifying the ROM after compilation
 * python, required to run many of the game- and SNES-specific tools in this repository, such as graphic and audio conversion tools
 
