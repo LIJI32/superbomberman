@@ -1,11 +1,9 @@
 fill 0xC48000
 dboot_command:
-    BRA loc_C48012
-; ---------------------------------------------------------------------------
+    BRA .loc_C48012
 db " DBOOT VER1.03 ", 0
-; ---------------------------------------------------------------------------
 
-loc_C48012:
+.loc_C48012:
     PHP
     PHB
     PHD
@@ -25,9 +23,9 @@ loc_C48012:
     ASL A
     TAX
     JMP [addr(dboot_commands_array),X]
-; ---------------------------------------------------------------------------
+    ; fallthrough
 
-loc_C4802A:
+sub_C4802A:
     PLY
     PLX
     PLA
@@ -35,9 +33,7 @@ loc_C4802A:
     PLB
     PLP
     RTL
-; End of function dboot_command
 
-; ---------------------------------------------------------------------------
 dboot_commands_array:
     da dboot_init_internal, sub_C48076; 0
     da sub_C48085, sub_C48099; 2
@@ -60,8 +56,7 @@ dboot_init_internal:
     JSR a:addr(clear_dboot_data)
     JSR a:addr(init_array_of_music_related_pointers)
     PLP
-    JML loc_C4802A
-; End of function dboot_init_internal
+    JML sub_C4802A
 
 sub_C48076:
     PLX
@@ -70,8 +65,7 @@ sub_C48076:
     JSR a:addr(init_array_of_music_related_pointers)
     JSR a:addr(sub_C4840E)
     PLP
-    JML loc_C4802A
-; End of function sub_C48076
+    JML sub_C4802A
 
 sub_C48085:
     PLX
@@ -84,8 +78,7 @@ sub_C48085:
     STA z:0x1A
     JSR a:addr(load_music_bank)
     PLP
-    JML loc_C4802A
-; End of function sub_C48085
+    JML sub_C4802A
 
 sub_C48099:
     PLX
@@ -94,8 +87,7 @@ sub_C48099:
     TYA
     JSR a:addr(send_7_bit_data_on_apu_io_0)
     PLP
-    JML loc_C4802A
-; End of function sub_C48099
+    JML sub_C4802A
 
 sub_C480A6:
     PLX
@@ -104,8 +96,7 @@ sub_C480A6:
     TYA
     JSR a:addr(send_7_bit_data_on_apu_io_1)
     PLP
-    JML loc_C4802A
-; End of function sub_C480A6
+    JML sub_C4802A
 
 sub_C480B3:
     PLX
@@ -121,8 +112,7 @@ sub_C480B3:
     STX z:4
     JSR a:addr(load_music_bank)
     PLP
-    JML loc_C4802A
-; End of function sub_C480B3
+    JML sub_C4802A
 
 sub_C480CC:
     PLX
@@ -132,8 +122,7 @@ sub_C480CC:
     JSR a:addr(init_array_of_music_related_pointers)
     JSR a:addr(sub_C4840E)
     PLP
-    JML loc_C4802A
-; End of function sub_C480CC
+    JML sub_C4802A
 
 play_music_internal:
     PLX
@@ -142,16 +131,15 @@ play_music_internal:
     PHY
     TYA
     JSR a:addr(play_music_return_should_reload_bank)
-    BCC loc_C480EF
+    BCC .loc_C480EF
     JSR a:addr(init_array_of_music_related_pointers)
     JSR a:addr(load_music_bank)
 
-loc_C480EF:
+.loc_C480EF:
     PLA
     JSR a:addr(send_7_bit_data_on_apu_io_0)
     PLP
-    JML loc_C4802A
-; End of function play_music_internal
+    JML sub_C4802A
 
 play_sound_internal:
     PLX
@@ -160,8 +148,7 @@ play_sound_internal:
     TYA
     JSR a:addr(send_7_bit_data_on_apu_io_1)
     PLP
-    JML loc_C4802A
-; End of function play_sound_internal
+    JML sub_C4802A
 
 fade_out_music_internal:
     PLX
@@ -170,8 +157,7 @@ fade_out_music_internal:
     LDA #0x3B
     JSR a:addr(send_7_bit_data_on_apu_io_0)
     PLP
-    JML loc_C4802A
-; End of function fade_out_music_internal
+    JML sub_C4802A
 
 sub_C48114:
     PLX
@@ -180,8 +166,7 @@ sub_C48114:
     LDA #0x3A
     JSR a:addr(send_7_bit_data_on_apu_io_0)
     PLP
-    JML loc_C4802A
-; End of function sub_C48114
+    JML sub_C4802A
 
 sub_C48123:
     PLX
@@ -190,8 +175,7 @@ sub_C48123:
     LDA #0x39
     JSR a:addr(send_7_bit_data_on_apu_io_0)
     PLP
-    JML loc_C4802A
-; End of function sub_C48123
+    JML sub_C4802A
 
 sub_C48132:
     PLX
@@ -200,8 +184,7 @@ sub_C48132:
     LDA #0x38
     JSR a:addr(send_7_bit_data_on_apu_io_0)
     PLP
-    JML loc_C4802A
-; End of function sub_C48132
+    JML sub_C4802A
 
 sub_C48141:
     PLX
@@ -211,8 +194,7 @@ sub_C48141:
     AND #0xFF
     STA z:0x74
     PLP
-    JML loc_C4802A
-; End of function sub_C48141
+    JML sub_C4802A
 
 sub_C48150:
     PLX
@@ -221,8 +203,7 @@ sub_C48150:
     LDA #0x3F
     JSR a:addr(send_7_bit_data_on_apu_io_0)
     PLP
-    JML loc_C4802A
-; End of function sub_C48150
+    JML sub_C4802A
 
 play_music_return_should_reload_bank:
     PHP
@@ -231,38 +212,35 @@ play_music_return_should_reload_bank:
     STA z:dboot_internal_parameter - dboot_ram_start
     LDA z:current_music_bank - dboot_ram_start
     INC A
-    BEQ loc_C48177
+    BEQ .loc_C48177
     JSR a:addr(init_array_of_music_related_pointers)
     JSR a:addr(parse_music_bank)
     JSR a:addr(is_music_in_current_bank)
-    BCC loc_C48193
+    BCC .loc_C48193
 
-loc_C48177:
+.loc_C48177:
     STZ z:current_music_bank - dboot_ram_start
 
-loc_C48179:
+.loc_C48179:
     JSR a:addr(init_array_of_music_related_pointers)
     JSR a:addr(parse_music_bank)
     JSR a:addr(is_music_in_current_bank)
-    BCC loc_C48190
+    BCC .loc_C48190
     INC z:current_music_bank - dboot_ram_start
     LDA z:0
     CMP z:current_music_bank - dboot_ram_start
-    BNE loc_C48179
-    JML loc_C48193
-; ---------------------------------------------------------------------------
+    BNE .loc_C48179
+    JML .loc_C48193
 
-loc_C48190:
+.loc_C48190:
     PLP
     SEC
     RTS
-; ---------------------------------------------------------------------------
 
-loc_C48193:
+.loc_C48193:
     PLP
     CLC
     RTS
-; End of function play_music_return_should_reload_bank
 
 is_music_in_current_bank:
     PHP
@@ -270,27 +248,25 @@ is_music_in_current_bank:
     SEP #0x10
     LDY #0
     LDX z:number_of_musics_in_bank - dboot_ram_start
-    BEQ loc_C481AB
+    BEQ .loc_C481AB
 
-loc_C481A1:
+.loc_C481A1:
     LDA f:[z:pointer_to_current_music_list - number_of_music_banks],Y
     CMP z:dboot_internal_parameter - dboot_ram_start
-    BEQ loc_C481AE
+    BEQ .loc_C481AE
     INY
     DEX
-    BNE loc_C481A1
+    BNE .loc_C481A1
 
-loc_C481AB:
+.loc_C481AB:
     PLP
     SEC
     RTS
-; ---------------------------------------------------------------------------
 
-loc_C481AE:
+.loc_C481AE:
     PLP
     CLC
     RTS
-; End of function is_music_in_current_bank
 
 sub_C481B1:
     PHP
@@ -304,7 +280,6 @@ sub_C481B1:
     INC z:unk_7E011C - dboot_ram_start
     PLP
     RTS
-; End of function sub_C481B1
 
 dboot_send_4_byte_command:
     PHP
@@ -315,7 +290,6 @@ dboot_send_4_byte_command:
     JSR a:addr(send_command_on_apu_io_2_3_part_2)
     PLP
     RTS
-; End of function dboot_send_4_byte_command
 
 sub_C481D3:
     PHP
@@ -330,7 +304,7 @@ sub_C481D3:
     LSR A
     TAX
 
-loc_C481E7:
+.loc_C481E7:
     LDA f:[z:0x64],Y
     STA f:APU_I_O_PORT_2
     SEP #0x20
@@ -339,17 +313,17 @@ loc_C481E7:
     AND #0x80
     STA f:APU_I_O_PORT_0
 
-loc_C481FB:
+.loc_C481FB:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C481FB
+    BNE .loc_C481FB
     REP #0x20
     INY
     INY
-    BPL loc_C48217
+    BPL .loc_C48217
 
-loc_C48207:
+.loc_C48207:
     DEX
-    BNE loc_C481E7
+    BNE .loc_C481E7
     LDA z:0x1C
     CLC
     ADC z:0x68
@@ -358,13 +332,11 @@ loc_C48207:
     STA z:0x1C
     PLP
     RTS
-; ---------------------------------------------------------------------------
 
-loc_C48217:
+.loc_C48217:
     INC z:0x66
     LDY #0x8000
-    JML loc_C48207
-; End of function sub_C481D3
+    JML .loc_C48207
 
 sub_C48220:
     PHP
@@ -379,7 +351,7 @@ sub_C48220:
     LSR A
     TAX
 
-loc_C48234:
+.loc_C48234:
     LDA f:[z:0x64],Y
     STA f:APU_I_O_PORT_2
     SEP #0x20
@@ -388,14 +360,14 @@ loc_C48234:
     AND #0x80
     STA f:APU_I_O_PORT_0
 
-loc_C48248:
+.loc_C48248:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C48248
+    BNE .loc_C48248
     REP #0x20
     INY
     INY
     DEX
-    BNE loc_C48234
+    BNE .loc_C48234
     LDA z:0x1C
     CLC
     ADC z:0x68
@@ -404,7 +376,6 @@ loc_C48248:
     STA z:0x1C
     PLP
     RTS
-; End of function sub_C48220
 
 send_command_on_apu_io_2_3:
     PHP
@@ -416,12 +387,11 @@ send_command_on_apu_io_2_3:
     ORA #0x40
     STA f:APU_I_O_PORT_0
 
-loc_C48277:
+.loc_C48277:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C48277
+    BNE .loc_C48277
     PLP
     RTS
-; End of function send_command_on_apu_io_2_3
 
 send_command_on_apu_io_2_3_part_2:
     PHP
@@ -433,12 +403,11 @@ send_command_on_apu_io_2_3_part_2:
     AND #0x80
     STA f:APU_I_O_PORT_0
 
-loc_C48294:
+.loc_C48294:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C48294
+    BNE .loc_C48294
     PLP
     RTS
-; End of function send_command_on_apu_io_2_3_part_2
 
 load_music_bank:
     PHP
@@ -457,7 +426,6 @@ load_music_bank:
     JSR a:addr(sub_C484D1)
     PLP
     RTS
-; End of function load_music_bank
 
 init_array_of_music_related_pointers:
     PHP
@@ -465,7 +433,7 @@ init_array_of_music_related_pointers:
     SEP #0x10
     LDX #0
 
-loc_C482CB:
+.loc_C482CB:
     LDA f:dboot_data_offsets,X
     XBA
     STA z:unk_7E0166 - dboot_ram_start
@@ -488,7 +456,7 @@ loc_C482CB:
     INX
     INX
     CPX #0x18
-    BNE loc_C482CB
+    BNE .loc_C482CB
     LDY #0
     LDA f:[z:array_of_music_related_pointers - number_of_music_banks],Y
     XBA
@@ -502,7 +470,6 @@ loc_C482CB:
     STA z:array_of_music_related_pointers + 2 - number_of_music_banks
     PLP
     RTS
-; End of function init_array_of_music_related_pointers
 
 parse_music_bank:
     PHP
@@ -512,20 +479,19 @@ parse_music_bank:
     STA z:dboot_temp - dboot_ram_start
     LDA z:current_music_bank - dboot_ram_start
     CMP z:number_of_music_banks - number_of_music_banks
-    BCC loc_C48324
+    BCC .loc_C48324
     STZ z:current_music_bank - dboot_ram_start
 
-loc_C48324:
+.loc_C48324:
     LDA z:dboot_temp - dboot_ram_start
     CMP z:current_music_bank - dboot_ram_start
-    BNE loc_C48331
+    BNE .loc_C48331
     INY
     INY
     JSR a:addr(save_pointers_for_current_sound_bank) ; Pointer to the bank triplet
-    BRA loc_C48352
-; ---------------------------------------------------------------------------
+    BRA .loc_C48352
 
-loc_C48331:
+.loc_C48331:
     SEC
     LDA z:array_of_music_related_pointers - dboot_ram_start
     ADC f:[z:array_of_music_related_pointers - number_of_music_banks],Y
@@ -541,13 +507,11 @@ loc_C48331:
     ADC z:array_of_music_related_pointers+2 - dboot_ram_start
     STA z:array_of_music_related_pointers+2 - dboot_ram_start
     INC z:dboot_temp - dboot_ram_start
-    JML loc_C48324
-; ---------------------------------------------------------------------------
+    JML .loc_C48324
 
-loc_C48352:
+.loc_C48352:
     PLP
     RTS
-; End of function parse_music_bank
 
 save_pointers_for_current_sound_bank:
 i16
@@ -614,7 +578,6 @@ i16
     STA z:array_of_music_related_pointers+2 - dboot_ram_start
     PLP
     RTS
-; End of function save_pointers_for_current_sound_bank
 
 clear_sound_related_buffer:
     PHP
@@ -622,42 +585,40 @@ clear_sound_related_buffer:
     LDX #0x7F
     LDA #0xFF
 
-loc_C483D4:
+.loc_C483D4:
     STA f:sound_related_buffer,X
     STA f:unk_7FFC80,X
     STA f:loaded_instruments,X
     STA f:unk_7FFD80,X
     STA f:unk_7FFE00,X
     DEX
-    BPL loc_C483D4
+    BPL .loc_C483D4
     PLP
     RTS
-; End of function clear_sound_related_buffer
 
 clear_dboot_data:
     PHP
     SEP #0x30
     LDX #0x7F
 
-loc_C483F2:
+.loc_C483F2:
     STZ z:number_of_music_banks - number_of_music_banks,X
     DEX
-    BPL loc_C483F2
+    BPL .loc_C483F2
     REP #0x10
 i16
     LDX #0x27F
     LDA #0
 
-loc_C483FE:
+.loc_C483FE:
     STA f:0x7FFC00,X
     DEX
-    BPL loc_C483FE
+    BPL .loc_C483FE
     REP #0x20
     LDA #0xFFFF
     STA z:current_music_bank - dboot_ram_start
     PLP
     RTS
-; End of function clear_dboot_data
 
 sub_C4840E:
     PHP
@@ -670,7 +631,6 @@ sub_C4840E:
     JSR a:addr(sub_C484D1)
     PLP
     RTS
-; End of function sub_C4840E
 
 dboot_load_spc_program:
     PHP
@@ -679,82 +639,78 @@ dboot_load_spc_program:
     STZ z:dboot_temp_pointer - dboot_ram_start
     LDA #0xBBAA
 
-loc_C4842B:
+.loc_C4842B:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C4842B
+    BNE .loc_C4842B
     SEP #0x20
     LDA #0xCC
-    BRA loc_C48476
-; ---------------------------------------------------------------------------
+    BRA .loc_C48476
 
-loc_C48437:
+.loc_C48437:
     LDY #0x8000
     INC z:dboot_temp_pointer+2 - dboot_ram_start
-    JML loc_C4844E
-; ---------------------------------------------------------------------------
+    JML .loc_C4844E
 
-loc_C48440:
+.loc_C48440:
     LDY #0x8000
     INC z:dboot_temp_pointer+2 - dboot_ram_start
-    JML loc_C48459
-; ---------------------------------------------------------------------------
+    JML .loc_C48459
 
-loc_C48449:
+.loc_C48449:
     LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
     INY
-    BEQ loc_C48437
+    BEQ .loc_C48437
 
-loc_C4844E:
+.loc_C4844E:
     XBA
     LDA #0
-    BRA loc_C48461
-; ---------------------------------------------------------------------------
+    BRA .loc_C48461
 
-loc_C48453:
+.loc_C48453:
     XBA
     LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
     INY
-    BEQ loc_C48440
+    BEQ .loc_C48440
 
-loc_C48459:
+.loc_C48459:
     XBA
 
-loc_C4845A:
+.loc_C4845A:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C4845A
+    BNE .loc_C4845A
     INC A
 
-loc_C48461:
+.loc_C48461:
     REP #0x20
     STA f:APU_I_O_PORT_0
     SEP #0x20
     DEX
-    BNE loc_C48453
+    BNE .loc_C48453
 
-loc_C4846C:
+.loc_C4846C:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C4846C
+    BNE .loc_C4846C
 
-loc_C48472:
+.loc_C48472:
     ADC #3
-    BEQ loc_C48472
+    BEQ .loc_C48472
 
-loc_C48476:
+.loc_C48476:
     PHA
     REP #0x20
     LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
     INY
     INY
-    BPL loc_C484A7
+    BPL .loc_C484A7
 
-loc_C4847F:
+.loc_C4847F:
     TAX
     LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
     INY
     INY
-    BPL loc_C484AE
+    BPL .loc_C484AE
 
-loc_C48486:
+.loc_C48486:
     STA f:APU_I_O_PORT_2
     SEP #0x20
     CPX #1
@@ -765,23 +721,20 @@ loc_C48486:
     PLA
     STA f:APU_I_O_PORT_0
 
-loc_C4849D:
+.loc_C4849D:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C4849D
-    BVS loc_C48449
+    BNE .loc_C4849D
+    BVS .loc_C48449
     PLP
     RTS
-; ---------------------------------------------------------------------------
 
-loc_C484A7:
+.loc_C484A7:
     JSR a:addr(sub_C484B5)
-    JML loc_C4847F
-; ---------------------------------------------------------------------------
+    JML .loc_C4847F
 
-loc_C484AE:
+.loc_C484AE:
     JSR a:addr(sub_C484B5)
-    JML loc_C48486
-; End of function dboot_load_spc_program
+    JML .loc_C48486
 
 sub_C484B5:
     PHP
@@ -794,7 +747,6 @@ sub_C484B5:
     PLA
     PLP
     RTS
-; End of function sub_C484B5
 
 send_apu_command_3e:
     PHP
@@ -804,20 +756,18 @@ send_apu_command_3e:
     JSR a:addr(apu_io2_related)
     PLP
     RTS
-; End of function send_apu_command_3e
 
 sub_C484D1:
     PHP
     REP #0x20
     LDA #0x968
 
-loc_C484D7:
+.loc_C484D7:
     CMP f:APU_I_O_PORT_2
-    BNE loc_C484D7
+    BNE .loc_C484D7
     STZ z:0x76
     PLP
     RTS
-; End of function sub_C484D1
 
 apu_io2_related:
     PHP
@@ -826,9 +776,9 @@ apu_io2_related:
     STA f:APU_I_O_PORT_2
     LDA #0x265
 
-loc_C484EE:
+.loc_C484EE:
     CMP f:APU_I_O_PORT_2
-    BNE loc_C484EE
+    BNE .loc_C484EE
     PHA
     LDA #0
     STA f:APU_I_O_PORT_0
@@ -836,7 +786,6 @@ loc_C484EE:
     STA f:APU_I_O_PORT_2
     PLP
     RTS
-; End of function apu_io2_related
 
 send_7_bit_data_on_apu_io_0:
     PHP
@@ -844,9 +793,9 @@ send_7_bit_data_on_apu_io_0:
     STA z:dboot_internal_parameter - dboot_ram_start
     LDA z:last_write_to_apu_io_0 - dboot_ram_start
 
-loc_C4850A:
+.loc_C4850A:
     CMP f:APU_I_O_PORT_0
-    BNE loc_C4850A
+    BNE .loc_C4850A
     LDA f:APU_I_O_PORT_0
     EOR #0x80    ; Toggle the last bit every write
     AND #0x80
@@ -855,7 +804,6 @@ loc_C4850A:
     STA z:last_write_to_apu_io_0 - dboot_ram_start
     PLP
     RTS
-; End of function send_7_bit_data_on_apu_io_0
 
 send_7_bit_data_on_apu_io_1:
     PHP
@@ -868,7 +816,6 @@ send_7_bit_data_on_apu_io_1:
     STA f:APU_I_O_PORT_1
     PLP
     RTS
-; End of function send_7_bit_data_on_apu_io_1
 
 load_instruments:
     PHP
@@ -895,7 +842,7 @@ load_instruments:
     LDY #2
     STZ z:number_of_loaded_instruments - dboot_ram_start
 
-loc_C48565:
+.loc_C48565:
     LDA z:dboot_internal_parameter - dboot_ram_start
     JSR a:addr(sub_C481B1)
     LDA #0
@@ -907,10 +854,10 @@ loc_C48565:
     INC z:number_of_loaded_instruments - dboot_ram_start
     REP #0x20 
     INC z:dboot_temp_pointer - dboot_ram_start
-    BNE loc_C48582
+    BNE .loc_C48582
     INC z:dboot_temp_pointer+2 - dboot_ram_start
 
-loc_C48582:
+.loc_C48582:
     TXA
     ASL A
     ASL A
@@ -923,7 +870,7 @@ loc_C48582:
     ADC z:dboot_internal_parameter - dboot_ram_start
     STA z:dboot_internal_parameter - dboot_ram_start
     DEC z:instrument_loop_counter - dboot_ram_start
-    BNE loc_C48565
+    BNE .loc_C48565
     LDA z:pointer_to_instrument_list - dboot_ram_start
     STA z:dboot_temp_pointer - dboot_ram_start
     LDA z:pointer_to_instrument_list+2 - dboot_ram_start
@@ -936,7 +883,7 @@ loc_C48582:
     STA z:current_pointer_to_instrument_related_data+2 - dboot_ram_start
     STZ z:number_of_loaded_instruments - dboot_ram_start
 
-loc_C485AC:
+.loc_C485AC:
     LDA #0
     SEP #0x20
     LDA f:[z:dboot_temp_pointer - number_of_music_banks]
@@ -947,10 +894,10 @@ loc_C485AC:
     ADC #2
     TAY
     INC z:dboot_temp_pointer - dboot_ram_start
-    BNE loc_C485C2
+    BNE .loc_C485C2
     INC z:0x52
 
-loc_C485C2:
+.loc_C485C2:
     LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks],Y
     XBA
     STA z:unk_7E0134 - dboot_ram_start
@@ -964,7 +911,7 @@ loc_C485C2:
     LSR A
     STA z:0x38
 
-loc_C485D2:
+.loc_C485D2:
     LDA z:unk_7E0134 - dboot_ram_start
     CLC
     ADC #0xC
@@ -975,12 +922,12 @@ loc_C485D2:
     TAX
     LDA f:unk_7FFD80,X
     CMP #0xFF
-    BNE loc_C485F1
+    BNE .loc_C485F1
     LDA z:number_of_loaded_instruments - dboot_ram_start
     STA f:0x7FFD80,X
     INC z:number_of_loaded_instruments - dboot_ram_start
 
-loc_C485F1:    
+.loc_C485F1:    
     REP #0x20 
     LDA z:unk_7E0134 - dboot_ram_start
     CLC
@@ -997,36 +944,33 @@ loc_C485F1:
     ADC #0x10
     STA z:unk_7E0134 - dboot_ram_start
     DEC z:unk_7E0138 - dboot_ram_start
-    BEQ loc_C48619
-    JML loc_C485D2
-; ---------------------------------------------------------------------------
+    BEQ .loc_C48619
+    JML .loc_C485D2
 
-loc_C48619:
+.loc_C48619:
     DEC z:instrument_loop_counter - dboot_ram_start
-    BEQ loc_C48621
-    JML loc_C485AC
-; ---------------------------------------------------------------------------
+    BEQ .loc_C48621
+    JML .loc_C485AC
 
-loc_C48621:
+.loc_C48621:
     SEP #0x30
     LDY #0
 
-loc_C48625:
+.loc_C48625:
     TYX
     LDA f:0x7FFD80,X
     CMP #0xFF
-    BEQ loc_C48634
+    BEQ .loc_C48634
     TAX
     TYA
     STA f:0x7FFE00,X
 
-loc_C48634:
+.loc_C48634:
     INY
     CPY #0x80
-    BNE loc_C48625
+    BNE .loc_C48625
     PLP
     RTS
-; End of function load_instruments
 
 sub_C4863B:
     PHP
@@ -1045,15 +989,15 @@ sub_C4863B:
     LDX #0x7F
     STZ z:0x30
 
-loc_C48659:
+.loc_C48659:
     LDA f:0x7FFE00,X
     CMP #0xFF
-    BEQ loc_C48663
+    BEQ .loc_C48663
     INC z:0x30
 
-loc_C48663:
+.loc_C48663:
     DEX
-    BPL loc_C48659
+    BPL .loc_C48659
     REP #0x30
     LDA z:0x30
     AND #0xFF
@@ -1075,12 +1019,12 @@ loc_C48663:
     STA z:0x4C
     LDX #0
 
-loc_C48690:
+.loc_C48690:
     LDA f:0x7FFE00,X
     INX
     AND #0xFF
     CMP #0xFF
-    BEQ loc_C486C5
+    BEQ .loc_C486C5
     ASL A
     ASL A
     ASL A
@@ -1106,13 +1050,12 @@ loc_C48690:
     AND #0xFFFE
     STA z:0x30
 
-loc_C486C5:
+.loc_C486C5:
     DEC z:0x4C
-    BEQ loc_C486CD
-    JML loc_C48690
-; ---------------------------------------------------------------------------
+    BEQ .loc_C486CD
+    JML .loc_C48690
 
-loc_C486CD:
+.loc_C486CD:
     LDA z:0xA
     STA z:0x50
     LDA z:0xC
@@ -1121,12 +1064,12 @@ loc_C486CD:
     STA z:0x4C
     LDX #0
 
-loc_C486DD:
+.loc_C486DD:
     LDA f:0x7FFE00,X
     INX
     AND #0xFF
     CMP #0xFF
-    BEQ loc_C4871E
+    BEQ .loc_C4871E
     ASL A
     ASL A
     ASL A
@@ -1159,16 +1102,14 @@ loc_C486DD:
     JSR a:addr(sub_C481D3)
     PLX
 
-loc_C4871E:
+.loc_C4871E:
     DEC z:0x4C
-    BEQ loc_C48726
-    JML loc_C486DD
-; ---------------------------------------------------------------------------
+    BEQ .loc_C48726
+    JML .loc_C486DD
 
-loc_C48726:
+.loc_C48726:
     PLP
     RTS
-; End of function sub_C4863B
 
 sub_C48728:
     PHP
@@ -1179,11 +1120,10 @@ sub_C48728:
     STA z:0x68
     JSR a:addr(dboot_send_4_byte_command)
     LDA z:0x20
-    BNE loc_C4873F
-    JML loc_C48829
-; ---------------------------------------------------------------------------
+    BNE .loc_C4873F
+    JML .loc_C48829
 
-loc_C4873F:
+.loc_C4873F:
     STA z:0x4C
     INC A
     ASL A
@@ -1203,15 +1143,15 @@ loc_C4873F:
     STA z:0x56
     STZ z:0x3C
 
-loc_C48760:
+.loc_C48760:
     LDA z:0x30
     JSR a:addr(sub_C481B1)
     LDA f:[z:0x50]
     INC z:0x50
-    BNE loc_C4876D
+    BNE .loc_C4876D
     INC z:0x52
 
-loc_C4876D:
+.loc_C4876D:
     AND #0xFF
     TAX
     SEP #0x20
@@ -1240,7 +1180,7 @@ loc_C4876D:
     AND #0xFFFE
     STA z:0x30
     DEC z:0x4C
-    BNE loc_C48760
+    BNE .loc_C48760
     LDA z:0x28
     STA z:0x50
     LDA z:0x2A
@@ -1252,13 +1192,13 @@ loc_C4876D:
     LDA z:0x14
     STA z:0x56
 
-loc_C487B8:
+.loc_C487B8:
     LDA f:[z:0x50]
     INC z:0x50
-    BNE loc_C487C0
+    BNE .loc_C487C0
     INC z:0x52
 
-loc_C487C0:
+.loc_C487C0:
     AND #0xFF
     ASL A
     ASL A
@@ -1310,12 +1250,11 @@ loc_C487C0:
     STA z:0x68
     JSR a:addr(sub_C481D3)
     DEC z:0x4C
-    BNE loc_C487B8
+    BNE .loc_C487B8
 
-loc_C48829:
+.loc_C48829:
     PLP
     RTS
-; End of function sub_C48728
 
 sub_C4882B:
     PHP
@@ -1326,11 +1265,10 @@ sub_C4882B:
     STA z:0x68
     JSR a:addr(dboot_send_4_byte_command)
     LDA z:0x22
-    BNE loc_C48842
-    JML loc_C4892C
-; ---------------------------------------------------------------------------
+    BNE .loc_C48842
+    JML .loc_C4892C
 
-loc_C48842:
+.loc_C48842:
     STA z:0x4C
     INC A
     ASL A
@@ -1350,15 +1288,15 @@ loc_C48842:
     STA z:0x56
     STZ z:0x3C
 
-loc_C48863:
+.loc_C48863:
     LDA z:0x30
     JSR a:addr(sub_C481B1)
     LDA f:[z:0x50]
     INC z:0x50
-    BNE loc_C48870
+    BNE .loc_C48870
     INC z:0x52
 
-loc_C48870:
+.loc_C48870:
     AND #0xFF
     TAX
     SEP #0x20
@@ -1388,7 +1326,7 @@ loc_C48870:
     AND #0xFFFE
     STA z:0x30
     DEC z:0x4C
-    BNE loc_C48863
+    BNE .loc_C48863
     LDA z:0x2C
     STA z:0x50
     LDA z:0x2E
@@ -1400,13 +1338,13 @@ loc_C48870:
     LDA z:0x18
     STA z:0x56
 
-loc_C488BB:
+.loc_C488BB:
     LDA f:[z:0x50]
     INC z:0x50
-    BNE loc_C488C3
+    BNE .loc_C488C3
     INC z:0x52
 
-loc_C488C3:
+.loc_C488C3:
     AND #0xFF
     ASL A
     ASL A
@@ -1458,12 +1396,11 @@ loc_C488C3:
     STA z:0x68
     JSR a:addr(sub_C481D3)
     DEC z:0x4C
-    BNE loc_C488BB
+    BNE .loc_C488BB
 
-loc_C4892C:
+.loc_C4892C:
     PLP
     RTS
-; End of function sub_C4882B
 
 sub_C4892E:
     PHP
@@ -1523,7 +1460,6 @@ sub_C4892E:
     JSR a:addr(dboot_send_4_byte_command)
     PLP
     RTS
-; End of function sub_C4892E
 
 sub_C489B7:
     PHP
@@ -1534,6 +1470,4 @@ sub_C489B7:
     STA f:APU_I_O_PORT_0
     PLP
     RTS
-; End of function sub_C489B7
 
-; ---------------------------------------------------------------------------

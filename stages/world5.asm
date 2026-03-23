@@ -24,8 +24,8 @@ stage_5_1:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20
@@ -65,8 +65,8 @@ stage_5_2:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20
@@ -106,8 +106,8 @@ stage_5_3:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20
@@ -147,8 +147,8 @@ stage_5_4:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20
@@ -188,8 +188,8 @@ stage_5_5:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20
@@ -229,8 +229,8 @@ stage_5_6:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20
@@ -270,8 +270,8 @@ stage_5_7:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20
@@ -311,8 +311,8 @@ stage_5_8:
     df off_C31D6D
     dw 0x10
     db 0
-    df loc_C436C1
-    df locret_C463DD
+    df sub_C436C1
+    df nullsub_C463DD
     df tile_animation
     df byte_C536D5
     dw 0x20

@@ -13,7 +13,7 @@ normal_zone:
     dw 0x14 ; level_representation
     dw 0 ; hard_blocks
     dw 80 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df normal_zone_palettes
     dw 0x10
@@ -62,7 +62,7 @@ western_zone:
     dw 0x15 ; level_representation
     dw 0 ; hard_blocks
     dw 65 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df western_zone_palettes
     dw 0x10
@@ -146,7 +146,7 @@ jump_zone:
     dw 0x14 ; level_representation
     dw 0 ; hard_blocks
     dw 55 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df jump_zone_palettes
     dw 0x10
@@ -182,7 +182,7 @@ belt_zone:
     dw 0x14 ; level_representation
     dw 0 ; hard_blocks
     dw 55 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df belt_zone_palettes
     dw 0x10
@@ -248,7 +248,7 @@ tunnel_zone:
     dw 0x14 ; level_representation
     dw 0 ; hard_blocks
     dw 50 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df tunnel_zone_palettes
     dw 0x10
@@ -279,7 +279,7 @@ duel_zone:
     dw 0x14 ; level_representation
     dw 0 ; hard_blocks
     dw 0 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df duel_zone_palettes
     dw 0x10
@@ -387,7 +387,7 @@ power_zone:
     dw 0x41 ; level_representation
     dw 0 ; hard_blocks
     dw 0 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df power_zone_palettes
     dw 0x10
@@ -441,7 +441,7 @@ warp_zone:
     dw 0x14 ; level_representation
     dw 0 ; hard_blocks
     dw 50 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df warp_zone_palettes
     dw 0x10
@@ -501,7 +501,7 @@ speed_zone:
     dw 0x41 ; level_representation
     dw 0 ; hard_blocks
     dw 80 ; soft_blocks, off by one in story mode, for the level exit
-    df locret_C463DD
+    df nullsub_C463DD
     df load_palettes
     df speed_zone_battle_palettes
     dw 0x10

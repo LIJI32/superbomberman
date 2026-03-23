@@ -5,21 +5,21 @@ init_dboot:
     PHX
     LDA #0
 
-loc_C30006:
+.loc_C30006:
     JSL dboot_command
     REP #0x10
     PLX
     SEP #0x20
 
-loc_C3000F:
+.loc_C3000F:
     LDA #0
     PHA
     PLB
     REP #0x20
+    ; fallthrough
 
-locret_C30015:
+nullsub_C30015:
     RTL
-; End of function init_dboot
 
 dboot_related_:
     REP #0x20
@@ -34,7 +34,6 @@ dboot_related_:
     PLB
     REP #0x20
     RTL
-; End of function dboot_related_
 
 ; Y = Music Index
 
@@ -49,11 +48,10 @@ play_music:
     LDA #0
     PHA
 
-loc_C3003E:
+.loc_C3003E:
     PLB
     REP #0x20
     RTL
-; End of function play_music
 
 play_sound:
     REP #0x20
@@ -67,10 +65,9 @@ play_sound:
     PHA
     PLB
 
-loc_C30055:
+.loc_C30055:
     REP #0x20
     RTL
-; End of function play_sound
 
 fade_out_music:
     REP #0x20
@@ -80,33 +77,31 @@ fade_out_music:
     REP #0x10
     PLX
 
-loc_C30065:
+.loc_C30065:
     SEP #0x20
     LDA #0
     PHA
     PLB
     REP #0x20
     RTL
-; End of function fade_out_music
 
 dboot_16:
     REP #0x20
     PHX
     LDA #0x16
 
-loc_C30074:
+.loc_C30074:
     JSL dboot_command
     REP #0x10
     PLX
     SEP #0x20
 
-loc_C3007D:
+.loc_C3007D:
     LDA #0
     PHA
     PLB
     REP #0x20
     RTL
-; End of function dboot_16
 
 dboot_17:
     REP #0x20
@@ -121,7 +116,6 @@ dboot_17:
     PLB
     REP #0x20
     RTL
-; End of function dboot_17
 
 dboot_18:
     REP #0x20
@@ -136,13 +130,12 @@ dboot_18:
     PLB
     REP #0x20
     RTL
-; End of function dboot_18
 
 dboot_19:
     REP #0x20
     PHX
 
-loc_C300B3:
+.loc_C300B3:
     LDA #0x19
     JSL dboot_command
     REP #0x10
@@ -152,12 +145,10 @@ loc_C300B3:
     PHA
     PLB
 
-loc_C300C3:
+.loc_C300C3:
     REP #0x20
     RTL
-; End of function dboot_19
 
-; ---------------------------------------------------------------------------
 shield_palette_sequence:
     db 0xE, 0xE, 0xE, 0xE, 0, 0, 0, 0
     db 0xE, 0xE, 0xE, 0xE, 0, 0, 0, 0
@@ -721,7 +712,7 @@ transfer_oam:
     STA DMA_6_A_ADDRESS_LOW_BYTE
     LDA #0
     STA DMA_6_A_ADDRESS_HIGH_BYTE
-    LDA #0x7F ; ''
+    LDA #0x7F
     STA DMA_6_A_ADDRESS_BANK
     LDA #4
     STA DMA_6_B_ADDRESS
@@ -729,54 +720,48 @@ transfer_oam:
     STA DMA_6_BYTES_COUNT_LOW_BYTE
     LDA #2
     STA DMA_6_BYTES_COUNT_HIGH_BYTE
-    LDA #0x40 ; '@'
+    LDA #0x40
     STA REGULAR_DMA_CHANNEL_ENABLE ; abcdefgh a = Channel 7...h = Channel 0: 1 = Enable 0 = Disable
     RTL
-; End of function transfer_oam
 
 interrupt_register_init:
     SEP #0x30
     LDX #0
 
-loc_C30CB8:
+.loc_C30CB8:
     LDA interrupt_registers_init_table,X
     CMP #0xFF
-    BEQ loc_C30CCC
+    BEQ .loc_C30CCC
     TAY
     INX
     LDA interrupt_registers_init_table,X
     INX
     STA 0x4200,Y
-    BRA loc_C30CB8
-; ---------------------------------------------------------------------------
+    BRA .loc_C30CB8
 
-loc_C30CCC:
+.loc_C30CCC:
     REP #0x30
     RTL
-; End of function interrupt_register_init
 
 gpu_registers_init:
     SEP #0x30
     LDX #0
 
-loc_C30CD3:
+.loc_C30CD3:
     LDA gpu_registers_init_table,X
     CMP #0xFF
-    BEQ loc_C30CE7
+    BEQ .loc_C30CE7
     TAY
     INX
     LDA gpu_registers_init_table,X
     INX
     STA 0x2100,Y
-    BRA loc_C30CD3
-; ---------------------------------------------------------------------------
+    BRA .loc_C30CD3
 
-loc_C30CE7:
+.loc_C30CE7:
     REP #0x30
     RTL
-; End of function gpu_registers_init
 
-; ---------------------------------------------------------------------------
 empty_tile_after_explosion_related:
     dw 8, 0xA, 0xC
 ifndef J

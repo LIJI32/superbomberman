@@ -64,7 +64,6 @@ macro battle_menu_item x_position, y_position, max_value, option_list
     ds 8
 endmacro
 
-
 ; Object structures
 
 struct object
