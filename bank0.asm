@@ -61,9 +61,6 @@ data_end
 
 ; Interrupt handlers
 fill 0xC0FF80
-a8
-i8
-
 Native_mode_RESET:
     RTI
 

@@ -2967,20 +2967,14 @@ byte_C53904:
     dw 0x4040, 0x4040, 0x4040, 0x4040, 0x4040, 0x4040, 0x4040
     dw 0x4040, 0x4040, 0x4080, 0x4080, 0x4080, 0x4080, 0x4080
     dw 0x4080, 0x4080, 0x4080, 0x4080, 0x4080
-a8
-i16
-; e=1
-
 sub_C53955:
+i16
     LDY #addr(joypad_1_pressed)
     BRA loc_C53967
 ; End of function sub_C53955
 
-a16
-i16
-; e=0
-
 sub_C5395A:
+i16
 
 ; FUNCTION CHUNK AT 3967 SIZE 0000000F BYTES
 
@@ -2988,19 +2982,14 @@ sub_C5395A:
     BRA loc_C53967
 ; End of function sub_C5395A
 
-a16
-i16
-
 sub_C5395F:
+i16
     LDY #addr(joypad_1)
     BRA loc_C53967
 ; End of function sub_C5395F
 
-a8
-i16
-; e=1
-
 sub_C53964:
+i16
     LDY #addr(joypad_1+1)
 ; End of function sub_C53964
 
@@ -3014,13 +3003,8 @@ loc_C53967:
     ORA a:addr(6),Y
     RTL
 ; END OF FUNCTION CHUNK FOR sub_C5395A
-a16
-i16
-; e=0
-
 sub_C53976:
     SEP #0x20
-a8
     LDA #low(sub_C539B7)
     STA z:0xDB
     LDA #high(sub_C539B7)
@@ -3036,7 +3020,6 @@ a8
 
 loc_C53992:
     REP #0x20
-a16
     LDA z:0x11,X
     AND #0xF0
     ORA #8
@@ -3052,25 +3035,19 @@ a16
     RTL
 ; End of function sub_C53976
 
-a16
-i16
-
 sub_C539B7:
     REP #0x20
     REP #0x20
     LDA #addr(byte_C705CF)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(byte_C705CF)
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C539D7)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C539D7)
     STA z:2,X
 
@@ -3084,12 +3061,8 @@ locret_C539E1:
     RTL
 ; End of function sub_C539B7
 
-a16
-i16
-
 sub_C539E2:
     SEP #0x20
-a8
     LDA #low(sub_C53A07)
     STA z:0xDB
     LDA #high(sub_C53A07)
@@ -3100,24 +3073,17 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS locret_C53A06
     LDA z:0x11,X
     STA a:addr(0x11),Y
     LDA z:0x14,X
     STA a:addr(0x14),Y
-a8
-
 locret_C53A06:
     RTL
 ; End of function sub_C539E2
 
-a8
-i16
-
 sub_C53A07:
     REP #0x20
-a16
     LDA #0xC30
     STA z:0xE,X
     LDA #0
@@ -3125,17 +3091,14 @@ a16
     LDA #addr(byte_C51DB9)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C53A2F)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53A2F)
     STA z:2,X
 
@@ -3149,9 +3112,6 @@ locret_C53A39:
     RTL
 ; End of function sub_C53A07
 
-a8
-i16
-
 draw_falling_letters:
     SEP #0x20
     LDA #low(sub_C53A9F)
@@ -3164,7 +3124,6 @@ draw_falling_letters:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     LDA #0x3F
     STA z:0x40
     LDA #0x40
@@ -3196,15 +3155,11 @@ a16
     RTL
 ; End of function draw_falling_letters
 
-a16
-i16
-
 sub_C53A9F:
 
 ; FUNCTION CHUNK AT 63C4 SIZE 00000039 BYTES
 
     SEP #0x20
-a8
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
     LDA #0x17
@@ -3216,7 +3171,6 @@ a8
     LDA #0xE0
     STA a:addr(FIXED_COLOR_DATA)
     REP #0x20
-a16
     LDA #0
     STA a:addr(bg2_h_scroll) ; orig=0x0CA1
     LDA #0
@@ -3224,12 +3178,8 @@ a16
     JMP a:addr(loc_C563C4)
 ; End of function sub_C53A9F
 
-a16
-i16
-
 sub_C53ACB:
     SEP #0x20
-a8
     LDA #low(sub_C53B0B)
     STA z:0xDB
     LDA #high(sub_C53B0B)
@@ -3240,7 +3190,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     LDA #0x830
     STA a:addr(0xE),Y
     LDA #8
@@ -3258,16 +3207,11 @@ a16
     RTL
 ; End of function sub_C53ACB
 
-a16
-i16
-
 sub_C53B0B:
     SEP #0x20
-a8
     LDA #0xC7
     STA z:0x52
     REP #0x20
-a16
     LDA z:0x22,X
     STA z:0x50
     JSL start_animation
@@ -3275,13 +3219,11 @@ a16
     LDA #addr(loc_C53B28)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53B28)
     STA z:2,X
 
 loc_C53B28:
     REP #0x20
-a16
     DEC z:0x20,X
     BPL locret_C53B5C
     LDA z:0x18,X
@@ -3302,7 +3244,6 @@ a16
     LDA #addr(loc_C53B58)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53B58)
     STA z:2,X
 
@@ -3313,12 +3254,8 @@ locret_C53B5C:
     RTL
 ; End of function sub_C53B0B
 
-a16
-i16
-
 sub_C53B5D:
     SEP #0x20
-a8
     LDA #low(sub_C53B7C)
     STA z:0xDB
     LDA #high(sub_C53B7C)
@@ -3329,7 +3266,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C53B7B
     JML loc_C55264
 ; ---------------------------------------------------------------------------
@@ -3338,10 +3274,8 @@ locret_C53B7B:
     RTL
 ; End of function sub_C53B5D
 
-a16
-i16
-
 sub_C53B7C:
+i16
     LDY #5
     JSL play_sound
     REP #0x20
@@ -3358,17 +3292,14 @@ sub_C53B7C:
     LDA #addr(byte_C51D57)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C53BBA)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53BBA)
     STA z:2,X
 
@@ -3388,7 +3319,6 @@ loc_C53BC7:
 
 loc_C53BCF:
     REP #0x20
-a16
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #4
     BEQ loc_C53BDD
@@ -3405,15 +3335,10 @@ loc_C53BDD:
     BCS loc_C53BF2
     JSL sub_C53C8A
     JSL delete_object
-a8
-
 loc_C53BF2:
     JSL load_animation_frame
     RTL
 ; End of function sub_C53B7C
-
-a8
-i16
 
 sub_C53BF7:
     SEP #0x20
@@ -3427,7 +3352,6 @@ sub_C53BF7:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C53C15
     JML loc_C55264
 ; ---------------------------------------------------------------------------
@@ -3435,9 +3359,6 @@ a16
 locret_C53C15:
     RTL
 ; End of function sub_C53BF7
-
-a16
-i16
 
 sub_C53C16:
     REP #0x20
@@ -3454,17 +3375,14 @@ sub_C53C16:
     LDA #addr(byte_C51D60)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C53C4D)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53C4D)
     STA z:2,X
 
@@ -3484,7 +3402,6 @@ loc_C53C5A:
 
 loc_C53C62:
     REP #0x20
-a16
     LDA z:0x14,X
     CLC
     ADC #0x10
@@ -3498,7 +3415,6 @@ a16
     LDA #addr(loc_C53C85)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53C85)
     STA z:2,X
 
@@ -3507,12 +3423,8 @@ loc_C53C85:
     RTL
 ; End of function sub_C53C16
 
-a16
-i16
-
 sub_C53C8A:
     SEP #0x20
-a8
     LDA #low(sub_C53CA9)
     STA z:0xDB
     LDA #high(sub_C53CA9)
@@ -3523,7 +3435,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C53CA8
     JML loc_C55264
 ; ---------------------------------------------------------------------------
@@ -3531,9 +3442,6 @@ a16
 locret_C53CA8:
     RTL
 ; End of function sub_C53C8A
-
-a16
-i16
 
 sub_C53CA9:
     REP #0x20
@@ -3543,7 +3451,6 @@ sub_C53CA9:
     LDA #addr(loc_C53CBD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53CBD)
     STA z:2,X
 
@@ -3563,7 +3470,6 @@ loc_C53CCA:
 
 loc_C53CD2:
     REP #0x20
-a16
     DEC z:0x20,X
     BEQ loc_C53CDC
     JML locret_C53E1D
@@ -3584,21 +3490,16 @@ loc_C53CDC:
     LDA #addr(loc_C53D9E)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53D9E)
     STA z:2,X
-a16
-
 loc_C53D02:
     REP #0x20
     LDA #addr(sudden_death_related_data)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sudden_death_related_data)
     STA z:0x52
     REP #0x20
-a16
     LDA z:0x20,X
     ASL A
     ASL A
@@ -3645,7 +3546,6 @@ loc_C53D40:
     LDA #addr(sub_C53E6B)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C53E6B)
     STA z:0x52
     PHX
@@ -3659,23 +3559,19 @@ loc_C53D70:
     LDY #7
     JSL play_sound
     REP #0x20
-a16
     LDA #0x10
     STA z:0x30,X
     LDA #addr(byte_C51CB5)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C53D9E)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53D9E)
     STA z:2,X
 
@@ -3696,7 +3592,6 @@ loc_C53DAB:
 loc_C53DB3:
     JSL get_object_square_index
     REP #0x20
-a16
     TAY
     LDA #0x580
     STA a:addr(collision_map),Y
@@ -3708,7 +3603,6 @@ a16
     LDA #addr(loc_C53DDC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53DDC)
     STA z:2,X
 
@@ -3716,8 +3610,6 @@ loc_C53DD7:
     JSL advance_animation
     RTL
 ; ---------------------------------------------------------------------------
-a16
-
 loc_C53DDC:
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
@@ -3763,8 +3655,6 @@ locret_C53E1D:
     RTL
 ; End of function sub_C53CA9
 
-a8
-i16
 
 ifdef J
 ; Moved to bank 3
@@ -3777,7 +3667,6 @@ endif
 
 sub_C53E1E:
     REP #0x20
-a16
     LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
     BIT #0x40
     BNE locret_C53E6A
@@ -3816,25 +3705,17 @@ locret_C53E6A:
     RTL
 ; End of function sub_C53E1E
 
-a16
-i16
-
 sub_C53E6B:
     SEP #0x20
-a8
     LDA #0x80
     STA a:addr(VRAM_ADDRESS_INCREMENT_VALUE)
     REP #0x20
-a16
     LDA z:0x53
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
     LDA #0
     STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
     RTL
 ; End of function sub_C53E6B
-
-a8
-i16
 
 sub_C53E80:
     SEP #0x20
@@ -3848,7 +3729,6 @@ sub_C53E80:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C53E9E
     JML loc_C55264
 ; ---------------------------------------------------------------------------
@@ -3860,9 +3740,6 @@ loc_C53E9E:
     STA a:addr(0x22),Y
     RTL
 ; End of function sub_C53E80
-
-a16
-i16
 
 sub_C53EAB:
     REP #0x20
@@ -3890,12 +3767,8 @@ locret_C53EDD:
     RTL
 ; End of function sub_C53EAB
 
-a16
-i16
-
 sub_C53EDE:
     SEP #0x20
-a8
     LDA #low(sub_C53F01)
     STA z:0xDB
     LDA #high(sub_C53F01)
@@ -3906,7 +3779,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C53EFC
     JML loc_C55264
 ; ---------------------------------------------------------------------------
@@ -3916,9 +3788,6 @@ loc_C53EFC:
     STA a:addr(0x22),Y
     RTL
 ; End of function sub_C53EDE
-
-a16
-i16
 
 sub_C53F01:
     REP #0x20
@@ -3953,23 +3822,19 @@ sub_C53F01:
     LDA #addr(byte_C51C9D)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C53F5B)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C53F5B)
     STA z:2,X
 
 loc_C53F5B:
     REP #0x20
-a16
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #4
     BEQ loc_C53F69
@@ -4016,9 +3881,6 @@ loc_C53FA5:
     BRA loc_C53F9C
 ; End of function sub_C53F01
 
-a16
-i16
-
 sub_C53FA9:
     REP #0x20
     LDA z:0x11,X
@@ -4052,10 +3914,8 @@ locret_C53FDF:
     RTL
 ; End of function sub_C53FA9
 
-a16
-i16
-
 sub_C53FE0:
+i16
     REP #0x20
     STY z:0x50
     LDY #0x1C80
@@ -4094,9 +3954,6 @@ loc_C54013:
     RTL
 ; End of function sub_C53FE0
 
-a16
-i16
-
 create_moving_platforms:
     REP #0x20
     LDA #0x10
@@ -4112,12 +3969,8 @@ create_moving_platforms:
     RTL
 ; End of function create_moving_platforms
 
-a16
-i16
-
 create_moving_platform:
     SEP #0x20
-a8
     LDA #low(moving_platform)
     STA z:0xDB
     LDA #high(moving_platform)
@@ -4128,7 +3981,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C54059
     JML loc_C55264
 ; ---------------------------------------------------------------------------
@@ -4145,7 +3997,6 @@ loc_C54059:
     LDA #addr(moving_platform_graphics)
     STA z:0x5F
     SEP #0x20
-a8
     LDA #bank(moving_platform_graphics)
     STA z:0x61
     PHY
@@ -4163,34 +4014,25 @@ a8
     STA a:addr(0x1E),Y
     STA a:addr(0x1F),Y
     REP #0x20
-a16
     RTL
 ; End of function create_moving_platform
 
-a16
-i16
-
 moving_platform:
     SEP #0x20
-a8
     LDA #0x30
     STA z:0xE,X
     REP #0x20
-a16
     LDA z:0x20,X
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C540EE)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C540EE)
     STA z:2,X
 
@@ -4198,7 +4040,6 @@ loc_C540BE:
     SEP #0x20
     JSL random2
     REP #0x20
-a16
     AND #0x70
     CLC
     ADC #0x30
@@ -4264,9 +4105,6 @@ locret_C54132:
 ; ---------------------------------------------------------------------------
 byte_C54133:
     db 0xF0, 0xFF, 0, 1
-a16
-i16
-
 set_overlay_blending:
     REP #0x20
     LDA f:[z:0x50]
@@ -4279,9 +4117,6 @@ set_overlay_blending:
     INC z:0x50
     RTL
 ; End of function set_overlay_blending
-
-a16
-i16
 
 sub_C5414C:
     REP #0x20
@@ -4308,12 +4143,8 @@ sub_C5414C:
     RTL
 ; End of function sub_C5414C
 
-a16
-i16
-
 create_overlay_scroller:
     SEP #0x20
-a8
     LDA #low(overlay_scroller)
     STA z:0xDB
     LDA #high(overlay_scroller)
@@ -4325,7 +4156,6 @@ a8
     JSL create_object
     BCS locret_C541C1
     REP #0x20
-a16
     LDA f:[z:0x50]
     STA a:addr(0x20),Y
     INC z:0x50
@@ -4343,7 +4173,6 @@ a16
     INC z:0x50
     INC z:0x50
     SEP #0x20
-a8
     LDA #2
     STA a:addr(3),Y
 
@@ -4351,12 +4180,8 @@ locret_C541C1:
     RTL
 ; End of function create_overlay_scroller
 
-a8
-i16
-
 overlay_scroller:
     REP #0x20
-a16
     LDA z:0x20,X
     STA a:addr(bg2_h_scroll) ; orig=0x0CA1
     LDA z:0x22,X
@@ -4365,13 +4190,11 @@ a16
     LDA #addr(loc_C541DB)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C541DB)
     STA z:2,X
 
 loc_C541DB:
     REP #0x20
-a16
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #0x90
     BNE locret_C541F7
@@ -4388,12 +4211,8 @@ locret_C541F7:
     RTL
 ; End of function overlay_scroller
 
-a16
-i16
-
 sub_C541F8:
     SEP #0x20
-a8
     LDA #low(sub_C5421B)
     STA z:0xDB
     LDA #high(sub_C5421B)
@@ -4409,9 +4228,6 @@ a8
     RTL
 ; End of function sub_C541F8
 
-a8
-i16
-
 sub_C5421B:
     SEP #0x20
     LDA #0x13
@@ -4425,7 +4241,6 @@ sub_C5421B:
     LDA #0xE0
     STA a:addr(FIXED_COLOR_DATA)
     REP #0x20
-a16
     LDA #0x300
     STA a:addr(word_7E0C93) ; orig=0x0C93
     LDA #0x100
@@ -4442,13 +4257,11 @@ a16
     LDA #addr(loc_C54268)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54268)
     STA z:2,X
 
 loc_C54268:
     REP #0x20
-a16
     DEC z:0x20,X
     BEQ loc_C54272
     JML loc_C542E8
@@ -4459,15 +4272,12 @@ loc_C54272:
     LDA #addr(loc_C54295)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54295)
     STA z:2,X
     REP #0x20
-a16
     LDA #addr(sub_C543CA)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C543CA)
     STA z:0x52
     PHX
@@ -4480,7 +4290,6 @@ a8
 
 loc_C54295:
     REP #0x20
-a16
     LDA a:addr(bg1_h_scroll) ; orig=0x0C9D
     SEC
     SBC #0x10
@@ -4492,7 +4301,6 @@ a16
     CMP #0x415
     BCC loc_C542E8
     SEP #0x20
-a8
     LDY #0
     LDA #0x2E
     STA z:0x40
@@ -4509,17 +4317,14 @@ a8
     LDA #9
     JSL palette_related
     REP #0x20
-a16
     LDA #addr(sub_C54307)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C54307)
     STA z:2,X
 loc_C542E8:
 ifndef J
     SEP #0x20
-a8
     LDA a:addr(word_7E0CAE) ; orig=0x0CAE
     BEQ locret_C54306
 endif
@@ -4528,11 +4333,9 @@ endif
     BIT #0x10
     BEQ locret_C54306
     REP #0x20
-a16
     LDA #addr(sub_C54307)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C54307)
     STA z:2,X
 
@@ -4540,12 +4343,8 @@ locret_C54306:
     RTL
 ; End of function sub_C5421B
 
-a8
-i16
-
 sub_C54307:
     REP #0x20
-a16
     LDA #0
     STA a:addr(bg1_h_scroll) ; orig=0x0C9D
     LDA #0
@@ -4554,16 +4353,13 @@ a16
     LDA #addr(sub_C54323)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C54323)
     STA z:2,X
     RTL
 ; End of function sub_C54307
 
-a8
-i16
-
 sub_C54323:
+i16
     SEP #0x20
     LDY #0
     LDA #0x72
@@ -4592,33 +4388,27 @@ sub_C54323:
     LDA #0xC
     JSL palette_related
     REP #0x20
-a16
     LDA #addr(sub_C543E6)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C543E6)
     STA z:0x52
     JSL sub_C62514
     REP #0x20
-a16
     LDA #0x28
     STA z:0x20,X
     REP #0x20
     LDA #addr(loc_C5438C)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C5438C)
     STA z:2,X
 
 loc_C5438C:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE locret_C543BA
     SEP #0x20
-a8
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
     LDA #0x17
@@ -4630,20 +4420,15 @@ a8
     LDA #0xE0
     STA a:addr(FIXED_COLOR_DATA)
     REP #0x20
-a16
     LDA #addr(locret_C543BA)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(locret_C543BA)
     STA z:2,X
 
 locret_C543BA:
     RTL
 ; End of function sub_C54323
-
-a8
-i16
 
 sub_C543BB:
     SEP #0x20
@@ -4654,9 +4439,6 @@ sub_C543BB:
     RTL
 ; End of function sub_C543BB
 
-a8
-i16
-
 sub_C543CA:
     SEP #0x20
     LDA #0x44
@@ -4664,18 +4446,13 @@ sub_C543CA:
     LDA #0x70
     STA a:addr(H_COUNT_TIMER)
     REP #0x20
-a16
     LDA #addr(sub_C543BB)
     STA a:addr(unknown_function_pointer) ; orig=0x00D0
     SEP #0x20
-a8
     LDA #bank(sub_C543BB)
     STA a:addr(unknown_function_pointer+2) ; orig=0x00D2
     RTL
 ; End of function sub_C543CA
-
-a8
-i16
 
 sub_C543E6:
     SEP #0x20
@@ -4684,11 +4461,9 @@ sub_C543E6:
     LDA #0xB8
     STA a:addr(H_COUNT_TIMER)
     REP #0x20
-a16
     LDA #addr(locret_C53A06)
     STA a:addr(unknown_function_pointer) ; orig=0x00D0
     SEP #0x20
-a8
     LDA #bank(locret_C53A06)
     STA a:addr(unknown_function_pointer+2) ; orig=0x00D2
     RTL
@@ -5183,9 +4958,6 @@ intro_related_animation2:
 byte_C54C86:
     db 1
     animation_frame animation_frame_C54C14, 0xFF
-a8
-i16
-
 sub_C54C8B:
     SEP #0x20
     LDA #low(sub_C54CA2)
@@ -5200,12 +4972,8 @@ sub_C54C8B:
     RTL
 ; End of function sub_C54C8B
 
-a8
-i16
-
 sub_C54CA2:
     REP #0x20
-a16
     LDA #0x20
     STA z:0x11,X
     LDA #0x20
@@ -5217,23 +4985,19 @@ a16
     LDA #addr(intro_related_animation)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C54CD4)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54CD4)
     STA z:2,X
 
 loc_C54CD4:
     REP #0x20
-a16
     LDA z:0x10,X
     CLC
     ADC #0x20
@@ -5252,9 +5016,6 @@ loc_C54CF2:
     RTL
 ; End of function sub_C54CA2
 
-a8
-i16
-
 sub_C54CF7:
     SEP #0x20
     LDA #low(sub_C54D0E)
@@ -5269,12 +5030,8 @@ sub_C54CF7:
     RTL
 ; End of function sub_C54CF7
 
-a8
-i16
-
 sub_C54D0E:
     REP #0x20
-a16
     LDA #0x120
     STA z:0x11,X
     LDA #0x50
@@ -5286,23 +5043,19 @@ a16
     LDA #addr(intro_related_animation2)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C54D40)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54D40)
     STA z:2,X
 
 loc_C54D40:
     REP #0x20
-a16
     LDA z:0x10,X
     CLC
     ADC #0xFFA0
@@ -5321,9 +5074,6 @@ loc_C54D5E:
     RTL
 ; End of function sub_C54D0E
 
-a8
-i16
-
 sub_C54D63:
     SEP #0x20
     LDA #low(sub_C54D7A)
@@ -5338,12 +5088,8 @@ sub_C54D63:
     RTL
 ; End of function sub_C54D63
 
-a8
-i16
-
 sub_C54D7A:
     REP #0x20
-a16
     LDA #0x50
     STA z:0x11,X
     LDA #0x70
@@ -5355,23 +5101,19 @@ a16
     LDA #addr(byte_C54C86)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C54DAC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54DAC)
     STA z:2,X
 
 loc_C54DAC:
     REP #0x20
-a16
     LDA z:0x10,X
     CLC
     ADC #0x10
@@ -5389,12 +5131,8 @@ loc_C54DC8:
     RTL
 ; End of function sub_C54D7A
 
-a16
-i16
-
 sub_C54DCD:
     SEP #0x20
-a8
     LDA #low(sub_C54DEF)
     STA z:0xDB
     LDA #high(sub_C54DEF)
@@ -5405,7 +5143,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     LDA f:[z:0x50]
     STA a:addr(0x20),Y
     INC z:0x50
@@ -5413,19 +5150,14 @@ a16
     RTL
 ; End of function sub_C54DCD
 
-a16
-i16
-
 sub_C54DEF:
     REP #0x20
     LDA #addr(off_C54FC2)
     STA z:0xDB
     SEP #0x20
-a8
     LDA #bank(off_C54FC2)
     STA z:0xDD
     REP #0x20
-a16
     LDA #0x30
     STA z:0xE,X
     LDA #8
@@ -5442,47 +5174,36 @@ a16
     LDA f:[z:0xDB],Y
     STA z:0x14,X
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C54E31)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54E31)
     STA z:2,X
 
 loc_C54E31:
     REP #0x20
-a16
     LDA a:addr(bg1_h_scroll) ; orig=0x0C9D
     BNE locret_C54E49
     REP #0x20
     LDA #addr(loc_C54E45)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54E45)
     STA z:2,X
 
 loc_C54E45:
     JSL load_animation_frame
-a16
-
 locret_C54E49:
     RTL
 ; End of function sub_C54DEF
 
-a16
-i16
-
 sub_C54E4A:
     SEP #0x20
-a8
     LDA #low(sub_C54E77)
     STA z:0xDB
     LDA #high(sub_C54E77)
@@ -5504,9 +5225,6 @@ a8
     RTL
 ; End of function sub_C54E4A
 
-a8
-i16
-
 sub_C54E77:
     SEP #0x20
     STZ a:addr(level_manager_object.level_representation) ; orig=0x0D24
@@ -5525,7 +5243,6 @@ sub_C54E77:
 
 loc_C54E97:
     REP #0x20
-a16
     LDA #0x30
     STA z:0xE,X
     LDA #8
@@ -5545,23 +5262,19 @@ a16
     LDA #addr(byte_C51749)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C54EDC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54EDC)
     STA z:2,X
 
 loc_C54EDC:
     REP #0x20
-a16
     INC z:0x22,X
     LDA a:addr(bg1_h_scroll) ; orig=0x0C9D
     BEQ loc_C54EE9
@@ -5571,16 +5284,13 @@ a16
 loc_C54EE9:
 ifndef J
     SEP #0x20
-a8
     LDA a:addr(word_7E0CAE) ; orig=0x0CAE
     BNE loc_C54F0D
     INC a:addr(word_7E0CAE) ; orig=0x0CAE
     REP #0x20
-a16
     LDA #addr(loc_C54F01)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54F01)
     STA z:2,X
     RTL
@@ -5588,7 +5298,6 @@ a8
 
 loc_C54F01:
     REP #0x20
-a16
     INC z:0x22,X
     DEC z:0x24,X
     BEQ loc_C54F0D
@@ -5604,19 +5313,15 @@ endif
     LDA #addr(sub_C54F22)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C54F22)
     STA z:2,X
     RTL
 ; End of function sub_C54E77
 
-a8
-i16
-
 sub_C54F22:
+i16
     JSL sub_C5395A
     REP #0x20
-a16
     AND #0xFF
     BEQ loc_C54F42
     LDA z:0x22,X
@@ -5627,14 +5332,12 @@ a16
     LDA #addr(loc_C54F42)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54F42)
     STA z:2,X
 
 loc_C54F42:
     JSL advance_animation
     REP #0x20
-a16
     INC z:0x7C
     DEC z:0x22,X
     BNE loc_C54F52
@@ -5688,11 +5391,9 @@ loc_C54F98:
     LDA #addr(word_C54FC6)
     STA z:0xDB
     SEP #0x20
-a8
     LDA #bank(word_C54FC6)
     STA z:0xDD
     REP #0x20
-a16
     LDA z:0x20,X
     ASL A
     ASL A
@@ -5761,29 +5462,23 @@ endif
 
 loc_C54FEA:
     SEP #0x20
-a8
     LDA #0x3C
     STA a:addr(current_screen) ; orig=0x00A4
     LDY #1
     JSL play_sound
     REP #0x20
-a16
     LDA #addr(loc_C54FBD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54FBD)
     STA z:2,X
     RTL
 ; ---------------------------------------------------------------------------
-a16
-
 loc_C55006:
     LDY #1
     JSL play_sound
     JSL fade_out_music
     SEP #0x20
-a8
     LDA z:0x20,X
     CMP #1
     BEQ loc_C5503C
@@ -5798,11 +5493,9 @@ loc_C55021:
     JSL sub_C550AF
     JSL sub_C462BA
     REP #0x20
-a16
     LDA #addr(loc_C54FBD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54FBD)
     STA z:2,X
     RTL
@@ -5813,20 +5506,15 @@ loc_C5503C:
     LDA #0x32
     STA a:addr(current_screen) ; orig=0x00A4
     REP #0x20
-a16
     LDA #addr(loc_C54FBD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54FBD)
     STA z:2,X
     RTL
 ; ---------------------------------------------------------------------------
-a16
-
 loc_C55051:
     SEP #0x20
-a8
     LDA #0
     STA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
     LDA #4
@@ -5855,11 +5543,9 @@ loc_C5507E:
     STA a:addr(current_screen) ; orig=0x00A4
     PLX
     REP #0x20
-a16
     LDA #addr(loc_C54FBD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54FBD)
     STA z:2,X
     RTL
@@ -5870,18 +5556,13 @@ loc_C5509A:
     LDA #0x38
     STA a:addr(current_screen) ; orig=0x00A4
     REP #0x20
-a16
     LDA #addr(loc_C54FBD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C54FBD)
     STA z:2,X
     RTL
 ; End of function sub_C54F22
-
-a8
-i16
 
 sub_C550AF:
     SEP #0x20
@@ -5924,9 +5605,6 @@ loc_C550F0:
     RTL
 ; End of function sub_C550AF
 
-a8
-i16
-
 sub_C55100:
     SEP #0x20
     LDA #5
@@ -5947,12 +5625,10 @@ loc_C55112:
     LDA #0
     STA a:addr(player2_object+player.number_of_lives) ; orig=0x0DBD
     REP #0x20
-a16
     LDA a:addr(joypad_2_pressed) ; orig=0x0CFA
     BIT #0x1080
     BEQ loc_C55146
     SEP #0x20
-a8
     LDA #0
     STA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
     LDA #0
@@ -5980,9 +5656,6 @@ if SHOW_INTRODUCTION
 else
      db 0x34, 0x35, 0x36, 0
 endif
-a8
-i16
-
 tile_animation:
     SEP #0x20
     LDA #low(sub_C551B7)
@@ -5995,7 +5668,6 @@ tile_animation:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS loc_C551AC
     LDA f:[z:0x50]
     STA z:0x53
@@ -6019,13 +5691,11 @@ a16
     AND #0xFF
     STA a:addr(0xD),Y
     SEP #0x20
-a8
     LDA #2
     STA a:addr(3),Y
     RTL
 ; ---------------------------------------------------------------------------
     REP #0x20
-a16
 
 loc_C551AC:
     INC z:0x50
@@ -6036,10 +5706,8 @@ loc_C551AC:
     RTL
 ; End of function tile_animation
 
-a16
-i16
-
 sub_C551B7:
+a16
     LDA #bank(sub_C551F3)
     STA z:0x52
     REP #0x20
@@ -6066,7 +5734,6 @@ loc_C551D3:
     LDA #addr(sub_C551F3)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C551F3)
     STA z:0x52
     JSL sub_C62514
@@ -6075,12 +5742,8 @@ locret_C551F2:
     RTL
 ; End of function sub_C551B7
 
-a8
-i16
-
 sub_C551F3:
     REP #0x20
-a16
     LDA z:0x40
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
     LDA #0x40
@@ -6088,7 +5751,6 @@ a16
     LDA z:0x42
     STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
     SEP #0x20
-a8
     LDA #0x80
     STA a:addr(VRAM_ADDRESS_INCREMENT_VALUE)
     LDA #1
@@ -6100,7 +5762,6 @@ a8
     LDA #0x10
     STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
     REP #0x20
-a16
     LDA z:0x40
     ORA #0x100
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
@@ -6110,14 +5771,10 @@ a16
     LDA #0x40
     STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
     SEP #0x20
-a8
     LDA #0x10
     STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
     RTL
 ; End of function sub_C551F3
-
-a8
-i16
 
 sub_C55240:
     SEP #0x20
@@ -6131,7 +5788,6 @@ sub_C55240:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS loc_C55264
     LDA f:[z:0x50]
     STA a:addr(0x30),Y
@@ -6143,15 +5799,11 @@ loc_C55264:
     RTL
 ; End of function sub_C55240
 
-a16
-i16
-
 sub_C55267:
     REP #0x20
     LDA #addr(battle_menu_items)
     STA z:0xDB
     SEP #0x20
-a8
     LDA #bank(battle_menu_items)
     STA z:0xDD
     SEP #0x20
@@ -6162,7 +5814,6 @@ a8
     LDA #0
     STA z:0x20,X
     REP #0x20
-a16
 
 loc_C55284:
     LDA z:0x30,X
@@ -6200,7 +5851,6 @@ loc_C55284:
     PHY
     TAY
     SEP #0x20
-a8
     LDA a:addr(joypad_1_connected),Y
     STA z:0x40
     PLY
@@ -6222,7 +5872,6 @@ loc_C552D5:
     LDA #0xC3
     STA z:0x55
     REP #0x20
-a16
     LDA [z:0x50]
     AND #0xFF
     ASL A
@@ -6230,17 +5879,14 @@ a16
     LDA f:[z:0x53],Y
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C5530B)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C5530B)
     STA z:2,X
     SEP #0x20
@@ -6251,11 +5897,9 @@ a8
 
 loc_C5530B:
     REP #0x20
-a16
     LDA #addr(battle_menu_items + battle_menu_item.max_value)
     STA z:0xDB
     SEP #0x20
-a8
     LDA #bank(battle_menu_items + battle_menu_item.max_value)
     STA z:0xDD
     SEP #0x20
@@ -6272,7 +5916,6 @@ loc_C55325:
     LDA a:addr(level_manager_object.soft_blocks+1) ; orig=0x0D3D
     BNE loc_C5539A
     REP #0x20
-a16
     LDA z:0x30,X
     AND #0xFF
     PHA
@@ -6286,7 +5929,6 @@ a16
     ASL A
     TAY
     SEP #0x20
-a8
     LDA a:addr(level_manager_object.soft_blocks) ; orig=0x0D3C
     AND #3
     BEQ loc_C5539A
@@ -6320,7 +5962,6 @@ loc_C55373:
     LDA #6
     STA a:addr(level_manager_object.soft_blocks+1) ; orig=0x0D3D
     REP #0x20
-a16
     INY
     INY
     LDA f:[z:0xDB],Y
@@ -6334,7 +5975,6 @@ a16
     LDA f:[z:0x50],Y
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
@@ -6347,14 +5987,11 @@ loc_C5539A:
 
 loc_C5539F:
     REP #0x20
-a16
     LDA z:0x30,X
     AND #0xFF
     PHY
     TAY
     SEP #0x20
-a8
-a8
     LDA a:addr(joypad_1_connected),Y
     STA z:0x40
     PLY
@@ -6382,9 +6019,6 @@ loc_C553C9:
     BRA loc_C55373
 ; End of function sub_C55267
 
-a8
-i16
-
 sub_C553CF:
     SEP #0x20
     LDA #low(sub_C553F3)
@@ -6397,7 +6031,6 @@ sub_C553CF:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C553ED
     JML loc_C55264
 ; ---------------------------------------------------------------------------
@@ -6408,12 +6041,8 @@ loc_C553ED:
     RTL
 ; End of function sub_C553CF
 
-a16
-i16
-
 sub_C553F3:
     SEP #0x20
-a8
     LDA #0x30
     STA z:0xE,X
     LDA #0
@@ -6423,7 +6052,6 @@ a8
     LDA #0xFF
     STA z:0x20,X
     REP #0x20
-a16
     LDA #0x88
     STA z:0x11,X
     LDA #0x180
@@ -6432,7 +6060,6 @@ a16
     LDA #addr(loc_C5541E)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C5541E)
     STA z:2,X
 
@@ -6450,7 +6077,6 @@ loc_C5542B:
     BEQ loc_C55457
     STA z:0x20,X
     REP #0x20
-a16
     AND #0xFF
     ASL A
     PHX
@@ -6459,7 +6085,6 @@ a16
     STA z:0x50
     PLX
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
@@ -6474,9 +6099,6 @@ loc_C55457:
     RTL
 ; End of function sub_C553F3
 
-a8
-i16
-
 sub_C5545C:
     SEP #0x20
     LDA #0x18
@@ -6484,18 +6106,13 @@ sub_C5545C:
     LDA #0xA0
     STA a:addr(H_COUNT_TIMER)
     REP #0x20
-a16
     LDA #addr(locret_C53A06)
     STA a:addr(unknown_function_pointer) ; orig=0x00D0
     SEP #0x20
-a8
     LDA #bank(locret_C53A06)
     STA a:addr(unknown_function_pointer+2) ; orig=0x00D2
     RTL
 ; End of function sub_C5545C
-
-a8
-i16
 
 sub_C55478:
     SEP #0x20
@@ -6504,26 +6121,19 @@ sub_C55478:
     LDA #0xB8
     STA a:addr(H_COUNT_TIMER)
     REP #0x20
-a16
     LDA #addr(locret_C53A06)
     STA a:addr(unknown_function_pointer) ; orig=0x00D0
     SEP #0x20
-a8
     LDA #bank(locret_C53A06)
     STA a:addr(unknown_function_pointer+2) ; orig=0x00D2
     REP #0x20
-a16
     LDA #0x3FF
     STA a:addr(bg3_v_scroll) ; orig=0x0CA5
     RTL
 ; End of function sub_C55478
 
-a16
-i16
-
 sub_C5549C:
     SEP #0x20
-a8
     LDA #low(sub_C554FC)
     STA z:0xDB
     LDA #high(sub_C554FC)
@@ -6535,7 +6145,6 @@ a8
     JSL create_object
     BCS nullsub_8
     REP #0x20
-a16
     TYA
     STA z:0x48
     LDA #8
@@ -6545,7 +6154,6 @@ a16
     LDA #0xF
     STA a:addr(level_manager_object.field_3E) ; orig=0x0D3E
     SEP #0x20
-a8
     LDA #0
     STA a:addr(0x32),Y
     LDA #0
@@ -6555,7 +6163,6 @@ a8
     LDA #0
     STA a:addr(0x3F),Y
     REP #0x20
-a16
     LDA #2
     STA a:addr(unknown_object+0x20) ; orig=0x0FE0
     LDA #0x428
@@ -6568,9 +6175,6 @@ a16
 
 nullsub_8:
     RTL
-a8
-i16
-
 sub_C554FC:
     SEP #0x20
     LDA a:addr(level_manager_object.anonymous_2) ; orig=0x0D16
@@ -6601,7 +6205,6 @@ loc_C55528:
     LDA #0
     STA z:0x1E,X
     REP #0x20
-a16
     LDA #0x30
     STA z:0xE,X
     LDA f:word_C5562F
@@ -6612,45 +6215,36 @@ a16
     LDA #addr(sub_C5545C)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C5545C)
     STA z:0x52
     JSL sub_C62514
     JSL sub_C5572F
     REP #0x20
-a16
     LDA #addr(byte_C500A1)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(sub_C55580)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C55580)
     STA z:2,X
     RTL
 ; End of function sub_C554FC
 
-a8
-i16
-
 sub_C55580:
+i16
     REP #0x20
-a16
     LDA #0xA00
 
 loc_C55585:
     DEC A
     BNE loc_C55585
     SEP #0x20
-a8
     LDA z:0x22,X
     BEQ loc_C55592
     JML loc_C5561E
@@ -6723,15 +6317,12 @@ loc_C555ED:
     SEP #0x20
     PLA
     REP #0x20
-a16
     LDA #addr(word_C5562F)
     STA z:0xDB
     SEP #0x20
-a8
     LDA #bank(word_C5562F)
     STA z:0xDD
     REP #0x20
-a16
     LDA z:0x20,X
     AND #0xFF
     ASL A
@@ -6743,8 +6334,6 @@ a16
     INY
     LDA f:[z:0xDB],Y
     STA z:0x14,X
-a8
-
 loc_C5561E:
     JSL sub_C55710
     RTL
@@ -6833,29 +6422,23 @@ loc_C55698:
     STA a:addr(level_manager_object.anonymous_8) ; orig=0x0D30
     PLX
     REP #0x20
-a16
     LDA #addr(sub_C55478)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C55478)
     STA z:0x52
     JSL sub_C62514
     REP #0x20
-a16
     LDA #addr(sub_C556F1)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C556F1)
     STA z:2,X
     RTL
 ; End of function sub_C55580
 
-a8
-i16
-
 sub_C556F1:
+i16
     PHX
     LDX #0xFC0
     JSL loc_C60045
@@ -6865,20 +6448,15 @@ sub_C556F1:
     CMP #0
     BNE locret_C5570F
     REP #0x20
-a16
     LDA #addr(battle_stage_loader)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(battle_stage_loader)
     STA z:2,X
 
 locret_C5570F:
     RTL
 ; End of function sub_C556F1
-
-a16
-i16
 
 sub_C55710:
     REP #0x20
@@ -6901,9 +6479,6 @@ loc_C55721:
     RTL
 ; End of function sub_C55710
 
-a8
-i16
-
 sub_C5572F:
     SEP #0x20
     LDA #low(sub_C5574C)
@@ -6916,18 +6491,13 @@ sub_C5572F:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     TXA
     STA a:addr(0x30),Y
     RTL
 ; End of function sub_C5572F
 
-a16
-i16
-
 sub_C5574C:
     SEP #0x20
-a8
     LDY z:0x30,X
     LDA a:addr(0x3F),Y
     BEQ loc_C55759
@@ -6940,7 +6510,6 @@ loc_C55759:
     CMP #1
     BEQ loc_C5577B
     REP #0x20
-a16
     LDA a:addr(level_manager_object.field_3E) ; orig=0x0D3E
     CLC
     ADC #0x20
@@ -6948,7 +6517,6 @@ a16
     CMP #0x10F
     BNE locret_C55793
     SEP #0x20
-a8
     LDA #0
     STA a:addr(0x22),Y
     RTL
@@ -6956,7 +6524,6 @@ a8
 
 loc_C5577B:
     REP #0x20
-a16
     LDA a:addr(level_manager_object.field_3E) ; orig=0x0D3E
     SEC
     SBC #0x20
@@ -6964,16 +6531,12 @@ a16
     CMP #0xF
     BNE locret_C55793
     SEP #0x20
-a8
     LDA #0
     STA a:addr(0x22),Y
 
 locret_C55793:
     RTL
 ; End of function sub_C5574C
-
-a8
-i16
 
 sub_C55794:
     SEP #0x20
@@ -6987,7 +6550,6 @@ sub_C55794:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     LDA f:[z:0x50]
     STA a:addr(0x1E),Y
     INC z:0x50
@@ -7013,32 +6575,23 @@ a16
     RTL
 ; End of function sub_C55794
 
-a16
-i16
-
 sub_C557DF:
     REP #0x20
     LDA z:0x16,X
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(sub_C557FD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C557FD)
     STA z:2,X
     RTL
 ; End of function sub_C557DF
-
-a8
-i16
 
 sub_C557FD:
     SEP #0x20
@@ -7052,9 +6605,6 @@ loc_C5580A:
     JSL sub_C55710
     RTL
 ; End of function sub_C557FD
-
-a8
-i16
 
 sub_C5580F:
     SEP #0x20
@@ -7075,12 +6625,8 @@ locret_C5582B:
     RTL
 ; End of function sub_C5580F
 
-a8
-i16
-
 sub_C5582C:
     REP #0x20
-a16
     LDA #4
     STA z:0x1E,X
     LDA #0x830
@@ -7092,32 +6638,23 @@ a16
     LDA #addr(byte_C514A4)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(sub_C5585F)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C5585F)
     STA z:2,X
     RTL
 ; End of function sub_C5582C
 
-a8
-i16
-
 sub_C5585F:
     JSL sub_C55710
     RTL
 ; End of function sub_C5585F
-
-a8
-i16
 
 create_flower_zone_handler:
     SEP #0x20
@@ -7138,9 +6675,6 @@ locret_C55880:
     RTL
 ; End of function create_flower_zone_handler
 
-a8
-i16
-
 flower_zone_handler:
     SEP #0x20
     LDA #0x38
@@ -7155,20 +6689,16 @@ flower_zone_handler:
     STA a:addr(add_substract_select_and_enable) ; orig=0x0C9A
     JSL sub_C53E80
     REP #0x20
-a16
     LDA #addr(_flower_zone_handler)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(_flower_zone_handler)
     STA z:2,X
     RTL
 ; End of function flower_zone_handler
 
-a8
-i16
-
 _flower_zone_handler:
+i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #0x80
@@ -7183,11 +6713,9 @@ _flower_zone_handler:
     LDA #3
     JSL palette_related
     REP #0x20
-a16
     LDA #addr(loc_C558DB)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C558DB)
     STA z:2,X
     RTL
@@ -7209,7 +6737,6 @@ loc_C558E8:
 
 loc_C558F0:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE locret_C55909
     JSL create_flower_creator
@@ -7219,8 +6746,6 @@ a16
     CLC
     ADC #0x40
     STA z:0x20,X
-a8
-
 locret_C55909:
     RTL
 ; End of function _flower_zone_handler
@@ -7240,12 +6765,8 @@ word_C5590A:
     dw 0x84C, 0x84C, 0x84C, 0x84C, 0x84C
     dw 0x84E, 0x84E, 0x84E, 0x84E, 0x84E
     dw 0x84E, 0x84E, 0x84E, 0x806
-a16
-i16
-
 create_flower_creator:
     SEP #0x20
-a8
     LDA #low(flower_creator)
     STA z:0xDB
     LDA #high(flower_creator)
@@ -7263,17 +6784,13 @@ locret_C559A6:
     RTL
 ; End of function create_flower_creator
 
-a8
-i16
-
 flower_creator:
+i16
     REP #0x20
-a16
     PHX
     LDX #0xD
     JSL random
     SEP #0x20
-a8
     INC A
     INC A
     ASL A
@@ -7283,13 +6800,11 @@ a8
     ORA #8
     STA z:0x40
     REP #0x20
-a16
     LDX #0xB
     LDA z:0x40
     PHA
     JSL random
     SEP #0x20
-a8
     INC A
     ASL A
     ASL A
@@ -7298,7 +6813,6 @@ a8
     ORA #8
     STA z:0x42
     REP #0x20
-a16
     PLA
     STA z:0x40
     PLX
@@ -7399,7 +6913,6 @@ loc_C55A66:
     LDA #addr(loc_C55A77)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C55A77)
     STA z:2,X
 
@@ -7419,7 +6932,6 @@ loc_C55A84:
 
 loc_C55A8C:
     REP #0x20
-a16
     LDY z:0x12,X
     LDA a:addr(collision_map),Y
     CMP #0x580
@@ -7443,14 +6955,9 @@ loc_C55A9C:
     BNE locret_C55ABD
     JML delete_object
 ; ---------------------------------------------------------------------------
-a8
-
 locret_C55ABD:
     RTL
 ; End of function flower_creator
-
-a8
-i16
 
 create_spotlight:
     SEP #0x20
@@ -7471,9 +6978,6 @@ locret_C55ADA:
     RTL
 ; End of function create_spotlight
 
-a8
-i16
-
 spotlight:
     SEP #0x20
     LDA #6
@@ -7485,7 +6989,6 @@ spotlight:
     LDA #0x83
     STA a:addr(add_substract_select_and_enable) ; orig=0x0C9A
     REP #0x20
-a16
     LDA a:addr(bg2_h_scroll) ; orig=0x0CA1
     STA z:0x11,X
     LDA a:addr(bg2_v_scroll) ; orig=0x0CA3
@@ -7510,13 +7013,11 @@ a16
     LDA #addr(loc_C55B2D)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C55B2D)
     STA z:2,X
 
 loc_C55B2D:
     REP #0x20
-a16
     LDA z:0x20,X
     EOR #0x20
     STA z:0x20,X
@@ -7540,9 +7041,6 @@ loc_C55B4D:
     PLX
     RTL
 ; End of function spotlight
-
-a16
-i16
 
 sub_C55B5B:
     REP #0x20
@@ -7621,9 +7119,6 @@ locret_C55BDD:
     RTL
 ; End of function sub_C55B5B
 
-a16
-i16
-
 sub_C55BDE:
     REP #0x20
     LDA z:0x16,X
@@ -7695,9 +7190,6 @@ loc_C55C2D:
     RTL
 ; End of function sub_C55BDE
 
-a16
-i16
-
 sub_C55C34:
     JSL random2
     REP #0x20
@@ -7738,9 +7230,6 @@ loc_C55C72:
 
 ; ---------------------------------------------------------------------------
     dw 0x139, 0x159, 0x179, 0x199
-a8
-i16
-
 sub_C55C7F:
     SEP #0x20
     LDA a:addr(level_manager_object.spawn_and_flags+1) ; orig=0x0D39
@@ -7755,7 +7244,6 @@ loc_C55C92:
     JSL sub_C55D79
     JSL sub_C55DF9
     REP #0x20
-a16
     LDA #0x88
     STA z:0x40
     LDA #0x136
@@ -7809,12 +7297,8 @@ a16
     RTL
 ; End of function sub_C55C7F
 
-a16
-i16
-
 sub_C55D23:
     SEP #0x20
-a8
     LDA #low(sub_C55D57)
     STA z:0xDB
     LDA #high(sub_C55D57)
@@ -7825,7 +7309,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS locret_C55D56
     LDA z:0x40
     STA a:addr(0x11),Y
@@ -7842,25 +7325,19 @@ locret_C55D56:
     RTL
 ; End of function sub_C55D23
 
-a16
-i16
-
 sub_C55D57:
     REP #0x20
     LDA z:0x20,X
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C55D74)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C55D74)
     STA z:2,X
 
@@ -7868,9 +7345,6 @@ loc_C55D74:
     JSL sub_C55710
     RTL
 ; End of function sub_C55D57
-
-a8
-i16
 
 sub_C55D79:
     SEP #0x20
@@ -7884,15 +7358,11 @@ sub_C55D79:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS locret_C55D56
     LDA #0x40
     STA a:addr(0x20),Y
     RTL
 ; End of function sub_C55D79
-
-a16
-i16
 
 sub_C55D9A:
     REP #0x20
@@ -7904,7 +7374,6 @@ sub_C55D9A:
     LDA #addr(sub_C55DB3)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C55DB3)
     STA z:2,X
 
@@ -7912,34 +7381,24 @@ locret_C55DB2:
     RTL
 ; End of function sub_C55D9A
 
-a8
-i16
-
 sub_C55DB3:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE locret_C55DB2
     REP #0x20
     LDA #addr(sub_C55DC7)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C55DC7)
     STA z:2,X
     RTL
 ; End of function sub_C55DB3
 
-a8
-i16
-
 sub_C55DC7:
     REP #0x20
-a16
     LDA #addr(locret_C55DB2)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(locret_C55DB2)
     STA z:2,X
     SEP #0x20
@@ -7963,9 +7422,6 @@ loc_C55DF3:
     RTL
 ; End of function sub_C55DC7
 
-a8
-i16
-
 sub_C55DF9:
     SEP #0x20
     LDA #low(sub_C55E20)
@@ -7979,7 +7435,6 @@ sub_C55DF9:
     JSL create_object
     BCS locret_C55E1F
     REP #0x20
-a16
     LDA #0
     STA a:addr(0x20),Y
     LDA #7
@@ -7989,10 +7444,8 @@ locret_C55E1F:
     RTL
 ; End of function sub_C55DF9
 
-a16
-i16
-
 sub_C55E20:
+i16
     REP #0x20
     DEC z:0x22,X
     BNE locret_C55E1F
@@ -8010,7 +7463,6 @@ loc_C55E3C:
     PHX
     TAX
     SEP #0x20
-a8
     LDA f:scoreboard_palettes,X
     STA z:0x40
     PLX
@@ -8030,12 +7482,8 @@ animation_frame_C55E57:
 off_C55E58:
     da byte_C55E52, byte_C50D80, byte_C50DBD, byte_C50DFA, byte_C50E37
     da byte_C514A4, byte_C514A4
-a16
-i16
-
 sub_C55E66:
     SEP #0x20
-a8
     LDA #low(sub_C55EA4)
     STA z:0xDB
     LDA #high(sub_C55EA4)
@@ -8046,7 +7494,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C55E84
     JML locret_C55D56
 ; ---------------------------------------------------------------------------
@@ -8067,19 +7514,15 @@ loc_C55E84:
     RTL
 ; End of function sub_C55E66
 
-a16
-i16
-
 sub_C55EA4:
+i16
     REP #0x20
     LDA #addr(loc_C55EF5)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C55EF5)
     STA z:2,X
     REP #0x20
-a16
     LDY z:0x20,X
     LDA z:0x20,X
     CMP z:0x22,X
@@ -8088,11 +7531,9 @@ a16
     LDA #addr(loc_C55EF1)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C55EF1)
     STA z:2,X
     REP #0x20
-a16
     LDA a:addr(6),Y
     AND #0xFF
     BEQ loc_C55EDA
@@ -8113,7 +7554,6 @@ loc_C55EDA:
     STA z:0x50
     PLX
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
@@ -8125,7 +7565,6 @@ loc_C55EF1:
 
 loc_C55EF5:
     REP #0x20
-a16
     LDA z:0xC,X
     CMP #0x202
     BNE loc_C55F05
@@ -8137,12 +7576,8 @@ loc_C55F05:
     RTL
 ; End of function sub_C55EA4
 
-a16
-i16
-
 sub_C55F0A:
     SEP #0x20
-a8
     LDA #low(sub_C55F5C)
     STA z:0xDB
     LDA #high(sub_C55F5C)
@@ -8153,7 +7588,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C55F28
     JML locret_C55D56
 ; ---------------------------------------------------------------------------
@@ -8164,7 +7598,6 @@ loc_C55F28:
     LDA #0x10
     STA a:addr(bg2_v_scroll) ; orig=0x0CA3
     SEP #0x20
-a8
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
     LDA #0x17
@@ -8181,12 +7614,9 @@ a8
     RTL
 ; End of function sub_C55F0A
 
-a8
-i16
-
 sub_C55F5C:
+i16
     REP #0x20
-a16
     LDA #0xFFC0
     STA z:0x11,X
     LDA #0x7C
@@ -8200,20 +7630,17 @@ a16
     LDA #addr(byte_C51BCB)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA a:addr(level_manager_object.anonymous_1+1) ; orig=0x0D13
     AND #0xFF
     ASL A
     PHX
     TAX
     SEP #0x20
-a8
     LDY #7
     LDA f:victory_palettes,X
     STA z:0x40
@@ -8225,17 +7652,14 @@ a8
     JSL palette_related
     PLX
     REP #0x20
-a16
     LDA #addr(loc_C55FBC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C55FBC)
     STA z:2,X
 
 loc_C55FBC:
     REP #0x20
-a16
     LDA z:0x20,X
     CMP #0x130
     BCS loc_C55FD9
@@ -8265,15 +7689,12 @@ loc_C55FEB:
 
 loc_C55FF1:
     SEP #0x20
-a8
     LDA #0x32
     STA a:addr(current_screen) ; orig=0x00A4
     REP #0x20
-a16
     LDA #addr(loc_C56005)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C56005)
     STA z:2,X
 
@@ -8281,9 +7702,6 @@ loc_C56005:
     JSL load_animation_frame
     RTL
 ; End of function sub_C55F5C
-
-a8
-i16
 
 sub_C5600A:
     SEP #0x20
@@ -8297,7 +7715,6 @@ sub_C5600A:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C56028
     JML locret_C55D56
 ; ---------------------------------------------------------------------------
@@ -8308,10 +7725,8 @@ loc_C56028:
     RTL
 ; End of function sub_C5600A
 
-a16
-i16
-
 sub_C5602F:
+i16
     REP #0x20
     DEC z:0x20,X
     BNE locret_C5604B
@@ -8328,9 +7743,6 @@ locret_C5604B:
     RTL
 ; End of function sub_C5602F
 
-a8
-i16
-
 sub_C5604C:
     SEP #0x20
     LDA #low(sub_C56071)
@@ -8343,7 +7755,6 @@ sub_C5604C:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C5606A
     JML locret_C55D56
 ; ---------------------------------------------------------------------------
@@ -8354,10 +7765,8 @@ loc_C5606A:
     RTL
 ; End of function sub_C5604C
 
-a16
-i16
-
 sub_C56071:
+i16
     REP #0x20
     DEC z:0x20,X
     BNE locret_C56083
@@ -8369,9 +7778,6 @@ sub_C56071:
 locret_C56083:
     RTL
 ; End of function sub_C56071
-
-a8
-i16
 
 sub_C56084:
     SEP #0x20
@@ -8385,7 +7791,6 @@ sub_C56084:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C560A2
     JML locret_C55D56
 ; ---------------------------------------------------------------------------
@@ -8393,9 +7798,6 @@ a16
 locret_C560A2:
     RTL
 ; End of function sub_C56084
-
-a16
-i16
 
 sub_C560A3:
     REP #0x20
@@ -8416,23 +7818,19 @@ sub_C560A3:
     LDA #addr(byte_C51BD0)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C560E4)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C560E4)
     STA z:2,X
 
 loc_C560E4:
     REP #0x20
-a16
     DEC z:0x22,X
     BPL loc_C5613F
     LDA z:0x10,X
@@ -8477,7 +7875,6 @@ loc_C56100:
     LDA #addr(loc_C5613F)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C5613F)
     STA z:2,X
 
@@ -8617,19 +8014,15 @@ draw_falling_bombermen:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C56337
     JML locret_C55D56
 ; ---------------------------------------------------------------------------
 
 locret_C56337:
     RTL
-a16
-i16
-
 sub_C56338:
+i16
     SEP #0x20
-a8
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
     LDA #0x17
@@ -8646,7 +8039,6 @@ a8
     LDX #0xD40
     LDY #0
     REP #0x20
-a16
     LDA #0
     STA a:addr(bg2_h_scroll) ; orig=0x0CA1
     LDA #0
@@ -8710,14 +8102,12 @@ loc_C563C4:
     LDA #addr(loc_C563D8)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C563D8)
     STA z:2,X
 
 loc_C563D8:
     JSL sub_C5395A
     REP #0x20
-a16
     BIT #0x10
     BNE loc_C563E7
     DEC z:0x20,X
@@ -8725,19 +8115,14 @@ a16
 
 loc_C563E7:
     SEP #0x20
-a8
     LDA a:addr(level_manager_object.anonymous_2) ; orig=0x0D16
     STA a:addr(current_screen) ; orig=0x00A4
     REP #0x20
-a16
     LDA #addr(locret_C563FC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(locret_C563FC)
     STA z:2,X
-a16
-
 locret_C563FC:
     RTL
 ; END OF FUNCTION CHUNK FOR sub_C53A9F
@@ -8753,12 +8138,8 @@ byte_C56407:
     db 2
     db 4
     db 8
-a16
-i16
-
 sub_C5640B:
     SEP #0x20
-a8
     LDA #low(sub_C56487)
     STA z:0xDB
     LDA #high(sub_C56487)
@@ -8769,7 +8150,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C56429
     JML locret_C55D56
 ; ---------------------------------------------------------------------------
@@ -8809,18 +8189,13 @@ loc_C56429:
     STA z:0x50
     TYX
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     RTL
 ; End of function sub_C5640B
-
-a16
-i16
 
 sub_C56487:
     REP #0x20
@@ -8834,13 +8209,11 @@ loc_C56491:
     LDA #addr(loc_C5649E)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C5649E)
     STA z:2,X
 
 loc_C5649E:
     REP #0x20
-a16
     STZ z:0x42
     LDA z:0x18,X
     CLC
@@ -8870,7 +8243,6 @@ loc_C564B2:
     LDA #addr(loc_C564D6)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C564D6)
     STA z:2,X
 
@@ -8878,9 +8250,6 @@ loc_C564D6:
     JSL load_animation_frame
     RTL
 ; End of function sub_C56487
-
-a8
-i16
 
 sub_C564DB:
     SEP #0x20
@@ -8894,7 +8263,6 @@ sub_C564DB:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C564F9
     JML locret_C56514
 ; ---------------------------------------------------------------------------
@@ -8907,24 +8275,18 @@ loc_C564F9:
     LDA #0
     STA a:addr(0x24),Y
     SEP #0x20
-a8
     STZ a:addr(word_7E0C95) ; orig=0x0C95
     STZ a:addr(word_7E0C95+1) ; orig=0x0C96
     RTL
 ; ---------------------------------------------------------------------------
-a16
-
 locret_C56514:
     RTL
 ; End of function sub_C564DB
 
-a16
-i16
-
 sub_C56515:
+i16
     JSL sub_C53955
     SEP #0x20
-a8
     STA z:0x40
     JSL sub_C56698
     LDA a:addr(word_7E0C95+1) ; orig=0x0C96
@@ -8982,7 +8344,6 @@ a8
 
 loc_C565A0:
     REP #0x20
-a16
     AND #0xF8
     LSR A
     BEQ loc_C565FB
@@ -9004,20 +8365,17 @@ a16
     LDA #0x20
     STA a:addr(0x869),Y
     SEP #0x20
-a8
     LDA a:addr(word_7E0C95+1) ; orig=0x0C96
     CMP #0x30
     BNE loc_C565FB
     INC a:addr(word_7E0C8F) ; orig=0x0C8F
     REP #0x20
-a16
     LDY #1
     JSL play_sound
     REP #0x20
     LDA #addr(loc_C565FB)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C565FB)
     STA z:2,X
 
@@ -9031,7 +8389,6 @@ loc_C565FB:
 loc_C56609:
     JSL sub_C5666E
     REP #0x20
-a16
     DEC z:0x20,X
     BNE locret_C56632
     LDA z:0x22,X
@@ -9051,9 +8408,6 @@ locret_C56632:
     RTL
 ; End of function sub_C56515
 
-a8
-i16
-
 sub_C56633:
     SEP #0x20
     LDA #0xFF
@@ -9061,23 +8415,17 @@ sub_C56633:
     LDA #0xFF
     STA z:0x21,X
     REP #0x20
-a16
     LDA #addr(sub_C5664B)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C5664B)
     STA z:2,X
     RTL
 ; End of function sub_C56633
 
-a8
-i16
-
 sub_C5664B:
     JSL sub_C5666E
     REP #0x20
-a16
     DEC z:0x20,X
     LDA z:0x20,X
     CMP #0xFFE0
@@ -9097,12 +8445,9 @@ loc_C56667:
     RTL
 ; End of function sub_C5664B
 
-a8
-i16
-
 sub_C5666E:
+i16
     REP #0x20
-a16
     LDA a:addr(bg2_v_scroll) ; orig=0x0CA3
     CLC
     ADC #5
@@ -9113,7 +8458,6 @@ a16
     PHX
     TAX
     SEP #0x20
-a8
     LDA f:byte_C56696,X
     STA z:0x40
     LDY #0
@@ -9126,9 +8470,6 @@ a8
 ; ---------------------------------------------------------------------------
 byte_C56696:
     db 0x70, 0
-a8
-i16
-
 sub_C56698:
     SEP #0x20
     INC a:addr(word_7E0C95) ; orig=0x0C95
@@ -9444,12 +8785,8 @@ byte_C56BF0:
 byte_C56BF5:
     db 1
     animation_frame animation_frame_C56AA0, 0xFF
-a16
-i16
-
 sub_C56BFA:
     SEP #0x20
-a8
     LDA #low(sub_C56C37)
     STA z:0xDB
     LDA #high(sub_C56C37)
@@ -9461,12 +8798,8 @@ a8
     JSL create_object
 ; End of function sub_C56BFA
 
-a8
-i16
-
 sub_C56C10:
     REP #0x20
-a16
     BCC loc_C56C18
     JML locret_C56514
 ; ---------------------------------------------------------------------------
@@ -9489,12 +8822,8 @@ loc_C56C18:
     RTL
 ; End of function sub_C56C10
 
-a16
-i16
-
 sub_C56C37:
     SEP #0x20
-a8
     LDA z:0x22,X
     CMP #1
     BNE loc_C56C43
@@ -9506,7 +8835,6 @@ loc_C56C43:
     STA z:0x55
     PHX
     REP #0x20
-a16
     LDA z:0x36,X
     TAY
     LDA z:0x32,X
@@ -9535,7 +8863,6 @@ loc_C56C65:
 
 loc_C56C78:
     SEP #0x20
-a8
     LDA #0xC3
     PHA
     PLB
@@ -9550,7 +8877,6 @@ a8
     PLB
 ; ds=0 B=0
     REP #0x20
-a16
     PLX
     TYA
     STA z:0x36,X
@@ -9566,7 +8892,6 @@ loc_C56CA7:
     LDA #addr(loc_C56CC6)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C56CC6)
     STA z:2,X
     RTL
@@ -9574,7 +8899,6 @@ a8
 
 loc_C56CB5:
     REP #0x20
-a16
     INC z:0x32,X
     LDA z:0x32,X
     CMP #0x18
@@ -9588,11 +8912,9 @@ loc_C56CC4:
 
 loc_C56CC6:
     SEP #0x20
-a8
     LDA #bank(temp_uncompressed_graphics)
     STA z:0x55
     REP #0x20
-a16
     LDA z:0x34,X
     STA z:0x40
     LDA z:0x34,X
@@ -9606,14 +8928,12 @@ a16
     LDA #addr(sub_C56DA2)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C56DA2)
     STA z:0x52
     PHY
     JSL sub_C62514
     PLY
     REP #0x20
-a16
     LDA z:0x34,X
     CLC
     ADC #0x400
@@ -9642,23 +8962,19 @@ loc_C56D01:
     PLX
     STA z:0xE,X
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C56D41)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C56D41)
     STA z:2,X
 
 loc_C56D41:
     REP #0x20
-a16
     LDA z:0x13,X
     CLC
     ADC #0xFF00
@@ -9692,16 +9008,11 @@ word_C56D66:
     dw 0x1030
     da byte_C56BF5
     dw 0x1030
-a16
-i16
-
 sub_C56D78:
     SEP #0x20
-a8
     LDA #0xC3
     STA z:0x55
     REP #0x20
-a16
     LDA z:0x30,X
     STA z:0x53
     PHX
@@ -9714,19 +9025,14 @@ a16
     LDA #addr(sub_C56DA2)
     STA z:0x50
     SEP #0x20
-a8
     LDA #bank(sub_C56DA2)
     STA z:0x52
     JSL sub_C62514
     RTL
 ; End of function sub_C56D78
 
-a8
-i16
-
 sub_C56DA2:
     REP #0x20
-a16
     LDA z:0x40
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
     LDA #0x800
@@ -9735,15 +9041,11 @@ a16
     LDA z:0x53
     STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
     SEP #0x20
-a8
     LDA z:0x55
     STA a:addr(DMA_4_A_ADDRESS_BANK)
     JSL dma_related_
     RTL
 ; End of function sub_C56DA2
-
-a8
-i16
 
 sub_C56DC2:
     JSL graphics_decompression_8192_bytes
@@ -9756,7 +9058,6 @@ loc_C56DCB:
     LDA #0
     STA a:addr(H_DMA_CHANNEL_ENABLE)
     REP #0x20
-a16
     LDA #0x6800
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
     LDA #0x1000
@@ -9765,7 +9066,6 @@ a16
     LDA #addr(temp_uncompressed_graphics)
     STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
     SEP #0x20
-a8
     LDA #bank(temp_uncompressed_graphics)
     STA a:addr(DMA_4_A_ADDRESS_BANK)
     JSL dma_related_
@@ -9779,7 +9079,6 @@ loc_C56DFF:
     LDA #0
     STA a:addr(H_DMA_CHANNEL_ENABLE)
     REP #0x20
-a16
     LDA #0x7000
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
     LDA #0x1000
@@ -9788,7 +9087,6 @@ a16
     LDA #addr(temp_uncompressed_graphics)
     STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
     SEP #0x20
-a8
     LDA #bank(temp_uncompressed_graphics)
     STA a:addr(DMA_4_A_ADDRESS_BANK)
     JSL dma_related_
@@ -9802,7 +9100,6 @@ loc_C56E33:
     LDA #0
     STA a:addr(H_DMA_CHANNEL_ENABLE)
     REP #0x20
-a16
     LDA #0x7800
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
     LDA #0x1000
@@ -9811,7 +9108,6 @@ a16
     LDA #addr(temp_uncompressed_graphics)
     STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
     SEP #0x20
-a8
     LDA #bank(temp_uncompressed_graphics)
     STA a:addr(DMA_4_A_ADDRESS_BANK)
     JSL dma_related_
@@ -9821,9 +9117,6 @@ a8
 ; ---------------------------------------------------------------------------
 off_C56E5F:
     da byte_C56305, byte_C5630A, byte_C56314, byte_C5630F
-a8
-i16
-
 sub_C56E67:
     SEP #0x20
     LDA #low(sub_C56E92)
@@ -9836,7 +9129,6 @@ sub_C56E67:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C56E85
     JML nullsub_7
 ; ---------------------------------------------------------------------------
@@ -9850,29 +9142,20 @@ loc_C56E85:
 
 nullsub_7:
     RTL
-a16
-i16
-
 sub_C56E92:
     JSL sub_C5395A
     SEP #0x20
-a8
     BIT #0x10
     BNE loc_C56EA2
 ; End of function sub_C56E92
 
-a8
-i16
-
 sub_C56E9C:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE locret_C56EB1
 
 loc_C56EA2:
     SEP #0x20
-a8
     LDA #0x31
     STA a:addr(current_screen) ; orig=0x00A4
     JSL delete_object
@@ -9886,9 +9169,6 @@ locret_C56EB1:
 word_C56EB2:
     dw 0x48
     dw 0x92
-a8
-i16
-
 sub_C56EB6:
     SEP #0x20
     LDA #low(sub_C56ED5)
@@ -9901,7 +9181,6 @@ sub_C56EB6:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C56ED4
     JML nullsub_7
 ; ---------------------------------------------------------------------------
@@ -9910,12 +9189,9 @@ locret_C56ED4:
     RTL
 ; End of function sub_C56EB6
 
-a16
-i16
-
 sub_C56ED5:
+i16
     SEP #0x20
-a8
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
     LDA #0x17
@@ -9925,7 +9201,6 @@ a8
     LDA #0
     STA a:addr(add_substract_select_and_enable) ; orig=0x0C9A
     REP #0x20
-a16
     LDA #0x3F8
     STA a:addr(bg1_h_scroll) ; orig=0x0C9D
     LDA #0x3E8
@@ -9943,7 +9218,6 @@ a16
     LDA #addr(byte_C51749)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
@@ -9958,17 +9232,14 @@ a8
 
 loc_C56F32:
     REP #0x20
-a16
     LDA #addr(loc_C56F72)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C56F72)
     STA z:2,X
     JSL generate_password
     JSL sub_C57038
     REP #0x20
-a16
     LDA #0x58
     STA z:0x42
     LDA a:addr(word_7E0C7F) ; orig=0x0C7F
@@ -10013,7 +9284,6 @@ loc_C56FA1:
     LDY #1
     JSL play_sound
     SEP #0x20
-a8
     LDA z:0x20,X
     BNE loc_C56FFC
     LDA a:addr(level_manager_object.anonymous_2) ; orig=0x0D16
@@ -10043,11 +9313,9 @@ a8
 
 loc_C56FED:
     REP #0x20
-a16
     LDA #addr(loc_C56F9C)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C56F9C)
     STA z:2,X
     BRA loc_C56F9C
@@ -10057,20 +9325,17 @@ loc_C56FFC:
     LDY #0xF
     JSL play_music
     REP #0x20
-a16
     LDA #0x140
     STA z:0x20,X
     REP #0x20
     LDA #addr(loc_C57017)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57017)
     STA z:2,X
 
 loc_C57017:
     REP #0x20
-a16
     DEC z:0x20,X
     BEQ loc_C57021
     JML loc_C56F9C
@@ -10078,22 +9343,16 @@ a16
 
 loc_C57021:
     SEP #0x20
-a8
     LDA #0x31
     STA a:addr(current_screen) ; orig=0x00A4
     REP #0x20
-a16
     LDA #addr(loc_C56F9C)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C56F9C)
     STA z:2,X
     JMP a:addr(loc_C56F9C)
 ; End of function sub_C56ED5
-
-a8
-i16
 
 sub_C57038:
     SEP #0x20
@@ -10107,7 +9366,6 @@ sub_C57038:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C57056
     JML nullsub_7
 ; ---------------------------------------------------------------------------
@@ -10115,9 +9373,6 @@ a16
 locret_C57056:
     RTL
 ; End of function sub_C57038
-
-a16
-i16
 
 sub_C57057:
     REP #0x20
@@ -10132,17 +9387,14 @@ sub_C57057:
     LDA #addr(byte_C5174E)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C57089)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57089)
     STA z:2,X
 
@@ -10151,12 +9403,8 @@ loc_C57089:
     RTL
 ; End of function sub_C57057
 
-a16
-i16
-
 sub_C5708E:
     SEP #0x20
-a8
     LDA #low(sub_C570CD)
     STA z:0xDB
     LDA #high(sub_C570CD)
@@ -10167,7 +9415,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS loc_C570C4
     LDA z:0x40
     STA a:addr(0x20),Y
@@ -10188,9 +9435,6 @@ loc_C570C4:
     RTL
 ; End of function sub_C5708E
 
-a16
-i16
-
 sub_C570CD:
     REP #0x20
     LDA z:0x20,X
@@ -10202,17 +9446,14 @@ sub_C570CD:
     STA z:0x50
     PLX
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C570F5)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C570F5)
     STA z:2,X
 
@@ -10232,12 +9473,8 @@ password_encryption_key:
 password_decryption_key:
     dw 1, 3, 4, 6, 2, 0, 5, 7
 endif
-a16
-i16
-
 sub_C5710A:
     SEP #0x20
-a8
     LDA #low(sub_C57129)
     STA z:0xDB
     LDA #high(sub_C57129)
@@ -10248,7 +9485,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C57128
     JML nullsub_7
 ; ---------------------------------------------------------------------------
@@ -10256,9 +9492,6 @@ a16
 locret_C57128:
     RTL
 ; End of function sub_C5710A
-
-a16
-i16
 
 sub_C57129:
     REP #0x20
@@ -10273,7 +9506,6 @@ sub_C57129:
     LDA #addr(byte_C5173F)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
@@ -10281,9 +9513,6 @@ a8
     JSL advance_animation
     RTL
 ; End of function sub_C57129
-
-a8
-i16
 
 sub_C57153:
     SEP #0x20
@@ -10297,7 +9526,6 @@ sub_C57153:
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C57171
     JML nullsub_7
 ; ---------------------------------------------------------------------------
@@ -10306,19 +9534,12 @@ locret_C57171:
     RTL
 ; End of function sub_C57153
 
-a16
-i16
-
 sub_C57172:
     JSL sub_C5710A
 ; End of function sub_C57172
 
-a16
-i16
-
 sub_C57176:
     SEP #0x20
-a8
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
     LDA #0x17
@@ -10328,7 +9549,6 @@ a8
     LDA #0
     STA a:addr(add_substract_select_and_enable) ; orig=0x0C9A
     REP #0x20
-a16
     LDA #0x3F8
     STA a:addr(bg1_h_scroll) ; orig=0x0C9D
     LDA #0x3E8
@@ -10351,26 +9571,20 @@ a16
     STA z:0x50
 ; End of function sub_C57176
 
-a16
-i16
-
 sub_C571C2:
+i16
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C571F3)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C571F3)
     STA z:2,X
     REP #0x20
-a16
     LDA #0x58
     STA z:0x42
     TXA
@@ -10386,7 +9600,6 @@ loc_C571F3:
     JSL sub_C5395A
     STA z:0x49
     SEP #0x20
-a8
     LDA z:0x49
     BIT #0x10
     BEQ loc_C5720B
@@ -10421,7 +9634,6 @@ loc_C57226:
     PLX
     STA z:0x11,X
     REP #0x20
-a16
     LDA z:0x20,X
     AND #0xFF
     STA z:0x40
@@ -10431,7 +9643,6 @@ a16
     ADC z:0x40
     TAX
     SEP #0x20
-a8
     LDA z:0x49
     BIT #0xC
     BEQ loc_C57264
@@ -10458,16 +9669,12 @@ loc_C5726B:
     JSL advance_animation
     RTL
 ; END OF FUNCTION CHUNK FOR sub_C572B0
-a8
-i16
-
 sub_C57270:
+i16
     REP #0x20
-a16
     LDA #addr(loc_C572AB)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C572AB)
     STA z:2,X
     SEP #0x20
@@ -10498,15 +9705,12 @@ loc_C572AB:
     RTL
 ; End of function sub_C57270
 
-a8
-i16
-
 sub_C572B0:
+i16
 
 ; FUNCTION CHUNK AT 726B SIZE 00000005 BYTES
 
     REP #0x20
-a16
     LDA z:0x30,X
     AND #0xFF
     ASL A
@@ -10515,10 +9719,8 @@ a16
     LDA f:password_decryption_key,X
     PLX
     SEP #0x20
-a8
     STA z:0x38,X
     REP #0x20
-a16
     LDA z:0x31,X
     AND #0xFF
     ASL A
@@ -10527,10 +9729,8 @@ a16
     LDA f:password_decryption_key,X
     PLX
     SEP #0x20
-a8
     STA z:0x39,X
     REP #0x20
-a16
     LDA z:0x32,X
     AND #0xFF
     ASL A
@@ -10539,10 +9739,8 @@ a16
     LDA f:password_decryption_key,X
     PLX
     SEP #0x20
-a8
     STA z:0x3A,X
     REP #0x20
-a16
     LDA z:0x33,X
     AND #0xFF
     ASL A
@@ -10551,7 +9749,6 @@ a16
     LDA f:password_decryption_key,X
     PLX
     SEP #0x20
-a8
     BIT #1
     BEQ loc_C57302
     JML sub_C57270
@@ -10598,12 +9795,10 @@ loc_C57326:
     LDA #0
     STA a:addr(player2_object+0x32) ; orig=0x0DB2
     REP #0x20
-a16
     LDA a:addr(joypad_2_pressed) ; orig=0x0CFA
     BIT #0x1080
     BEQ loc_C5736E
     SEP #0x20
-a8
     LDA #0
     STA a:addr(player1_object+0x31) ; orig=0x0D71
     LDA #0
@@ -10615,11 +9810,9 @@ a8
 
 loc_C5736E:
     REP #0x20
-a16
     LDA #addr(loc_C5726B)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C5726B)
     STA z:2,X
     JMP a:addr(loc_C5726B)
@@ -10629,12 +9822,8 @@ a8
 word_C5737E:
     dw 0x6848
     dw 0xA888
-a16
-i16
-
 sub_C57382:
     SEP #0x20
-a8
     LDA #low(sub_C573C7)
     STA z:0xDB
     LDA #high(sub_C573C7)
@@ -10645,7 +9834,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC loc_C573A0
     JML loc_C573BC
 ; ---------------------------------------------------------------------------
@@ -10671,9 +9859,6 @@ loc_C573BC:
     RTL
 ; End of function sub_C57382
 
-a16
-i16
-
 sub_C573C7:
     REP #0x20
     LDY z:0x30,X
@@ -10686,7 +9871,6 @@ sub_C573C7:
     STA z:0x50
     PLX
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
@@ -10695,12 +9879,8 @@ a8
     RTL
 ; End of function sub_C573C7
 
-a16
-i16
-
 sub_C573EA:
     SEP #0x20
-a8
     LDA #low(sub_C57409)
     STA z:0xDB
     LDA #high(sub_C57409)
@@ -10711,7 +9891,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C57408
     JML nullsub_7
 ; ---------------------------------------------------------------------------
@@ -10720,10 +9899,8 @@ locret_C57408:
     RTL
 ; End of function sub_C573EA
 
-a16
-i16
-
 sub_C57409:
+i16
     REP #0x20
     LDA #0xC30
     STA z:0xE,X
@@ -10736,7 +9913,6 @@ sub_C57409:
     LDA #addr(byte_C519CC)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
@@ -10746,11 +9922,9 @@ a8
     CMP #0x68
     BEQ loc_C57449
     REP #0x20
-a16
     LDA #addr(loc_C57444)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57444)
     STA z:2,X
 
@@ -10763,49 +9937,40 @@ loc_C57449:
     LDY #0x1B
     JSL play_music
     REP #0x20
-a16
     LDA #0x180
     STA z:0x20,X
     LDA #addr(byte_C51A17)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(loc_C57473)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57473)
     STA z:2,X
 
 loc_C57473:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE loc_C574A0
     LDA #addr(byte_C519D1)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(sub_C574A5)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C574A5)
     STA z:2,X
     REP #0x20
-a16
     LDA #0x90
     STA z:0x40
     JSL sub_C7724D
@@ -10814,9 +9979,6 @@ loc_C574A0:
     JSL advance_animation
     RTL
 ; End of function sub_C57409
-
-a16
-i16
 
 sub_C574A5:
     JSL advance_animation
@@ -10827,17 +9989,14 @@ sub_C574A5:
     LDA #addr(byte_C51A12)
     STA z:0x50
     SEP #0x20
-a8
     PHK
     PLA
     STA z:0x52
     JSL start_animation
     REP #0x20
-a16
     LDA #addr(sub_C574CF)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C574CF)
     STA z:2,X
 
@@ -10845,13 +10004,10 @@ locret_C574CE:
     RTL
 ; End of function sub_C574A5
 
-a8
-i16
-
 sub_C574CF:
+i16
     JSL advance_animation
     REP #0x20
-a16
     DEC z:0x20,X
     BNE locret_C574ED
     LDY #0x11
@@ -10860,7 +10016,6 @@ a16
     LDA #addr(loc_C574A0)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C574A0)
     STA z:2,X
 
@@ -10868,10 +10023,8 @@ locret_C574ED:
     RTL
 ; End of function sub_C574CF
 
-a8
-i16
-
 sub_C574EE:
+i16
     SEP #0x20
     LDY #0
     LDA #addr(MECHA_BOMBER_GREEN_PALETTE)
@@ -10879,7 +10032,6 @@ sub_C574EE:
     LDA #0xA
     JSL palette_related
     REP #0x20
-a16
     INC z:0x50
 
 loc_C57501:
@@ -10887,10 +10039,8 @@ loc_C57501:
     RTL
 ; End of function sub_C574EE
 
-a16
-i16
-
 sub_C57504:
+i16
 
 ; FUNCTION CHUNK AT 7CE8 SIZE 00000054 BYTES
 
@@ -10902,7 +10052,6 @@ sub_C57504:
     AND #0xFF
     BNE loc_C57567
     SEP #0x20
-a8
     LDA #low(loc_C5753B)
     STA z:0xDB
     LDA #high(loc_C5753B)
@@ -10913,7 +10062,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS loc_C57567
     LDA z:0x50
     STA a:addr(0x22),Y
@@ -10929,7 +10077,6 @@ loc_C5753B:
 
 loc_C57542:
     SEP #0x20
-a8
     LDA #low(sub_C57570)
     STA z:0xDB
     LDA #high(sub_C57570)
@@ -10940,7 +10087,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS loc_C57567
     LDA z:0x50
     STA a:addr(0x22),Y
@@ -10955,10 +10101,8 @@ loc_C57567:
     RTL
 ; End of function sub_C57504
 
-a16
-i16
-
 sub_C57570:
+i16
     REP #0x20
     LDA z:0x22,X
     STA z:0x50
@@ -10982,7 +10126,6 @@ sub_C57570:
     LDA #addr(player_animation_list)
     STA z:0x18,X
     SEP #0x20
-a8
     LDA #bank(player_animation_list)
     STA z:0x1A,X
     LDY #8
@@ -10990,22 +10133,16 @@ a8
     STA z:0x40
     JSL sub_C57F9F
     REP #0x20
-a16
     LDA #addr(sub_C575C1)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C575C1)
     STA z:2,X
     RTL
 ; End of function sub_C57570
 
-a8
-i16
-
 sub_C575C1:
     REP #0x20
-a16
     DEC z:0x30,X
     BNE loc_C575E2
     LDA #0xB30
@@ -11017,13 +10154,11 @@ a16
     LDA #addr(sub_C575FD)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C575FD)
     STA z:2,X
 
 loc_C575E2:
     REP #0x20
-a16
     LDA z:0x14,X
     PHA
     LDA z:0x1E,X
@@ -11040,20 +10175,13 @@ loc_C575F3:
     RTL
 ; End of function sub_C575C1
 
-a16
-i16
-
 sub_C575FD:
     JSL advance_animation
     RTL
 ; End of function sub_C575FD
 
-a16
-i16
-
 sub_C57602:
     SEP #0x20
-a8
     LDA #low(sub_C57621)
     STA z:0xDB
     LDA #high(sub_C57621)
@@ -11064,7 +10192,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCC locret_C57620
     JML nullsub_7
 ; ---------------------------------------------------------------------------
@@ -11073,9 +10200,6 @@ locret_C57620:
     RTL
 ; End of function sub_C57602
 
-a16
-i16
-
 sub_C57621:
     JSL sub_C573EA
     JSL sub_C576B5
@@ -11083,7 +10207,6 @@ sub_C57621:
     LDA #addr(loc_C5767D)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C5767D)
     STA z:2,X
     SEP #0x20
@@ -11096,7 +10219,6 @@ a8
     LDA #0
     STA a:addr(add_substract_select_and_enable) ; orig=0x0C9A
     REP #0x20
-a16
     LDA #0
     STA a:addr(bg2_h_scroll) ; orig=0x0CA1
     LDA #0
@@ -11128,7 +10250,6 @@ loc_C5767D:
     BCC locret_C576B4
     JSL sub_C5395A
     SEP #0x20
-a8
     BIT #0x10
     BEQ locret_C576B4
 
@@ -11149,18 +10270,13 @@ locret_C576B4:
     RTL
 ; End of function sub_C57621
 
-a16
-i16
-
 sub_C576B5:
     SEP #0x20
-a8
     LDA #bank(byte_C576E3)
     STA z:0x52
     LDA #bank(byte_C576E3)
     STA z:0x55
     REP #0x20
-a16
     LDA a:addr(level_manager_object.anonymous_2+1) ; orig=0x0D17
     AND #0xF0
     LSR A
@@ -11501,9 +10617,6 @@ off_C579E9:
 off_C57AB1:
     da byte_C576E3, off_C57725, off_C57767, off_C577E9, off_C57885
     da off_C578E7, off_C579E9
-a16
-i16
-
 sub_C57ABF:
     REP #0x20
     STZ z:0x16,X
@@ -11548,12 +10661,9 @@ locret_C57B10:
     RTL
 ; End of function sub_C57ABF
 
-a16
-i16
-
 sub_C57B11:
+i16
     SEP #0x20
-a8
     LDA #low(sub_C57B47)
     STA z:0xDB
     LDA #high(sub_C57B47)
@@ -11564,7 +10674,6 @@ a8
     STA z:0xD3
     JSL create_object
     REP #0x20
-a16
     BCS loc_C57B36
     LDA z:0x50
     STA a:addr(0x22),Y
@@ -11586,10 +10695,8 @@ loc_C57B36:
     RTL
 ; End of function sub_C57B11
 
-a16
-i16
-
 sub_C57B47:
+i16
     REP #0x20
     LDA z:0x22,X
     STA z:0x50
@@ -11640,13 +10747,11 @@ sub_C57B47:
     LDA #addr(loc_C57BC2)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57BC2)
     STA z:2,X
 
 loc_C57BC2:
     REP #0x20
-a16
     DEC z:0x30,X
     BMI loc_C57BCC
     JML locret_C57C52
@@ -11657,13 +10762,11 @@ loc_C57BCC:
     LDA #addr(loc_C57BD9)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57BD9)
     STA z:2,X
 
 loc_C57BD9:
     REP #0x20
-a16
     DEC z:0x32,X
     BMI loc_C57BE3
     JML loc_C57C4E
@@ -11685,13 +10788,11 @@ loc_C57BF9:
     LDA #addr(loc_C57C06)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57C06)
     STA z:2,X
 
 loc_C57C06:
     REP #0x20
-a16
     LDA z:0x22,X
     STA z:0x50
     LDA z:0x23,X
@@ -11767,13 +10868,11 @@ loc_C57C53:
     LDA #addr(loc_C57C9C)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57C9C)
     STA z:2,X
 
 loc_C57C9C:
     REP #0x20
-a16
     LDA z:0x22,X
     STA z:0x50
     LDA z:0x23,X
@@ -11804,11 +10903,9 @@ loc_C57CC3:
     LDA #addr(loc_C57D02)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57D02)
     STA z:2,X
     REP #0x20
-a16
     LDA z:0xF,X
     AND #0xFF
     BEQ loc_C57D37
@@ -11816,7 +10913,6 @@ a16
     LDA #addr(sub_C57DF7)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57DF7)
     STA z:2,X
     BRA loc_C57D37
@@ -11827,20 +10923,17 @@ a8
 
 loc_C57CE8:
     REP #0x20
-a16
     LDA #0xA9
     STA z:0x20,X
     REP #0x20
     LDA #addr(loc_C57CFC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57CFC)
     STA z:2,X
 
 loc_C57CFC:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE loc_C57D37
 
@@ -11855,13 +10948,11 @@ loc_C57D02:
     LDA #addr(loc_C57D1F)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57D1F)
     STA z:2,X
 
 loc_C57D1F:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE loc_C57D37
     LDA #0x10
@@ -11870,7 +10961,6 @@ a16
     LDA #addr(sub_C57D3C)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57D3C)
     STA z:2,X
 
@@ -11878,12 +10968,8 @@ loc_C57D37:
     JSL advance_animation_2
     RTL
 ; END OF FUNCTION CHUNK FOR sub_C57504
-a8
-i16
-
 sub_C57D3C:
     REP #0x20
-a16
     DEC z:0x14,X
     DEC z:0x20,X
     BNE loc_C57D5A
@@ -11894,7 +10980,6 @@ a16
     LDA #addr(sub_C57D5F)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57D5F)
     STA z:2,X
 
@@ -11903,14 +10988,10 @@ loc_C57D5A:
     RTL
 ; End of function sub_C57D3C
 
-a8
-i16
-
 sub_C57D5F:
     JSL advance_animation
     BCC locret_C57D82
     REP #0x20
-a16
     LDA #0x10
     STA z:0x20,X
     LDA #8
@@ -11920,7 +11001,6 @@ a16
     LDA #addr(sub_C57D83)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57D83)
     STA z:2,X
 
@@ -11928,12 +11008,8 @@ locret_C57D82:
     RTL
 ; End of function sub_C57D5F
 
-a8
-i16
-
 sub_C57D83:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE loc_C57DA4
     LDA #0x10
@@ -11945,7 +11021,6 @@ a16
     LDA #addr(sub_C57DA9)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57DA9)
     STA z:2,X
 
@@ -11954,12 +11029,8 @@ loc_C57DA4:
     RTL
 ; End of function sub_C57D83
 
-a8
-i16
-
 sub_C57DA9:
     REP #0x20
-a16
     INC z:0x14,X
     DEC z:0x20,X
     BNE loc_C57DCC
@@ -11972,7 +11043,6 @@ a16
     LDA #addr(sub_C57DD1)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57DD1)
     STA z:2,X
 
@@ -11981,12 +11051,8 @@ loc_C57DCC:
     RTL
 ; End of function sub_C57DA9
 
-a8
-i16
-
 sub_C57DD1:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE loc_C57DF2
     LDA #0xB30
@@ -11998,7 +11064,6 @@ a16
     LDA #addr(loc_C57DCC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57DCC)
     STA z:2,X
 
@@ -12007,12 +11072,9 @@ loc_C57DF2:
     RTL
 ; End of function sub_C57DD1
 
-a8
-i16
-
 sub_C57DF7:
+i16
     REP #0x20
-a16
     LDA #0x100
     STA z:0x20,X
     LDA #4
@@ -12022,13 +11084,11 @@ a16
     LDA #addr(loc_C57E14)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57E14)
     STA z:2,X
 
 loc_C57E14:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE loc_C57E38
     LDA #0
@@ -12039,7 +11099,6 @@ a16
     LDA #addr(sub_C57E3D)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57E3D)
     STA z:2,X
     LDY #0x16
@@ -12050,12 +11109,8 @@ loc_C57E38:
     RTL
 ; End of function sub_C57DF7
 
-a8
-i16
-
 sub_C57E3D:
     REP #0x20
-a16
     LDA z:0x20,X
     ASL A
     PHX
@@ -12067,13 +11122,11 @@ a16
     LDA #addr(loc_C57E58)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57E58)
     STA z:2,X
 
 loc_C57E58:
     REP #0x20
-a16
     LDA #0xB
     STA z:0x40
     STZ z:0x42
@@ -12093,7 +11146,6 @@ loc_C57E74:
     ADC z:0x13,X
     STA z:0x13,X
     SEP #0x20
-a8
     LDA z:0x42
     ADC z:0x15,X
     STA z:0x15,X
@@ -12105,7 +11157,6 @@ a8
 loc_C57E89:
     JSL sub_C57F9F
     REP #0x20
-a16
     LDA z:0x14,X
     BMI loc_C57EC7
     CMP #0x58
@@ -12116,11 +11167,9 @@ a16
     LDA #addr(sub_C57E3D)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57E3D)
     STA z:2,X
     REP #0x20
-a16
     INC z:0x20,X
     LDA z:0x20,X
     CMP #3
@@ -12131,7 +11180,6 @@ a16
     LDA #addr(sub_C57ECC)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(sub_C57ECC)
     STA z:2,X
 
@@ -12140,12 +11188,8 @@ loc_C57EC7:
     RTL
 ; End of function sub_C57E3D
 
-a8
-i16
-
 sub_C57ECC:
     REP #0x20
-a16
     DEC z:0x20,X
     BNE loc_C57EE8
     LDA #0xA
@@ -12155,7 +11199,6 @@ a16
     LDA #addr(loc_C57EE8)
     STA z:0,X
     SEP #0x20
-a8
     LDA #bank(loc_C57EE8)
     STA z:2,X
 
@@ -12167,10 +11210,8 @@ loc_C57EE8:
 ; ---------------------------------------------------------------------------
 word_C57EED:
     dw 0xFA00, 0xFD00, 0xFE00
-a16
-i16
-
 sub_C57EF3:
+i16
     REP #0x20
     LDA z:0x22,X
     STA z:0x50
@@ -12220,12 +11261,8 @@ loc_C57F4C:
     RTL
 ; End of function sub_C57EF3
 
-a16
-i16
-
 sub_C57F51:
     SEP #0x20
-a8
     LDA #0
     STA z:0x44
     LDA z:0
@@ -12263,7 +11300,6 @@ loc_C57F76:
     NOP
     NOP
     REP #0x20
-a16
     LDA a:addr(QUOTIENT_OF_DIVIDE_RESULT_LOW_BYTE)
     STA z:0x40
     LDA z:0x44
@@ -12276,9 +11312,6 @@ a16
 locret_C57F9E:
     RTL
 ; End of function sub_C57F51
-
-a16
-i16
 
 sub_C57F9F:
     REP #0x20
@@ -12296,10 +11329,8 @@ sub_C57F9F:
     RTL
 ; End of function sub_C57F9F
 
-a8
-i16
-
 generate_password:
+i16
     SEP #0x20
     PHX
     LDA a:addr(level_manager_object.anonymous_2+1) ; orig=0x0D17
@@ -12327,27 +11358,22 @@ generate_password:
     AND #7
     STA a:addr(word_7E0C7F) ; orig=0x0C7F
     REP #0x20
-a16
     LDA a:addr(word_7E0C7F) ; orig=0x0C7F
     AND #0xFF
     ASL A
     TAX
     LDA f:password_encryption_key,X
     SEP #0x20
-a8
     STA a:addr(word_7E0C7F) ; orig=0x0C7F
     REP #0x20
-a16
     LDA a:addr(word_7E0C7F+1) ; orig=0x0C80
     AND #0xFF
     ASL A
     TAX
     LDA f:password_encryption_key,X
     SEP #0x20
-a8
     STA a:addr(word_7E0C7F+1) ; orig=0x0C80
     REP #0x20
-a16
     LDA a:addr(word_7E0C81) ; orig=0x0C81
 
 loc_C5801A:
@@ -12356,21 +11382,17 @@ loc_C5801A:
     TAX
     LDA f:password_encryption_key,X
     SEP #0x20
-a8
     STA a:addr(word_7E0C81) ; orig=0x0C81
     REP #0x20
-a16
     LDA a:addr(word_7E0C81+1) ; orig=0x0C82
     AND #0xFF
     ASL A
     TAX
     LDA f:password_encryption_key,X
     SEP #0x20
-a8
     STA a:addr(word_7E0C81+1) ; orig=0x0C82
     PLX
     REP #0x20
-a16
     LDA a:addr(word_7E0C7F) ; orig=0x0C7F
     STA a:addr(word_7E0C83) ; orig=0x0C83
     STA a:addr(word_7E0C87) ; orig=0x0C87

@@ -1,21 +1,15 @@
 segment "BANK3"
 
-a8
-i8
-
 init_dboot:
     REP #0x20
-a16
     PHX
     LDA #0
 
 loc_C30006:
     JSL dboot_command
     REP #0x10
-i16
     PLX
     SEP #0x20
-a8
 
 loc_C3000F:
     LDA #0
@@ -27,9 +21,6 @@ locret_C30015:
     RTL
 ; End of function init_dboot
 
-a16
-i16
-
 dboot_related_:
     REP #0x20
     PHX
@@ -38,17 +29,12 @@ dboot_related_:
     REP #0x10
     PLX
     SEP #0x20
-a8
     LDA #0
     PHA
     PLB
     REP #0x20
-a16
     RTL
 ; End of function dboot_related_
-
-a16
-i16
 
 ; Y = Music Index
 
@@ -60,46 +46,34 @@ play_music:
     REP #0x10
     PLX
     SEP #0x20
-a8
     LDA #0
     PHA
 
 loc_C3003E:
     PLB
     REP #0x20
-a16
     RTL
 ; End of function play_music
 
-a8
-i16
-
 play_sound:
     REP #0x20
-a16
     PHX
     LDA #0x14
     JSL dboot_command
     REP #0x10
     PLX
     SEP #0x20
-a8
     LDA #0
     PHA
     PLB
 
 loc_C30055:
     REP #0x20
-a16
     RTL
 ; End of function play_sound
 
-a8
-i16
-
 fade_out_music:
     REP #0x20
-a16
     PHX
     LDA #0x15
     JSL dboot_command
@@ -108,17 +82,12 @@ a16
 
 loc_C30065:
     SEP #0x20
-a8
     LDA #0
     PHA
     PLB
     REP #0x20
-a16
     RTL
 ; End of function fade_out_music
-
-a16
-i16
 
 dboot_16:
     REP #0x20
@@ -130,19 +99,14 @@ loc_C30074:
     REP #0x10
     PLX
     SEP #0x20
-a8
 
 loc_C3007D:
     LDA #0
     PHA
     PLB
     REP #0x20
-a16
     RTL
 ; End of function dboot_16
-
-a16
-i16
 
 dboot_17:
     REP #0x20
@@ -152,17 +116,12 @@ dboot_17:
     REP #0x10
     PLX
     SEP #0x20
-a8
     LDA #0
     PHA
     PLB
     REP #0x20
-a16
     RTL
 ; End of function dboot_17
-
-a16
-i16
 
 dboot_18:
     REP #0x20
@@ -172,17 +131,12 @@ dboot_18:
     REP #0x10
     PLX
     SEP #0x20
-a8
     LDA #0
     PHA
     PLB
     REP #0x20
-a16
     RTL
 ; End of function dboot_18
-
-a16
-i16
 
 dboot_19:
     REP #0x20
@@ -194,14 +148,12 @@ loc_C300B3:
     REP #0x10
     PLX
     SEP #0x20
-a8
     LDA #0
     PHA
     PLB
 
 loc_C300C3:
     REP #0x20
-a16
     RTL
 ; End of function dboot_19
 
@@ -759,9 +711,6 @@ byte_C30C24:
     db 0xFF
 score_popup_related:
     dw 0xC4D, 0xC52, 0xC57, 0xC5C, 0xC61, 0xC66, 0xC6B, 0xC6B, 0xC6B, 0xC6B
-a8
-i16
-
 transfer_oam:
     SEP #0x20
     LDA #0
@@ -785,13 +734,8 @@ transfer_oam:
     RTL
 ; End of function transfer_oam
 
-a16
-i16
-
 interrupt_register_init:
     SEP #0x30
-a8
-i8
     LDX #0
 
 loc_C30CB8:
@@ -808,18 +752,11 @@ loc_C30CB8:
 
 loc_C30CCC:
     REP #0x30
-a16
-i16
     RTL
 ; End of function interrupt_register_init
 
-a16
-i16
-
 gpu_registers_init:
     SEP #0x30
-a8
-i8
     LDX #0
 
 loc_C30CD3:
@@ -836,8 +773,6 @@ loc_C30CD3:
 
 loc_C30CE7:
     REP #0x30
-a16
-i16
     RTL
 ; End of function gpu_registers_init
 
