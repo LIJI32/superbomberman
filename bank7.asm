@@ -1478,9 +1478,9 @@ i16
     ORA #8
     STA a:addr(game_flags) ; orig=0x0314
     LDA #0x30
-    STA a:addr(player1_object+player.palette) ; orig=0x0D4E
+    STA a:addr(player_1.palette) ; orig=0x0D4E
     LDA #0x30
-    STA a:addr(player2_object+player.palette) ; orig=0x0D8E
+    STA a:addr(player_2.palette) ; orig=0x0D8E
     REP #0x20
     LDA #addr(_crane_hand)
     STA z:0,X
@@ -1877,13 +1877,13 @@ sub_C71396:
     LDA #0x100
     STA a:addr(bg2_h_scroll) ; orig=0x0CA1
     LDA #0x68
-    STA a:addr(player1_object+player.x_position) ; orig=0x0D51
+    STA a:addr(player_1.x_position) ; orig=0x0D51
     LDA #0xB8
-    STA a:addr(player1_object+player.y_position) ; orig=0x0D54
+    STA a:addr(player_1.y_position) ; orig=0x0D54
     LDA #0xA8
-    STA a:addr(player2_object+player.x_position) ; orig=0x0D91
+    STA a:addr(player_2.x_position) ; orig=0x0D91
     LDA #0xB8
-    STA a:addr(player2_object+player.y_position) ; orig=0x0D94
+    STA a:addr(player_2.y_position) ; orig=0x0D94
     PHX
     LDX #0xD40
     REP #0x20
@@ -3845,7 +3845,7 @@ i16
     JML sub_C726B9
 
 .loc_C725DC:
-    LDY #addr(player1_object)
+    LDY #addr(player_1)
     LDA a:addr(4),Y
     BIT #1
     BEQ .loc_C725FB
@@ -3859,7 +3859,7 @@ i16
 
 .loc_C725FB:
     REP #0x20
-    LDY #addr(player2_object)
+    LDY #addr(player_2)
     LDA a:addr(4),Y
     BIT #1
     BEQ .loc_C7261C
@@ -4179,14 +4179,14 @@ sub_C72842:
 i16
     SEP #0x20
     PHX
-    LDX #addr(player1_object)
+    LDX #addr(player_1)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
     STA z:0x40
     JSL change_direction_and_start_animation
     SEP #0x20
-    LDX #addr(player2_object)
+    LDX #addr(player_2)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
@@ -4242,13 +4242,13 @@ i16
     BCC .locret_C72915
     REP #0x20
     PHX
-    LDX #addr(player1_object)
+    LDX #addr(player_1)
     LDA #0
     STA z:0x40
     LDA #1
     STA z:0x42
     JSL add_to_score_if_allowed
-    LDX #addr(player2_object)
+    LDX #addr(player_2)
     LDA #0
     STA z:0x40
     LDA #1

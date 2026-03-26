@@ -16,7 +16,7 @@ def deps_for_asm(filename):
                 deps_for_asm(dep)
         if line.startswith('incbin "'):
             line = line.split(",")[0]
-            if "type/name" in line:
+            if "$type/$name" in line:
                 continue
             if line.endswith('"'):
                 dep = line[8:-1]

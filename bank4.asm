@@ -91,13 +91,13 @@ multi5_update_multitap_status:
     LDA a:addr(0x4016)
     LSR A
     LSR A
-    ROL az:addr(word_7E0040+1) ; orig=0x0041
+    ROL $az:addr(word_7E0040+1) ; orig=0x0041
 
 .loc_C400F6:
     LDA a:addr(0x4017)
     LSR A
     LSR A
-    ROL az:addr(word_7E0042+1) ; orig=0x0043
+    ROL $az:addr(word_7E0042+1) ; orig=0x0043
     DEX
     BNE .loc_C400EE
     STZ a:addr(0x4016)
@@ -107,27 +107,27 @@ multi5_update_multitap_status:
     LDA a:addr(0x4016)
     LSR A
     LSR A
-    ROL az:addr(word_7E0040) ; orig=0x0040
+    ROL $az:addr(word_7E0040) ; orig=0x0040
     LDA a:addr(0x4017)
     LSR A
     LSR A
-    ROL az:addr(word_7E0042) ; orig=0x0042
+    ROL $az:addr(word_7E0042) ; orig=0x0042
     DEX
     BNE .loc_C40106
-    LDA az:addr(word_7E0040+1) ; orig=0x0041
+    LDA $az:addr(word_7E0040+1) ; orig=0x0041
     CMP #0xFF
     BNE .loc_C4012C
-    LDA az:addr(word_7E0040) ; orig=0x0040
+    LDA $az:addr(word_7E0040) ; orig=0x0040
     CMP #0xFF
     BEQ .loc_C4012C
     LDA #0x80
     STA a:addr(multitap_status) ; orig=0x0CE0
 
 .loc_C4012C:
-    LDA az:addr(word_7E0042+1) ; orig=0x0043
+    LDA $az:addr(word_7E0042+1) ; orig=0x0043
     CMP #0xFF
     BNE .loc_C40142
-    LDA az:addr(word_7E0042) ; orig=0x0042
+    LDA $az:addr(word_7E0042) ; orig=0x0042
     CMP #0xFF
     BEQ .loc_C40142
 
@@ -295,10 +295,10 @@ ifndef J
 ; Moved up
     REP #0x20
     LDA #addr(nullsub_1)
-    STA az2:addr(unknown_function_pointer) ; orig=0x00D0
+    STA $az2:addr(unknown_function_pointer) ; orig=0x00D0
     SEP #0x20
     LDA #bank(nullsub_1)
-    STA az2:addr(unknown_function_pointer+2) ; orig=0x00D2
+    STA $az2:addr(unknown_function_pointer+2) ; orig=0x00D2
 endif
     SEP #0x20
     CLI
@@ -360,12 +360,12 @@ ifdef DEBUG
     JSL clear_vs_check_graphics
 endif
     REP #0x20
-    LDA #addr(player2_object+player.anonymous_6)
+    LDA #addr(player_2.anonymous_6)
     STA a:addr(word_7E00BE) ; orig=0x00BE
-    LDA #addr(player1_object+player.anonymous_6)
-    STA a:addr(level_manager_object.anonymous_7) ; orig=0x0D28
+    LDA #addr(player_1.anonymous_6)
+    STA a:addr(level_manager_object.hit_flags) ; orig=0x0D28
     LDA #0xFFFF
-    STA a:addr(player1_object+player.anonymous_6) ; orig=0x0D68
+    STA a:addr(player_1.anonymous_6) ; orig=0x0D68
     REP #0x20
     LDA #addr(unk_7F0000)
     STA a:addr(word_7E0306) ; orig=0x0306
@@ -375,24 +375,24 @@ endif
     REP #0x20
     LDX #addr(level_manager_object)
     LDA a:addr(level_manager_object+object.handler+1) ; orig=0x0D01
-    STA az:addr(byte_7E0051)
+    STA $az:addr(byte_7E0051)
     LDA a:addr(level_manager_object+object.handler) ; orig=0x0D00
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     JSL call_function_at_0050
     REP #0x20
-    LDX #addr(player1_object)
+    LDX #addr(player_1)
     LDA #4
 
 .loc_C403B7:
     PHA
     STX a:addr(word_7E0310) ; orig=0x0310
-    LDA az:addr(player.gameover_related),X
+    LDA $az:addr(player.gameover_related),X
     BIT #1
     BEQ .loc_C403D5
-    LDA az:addr(object.handler+1),X
-    STA az:addr(byte_7E0051) ; orig=0x0051
-    LDA az:addr(object.handler),X
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    LDA $az:addr(object.handler+1),X
+    STA $az:addr(byte_7E0051) ; orig=0x0051
+    LDA $az:addr(object.handler),X
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     JSL call_function_at_0050
     REP #0x20
 
@@ -407,18 +407,18 @@ endif
     LDX #addr(enemy_objects)
 
 .loc_C403E4:
-    LDA az:addr(1),X
-    STA az:addr(byte_7E0051) ; orig=0x0051
-    LDA az:addr(0),X
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    LDA $az:addr(1),X
+    STA $az:addr(byte_7E0051) ; orig=0x0051
+    LDA $az:addr(0),X
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     JSL call_function_at_0050
     REP #0x20
-    LDA az:addr(6),X
+    LDA $az:addr(6),X
     TAX
     INC A
     BNE .loc_C403E4
     REP #0x20
-    LDY a:addr(level_manager_object.anonymous_7) ; orig=0x0D28
+    LDY a:addr(level_manager_object.hit_flags) ; orig=0x0D28
 
 .loc_C40402:
     LDX a: addr(2),Y
@@ -436,14 +436,14 @@ endif
     LDX #addr(unk_7E1C80)
 
 .loc_C4041C:
-    LDA az:addr(6),X
+    LDA $az:addr(6),X
     CMP #0xFFFF
     BEQ .loc_C4043A
     PHA
     LDA #0xC4
-    STA az:addr(byte_7E0052) ; orig=0x0052
-    LDA az:addr(0),X
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:addr(byte_7E0052) ; orig=0x0052
+    LDA $az:addr(0),X
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     JSL call_function_at_0050
     REP #0x20
     PLX
@@ -613,12 +613,12 @@ gameover_writing_object:
 i16
     REP #0x20
     LDA #addr(.loc_C40592)
-    STA az:addr(0),X
+    STA $az:addr(0),X
     SEP #0x20
     LDA #bank(.loc_C40592)
-    STA az:addr(2),X
+    STA $az:addr(2),X
     REP #0x20
-    STZ az:addr(0x20),X
+    STZ $az:addr(0x20),X
 
 .loc_C40592:
     SEP #0x20
@@ -629,20 +629,20 @@ i16
 
 .loc_C4059F:
     REP #0x20
-    INC az:addr(0x20),X
-    LDA az:addr(0x20),X
-    STA az:addr(word_7E0048) ; orig=0x0048
+    INC $az:addr(0x20),X
+    LDA $az:addr(0x20),X
+    STA $az:addr(word_7E0048) ; orig=0x0048
     PHX
-    LDX #addr(player1_object)
+    LDX #addr(player_1)
     JSL write_gameover_for_player_if_needed
-    LDX #addr(player2_object)
+    LDX #addr(player_2)
     JSL write_gameover_for_player_if_needed
     PLX
     RTL
 
 write_gameover_for_player_if_needed:
     REP #0x20
-    LDA az:addr(4),X
+    LDA $az:addr(4),X
     BIT #0xFF
     BEQ .loc_C405C9
     JML nullsub_2
@@ -652,12 +652,12 @@ write_gameover_for_player_if_needed:
     EOR #0xC0        ; Clever way to get the other object.handler
     TAY
     LDA #0x46
-    STA az:addr(word_7E0040) ; orig=0x0040
-    LDA az:addr(5),X
+    STA $az:addr(word_7E0040) ; orig=0x0040
+    LDA $az:addr(5),X
     AND #0xFF
     BEQ .loc_C405E2
     LDA #0x68
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
 
 .loc_C405E2:
     LDA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
@@ -676,15 +676,15 @@ endif
     JML write_gameover
 
 .loc_C405FA:
-    LDY az:addr(word_7E0040) ; orig=0x0040
+    LDY $az:addr(word_7E0040) ; orig=0x0040
     LDA #0xB
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
     REP #0x20
     LDA #addr(word_C30B2A)
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     SEP #0x20
     LDA #bank(word_C30B2A)
-    STA az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:addr(byte_7E0052) ; orig=0x0052
     JSL copy_to_bg3_tilemap
     REP #0x20
     TYA
@@ -692,20 +692,20 @@ endif
     ADC #0x2A
     TAY
     LDA #0xB
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
     JSL copy_to_bg3_tilemap
     RTL
 
 hud_related:
     REP #0x20
     LDA #0xB
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
     REP #0x20
     LDA #addr(storymode_hud_tilemap+0x46)
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     SEP #0x20
     LDA #bank(storymode_hud_tilemap+0x46)
-    STA az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:addr(byte_7E0052) ; orig=0x0052
     JSL copy_to_bg3_tilemap
     REP #0x20
     TYA
@@ -713,31 +713,31 @@ hud_related:
     ADC #0x2A
     TAY
     LDA #0xB
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
     REP #0x20
     LDA #addr(storymode_hud_tilemap+0x86)
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     SEP #0x20
     LDA #bank(storymode_hud_tilemap+0x86)
-    STA az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:addr(byte_7E0052) ; orig=0x0052
     JSL copy_to_bg3_tilemap
     REP #0x20
-    STZ az:addr(word_7E0040) ; orig=0x0040
-    STZ az:addr(word_7E0042) ; orig=0x0042
+    STZ $az:addr(word_7E0040) ; orig=0x0040
+    STZ $az:addr(word_7E0042) ; orig=0x0042
     JSL add_to_score
     RTL
 
 write_gameover:
     REP #0x20
-    LDY az:addr(word_7E0040) ; orig=0x0040
+    LDY $az:addr(word_7E0040) ; orig=0x0040
     LDA #0xB
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
     REP #0x20
     LDA #addr(gameover_tilemap_top)
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     SEP #0x20
     LDA #bank(gameover_tilemap_top)
-    STA az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:addr(byte_7E0052) ; orig=0x0052
     JSL copy_to_bg3_tilemap
     REP #0x20
     TYA
@@ -745,7 +745,7 @@ write_gameover:
     ADC #0x2A
     TAY
     LDA #0xB
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
     JSL copy_to_bg3_tilemap
 
 nullsub_2:
@@ -755,14 +755,14 @@ nullsub_2:
 hud_related_object:
 i16
     REP #0x20
-    STZ az:addr(0x10),X
-    STZ az:addr(0x12),X
+    STZ $az:addr(0x10),X
+    STZ $az:addr(0x12),X
     REP #0x20
     LDA #addr(.loc_C406BC)
-    STA az:addr(0),X
+    STA $az:addr(0),X
     SEP #0x20
     LDA #bank(.loc_C406BC)
-    STA az:addr(2),X
+    STA $az:addr(2),X
 
 .loc_C406BC:
     SEP #0x20
@@ -796,17 +796,17 @@ i16
     JML .locret_C40768
 
 .loc_C406F3:
-    INC az:addr(0x12),X
-    LDA az:addr(0x12),X
+    INC $az:addr(0x12),X
+    LDA $az:addr(0x12),X
     CMP a:addr(level_manager_object.anonymous_10) ; orig=0x0D3A
     BNE .locret_C40768
-    STZ az:addr(0x12),X
+    STZ $az:addr(0x12),X
     SEP #0x20
     LDY #0x5E
-    INC az:addr(0x10),X
-    LDA az:addr(0x10),X
+    INC $az:addr(0x10),X
+    LDA $az:addr(0x10),X
     AND #7
-    STA az:addr(0x10),X
+    STA $az:addr(0x10),X
     ASL A
     ADC #0xC0
     STA a:addr(bg3_tilemap),Y
@@ -817,11 +817,11 @@ i16
     STA a:addr(bg3_tilemap+0x40),Y
     INC A
     STA a:addr(bg3_tilemap+0x42),Y
-    LDA az:addr(0x10),X
+    LDA $az:addr(0x10),X
     BNE .locret_C40768
-    LDA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
+    LDA a:addr(player_1.gameover_related) ; orig=0x0D44
     BEQ .loc_C40746
-    LDY a:addr(word_7E0CAA) ; orig=0x0CAA
+    LDY a:addr(story_mode_timers) ; orig=0x0CAA
     CPY #0x1C
     BNE .loc_C4073B
     JML hurry_up
@@ -829,11 +829,11 @@ i16
 .loc_C4073B:
     LDA #0xA7
     STA a:addr(bg3_tilemap+0xC2),Y
-    INC a:addr(word_7E0CAA) ; orig=0x0CAA
-    INC a:addr(word_7E0CAA) ; orig=0x0CAA
+    INC a:addr(story_mode_timers) ; orig=0x0CAA
+    INC a:addr(story_mode_timers) ; orig=0x0CAA
 
 .loc_C40746:
-    LDA a:addr(player2_object+player.gameover_related) ; orig=0x0D84
+    LDA a:addr(player_2.gameover_related) ; orig=0x0D84
     BEQ .locret_C40768
     LDA a:addr(word_7E0CAC) ; orig=0x0CAC
     CMP #0x1C
@@ -858,40 +858,40 @@ nullsub_C40768:
 sub_C40769:
     REP #0x20
     LDA #addr(.locret_C407C8)
-    STA az:addr(0),X
+    STA $az:addr(0),X
     SEP #0x20
     LDA #bank(.locret_C407C8)
-    STA az:addr(2),X
+    STA $az:addr(2),X
     JSL sub_C53BF7
     REP #0x20
     PHX
-    LDX #addr(player1_object)
+    LDX #addr(player_1)
 
 .loc_C40782:
-    LDA az:addr(4),X
+    LDA $az:addr(4),X
     AND #0xFF
     BEQ .loc_C407BA
-    LDA az:addr(0x2F),X
+    LDA $az:addr(0x2F),X
     BIT #1
     BNE .loc_C407BA
-    LDA az:addr(7),X
+    LDA $az:addr(7),X
     BIT #1
     BNE .loc_C407AB
     REP #0x20
     LDA #addr(player_death)
-    STA az:addr(0),X
+    STA $az:addr(0),X
     SEP #0x20
     LDA #bank(player_death)
-    STA az:addr(2),X
+    STA $az:addr(2),X
     BRA .loc_C407BA
 
 .loc_C407AB:
     REP #0x20
     LDA #addr(death_related)
-    STA az:addr(0),X
+    STA $az:addr(0),X
     SEP #0x20
     LDA #bank(death_related)
-    STA az:addr(2),X
+    STA $az:addr(2),X
 
 .loc_C407BA:
     REP #0x20
@@ -927,8 +927,8 @@ sub_C407C9:
 
 .loc_C407EB:
     REP #0x20
-    INC az:addr(0x10),X
-    LDA az:addr(0x10),X
+    INC $az:addr(0x10),X
+    LDA $az:addr(0x10),X
     ; Since the FPS is dropped in the PAL version, but each match still takes 2
     ; minutes, it means that gameplay-wise, each match is shorter in the PAL
     ; version!
@@ -937,7 +937,7 @@ sub_C407C9:
     JML sub_C40816.locret_C40887
 
 .loc_C407FC:
-    STZ az:addr(0x10),X
+    STZ $az:addr(0x10),X
     SED
     LDA a:addr(level_manager_object.anonymous_10) ; orig=0x0D3A
     SEC
@@ -1011,15 +1011,15 @@ hurry_up:
 i16
     REP #0x20
     LDA #0x100
-    STA az:addr(0x12),X
+    STA $az:addr(0x12),X
     LDY #5
     JSL play_sound
     REP #0x20
     LDA #addr(.loc_C408A6)
-    STA az:addr(0),X
+    STA $az:addr(0),X
     SEP #0x20
     LDA #bank(.loc_C408A6)
-    STA az:addr(2),X
+    STA $az:addr(2),X
 
 .loc_C408A6:
     SEP #0x20
@@ -1041,7 +1041,7 @@ i16
     JML nullsub_C40768
 
 .loc_C408C8:
-    LDA a:addr(word_7E0CAA) ; orig=0x0CAA
+    LDA a:addr(story_mode_timers) ; orig=0x0CAA
     CMP #0x1C
     BEQ .loc_C408D6
     LDA a:addr(word_7E0CAC) ; orig=0x0CAC
@@ -1050,8 +1050,8 @@ i16
 
 .loc_C408D6:
     LDY #0xDE
-    INC az:addr(0x10),X
-    LDA az:addr(0x10),X
+    INC $az:addr(0x10),X
+    LDA $az:addr(0x10),X
     ROR A
     LDA #0xBC
     BCS .loc_C408E6
@@ -1062,9 +1062,9 @@ i16
     INC A
     STA a:addr(bg3_tilemap+2),Y
     LDY #0x5E
-    LDA az:addr(0x10),X
+    LDA $az:addr(0x10),X
     AND #3
-    STA az:addr(0x10),X
+    STA $az:addr(0x10),X
     ASL A
     ADC #0xE0
     STA a:addr(bg3_tilemap),Y
@@ -1076,43 +1076,43 @@ i16
     INC A
     STA a:addr(bg3_tilemap+0x42),Y
     REP #0x20
-    DEC az:addr(0x12),X
+    DEC $az:addr(0x12),X
     BNE .locret_C40962
-    LDA a:addr(word_7E0CAA) ; orig=0x0CAA
+    LDA a:addr(story_mode_timers) ; orig=0x0CAA
     CMP #0x1C
     BNE .loc_C40934
-    LDA a:addr(player1_object+player.anonymous_7) ; orig=0x0D6F
+    LDA a:addr(player_1.hit_flags) ; orig=0x0D6F
     BIT #1
     BNE .loc_C40934
     REP #0x20
     LDA #addr(player_death)
-    STA a:addr(player1_object+object.handler) ; orig=0x0D40
+    STA a:addr(player_1+object.handler) ; orig=0x0D40
     SEP #0x20
     LDA #bank(player_death)
-    STA a:addr(player1_object+object.handler+2) ; orig=0x0D42
+    STA a:addr(player_1+object.handler+2) ; orig=0x0D42
     REP #0x20
 
 .loc_C40934:
     LDA a:addr(word_7E0CAC) ; orig=0x0CAC
     CMP #0x1C
     BNE .loc_C40953
-    LDA a:addr(player2_object+player.anonymous_7) ; orig=0x0DAF
+    LDA a:addr(player_2.hit_flags) ; orig=0x0DAF
     BIT #1
     BNE .loc_C40953
     REP #0x20
     LDA #addr(player_death)
-    STA a:addr(player2_object+object.handler) ; orig=0x0D80
+    STA a:addr(player_2+object.handler) ; orig=0x0D80
     SEP #0x20
     LDA #bank(player_death)
-    STA a:addr(player2_object+object.handler+2) ; orig=0x0D82
+    STA a:addr(player_2+object.handler+2) ; orig=0x0D82
 
 .loc_C40953:
     REP #0x20
     LDA #addr(hud_related_object)
-    STA az:addr(0),X
+    STA $az:addr(0),X
     SEP #0x20
     LDA #bank(hud_related_object)
-    STA az:addr(2),X
+    STA $az:addr(2),X
 
 .locret_C40962:
     RTL
@@ -1243,13 +1243,13 @@ endif
     STA a:addr(joypad_1_pressed),Y
     LDA a:addr(joypad_1),Y
     STA a:addr(joypad_1_previous),Y
-    LDA az:addr(7),X
+    LDA $az:addr(7),X
     BIT #1
     BNE .locret_C40A67
     LDA a:addr(joypad_1),Y
-    STA az:addr(0x22),X
+    STA $az:addr(0x22),X
     LDA a:addr(joypad_1_pressed),Y
-    STA az:addr(0x26),X
+    STA $az:addr(0x26),X
 
 .locret_C40A67:
     RTL
@@ -1258,10 +1258,10 @@ related_to_oam_transfer:
 i16
     REP #0x20
     LDA a:addr(word_7E0306) ; orig=0x0306
-    STA az:addr(word_7E0055+1) ; orig=0x0056
+    STA $az:addr(word_7E0055+1) ; orig=0x0056
     SEP #0x20
     LDA a:addr(word_7E0308) ; orig=0x0308
-    STA az:addr(word_7E0058) ; orig=0x0058
+    STA $az:addr(word_7E0058) ; orig=0x0058
     LDA a:addr(word_7E0308+1) ; orig=0x0309
     AND #0x80
     BEQ .loc_C40A8D
@@ -1278,10 +1278,10 @@ i16
     LDY #0x203
     LDA #1
     STA f:[z:0x56],Y
-    LDA az:addr(word_7E0055+1) ; orig=0x0056
+    LDA $az:addr(word_7E0055+1) ; orig=0x0056
     CLC
     ADC #4
-    STA az:addr(word_7E0055+1) ; orig=0x0056
+    STA $az:addr(word_7E0055+1) ; orig=0x0056
     BIT #0xF
     BNE .loc_C40A8D
     LDY #1
@@ -1291,33 +1291,33 @@ i16
 .loc_C40AAF:
     LDA #0xEE
     STA f:[z:0x56],Y
-    LDA az:addr(word_7E0055+1) ; orig=0x0056
+    LDA $az:addr(word_7E0055+1) ; orig=0x0056
     CLC
     ADC #4
-    STA az:addr(word_7E0055+1) ; orig=0x0056
+    STA $az:addr(word_7E0055+1) ; orig=0x0056
     BNE .loc_C40AAF
 
 .loc_C40ABE:
-    LDA az:addr(unk_7E0057) ; orig=0x0057
+    LDA $az:addr(unk_7E0057) ; orig=0x0057
     BIT #1
     BNE .loc_C40ACA
-    INC az:addr(unk_7E0057) ; orig=0x0057
+    INC $az:addr(unk_7E0057) ; orig=0x0057
     BRA .loc_C40AAF
 
 .loc_C40ACA:
     SEP #0x20
     LDA #0
-    STA az:addr(word_7E0053) ; orig=0x0053
+    STA $az:addr(word_7E0053) ; orig=0x0053
     INC A
     INC A
     INC A
-    STA az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:addr(byte_7E0050) ; orig=0x0050
     LDA #2
-    STA az:addr(byte_7E0051) ; orig=0x0051
-    STA az:addr(word_7E0053+1) ; orig=0x0054
+    STA $az:addr(byte_7E0051) ; orig=0x0051
+    STA $az:addr(word_7E0053+1) ; orig=0x0054
     LDA #0x7F
-    STA az:addr(byte_7E0052) ; orig=0x0052
-    STA az:addr(word_7E0055) ; orig=0x0055
+    STA $az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:addr(word_7E0055) ; orig=0x0055
     LDY #0
     REP #0x20
     LDA a:addr(word_7E0306) ; orig=0x0306
@@ -1331,46 +1331,46 @@ i16
     SEP #0x20
 
 .loc_C40AFA:
-    STZ az:addr(word_7E0040) ; orig=0x0040
+    STZ $az:addr(word_7E0040) ; orig=0x0040
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
     LSR A
-    ROR az:addr(word_7E0040) ; orig=0x0040
-    LDA az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:addr(word_7E0040) ; orig=0x0040
+    LDA $az:addr(word_7E0040) ; orig=0x0040
     STA f:[z:0x53]
-    INC az:addr(word_7E0053) ; orig=0x0053
+    INC $az:addr(word_7E0053) ; orig=0x0053
     DEX
     BNE .loc_C40AFA
     SEP #0x20
@@ -1379,10 +1379,10 @@ i16
 .loc_C40B44:
     LDA #0x55
     STA f:[z:0x53]
-    INC az:addr(word_7E0053) ; orig=0x0053
+    INC $az:addr(word_7E0053) ; orig=0x0053
 
 .loc_C40B4B:
-    LDA az:addr(word_7E0053) ; orig=0x0053
+    LDA $az:addr(word_7E0053) ; orig=0x0053
     CMP #0x20
     BCC .loc_C40B44
     SEP #0x20
@@ -1445,7 +1445,7 @@ i16
 dma_reset:
     REP #0x20
     LDA #0
-    STA az:addr(word_7E0040) ; orig=0x0040
+    STA $az:addr(word_7E0040) ; orig=0x0040
     SEP #0x20
     LDA #0
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
@@ -1927,7 +1927,7 @@ i16
     LDA #0
     STA z:object.handler+0x12,X
     LDA #0
-    STA z:player.anonymous_7,X
+    STA z:player.hit_flags,X
     REP #0x20
     STZ a:addr(0x13A),X
     STZ a:addr(0x13C),X
@@ -1940,7 +1940,7 @@ i16
     ASL A
     TAY
     LDA #0
-    STA a:addr(word_7E0CAA),Y
+    STA a:addr(story_mode_timers),Y
     LDY #0xC2
     LDA z:player.player_index,X
     AND #0xFF
@@ -1972,8 +1972,8 @@ i16
     PLX
     JSL change_direction_and_start_animation
     REP #0x20
-    LDA #0x2A0
-    STA z:object.handler+0x36,X
+    LDA #INVINCIBILITY_FRAMES
+    STA z:player.invincibility_countdown,X
     LDA z:player.player_index,X
     AND #0xFF
     ASL A
@@ -2151,10 +2151,10 @@ i16
     AND #0x7F
     STA z:0x39,X
     STZ z:0x2F,X
-    LDA #0xA0
-    STA z:0x36,X
-    LDA #2
-    STA z:0x37,X
+    LDA #low(INVINCIBILITY_FRAMES)
+    STA z:player.invincibility_countdown,X
+    LDA #high(INVINCIBILITY_FRAMES)
+    STA z:player.invincibility_countdown + 1,X
 
 .loc_C4139D:
     SEP #0x20
@@ -2206,10 +2206,10 @@ i16
     AND #0x7F
     STA z:0x39,X
     STZ z:0x2F,X
-    LDA #0xA0
-    STA z:0x36,X
-    LDA #2
-    STA z:0x37,X
+    LDA #low(INVINCIBILITY_FRAMES)
+    STA z:player.invincibility_countdown,X
+    LDA #high(INVINCIBILITY_FRAMES)
+    STA z:player.invincibility_countdown + 1,X
 
 .loc_C41405:
     SEP #0x20
@@ -2267,7 +2267,7 @@ poison_related:
     SEP #0x20
     LDA #0
     XBA
-    LDA a:poison_related_0 - player1_object,X
+    LDA a:poison_related_0 - player_1,X
     BIT #4
     BNE .loc_C41487
     BIT #8
@@ -2308,7 +2308,7 @@ sub_C414A6:
     BEQ .loc_C414E2
     DEC z:object.handler+0x36,X
     SEC
-    SBC #0x2A0
+    SBC #INVINCIBILITY_FRAMES
     EOR #0xFFFF
     INC A
     PHX
@@ -2322,7 +2322,7 @@ sub_C414A6:
 
 .loc_C414C5:
     STA z:player.effective_palette,X
-    STZ z:player.anonymous_7,X
+    STZ z:player.hit_flags,X
     REP #0x20
     LDA a:addr(0x13A),X
     BEQ .loc_C414DF
@@ -2378,7 +2378,7 @@ i16
     ADC #0x40
     CMP #addr(unk_7E0E40)
     BNE .loc_C41521
-    LDA #addr(player1_object)
+    LDA #addr(player_1)
 
 .loc_C41521:
     TAY
@@ -2970,7 +2970,7 @@ last_human_death:
     STA z:0x40
     STZ z:0x42
     SEP #0x20
-    LDY #addr(player1_object)
+    LDY #addr(player_1)
 
 .loc_C41966:
     LDA a:addr(player.gameover_related),Y
@@ -2978,13 +2978,13 @@ last_human_death:
     LDA a:addr(player.is_ai),Y
     BEQ .loc_C41982
     LDA #0
-    STA a:addr(player.number_of_lives),Y
+    STA a:addr(player.lives),Y
     LDA z:0x42
     INC z:0x42
     CMP z:0x40
     BNE .loc_C41982
     LDA #4
-    STA a:addr(player.number_of_lives),Y
+    STA a:addr(player.lives),Y
 
 .loc_C41982:
     REP #0x20
@@ -3048,7 +3048,7 @@ _player_death:
     LDA z:0x3D,X
     BEQ sub_C41A40
     DEC z:0x3D,X
-    JSL write_number_of_lives
+    JSL draw_number_of_lives
     JMP a:addr(init_player_handler)
 
 .locret_C41A07:
@@ -3081,7 +3081,7 @@ sub_C41A08:
     STA a:addr(bg3_tilemap+0x42),Y
     SEP #0x20
     STZ z:4,X
-    STZ z:player.anonymous_7,X
+    STZ z:player.hit_flags,X
     RTL
 
 sub_C41A40:
@@ -3149,7 +3149,7 @@ start_animation_by_direction:
     JSL start_animation
     RTL
 
-write_number_of_lives:
+draw_number_of_lives:
 i16
     SEP #0x20
     LDA a:addr(current_mode) ; orig=0x0C3C
@@ -3165,7 +3165,7 @@ i16
 
 .loc_C41ABE:
     REP #0x20
-    LDA z:player.number_of_lives,X
+    LDA z:player.lives,X
     AND #0xFF
     ASL A
     PHX
@@ -3206,17 +3206,17 @@ i16
 .loc_C41B01:
     REP #0x20
     SED
-    LDA z:player.socre_digits_12,X
+    LDA z:player.score_digits_12,X
     CLC
     ADC z:0x40
-    STA z:player.socre_digits_12,X
+    STA z:player.score_digits_12,X
     LDA z:player.score_digits_56,X
     ADC z:0x42
     STA z:player.score_digits_56,X
     CLD
     BCC .loc_C41B1E
     LDA #0x9999
-    STA z:player.socre_digits_12,X
+    STA z:player.score_digits_12,X
     LDA #0x9999
     STA z:player.score_digits_56,X
 
@@ -3361,7 +3361,7 @@ i16
 .loc_C41BF9:
     INY
     INY
-    LDA z:player.socre_digits_12,X
+    LDA z:player.score_digits_12,X
     AND #0xF0
     LSR A
     LSR A
@@ -3385,7 +3385,7 @@ i16
 .loc_C41C1E:
     INY
     INY
-    LDA z:player.socre_digits_12,X
+    LDA z:player.score_digits_12,X
     AND #0xF
     ASL A
     BNE .loc_C41C2E
@@ -3410,7 +3410,7 @@ i16
 
 .loc_C41C43:
     REP #0x20
-    LDA z:player.socre_digits_12,X
+    LDA z:player.score_digits_12,X
     SEC
     SBC a:addr(0x11C),X
     LDA z:player.score_digits_56,X
@@ -5130,12 +5130,12 @@ score_popup:
     PLX
     JSL start_animation
     REP #0x20
-    LDA #addr(player1_object)
+    LDA #addr(player_1)
     STA z:0x44
     LDA z:score_popup_object.flags,X
     BIT #2
     BEQ .loc_C42856
-    LDA #addr(player2_object)
+    LDA #addr(player_2)
     STA z:0x44
 
 .loc_C42856:
@@ -7153,13 +7153,13 @@ i16
 .loc_C43893:
     REP #0x20
     PHX
-    LDX #addr(player1_object)
+    LDX #addr(player_1)
     LDA #0
     STA z:0x40
     LDA #1
     STA z:0x42
     JSL add_to_score_if_allowed
-    LDX #addr(player2_object)
+    LDX #addr(player_2)
     LDA #0
     STA z:0x40
     LDA #1
@@ -7407,7 +7407,7 @@ sub_C43B09:
 i16
     SEP #0x20
     PHX
-    LDX #addr(player2_object)
+    LDX #addr(player_2)
     LDA #bank(byte_C43D2C)
     STA z:0x55
     LDA #bank(hits_per_mecha_bomber)
@@ -13202,8 +13202,8 @@ sub_C463DE:
     JSL sub_C4669F
     BCS nullsub_C463DD
     REP #0x20
-    LDA #0x2A0
-    STA z:0x36,X
+    LDA #INVINCIBILITY_FRAMES
+    STA z:player.invincibility_countdown,X
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     ORA #4
@@ -13361,10 +13361,10 @@ sub_C463DE:
     STA z:0x40
     LDA #9
     JSL palette_related
-    STZ a:addr(player1_object+player.gameover_related) ; orig=0x0D44
-    STZ a:addr(player2_object+player.gameover_related) ; orig=0x0D84
-    STZ a:addr(player3_object+player.gameover_related) ; orig=0x0DC4
-    STZ a:addr(player4_object+player.gameover_related) ; orig=0x0E04
+    STZ a:addr(player_1.gameover_related) ; orig=0x0D44
+    STZ a:addr(player_2.gameover_related) ; orig=0x0D84
+    STZ a:addr(player_3.gameover_related) ; orig=0x0DC4
+    STZ a:addr(player_4.gameover_related) ; orig=0x0E04
     REP #0x20
     LDA #addr(.loc_C46582)
     STA z:0,X
@@ -13682,7 +13682,7 @@ sub_C466D8:
     JSL copy_to_bg3_tilemap
     PLY
     PHY
-    JSL write_number_of_lives
+    JSL draw_number_of_lives
     PLY
     TYX
     REP #0x20
@@ -13692,7 +13692,7 @@ sub_C466D8:
     LDA #bank(init_player_handler)
     STA z:2,X
     STZ z:7,X
-    JSL write_number_of_lives
+    JSL draw_number_of_lives
     INC a:addr(level_manager_object.gameover_related) ; orig=0x0D32
 
 .loc_C467DF:
@@ -14533,17 +14533,17 @@ i16
     STA z:0x55
     JSL sub_C46FC9
     REP #0x20
-    LDX #addr(player1_object)
+    LDX #addr(player_1)
     STZ z:0x40
     STZ z:0x42
     JSL add_to_score_if_allowed
-    JSL write_number_of_lives
+    JSL draw_number_of_lives
     REP #0x20
-    LDX #addr(player2_object)
+    LDX #addr(player_2)
     STZ z:0x40
     STZ z:0x42
     JSL add_to_score_if_allowed
-    JSL write_number_of_lives
+    JSL draw_number_of_lives
     RTL
 
 .loc_C46F3A:
@@ -15350,7 +15350,7 @@ i16
     STZ z:2,X
     TXA
     CLC
-    ADC #player.size
+    ADC #player.sizeof
     TAX
     CMP #addr(unk_7E1C40)
     BNE .loc_C475FE
@@ -15450,36 +15450,36 @@ i16
     BNE .loc_C476BF
     REP #0x20
     LDA #addr(init_player_handler)
-    STA a:addr(player1_object+object.handler) ; orig=0x0D40
+    STA a:addr(player_1+object.handler) ; orig=0x0D40
     SEP #0x20
     LDA #bank(init_player_handler)
-    STA a:addr(player1_object+object.handler+2) ; orig=0x0D42
+    STA a:addr(player_1+object.handler+2) ; orig=0x0D42
     REP #0x20
     LDA #addr(init_player_handler)
-    STA a:addr(player2_object+object.handler) ; orig=0x0D80
+    STA a:addr(player_2+object.handler) ; orig=0x0D80
     SEP #0x20
     LDA #bank(init_player_handler)
-    STA a:addr(player2_object+object.handler+2) ; orig=0x0D82
+    STA a:addr(player_2+object.handler+2) ; orig=0x0D82
     REP #0x20
     LDA #addr(init_player_handler)
-    STA a:addr(player3_object+object.handler) ; orig=0x0DC0
+    STA a:addr(player_3+object.handler) ; orig=0x0DC0
     SEP #0x20
     LDA #bank(init_player_handler)
-    STA a:addr(player3_object+object.handler+2) ; orig=0x0DC2
+    STA a:addr(player_3+object.handler+2) ; orig=0x0DC2
     REP #0x20
     LDA #addr(init_player_handler)
-    STA a:addr(player4_object+object.handler) ; orig=0x0E00
+    STA a:addr(player_4+object.handler) ; orig=0x0E00
     SEP #0x20
     LDA #bank(init_player_handler)
-    STA a:addr(player4_object+object.handler+2) ; orig=0x0E02
+    STA a:addr(player_4+object.handler+2) ; orig=0x0E02
     LDA #0
-    STA a:addr(player1_object+player.current_bomb_count) ; orig=0x0D64
+    STA a:addr(player_1.current_bomb_count) ; orig=0x0D64
     LDA #0
-    STA a:addr(player2_object+player.current_bomb_count) ; orig=0x0DA4
+    STA a:addr(player_2.current_bomb_count) ; orig=0x0DA4
     LDA #0
-    STA a:addr(player3_object+player.current_bomb_count) ; orig=0x0DE4
+    STA a:addr(player_3.current_bomb_count) ; orig=0x0DE4
     LDA #0
-    STA a:addr(player4_object+player.current_bomb_count) ; orig=0x0E24
+    STA a:addr(player_4.current_bomb_count) ; orig=0x0E24
     LDA #0
     STA a:addr(word_7E0E48) ; orig=0x0E48
     LDA #0
@@ -15489,9 +15489,9 @@ i16
     LDA #0
     STA a:addr(word_7E0F08) ; orig=0x0F08
     LDA #0
-    STA a:addr(player3_object+player.gameover_related) ; orig=0x0DC4
+    STA a:addr(player_3.gameover_related) ; orig=0x0DC4
     LDA #0
-    STA a:addr(player4_object+player.gameover_related) ; orig=0x0E04
+    STA a:addr(player_4.gameover_related) ; orig=0x0E04
     RTL
 
 sub_C4774A:
@@ -15628,40 +15628,40 @@ level_initialization_related:
 i16
     SEP #0x20
     STZ a:addr(level_manager_object.enemy_count) ; orig=0x0D25
-    STZ a:addr(player1_object+player.is_ai) ; orig=0x0D47
-    STZ a:addr(player2_object+player.is_ai) ; orig=0x0D87
-    STZ a:addr(player3_object+player.is_ai) ; orig=0x0DC7
-    STZ a:addr(player4_object+player.is_ai) ; orig=0x0E07
+    STZ a:addr(player_1.is_ai) ; orig=0x0D47
+    STZ a:addr(player_2.is_ai) ; orig=0x0D87
+    STZ a:addr(player_3.is_ai) ; orig=0x0DC7
+    STZ a:addr(player_4.is_ai) ; orig=0x0E07
     LDA #0x20
-    STA a:addr(player1_object+player.palette) ; orig=0x0D4E
+    STA a:addr(player_1.palette) ; orig=0x0D4E
     LDA #0x20
-    STA a:addr(player2_object+player.palette) ; orig=0x0D8E
+    STA a:addr(player_2.palette) ; orig=0x0D8E
     LDA #0x20
-    STA a:addr(player3_object+player.palette) ; orig=0x0DCE
+    STA a:addr(player_3.palette) ; orig=0x0DCE
     LDA #0x20
-    STA a:addr(player4_object+player.palette) ; orig=0x0E0E
-    STZ a:addr(player1_object+player.palette+1) ; orig=0x0D4F
-    STZ a:addr(player2_object+player.palette+1) ; orig=0x0D8F
-    STZ a:addr(player3_object+player.palette+1) ; orig=0x0DCF
-    STZ a:addr(player4_object+player.palette+1) ; orig=0x0E0F
+    STA a:addr(player_4.palette) ; orig=0x0E0E
+    STZ a:addr(player_1.palette+1) ; orig=0x0D4F
+    STZ a:addr(player_2.palette+1) ; orig=0x0D8F
+    STZ a:addr(player_3.palette+1) ; orig=0x0DCF
+    STZ a:addr(player_4.palette+1) ; orig=0x0E0F
     LDA #0
-    STA a:addr(player1_object+player.real_palette) ; orig=0x0D5F
+    STA a:addr(player_1.real_palette) ; orig=0x0D5F
     LDA #2
-    STA a:addr(player2_object+player.real_palette) ; orig=0x0D9F
+    STA a:addr(player_2.real_palette) ; orig=0x0D9F
     LDA #0xA
-    STA a:addr(player3_object+player.real_palette) ; orig=0x0DDF
+    STA a:addr(player_3.real_palette) ; orig=0x0DDF
     LDA #8
-    STA a:addr(player4_object+player.real_palette) ; orig=0x0E1F
+    STA a:addr(player_4.real_palette) ; orig=0x0E1F
     LDA a:addr(current_mode) ; orig=0x0C3C
     CMP #3
     BEQ .loc_C47918
     JML .locret_C47A28
 
 .loc_C47918:
-    STZ a:addr(player1_object+player.gameover_related) ; orig=0x0D44
-    STZ a:addr(player2_object+player.gameover_related) ; orig=0x0D84
-    STZ a:addr(player3_object+player.gameover_related) ; orig=0x0DC4
-    STZ a:addr(player4_object+player.gameover_related) ; orig=0x0E04
+    STZ a:addr(player_1.gameover_related) ; orig=0x0D44
+    STZ a:addr(player_2.gameover_related) ; orig=0x0D84
+    STZ a:addr(player_3.gameover_related) ; orig=0x0DC4
+    STZ a:addr(player_4.gameover_related) ; orig=0x0E04
     LDA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
     CLC
     ADC a:addr(level_manager_object.gameover_related+1) ; orig=0x0D33

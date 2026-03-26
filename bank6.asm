@@ -127,9 +127,9 @@ should_toggle_pause:
 
 .loc_C600AB:
     TAY
-    LDA a:addr(player1_object+player.is_ai),Y
+    LDA a:addr(player_1.is_ai),Y
     BNE .loc_C600B6
-    LDA a:addr(player1_object+player.gameover_related),Y
+    LDA a:addr(player_1.gameover_related),Y
     BEQ .loc_C600C6
 
 .loc_C600B6:
@@ -862,7 +862,7 @@ sub_C6053C:
     STA z:0x39,X
     LDA a:addr(debug_skull) ; orig=0x00B2
     BEQ .loc_C605DD
-    JSL sub_C6113D
+    JSL apply_poison
     SEP #0x20
     PLX
     REP #0x20
@@ -1482,7 +1482,7 @@ sub_C60C35:
 .loc_C60C5C:
     BIT #0x100
     BEQ .loc_C60C65
-    JML sub_C60FFF
+    JML set_player_hit
 
 .loc_C60C65:
     BIT #0xE0
@@ -1591,375 +1591,450 @@ sub_C60C35:
     RTL
 
 bonus_handlers:
-    da handle_pause, bomb_up_bonus, fire_up_bonus, sub_C60DC3, sub_C60DEA, sub_C60E13, sub_C60E34, sub_C60E5E
-    da sub_C60E84, sub_C60EA8, sub_C60EFD, sub_C60F21, sub_C60F45, sub_C60F6E, sub_C60F95, sub_C60FB1
-    da sub_C60FD1, sub_C61006, sub_C6102A, question_mark_bonus, sub_C61077, sub_C610AF, sub_C610CB, sub_C610F1
-    da sub_C6110D, sub_C60FB1, sub_C60FB1, nullsub_12, nullsub_12, nullsub_12, nullsub_12, nullsub_12
-    da sub_C60FFF, sub_C60FFF, sub_C60FFF, sub_C60FFF, sub_C60FFF
+    da handle_pause, bomb_up_bonus, fire_up_bonus, remote_control_bonus, speed_up_bonus, vest, extra_life_bonus, bomb_pass_bonus
+    da wall_pass_bonus, extra_time_bonus, full_fire_bonus, red_bombs_bonus, kick_bonus, punch_bonus, onigiri_bonus, poison_bonus
+    da exit_bonus, heart_bonus, cake_bonus, question_mark_bonus, kendama_bonus, apple_bonus, fire_extinguisher_bonus, popsicle_bonus
+    da ice_cream_bonus, poison_bonus, poison_bonus, unused_bonus, unused_bonus, unused_bonus, unused_bonus, unused_bonus
+    da set_player_hit, set_player_hit, set_player_hit, set_player_hit, set_player_hit
+    
 bomb_up_bonus:
 i16
     REP #0x20
-    LDA #0x10
+    
+    ; Add 10 to the score
+    LDA #0x0010
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-
-.loc_C60D80:
-    JSL sub_C61129
+    
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    INC a:addr(0x130),X
-    LDA z:0x30,X
+    INC a:addr(shadow_player.bombups + player_1_shadow - player_1),X
+    LDA z:player.bombups,X
     CMP #9
-    BEQ .loc_C60D91
-    INC z:0x30,X
+    BEQ .maxed
+    INC z:player.bombups,X
 
-.loc_C60D91:
-    LDY #2
+.maxed:
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-nullsub_12:
+unused_bonus:
     RTL
+    
 fire_up_bonus:
 i16
     REP #0x20
-    LDA #0x200
-
-.loc_C60D9F:
+    
+    ; Add 200 to the score
+    LDA #0x0200
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+    
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    INC a:addr(0x131),X
-    LDA z:0x31,X
+    INC a:addr(shadow_player.fireups + player_1_shadow - player_1),X
+    LDA z:player.fireups,X
     CMP #9
-    BEQ .loc_C60DBB
-    INC z:0x31,X
+    BEQ .maxed
+    INC z:player.fireups,X
 
-.loc_C60DBB:
-    LDY #2
+.maxed:
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60DC3:
+remote_control_bonus:
 i16
     REP #0x20
-    LDA #0x300
+    
+    ; Add 300 to the score
+    LDA #0x0300
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+    
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    LDA z:0x33,X
-    ORA #1
-
-.loc_C60DDD:
-    STA z:0x33,X
-    INC a:addr(0x133),X
-    LDY #2
+    LDA z:player.powerups_1,X
+    ORA #POWERUPS_1_REMOTE_CONTROL
+    STA z:player.powerups_1,X
+    INC a:addr(shadow_player.remote_controls + player_1_shadow - player_1),X
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60DEA:
+speed_up_bonus:
 i16
     REP #0x20
-    LDA #0x400
+
+    ; Add 400 to the score
+    LDA #0x0400
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    SEP #0x20
 
-.loc_C60E00:
-    INC a:addr(0x132),X
-    LDA z:0x32,X
+    JSL clear_bonus_tile
+    
+    SEP #0x20
+    INC a:addr(shadow_player.speedups + player_1_shadow - player_1),X
+    LDA z:player.speed,X
     CMP #3
-    BCS .loc_C60E0B
-    INC z:0x32,X
+    BCS .maxed
+    INC z:player.speed,X
 
-.loc_C60E0B:
-    LDY #2
+.maxed:
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60E13:
+vest:
 i16
     REP #0x20
-    LDA #0x2A0
-    STA z:0x36,X
-    LDA #0x500
+    LDA #INVINCIBILITY_FRAMES
+    STA z:player.invincibility_countdown,X
+
+    ; Add 500 to the score
+    LDA #0x0500
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
+
+    JSL clear_bonus_tile
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60E34:
+extra_life_bonus:
     REP #0x20
-    LDA #0x600
+
+    ; Add 600 to the score
+    LDA #0x0600
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+
+    JSL clear_bonus_tile
+    ; fallthrough
 
 add_extra_life:
 i16
     SEP #0x20
-    LDA z:0x3D,X
+    LDA z:player.lives,X
     CMP #9
-    BEQ .loc_C60E52
+    BEQ .maxed
     INC z:0x3D,X
 
-.loc_C60E52:
-    JSL write_number_of_lives
-    LDY #3
+.maxed:
+    JSL draw_number_of_lives
+    LDY #SOUND_EXTRA_LIFE
     JSL play_sound
     RTL
 
-sub_C60E5E:
+bomb_pass_bonus:
 i16
     REP #0x20
-    LDA #0x700
+
+    ; Add 700 to the score
+    LDA #0x0700
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    LDA z:0x39,X
-    ORA #0x20
-    AND #0xFE
-    STA z:0x39,X
-    LDY #2
+    LDA z:player.powerups_2 + 1,X
+    ORA #high(POWERUPS_2_BOMB_PASS)
+    AND #low(~high(POWERUPS_2_KICK))
+    STA z:player.powerups_2 + 1,X
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60E84:
+wall_pass_bonus:
 i16
     REP #0x20
-    LDA #0x800
+
+    ; Add 800 to the score
+    LDA #0x0800
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    LDA z:0x39,X
-    ORA #0x40
-    STA z:0x39,X
-    LDY #2
+    LDA z:player.powerups_2 + 1,X
+    ORA #high(POWERUPS_2_WALL_PASS)
+    STA z:player.powerups_2 + 1,X
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60EA8:
+extra_time_bonus:
 i16
     REP #0x20
-    LDA z:7,X
+    
+    LDA z:player.is_ai,X
     AND #0xFF
-    BNE .loc_C60EF1
-    LDA z:5,X
+    BNE .ai
+    
+    LDA z:player.player_index,X
     AND #0xFF
     ASL A
     TAY
     LDA #0
-    STA a:addr(0xCAA),Y
-    LDY #0xC2
-    LDA z:5,X
+    STA a:addr(story_mode_timers),Y
+    
+    ; Tilemap copy dest
+    pos y, 1, 3 ; Player 1
+    LDA z:player.player_index,X
     AND #0xFF
-    BEQ .loc_C60ECB
-    LDY #0xE2
+    BEQ +
+    pos y, 17, 3 ; Player 2
++
 
-.loc_C60ECB:
-    LDA #0xE
-    STA z:0x40
+    ; Tiles to copy - 1
+    LDA #STORY_MODE_TIMER_TICKS - 1 
+    STA z:0x40 
+    
+    ; Source address
     REP #0x20
     LDA #addr(storymode_hud_tilemap+0xC2)
     STA z:0x50
+    
     SEP #0x20
     LDA #bank(storymode_hud_tilemap+0xC2)
     STA z:0x52
+    
+    ; Update the timer blocks in the HUD
     JSL copy_to_bg3_tilemap
+    
     REP #0x20
-    LDA #0x900
+    ; Add 900 to the score
+    LDA #0x0900
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
 
-.loc_C60EF1:
-    JSL sub_C61129
-    LDY #2
+.ai:
+    JSL clear_bonus_tile
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60EFD:
+full_fire_bonus:
 i16
     REP #0x20
+
+    ; Add 1000 to the score
     LDA #0x1000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+
+    JSL clear_bonus_tile
+    
+    ; Mark fireups as temporarily maxed
     SEP #0x20
-    LDA z:0x31,X
+    LDA z:player.fireups,X
     ORA #0x80
-    STA z:0x31,X
-    LDY #2
+    STA z:player.fireups,X
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60F21:
+red_bombs_bonus:
 i16
     REP #0x20
+
+    ; Add 2000 to the score
     LDA #0x2000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    LDA z:0x38,X
-    ORA #1
-    STA z:0x38,X
-    LDY #2
+    LDA z:player.powerups_2,X
+    ORA #POWERUPS_2_RED_BOMBS
+    STA z:player.powerups_2,X
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60F45:
+kick_bonus:
 i16
     REP #0x20
+
+    ; Add 3000 to the score
     LDA #0x3000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    INC a:addr(0x134),X
-    LDA z:0x39,X
-    ORA #1
-    AND #0xDF
-    STA z:0x39,X
-    LDY #2
+    INC a:addr(shadow_player.kicks + player_1_shadow - player_1),X
+    
+    LDA z:player.powerups_2 + 1,X
+    ORA #high(POWERUPS_2_KICK)
+    AND #low(~high(POWERUPS_2_BOMB_PASS))
+    STA z:player.powerups_2 + 1,X
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60F6E:
+punch_bonus:
 i16
     REP #0x20
+
+    ; Add 4000 to the score
     LDA #0x4000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
+
+    JSL clear_bonus_tile
+    
     SEP #0x20
-    INC a:addr(0x135),X
-    LDA z:0x39,X
-    ORA #2
-    STA z:0x39,X
-    LDY #2
+    INC a:addr(shadow_player.punches + player_1_shadow - player_1),X
+    
+    LDA z:player.powerups_2 + 1,X
+    ORA #high(POWERUPS_2_PUNCH)
+    STA z:player.powerups_2 + 1,X
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60F95:
+onigiri_bonus:
 i16
     REP #0x20
+
+    ; Add 5000 to the score
     LDA #0x5000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
+
+    JSL clear_bonus_tile
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C60FB1:
+poison_bonus:
 i16
     REP #0x20
+
+    ; Add 6000 to the score
     LDA #0x6000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    JSL sub_C6113D
-    LDY #0xA
+
+    JSL clear_bonus_tile
+    JSL apply_poison
+    
+    LDY #SOUND_POISON
     JSL play_sound
     RTL
 
-sub_C60FD1:
+exit_bonus:
     SEP #0x20
     LDA a:addr(level_manager_object.enemy_count) ; orig=0x0D25
-    BNE .locret_C60FFE
+    BNE .ret
     JSL is_object_aligned
-    BCS .locret_C60FFE
+    BCS .ret
     REP #0x20
     LDA #addr(enter_level_exit)
-    STA z:0,X
+    STA z:player.handler,X
     SEP #0x20
     LDA #bank(enter_level_exit)
-    STA z:2,X
+    STA z:player.handler + 2,X
+    
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #4
-    BNE .locret_C60FFE
+    BNE .ret
     LDA a:addr(game_flags) ; orig=0x0314
     AND #0x80
     ORA #4
     STA a:addr(game_flags) ; orig=0x0314
 
-.locret_C60FFE:
+.ret:
     RTL
 
-sub_C60FFF:
+set_player_hit:
     SEP #0x20
     LDA #1
-    STA z:0x2F,X
+    STA z:player.hit_flags,X
     RTL
 
-sub_C61006:
+heart_bonus:
 i16
     SEP #0x20
-    LDA z:0x39,X
-    ORA #0x80
-    STA z:0x39,X
+    LDA z:player.powerups_2 + 1,X
+    ORA #high(POWERUPS_2_HEART)
+    STA z:player.powerups_2 + 1,X
+    
+    ; Add 800 to the score
     REP #0x20
     LDA #0x800
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
 
-.loc_C6101E:
-    JSL sub_C61129
-    LDY #2
+    JSL clear_bonus_tile
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C6102A:
+cake_bonus:
 i16
     REP #0x20
+    
+    ; Add 999900 to the score
     LDA #0x9900
     STA z:0x40
-
-.loc_C61031:
     LDA #0x99
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
+    
+    JSL clear_bonus_tile
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
@@ -1973,17 +2048,17 @@ i16
     JSL random
     REP #0x20
     INC A
-    CMP #addr(POISON)
-    BEQ .loc_C61066
-    CMP #addr(EXIT)
-    BEQ .loc_C61066
+    CMP #POISON
+    BEQ .extra_life
+    CMP #EXIT
+    BEQ .extra_life
     CMP #0x13
-    BNE .loc_C61069
+    BNE +
 
-.loc_C61066:
-    LDA #6
+.extra_life:
+    LDA #EXTRA_LIFE
 
-.loc_C61069:
++
     ASL A
     TAX
     LDA f:bonus_handlers,X
@@ -1992,91 +2067,110 @@ i16
     JSL call_function_at_0053
     RTL
 
-sub_C61077:
+kendama_bonus:
 i16
     REP #0x20
+
+    ; Add 100 to the score
     LDA #0x100
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
+
+    JSL clear_bonus_tile
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C61093:
+unused_score_bonus:
 i16
     REP #0x20
+
+    ; Add 100 to the score
     LDA #0x100
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
+
+    JSL clear_bonus_tile
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C610AF:
+apple_bonus:
 i16
     REP #0x20
+
+    ; Add 8000 to the score
     LDA #0x8000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
+
+    JSL clear_bonus_tile
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C610CB:
+fire_extinguisher_bonus:
 i16
     SEP #0x20
     LDA #9
-    STA z:0x3D,X
+    STA z:player.lives,X
+    
     REP #0x20
+    ; Add 9000 to the score
     LDA #0x9000
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL write_number_of_lives
-    JSL sub_C61129
-    LDY #2
+
+    JSL draw_number_of_lives
+    JSL clear_bonus_tile
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C610F1:
+popsicle_bonus:
 i16
     REP #0x20
+
+    ; Add 500 to the score
     LDA #0x500
     STA z:0x40
-    LDA #0
+    LDA #0x0000
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
 
-.loc_C61108:
+    JSL clear_bonus_tile
+    
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C6110D:
+ice_cream_bonus:
 i16
     REP #0x20
+    
+    ; Add 50000 to the score
     LDA #0
     STA z:0x40
     LDA #5
     STA z:0x42
     JSL add_to_score_if_allowed
-    JSL sub_C61129
-    LDY #2
+    
+    JSL clear_bonus_tile
+    LDY #SOUND_BONUS
     JSL play_sound
     RTL
 
-sub_C61129:
+clear_bonus_tile:
     JSL get_object_square_index
     TAY
     REP #0x20
@@ -2086,7 +2180,7 @@ sub_C61129:
     STA a:addr(bg1_tilemap),Y
     RTL
 
-sub_C6113D:
+apply_poison:
 i16
     REP #0x20
     PHX
@@ -4771,9 +4865,9 @@ advance_animation:
     STA z:0x40
 
 .loc_C6257D:
-    LDA #addr(level_manager_object.anonymous_7)
+    LDA #addr(level_manager_object.hit_flags)
     STA z:0x56
-    LDA a:addr(level_manager_object.anonymous_7) ; orig=0x0D28
+    LDA a:addr(level_manager_object.hit_flags) ; orig=0x0D28
 
 .loc_C62585:
     TAY
@@ -5494,10 +5588,10 @@ i16
     LDA f:hidden_bonus_verifiers_array,X
     STA z:0x53
     PLX
-    LDY #addr(player1_object)
+    LDY #addr(player_1)
     JSL call_function_at_0053
     BCS .loc_C62B35
-    LDY #addr(player2_object)
+    LDY #addr(player_2)
     PHX
     INX
     INX
@@ -5821,7 +5915,7 @@ place_6_bombs_bonus:
 
 score_20_bonus:
     SEP #0x20
-    LDA a:addr(player.socre_digits_12),Y
+    LDA a:addr(player.score_digits_12),Y
     CMP #0x20
     BNE .loc_C62D4B
     JML set_carry
@@ -7287,17 +7381,17 @@ sub_C63983:
 follower_movement_2:
 i16
     REP #0x20
-    LDY #addr(player2_object)
-    LDA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
+    LDY #addr(player_2)
+    LDA a:addr(player_1.gameover_related) ; orig=0x0D44
     AND #0xFF
     BEQ .locret_C63A1B
-    LDY #addr(player1_object)
-    LDA a:addr(player2_object+player.gameover_related) ; orig=0x0D84
+    LDY #addr(player_1)
+    LDA a:addr(player_2.gameover_related) ; orig=0x0D84
     AND #0xFF
     BEQ .locret_C63A1B
     LDA z:enemy.x_position,X
     SEC
-    SBC a:addr(player1_object+player.x_position) ; orig=0x0D51
+    SBC a:addr(player_1.x_position) ; orig=0x0D51
     BPL .loc_C639E4
     EOR #0xFFFF
     INC A
@@ -7306,7 +7400,7 @@ i16
     STA z:0x40
     LDA z:enemy.y_position,X
     SEC
-    SBC a:addr(player1_object+player.y_position) ; orig=0x0D54
+    SBC a:addr(player_1.y_position) ; orig=0x0D54
     BPL .loc_C639F2
     EOR #0xFFFF
     INC A
@@ -7317,7 +7411,7 @@ i16
     STA z:0x42
     LDA z:enemy.x_position,X
     SEC
-    SBC a:addr(player2_object+player.x_position) ; orig=0x0D91
+    SBC a:addr(player_2.x_position) ; orig=0x0D91
     BPL .loc_C63A03
     EOR #0xFFFF
     INC A
@@ -7326,7 +7420,7 @@ i16
     STA z:0x40
     LDA z:enemy.y_position,X
     SEC
-    SBC a:addr(player2_object+player.y_position) ; orig=0x0D94
+    SBC a:addr(player_2.y_position) ; orig=0x0D94
     BPL .loc_C63A11
     EOR #0xFFFF
     INC A
@@ -7336,7 +7430,7 @@ i16
     ADC z:0x40
     CMP z:0x42
     BCS .locret_C63A1B
-    LDY #addr(player2_object)
+    LDY #addr(player_2)
 
 .locret_C63A1B:
     RTL
@@ -7465,10 +7559,10 @@ i16
     REP #0x20
     LDA z:enemy.speed,X
     PHA
-    LDY #addr(player1_object)
+    LDY #addr(player_1)
     JSL is_in_line_of_sight
     BCC .loc_C63B39
-    LDY #addr(player2_object)
+    LDY #addr(player_2)
     JSL is_in_line_of_sight
     BCC .loc_C63B39
     REP #0x20

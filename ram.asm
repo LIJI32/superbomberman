@@ -74,14 +74,27 @@ org 0x7E0CF0
 joypad_1_previous:
 org 0x7E0CF8
 joypad_1_pressed:
+
 org 0x7E0D40
-player1_object:
-org 0x7E0D80
-player2_object:
-org 0x7E0DC0
-player3_object:
-org 0x7E0E00
-player4_object:
+player_1:
+    player
+player_2:
+    player
+player_3:
+    player
+player_4:
+    player
+    
+; These shadow player exist so they can count collected bonuses. They're dropped when the "real" player dies.
+player_1_shadow:
+    shadow_player
+player_2_shadow:
+    shadow_player
+player_3_shadow:
+    shadow_player
+player_4_shadow:
+    shadow_player
+
 org 0x7E0E7B
 poison_related_0:
 org 0x7E0FC0
@@ -137,7 +150,7 @@ level_manager_object:
 .enemy_count:
     ds 2
     ds 1
-.anonymous_7:
+.hit_flags:
     ds 2
     ds 1
     ds 1
@@ -317,8 +330,12 @@ org 0x7E0C8D
 word_7E0C8D:
 org 0x7E0C8F
 word_7E0C8F:
+
 org 0x7E0CAA
-word_7E0CAA:
+story_mode_timers:
+    ds 2 ; Player 1
+    ds 2 ; Player 2
+    
 org 0x7E0CAC
 word_7E0CAC:
 org 0x7E0CAE

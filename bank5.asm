@@ -5128,13 +5128,13 @@ sub_C54E4A:
     JSL create_object
     SEP #0x20
     LDA #0
-    STA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.gameover_related) ; orig=0x0D44
     LDA #0
-    STA a:addr(player2_object+player.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.gameover_related) ; orig=0x0D84
     LDA #0
-    STA a:addr(player3_object+player.gameover_related) ; orig=0x0DC4
+    STA a:addr(player_3.gameover_related) ; orig=0x0DC4
     LDA #0
-    STA a:addr(player4_object+player.gameover_related) ; orig=0x0E04
+    STA a:addr(player_4.gameover_related) ; orig=0x0E04
     RTL
 
 sub_C54E77:
@@ -5474,30 +5474,30 @@ sub_C550AF:
 
 .loc_C550C1:
     LDA #0xFF
-    STA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.gameover_related) ; orig=0x0D44
     LDA z:0x40
-    STA a:addr(player1_object+player.number_of_lives) ; orig=0x0D7D
+    STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0
-    STA a:addr(player2_object+player.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.gameover_related) ; orig=0x0D84
     LDA #0
-    STA a:addr(player2_object+player.number_of_lives) ; orig=0x0DBD
+    STA a:addr(player_2.lives) ; orig=0x0DBD
     LDA a:addr(joypad_2_pressed+1) ; orig=0x0CFB
     BIT #0x10
     BEQ .loc_C550F0
     LDA #0
-    STA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.gameover_related) ; orig=0x0D44
     LDA #0
-    STA a:addr(player1_object+player.number_of_lives) ; orig=0x0D7D
+    STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0xFF
-    STA a:addr(player2_object+player.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.gameover_related) ; orig=0x0D84
     LDA z:0x40
-    STA a:addr(player2_object+player.number_of_lives) ; orig=0x0DBD
+    STA a:addr(player_2.lives) ; orig=0x0DBD
 
 .loc_C550F0:
     LDA #0
-    STA a:addr(player3_object+player.gameover_related) ; orig=0x0DC4
+    STA a:addr(player_3.gameover_related) ; orig=0x0DC4
     LDA #0
-    STA a:addr(player4_object+player.gameover_related) ; orig=0x0E04
+    STA a:addr(player_4.gameover_related) ; orig=0x0E04
     LDA #1
     STA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
     RTL
@@ -5514,33 +5514,33 @@ sub_C55100:
 
 .loc_C55112:
     LDA #0xFF
-    STA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.gameover_related) ; orig=0x0D44
     LDA z:0x40
-    STA a:addr(player1_object+player.number_of_lives) ; orig=0x0D7D
+    STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0
-    STA a:addr(player2_object+player.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.gameover_related) ; orig=0x0D84
     LDA #0
-    STA a:addr(player2_object+player.number_of_lives) ; orig=0x0DBD
+    STA a:addr(player_2.lives) ; orig=0x0DBD
     REP #0x20
     LDA a:addr(joypad_2_pressed) ; orig=0x0CFA
     BIT #0x1080
     BEQ .loc_C55146
     SEP #0x20
     LDA #0
-    STA a:addr(player1_object+player.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.gameover_related) ; orig=0x0D44
     LDA #0
-    STA a:addr(player1_object+player.number_of_lives) ; orig=0x0D7D
+    STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0xFF
-    STA a:addr(player2_object+player.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.gameover_related) ; orig=0x0D84
     LDA z:0x40
-    STA a:addr(player2_object+player.number_of_lives) ; orig=0x0DBD
+    STA a:addr(player_2.lives) ; orig=0x0DBD
 
 .loc_C55146:
     SEP #0x20
     LDA #0
-    STA a:addr(player3_object+player.gameover_related) ; orig=0x0DC4
+    STA a:addr(player_3.gameover_related) ; orig=0x0DC4
     LDA #0
-    STA a:addr(player4_object+player.gameover_related) ; orig=0x0E04
+    STA a:addr(player_4.gameover_related) ; orig=0x0E04
     LDA #1
     STA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
     RTL
@@ -7212,10 +7212,10 @@ sub_C55DC7:
     CMP a:addr(level_manager_object.anonymous_1) ; orig=0x0D12
     BNE .loc_C55DF3
     SEP #0x20
-    STZ a:addr(player1_object+6) ; orig=0x0D46
-    STZ a:addr(player2_object+6) ; orig=0x0D86
-    STZ a:addr(player3_object+6) ; orig=0x0DC6
-    STZ a:addr(player4_object+6) ; orig=0x0E06
+    STZ a:addr(player_1+6) ; orig=0x0D46
+    STZ a:addr(player_2+6) ; orig=0x0D86
+    STZ a:addr(player_3+6) ; orig=0x0DC6
+    STZ a:addr(player_4+6) ; orig=0x0E06
     LDA #0x3B
     STA a:addr(current_screen) ; orig=0x00A4
     RTL
@@ -7365,7 +7365,7 @@ i16
     LDA z:0xC,X
     CMP #0x202
     BNE .loc_C55F05
-    LDY #2
+    LDY #SOUND_BONUS
     JSL play_sound
 
 .loc_C55F05:
@@ -9033,24 +9033,24 @@ i16
     JSL sub_C462BA
     SEP #0x20
     LDA #1
-    STA a:addr(player1_object+0x31) ; orig=0x0D71
+    STA a:addr(player_1+0x31) ; orig=0x0D71
     LDA #1
-    STA a:addr(player1_object+0x32) ; orig=0x0D72
+    STA a:addr(player_1+0x32) ; orig=0x0D72
     LDA #0
-    STA a:addr(player2_object+0x31) ; orig=0x0DB1
+    STA a:addr(player_2+0x31) ; orig=0x0DB1
     LDA #0
-    STA a:addr(player2_object+0x32) ; orig=0x0DB2
+    STA a:addr(player_2+0x32) ; orig=0x0DB2
     LDA a:addr(joypad_2_pressed+1) ; orig=0x0CFB
     BIT #0x10
     BEQ .loc_C56FED
     LDA #0
-    STA a:addr(player1_object+0x31) ; orig=0x0D71
+    STA a:addr(player_1+0x31) ; orig=0x0D71
     LDA #0
-    STA a:addr(player1_object+0x32) ; orig=0x0D72
+    STA a:addr(player_1+0x32) ; orig=0x0D72
     LDA #1
-    STA a:addr(player2_object+0x31) ; orig=0x0DB1
+    STA a:addr(player_2+0x31) ; orig=0x0DB1
     LDA #1
-    STA a:addr(player2_object+0x32) ; orig=0x0DB2
+    STA a:addr(player_2+0x32) ; orig=0x0DB2
 
 .loc_C56FED:
     REP #0x20
@@ -9501,26 +9501,26 @@ i16
     JSL sub_C462BA
     SEP #0x20
     LDA #1
-    STA a:addr(player1_object+0x31) ; orig=0x0D71
+    STA a:addr(player_1+0x31) ; orig=0x0D71
     LDA #1
-    STA a:addr(player1_object+0x32) ; orig=0x0D72
+    STA a:addr(player_1+0x32) ; orig=0x0D72
     LDA #0
-    STA a:addr(player2_object+0x31) ; orig=0x0DB1
+    STA a:addr(player_2+0x31) ; orig=0x0DB1
     LDA #0
-    STA a:addr(player2_object+0x32) ; orig=0x0DB2
+    STA a:addr(player_2+0x32) ; orig=0x0DB2
     REP #0x20
     LDA a:addr(joypad_2_pressed) ; orig=0x0CFA
     BIT #0x1080
     BEQ .loc_C5736E
     SEP #0x20
     LDA #0
-    STA a:addr(player1_object+0x31) ; orig=0x0D71
+    STA a:addr(player_1+0x31) ; orig=0x0D71
     LDA #0
-    STA a:addr(player1_object+0x32) ; orig=0x0D72
+    STA a:addr(player_1+0x32) ; orig=0x0D72
     LDA #1
-    STA a:addr(player2_object+0x31) ; orig=0x0DB1
+    STA a:addr(player_2+0x31) ; orig=0x0DB1
     LDA #1
-    STA a:addr(player2_object+0x32) ; orig=0x0DB2
+    STA a:addr(player_2+0x32) ; orig=0x0DB2
 
 .loc_C5736E:
     REP #0x20

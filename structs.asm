@@ -1,68 +1,40 @@
-struct registers_init_table_entry
+struct registers_init_table_entry offset, value
 .offset:
-    ds 1
+    db low($offset)
 .value:
-    ds 1
+    db $value
 endstruct
 
-macro registers_init_table_entry offset, value
-    db low(offset)
-    db value
-endmacro
-
-struct animation_frame
+struct animation_frame address, length
 .address:
-    ds 3
+    df $address
 .length:
-    ds 1
+    db $length
 endstruct
 
-macro animation_frame address, length
-    df address
-    db length
-endmacro
-
-struct frame_oam_tile
+struct frame_oam_tile x_position, y_position, tile, flags_and_palette
 .x_position:
-    ds 1
+    db low($x_position)
 .y_position:
-    ds 1
+    db low($y_position)
 .tile:
-    ds 2
+    dw $tile
 .flags_and_palette:
-    ds 1
+    db $flags_and_palette
 endstruct
 
-macro frame_oam_tile x_position, y_position, tile, flags_and_palette
-    db (x_position) & 0xFF
-    db (y_position) & 0xFF
-    dw tile
-    db flags_and_palette
-endmacro
-
-struct battle_menu_item
+struct battle_menu_item x_position, y_position, max_value, option_list
 .x_position:
-    ds 2
+    dw $x_position
 .y_position:
-    ds 2
+    dw $y_position
 .max_value:
-    ds 2
+    dw $max_value
 .option_list:
-    ds 2
+    da $option_list
 .unused:
-    ds 2
-    ds 2
-    ds 2
-    ds 2
-endstruct
-
-macro battle_menu_item x_position, y_position, max_value, option_list
-    dw x_position
-    dw y_position
-    dw max_value
-    da option_list
     ds 8
-endmacro
+endstruct
 
 ; Object structures
 
@@ -73,13 +45,8 @@ endstruct
 
 ; Fields that are common to both player, enemy and most other visible objects
 struct sprite
-    .handler:
-    ds 3
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
+    object
+    ds 5 ; Unknown / defined by "subclasses"
 .current_animation:
     ds 3
 .max_frame:
@@ -92,63 +59,27 @@ struct sprite
     ds 2
     ds 1
 .x_position:
-    ds 1
-    ds 1
-    ds 1
+    ds 3
 .y_position:
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
+    ds 3
+    ds 7 ; Unknown / defined by "subclasses"
 .effective_palette:
     ds 1
 .real_palette:
     ds 1
 .direction:
     ds 1
-    ds 1
-    ds 2
-    ds 2
-    ds 1
-    ds 1
-    ds 2
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 2
-    ds 1
-    ds 1
-    ds 1
-    ds 2
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
+org 0x40 ; The rest of the fields are defined by subclasses
 endstruct
 
 struct player
-.handler:
-    ds 3
-    ds 1
+    object
+    ds 1 ; Unknown
 .gameover_related:
     ds 1
 .player_index:
     ds 1
-    ds 1
+    ds 1 ; Unknown
 .is_ai:
     ds 1
 .current_animation:
@@ -161,24 +92,22 @@ struct player
     ds 1
 .palette:
     ds 2
-.wrap_delay:
+.wrap_delay: ; 0x10
     ds 1
 .x_position:
-    ds 1
-    ds 1
-    ds 1
+    ds 2
+    ds 1 ; Unknown
 .y_position:
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
-    ds 1
+    ds 2
+    ds 1 ; Unknown
+    ds 3 ; Unknown
+    
+    ; Score in BCD
 .score_digits_56:
     ds 1
 .score_digits_78:
     ds 1
-.socre_digits_12:
+.score_digits_12:
     ds 1
 .score_digits_34:
     ds 1
@@ -186,47 +115,61 @@ struct player
     ds 1
 .real_palette:
     ds 1
-.direction:
+.direction: ; 0x20
     ds 1
-    ds 1
+    ds 1 ; Unknown
 .down_keys:
     ds 2
 .current_bomb_count:
     ds 2
-    ds 1
-    ds 1
+    ds 2 ; Unknown
 .anonymous_6:
     ds 2
+    ds 5 ; Unknown
+.hit_flags:
     ds 1
+.bombups:
+    ds 1 ; 0x30
+.fireups:  ; 31
     ds 1
+.speed:   ; 32
     ds 1
-    ds 1
-    ds 1
-.anonymous_7:
+.powerups_1:
+    ds 1 ; 33
+.trampoline_state: ;34-35
     ds 2
-    ds 1
-    ds 1
-    ds 1
-.trampoline_state:
+.invincibility_countdown: ;36-37
     ds 2
+.powerups_2: ;38-39
+    ds 2
+.position_related: ; 3a-3c
     ds 1
+    ds 2 ; Unknown
+.lives: ; 3d
     ds 1
+    ds 2 ; Unknown 3e-3f
+endstruct
+
+struct shadow_player
+org 0x30
+; Collected bonuses
+.bombups:
     ds 1
+.fireups:
     ds 1
-.position_related:
+.speedups:
     ds 1
+.remote_controls:
     ds 1
+.kicks:
     ds 1
-.number_of_lives:
+.punches:
     ds 1
-    ds 1
-.field_3F:
-    ds 1
+org 0x40
 endstruct
 
 struct enemy
-.handler:
-    ds 3
+    object
     ds 1
 .prev:
     ds 2
@@ -284,7 +227,7 @@ struct enemy
     ds 1
     ds 1
     ds 1
-.anonymous_7:
+.hit_flags:
     ds 1
 .field_30:
     ds 1
@@ -309,8 +252,7 @@ struct enemy
 endstruct
 
 struct score_popup_object
-.handler:
-    ds 3
+    object
     ds 1
     ds 1
     ds 1

@@ -3,22 +3,22 @@ dw 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1
 endmacro
 
 macro palette type, name
-incbin "graphics/type/name.bin"
+incbin "graphics/$type/$name.bin"
 endmacro
 
 macro partial_palette type, name, start, end
-incbin "graphics/type/name.bin", (start) * 2, ((end) - (start)) * 2
+incbin "graphics/$type/$name.bin", ($start) * 2, (($end) - ($start)) * 2
 endmacro
 
 macro bomb_palette name
 partial_palette overlays, bomb_and_explosions_palette_1, (. / 2) & 0xF, 11
-partial_palette backgrounds, name, 11, 14
+partial_palette backgrounds, $name, 11, 14
 partial_palette overlays, bomb_and_explosions_palette_1, 14, 16
 endmacro
 
 macro fire_palette name
 partial_palette overlays, bomb_and_explosions_palette_0, (./2) & 0xF, 11
-partial_palette backgrounds, name, 11, 14
+partial_palette backgrounds, $name, 11, 14
 partial_palette overlays, bomb_and_explosions_palette_0, 14, 16
 endmacro
 

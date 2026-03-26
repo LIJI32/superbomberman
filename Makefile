@@ -19,7 +19,7 @@ TITLE_END = "\033[0m"
 
 superbomberman.sfc: superbomberman.asm superbomberman.layout tools/checksum.py
 	@echo -e $(TITLE)Compiling $@...$(TITLE_END)
-	sfcasm $< -o $@ -l superbomberman.layout -V "CONFIG=\"$(CONFIG)\""
+	sfcasm $< -o $@ -l superbomberman.layout -V "CONFIG=\"$(CONFIG)\"" -v superbomberman.var  -s superbomberman.sym
 	python tools/checksum.py $@
 
 

@@ -1,7 +1,7 @@
 macro fill addr
-    if addr > .
-        org addr
-    elif addr < .
+    if $addr > .
+        org $addr
+    elif $addr < .
         warning "Overflow detected at", .
     endif
 endmacro
@@ -11,20 +11,15 @@ macro data_end
 endmacro
 
 macro asset type, name
-name:
-incbin "type/name.bin"
+$name:
+incbin "$type/$name.bin"
 endmacro
 
 macro asset_j type, name
-name:
-incbin "type/name" + "_j.bin"
+$name:
+incbin "$type/$name" + "_j.bin"
 endmacro
 
-macro struct struct_name
-org 0
-struct_name:
-endmacro
-
-macro endstruct
-.size
+macro pos reg, x, y
+LD$reg #(($y) * 0x20 + ($x)) * 2
 endmacro
