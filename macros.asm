@@ -12,12 +12,12 @@ endmacro
 
 macro asset type, name
 $name:
-incbin "$type/$name.bin"
+incbin "$OUT/$type/$name.bin"
 endmacro
 
 macro asset_j type, name
 $name:
-incbin "$type/$name" + "_j.bin"
+incbin "$OUT/$type/$name" + "_j.bin"
 endmacro
 
 macro pos reg, x, y

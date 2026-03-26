@@ -3,11 +3,11 @@ dw 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1
 endmacro
 
 macro palette type, name
-incbin "graphics/$type/$name.bin"
+incbin "$OUT/graphics/$type/$name.bin"
 endmacro
 
 macro partial_palette type, name, start, end
-incbin "graphics/$type/$name.bin", ($start) * 2, (($end) - ($start)) * 2
+incbin "$OUT/graphics/$type/$name.bin", ($start) * 2, (($end) - ($start)) * 2
 endmacro
 
 macro bomb_palette name
@@ -23,7 +23,7 @@ partial_palette overlays, bomb_and_explosions_palette_0, 14, 16
 endmacro
 
 a_palettes:
-incbin "graphics/bg3_tileset_palette.bin" ; 0x0 HUD_PALETTE
+incbin "$OUT/graphics/bg3_tileset_palette.bin" ; 0x0 HUD_PALETTE
 palette backgrounds, peace_town_palette_1 ; 0x1 PEACE_TOWN_PALETTE_1
 palette backgrounds, peace_town_palette_0 ; 0x2 PEACE_TOWN_PALETTE_2
 palette backgrounds, peace_town_palette_3 ; 0x3 PEACE_TOWN_PALETTE_3

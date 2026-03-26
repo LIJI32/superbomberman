@@ -64,7 +64,7 @@ asset graphics/sprites, banen_graphic_0
 asset graphics/sprites, banen_graphic_1
 asset graphics/backgrounds, continue_border_graphic
 continue_background_graphic_copy: ; For some reason, it exists twice
-incbin "graphics/backgrounds/continue_background_graphic.bin"
+incbin "$OUT/graphics/backgrounds/continue_background_graphic.bin"
 asset graphics/sprites, mook_graphic_0
 asset graphics/sprites, mook_graphic_1
 asset graphics/sprites, crane_graphic

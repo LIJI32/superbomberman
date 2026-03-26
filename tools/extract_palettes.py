@@ -13,7 +13,7 @@ def photoshop_fix(palette):
     return palette
 
 
-def convert_file(filename,):
+def convert_file(filename, outdir):
     reader = png.Reader(filename)
     reader.read()
     palettes = reader.palette()
@@ -30,11 +30,11 @@ def convert_file(filename,):
             out_name = filename.replace(".png", "_palette_%d.bin" % (i / 0x10, ))
         if is_japanese:
             out_name = out_name.replace(".bin", "_j.bin")
-        open(out_name, "w").write(palette)
+        open(outdir + "/" + out_name, "w").write(palette)
 
 if __name__ == "__main__":
-    import sys
+    import sys, os
     
     for filename in sys.argv[1:]:
-        convert_file(filename)
+        convert_file(filename, os.getenv("OUT") or ".")
         

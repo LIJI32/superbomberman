@@ -21,19 +21,19 @@ include "dboot.asm"
 dboot_data_start:
 dboot_data_offsets:
 FIRST_DBOOT_BANK_SIZE = 0xC50000 - dboot_data_start
-incbin "dboot/data.bin", 0, FIRST_DBOOT_BANK_SIZE
+incbin "$OUT/dboot/data.bin", 0, FIRST_DBOOT_BANK_SIZE
 
 include "bank5.asm"
 fill 0xC58000
 ; The English localizations OVERFLOW this bank and overwrite sound data! When
 ; building in most English-language configurations, an overflow warning will be
 ; issued.
-incbin "dboot/data.bin", FIRST_DBOOT_BANK_SIZE + (. - 0xC58000), 0x8000 - (. - 0xC58000)
+incbin "$OUT/dboot/data.bin", FIRST_DBOOT_BANK_SIZE + (. - 0xC58000), 0x8000 - (. - 0xC58000)
 
 include "bank6.asm"
 fill 0xC68000
-incbin "dboot/data.bin", FIRST_DBOOT_BANK_SIZE + 0x8000, 0x8000
+incbin "$OUT/dboot/data.bin", FIRST_DBOOT_BANK_SIZE + 0x8000, 0x8000
 
 include "bank7.asm"
 fill 0xC78000
-incbin "dboot/data.bin", FIRST_DBOOT_BANK_SIZE + 0x10000
+incbin "$OUT/dboot/data.bin", FIRST_DBOOT_BANK_SIZE + 0x10000

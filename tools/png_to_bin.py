@@ -1,7 +1,7 @@
 import png
 from congraph import encode_tileset, bitmap_to_tileset, compress_snes_rle_interleaved, NULL_TILE
 
-def convert_file(filename, terminated=False, overlay=False, raw=False, depth=4):
+def convert_file(filename, outdir, terminated=False, overlay=False, raw=False, depth=4):
     reader = png.Reader(filename)
     bitmap = list(reader.read()[2])
     tileset = [x for x in bitmap_to_tileset(bitmap) if [y & 0xF for y in x] != NULL_TILE]
@@ -24,17 +24,17 @@ def convert_file(filename, terminated=False, overlay=False, raw=False, depth=4):
                 out_name = filename.replace(".png", "_graphic_%d.bin" % (i / part_size, ))
             if is_japanese:
                 out_name = out_name.replace(".bin", "_j.bin")
-            open(out_name, "w").write(data)
+            open(outdir +"/" + out_name, "w").write(data)
     else:
         encoded_tileset = encode_tileset(tileset, depth=4)
         data = compress_snes_rle_interleaved(encoded_tileset, terminated=True).read()
         out_name = filename.replace(".png", "_graphic.bin")
         if is_japanese:
             out_name = out_name.replace(".bin", "_j.bin")
-        open(out_name, "w").write(data)
+        open(outdir +"/" + out_name, "w").write(data)
 
 if __name__ == "__main__":
-    import sys
+    import sys, os
     terminated = False
     overlay = False
     raw = False
@@ -55,5 +55,5 @@ if __name__ == "__main__":
         raw = True
         depth=2
     for filename in filenames:
-        convert_file(filename, terminated, overlay, raw, depth)
+        convert_file(filename, os.getenv("OUT") or ".", terminated, overlay, raw, depth)
         
