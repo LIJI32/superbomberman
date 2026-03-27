@@ -85,18 +85,17 @@ player_3:
 player_4:
     player
     
-; These shadow player exist so they can count collected bonuses. They're dropped when the "real" player dies.
-player_1_shadow:
-    shadow_player
-player_2_shadow:
-    shadow_player
-player_3_shadow:
-    shadow_player
-player_4_shadow:
-    shadow_player
-
-org 0x7E0E7B
-poison_related_0:
+; These extra structs are already defined by their respective player struct, we
+; just need to reserve space for the,
+player_1_extra:
+    ds object.sizeof
+player_2_extra:
+    ds object.sizeof
+player_3_extra:
+    ds object.sizeof
+player_4_extra:
+    ds object.sizeof
+    
 org 0x7E0FC0
 unknown_object:
 org 0x7E2180
@@ -195,8 +194,6 @@ org 0x7E013A
 unk_7E013A:
 org 0x7E04C4
 unk_7E04C4:
-org 0x7E0E40
-unk_7E0E40:
 org 0x7E0E5A
 unk_7E0E5A:
 org 0x7E0E5C

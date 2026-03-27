@@ -1611,7 +1611,7 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:addr(shadow_player.bombups + player_1_shadow - player_1),X
+    INC a:player.collected_bombups,X
     LDA z:player.bombups,X
     CMP #9
     BEQ .maxed
@@ -1639,7 +1639,7 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:addr(shadow_player.fireups + player_1_shadow - player_1),X
+    INC a:player.collected_fireups,X
     LDA z:player.fireups,X
     CMP #9
     BEQ .maxed
@@ -1667,7 +1667,7 @@ i16
     LDA z:player.powerups_1,X
     ORA #POWERUPS_1_REMOTE_CONTROL
     STA z:player.powerups_1,X
-    INC a:addr(shadow_player.remote_controls + player_1_shadow - player_1),X
+    INC a:player.collected_remote_controls,X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1687,11 +1687,11 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:addr(shadow_player.speedups + player_1_shadow - player_1),X
-    LDA z:player.speed,X
+    INC a:player.collected_speedups,X
+    LDA z:player.speedups,X
     CMP #3
     BCS .maxed
-    INC z:player.speed,X
+    INC z:player.speedups,X
 
 .maxed:
     LDY #SOUND_BONUS
@@ -1900,7 +1900,7 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:addr(shadow_player.kicks + player_1_shadow - player_1),X
+    INC a:player.collected_kicks,X
     
     LDA z:player.powerups_2 + 1,X
     ORA #high(POWERUPS_2_KICK)
@@ -1925,7 +1925,7 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:addr(shadow_player.punches + player_1_shadow - player_1),X
+    INC a:player.collected_punches,X
     
     LDA z:player.powerups_2 + 1,X
     ORA #high(POWERUPS_2_PUNCH)
@@ -2187,39 +2187,42 @@ i16
     LDX #7
     LDA a:addr(current_mode) ; orig=0x0C3C
     AND #0xFF
-    CMP #3
-    BEQ .loc_C6115C
+    CMP #GAME_MODE_BATTLE
+    BEQ .battle_mode
+    ; Check for World 5
     LDA a:addr(level_manager_object.level_representation) ; orig=0x0D24
     AND #0xF0
     CMP #0x50
-    BNE .loc_C6115C
-    LDX #6
+    BNE .battle_mode
+    LDX #6 ; Skip the last poison effect in story mode (effectively only the final boss)
 
-.loc_C6115C:
+.battle_mode:
     JSL random
     AND #0xFF
     ASL A
     ASL A
     TAX
-    LDA f:sub_C6117E,X
+    LDA f:poison_table,X
     STA z:0x40
-    LDA f:sub_C6117E+2,X
+    LDA f:poison_table+2,X
     STA z:0x42
     PLX
     LDA z:0x40
-    STA a:addr(0x13A),X
+    STA a:player.poison_state, X
     LDA z:0x42
-    STA a:addr(0x13C),X
+    STA a:player.poison_state + 2, X
     RTL
 
-sub_C6117E:
-    SBC f:0x13,X
-    SBC f:0x23,X
-    SBC f:0x43,X
-    SBC f:0x83,X
-    SBC f:0x63,X
-    SBC f:0x103,X
-    SBC f:0xB,X
+poison_table:
+    dl POISON_TIMER_MAX | POISON_MIN_SPEED
+    dl POISON_TIMER_MAX | POISON_MAX_SPEED
+    dl POISON_TIMER_MAX | POISON_AUTO_BOMB_DROP
+    dl POISON_TIMER_MAX | POISON_NO_BOMBS
+    dl POISON_TIMER_MAX | POISON_MAX_SPEED | POISON_AUTO_BOMB_DROP
+    dl POISON_TIMER_MAX | POISON_MIN_FIRE_SINGLE_BOMB
+    dl POISON_TIMER_MAX | POISON_INVISIBILITY
+    
+sub_C6119A:
     SEP #0x20
     LDA #low(sub_C611BA)
     STA z:0xDB
@@ -6547,7 +6550,7 @@ _kill_enemy:
 
 .loc_C63439:
     REP #0x20
-    LDA z:enemy.position_related,X
+    LDA z:enemy.unknown_3a,X
     STA z:0x50
     LDA z:0x3B,X
     STA z:0x51
@@ -10235,7 +10238,7 @@ create_metal_kuwagen:
     ORA #8
     STA a:addr(enemy.y_position),Y
     LDA z:0x5F
-    STA a:addr(enemy.position_related),Y
+    STA a:addr(enemy.unknown_3a),Y
     LDA z:0x60
     STA a:addr(0x3B),Y
     SEP #0x20
@@ -11095,7 +11098,7 @@ create_metal_propene:
     ORA #8
     STA a:addr(enemy.y_position),Y
     LDA z:0x5F
-    STA a:addr(enemy.position_related),Y
+    STA a:addr(enemy.unknown_3a),Y
     LDA z:0x60
     STA a:addr(0x3B),Y
     SEP #0x20
@@ -11229,7 +11232,7 @@ create_propene:
     ORA #8
     STA a:addr(enemy.y_position),Y
     LDA z:0x5F
-    STA a:addr(enemy.position_related),Y
+    STA a:addr(enemy.unknown_3a),Y
     LDA z:0x60
     STA a:addr(0x3B),Y
     SEP #0x20

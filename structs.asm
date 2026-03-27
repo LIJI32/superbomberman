@@ -41,11 +41,13 @@ endstruct
 struct object
 .handler:
     ds 3
+    org 0x40
 endstruct
 
 ; Fields that are common to both player, enemy and most other visible objects
 struct sprite
     object
+    org 3
     ds 5 ; Unknown / defined by "subclasses"
 .current_animation:
     ds 3
@@ -74,6 +76,7 @@ endstruct
 
 struct player
     object
+    org 3
     ds 1 ; Unknown
 .gameover_related:
     ds 1
@@ -132,7 +135,7 @@ struct player
     ds 1 ; 0x30
 .fireups:  ; 31
     ds 1
-.speed:   ; 32
+.speedups:   ; 32
     ds 1
 .powerups_1:
     ds 1 ; 33
@@ -142,34 +145,45 @@ struct player
     ds 2
 .powerups_2: ;38-39
     ds 2
-.position_related: ; 3a-3c
+.invisibility_poison_flashing: ; 3a-3c
     ds 1
     ds 2 ; Unknown
 .lives: ; 3d
     ds 1
-    ds 2 ; Unknown 3e-3f
-endstruct
+.effective_speed
+    ds 2
+    
+; Player structs always have a struct for extra info, located 0x100 bytes after
+; them. Since there can but other data between the player data and extra data,
+; we will not count it for this structs size.
 
-struct shadow_player
-org 0x30
-; Collected bonuses
-.bombups:
+org 0x12f
+.unknown_poison_related
     ds 1
-.fireups:
+    ; Collected bonuses
+.collected_bombups:
     ds 1
-.speedups:
+.collected_fireups:
     ds 1
-.remote_controls:
+.collected_speedups:
     ds 1
-.kicks:
+.collected_remote_controls:
     ds 1
-.punches:
+.collected_kicks:
     ds 1
+.collected_punches:
+    ds 1
+    
+    ds 4 ; Unknown
+.poison_state
+    ds 4
+
 org 0x40
 endstruct
 
 struct enemy
     object
+    org 3
     ds 1
 .prev:
     ds 2
@@ -239,7 +253,7 @@ struct enemy
     ds 1
     ds 1
     ds 1
-.position_related:
+.unknown_3a:
     ds 1
     ds 1
     ds 1
@@ -253,6 +267,7 @@ endstruct
 
 struct score_popup_object
     object
+    org 3
     ds 1
     ds 1
     ds 1

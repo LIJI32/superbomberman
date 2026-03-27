@@ -899,7 +899,7 @@ sub_C40769:
     CLC
     ADC #0x40
     TAX
-    CMP #0xE40
+    CMP #addr(player_4 + player.sizeof)
     BNE .loc_C40782
     PLX
 
@@ -1929,8 +1929,8 @@ i16
     LDA #0
     STA z:player.hit_flags,X
     REP #0x20
-    STZ a:addr(0x13A),X
-    STZ a:addr(0x13C),X
+    STZ a:player.poison_state,X
+    STZ a:player.poison_state + 2,X
     LDY #6
     LDA a:addr(current_mode) ; orig=0x0C3C
     CMP #3
@@ -2045,21 +2045,21 @@ i16
 .loc_C412C4:
     JSL clear_playerquare_in_collision_map
     JSL sub_C43BE9
-    JSL sub_C431A0
+    JSL update_effective_speed
     SEP #0x20
-    LDA a:addr(0x13B),X
-    BIT #0x80
+    LDA a:player.poison_state + 1,X
+    BIT #high(POISON_NO_BOMBS)
     BNE .loc_C412EE
-    LDA a:addr(0x13B),X
-    BIT #0x40
+    LDA a:player.poison_state + 1,X
+    BIT #high(POISON_AUTO_BOMB_DROP)
     BEQ .loc_C412E4
-    JML sub_C4240D
+    JML try_drop_bomb
 
 .loc_C412E4:
     LDA z:0x26,X
     BIT #0x80
     BEQ .loc_C412EE
-    JML sub_C4240D.loc_C4241A
+    JML try_drop_bomb.loc_C4241A
 .loc_C412EE:
     SEP #0x20
     LDA z:0x23,X
@@ -2128,8 +2128,8 @@ i16
     SEP #0x20
     LDA z:0x1F,X
     STA z:0x1E,X
-    JSL poison_related
-    JSL infect_poison
+    JSL poison_rendering
+    JSL try_infect_poison
     SEP #0x20
     LDA z:0x2F,X
     BNE .loc_C4137B
@@ -2186,8 +2186,8 @@ i16
     SEP #0x20
     LDA z:0x1F,X
     STA z:0x1E,X
-    JSL poison_related
-    JSL infect_poison
+    JSL poison_rendering
+    JSL try_infect_poison
     SEP #0x20
     LDA z:0x2F,X
     BEQ .loc_C41405
@@ -2242,192 +2242,233 @@ clear_playerquare_in_collision_map:
     STA a:addr(collision_map),Y
     RTL
 
-sub_C4143C:
+poison_rendering_invisibile:
     SEP #0x20
     LDA a:addr(frame_count) ; orig=0x0300
     AND #0xF
-    BEQ .loc_C41449
-    JML sub_C414A6
+    BEQ + ; Every 16 frames
+    JML handle_player_flashing_and_invincibility
 
-.loc_C41449:
++
     JSL random2
     SEP #0x20
     AND #0xF0
     CMP #0x40
-    BEQ .loc_C41459
-    JML sub_C414A6
+    BEQ +
+    JML handle_player_flashing_and_invincibility
 
-.loc_C41459:
-    LDA a:addr(0x13B),X
-    ORA #4
-    STA a:addr(0x13B),X
-    JMP a:addr(sub_C414A6)
++
+    ; Randomly make the player flash visible
+    LDA a:player.poison_state + 1,X
+    ORA #high(POISON_FLASHING_VISIBLE)
+    STA a:player.poison_state + 1,X
+    JMP a:handle_player_flashing_and_invincibility
 
-poison_related:
+poison_rendering:
     SEP #0x20
     LDA #0
     XBA
-    LDA a:poison_related_0 - player_1,X
-    BIT #4
-    BNE .loc_C41487
-    BIT #8
-    BEQ .loc_C41487
-    LDA z:player.position_related,X
-    CMP #0x28
-    BEQ sub_C4143C
-    INC z:0x3A,X
+    LDA a:player.poison_state + 1,X
+    BIT #high(POISON_FLASHING_VISIBLE)
+    BNE .not_invisible
+    BIT #high(POISON_INVISIBILITY)
+    BEQ .not_invisible
+    LDA z:player.invisibility_poison_flashing,X
+    CMP #INVISIBILITY_FLASHING_LEGNTH
+    BEQ poison_rendering_invisibile
+    
+    ; Flash into invisible
+    INC z:player.invisibility_poison_flashing,X
+    
     PHX
     TAX
-    LDA f:invisibility_poison_related,X
+    LDA f:invisibility_flashing_sequence,X
     PLX
-    STA z:object.handler+0x12,X
-    BRA sub_C414A6
+    STA z:player.x_position + 1,X
+    
+    BRA handle_player_flashing_and_invincibility
 
-.loc_C41487:
-    LDA z:player.position_related,X
-    BEQ sub_C414A6
+.not_invisible:
+    LDA z:player.invisibility_poison_flashing,X
+    BEQ handle_player_flashing_and_invincibility ; Completely visible
+    
+    ; Flash into visible
+    
+    ; INVISIBILITY_FLASHING_LEGNTH - .invisibility_poison_flashing
     SEC
-    SBC #0x27
+    SBC #INVISIBILITY_FLASHING_LEGNTH - 1
     EOR #0xFF
     INC A
+    
     PHX
     TAX
-    LDA f:invisibility_poison_related,X
+    LDA f:invisibility_flashing_sequence,X
     PLX
-    STA z:object.handler+0x12,X
-    DEC z:player.position_related,X
-    BNE sub_C414A6
-    LDA a:addr(0x13B),X
-    AND #0xFB
-    STA a:addr(0x13B),X
+    STA z:player.x_position + 1,X
+    
+    DEC z:player.invisibility_poison_flashing,X
+    BNE handle_player_flashing_and_invincibility
+    
+    ; Done flashing visible, clear the flag so we either become fully visible or flash invisible again
+    LDA a:player.poison_state + 1,X
+    AND #high(~POISON_FLASHING_VISIBLE)
+    STA a:player.poison_state + 1,X
+    
     ; fallthrough
 
-sub_C414A6:
+handle_player_flashing_and_invincibility:
     REP #0x20
-    LDA z:object.handler+0x36,X
-    BEQ .loc_C414E2
-    DEC z:object.handler+0x36,X
+    LDA z:player.invincibility_countdown,X
+    BEQ .not_invincible
+    DEC z:player.invincibility_countdown,X
+    
+    ; INVINCIBILITY_FRAMES - invincibility_countdown
     SEC
     SBC #INVINCIBILITY_FRAMES
     EOR #0xFFFF
     INC A
+    
     PHX
     TAX
     SEP #0x20
     LDA f:shield_palette_sequence,X
     PLX
+    
     CMP #0
-    BNE .loc_C414C5
-    LDA z:0x1F,X
-
-.loc_C414C5:
+    BNE +
+    LDA z:player.real_palette,X
++
     STA z:player.effective_palette,X
-    STZ z:player.hit_flags,X
+    STZ z:player.hit_flags,X ; Makes the player immune to all damage types
+    
     REP #0x20
-    LDA a:addr(0x13A),X
-    BEQ .loc_C414DF
+    LDA a:player.poison_state,X
+    BEQ .no_poison
     DEC A
     BIT #0x3FF
-    BNE .loc_C414DC
+    BNE +
+    ; Poison ran out, clear state
     LDA #0
-    STA a:addr(0x13C),X
+    STA a:player.poison_state + 2,X
 
-.loc_C414DC:
-    STA a:addr(0x13A),X
++
+    STA a:player.poison_state,X
 
-.loc_C414DF:
+.no_poison:
     SEP #0x20
     RTL
 
-.loc_C414E2:
+.not_invincible:
     REP #0x20
-    LDA a:addr(0x13A),X
-    BEQ .loc_C414DF
+    LDA a:player.poison_state,X
+    BEQ .no_poison
     DEC A
     BIT #0x3FF
-    BNE .loc_C414F5
+    BNE +
+    ; Poison ran out, clear state
     LDA #0
-    STA a:addr(0x13C),X
+    STA a:player.poison_state + 2,X
 
-.loc_C414F5:
-    STA a:addr(0x13A),X
+    ; Flash in black
++
+    STA a:player.poison_state,X
     SEP #0x20
     AND #0x10
-    BNE .loc_C41503
+    BNE +
     LDA z:player.real_palette,X
     STA z:player.effective_palette,X
     RTL
 
-.loc_C41503:
-    LDA #0xC
++
+    LDA #PALETTE_STATIC_BLACK
     STA z:player.effective_palette,X
     RTL
 
-infect_poison:
+try_infect_poison:
 i16
     REP #0x20
-    LDA a:addr(0x13B),X
-    BEQ .locret_C41579
+    LDA a:player.poison_state + 1,X
+    BEQ .ret ; Not even poisoned
     STX z:0x40
     TXY
 
-.loc_C41512:
+.loop:
     REP #0x20
     TYA
     CLC
-    ADC #0x40
-    CMP #addr(unk_7E0E40)
-    BNE .loc_C41521
-    LDA #addr(player_1)
+    ADC #player.sizeof
+    CMP #addr(player_4 + player.sizeof)
+    BNE +
+    LDA #addr(player_1) ; Wrap around
 
-.loc_C41521:
++
     TAY
     CMP z:0x40
-    BEQ .locret_C41579
+    BEQ .ret ; Looped back, return
+    
     SEP #0x20
-    LDA a:addr(4),Y
-    BEQ .loc_C41512
-    LDA a:addr(0x13B),Y
-    BNE .loc_C41512
-    LDA a:addr(0x2F),Y
+    
+    ; Second player already dead
+    LDA a:player.gameover_related,Y
+    BEQ .loop
+    
+    ; Second player not poisoned
+    LDA a:player.poison_state + 1,Y
+    BNE .loop
+    
+    ; Second player is being hit
+    LDA a:player.hit_flags,Y
     BIT #1
-    BNE .loc_C41512
-    LDA a:addr(0x12F),Y
-    BNE .loc_C41512
-    LDA a:addr(0x11),Y
+    BNE .loop
+    
+    LDA a:player.unknown_poison_related,Y
+    BNE .loop
+    
+    ; Difference between X positions
+    LDA player.x_position,Y
     SEC
-    SBC z:0x11,X
-    BCS .loc_C41549
+    SBC z:player.x_position,X
+    
+    ; Absolute value
+    BCS +
     EOR #0xFF
     INC A
++
 
-.loc_C41549:
+    ; Not within 16 pixels
     CMP #0x10
-    BCS .loc_C41512
-    LDA a:addr(0x14),Y
+    BCS .loop
+    
+    ; Difference between Y positions
+    LDA a:player.y_position,Y
     SEC
-    SBC z:0x14,X
-    BCS .loc_C41558
+    SBC z:player.y_position,X
+    
+    ; Absolute value
+    BCS +
     EOR #0xFF
     INC A
-
-.loc_C41558:
+    +
+    
+    ; Not within 16 pixels
     CMP #0x10
-    BCS .loc_C41512
+    BCS .loop
+    
     REP #0x20
-    LDA a:addr(0x13A),X
-    BIT #0x800
-    BEQ .loc_C41569
-    AND #0xBFF
+    LDA a:player.poison_state,X
+    BIT #POISON_INVISIBILITY
+    BEQ +
+    AND #POISON_TIMER_MASK | POISON_INVISIBILITY ; Removes the flash visible flag
 
-.loc_C41569:
-    STA a:addr(0x13A),Y
-    LDA a:addr(0x13C),X
-    STA a:addr(0x13C),Y
-    LDY #0xA
++
+    ; Copy poison state
+    STA a:player.poison_state,Y
+    LDA a:player.poison_state + 2,X
+    STA a:player.poison_state + 2,Y
+    LDY #SOUND_POISON
     JSL play_sound
 
-.locret_C41579:
+.ret:
     RTL
 
 play_hit_by_bomb_animation:
@@ -2992,7 +3033,7 @@ last_human_death:
     CLC
     ADC #0x40
     TAY
-    CMP #addr(unk_7E0E40)
+    CMP #addr(player_4 + player.sizeof)
     SEP #0x20
     BNE .loc_C41966
     RTL
@@ -4544,7 +4585,7 @@ is_object_aligned:
     SEC
     RTL
 
-sub_C4240D:
+try_drop_bomb:
     SEP #0x20
     LDA a:addr(frame_count) ; orig=0x0300
     AND #3
@@ -4553,17 +4594,17 @@ sub_C4240D:
 
 .loc_C4241A:
     SEP #0x20
-    LDA z:0x30,X
+    LDA z:player.bombups,X
     STA z:0x40
-    LDA a:addr(0x13C),X
-    BIT #1
+    LDA a:player.poison_state + 2,X
+    BIT #(POISON_MIN_FIRE_SINGLE_BOMB >> 16)
     BEQ .loc_C4242B
     LDA #0
     STA z:0x40
 
 .loc_C4242B:
     LDA z:0x40
-    CMP z:0x24,X
+    CMP z:player.current_bomb_count,X
     BCS .loc_C42435
     JML handle_player_movement.loc_C412EE
 
@@ -5695,8 +5736,8 @@ i16
     JSL sub_C447F2
     JSL sub_C448F5
     REP #0x20
-    STZ a:addr(0x13A),X
-    STZ a:addr(0x13C),X
+    STZ a:player.poison_state,X
+    STZ a:player.poison_state + 2,X
     LDA #0x10
     STA z:0xD9
     SEP #0x20
@@ -5730,10 +5771,10 @@ handle_player_movement_1:
 .loc_C42E2A:
     JSL clear_playerquare_in_collision_map
     JSL sub_C43BE9
-    JSL sub_C431A0
+    JSL update_effective_speed
     SEP #0x20
-    LDA a:addr(0x13B),X
-    BIT #0x40
+    LDA a:player.poison_state + 1,X
+    BIT #high(POISON_AUTO_BOMB_DROP)
     BEQ .loc_C42E43
     JSL sub_C43074
 
@@ -5787,8 +5828,8 @@ sub_C42E6B.loc_C42E8E:
     SEP #0x20
     LDA z:0x1F,X
     STA z:0x1E,X
-    JSL poison_related
-    JSL infect_poison
+    JSL poison_rendering
+    JSL try_infect_poison
     SEP #0x20
     LDA z:0x2F,X
     BEQ .loc_C42EB5
@@ -5821,8 +5862,8 @@ sub_C42ED2:
     SEP #0x20
     LDA z:0x1F,X
     STA z:0x1E,X
-    JSL poison_related
-    JSL infect_poison
+    JSL poison_rendering
+    JSL try_infect_poison
     SEP #0x20
     LDA z:0x2F,X
     BEQ sub_C42EF9
@@ -6044,6 +6085,7 @@ i16
 
 .locret_C43073:
     RTL
+
 sub_C43074:
     SEP #0x20
     LDA a:addr(frame_count) ; orig=0x0300
@@ -6204,33 +6246,33 @@ i16
     JSL advance_animation
     RTL
 
-sub_C431A0:
+update_effective_speed:
     REP #0x20
-    LDA a:addr(0x13A),X
-    BIT #0x1000
-    BNE .loc_C431C3
-    BIT #0x2000
-    BNE .loc_C431C9
-    LDA z:0x32,X
+    LDA a:player.poison_state,X
+    BIT #POISON_MIN_SPEED
+    BNE .min_speed
+    BIT #POISON_MAX_SPEED
+    BNE .max_speed
+    LDA z:player.speedups,X
     AND #0xFF
     ASL A
     PHX
     TAX
-    LDA f:word_C308CA,X
+    LDA f:speed_table,X
     STA z:0x40
     PLX
     LDA z:0x40
-    STA z:object.handler+0x3E,X
+    STA z:player.effective_speed,X
     RTL
 
-.loc_C431C3:
+.min_speed:
     LDA #0x60
-    STA z:0x3E,X
+    STA z:player.effective_speed,X
     RTL
 
-.loc_C431C9:
+.max_speed:
     LDA #0x400
-    STA z:0x3E,X
+    STA z:player.effective_speed,X
     RTL
 
 sub_C431CF:
@@ -7523,7 +7565,7 @@ i16
     CLC
     ADC #0x40
     TAY
-    CMP #0xE40
+    CMP #addr(player_4 + player.sizeof)
     BNE .loc_C43BA8
     CLC
     RTL
@@ -8036,17 +8078,17 @@ sub_C43F31:
     BEQ .loc_C43F6E
     BIT z:0x4F
     BNE .loc_C43F6C
-    CPX #0xE40
+    CPX #addr(player_4 + player.sizeof)
     BCS .loc_C43F5B
-    LDA a:addr(0x13C),X
-    BIT #1
+    LDA a:player.poison_state + 2,X
+    BIT #POISON_MIN_FIRE_SINGLE_BOMB >> 16
     BEQ .loc_C43F5B
     LDA #0
     BRA .loc_C43F63
 
 .loc_C43F5B:
-    LDA z:0x31,X
-    BIT #0x80
+    LDA z:player.fireups,X
+    BIT #0x80 ; Max fire bit
     BEQ .loc_C43F63
     LDA #9
 
@@ -9005,23 +9047,23 @@ sub_C44519:
 
 sub_C4453B:
     SEP #0x20
-    LDA a:addr(0x13B),X
-    BIT #0x80
+    LDA a:player.poison_state + 1,X
+    BIT #high(POISON_NO_BOMBS)
     BEQ .loc_C44548
     JML .loc_C446A7
 
 .loc_C44548:
-    LDA z:0x30,X
+    LDA z:player.bombups,X
     STA z:0x40
-    LDA a:addr(0x13C),X
-    BIT #1
+    LDA a:player.poison_state + 2,X
+    BIT #POISON_MIN_FIRE_SINGLE_BOMB >> 16
     BEQ .loc_C44557
     LDA #0
     STA z:0x40
 
 .loc_C44557:
     LDA z:0x40
-    CMP z:0x24,X
+    CMP z:player.current_bomb_count,X
     BCS .loc_C44561
     JML .loc_C446A7
 
@@ -9037,10 +9079,10 @@ sub_C4453B:
     LDA z:0xA,X
     PHA
     STY z:0xA,X
-    CPX #0xE40
+    CPX #addr(player_4 + player.sizeof)
     BCS .loc_C44587
-    LDA a:addr(0x13C),X
-    BIT #1
+    LDA a:player.poison_state + 2,X
+    BIT #POISON_MIN_FIRE_SINGLE_BOMB >> 16
     BEQ .loc_C44587
     LDA #0
     BRA .loc_C44591
@@ -9213,17 +9255,17 @@ sub_C446AB:
     PHA
     LDA z:0x50
     STA z:0xA,X
-    CPX #0xE40
+    CPX #addr(player_4 + player.sizeof)
     BCS .loc_C446C6
-    LDA a:addr(0x13C),X
-    BIT #1
+    LDA a:player.poison_state + 2,X
+    BIT #POISON_MIN_FIRE_SINGLE_BOMB >> 16
     BEQ .loc_C446C6
     LDA #0
     BRA .loc_C446D0
 
 .loc_C446C6:
-    LDA z:0x31,X
-    BIT #0x80
+    LDA z:player.fireups,X
+    BIT #0x80 ; Max fire flag
     BEQ .loc_C446D0
     LDA #9
 
@@ -9502,7 +9544,7 @@ sub_C44865:
     TXA
     CLC
     ADC #0x40
-    CMP #0xE40
+    CMP #addr(player_4 + player.sizeof)
     BNE .loc_C4488D
     LDX z:0x62
     LDA z:0x11,X
@@ -9703,17 +9745,17 @@ sub_C44A17:
     LDA z:0x56
     STA a:addr(0xA),Y
     SEP #0x20
-    CPX #0xE40
+    CPX #addr(player_4 + player.sizeof)
     BCS .loc_C44A4C
-    LDA a:addr(0x13C),X
-    BIT #1
+    LDA a:player.poison_state + 2,X
+    BIT #POISON_MIN_FIRE_SINGLE_BOMB >> 16
     BEQ .loc_C44A4C
     LDA #0
     BRA .loc_C44A54
 
 .loc_C44A4C:
-    LDA z:0x31,X
-    BIT #0x80
+    LDA z:player.fireups,X
+    BIT #0x80 ; Max fire flag
     BEQ .loc_C44A54
     LDA #9
 
@@ -9978,17 +10020,17 @@ i16
     TXA
     STA a:addr(8),Y
     SEP #0x20
-    CPX #0xE40
+    CPX #addr(player_4 + player.sizeof)
     BCS .loc_C44C40
-    LDA a:addr(0x13C),X
-    BIT #1
+    LDA a:player.poison_state + 2,X
+    BIT #POISON_MIN_FIRE_SINGLE_BOMB >> 16
     BEQ .loc_C44C40
     LDA #0
     BRA .loc_C44C48
 
 .loc_C44C40:
-    LDA z:0x31,X
-    BIT #0x80
+    LDA z:player.fireups,X
+    BIT #0x80 ; Max fire flag
     BEQ .loc_C44C48
     LDA #9
 
@@ -10008,7 +10050,7 @@ i16
     LDA #1
     STA a:addr(2),Y
     INC z:0x24,X
-    CPX #0xE40
+    CPX #addr(player_4 + player.sizeof)
     BCS .loc_C44C74
     INC a:addr(0x108),X
     LDA a:addr(0x108),X
@@ -11348,7 +11390,7 @@ i16
     JSL play_sound
     SEP #0x20
     LDY z:8,X
-    CPY #0xE40
+    CPY #addr(player_4 + player.sizeof)
     BCS sub_C455EA
     LDA a:addr(7),Y
     BEQ sub_C455EA
@@ -11503,7 +11545,7 @@ sub_C455EA:
     JSL play_sound
     SEP #0x20
     LDY z:8,X
-    CPY #0xE40
+    CPY #addr(player_4 + player.sizeof)
     BCS .loc_C45709
     LDA a:addr(7),Y
     BEQ .loc_C45709
@@ -13540,7 +13582,7 @@ sub_C4669F:
     CLC
     ADC #0x40
     TAX
-    CMP #0xE40
+    CMP #addr(player_4 + player.sizeof)
     BNE .loc_C466A4
     SEC
     RTL
@@ -13771,7 +13813,7 @@ sub_C466D8:
     CLC
     ADC #0x40
     TAX
-    CMP #0xE40
+    CMP #addr(player_4 + player.sizeof)
     BNE .loc_C467F1
     RTL
 
@@ -14619,7 +14661,7 @@ i16
     CLC
     ADC #0x40
     TAX
-    CMP #0xE40
+    CMP #addr(player_4 + player.sizeof)
     BNE .loc_C46F62
     RTL
 

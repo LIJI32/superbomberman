@@ -261,6 +261,9 @@ DRAW_SPRITE_PALETTE = 0x7A
 FIRST_UNUSED_B_PALETTE = 0x7B
 FREE            = 0xFF
 
+; The black and white palettes are always loaded at indexes 6 (value 0xC) and 7 (value 0x0E)
+PALETTE_STATIC_BLACK = 0x0C
+PALETTE_STATIC_WHITE = 0x0E
 
 ; Player powerup flags
 
@@ -273,13 +276,27 @@ POWERUPS_2_BOMB_PASS = 0x2000
 POWERUPS_2_WALL_PASS = 0x4000
 POWERUPS_2_HEART     = 0x8000
 
+GAME_MODE_MENU = 1 ; Includes main menu, victory screen, password screen, map screen, game over screen
+GAME_MODE_STORY = 2
+GAME_MODE_BATTLE = 3 
+GAME_MODE_BATTLE_MENU = 6 ; Includes the battle menu and scoreboard
+
+; Poison state
+POISON_TIMER_MASK = 0x3FF
+POISON_TIMER_MAX = POISON_TIMER_MASK
+POISON_FLASHING_VISIBLE = 0x400
+POISON_INVISIBILITY = 0x800
+POISON_MIN_SPEED = 0x1000
+POISON_MAX_SPEED = 0x2000
+POISON_AUTO_BOMB_DROP = 0x4000
+POISON_NO_BOMBS = 0x8000
+POISON_MIN_FIRE_SINGLE_BOMB = 0x10000
+
 ; Sound constants
 
 SOUND_BONUS = 0x02
 SOUND_EXTRA_LIFE = 0x03
-SOUND_POISON= 0x0A
+SOUND_POISON = 0x0A
 
 ; Misc. constants
-
-INVINCIBILITY_FRAMES = 672
 STORY_MODE_TIMER_TICKS = 15
