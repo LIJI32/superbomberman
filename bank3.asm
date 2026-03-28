@@ -4,14 +4,10 @@ init_dboot:
     REP #0x20
     PHX
     LDA #0
-
-.loc_C30006:
     JSL dboot_command
     REP #0x10
     PLX
     SEP #0x20
-
-.loc_C3000F:
     LDA #0
     PHA
     PLB
@@ -47,8 +43,6 @@ play_music:
     SEP #0x20
     LDA #0
     PHA
-
-.loc_C3003E:
     PLB
     REP #0x20
     RTL
@@ -64,8 +58,6 @@ play_sound:
     LDA #0
     PHA
     PLB
-
-.loc_C30055:
     REP #0x20
     RTL
 
@@ -76,8 +68,6 @@ fade_out_music:
     JSL dboot_command
     REP #0x10
     PLX
-
-.loc_C30065:
     SEP #0x20
     LDA #0
     PHA
@@ -89,14 +79,10 @@ dboot_16:
     REP #0x20
     PHX
     LDA #0x16
-
-.loc_C30074:
     JSL dboot_command
     REP #0x10
     PLX
     SEP #0x20
-
-.loc_C3007D:
     LDA #0
     PHA
     PLB
@@ -134,8 +120,6 @@ dboot_18:
 dboot_19:
     REP #0x20
     PHX
-
-.loc_C300B3:
     LDA #0x19
     JSL dboot_command
     REP #0x10
@@ -144,8 +128,6 @@ dboot_19:
     LDA #0
     PHA
     PLB
-
-.loc_C300C3:
     REP #0x20
     RTL
 

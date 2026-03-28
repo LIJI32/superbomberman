@@ -6,12 +6,8 @@ i16
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #0x98
     BNE .locret_C60043
-
-.loc_C60009:
     LDA z:0x20,X
     BEQ .loc_C60011
-
-.loc_C6000D:
     JML sub_C60045
 
 .loc_C60011:
@@ -30,8 +26,6 @@ endif
 .loc_C6001B:
     LDA a:addr(game_flags) ; orig=0x0314
     EOR #0x40
-
-.loc_C60020:
     STA a:addr(game_flags) ; orig=0x0314
     BIT #0x40
     BEQ .loc_C6003F
@@ -39,18 +33,12 @@ endif
     JSL play_sound
     SEP #0x20
     LDA #1
-
-.loc_C60032:
     STA z:0x20,X
-
-.loc_C60034:
     STZ z:0x21,X
     LDA #0xFF
     STA z:0x22,X
     LDA #3
     STA z:0x23,X
-
-.locret_C6003E:
     RTL
 
 .loc_C6003F:
@@ -70,8 +58,6 @@ sub_C60045:
     BNE .loc_C60065
     LDA z:0x22,X
     SEC
-
-.loc_C60051:
     SBC #5
     CMP #0x3FF
     STA z:0x22,X
@@ -91,8 +77,6 @@ sub_C60045:
     BCC .loc_C60079
     LDA #0x428
     STA z:0x22,X
-
-.loc_C60077:
     STZ z:0x20,X
 
 .loc_C60079:
@@ -144,8 +128,6 @@ should_toggle_pause:
     LDA a:addr(joypad_1_pressed+1),Y
     PLY
     BIT #0x30
-
-.loc_C600C4:
     BNE .loc_C600D0
 
 .loc_C600C6:
@@ -182,8 +164,6 @@ open_debug_menu:
     LDA z:0x40
     PHA
     PHX
-
-.loc_C600EC:
     JSL sub_C609F5
     PLX
     JSL sub_C6033D
@@ -192,8 +172,6 @@ open_debug_menu:
     STA z:0x40
     REP #0x20
     LDA #addr(unk_7E21E6)
-
-.loc_C600FF:
     STA z:0x53
     SEP #0x20
     LDA #bank(unk_7E21E6)
@@ -326,8 +304,6 @@ handle_debug_menu_input:
     LDA a:addr(word_7E0316) ; orig=0x0316
     CMP #0x12
     BNE .loc_C6020E
-
-.loc_C601F7:
     REP #0x20
     PHX
     LDA a:addr(debug_se) ; orig=0x00B6
@@ -385,8 +361,6 @@ handle_debug_menu_input:
     TAX
     SEP #0x20
     LDA f:debug_menu_value_types,X
-
-.loc_C6025F:
     STA z:0x40
     REP #0x20
     PLX
@@ -467,15 +441,11 @@ handle_debug_menu_input:
     STA z:0x50
     SEP #0x20
     LDA z:0x4E
-
-.loc_C602EE:
     BIT #1
     BNE .loc_C602FF
     LDA f:[z:0x50]
     DEC A
     BPL .loc_C602FB
-
-.loc_C602F7:
     DEC z:0x40
     LDA z:0x40
 
@@ -512,8 +482,6 @@ sub_C6030F:
     AND #0xFF
     ASL A
     TAX
-
-.loc_C6032A:
     LDA f:offsets_to_debug_menu_map,X
     CLC
     ADC z:0x53
@@ -720,8 +688,6 @@ sub_C60475:
     STA f:[z:0x53]
     REP #0x20
     INC z:0x53
-
-.loc_C604C5:
     INC z:0x53
     INX
     SEP #0x20
@@ -1133,8 +1099,6 @@ sub_C609F5:
     TAX
     LDA f:offsets_to_debug_menu_map,X
     CLC
-
-.loc_C60A2F:
     ADC z:0x53
     STA z:0x53
     INC z:0x50
@@ -2233,21 +2197,19 @@ sub_C6119A:
     LDA #0x80
     STA z:0xD3
     JSL create_object
-    BCS nullsub_3
+    BCS .ret
     SEP #0x20
     LDA #2
     TSB a:addr(game_flags) ; orig=0x0314
-
-nullsub_3:
+.ret:
     RTL
+    
 sub_C611BA:
 i16
     SEP #0x20
     LDY #0
     LDA #0x2E
     STA z:0x40
-
-.loc_C611C3:
     LDA #1
     JSL palette_related
     LDA #2
@@ -2444,7 +2406,7 @@ sub_C61373:
     JSL create_object
     REP #0x20
     BCC .loc_C61393
-    JML nullsub_3
+    JML sub_C6119A.ret
 
 .loc_C61393:
     LDA z:0x40
@@ -2916,8 +2878,6 @@ i16
     STA f:0x7F0660,X
     INX
     INX
-
-.loc_C616AF:
     CPX #0x10
     BNE .loc_C616A9
     LDX #0
@@ -2929,8 +2889,6 @@ i16
     INX
     CPX #0x40
     BNE .loc_C616BA
-
-.loc_C616C5:
     LDX #0
     LDA #0
 
@@ -3767,8 +3725,6 @@ generate_hard_blocks_and_exit:
     LDA #addr(HARD_BLOCK)
     STA a:addr(collision_map),Y
     PHY
-
-.loc_C61DFE:
     JSL is_map_non_continous
     PLY
     BCS .loc_C61DE0
@@ -4065,8 +4021,6 @@ sub_C61F91:
     LDA #0x4FE
     STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
     LDA #0x4FF
-
-.loc_C62003:
     STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
     RTL
 
@@ -4080,11 +4034,7 @@ sub_C62007:
     LDA #0
     STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
     LDA #0
-
-.loc_C6201F:
     STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
-
-.loc_C62022:
     LDA #0
     STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
     LDA #0
@@ -4135,8 +4085,6 @@ sub_C6207D:
 
 sub_C620A4:
     SEP #0x20
-
-.loc_C620A6:
     LDA #low(sub_C620C4)
     STA z:0xDB
     LDA #high(sub_C620C4)
@@ -4144,8 +4092,6 @@ sub_C620A4:
     LDA #bank(sub_C620C4)
     STA z:0xDD
     LDA #0x80
-
-.loc_C620B4:
     STA z:0xD3
     JSL create_object
     REP #0x20
@@ -4360,8 +4306,6 @@ load_palette_at_53:
     LDA f:[z:0x53]
     STA f:[z:0x50]
     INC z:0x53
-
-.loc_C621FF:
     INC z:0x53
     INC z:0x50
     INC z:0x50
@@ -4499,8 +4443,6 @@ fade_palette:
     LDA z:2,X
     SEC
     SBC z:0x40
-
-.loc_C622FF:
     STA z:2,X
     BCS .loc_C6230B
     STZ z:2,X
@@ -4648,8 +4590,6 @@ sub_C623E1:
     LDA z:0x44
     CMP z:0x41
     BEQ .locret_C62412
-
-.loc_C623FF:
     BCC .loc_C62409
     SEC
     SBC z:0x40
@@ -4793,8 +4733,6 @@ sub_C624DF:
     STA a:addr(DMA_5_A_ADDRESS_LOW_BYTE)
     LDA a:addr(word_7E0053+1) ; orig=0x0054
     STA a:addr(DMA_5_A_ADDRESS_HIGH_BYTE)
-
-.loc_C624FE:
     LDA a:addr(word_7E0055) ; orig=0x0055
     STA a:addr(DMA_5_A_ADDRESS_BANK)
     LDA #0x20
@@ -6241,8 +6179,6 @@ sub_C631D7:
     STA a:addr(0x11),Y
     LDA z:0x14,X
     STA a:addr(0x14),Y
-
-.loc_C631FF:
     LDA f:[z:0x50]
     STA a:addr(0x16),Y
     INC z:0x50
@@ -6377,8 +6313,6 @@ sub_C632DF:
 
 .loc_C632FD:
     LDA z:0x30,X
-
-.loc_C632FF:
     STA a:addr(0x11),Y
     LDA z:0x33,X
     STA a:addr(0x14),Y
@@ -6515,8 +6449,6 @@ _kill_enemy:
 .loc_C633FA:
     BIT #0x41
     BEQ .loc_C63402
-
-.loc_C633FE:
     JML .loc_C63406
 
 .loc_C63402:
@@ -6671,8 +6603,6 @@ i16
 sub_C634FC:
 i16
     REP #0x20
-
-.loc_C634FE:
     LDY #0xD40
 
 .loc_C63501:
@@ -6840,8 +6770,6 @@ sub_C635EA:
 
 sub_C635FD:
     SEP #0x20
-
-.loc_C635FF:
     LDA #2
     STA z:0x44
     LDA a:addr(0x14),Y
@@ -10437,8 +10365,6 @@ create_senshiyan:
     STA a:addr(0x3A),Y
     LDA z:0x60
     STA a:addr(0x3B),Y
-
-.loc_C65ABD:
     SEP #0x20
     LDA z:0x48
     STA a:addr(0x3E),Y
@@ -10718,8 +10644,6 @@ sub_C65CC2:
 .loc_C65CCF:
     BIT #0x41
     BEQ .loc_C65CD7
-
-.loc_C65CD3:
     JML .loc_C65D03
 
 .loc_C65CD7:
@@ -11185,12 +11109,8 @@ metal_propene:
 
 .loc_C65FFB:
     JSL wanderer_movement
-
-.loc_C65FFF:
     JSL should_kill_enemy
     BCC .loc_C66009
-
-.loc_C66005:
     JML kill_enemy
 
 .loc_C66009:
@@ -11309,8 +11229,6 @@ _propene:
 
 .loc_C660FD:
     BIT #0x90
-
-.loc_C660FF:
     BEQ .loc_C66105
     JML nullsub_C30015
 
@@ -12192,8 +12110,6 @@ yoroisu:
     JSL start_animation
     REP #0x20
     LDA #addr(off_C67D33)
-
-.loc_C66847:
     STA z:0x16,X
     SEP #0x20
     LDA #bank(off_C67D33)
@@ -12660,8 +12576,6 @@ i16
     STA z:0x52
     REP #0x20
     LDA f:[z:0xDB]
-
-.loc_C66BC5:
     AND #0xFF
     ASL A
     ASL A

@@ -5705,8 +5705,6 @@ sub_C55267:
     LDA #0
     STA z:0x20,X
     REP #0x20
-
-.loc_C55284:
     LDA z:0x30,X
     AND #0xFF
     ASL A
@@ -6333,8 +6331,6 @@ sub_C55710:
     STA z:0x40
     LDA z:0x14,X
     SEC
-
-.loc_C55721:
     SBC z:0x40
     STA z:0x14,X
     JSL load_animation_frame
@@ -9737,8 +9733,6 @@ i16
     JSL palette_related
     REP #0x20
     INC z:0x50
-
-.loc_C57501:
     INC z:0x50
     RTL
 
@@ -11040,8 +11034,6 @@ i16
     STA a:addr(word_7E0C7F+1) ; orig=0x0C80
     REP #0x20
     LDA a:addr(word_7E0C81) ; orig=0x0C81
-
-.loc_C5801A:
     AND #0xFF
     ASL A
     TAX

@@ -434,8 +434,6 @@ sub_C705F7:
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
     LDA #0x17
-
-.loc_C70600:
     STA a:addr(subscreen_status) ; orig=0x0C98
     LDA #0
     STA a:addr(color_addition_settings) ; orig=0x0C99
@@ -513,8 +511,6 @@ sub_C705F7:
     ASL A
     PHX
     TAX
-
-.loc_C706AD:
     LDA f:word_C707C9,X
     TAY
     PLX
@@ -789,8 +785,6 @@ i16
     JSL create_object
     REP #0x20
     BCC .loc_C708EA
-
-.loc_C708E6:
     JML sub_C55264
 
 .loc_C708EA:
@@ -1405,8 +1399,6 @@ create_crane_hand:
     ORA #8
     STA a:addr(0x14),Y
     LDA z:0x5F
-
-.loc_C7106B:
     STA a:addr(0x3A),Y
     LDA z:0x60
     STA a:addr(0x3B),Y
@@ -1559,8 +1551,6 @@ _crane_hand:
 .loc_C711BF:
     BIT #0x41
     BEQ .loc_C711C7
-
-.loc_C711C3:
     JML .loc_C71255
 
 .loc_C711C7:
@@ -1938,8 +1928,6 @@ sub_C71396:
     JSL palette_related
     LDA #addr(KURO_PALETTE)
     STA z:0x40
-
-.loc_C714D5:
     LDA #addr(AO_PALETTE)
     JSL palette_related
     LDA #addr(BOMB_PALETTE)
@@ -2473,8 +2461,6 @@ sub_C7184C:
     DEC z:0x30,X
     BNE .loc_C718C7
     LDA z:0x22,X
-
-.loc_C718FF:
     CLC
     ADC #4
     STA z:0x22,X
@@ -3008,8 +2994,6 @@ sub_C71C65:
     REP #0x20
     LDA #addr(sub_C71D1B)
     STA z:0,X
-
-.loc_C71CC8:
     SEP #0x20
     LDA #bank(sub_C71D1B)
     STA z:2,X
@@ -9990,8 +9974,6 @@ sub_C769DD:
     BIT #8
     BNE .locret_C76A34
     LDA a:addr(number_of_visible_bonuses) ; orig=0x0C91
-
-.loc_C769FF:
     CMP #0x20
     BCS .locret_C76A34
     DEC z:0x20,X

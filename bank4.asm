@@ -24,8 +24,6 @@ multi5_read_input:
     LSR A
     ROL a:addr(joypad_1_connected) ; orig=0x0CEB
     LDA a:addr(JOYPAD_2_DATA_HIGH_BYTE)
-
-.loc_C4003C:
     STA a:addr(joypad_2+1) ; orig=0x0CE4
     LDA a:addr(JOYPAD_2_DATA_LOW_BYTE)
     STA a:addr(joypad_2) ; orig=0x0CE3
@@ -92,8 +90,6 @@ multi5_update_multitap_status:
     LSR A
     LSR A
     ROL $az:addr(word_7E0040+1) ; orig=0x0041
-
-.loc_C400F6:
     LDA a:addr(0x4017)
     LSR A
     LSR A
@@ -130,8 +126,6 @@ multi5_update_multitap_status:
     LDA $az:addr(word_7E0042) ; orig=0x0042
     CMP #0xFF
     BEQ .loc_C40142
-
-.loc_C4013A:
     LDA #0x40
     ORA a:addr(multitap_status) ; orig=0x0CE0
     STA a:addr(multitap_status) ; orig=0x0CE0
@@ -1908,8 +1902,6 @@ init_player_handler:
 i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-
-.loc_C411C3:
     BIT #0x80
     BEQ .loc_C411CB
     JML .locret_C412A1
@@ -2949,8 +2941,6 @@ a16
     REP #0x20
     LDA #addr(enter_wrap_animation)
     STA z:0x50
-
-.loc_C418FE:
     SEP #0x20
     PHK
     PLA
@@ -3464,12 +3454,8 @@ i16
     STA a:addr(0x11C),X
     LDA a:addr(0x11A),X
     ADC a:addr(0x11A),X
-
-.loc_C41C63:
     STA a:addr(0x11A),X
     CLD
-
-.loc_C41C67:
     JSL add_extra_life
     LDA a:addr(0x11C),X
     SEC
@@ -3491,20 +3477,12 @@ hud_digits_tilenos_upper:
     dw 0x208F, 0x2086, 0x2087, 0x2088, 0x2089, 0x208A, 0x208B, 0x208C, 0x208D, 0x208E
 punch:
     REP #0x20
-
-.loc_C41CA1:
     LDA z:player.direction,X
-
-.loc_C41CA3:
     AND #0xF
     ASL A
     PHX
     TAX
-
-.loc_C41CA9:
     LDA f:player_animation_list+0x18,X
-
-.loc_C41CAD:
     STA z:0x50
     PLX
     SEP #0x20
@@ -3514,26 +3492,14 @@ punch:
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C41CC7)
-
-.loc_C41CBF:
     STA z:object.handler,X
-
-.loc_C41CC1:
     SEP #0x20
-
-.loc_C41CC3:
     LDA #bank(.loc_C41CC7)
-
-.loc_C41CC5:
     STA z:object.handler+2,X
 
 .loc_C41CC7:
     JSL handle_player_movement.inner
-
-.loc_C41CCB:
     BCC .locret_C41D08
-
-.loc_C41CCD:
     REP #0x20
     LDA z:player.direction,X
     AND #0xF
@@ -3550,8 +3516,6 @@ punch:
     JSL start_animation
     REP #0x20
     LDA #addr(handle_player_movement)
-
-.loc_C41CED:
     STA z:object.handler,X
     SEP #0x20
     LDA #bank(handle_player_movement)
@@ -4076,8 +4040,6 @@ sub_C42098:
 
 .loc_C420A2:
     JSL is_object_aligned
-
-.loc_C420A6:
     BCS .loc_C420AC
     JML handle_player_movement.inner2
 
@@ -4943,8 +4905,6 @@ i16
     LDA f:empty_tile_after_explosion_related,X
     ORA a:addr(bg1_tilemap+0x22) ; orig=0x0516
     STA a:addr(bg1_tilemap),Y
-
-.loc_C426C3:
     STA a:addr(bg1_tilemap+0x20),Y
 
 .loc_C426C6:
@@ -5933,8 +5893,6 @@ i16
     JSL play_sound
     SEP #0x20
     LDA z:0x11,X
-
-.loc_C42F6B:
     AND #0xF0
     ORA #8
     STA z:0x11,X
@@ -9730,8 +9688,6 @@ sub_C44A17:
     STA z:0xDB
     LDA #high(sub_C44A68)
     STA z:0xDC
-
-.loc_C44A21:
     LDA #bank(sub_C44A68)
     STA z:0xDD
     LDA #0x80
@@ -9857,8 +9813,6 @@ sub_C44A68:
 .loc_C44B01:
     LDY z:0xA,X
     LDA z:0x42
-
-.loc_C44B05:
     STA z:0x40
 
 .loc_C44B07:
@@ -10729,8 +10683,6 @@ sudden_death_related:
 i16
     SEP #0x20
     BIT #0x10
-
-.loc_C4512F:
     BNE .loc_C45139
     LDA #0x20
     STA a:addr(collision_map),Y
@@ -10754,8 +10706,6 @@ i16
     STZ z:0x13,X
     STZ z:0x12,X
     LDA z:0x11,X
-
-.loc_C4515B:
     AND #0xF0
     ORA #8
     STA z:0x11,X
@@ -13756,8 +13706,6 @@ sub_C466D8:
     TAX
     LDA a:addr(0xCF0),X
     PLX
-
-.loc_C467FF:
     BIT #0xC0C0
     BEQ .loc_C46861
     LDA z:5,X
@@ -13778,8 +13726,6 @@ sub_C466D8:
     LDA z:5,X
     AND #0xFF
     ASL A
-
-.loc_C4682C:
     PHX
     TAX
     LDA f:byte_C30930,X
@@ -13793,8 +13739,6 @@ sub_C466D8:
     STA a:addr(0x856),Y
     INC A
     STA a:addr(0x858),Y
-
-.loc_C46847:
     REP #0x20
     LDA #addr(init_player_handler)
     STA z:0,X
