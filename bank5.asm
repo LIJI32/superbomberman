@@ -3285,7 +3285,7 @@ i16
 .loc_C53BBA:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C53BC7
     JML nullsub_C30015
 
@@ -3297,7 +3297,7 @@ i16
 .loc_C53BCF:
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #4
+    BIT #GAME_FLAGS_LEVEL_END
     BEQ .loc_C53BDD
     JML delete_object
 
@@ -3362,7 +3362,7 @@ sub_C53C16:
 .loc_C53C4D:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C53C5A
     JML nullsub_C30015
 
@@ -3425,7 +3425,7 @@ sub_C53CA9:
 .loc_C53CBD:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C53CCA
     JML nullsub_C30015
 
@@ -3542,7 +3542,7 @@ sub_C53CA9:
 .loc_C53D9E:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C53DAB
     JML nullsub_C30015
 
@@ -3574,7 +3574,7 @@ sub_C53CA9:
 .loc_C53DDC:
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #4
+    BIT #GAME_FLAGS_LEVEL_END
     BEQ .loc_C53DEA
     JML delete_object
 
@@ -3695,7 +3695,7 @@ sub_C53E80:
 sub_C53EAB:
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0xDD
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY | GAME_FLAGS_LEVEL_END | GAME_FLAGS_DEBUG_MENU
     BNE .locret_C53EDD
     LDA a:addr(level_manager_object.anonymous_10) ; orig=0x0D3A
     CMP #0x100
@@ -3784,7 +3784,7 @@ sub_C53F01:
 .loc_C53F5B:
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #4
+    BIT #GAME_FLAGS_LEVEL_END
     BEQ .loc_C53F69
     JML delete_object
 
@@ -4000,10 +4000,10 @@ moving_platform:
 .loc_C540EE:
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #4
+    BIT #GAME_FLAGS_LEVEL_END
     BNE .locret_C54132
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x80
+    BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE .locret_C54132
     STZ z:0x40
     LDA z:0x18,X
@@ -4128,7 +4128,7 @@ overlay_scroller:
 .loc_C541DB:
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BNE .locret_C541F7
     LDA z:0x24,X
     CLC
@@ -5605,7 +5605,7 @@ a16
     STA z:0x52
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x80
+    BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE .locret_C551F2
     INC z:0xB,X
     LDA z:0xB,X
@@ -6546,7 +6546,7 @@ _flower_zone_handler:
 i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x80
+    BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE .locret_C55909
     LDA #0
     STA z:0x20,X
@@ -6568,7 +6568,7 @@ i16
 .loc_C558DB:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C558E8
     JML nullsub_C30015
 
@@ -6744,7 +6744,7 @@ i16
 .loc_C55A77:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C55A84
     JML nullsub_C30015
 
@@ -6844,7 +6844,7 @@ spotlight:
     PHX
     TAX
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0xD9
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY | GAME_FLAGS_DEBUG_MENU
     BNE .loc_C55B4D
     JSL sub_C55BDE
     BCC .loc_C55B4D

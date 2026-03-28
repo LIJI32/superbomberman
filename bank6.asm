@@ -4,33 +4,35 @@ handle_pause:
 i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x98
-    BNE .locret_C60043
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY
+    BNE .ret
     LDA z:0x20,X
-    BEQ .loc_C60011
+    BEQ +
     JML sub_C60045
 
-.loc_C60011:
++
     JSL should_toggle_pause
-    BCS .loc_C6001B
+    BCS +
 ifndef DEBUG
-    JML .locret_C60044
+    JML .debug_ret
 else
     LDA a:addr(game_flags) ; orig=0x0314 ; Deleted debug menu activation
-    BIT #1
-    BEQ .locret_C60044
+    BIT #GAME_FLAGS_DEBUG_MENU
+    BEQ .debug_ret
     JSL handle_debug_menu_input
     RTL
 endif
 
-.loc_C6001B:
++
     LDA a:addr(game_flags) ; orig=0x0314
-    EOR #0x40
+    EOR #GAME_FLAGS_PAUSED
     STA a:addr(game_flags) ; orig=0x0314
-    BIT #0x40
-    BEQ .loc_C6003F
-    LDY #0xE
+    BIT #GAME_FLAGS_PAUSED
+    BEQ .unpause
+    
+    LDY #SOUND_PAUSE
     JSL play_sound
+    
     SEP #0x20
     LDA #1
     STA z:0x20,X
@@ -41,14 +43,14 @@ endif
     STA z:0x23,X
     RTL
 
-.loc_C6003F:
+.unpause:
     LDA #2
     STA z:0x20,X
 
-.locret_C60043:
+.ret:
     RTL
 
-.locret_C60044:
+.debug_ret:
     RTL
 
 sub_C60045:
@@ -88,7 +90,7 @@ sub_C60045:
 should_toggle_pause:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #4
+    BIT #GAME_FLAGS_LEVEL_END
     BNE .loc_C600CE
     LDA a:addr(current_mode) ; orig=0x0C3C
     CMP #3
@@ -196,7 +198,7 @@ sub_C6011B:
     STA z:2,X
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    ORA #1
+    ORA #GAME_FLAGS_DEBUG_MENU
     STA a:addr(game_flags) ; orig=0x0314
     JSL sub_C605EE
     SEP #0x20
@@ -755,7 +757,7 @@ close_debug_menu:
 sub_C6053C:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    AND #0xFE
+    AND #~GAME_FLAGS_DEBUG_MENU
     STA a:addr(game_flags) ; orig=0x0314
     REP #0x20
     PHX
@@ -1949,11 +1951,11 @@ exit_bonus:
     
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #4
+    BIT #GAME_FLAGS_LEVEL_END
     BNE .ret
     LDA a:addr(game_flags) ; orig=0x0314
-    AND #0x80
-    ORA #4
+    AND #GAME_FLAGS_SCREEN_TRANSITION
+    ORA #GAME_FLAGS_LEVEL_END
     STA a:addr(game_flags) ; orig=0x0314
 
 .ret:
@@ -2310,7 +2312,7 @@ i16
 .loc_C612AC:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C612B9
     JML nullsub_C30015
 
@@ -2337,7 +2339,7 @@ i16
 .loc_C612DF:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C612EC
     JML nullsub_C30015
 
@@ -2352,7 +2354,8 @@ i16
     BNE .locret_C61308
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    AND #0xFD
+    ; The bit it's setting off isn't even used, what is it trying to achieve?
+    AND #~(GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_UNKNOWN | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY | GAME_FLAGS_LEVEL_END | GAME_FLAGS_DEBUG_MENU)
     STA a:addr(game_flags) ; orig=0x0314
     JSL delete_object
 
@@ -2418,7 +2421,7 @@ sub_C61373:
 sub_C6139F:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C613AC
     JML nullsub_C30015
 
@@ -5058,7 +5061,7 @@ i16
 
 .loc_C62731:
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0xC1
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_DEBUG_MENU
     BNE .loc_C6273F
     LDA z:0xD,X
     DEC A
@@ -5518,7 +5521,7 @@ sub_C62B03:
 i16
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x80
+    BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE hidden_bonus_object.locret_C62B02
     LDA #bank(is_dying_bonus)
     STA z:0x55
@@ -6232,7 +6235,7 @@ sub_C6326B:
 i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C63278
     JML nullsub_C30015
 
@@ -6392,7 +6395,7 @@ i16
 _enemy_explosion:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C633A1
     JML nullsub_C30015
 
@@ -6434,7 +6437,7 @@ kill_enemy:
 _kill_enemy:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C633E9
     JML .locret_C63455
 
@@ -6442,7 +6445,7 @@ _kill_enemy:
     JSL advance_animation_2
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C633FA
     JML nullsub_C30015
 
@@ -10303,7 +10306,7 @@ kuwagen:
 _kuwagen:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C65A41
     JML kill_enemy
 
@@ -10443,7 +10446,7 @@ sub_C65B4D:
 sub_C65B5D:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C65B6A
     JML kill_enemy
 
@@ -10611,7 +10614,7 @@ sub_C65C59:
 .loc_C65C9B:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x80
+    BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE .locret_C65CC1
     SEP #0x20
     LDA z:0x22,X
@@ -10637,7 +10640,7 @@ sub_C65C59:
 sub_C65CC2:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C65CCF
     JML nullsub_C30015
 
@@ -10684,7 +10687,7 @@ sub_C65CC2:
 sub_C65D14:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C65D21
     JML nullsub_C30015
 
@@ -10819,7 +10822,7 @@ sub_C65DB6:
 .loc_C65E0F:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C65E1C
     JML nullsub_C30015
 
@@ -11093,7 +11096,7 @@ metal_propene:
 .loc_C65FDE:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C65FEB
     JML kill_enemy
 
@@ -11223,7 +11226,7 @@ propene:
 _propene:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C660FD
     JML kill_enemy
 
@@ -11353,7 +11356,7 @@ denkyun:
 .loc_C66202:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6620F
     JML kill_enemy
 
@@ -11483,7 +11486,7 @@ starnuts:
 .loc_C66314:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66321
     JML kill_enemy
 
@@ -11614,7 +11617,7 @@ banen:
 .loc_C66428:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66435
     JML kill_enemy
 
@@ -11744,7 +11747,7 @@ cuppen:
 .loc_C6653A:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66547
     JML kill_enemy
 
@@ -11874,7 +11877,7 @@ keibin:
 .loc_C6664C:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66659
     JML kill_enemy
 
@@ -12004,7 +12007,7 @@ anzenda:
 .loc_C6675E:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6676B
     JML kill_enemy
 
@@ -12135,7 +12138,7 @@ yoroisu:
 .loc_C66872:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6687F
     JML kill_enemy
 
@@ -12329,7 +12332,7 @@ sub_C669ED:
 sub_C669FB:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66A08
     JML kill_enemy
 
@@ -12414,7 +12417,7 @@ sub_C669FB:
 .loc_C66A93:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66AA0
     JML kill_enemy
 
@@ -12493,7 +12496,7 @@ sub_C669FB:
 .loc_C66B29:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66B36
     JML kill_enemy
 
@@ -12714,7 +12717,7 @@ missle:
 .loc_C66CFF:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66D0C
     JML kill_enemy
 
@@ -12851,7 +12854,7 @@ missle:
 .loc_C66E1E:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66E2B
     JML kill_enemy
 
@@ -12988,7 +12991,7 @@ kouraru:
 .loc_C66F3D:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66F4A
     JML kill_enemy
 
@@ -13119,7 +13122,7 @@ pakupa:
 .loc_C67051:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6705E
     JML kill_enemy
 
@@ -13267,7 +13270,7 @@ douken:
 .loc_C67181:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6718E
     JML kill_enemy
 
@@ -13397,7 +13400,7 @@ dengurin:
 .loc_C67293:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C672A0
     JML kill_enemy
 
@@ -13530,7 +13533,7 @@ robocom:
 .loc_C673AC:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C673B9
     JML kill_enemy
 
@@ -13663,7 +13666,7 @@ metal_u:
 .loc_C674C5:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C674D2
     JML kill_enemy
 
@@ -13796,7 +13799,7 @@ kinkaru:
 .loc_C675DE:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C675EB
     JML kill_enemy
 
@@ -13936,7 +13939,7 @@ moguchan:
 sub_C67706:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67713
     JML kill_enemy
 
@@ -14004,7 +14007,7 @@ sub_C67706:
 sub_C67786:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x90
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C67793
     JML nullsub_C30015
 
@@ -14281,7 +14284,7 @@ sub_C679BB:
 sub_C679C8:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C679D5
     JML kill_enemy
 
@@ -14396,7 +14399,7 @@ sub_C679C8:
 .loc_C67AAD:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67ABA
     JML kill_enemy
 
@@ -14556,7 +14559,7 @@ sub_C67BE6:
 sub_C67BF3:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67C00
     JML kill_enemy
 
@@ -14608,7 +14611,7 @@ sub_C67C34:
 .loc_C67C52:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67C5F
     JML kill_enemy
 
@@ -14646,7 +14649,7 @@ sub_C67C34:
 sub_C67C94:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
-    BIT #0x20
+    BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67CA1
     JML kill_enemy
 
