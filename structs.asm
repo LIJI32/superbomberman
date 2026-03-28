@@ -46,6 +46,11 @@ endstruct
 
 struct pause_handler
     object
+
+; Debug menu only
+org 0x10
+.controlling_player 
+    ds 2 ; short address
     
 org 0x20
 .state
@@ -144,7 +149,9 @@ struct player
     ds 2 ; Unknown
 .anonymous_6:
     ds 2
-    ds 5 ; Unknown
+    ds 4 ; Unknown
+.no_death: ; Debug-controlled
+    ds 1
 .hit_flags:
     ds 1
 .bombups:
@@ -153,17 +160,19 @@ struct player
     ds 1
 .speedups:   ; 32
     ds 1
-.powerups_1:
+.remote_control:
     ds 1 ; 33
 .trampoline_state: ;34-35
     ds 2
 .invincibility_countdown: ;36-37
     ds 2
-.powerups_2: ;38-39
+.powerups: ;38-39
     ds 2
 .invisibility_poison_flashing: ; 3a-3c
     ds 1
-    ds 2 ; Unknown
+    ds 1 ; Unknown
+.debug_skull:
+    ds 1
 .lives: ; 3d
     ds 1
 .effective_speed

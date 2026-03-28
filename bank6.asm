@@ -1,5 +1,10 @@
 segment "BANK6"
 
+encode debug_menu, "ABCDEFGHIJKLMNOPQRSTUVWXYZ!.,:☺0123456789", 1
+encode debug_menu, "{}[]-\" ", 0x30
+
+encoding debug_menu
+
 BG3_SCROLL_UNPAUSED = 0x3FF
 BG3_SCROLL_PAUSED = 0x428
 
@@ -90,7 +95,7 @@ animate_pause:
 
 .done:
     REP #0x20
-    LDA z:0x22,X
+    LDA z:pause_handler.scroll,X
     STA a:addr(bg3_v_scroll_2) ; orig=0x0CA7
     RTL
 
@@ -98,34 +103,34 @@ should_toggle_pause:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_LEVEL_END
-    BNE .loc_C600CE
+    BNE .ret_false
     LDA a:addr(current_mode) ; orig=0x0C3C
-    CMP #3
-    BEQ .loc_C60095
-    CMP #2
-    BNE .loc_C600CE
+    CMP #GAME_MODE_BATTLE
+    BEQ +
+    CMP #GAME_MODE_STORY
+    BNE .ret_false
 
-.loc_C60095:
++
     LDA a:addr(level_manager_object.fade_related_) ; orig=0x0D10
     CMP #0x34
-    BEQ .loc_C600CE
+    BEQ .ret_false
     CMP #0x35
-    BEQ .loc_C600CE
+    BEQ .ret_false
     CMP #0x36
-    BEQ .loc_C600CE
+    BEQ .ret_false
+    
     LDA #0
     XBA
     LDA #0
     STA z:0x40
 
-.loc_C600AB:
+.loop:
     TAY
     LDA a:addr(player_1.is_ai),Y
-    BNE .loc_C600B6
+    BNE +
     LDA a:addr(player_1.gameover_related),Y
-    BEQ .loc_C600C6
-
-.loc_C600B6:
+    BEQ .continue
++
     TYA
     LSR A
     LSR A
@@ -136,46 +141,51 @@ should_toggle_pause:
     TAY
     LDA a:addr(joypad_1_pressed+1),Y
     PLY
-    BIT #0x30
-    BNE .loc_C600D0
+    BIT #high(BUTTON_START | BUTTON_SELECT)
+    BNE .ret_true
 
-.loc_C600C6:
+.continue:
     INC z:0x40
     TYA
     CLC
-    ADC #0x40
-    BNE .loc_C600AB
+    ADC #player.sizeof
+    BNE .loop
 
-.loc_C600CE:
+.ret_false:
     CLC
     RTL
 
-.loc_C600D0:
+.ret_true:
 ifdef DEBUG
-    BIT #0x20
-    BNE activate_debug
+    BIT #high(BUTTON_SELECT)
+    BNE toggle_debug
 endif
     SEC
     RTL
-activate_debug:
+
+toggle_debug:
     LDA a:addr(game_flags) ; orig=0x0314 ; Deleted debug menu activation
-    EOR #1
-    BIT #1
+    EOR #GAME_FLAGS_DEBUG_MENU
+    BIT #GAME_FLAGS_DEBUG_MENU
     BNE open_debug_menu
     JML close_debug_menu
 
+
+DEBUG_MENU_LENGTH     = 19
+
 open_debug_menu:
+; Y = player index * 0x40
     REP #0x20
     TYA
     CLC
-    ADC #0xD40
-    STA z:0x10,X
+    ADC #addr(player_1)
+    STA z:pause_handler.controlling_player,X
     LDA z:0x40
     PHA
     PHX
-    JSL sub_C609F5
+    JSL draw_debug_menu
     PLX
-    JSL sub_C6033D
+    JSL draw_debug_cursor
     REP #0x20
     PLA
     STA z:0x40
@@ -190,34 +200,34 @@ open_debug_menu:
     STA f:[z:0x53]
     REP #0x20
     LDA #addr(debug_menu_initializer)
-    STA z:object.handler,X
+    STA z:pause_handler.handler,X
     SEP #0x20
     LDA #bank(debug_menu_initializer)
-    STA z:object.handler + 2,X
+    STA z:pause_handler.handler + 2,X
     RTL
 
 debug_menu_initializer:
     REP #0x20
     LDA #addr(handle_pause)
-    STA z:object.handler,X
+    STA z:pause_handler.handler,X
     SEP #0x20
     LDA #bank(handle_pause)
-    STA z:object.handler + 2,X
+    STA z:pause_handler.handler + 2,X
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     ORA #GAME_FLAGS_DEBUG_MENU
     STA a:addr(game_flags) ; orig=0x0314
-    JSL sub_C605EE
+    JSL fill_debug_info
     SEP #0x20
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     PHA
     LDA #0
-    STA a:addr(word_7E0316) ; orig=0x0316
+    STA a:addr(debug_cursor) ; orig=0x0316
 
 .loc_C60141:
     REP #0x20
     PHX
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     AND #0xFF
     TAX
     SEP #0x20
@@ -227,53 +237,53 @@ debug_menu_initializer:
     PLX
     SEP #0x20
     LDA z:0x40
-    BEQ .loc_C60177
+    BEQ .on_off
     BIT #0x80
-    BEQ .loc_C60164
-    JML .loc_C60186
+    BEQ +
+    JML .enum
 
-.loc_C60164:
-    BRA .loc_C60195
++
+    BRA .number
 
-.loc_C60166:
+.loop:
     SEP #0x20
-    INC a:addr(word_7E0316) ; orig=0x0316
-    LDA a:addr(word_7E0316) ; orig=0x0316
-    CMP #0x13
+    INC a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
+    CMP #DEBUG_MENU_LENGTH
     BNE .loc_C60141
     PLA
-    STA a:addr(word_7E0316) ; orig=0x0316
+    STA a:addr(debug_cursor) ; orig=0x0316
     RTL
 
-.loc_C60177:
+.on_off:
     SEP #0x20
-    JSL sub_C601A4
+    JSL get_debug_data_addr
     LDA f:[z:0x50]
-    JSL sub_C6036B
-    JMP a:addr(.loc_C60166)
+    JSL write_on_off
+    JMP a:.loop
 
-.loc_C60186:
+.enum:
     SEP #0x20
-    JSL sub_C601A4
+    JSL get_debug_data_addr
     LDA f:[z:0x50]
-    JSL sub_C60475
-    JMP a:addr(.loc_C60166)
+    JSL draw_speed_or_screen_name
+    JMP a:.loop
 
-.loc_C60195:
+.number:
     SEP #0x20
-    JSL sub_C601A4
+    JSL get_debug_data_addr
     LDA f:[z:0x50]
-    JSL sub_C603D9
-    JMP a:addr(.loc_C60166)
+    JSL draw_number
+    JMP a:.loop
 
-sub_C601A4:
+get_debug_data_addr:
     SEP #0x20
     STZ z:0x52
     REP #0x20
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     AND #0xFF
     CLC
-    ADC #0xA4
+    ADC #addr(debug_menu_data)
     STA z:0x50
     SEP #0x20
     RTL
@@ -294,7 +304,7 @@ handle_debug_menu_input:
     LDA a:addr(0x22),Y
     BIT #0x80
     BEQ .loc_C6020E
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CMP #0x11
     BNE .loc_C601EE
     REP #0x20
@@ -310,7 +320,7 @@ handle_debug_menu_input:
 
 .loc_C601EE:
     SEP #0x20
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CMP #0x12
     BNE .loc_C6020E
     REP #0x20
@@ -331,29 +341,29 @@ handle_debug_menu_input:
     STA z:0x4E
     AND #0xC
     BEQ .loc_C60247
-    JSL sub_C6030F
+    JSL clear_debug_cursor
     SEP #0x20
     LDA z:0x4E
     BIT #8
     BEQ .loc_C60235
-    DEC a:addr(word_7E0316) ; orig=0x0316
+    DEC a:addr(debug_cursor) ; orig=0x0316
     BPL .loc_C60230
     LDA #0x12
-    STA a:addr(word_7E0316) ; orig=0x0316
+    STA a:addr(debug_cursor) ; orig=0x0316
 
 .loc_C60230:
-    JSL sub_C6033D
+    JSL draw_debug_cursor
     RTL
 
 .loc_C60235:
-    INC a:addr(word_7E0316) ; orig=0x0316
-    LDA a:addr(word_7E0316) ; orig=0x0316
-    CMP #0x13
+    INC a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
+    CMP #DEBUG_MENU_LENGTH
     BNE .loc_C60242
-    STZ a:addr(word_7E0316) ; orig=0x0316
+    STZ a:addr(debug_cursor) ; orig=0x0316
 
 .loc_C60242:
-    JSL sub_C6033D
+    JSL draw_debug_cursor
 
 .locret_C60246:
     RTL
@@ -365,7 +375,7 @@ handle_debug_menu_input:
     BEQ .locret_C60246
     REP #0x20
     PHX
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     AND #0xFF
     TAX
     SEP #0x20
@@ -387,7 +397,7 @@ handle_debug_menu_input:
     SEP #0x20
     STZ z:0x52
     REP #0x20
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     AND #0xFF
     CLC
     ADC #0xA4
@@ -396,7 +406,7 @@ handle_debug_menu_input:
     LDA f:[z:0x50]
     EOR #1
     STA f:[z:0x50]
-    JSL sub_C6036B
+    JSL write_on_off
     RTL
 
 .loc_C60293:
@@ -404,7 +414,7 @@ handle_debug_menu_input:
     STA z:0x40
     STZ z:0x52
     REP #0x20
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     AND #0xFF
     CLC
     ADC #0xA4
@@ -420,7 +430,7 @@ handle_debug_menu_input:
     LDA z:0x40
     STA f:[z:0x50]
     STA z:0x40
-    JSL sub_C603D9
+    JSL draw_number
     RTL
 
 .loc_C602C1:
@@ -433,7 +443,7 @@ handle_debug_menu_input:
 .loc_C602CA:
     STA f:[z:0x50]
     STA z:0x40
-    JSL sub_C603D9
+    JSL draw_number
     RTL
 
 .loc_C602D3:
@@ -443,7 +453,7 @@ handle_debug_menu_input:
     STA z:0x40
     STZ z:0x52
     REP #0x20
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     AND #0xFF
     CLC
     ADC #0xA4
@@ -473,10 +483,10 @@ handle_debug_menu_input:
     STA f:[z:0x50]
 
 .loc_C6030A:
-    JSL sub_C60475
+    JSL draw_speed_or_screen_name
     RTL
 
-sub_C6030F:
+clear_debug_cursor:
     REP #0x20
     LDA #addr(unk_7E2020)
     STA z:0x53
@@ -484,7 +494,7 @@ sub_C6030F:
     SEP #0x20
     LDA #bank(unk_7E2020)
     STA z:0x55
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CLC
     ADC #8
     REP #0x20
@@ -496,13 +506,13 @@ sub_C6030F:
     ADC z:0x53
     STA z:0x53
     SEP #0x20
-    LDA #0x36
+    LDA #' '
     STA f:[z:0x53]
     REP #0x20
     PLX
     RTL
 
-sub_C6033D:
+draw_debug_cursor:
     REP #0x20
     LDA #addr(unk_7E2020)
     STA z:0x53
@@ -510,7 +520,7 @@ sub_C6033D:
     LDA #bank(unk_7E2020)
     STA z:0x55
     PHX
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CLC
     ADC #8
     REP #0x20
@@ -522,13 +532,13 @@ sub_C6033D:
     ADC z:0x53
     STA z:0x53
     SEP #0x20
-    LDA #0x1F
+    LDA #'☺'
     STA f:[z:0x53]
     REP #0x20
     PLX
     RTL
 
-sub_C6036B:
+write_on_off:
     SEP #0x20
     STA z:0x40
     REP #0x20
@@ -538,7 +548,7 @@ sub_C6036B:
     SEP #0x20
     LDA #bank(unk_7E2038)
     STA z:0x55
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CLC
     ADC #8
     REP #0x20
@@ -551,38 +561,40 @@ sub_C6036B:
     STA z:0x53
     SEP #0x20
     LDA z:0x40
-    BNE .loc_C603B7
-    LDA #0xF
+    BNE .write_on
+
+; write off
+    LDA #'O'
     STA f:[z:0x53]
     REP #0x20
     INC z:0x53
     INC z:0x53
     SEP #0x20
-    LDA #6
+    LDA #'F'
     STA f:[z:0x53]
     REP #0x20
     INC z:0x53
     INC z:0x53
     SEP #0x20
-    LDA #6
+    LDA #'F'
     STA f:[z:0x53]
     BRA .loc_C603D5
 
-.loc_C603B7:
+.write_on:
     SEP #0x20
-    LDA #0x36
+    LDA #' '
     STA f:[z:0x53]
     REP #0x20
     INC z:0x53
     INC z:0x53
     SEP #0x20
-    LDA #0xF
+    LDA #'O'
     STA f:[z:0x53]
     REP #0x20
     INC z:0x53
     INC z:0x53
     SEP #0x20
-    LDA #0xE
+    LDA #'N'
     STA f:[z:0x53]
 
 .loc_C603D5:
@@ -590,14 +602,14 @@ sub_C6036B:
     PLX
     RTL
 
-sub_C603D9:
+draw_number:
     REP #0x20
     AND #0xFF
     STA z:0x40
     SEP #0x20
     LDA #bank(unk_7E203A)
     STA z:0x55
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CLC
     ADC #8
     REP #0x20
@@ -610,7 +622,7 @@ sub_C603D9:
     ADC #addr(unk_7E203A)
     STA z:0x53
     SEP #0x20
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CMP #0x11
     BEQ .loc_C6040B
     CMP #0x12
@@ -622,7 +634,7 @@ sub_C603D9:
     AND #0xFF
     TAX
     SEP #0x20
-    LDA f:byte_C60447,X
+    LDA f:int_to_bcd,X
     STA z:0x40
 
 .loc_C6041B:
@@ -650,17 +662,17 @@ sub_C603D9:
     PLX
     RTL
 
-byte_C60447:
-    db 0, 1, 2, 3, 4, 5, 6, 7
-    db 8, 9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15
-    db 0x16, 0x17, 0x18, 0x19, 0x20, 0x21, 0x22, 0x23
-    db 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x30, 0x31
-    db 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39
+int_to_bcd:
+    db 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+    db 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19
+    db 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29
+    db 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39
     db 0x40, 0x41, 0x42, 0x43, 0x44, 0x45
-sub_C60475:
+    
+draw_speed_or_screen_name:
     SEP #0x20
     STA z:0x40
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     BEQ .loc_C604D4
     REP #0x20
     LDA #addr(unk_7E2038)
@@ -669,7 +681,7 @@ sub_C60475:
     SEP #0x20
     LDA #bank(unk_7E2038)
     STA z:0x55
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CLC
     ADC #8
     REP #0x20
@@ -714,7 +726,7 @@ sub_C60475:
     SEP #0x20
     LDA #bank(unk_7E2038)
     STA z:0x55
-    LDA a:addr(word_7E0316) ; orig=0x0316
+    LDA a:addr(debug_cursor) ; orig=0x0316
     CLC
     ADC #8
     REP #0x20
@@ -754,36 +766,41 @@ sub_C60475:
 close_debug_menu:
     JSL remove_debug_menu_from_tilemap
     REP #0x20
-    LDA #addr(sub_C6053C)
-    STA z:0,X
+    LDA #addr(set_data_from_debug_menu)
+    STA z:pause_handler.handler,X
     SEP #0x20
-    LDA #bank(sub_C6053C)
-    STA z:2,X
+    LDA #bank(set_data_from_debug_menu)
+    STA z:pause_handler.handler + 2,X
     RTL
 
-sub_C6053C:
+set_data_from_debug_menu:
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     AND #~GAME_FLAGS_DEBUG_MENU
     STA a:addr(game_flags) ; orig=0x0314
     REP #0x20
     PHX
-    LDA z:0x10,X
+    LDA z:pause_handler.controlling_player,X
     TAX
     SEP #0x20
     LDA a:addr(debug_no_death) ; orig=0x00A5
-    STA z:0x2E,X
+    STA z:player.no_death,X
+    
     LDA a:addr(debug_bomb_up) ; orig=0x00A7
-    STA z:0x30,X
-    LDA z:0x31,X
-    AND #0x80
+    STA z:player.bombups,X
+    
+    LDA z:player.fireups,X
+    AND #0x80 ; Clear max fire
     ORA a:addr(debug_fire_up) ; orig=0x00A8
-    STA z:0x31,X
+    STA z:player.fireups,X
+    
     LDA a:addr(debug_speed_up) ; orig=0x00A9
-    STA z:0x32,X
+    STA z:player.speedups,X
+    
     LDA a:addr(debug_remocon) ; orig=0x00AA
-    STA z:0x33,X
-    STZ z:0x39,X
+    STA z:player.remote_control,X
+    
+    STZ z:player.powerups + 1,X
     LDA a:addr(debug_wall_pass) ; orig=0x00AB
     ASL A
     ASL A
@@ -791,54 +808,62 @@ sub_C6053C:
     ASL A
     ASL A
     ASL A
-    AND #0x40
-    ORA z:0x39,X
-    STA z:0x39,X
+    AND #high(POWERUPS_WALL_PASS)
+    ORA z:player.powerups + 1,X
+    STA z:player.powerups + 1,X
+    
     LDA a:addr(debug_bomb_pass) ; orig=0x00AC
     ASL A
     ASL A
     ASL A
     ASL A
     ASL A
-    AND #0x20
-    ORA z:0x39,X
-    STA z:0x39,X
+    AND #high(POWERUPS_BOMB_PASS)
+    ORA z:player.powerups + 1,X
+    STA z:player.powerups + 1,X
+    
     LDA a:addr(debug_fire_pass) ; orig=0x00AD
-    STA z:0x36,X
-    BEQ .loc_C6059A
+    STA z:player.invincibility_countdown,X
+    BEQ +
     REP #0x20
-    LDA #0x160
-    STA z:0x36,X
+    LDA #0x160 ; A lot shorter than INVINCIBILITY_FRAMES for some reason
+    STA z:player.invincibility_countdown,X
     SEP #0x20
++
 
-.loc_C6059A:
     LDA a:addr(debug_full_fire) ; orig=0x00AE
-    BEQ .loc_C605A5
-    LDA z:0x31,X
-    ORA #0x80
-    BRA .loc_C605A9
+    BEQ .clear_full_fire
+    LDA z:player.fireups,X
+    ORA #0x80 ; set full fire flag
+    BRA +
 
-.loc_C605A5:
-    LDA z:0x31,X
+.clear_full_fire:
+    LDA z:player.fireups,X
     AND #0x7F
 
-.loc_C605A9:
-    STA z:0x31,X
++
+    STA z:player.fireups,X
+    
     LDA a:addr(debug_break_thr) ; orig=0x00AF
-    STA z:0x38,X
+    STA z:player.powerups,X
+    
     LDA a:addr(debug_power) ; orig=0x00B0
-    AND #1
-    ORA z:0x39,X
-    STA z:0x39,X
+    AND #high(POWERUPS_KICK) ; Yes, this is a bug in the original
+    ORA z:player.powerups + 1,X
+    STA z:player.powerups + 1,X
+    
     LDA a:addr(debug_kick) ; orig=0x00B1
     ASL A
-    AND #2
-    ORA z:0x39,X
-    STA z:0x39,X
+    AND #high(POWERUPS_PUNCH) ; Yes, this is a bug in the original
+    ORA z:player.powerups + 1,X
+    STA z:player.powerups + 1,X
+    
     LDA a:addr(debug_skull) ; orig=0x00B2
-    BEQ .loc_C605DD
+    BEQ .no_poison
     JSL apply_poison
     SEP #0x20
+    
+; Restore handler
     PLX
     REP #0x20
     LDA #addr(handle_pause)
@@ -848,8 +873,10 @@ sub_C6053C:
     STA z:object.handler + 2,X
     RTL
 
-.loc_C605DD:
-    STA z:0x3C,X
+.no_poison:
+    STA z:player.debug_skull,X
+    
+; Restore handler
     PLX
     REP #0x20
     LDA #addr(handle_pause)
@@ -859,24 +886,25 @@ sub_C6053C:
     STA z:object.handler + 2,X
     RTL
 
-sub_C605EE:
+fill_debug_info:
     REP #0x20
     PHX
-    LDA z:0x10,X
+    LDA z:pause_handler.controlling_player,X
     TAX
     SEP #0x20
-    LDA z:0x2E,X
+    
+    LDA z:player.no_death,X
     STA a:addr(debug_no_death) ; orig=0x00A5
-    LDA z:0x30,X
+    LDA z:player.bombups,X
     STA a:addr(debug_bomb_up) ; orig=0x00A7
-    LDA z:0x31,X
-    AND #0x7F
+    LDA z:player.fireups,X
+    AND #0x7F ; Clear the Max Fire flag
     STA a:addr(debug_fire_up) ; orig=0x00A8
-    LDA z:0x32,X
+    LDA z:player.speedups,X
     STA a:addr(debug_speed_up) ; orig=0x00A9
-    LDA z:0x33,X
+    LDA z:player.remote_control,X
     STA a:addr(debug_remocon) ; orig=0x00AA
-    LDA z:0x39,X
+    LDA z:player.powerups + 1,X
     LSR A
     LSR A
     LSR A
@@ -885,7 +913,7 @@ sub_C605EE:
     LSR A
     AND #1
     STA a:addr(debug_wall_pass) ; orig=0x00AB
-    LDA z:0x39,X
+    LDA z:player.powerups + 1,X
     LSR A
     LSR A
     LSR A
@@ -893,168 +921,182 @@ sub_C605EE:
     LSR A
     AND #1
     STA a:addr(debug_bomb_pass) ; orig=0x00AC
-    LDA z:0x36,X
-    BEQ .loc_C60630
+    LDA z:player.invincibility_countdown,X
+    BEQ +
     LDA #1
 
-.loc_C60630:
++
     STA a:addr(debug_fire_pass) ; orig=0x00AD
-    LDA z:0x31,X
-    AND #0x80
-    BEQ .loc_C6063B
+    LDA z:player.fireups,X
+    AND #0x80 ; Max fire flag
+    BEQ +
     LDA #1
 
-.loc_C6063B:
++
     STA a:addr(debug_full_fire) ; orig=0x00AE
-    LDA z:0x38,X
+    LDA z:player.powerups,X
     STA a:addr(debug_break_thr) ; orig=0x00AF
-    LDA z:0x39,X
+    LDA z:player.powerups + 1,X
     AND #1
     STA a:addr(debug_power) ; orig=0x00B0
-    LDA z:0x39,X
+    LDA z:player.powerups + 1,X
     LSR A
     AND #1
     STA a:addr(debug_kick) ; orig=0x00B1
-    LDA z:0x3C,X
+    LDA z:player.debug_skull,X
     STA a:addr(debug_skull) ; orig=0x00B2
     PLX
     RTL
 
 screen_names:
-    db 0x21, 0x34, 0x21, 0x36
-    db 0x21, 0x34, 0x22, 0x36
-    db 0x21, 0x34, 0x23, 0x36
-    db 0x21, 0x34, 0x24, 0x36
-    db 0x21, 0x34, 0x25, 0x36
-    db 0x21, 0x34, 0x26, 0x36
-    db 0x21, 0x34, 0x27, 0x36
-    db 0x21, 0x34, 0x28, 0x36
-    db 0x22, 0x34, 0x21, 0x36
-    db 0x22, 0x34, 0x22, 0x36
-    db 0x22, 0x34, 0x23, 0x36
-    db 0x22, 0x34, 0x24, 0x36
-    db 0x22, 0x34, 0x25, 0x36
-    db 0x22, 0x34, 0x26, 0x36
-    db 0x22, 0x34, 0x27, 0x36
-    db 0x22, 0x34, 0x28, 0x36
-    db 0x23, 0x34, 0x21, 0x36
-    db 0x23, 0x34, 0x22, 0x36
-    db 0x23, 0x34, 0x23, 0x36
-    db 0x23, 0x34, 0x24, 0x36
-    db 0x23, 0x34, 0x25, 0x36
-    db 0x23, 0x34, 0x26, 0x36
-    db 0x23, 0x34, 0x27, 0x36
-    db 0x23, 0x34, 0x28, 0x36
-    db 0x24, 0x34, 0x21, 0x36
-    db 0x24, 0x34, 0x22, 0x36
-    db 0x24, 0x34, 0x23, 0x36
-    db 0x24, 0x34, 0x24, 0x36
-    db 0x24, 0x34, 0x25, 0x36
-    db 0x24, 0x34, 0x26, 0x36
-    db 0x24, 0x34, 0x27, 0x36
-    db 0x24, 0x34, 0x28, 0x36
-    db 0x25, 0x34, 0x21, 0x36
-    db 0x25, 0x34, 0x22, 0x36
-    db 0x25, 0x34, 0x23, 0x36
-    db 0x25, 0x34, 0x24, 0x36
-    db 0x25, 0x34, 0x25, 0x36
-    db 0x25, 0x34, 0x26, 0x36
-    db 0x25, 0x34, 0x27, 0x36
-    db 0x25, 0x34, 0x28, 0x36
-    db 0x26, 0x34, 0x21, 0x36
-    db 0x26, 0x34, 0x22, 0x36
-    db 0x26, 0x34, 0x23, 0x36
-    db 0x26, 0x34, 0x24, 0x36
-    db 0x26, 0x34, 0x25, 0x36
-    db 0x26, 0x34, 0x26, 0x36
-    db 0x26, 0x34, 0x27, 0x36
-    db 0x26, 0x34, 0x28, 0x36
-    db 5, 0xE, 4, 0x36
-    db 0x14, 9, 0x14, 0x36
-    db 0x13, 5, 0xC, 0x36
-    db 4, 0xD, 0x21, 0x36
-    db 4, 0xD, 0x22, 0x36
-    db 4, 0xD, 0x23, 0x36
-    db 4, 0xD, 0x24, 0x36
-    db 3, 0xF, 0xE, 0x36
-    db 0x10, 1, 0x13, 0x36
-    db 0x10, 0x12, 0xD, 0x36
-    db 4, 0x12, 0x17, 0x36
-    db 0x17, 9, 0xE, 0x36
-    db 2, 0x34, 0x21, 0x36
-    db 2, 0x34, 0x22, 0x36
-    db 2, 0x34, 0x23, 0x36
-    db 2, 0x34, 0x24, 0x36
-    db 2, 0x34, 0x25, 0x36
-    db 2, 0x34, 0x26, 0x36
-    db 2, 0x34, 0x27, 0x36
-    db 2, 0x34, 0x28, 0x36
-    db 2, 0x34, 0x29, 0x36
-    db 2, 0x34, 1, 0x36
-    db 2, 0x34, 2, 0x36
-    db 2, 0x34, 3, 0x36
-    db 4, 0x12, 0x36, 0x36
-    db 0x17, 9, 0xE, 0x36
-    db 0x22, 0x34, 0x21, 0x36
-    db 0x22, 0x34, 0x22, 0x36
-    db 0x22, 0x34, 0x23, 0x36
-    db 0x22, 0x34, 0x24, 0x36
-    db 0x22, 0x34, 0x25, 0x36
-    db 0x22, 0x34, 0x26, 0x36
-    db 0x22, 0x34, 0x27, 0x36
-    db 0x22, 0x34, 0x28, 0x36
+    db "1-1 "
+    db "1-2 "
+    db "1-3 "
+    db "1-4 "
+    db "1-5 "
+    db "1-6 "
+    db "1-7 "
+    db "1-8 "
+    db "2-1 "
+    db "2-2 "
+    db "2-3 "
+    db "2-4 "
+    db "2-5 "
+    db "2-6 "
+    db "2-7 "
+    db "2-8 "
+    db "3-1 "
+    db "3-2 "
+    db "3-3 "
+    db "3-4 "
+    db "3-5 "
+    db "3-6 "
+    db "3-7 "
+    db "3-8 "
+    db "4-1 "
+    db "4-2 "
+    db "4-3 "
+    db "4-4 "
+    db "4-5 "
+    db "4-6 "
+    db "4-7 "
+    db "4-8 "
+    db "5-1 "
+    db "5-2 "
+    db "5-3 "
+    db "5-4 "
+    db "5-5 "
+    db "5-6 "
+    db "5-7 "
+    db "5-8 "
+    db "6-1 "
+    db "6-2 "
+    db "6-3 "
+    db "6-4 "
+    db "6-5 "
+    db "6-6 "
+    db "6-7 "
+    db "6-8 "
+    db "END "
+    db "TIT "
+    db "SEL "
+    db "DM1 "
+    db "DM2 "
+    db "DM3 "
+    db "DM4 "
+    db "CON "
+    db "PAS "
+    db "PRM "
+    db "DRW "
+    db "WIN "
+    db "B-1 "
+    db "B-2 "
+    db "B-3 "
+    db "B-4 "
+    db "B-5 "
+    db "B-6 "
+    db "B-7 "
+    db "B-8 "
+    db "B-9 "
+    db "B-A "
+    db "B-B "
+    db "B-C "
+    db "DR  "
+    db "WIN "
+    db "2-1 "
+    db "2-2 "
+    db "2-3 "
+    db "2-4 "
+    db "2-5 "
+    db "2-6 "
+    db "2-7 "
+    db "2-8 "
+    
 speed_names:
-    db 0x36, 0x18, 0x21, 0x36
-    db 0x36, 0x18, 0x22, 0x36
-    db 0x36, 0x18, 0x23, 0x36
-    db 0x36, 0x18, 0x24, 0x36
+    db " X1 "
+    db " X2 "
+    db " X3 "
+    db " X4 "
+    
 hex_digits:
-    db 0x20, 0x21, 0x22, 0x23
-    db 0x24, 0x25, 0x26, 0x27
-    db 0x28, 0x29, 1, 2
-    db 3, 4, 5, 6
+    db "0123456789ABCDEF"
+    
 debug_menu_value_types:
     db 0xB2, 0, 0xFC, 0xA
     db 0xA, 8, 0, 0
     db 0, 0, 0, 0
     db 0, 0, 0, 0
     db 0, 0x2A, 0x28, 2
+    
+DEBUG_MENU_X = 16
+DEBUG_MENU_Y = 7
+
+macro debug_menu_line string
+    db DEBUG_MENU_X, DEBUG_MENU_Y, $string
+    DEBUG_MENU_Y = DEBUG_MENU_Y + 1
+endmacro
+
 debug_menu_map:
-    db 0x10, 0x07, 0x36, 0x10, 0x1E, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36
-    db 0x10, 0x08, 0x36, 0x13, 0x14, 0x01, 0x07, 0x05, 0x36, 0x0E, 0x0F, 0x1C, 0x36, 0x36, 0x21, 0x34, 0x21
-    db 0x10, 0x09, 0x36, 0x0E, 0x0F, 0x36, 0x04, 0x05, 0x01, 0x14, 0x08, 0x36, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x0A, 0x36, 0x07, 0x01, 0x0D, 0x05, 0x36, 0x13, 0x10, 0x05, 0x05, 0x04, 0x36, 0x36, 0x18, 0x21
-    db 0x10, 0x0B, 0x36, 0x02, 0x0F, 0x0D, 0x02, 0x36, 0x15, 0x10, 0x36, 0x36, 0x36, 0x36, 0x36, 0x20, 0x20
-    db 0x10, 0x0C, 0x36, 0x06, 0x09, 0x12, 0x05, 0x36, 0x15, 0x10, 0x36, 0x36, 0x36, 0x36, 0x36, 0x20, 0x20
-    db 0x10, 0x0D, 0x36, 0x13, 0x10, 0x05, 0x05, 0x04, 0x36, 0x15, 0x10, 0x36, 0x36, 0x36, 0x36, 0x20, 0x20
-    db 0x10, 0x0E, 0x36, 0x12, 0x05, 0x0D, 0x0F, 0x03, 0x0F, 0x0E, 0x36, 0x36, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x0F, 0x36, 0x17, 0x01, 0x0C, 0x0C, 0x36, 0x10, 0x01, 0x13, 0x13, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x10, 0x36, 0x02, 0x0F, 0x0D, 0x02, 0x36, 0x10, 0x01, 0x13, 0x13, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x11, 0x36, 0x06, 0x09, 0x12, 0x05, 0x36, 0x10, 0x01, 0x13, 0x13, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x12, 0x36, 0x06, 0x09, 0x12, 0x05, 0x36, 0x06, 0x15, 0x0C, 0x0C, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x13, 0x36, 0x02, 0x12, 0x05, 0x01, 0x0B, 0x36, 0x14, 0x08, 0x12, 0x1C, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x14, 0x36, 0x10, 0x0F, 0x17, 0x05, 0x12, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x15, 0x36, 0x0B, 0x09, 0x03, 0x0B, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x16, 0x36, 0x13, 0x0B, 0x15, 0x0C, 0x0C, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x17, 0x36, 0x14, 0x09, 0x0D, 0x05, 0x36, 0x03, 0x08, 0x05, 0x03, 0x0B, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x18, 0x36, 0x16, 0x13, 0x36, 0x03, 0x08, 0x05, 0x03, 0x0B, 0x36, 0x36, 0x36, 0x0F, 0x06, 0x06
-    db 0x10, 0x19, 0x36, 0x02, 0x07, 0x0D, 0x36, 0x0E, 0x0F, 0x1C, 0x36, 0x36, 0x36, 0x36, 0x36, 0x20, 0x20
-    db 0x10, 0x1A, 0x36, 0x13, 0x05, 0x36, 0x0E, 0x0F, 0x1C, 0x36, 0x36, 0x36, 0x36, 0x36, 0x36, 0x20, 0x20
+    debug_menu_line " P:            "
+    debug_menu_line " STAGE NO.  1-1"
+    debug_menu_line " NO DEATH   OFF"
+    debug_menu_line " GAME SPEED  X1"
+    debug_menu_line " BOMB UP     00"
+    debug_menu_line " FIRE UP     00"
+    debug_menu_line " SPEED UP    00"
+    debug_menu_line " REMOCON    OFF"
+    debug_menu_line " WALL PASS  OFF"
+    debug_menu_line " BOMB PASS  OFF"
+    debug_menu_line " FIRE PASS  OFF"
+    debug_menu_line " FIRE FULL  OFF"
+    debug_menu_line " BREAK THR. OFF"
+    debug_menu_line " POWER      OFF"
+    debug_menu_line " KICK       OFF"
+    debug_menu_line " SKULL      OFF"
+    debug_menu_line " TIME CHECK OFF"
+    debug_menu_line " VS CHECK   OFF"
+    debug_menu_line " BGM NO.     00"
+    debug_menu_line " SE NO.      00"
     db 0xFF
+    
 offsets_to_debug_menu_map:
     dw 0, 0x40, 0x80, 0xC0, 0x100, 0x140, 0x180, 0x1C0, 0x200, 0x240, 0x280, 0x2C0, 0x300, 0x340, 0x380, 0x3C0, 0x400
     dw 0x440, 0x480, 0x4C0, 0x500, 0x540, 0x580, 0x5C0, 0x600, 0x640, 0x680, 0x6C0, 0x700, 0x740, 0x780, 0x7C0
+    
 musics_lists:
     db 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0x10
     db 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21
     db 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x28, 0x28, 0x28
+    
 sounds_list:
     db 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0x10
     db 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21
     db 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29
+    
 unknown_debug_related:
     db 0, 1, 3, 4, 5, 0x1B, 7, 0x1C, 0xA, 0xD, 2, 0xE, 0xF, 0x10, 0x11, 0x12, 0x19
     db 0x14, 0x15, 0x16, 0x17, 0x18, 0x1A, 0x1D, 0x1E
+        
 remove_debug_menu_from_tilemap:
 i16
     REP #0x20
@@ -1074,7 +1116,7 @@ i16
     BNE .loc_C609EE
     RTL
 
-sub_C609F5:
+draw_debug_menu:
     REP #0x20
     LDA #addr(debug_menu_map)
     STA z:0x50
@@ -1637,9 +1679,9 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.powerups_1,X
-    ORA #POWERUPS_1_REMOTE_CONTROL
-    STA z:player.powerups_1,X
+    LDA z:player.remote_control,X
+    ORA #remote_control_REMOTE_CONTROL
+    STA z:player.remote_control,X
     INC a:player.collected_remote_controls,X
     
     LDY #SOUND_BONUS
@@ -1730,10 +1772,10 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.powerups_2 + 1,X
-    ORA #high(POWERUPS_2_BOMB_PASS)
-    AND #low(~high(POWERUPS_2_KICK))
-    STA z:player.powerups_2 + 1,X
+    LDA z:player.powerups + 1,X
+    ORA #high(POWERUPS_BOMB_PASS)
+    AND #low(~high(POWERUPS_KICK))
+    STA z:player.powerups + 1,X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1753,9 +1795,9 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.powerups_2 + 1,X
-    ORA #high(POWERUPS_2_WALL_PASS)
-    STA z:player.powerups_2 + 1,X
+    LDA z:player.powerups + 1,X
+    ORA #high(POWERUPS_WALL_PASS)
+    STA z:player.powerups + 1,X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1851,9 +1893,9 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.powerups_2,X
-    ORA #POWERUPS_2_RED_BOMBS
-    STA z:player.powerups_2,X
+    LDA z:player.powerups,X
+    ORA #POWERUPS_RED_BOMBS
+    STA z:player.powerups,X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1875,10 +1917,10 @@ i16
     SEP #0x20
     INC a:player.collected_kicks,X
     
-    LDA z:player.powerups_2 + 1,X
-    ORA #high(POWERUPS_2_KICK)
-    AND #low(~high(POWERUPS_2_BOMB_PASS))
-    STA z:player.powerups_2 + 1,X
+    LDA z:player.powerups + 1,X
+    ORA #high(POWERUPS_KICK)
+    AND #low(~high(POWERUPS_BOMB_PASS))
+    STA z:player.powerups + 1,X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1900,9 +1942,9 @@ i16
     SEP #0x20
     INC a:player.collected_punches,X
     
-    LDA z:player.powerups_2 + 1,X
-    ORA #high(POWERUPS_2_PUNCH)
-    STA z:player.powerups_2 + 1,X
+    LDA z:player.powerups + 1,X
+    ORA #high(POWERUPS_PUNCH)
+    STA z:player.powerups + 1,X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1977,9 +2019,9 @@ set_player_hit:
 heart_bonus:
 i16
     SEP #0x20
-    LDA z:player.powerups_2 + 1,X
-    ORA #high(POWERUPS_2_HEART)
-    STA z:player.powerups_2 + 1,X
+    LDA z:player.powerups + 1,X
+    ORA #high(POWERUPS_HEART)
+    STA z:player.powerups + 1,X
     
     ; Add 800 to the score
     REP #0x20
@@ -2025,7 +2067,7 @@ i16
     BEQ .extra_life
     CMP #EXIT
     BEQ .extra_life
-    CMP #0x13
+    CMP #RANDOM
     BNE +
 
 .extra_life:

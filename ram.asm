@@ -52,28 +52,44 @@ org 0x7E0CE0
 multitap_status:
 org 0x7E0CE6 - USE_MULTI5_BIOS * 5
 joypad_1:
-org 0x7E0CE8 - USE_MULTI5_BIOS * 5
+    ds 2
 joypad_2:
-org 0x7E0CEA - USE_MULTI5_BIOS * 5
+    ds 2
 joypad_3:
-org 0x7E0CEC - USE_MULTI5_BIOS * 5
+    ds 2
 joypad_4:
-org 0x7E0CEE - USE_MULTI5_BIOS * 5
+    ds 2
 joypad_5:
+
 org 0x7E0CE1 + USE_MULTI5_BIOS * 0xA
 joypad_1_connected:
-org 0x7E0CE2 + USE_MULTI5_BIOS * 0xA
+    ds 1
 joypad_2_connected:
-org 0x7E0CE3 + USE_MULTI5_BIOS * 0xA
+    ds 1
 joypad_3_connected:
-org 0x7E0CE4 + USE_MULTI5_BIOS * 0xA
+    ds 1
 joypad_4_connected:
-org 0x7E0CE5 + USE_MULTI5_BIOS * 0xA
+    ds 1
 joypad_5_connected:
+    ds 1
+    
 org 0x7E0CF0
 joypad_1_previous:
-org 0x7E0CF8
+    ds 2
+joypad_2_previous:
+    ds 2
+joypad_3_previous:
+    ds 2
+joypad_4_previous:
+    ds 2
 joypad_1_pressed:
+    ds 2
+joypad_2_pressed:
+    ds 2
+joypad_3_pressed:
+    ds 2
+joypad_4_pressed:
+    ds 2
 
 org 0x7E0D40
 player_1:
@@ -255,6 +271,7 @@ word_7E0078:
 org 0x7E007A
 word_7E007A:
 org 0x7E00A4
+debug_menu_data:
 current_screen:
     ds 1
 debug_no_death:
@@ -430,8 +447,6 @@ org 0x7E2808
 byte3_7E2808:
 org 0x7E280C
 byte3_7E280C:
-org 0x7E0CFA
-joypad_2_pressed:
 org 0x7E0C61
 word_7E0C61:
 org 0x7E0C65
@@ -462,20 +477,6 @@ org 0x7F06B0
 unk_7F06B0:
 org 0x7E00A0
 word_7E00A0:
-org 0x7E00A2
-word_7E00A2:
-org 0x7E00A7
-word_7E00A7:
-org 0x7E00A9
-word_7E00A9:
-org 0x7E00AB
-word_7E00AB:
-org 0x7E00AD
-word_7E00AD:
-org 0x7E00AF
-word_7E00AF:
-org 0x7E00B1
-word_7E00B1:
 org 0x7E00B6
 word_7E00B6:
 org 0x7E0304
@@ -487,7 +488,7 @@ word_7E030C:
 org 0x7E030E
 word_7E030E:
 org 0x7E0316
-word_7E0316:
+debug_cursor:
 org 0x7E0318
 word_7E0318:
 org 0x7E0C3F
