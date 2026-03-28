@@ -97,7 +97,9 @@ player_4_extra:
     ds object.sizeof
     
 org 0x7E0FC0
-unknown_object:
+pause_object:
+    pause_handler
+    
 org 0x7E2180
 bg3_ram_map:
 org 0x7E2800

@@ -4622,15 +4622,7 @@ create_bonus_object:
     PHA
     STY z:0x46
     SEP #0x20
-    LDA #low(bonus_handling_object)
-    STA z:0xDB
-    LDA #high(bonus_handling_object)
-    STA z:0xDC
-    LDA #bank(bonus_handling_object)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object bonus_handling_object
     REP #0x20
     PLA
     BCS .locret_C424D2
@@ -4701,15 +4693,7 @@ sub_C42517:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    LDA #low(sub_C4257B)
-    STA z:0xDB
-    LDA #high(sub_C4257B)
-    STA z:0xDC
-    LDA #bank(sub_C4257B)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C4257B
     REP #0x20
     BCS .loc_C42553
     LDA z:0x42
@@ -5079,15 +5063,7 @@ sub_C4273F:
 
 create_score_popup:
     SEP #0x20
-    LDA #low(score_popup)
-    STA z:0xDB
-    LDA #high(score_popup)
-    STA z:0xDC
-    LDA #bank(score_popup)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object score_popup
     BCC .loc_C427FD
     JML .locret_C42815
 
@@ -6659,15 +6635,7 @@ sub_C43415:
 sub_C434D7:
 i16
     SEP #0x20
-    LDA #low(.loc_C434FC)
-    STA z:0xDB
-    LDA #high(.loc_C434FC)
-    STA z:0xDC
-    LDA #bank(.loc_C434FC)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object .loc_C434FC
     REP #0x20
     BCC .loc_C434F5
     JML sub_C436C1.locret_C436FC
@@ -6739,15 +6707,7 @@ unknown_random_bonus_list:
 sub_C43573:
     STY z:0x40
     SEP #0x20
-    LDA #low(.loc_C43599)
-    STA z:0xDB
-    LDA #high(.loc_C43599)
-    STA z:0xDC
-    LDA #bank(.loc_C43599)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object .loc_C43599
     BCC .loc_C43591
     JML sub_C436C1.locret_C436FC
 
@@ -6914,15 +6874,7 @@ sub_C43573:
 
 sub_C436C1:
     SEP #0x20
-    LDA #low(mecha_bomberman_related.loc_C4375E)
-    STA z:0xDB
-    LDA #high(mecha_bomberman_related.loc_C4375E)
-    STA z:0xDC
-    LDA #bank(mecha_bomberman_related.loc_C4375E)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object mecha_bomberman_related.loc_C4375E
     BCS .locret_C436FC
     SEP #0x20
     LDA #0xFF
@@ -7897,15 +7849,7 @@ sub_C43DA2:
     
 sub_C43E75:
     SEP #0x20
-    LDA #low(.loc_C43E99)
-    STA z:0xDB
-    LDA #high(.loc_C43E99)
-    STA z:0xDC
-    LDA #bank(.loc_C43E99)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object .loc_C43E99
     REP #0x20
     BCC .loc_C43E93
     JML .loc_C43E97
@@ -9588,15 +9532,7 @@ sub_C44945:
     STA z:0x40
     BEQ .locret_C44997
     SEP #0x20
-    LDA #low(sub_C44998)
-    STA z:0xDB
-    LDA #high(sub_C44998)
-    STA z:0xDC
-    LDA #bank(sub_C44998)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C44998
     REP #0x20
     BCC .loc_C4497C
     JML .locret_C44997
@@ -9684,15 +9620,7 @@ byte_C44A06:
     db 0x6B    ; 0x10
 sub_C44A17:
     SEP #0x20
-    LDA #low(sub_C44A68)
-    STA z:0xDB
-    LDA #high(sub_C44A68)
-    STA z:0xDC
-    LDA #bank(sub_C44A68)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C44A68
     REP #0x20
     BCC .loc_C44A35
     JML .locret_C44A67
@@ -12676,15 +12604,7 @@ sub_C45E5B:
 
 create_random_bomb_drop:
     SEP #0x20
-    LDA #low(sub_C45F1E)
-    STA z:0xDB
-    LDA #high(sub_C45F1E)
-    STA z:0xDC
-    LDA #bank(sub_C45F1E)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C45F1E
     REP #0x20
     BCS .locret_C45F1D
     LDA #0x100
@@ -13419,15 +13339,7 @@ sub_C465CB:
     
 sub_C465EB:
     SEP #0x20
-    LDA #low(.loc_C46616)
-    STA z:0xDB
-    LDA #high(.loc_C46616)
-    STA z:0xDC
-    LDA #bank(.loc_C46616)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object .loc_C46616
     BCS .locret_C46615
     REP #0x20
     LDA z:0x40
@@ -14109,10 +14021,10 @@ i16
     JSL palette_related
     REP #0x20
     LDA #0
-    STA a:addr(unknown_object+0x20) ; orig=0x0FE0
+    STA a:addr(pause_object.state) ; orig=0x0FE0
     LDA #0x3FF
-    STA a:addr(unknown_object+0x22) ; orig=0x0FE2
-    LDA a:addr(unknown_object+0x22) ; orig=0x0FE2
+    STA a:addr(pause_object.scroll) ; orig=0x0FE2
+    LDA a:addr(pause_object.scroll) ; orig=0x0FE2
     STA a:addr(bg3_v_scroll_2) ; orig=0x0CA7
     REP #0x20
     LDA #addr(sub_C46C0B)
@@ -15325,7 +15237,7 @@ i16
     LDA #0x64
     STA a:addr(max_object_pointer_object) ; orig=0x00BC
     LDY #0
-    LDX #addr(unknown_object)
+    LDX #addr(pause_object)
 
 .loc_C475FE:
     TXA
@@ -15369,15 +15281,7 @@ i16
     REP #0x20
     LDX #0xD00
     SEP #0x20
-    LDA #low(handle_pause)
-    STA z:0xDB
-    LDA #high(handle_pause)
-    STA z:0xDC
-    LDA #bank(handle_pause)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object handle_pause
     REP #0x20
     STZ a:addr(word_7E0078) ; orig=0x0078
     LDA #0x2C

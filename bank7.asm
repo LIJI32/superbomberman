@@ -418,15 +418,7 @@ byte_C705CF:
     animation_frame animation_frame_C705C4, 7
 sub_C705E0:
     SEP #0x20
-    LDA #low(sub_C705F7)
-    STA z:0xDB
-    LDA #high(sub_C705F7)
-    STA z:0xDC
-    LDA #bank(sub_C705F7)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C705F7
     RTL
 
 sub_C705F7:
@@ -607,15 +599,7 @@ word_C7074B:
     dw 0x5B, 0x73, 0x8B
 sub_C70751:
     SEP #0x20
-    LDA #low(sub_C7076E)
-    STA z:0xDB
-    LDA #high(sub_C7076E)
-    STA z:0xDC
-    LDA #bank(sub_C7076E)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C7076E
     REP #0x20
     TXA
     STA a:addr(0x20),Y
@@ -660,15 +644,7 @@ word_C707C9:
     dw 0xF, 0x10, 0x11
 sub_C707ED:
     SEP #0x20
-    LDA #low(sub_C7080A)
-    STA z:0xDB
-    LDA #high(sub_C7080A)
-    STA z:0xDC
-    LDA #bank(sub_C7080A)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C7080A
     REP #0x20
     TXA
     STA a:addr(0x20),Y
@@ -705,15 +681,7 @@ off_C70841:
     da byte_C70400, byte_C70405
 sub_C70845:
     SEP #0x20
-    LDA #low(sub_C7085C)
-    STA z:0xDB
-    LDA #high(sub_C7085C)
-    STA z:0xDC
-    LDA #bank(sub_C7085C)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C7085C
     RTL
 
 sub_C7085C:
@@ -740,15 +708,7 @@ sub_C7085C:
 
 sub_C7088B:
     SEP #0x20
-    LDA #low(sub_C708A2)
-    STA z:0xDB
-    LDA #high(sub_C708A2)
-    STA z:0xDC
-    LDA #bank(sub_C708A2)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C708A2
     RTL
 
 sub_C708A2:
@@ -774,15 +734,7 @@ sub_C708A2:
 sub_C708CC:
 i16
     SEP #0x20
-    LDA #low(sub_C708FE)
-    STA z:0xDB
-    LDA #high(sub_C708FE)
-    STA z:0xDC
-    LDA #bank(sub_C708FE)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C708FE
     REP #0x20
     BCC .loc_C708EA
     JML sub_C55264
@@ -1380,15 +1332,7 @@ create_crane_hand:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    LDA #low(crane_hand)
-    STA z:0xDB
-    LDA #high(crane_hand)
-    STA z:0xDC
-    LDA #bank(crane_hand)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object crane_hand
     REP #0x20
     LDA z:0x40
     AND #0xF0
@@ -2002,15 +1946,7 @@ sub_C7155E:
 
 create_crane_hand_hand:
     SEP #0x20
-    LDA #low(unknown_crane_object)
-    STA z:0xDB
-    LDA #high(unknown_crane_object)
-    STA z:0xDC
-    LDA #bank(unknown_crane_object)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object unknown_crane_object
     TXA
     STA a:addr(0x34),Y
     RTL
@@ -2330,15 +2266,7 @@ i16
 
 sub_C7180C:
     SEP #0x20
-    LDA #low(sub_C7184C)
-    STA z:0xDB
-    LDA #high(sub_C7184C)
-    STA z:0xDC
-    LDA #bank(sub_C7184C)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C7184C
     REP #0x20
     BCS .locret_C7184B
     LDA #0x30
@@ -2599,15 +2527,7 @@ unk_C71998:
 create_crane_hand_hand2:
 i16
     SEP #0x20
-    LDA #low(.loc_C719D9)
-    STA z:0xDB
-    LDA #high(.loc_C719D9)
-    STA z:0xDC
-    LDA #bank(.loc_C719D9)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object .loc_C719D9
     BCC .loc_C719D4
     JML sub_C71B1E
 
@@ -2877,15 +2797,7 @@ sub_C71BC8:
 
 sub_C71BDB:
     SEP #0x20
-    LDA #low(sub_C71C28)
-    STA z:0xDB
-    LDA #high(sub_C71C28)
-    STA z:0xDC
-    LDA #bank(sub_C71C28)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C71C28
     BCC .loc_C71BF7
     JML sub_C71B1E
 
@@ -3115,15 +3027,7 @@ word_C71DB3:
 sub_C71DCF:
 i16
     SEP #0x20
-    LDA #low(sub_C71E7A)
-    STA z:0xDB
-    LDA #high(sub_C71E7A)
-    STA z:0xDC
-    LDA #bank(sub_C71E7A)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C71E7A
     BCC .loc_C71DEB
     JML nullsub_11
 
@@ -3158,15 +3062,7 @@ i16
 
 sub_C71E32:
     SEP #0x20
-    LDA #low(sub_C71E7A)
-    STA z:0xDB
-    LDA #high(sub_C71E7A)
-    STA z:0xDC
-    LDA #bank(sub_C71E7A)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C71E7A
     BCS nullsub_11
     REP #0x20
     LDA #0xA30
@@ -3601,15 +3497,7 @@ create_bigaron:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    LDA #low(bigaron_intro)
-    STA z:0xDB
-    LDA #high(bigaron_intro)
-    STA z:0xDC
-    LDA #bank(bigaron_intro)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object bigaron_intro
     REP #0x20
     LDA z:0x40
     AND #0xF0
@@ -4263,15 +4151,7 @@ i16
 
 sub_C72916:
     SEP #0x20
-    LDA #low(sub_C7294D)
-    STA z:0xDB
-    LDA #high(sub_C7294D)
-    STA z:0xDC
-    LDA #bank(sub_C7294D)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C7294D
     BCS .locret_C7294C
     REP #0x20
     LDA a:addr(bg1_h_scroll) ; orig=0x0C9D
@@ -4354,15 +4234,7 @@ sub_C729AD:
 
 sub_C729C5:
     SEP #0x20
-    LDA #low(sub_C729EE)
-    STA z:0xDB
-    LDA #high(sub_C729EE)
-    STA z:0xDC
-    LDA #bank(sub_C729EE)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C729EE
     REP #0x20
     BCS .locret_C729ED
     LDA z:0x11,X
@@ -5569,15 +5441,7 @@ create_clown_mask:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    LDA #low(clown_mask)
-    STA z:0xDB
-    LDA #high(clown_mask)
-    STA z:0xDC
-    LDA #bank(clown_mask)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object clown_mask
     REP #0x20
     LDA z:0x40
     AND #0xF0
@@ -6184,15 +6048,7 @@ sub_C740B2:
 
 sub_C7412A:
     SEP #0x20
-    LDA #low(sub_C74158)
-    STA z:0xDB
-    LDA #high(sub_C74158)
-    STA z:0xDC
-    LDA #bank(sub_C74158)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C74158
     REP #0x20
     BCS .locret_C74157
     LDA z:0x11,X
@@ -6670,15 +6526,7 @@ create_mecha_onita:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    LDA #low(mecha_onita)
-    STA z:0xDB
-    LDA #high(mecha_onita)
-    STA z:0xDC
-    LDA #bank(mecha_onita)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object mecha_onita
     REP #0x20
     LDA z:0x40
     AND #0xF0
@@ -7240,15 +7088,7 @@ sub_C74A1C:
 
 sub_C74B29:
     SEP #0x20
-    LDA #low(sub_C74B73)
-    STA z:0xDB
-    LDA #high(sub_C74B73)
-    STA z:0xDC
-    LDA #bank(sub_C74B73)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C74B73
     REP #0x20
     BCS .locret_C74B72
     TXA
@@ -8248,15 +8088,7 @@ create_spiderer:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    LDA #low(sub_C75851)
-    STA z:0xDB
-    LDA #high(sub_C75851)
-    STA z:0xDC
-    LDA #bank(sub_C75851)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C75851
     REP #0x20
     LDA z:0x40
     AND #0xF0
@@ -8742,15 +8574,7 @@ i16
 
 sub_C75BB2:
     SEP #0x20
-    LDA #low(sub_C75BCF)
-    STA z:0xDB
-    LDA #high(sub_C75BCF)
-    STA z:0xDC
-    LDA #bank(sub_C75BCF)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C75BCF
     REP #0x20
     TXA
     STA a:addr(0x38),Y
@@ -8813,15 +8637,7 @@ sub_C75BCF:
 
 sub_C75C34:
     SEP #0x20
-    LDA #low(sub_C75C51)
-    STA z:0xDB
-    LDA #high(sub_C75C51)
-    STA z:0xDC
-    LDA #bank(sub_C75C51)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C75C51
     REP #0x20
     TXA
     STA a:addr(0x38),Y
@@ -8883,15 +8699,7 @@ sub_C75C51:
 
 sub_C75CBB:
     SEP #0x20
-    LDA #low(sub_C75CE4)
-    STA z:0xDB
-    LDA #high(sub_C75CE4)
-    STA z:0xDC
-    LDA #bank(sub_C75CE4)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C75CE4
     REP #0x20
     TXA
     STA a:addr(0x38),Y
@@ -9092,15 +8900,7 @@ sub_C75E02:
 
 sub_C75E56:
     SEP #0x20
-    LDA #low(sub_C75E73)
-    STA z:0xDB
-    LDA #high(sub_C75E73)
-    STA z:0xDC
-    LDA #bank(sub_C75E73)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C75E73
     REP #0x20
     TXA
     STA a:addr(0x38),Y
@@ -9932,15 +9732,7 @@ byte_C769A4:
     animation_frame animation_frame_C7693F, 0xFF
 sub_C769AE:
     SEP #0x20
-    LDA #low(sub_C769DD)
-    STA z:0xDB
-    LDA #high(sub_C769DD)
-    STA z:0xDC
-    LDA #bank(sub_C769DD)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C769DD
     REP #0x20
     BCC .loc_C769CC
     JML .locret_C769DC
@@ -10008,15 +9800,7 @@ word_C76A35:
 
 sub_C76A45:
     SEP #0x20
-    LDA #low(sub_C76A7B)
-    STA z:0xDB
-    LDA #high(sub_C76A7B)
-    STA z:0xDC
-    LDA #bank(sub_C76A7B)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C76A7B
     REP #0x20
     BCC .loc_C76A63
     JML sub_C769AE.locret_C769DC
@@ -10116,15 +9900,7 @@ i16
 
 create_uiteru_v:
     SEP #0x20
-    LDA #low(uiteru_v)
-    STA z:0xDB
-    LDA #high(uiteru_v)
-    STA z:0xDC
-    LDA #bank(uiteru_v)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object uiteru_v
     REP #0x20
     TXA
     STA a:addr(0x38),Y
@@ -10696,15 +10472,7 @@ sub_C76F62:
 
 sub_C76F8F:
     SEP #0x20
-    LDA #low(sub_C76FD6)
-    STA z:0xDB
-    LDA #high(sub_C76FD6)
-    STA z:0xDC
-    LDA #bank(sub_C76FD6)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C76FD6
     REP #0x20
     BCS .locret_C76FD5
     LDA z:0x11,X
@@ -11025,15 +10793,7 @@ nullsub_10:
     RTL
 sub_C7720C:
     SEP #0x20
-    LDA #low(sub_C77232)
-    STA z:0xDB
-    LDA #high(sub_C77232)
-    STA z:0xDC
-    LDA #bank(sub_C77232)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C77232
     REP #0x20
     BCS nullsub_10
     LDA #1
@@ -11060,15 +10820,7 @@ i16
 
 sub_C7724D:
     SEP #0x20
-    LDA #low(sub_C77277)
-    STA z:0xDB
-    LDA #high(sub_C77277)
-    STA z:0xDC
-    LDA #bank(sub_C77277)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C77277
     REP #0x20
     BCC .loc_C7726B
     JML nullsub_10
@@ -11234,15 +10986,7 @@ word_C773B7:
     dw 0xFFFF, 0x0002, 0xFFFE, 0xFFFF
 sub_C773D7:
     SEP #0x20
-    LDA #low(sub_C77415)
-    STA z:0xDB
-    LDA #high(sub_C77415)
-    STA z:0xDC
-    LDA #bank(sub_C77415)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C77415
     BCS .locret_C77414
     REP #0x20
     LDA z:0x50
@@ -11472,15 +11216,7 @@ sub_C7759C:
 
 sub_C775CC:
     SEP #0x20
-    LDA #low(sub_C775FF)
-    STA z:0xDB
-    LDA #high(sub_C775FF)
-    STA z:0xDC
-    LDA #bank(sub_C775FF)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C775FF
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     ORA #GAME_FLAGS_BATTLE_DELAY
@@ -11541,15 +11277,7 @@ sub_C77638:
 
 sub_C77657:
     SEP #0x20
-    LDA #low(sub_C77675)
-    STA z:0xDB
-    LDA #high(sub_C77675)
-    STA z:0xDC
-    LDA #bank(sub_C77675)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C77675
     REP #0x20
     LDA z:0x22,X
     STA a:addr(0x22),Y
@@ -11693,15 +11421,7 @@ byte_C77710:
     db 1
 sub_C77734:
     SEP #0x20
-    LDA #low(sub_C7774F)
-    STA z:0xDB
-    LDA #high(sub_C7774F)
-    STA z:0xDC
-    LDA #bank(sub_C7774F)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C7774F
     JSL sub_C777E6
     RTL
 
@@ -11783,15 +11503,7 @@ i16
 
 sub_C777E6:
     SEP #0x20
-    LDA #low(sub_C777FD)
-    STA z:0xDB
-    LDA #high(sub_C777FD)
-    STA z:0xDC
-    LDA #bank(sub_C777FD)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C777FD
     RTL
 
 sub_C777FD:

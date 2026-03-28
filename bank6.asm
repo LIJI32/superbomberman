@@ -1,16 +1,19 @@
 segment "BANK6"
 
+BG3_SCROLL_UNPAUSED = 0x3FF
+BG3_SCROLL_PAUSED = 0x428
+
 handle_pause:
 i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY
     BNE .ret
-    LDA z:0x20,X
-    BEQ +
-    JML sub_C60045
+    LDA z:pause_handler.state,X
+    BEQ .idle
+    JML animate_pause
 
-+
+.idle
     JSL should_toggle_pause
     BCS +
 ifndef DEBUG
@@ -34,18 +37,18 @@ endif
     JSL play_sound
     
     SEP #0x20
-    LDA #1
-    STA z:0x20,X
-    STZ z:0x21,X
-    LDA #0xFF
-    STA z:0x22,X
-    LDA #3
-    STA z:0x23,X
+    LDA #PAUSE_HANDLER_STATE_OPENING
+    STA z:pause_handler.state,X
+    STZ z:pause_handler.state + 1,X
+    LDA #low(BG3_SCROLL_UNPAUSED)
+    STA z:pause_handler.scroll,X
+    LDA #high(BG3_SCROLL_UNPAUSED)
+    STA z:pause_handler.scroll + 1,X
     RTL
 
 .unpause:
-    LDA #2
-    STA z:0x20,X
+    LDA #PAUSE_HANDLER_STATE_CLOSING
+    STA z:pause_handler.state,X
 
 .ret:
     RTL
@@ -53,35 +56,39 @@ endif
 .debug_ret:
     RTL
 
-sub_C60045:
+animate_pause:
     REP #0x20
-    LDA z:0x20,X
-    BIT #1
-    BNE .loc_C60065
-    LDA z:0x22,X
+    LDA z:pause_handler.state,X
+    BIT #PAUSE_HANDLER_STATE_OPENING
+    BNE .opening
+    
+    LDA z:pause_handler.scroll,X
     SEC
     SBC #5
-    CMP #0x3FF
-    STA z:0x22,X
-    BCS .loc_C60079
-    LDA #0x3FF
-    STA z:0x22,X
-    STZ z:0x20,X
-    BRA .loc_C60079
+    CMP #BG3_SCROLL_UNPAUSED
+    STA z:pause_handler.scroll,X
+    BCS .done
+    
+    LDA #BG3_SCROLL_UNPAUSED ; Overflowed, cap the value
+    STA z:pause_handler.scroll,X
+    STZ z:pause_handler.state,X
+    BRA .done
     RTL
 
-.loc_C60065:
-    LDA z:0x22,X
+.opening:
+    LDA z:pause_handler.scroll,X
     CLC
     ADC #5
-    CMP #0x428
-    STA z:0x22,X
-    BCC .loc_C60079
-    LDA #0x428
-    STA z:0x22,X
-    STZ z:0x20,X
+    
+    CMP #BG3_SCROLL_PAUSED
+    STA z:pause_handler.scroll,X
+    BCC .done
+    
+    LDA #BG3_SCROLL_PAUSED ; Overflowed, cap the value
+    STA z:pause_handler.scroll,X
+    STZ z:pause_handler.state,X
 
-.loc_C60079:
+.done:
     REP #0x20
     LDA z:0x22,X
     STA a:addr(bg3_v_scroll_2) ; orig=0x0CA7
@@ -182,20 +189,20 @@ open_debug_menu:
     ORA #0x20
     STA f:[z:0x53]
     REP #0x20
-    LDA #addr(sub_C6011B)
-    STA z:0,X
+    LDA #addr(debug_menu_initializer)
+    STA z:object.handler,X
     SEP #0x20
-    LDA #bank(sub_C6011B)
-    STA z:2,X
+    LDA #bank(debug_menu_initializer)
+    STA z:object.handler + 2,X
     RTL
 
-sub_C6011B:
+debug_menu_initializer:
     REP #0x20
     LDA #addr(handle_pause)
-    STA z:0,X
+    STA z:object.handler,X
     SEP #0x20
     LDA #bank(handle_pause)
-    STA z:2,X
+    STA z:object.handler + 2,X
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     ORA #GAME_FLAGS_DEBUG_MENU
@@ -835,10 +842,10 @@ sub_C6053C:
     PLX
     REP #0x20
     LDA #addr(handle_pause)
-    STA z:0,X
+    STA z:object.handler,X
     SEP #0x20
     LDA #bank(handle_pause)
-    STA z:2,X
+    STA z:object.handler + 2,X
     RTL
 
 .loc_C605DD:
@@ -846,10 +853,10 @@ sub_C6053C:
     PLX
     REP #0x20
     LDA #addr(handle_pause)
-    STA z:0,X
+    STA z:object.handler,X
     SEP #0x20
     LDA #bank(handle_pause)
-    STA z:2,X
+    STA z:object.handler + 2,X
     RTL
 
 sub_C605EE:
@@ -1557,7 +1564,7 @@ sub_C60C35:
     RTL
 
 bonus_handlers:
-    da handle_pause, bomb_up_bonus, fire_up_bonus, remote_control_bonus, speed_up_bonus, vest, extra_life_bonus, bomb_pass_bonus
+    da 0, bomb_up_bonus, fire_up_bonus, remote_control_bonus, speed_up_bonus, vest, extra_life_bonus, bomb_pass_bonus
     da wall_pass_bonus, extra_time_bonus, full_fire_bonus, red_bombs_bonus, kick_bonus, punch_bonus, onigiri_bonus, poison_bonus
     da exit_bonus, heart_bonus, cake_bonus, question_mark_bonus, kendama_bonus, apple_bonus, fire_extinguisher_bonus, popsicle_bonus
     da ice_cream_bonus, poison_bonus, poison_bonus, unused_bonus, unused_bonus, unused_bonus, unused_bonus, unused_bonus
@@ -2190,15 +2197,7 @@ poison_table:
     
 sub_C6119A:
     SEP #0x20
-    LDA #low(sub_C611BA)
-    STA z:0xDB
-    LDA #high(sub_C611BA)
-    STA z:0xDC
-    LDA #bank(sub_C611BA)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C611BA
     BCS .ret
     SEP #0x20
     LDA #2
@@ -2355,7 +2354,7 @@ i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     ; The bit it's setting off isn't even used, what is it trying to achieve?
-    AND #~(GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_UNKNOWN | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY | GAME_FLAGS_LEVEL_END | GAME_FLAGS_DEBUG_MENU)
+    AND #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_UNKNOWN | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY | GAME_FLAGS_LEVEL_END | GAME_FLAGS_DEBUG_MENU
     STA a:addr(game_flags) ; orig=0x0314
     JSL delete_object
 
@@ -2398,15 +2397,7 @@ word_C6132D:
 sub_C61373:
     STY z:0x40
     SEP #0x20
-    LDA #low(sub_C6139F)
-    STA z:0xDB
-    LDA #high(sub_C6139F)
-    STA z:0xDC
-    LDA #bank(sub_C6139F)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C6139F
     REP #0x20
     BCC .loc_C61393
     JML sub_C6119A.ret
@@ -4088,15 +4079,7 @@ sub_C6207D:
 
 sub_C620A4:
     SEP #0x20
-    LDA #low(sub_C620C4)
-    STA z:0xDB
-    LDA #high(sub_C620C4)
-    STA z:0xDC
-    LDA #bank(sub_C620C4)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C620C4
     REP #0x20
     BCS .locret_C620C3
     LDA z:0x40
@@ -5486,15 +5469,7 @@ some_graphic_offsets_array:
     dw 0
 hidden_bonus_object:
     SEP #0x20
-    LDA #low(sub_C62B03)
-    STA z:0xDB
-    LDA #high(sub_C62B03)
-    STA z:0xDC
-    LDA #bank(sub_C62B03)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C62B03
     REP #0x20
     LDA f:[z:0x50]
     STA a:addr(0x16),Y
@@ -6164,15 +6139,7 @@ nullsub_6:
     RTL
 sub_C631D7:
     SEP #0x20
-    LDA #low(sub_C6326B)
-    STA z:0xDB
-    LDA #high(sub_C6326B)
-    STA z:0xDC
-    LDA #bank(sub_C6326B)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C6326B
     BCC .loc_C631F3
     JML nullsub_6
 
@@ -6301,15 +6268,7 @@ sub_C632C8:
 
 sub_C632DF:
     SEP #0x20
-    LDA #low(sub_C63321)
-    STA z:0xDB
-    LDA #high(sub_C63321)
-    STA z:0xDC
-    LDA #bank(sub_C63321)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C63321
     REP #0x20
     BCC .loc_C632FD
     JML nullsub_6
@@ -6341,15 +6300,7 @@ sub_C63321:
 
 create_enemy_explosion:
     SEP #0x20
-    LDA #low(enemy_explosion)
-    STA z:0xDB
-    LDA #high(enemy_explosion)
-    STA z:0xDC
-    LDA #bank(enemy_explosion)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object enemy_explosion
     BCC .loc_C63348
     JML nullsub_6
 
@@ -10141,15 +10092,7 @@ create_metal_kuwagen:
     i16
     STY z:0x56
     SEP #0x20
-    LDA #low(kuwagen)
-    STA z:0xDB
-    LDA #high(kuwagen)
-    STA z:0xDC
-    LDA #bank(kuwagen)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object kuwagen
     REP #0x20
     BCC .loc_C658E6
     JML create_enemy_ret
@@ -10208,15 +10151,7 @@ create_metal_kuwagen:
 create_kuwagen:
     STY z:0x56
     SEP #0x20
-    LDA #low(kuwagen)
-    STA z:0xDB
-    LDA #high(kuwagen)
-    STA z:0xDC
-    LDA #bank(kuwagen)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object kuwagen
     REP #0x20
     BCS create_enemy_ret
     LDA #0
@@ -10337,15 +10272,7 @@ _kuwagen:
 create_senshiyan:
     STY z:0x56
     SEP #0x20
-    LDA #low(senshiyan)
-    STA z:0xDB
-    LDA #high(senshiyan)
-    STA z:0xDC
-    LDA #bank(senshiyan)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object senshiyan
     REP #0x20
     BCC .loc_C65A8F
     JML create_enemy_ret
@@ -10536,15 +10463,7 @@ sub_C65BCB:
 
 create_senshiyan_part:
     SEP #0x20
-    LDA #low(sub_C65C3B)
-    STA z:0xDB
-    LDA #high(sub_C65C3B)
-    STA z:0xDC
-    LDA #bank(sub_C65C3B)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C65C3B
     BCC .loc_C65C20
     JML create_enemy_ret
 
@@ -10728,15 +10647,7 @@ sub_C65D14:
 
 sub_C65D5E:
     SEP #0x20
-    LDA #low(sub_C65DB6)
-    STA z:0xDB
-    LDA #high(sub_C65DB6)
-    STA z:0xDC
-    LDA #bank(sub_C65DB6)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C65DB6
     BCC .loc_C65D7A
     JML create_enemy_ret
 
@@ -10997,15 +10908,7 @@ off_C65F01:
 create_metal_propene:
     STY z:0x56
     SEP #0x20
-    LDA #low(metal_propene)
-    STA z:0xDB
-    LDA #high(metal_propene)
-    STA z:0xDC
-    LDA #bank(metal_propene)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object metal_propene
     REP #0x20
     BCC .loc_C65F27
     JML create_enemy_ret
@@ -11127,15 +11030,7 @@ metal_propene:
 create_propene:
     STY z:0x56
     SEP #0x20
-    LDA #low(propene)
-    STA z:0xDB
-    LDA #high(propene)
-    STA z:0xDC
-    LDA #bank(propene)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object propene
     REP #0x20
     BCC .loc_C66039
     JML create_enemy_ret
@@ -11257,15 +11152,7 @@ _propene:
 create_denkyun:
     STY z:0x56
     SEP #0x20
-    LDA #low(denkyun)
-    STA z:0xDB
-    LDA #high(denkyun)
-    STA z:0xDC
-    LDA #bank(denkyun)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object denkyun
     REP #0x20
     BCC .loc_C6614B
     JML create_enemy_ret
@@ -11387,15 +11274,7 @@ denkyun:
 create_starnuts:
     STY z:0x56
     SEP #0x20
-    LDA #low(starnuts)
-    STA z:0xDB
-    LDA #high(starnuts)
-    STA z:0xDC
-    LDA #bank(starnuts)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object starnuts
     REP #0x20
     BCC .loc_C6625D
     JML create_enemy_ret
@@ -11517,15 +11396,7 @@ starnuts:
 create_banen:
     STY z:0x56
     SEP #0x20
-    LDA #low(banen)
-    STA z:0xDB
-    LDA #high(banen)
-    STA z:0xDC
-    LDA #bank(banen)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object banen
     REP #0x20
     BCC .loc_C6636F
     JML create_enemy_ret
@@ -11648,15 +11519,7 @@ banen:
 create_cuppen:
     STY z:0x56
     SEP #0x20
-    LDA #low(cuppen)
-    STA z:0xDB
-    LDA #high(cuppen)
-    STA z:0xDC
-    LDA #bank(cuppen)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object cuppen
     REP #0x20
     BCC .loc_C66483
     JML create_enemy_ret
@@ -11778,15 +11641,7 @@ cuppen:
 create_keibin:
     STY z:0x56
     SEP #0x20
-    LDA #low(keibin)
-    STA z:0xDB
-    LDA #high(keibin)
-    STA z:0xDC
-    LDA #bank(keibin)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object keibin
     REP #0x20
     BCC .loc_C66595
     JML create_enemy_ret
@@ -11908,15 +11763,7 @@ keibin:
 create_anzenda:
     STY z:0x56
     SEP #0x20
-    LDA #low(anzenda)
-    STA z:0xDB
-    LDA #high(anzenda)
-    STA z:0xDC
-    LDA #bank(anzenda)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object anzenda
     REP #0x20
     BCC .loc_C666A7
     JML create_enemy_ret
@@ -12038,15 +11885,7 @@ anzenda:
 create_yoroisu:
     STY z:0x56
     SEP #0x20
-    LDA #low(yoroisu)
-    STA z:0xDB
-    LDA #high(yoroisu)
-    STA z:0xDC
-    LDA #bank(yoroisu)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object yoroisu
     REP #0x20
     BCC .loc_C667B9
     JML create_enemy_ret
@@ -12213,15 +12052,7 @@ byte_C668F9:
 create_chameleoman:
     STY z:0x56
     SEP #0x20
-    LDA #low(chameleoman)
-    STA z:0xDB
-    LDA #high(chameleoman)
-    STA z:0xDC
-    LDA #bank(chameleoman)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object chameleoman
     REP #0x20
     BCC .loc_C6691D
     JML create_enemy_ret
@@ -12625,15 +12456,7 @@ create_missle:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    LDA #low(missle)
-    STA z:0xDB
-    LDA #high(missle)
-    STA z:0xDC
-    LDA #bank(missle)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object missle
     REP #0x20
     BCC .loc_C66C5E
     JML create_enemy_ret
@@ -12753,15 +12576,7 @@ missle:
     JMP a:addr(.loc_C66DE1)
     STY z:0x56
     SEP #0x20
-    LDA #low(.loc_C66DE1)
-    STA z:0xDB
-    LDA #high(.loc_C66DE1)
-    STA z:0xDC
-    LDA #bank(.loc_C66DE1)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object .loc_C66DE1
     REP #0x20
     BCC .loc_C66D63
     JML create_enemy_ret
@@ -12892,15 +12707,7 @@ missle:
 create_kouraru:
     STY z:0x56
     SEP #0x20
-    LDA #low(kouraru)
-    STA z:0xDB
-    LDA #high(kouraru)
-    STA z:0xDC
-    LDA #bank(kouraru)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object kouraru
     REP #0x20
     BCC .loc_C66E86
     JML create_enemy_ret
@@ -13022,15 +12829,7 @@ kouraru:
 create_pakupa:
     STY z:0x56
     SEP #0x20
-    LDA #low(pakupa)
-    STA z:0xDB
-    LDA #high(pakupa)
-    STA z:0xDC
-    LDA #bank(pakupa)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object pakupa
     REP #0x20
     BCC .loc_C66F98
     JML create_enemy_ret
@@ -13169,15 +12968,7 @@ replace_bomb_with_hard_block:
 create_douken:
     STY z:0x56
     SEP #0x20
-    LDA #low(douken)
-    STA z:0xDB
-    LDA #high(douken)
-    STA z:0xDC
-    LDA #bank(douken)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object douken
     REP #0x20
     BCC .loc_C670C6
     JML create_enemy_ret
@@ -13301,15 +13092,7 @@ douken:
 create_dengurin:
     STY z:0x56
     SEP #0x20
-    LDA #low(dengurin)
-    STA z:0xDB
-    LDA #high(dengurin)
-    STA z:0xDC
-    LDA #bank(dengurin)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object dengurin
     REP #0x20
     BCC .loc_C671DC
     JML create_enemy_ret
@@ -13431,15 +13214,7 @@ dengurin:
 create_robocom:
     STY z:0x56
     SEP #0x20
-    LDA #low(robocom)
-    STA z:0xDB
-    LDA #high(robocom)
-    STA z:0xDC
-    LDA #bank(robocom)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object robocom
     REP #0x20
     BCC .loc_C672EE
     JML create_enemy_ret
@@ -13564,15 +13339,7 @@ robocom:
 create_metal_u:
     STY z:0x56
     SEP #0x20
-    LDA #low(metal_u)
-    STA z:0xDB
-    LDA #high(metal_u)
-    STA z:0xDC
-    LDA #bank(metal_u)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object metal_u
     REP #0x20
     BCC .loc_C67407
     JML create_enemy_ret
@@ -13697,15 +13464,7 @@ metal_u:
 create_kinkaru:
     STY z:0x56
     SEP #0x20
-    LDA #low(kinkaru)
-    STA z:0xDB
-    LDA #high(kinkaru)
-    STA z:0xDC
-    LDA #bank(kinkaru)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object kinkaru
     REP #0x20
     BCC .loc_C67520
     JML create_enemy_ret
@@ -13830,15 +13589,7 @@ kinkaru:
 create_moguchan:
     STY z:0x56
     SEP #0x20
-    LDA #low(moguchan)
-    STA z:0xDB
-    LDA #high(moguchan)
-    STA z:0xDC
-    LDA #bank(moguchan)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object moguchan
     REP #0x20
     BCC .loc_C67639
     JML create_enemy_ret
@@ -14108,15 +13859,7 @@ sub_C67825:
 create_red_bakuda:
     STY z:0x56
     SEP #0x20
-    LDA #low(bakuda)
-    STA z:0xDB
-    LDA #high(bakuda)
-    STA z:0xDC
-    LDA #bank(bakuda)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object bakuda
     REP #0x20
     BCC .loc_C67862
     JML create_enemy_ret
@@ -14177,15 +13920,7 @@ create_red_bakuda:
 create_bakuda:
     STY z:0x56
     SEP #0x20
-    LDA #low(bakuda)
-    STA z:0xDB
-    LDA #high(bakuda)
-    STA z:0xDC
-    LDA #bank(bakuda)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object bakuda
     REP #0x20
     BCC .loc_C67900
     JML create_enemy_ret
@@ -14453,15 +14188,7 @@ sub_C679C8:
 create_kierun:
     STY z:0x56
     SEP #0x20
-    LDA #low(kierun)
-    STA z:0xDB
-    LDA #high(kierun)
-    STA z:0xDC
-    LDA #bank(kierun)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object kierun
     REP #0x20
     BCC .loc_C67B31
     JML create_enemy_ret

@@ -44,6 +44,22 @@ struct object
     org 0x40
 endstruct
 
+struct pause_handler
+    object
+    
+org 0x20
+.state
+    ds 2
+.scroll
+    ds 2
+
+org 0x40
+endstruct
+
+PAUSE_HANDLER_STATE_IDLE = 0
+PAUSE_HANDLER_STATE_OPENING = 1
+PAUSE_HANDLER_STATE_CLOSING = 2
+
 ; Fields that are common to both player, enemy and most other visible objects
 struct sprite
     object

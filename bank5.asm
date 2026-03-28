@@ -2997,15 +2997,7 @@ sub_C53967:
     RTL
 sub_C53976:
     SEP #0x20
-    LDA #low(sub_C539B7)
-    STA z:0xDB
-    LDA #high(sub_C539B7)
-    STA z:0xDC
-    LDA #bank(sub_C539B7)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C539B7
     BCC .loc_C53992
     JML nullsub_C53A06
 
@@ -3051,15 +3043,7 @@ sub_C539B7:
 
 sub_C539E2:
     SEP #0x20
-    LDA #low(sub_C53A07)
-    STA z:0xDB
-    LDA #high(sub_C53A07)
-    STA z:0xDC
-    LDA #bank(sub_C53A07)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53A07
     REP #0x20
     BCS nullsub_C53A06
     LDA z:0x11,X
@@ -3101,15 +3085,7 @@ sub_C53A07:
 
 draw_falling_letters:
     SEP #0x20
-    LDA #low(sub_C53A9F)
-    STA z:0xDB
-    LDA #high(sub_C53A9F)
-    STA z:0xDC
-    LDA #bank(sub_C53A9F)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53A9F
     REP #0x20
     LDA #0x3F
     STA z:0x40
@@ -3163,15 +3139,7 @@ sub_C53A9F:
 
 sub_C53ACB:
     SEP #0x20
-    LDA #low(sub_C53B0B)
-    STA z:0xDB
-    LDA #high(sub_C53B0B)
-    STA z:0xDC
-    LDA #bank(sub_C53B0B)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53B0B
     REP #0x20
     LDA #0x830
     STA a:addr(0xE),Y
@@ -3237,15 +3205,7 @@ sub_C53B0B:
 
 sub_C53B5D:
     SEP #0x20
-    LDA #low(sub_C53B7C)
-    STA z:0xDB
-    LDA #high(sub_C53B7C)
-    STA z:0xDC
-    LDA #bank(sub_C53B7C)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53B7C
     REP #0x20
     BCC .locret_C53B7B
     JML sub_C55264
@@ -3317,15 +3277,7 @@ i16
 
 sub_C53BF7:
     SEP #0x20
-    LDA #low(sub_C53C16)
-    STA z:0xDB
-    LDA #high(sub_C53C16)
-    STA z:0xDC
-    LDA #bank(sub_C53C16)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53C16
     REP #0x20
     BCC .locret_C53C15
     JML sub_C55264
@@ -3395,15 +3347,7 @@ sub_C53C16:
 
 sub_C53C8A:
     SEP #0x20
-    LDA #low(sub_C53CA9)
-    STA z:0xDB
-    LDA #high(sub_C53CA9)
-    STA z:0xDC
-    LDA #bank(sub_C53CA9)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53CA9
     REP #0x20
     BCC .locret_C53CA8
     JML sub_C55264
@@ -3672,15 +3616,7 @@ sub_C53E6B:
 
 sub_C53E80:
     SEP #0x20
-    LDA #low(sub_C53EAB)
-    STA z:0xDB
-    LDA #high(sub_C53EAB)
-    STA z:0xDC
-    LDA #bank(sub_C53EAB)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53EAB
     REP #0x20
     BCC .loc_C53E9E
     JML sub_C55264
@@ -3719,15 +3655,7 @@ sub_C53EAB:
 
 sub_C53EDE:
     SEP #0x20
-    LDA #low(sub_C53F01)
-    STA z:0xDB
-    LDA #high(sub_C53F01)
-    STA z:0xDC
-    LDA #bank(sub_C53F01)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C53F01
     REP #0x20
     BCC .loc_C53EFC
     JML sub_C55264
@@ -3911,15 +3839,7 @@ create_moving_platforms:
 
 create_moving_platform:
     SEP #0x20
-    LDA #low(moving_platform)
-    STA z:0xDB
-    LDA #high(moving_platform)
-    STA z:0xDC
-    LDA #bank(moving_platform)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object moving_platform
     REP #0x20
     BCC .loc_C54059
     JML sub_C55264
@@ -4078,15 +3998,7 @@ sub_C5414C:
 
 create_overlay_scroller:
     SEP #0x20
-    LDA #low(overlay_scroller)
-    STA z:0xDB
-    LDA #high(overlay_scroller)
-    STA z:0xDC
-    LDA #bank(overlay_scroller)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object overlay_scroller
     BCS .locret_C541C1
     REP #0x20
     LDA f:[z:0x50]
@@ -4144,15 +4056,7 @@ overlay_scroller:
 
 sub_C541F8:
     SEP #0x20
-    LDA #low(sub_C5421B)
-    STA z:0xDB
-    LDA #high(sub_C5421B)
-    STA z:0xDC
-    LDA #bank(sub_C5421B)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C5421B
     JSL sub_C54C8B
     JSL sub_C54CF7
     JSL sub_C54D63
@@ -4881,15 +4785,7 @@ byte_C54C86:
     animation_frame animation_frame_C54C14, 0xFF
 sub_C54C8B:
     SEP #0x20
-    LDA #low(sub_C54CA2)
-    STA z:0xDB
-    LDA #high(sub_C54CA2)
-    STA z:0xDC
-    LDA #bank(sub_C54CA2)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C54CA2
     RTL
 
 sub_C54CA2:
@@ -4937,15 +4833,7 @@ sub_C54CA2:
 
 sub_C54CF7:
     SEP #0x20
-    LDA #low(sub_C54D0E)
-    STA z:0xDB
-    LDA #high(sub_C54D0E)
-    STA z:0xDC
-    LDA #bank(sub_C54D0E)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C54D0E
     RTL
 
 sub_C54D0E:
@@ -4993,15 +4881,7 @@ sub_C54D0E:
 
 sub_C54D63:
     SEP #0x20
-    LDA #low(sub_C54D7A)
-    STA z:0xDB
-    LDA #high(sub_C54D7A)
-    STA z:0xDC
-    LDA #bank(sub_C54D7A)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C54D7A
     RTL
 
 sub_C54D7A:
@@ -5048,15 +4928,7 @@ sub_C54D7A:
 
 sub_C54DCD:
     SEP #0x20
-    LDA #low(sub_C54DEF)
-    STA z:0xDB
-    LDA #high(sub_C54DEF)
-    STA z:0xDC
-    LDA #bank(sub_C54DEF)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C54DEF
     REP #0x20
     LDA f:[z:0x50]
     STA a:addr(0x20),Y
@@ -5117,15 +4989,7 @@ sub_C54DEF:
 
 sub_C54E4A:
     SEP #0x20
-    LDA #low(sub_C54E77)
-    STA z:0xDB
-    LDA #high(sub_C54E77)
-    STA z:0xDC
-    LDA #bank(sub_C54E77)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C54E77
     SEP #0x20
     LDA #0
     STA a:addr(player_1.gameover_related) ; orig=0x0D44
@@ -5553,15 +5417,7 @@ else
 endif
 tile_animation:
     SEP #0x20
-    LDA #low(sub_C551B7)
-    STA z:0xDB
-    LDA #high(sub_C551B7)
-    STA z:0xDC
-    LDA #bank(sub_C551B7)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C551B7
     REP #0x20
     BCS .loc_C551AC
     LDA f:[z:0x50]
@@ -5669,15 +5525,7 @@ sub_C551F3:
 
 sub_C55240:
     SEP #0x20
-    LDA #low(sub_C55267)
-    STA z:0xDB
-    LDA #high(sub_C55267)
-    STA z:0xDC
-    LDA #bank(sub_C55267)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C55267
     REP #0x20
     BCS sub_C55264
     LDA f:[z:0x50]
@@ -5905,15 +5753,7 @@ endif
 
 sub_C553CF:
     SEP #0x20
-    LDA #low(sub_C553F3)
-    STA z:0xDB
-    LDA #high(sub_C553F3)
-    STA z:0xDC
-    LDA #bank(sub_C553F3)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C553F3
     REP #0x20
     BCC .loc_C553ED
     JML sub_C55264
@@ -6012,15 +5852,7 @@ sub_C55478:
 
 sub_C5549C:
     SEP #0x20
-    LDA #low(sub_C554FC)
-    STA z:0xDB
-    LDA #high(sub_C554FC)
-    STA z:0xDC
-    LDA #bank(sub_C554FC)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C554FC
     BCS nullsub_8
     REP #0x20
     TYA
@@ -6042,10 +5874,10 @@ sub_C5549C:
     STA a:addr(0x3F),Y
     REP #0x20
     LDA #2
-    STA a:addr(unknown_object+0x20) ; orig=0x0FE0
+    STA a:addr(pause_object.state) ; orig=0x0FE0
     LDA #0x428
-    STA a:addr(unknown_object+0x22) ; orig=0x0FE2
-    LDA a:addr(unknown_object+0x22) ; orig=0x0FE2
+    STA a:addr(pause_object.scroll) ; orig=0x0FE2
+    LDA a:addr(pause_object.scroll) ; orig=0x0FE2
     STA a:addr(bg3_v_scroll_2) ; orig=0x0CA7
     LDA #0x20
     STA a:addr(bg3_v_scroll) ; orig=0x0CA5
@@ -6304,8 +6136,8 @@ sub_C55661:
 sub_C556F1:
 i16
     PHX
-    LDX #0xFC0
-    JSL sub_C60045
+    LDX #addr(pause_object)
+    JSL animate_pause
     SEP #0x20
     LDA z:0x20,X
     PLX
@@ -6396,15 +6228,7 @@ sub_C5574C:
 
 sub_C55794:
     SEP #0x20
-    LDA #low(sub_C557DF)
-    STA z:0xDB
-    LDA #high(sub_C557DF)
-    STA z:0xDC
-    LDA #bank(sub_C557DF)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C557DF
     REP #0x20
     LDA f:[z:0x50]
     STA a:addr(0x1E),Y
@@ -6460,15 +6284,7 @@ sub_C557FD:
 
 sub_C5580F:
     SEP #0x20
-    LDA #low(sub_C5582C)
-    STA z:0xDB
-    LDA #high(sub_C5582C)
-    STA z:0xDC
-    LDA #bank(sub_C5582C)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C5582C
     BCC .locret_C5582B
     JML nullsub_8
 
@@ -6506,15 +6322,7 @@ sub_C5585F:
 
 create_flower_zone_handler:
     SEP #0x20
-    LDA #low(flower_zone_handler)
-    STA z:0xDB
-    LDA #high(flower_zone_handler)
-    STA z:0xDC
-    LDA #bank(flower_zone_handler)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object flower_zone_handler
     BCC .locret_C55880
     JML nullsub_8
 
@@ -6607,15 +6415,7 @@ word_C5590A:
     dw 0x84E, 0x84E, 0x84E, 0x806
 create_flower_creator:
     SEP #0x20
-    LDA #low(flower_creator)
-    STA z:0xDB
-    LDA #high(flower_creator)
-    STA z:0xDC
-    LDA #bank(flower_creator)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object flower_creator
     BCC .locret_C559A6
     JML nullsub_8
 
@@ -6781,15 +6581,7 @@ i16
 
 create_spotlight:
     SEP #0x20
-    LDA #low(spotlight)
-    STA z:0xDB
-    LDA #high(spotlight)
-    STA z:0xDC
-    LDA #bank(spotlight)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object spotlight
     BCC .locret_C55ADA
     JML nullsub_8
 
@@ -7104,15 +6896,7 @@ sub_C55C7F:
 
 sub_C55D23:
     SEP #0x20
-    LDA #low(sub_C55D57)
-    STA z:0xDB
-    LDA #high(sub_C55D57)
-    STA z:0xDC
-    LDA #bank(sub_C55D57)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C55D57
     REP #0x20
     BCS nullsub_C55D56
     LDA z:0x40
@@ -7152,15 +6936,7 @@ sub_C55D57:
 
 sub_C55D79:
     SEP #0x20
-    LDA #low(sub_C55D9A)
-    STA z:0xDB
-    LDA #high(sub_C55D9A)
-    STA z:0xDC
-    LDA #bank(sub_C55D9A)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C55D9A
     REP #0x20
     BCS nullsub_C55D56
     LDA #0x40
@@ -7223,15 +6999,7 @@ sub_C55DC7:
 
 sub_C55DF9:
     SEP #0x20
-    LDA #low(sub_C55E20)
-    STA z:0xDB
-    LDA #high(sub_C55E20)
-    STA z:0xDC
-    LDA #bank(sub_C55E20)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C55E20
     BCS .locret_C55E1F
     REP #0x20
     LDA #0
@@ -7280,15 +7048,7 @@ off_C55E58:
     da byte_C514A4, byte_C514A4
 sub_C55E66:
     SEP #0x20
-    LDA #low(sub_C55EA4)
-    STA z:0xDB
-    LDA #high(sub_C55EA4)
-    STA z:0xDC
-    LDA #bank(sub_C55EA4)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C55EA4
     REP #0x20
     BCC .loc_C55E84
     JML nullsub_C55D56
@@ -7370,15 +7130,7 @@ i16
 
 sub_C55F0A:
     SEP #0x20
-    LDA #low(sub_C55F5C)
-    STA z:0xDB
-    LDA #high(sub_C55F5C)
-    STA z:0xDC
-    LDA #bank(sub_C55F5C)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C55F5C
     REP #0x20
     BCC .loc_C55F28
     JML nullsub_C55D56
@@ -7494,15 +7246,7 @@ i16
 
 sub_C5600A:
     SEP #0x20
-    LDA #low(sub_C5602F)
-    STA z:0xDB
-    LDA #high(sub_C5602F)
-    STA z:0xDC
-    LDA #bank(sub_C5602F)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C5602F
     REP #0x20
     BCC .loc_C56028
     JML nullsub_C55D56
@@ -7531,15 +7275,7 @@ i16
 
 sub_C5604C:
     SEP #0x20
-    LDA #low(sub_C56071)
-    STA z:0xDB
-    LDA #high(sub_C56071)
-    STA z:0xDC
-    LDA #bank(sub_C56071)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C56071
     REP #0x20
     BCC .loc_C5606A
     JML nullsub_C55D56
@@ -7564,15 +7300,7 @@ i16
 
 sub_C56084:
     SEP #0x20
-    LDA #low(sub_C560A3)
-    STA z:0xDB
-    LDA #high(sub_C560A3)
-    STA z:0xDC
-    LDA #bank(sub_C560A3)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C560A3
     REP #0x20
     BCC .locret_C560A2
     JML nullsub_C55D56
@@ -7782,15 +7510,7 @@ byte_C56314:
     animation_frame animation_frame_C562B4, 0xFF
 draw_falling_bombermen:
     SEP #0x20
-    LDA #low(sub_C56338)
-    STA z:0xDB
-    LDA #high(sub_C56338)
-    STA z:0xDC
-    LDA #bank(sub_C56338)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C56338
     REP #0x20
     BCC .locret_C56337
     JML nullsub_C55D56
@@ -7915,15 +7635,7 @@ byte_C56407:
     db 8
 sub_C5640B:
     SEP #0x20
-    LDA #low(sub_C56487)
-    STA z:0xDB
-    LDA #high(sub_C56487)
-    STA z:0xDC
-    LDA #bank(sub_C56487)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C56487
     REP #0x20
     BCC .loc_C56429
     JML nullsub_C55D56
@@ -8023,15 +7735,7 @@ sub_C56487:
 
 sub_C564DB:
     SEP #0x20
-    LDA #low(sub_C56515)
-    STA z:0xDB
-    LDA #high(sub_C56515)
-    STA z:0xDC
-    LDA #bank(sub_C56515)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C56515
     REP #0x20
     BCC .loc_C564F9
     JML nullsub_C56514
@@ -8544,15 +8248,7 @@ byte_C56BF5:
     animation_frame animation_frame_C56AA0, 0xFF
 sub_C56BFA:
     SEP #0x20
-    LDA #low(sub_C56C37)
-    STA z:0xDB
-    LDA #high(sub_C56C37)
-    STA z:0xDC
-    LDA #bank(sub_C56C37)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C56C37
 
 sub_C56C10:
     REP #0x20
@@ -8862,15 +8558,7 @@ off_C56E5F:
     da byte_C56305, byte_C5630A, byte_C56314, byte_C5630F
 sub_C56E67:
     SEP #0x20
-    LDA #low(sub_C56E92)
-    STA z:0xDB
-    LDA #high(sub_C56E92)
-    STA z:0xDC
-    LDA #bank(sub_C56E92)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C56E92
     REP #0x20
     BCC .loc_C56E85
     JML nullsub_7
@@ -8911,15 +8599,7 @@ word_C56EB2:
     dw 0x92
 sub_C56EB6:
     SEP #0x20
-    LDA #low(sub_C56ED5)
-    STA z:0xDB
-    LDA #high(sub_C56ED5)
-    STA z:0xDC
-    LDA #bank(sub_C56ED5)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C56ED5
     REP #0x20
     BCC .locret_C56ED4
     JML nullsub_7
@@ -9090,15 +8770,7 @@ i16
 
 sub_C57038:
     SEP #0x20
-    LDA #low(sub_C57057)
-    STA z:0xDB
-    LDA #high(sub_C57057)
-    STA z:0xDC
-    LDA #bank(sub_C57057)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C57057
     REP #0x20
     BCC .locret_C57056
     JML nullsub_7
@@ -9136,15 +8808,7 @@ sub_C57057:
 
 sub_C5708E:
     SEP #0x20
-    LDA #low(sub_C570CD)
-    STA z:0xDB
-    LDA #high(sub_C570CD)
-    STA z:0xDC
-    LDA #bank(sub_C570CD)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C570CD
     REP #0x20
     BCS .loc_C570C4
     LDA z:0x40
@@ -9203,15 +8867,7 @@ password_decryption_key:
 endif
 sub_C5710A:
     SEP #0x20
-    LDA #low(sub_C57129)
-    STA z:0xDB
-    LDA #high(sub_C57129)
-    STA z:0xDC
-    LDA #bank(sub_C57129)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C57129
     REP #0x20
     BCC .locret_C57128
     JML nullsub_7
@@ -9241,15 +8897,7 @@ sub_C57129:
 
 sub_C57153:
     SEP #0x20
-    LDA #low(sub_C57172)
-    STA z:0xDB
-    LDA #high(sub_C57172)
-    STA z:0xDC
-    LDA #bank(sub_C57172)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C57172
     REP #0x20
     BCC .locret_C57171
     JML nullsub_7
@@ -9532,15 +9180,7 @@ word_C5737E:
     dw 0xA888
 sub_C57382:
     SEP #0x20
-    LDA #low(sub_C573C7)
-    STA z:0xDB
-    LDA #high(sub_C573C7)
-    STA z:0xDC
-    LDA #bank(sub_C573C7)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C573C7
     REP #0x20
     BCC .loc_C573A0
     JML .loc_C573BC
@@ -9586,15 +9226,7 @@ sub_C573C7:
 
 sub_C573EA:
     SEP #0x20
-    LDA #low(sub_C57409)
-    STA z:0xDB
-    LDA #high(sub_C57409)
-    STA z:0xDC
-    LDA #bank(sub_C57409)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C57409
     REP #0x20
     BCC .locret_C57408
     JML nullsub_7
@@ -9747,15 +9379,7 @@ i16
     AND #0xFF
     BNE sub_C57542.loc_C57567
     SEP #0x20
-    LDA #low(.loc_C5753B)
-    STA z:0xDB
-    LDA #high(.loc_C5753B)
-    STA z:0xDC
-    LDA #bank(.loc_C5753B)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object .loc_C5753B
     REP #0x20
     BCS sub_C57542.loc_C57567
     LDA z:0x50
@@ -9770,15 +9394,7 @@ i16
 
 sub_C57542:
     SEP #0x20
-    LDA #low(sub_C57570)
-    STA z:0xDB
-    LDA #high(sub_C57570)
-    STA z:0xDC
-    LDA #bank(sub_C57570)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C57570
     REP #0x20
     BCS .loc_C57567
     LDA z:0x50
@@ -9871,15 +9487,7 @@ sub_C575FD:
 
 sub_C57602:
     SEP #0x20
-    LDA #low(sub_C57621)
-    STA z:0xDB
-    LDA #high(sub_C57621)
-    STA z:0xDC
-    LDA #bank(sub_C57621)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C57621
     REP #0x20
     BCC .locret_C57620
     JML nullsub_7
@@ -10346,15 +9954,7 @@ sub_C57ABF:
 sub_C57B11:
 i16
     SEP #0x20
-    LDA #low(sub_C57B47)
-    STA z:0xDB
-    LDA #high(sub_C57B47)
-    STA z:0xDC
-    LDA #bank(sub_C57B47)
-    STA z:0xDD
-    LDA #0x80
-    STA z:0xD3
-    JSL create_object
+    create_object sub_C57B47
     REP #0x20
     BCS .loc_C57B36
     LDA z:0x50
