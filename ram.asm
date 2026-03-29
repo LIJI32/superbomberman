@@ -1,7 +1,7 @@
 org 0x7E0078
-word_7E0078:
+small_allocator_cyclic_buffer_read_pointer:
     ds 2
-word_7E007A:
+small_allocator_cyclic_buffer_write_pointer:
     ds 2
     
 org 0x7E00A0
@@ -50,9 +50,9 @@ debug_se:
     ds 1
 
 org 0x7E00BA
-free_offset_in_object_pointer_array:
+allocator_cyclic_buffer_read_pointer:
     ds 2
-max_object_pointer_object:
+allocator_cyclic_buffer_write_pointer:
     ds 2
 word_7E00BE:
     ds 2
@@ -191,13 +191,14 @@ unk_7E031C:
     ds 10
     
 org 0x7E045C
-object_pointer_array:
-    ds 104
+allocator_cyclic_buffer:
+    ds (50 + 2) * 2
 .end
 
 org 0x7E04C4
-bomb_related_array:
+small_allocator_cyclic_buffer:
     ds 0x30
+.end
 bg1_tilemap:
 
 org 0x7E0816
@@ -471,15 +472,17 @@ word_7E0F46:
     ds 2
     
 org 0x7E1C80
-unk_7E1C80:
+unknown_static_small_object:
+    ds 0x20
+unknown_static_small_object_2:
+    ds 0x20
+small_objects:
+    ds 0x20 * 22
+.end
 
-org 0x7E1F80
-unk_7E1F80:
+unknown_palette_related_array:
+    ds 8 * 0x10
 
-org 0x7E1FC0
-unk_7E1FC0:
-
-org 0x7E2000
 unk_7E2000:
 
 org 0x7E2020

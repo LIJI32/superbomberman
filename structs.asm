@@ -46,7 +46,9 @@ endstruct
 
 struct dynamic_object
     object
-    org 4
+    org 3
+.execution_priority
+    ds 1
 .prev
     ds 2
 .next

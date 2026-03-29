@@ -429,7 +429,7 @@ endif
 
 .loc_C40417:
     REP #0x20
-    LDX #addr(unk_7E1C80)
+    LDX #addr(unknown_static_small_object)
 
 .loc_C4041C:
     LDA $az:addr(6),X
@@ -9840,7 +9840,7 @@ sub_C44BA4:
     REP #0x20
     LDA #addr(explode_bomb)
     STA z:0x40
-    JSL sub_C60AC0
+    JSL create_small_object
     BCC .loc_C44BB7
     JML .locret_C44BBA
 
@@ -9867,7 +9867,7 @@ i16
     REP #0x20
     LDA #addr(sub_C44DA9)
     STA z:0x40
-    JSL sub_C60AC0
+    JSL create_small_object
     BCC .loc_C44BE5
     JML sub_C44B99
 
@@ -10572,7 +10572,7 @@ sub_C44FCB:
     STA z:0x45
     CMP #0x100
     BCC .loc_C450F1
-    JML sub_C60B35
+    JML free_small_object
 
 .loc_C450F1:
     REP #0x20
@@ -11108,7 +11108,7 @@ sub_C453C8:
     LDY z:0xA,X
     JSL sub_C4539E
     JSL sub_C4576B
-    JSL sub_C60B35
+    JSL free_small_object
     RTL
 
 punching_glove_related:
@@ -11663,7 +11663,7 @@ i16
     LDA z:9,X
     CMP #0xB
     BNE .locret_C458A6
-    JSL sub_C60B35
+    JSL free_small_object
 
 .locret_C458A6:
     RTL
@@ -12483,7 +12483,7 @@ sub_C45E15:
     REP #0x20
     LDA #addr(sub_C45E5B)
     STA z:0x40
-    JSL sub_C60AC0
+    JSL create_small_object
     BCC .loc_C45E26
     JML .loc_C45E56
 
@@ -12651,7 +12651,7 @@ sub_C45F1E:
     REP #0x20
     LDA #addr(sub_C45F89)
     STA z:0x40
-    JSL sub_C60AC0
+    JSL create_small_object
     BCC .loc_C45F71
     JML drop_bomb.locret_C44CAF
 
@@ -15162,7 +15162,7 @@ i16
     BEQ .loc_C47576
     LDA z:6,X
     CMP #0xFFFF
-    BEQ nullsub_C4757C
+    BEQ small_object_nop_handler
     TAX
     BRA .loc_C47565
 
@@ -15170,7 +15170,7 @@ i16
     JSL delete_object
     BRA sub_C47560
     ; fallthrough
-nullsub_C4757C:
+small_object_nop_handler:
     RTL
 
 sub_C4757D:
@@ -15235,16 +15235,16 @@ sub_C475C8:
 stage_related_init:
 i16
     REP #0x20
-    STZ a:addr(free_offset_in_object_pointer_array) ; orig=0x00BA
-    LDA #0x64
-    STA a:addr(max_object_pointer_object) ; orig=0x00BC
+    STZ a:addr(allocator_cyclic_buffer_read_pointer) ; orig=0x00BA
+    LDA #(dynamic_objects.end - dynamic_objects) / dynamic_object.sizeof * 2
+    STA a:addr(allocator_cyclic_buffer_write_pointer) ; orig=0x00BC
     LDY #0
     LDX #addr(dynamic_objects)
 
-    ; Deallocate existing dynamic objects, fill object_pointer_array
-.loop:
+    ; Deallocate existing dynamic objects, fill allocator_cyclic_buffer
+-
     TXA
-    STA a:addr(object_pointer_array),Y
+    STA a:addr(allocator_cyclic_buffer),Y
     INY
     INY
     STZ z:object.handler,X
@@ -15254,7 +15254,7 @@ i16
     ADC #player.sizeof
     TAX
     CMP #addr(dynamic_objects.end)
-    BNE .loop
+    BNE -
 
     LDA #0
     STA a:addr(gameover_related_object.prev) ; orig=0x0F44
@@ -15300,43 +15300,48 @@ i16
     create_object handle_pause
     REP #0x20
     
-    STZ a:0x78
-    LDA #0x2C
-    STA a:0x7a
+    ; Do the same for the small allocator
+    
+    STZ a:addr(small_allocator_cyclic_buffer_read_pointer)
+    LDA #(small_objects.end - small_objects) / 0x20 * 2
+    STA a:addr(small_allocator_cyclic_buffer_write_pointer)
     LDY #0
-    LDX #0x1CC0
+    LDX #addr(small_objects)
 
 .loc_C47680:
     TXA
-    STA a:addr(bomb_related_array),Y
+    STA a:addr(small_allocator_cyclic_buffer),Y
     INY
     INY
     STZ z:0,X
     TXA
     CLC
-    ADC #0x20
+    ADC #0x20 ; TODO: small_object.sizeof
     TAX
-    CMP #addr(unk_7E1F80)
+    CMP #addr(small_objects.end)
     BNE .loc_C47680
-    LDX #addr(unk_7E1C80)
-    LDA #addr(nullsub_C4757C)
-    STA z:0,X
+    
+    ; Todo: switch to small_object, it just happens to use the same offsets as dynamic_object
+    LDX #addr(unknown_static_small_object)
+    LDA #addr(small_object_nop_handler)
+    STA z:dynamic_object.handler,X
     LDA #0
-    STA z:4,X
-    LDA #0x1CA0
-    STA z:6,X
-    LDX #0x1CA0
+    STA z:dynamic_object.prev,X
+    LDA #addr(unknown_static_small_object_2)
+    STA z:dynamic_object.next,X
+    LDX #addr(unknown_static_small_object_2)
+    
     LDA #0
-    STA z:0,X
-    LDA #0x1C80
-    STA z:4,X
+    STA z:dynamic_object.handler,X
+    LDA #addr(unknown_static_small_object)
+    STA z:dynamic_object.prev,X
     LDA #0xFFFF
-    STA z:6,X
+    STA z:dynamic_object.next,X
+    
     STZ z:0x40
-    LDX #0x1F80
+    LDX #addr(unknown_palette_related_array)
     LDY #0x10
-
-.loc_C476BF:
+-
     LDA #0xFF
     STA z:0,X
     LDA z:0x40
@@ -15354,7 +15359,8 @@ i16
     ADC #0x20
     STA z:0x40
     DEY
-    BNE .loc_C476BF
+    BNE -
+    
     REP #0x20
     LDA #addr(init_player_handler)
     STA a:addr(player_1+object.handler) ; orig=0x0D40

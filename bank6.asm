@@ -1172,175 +1172,187 @@ draw_debug_menu:
     DEC z:0x40
     BNE .loc_C60A3B
     BRA .loc_C60A02
+    
+; The dynamic allocator works this way: allocator_cyclic_buffer is a cyclic buffer containing
+; up to 52 pointers (50 objects that can be allocated + 2 extra do tell empty/full queues apart).
+; Initially, the buffer is filled with a pointer to every (unallocated) object in dynamic objects,
+; the read pointer is initialized with the start of the buffer, and the write pointer is set to 50,
+; after every free pointer. Allocating an object is simply reading a pointer from the buffer and
+; advancing the read pointer, and deallocating an object is simply writing it back and advancing
+; the write buffer.
 
 create_object:
 i16
     SEP #0x20
     PHX
-    LDA z:0xD3
-    CMP #0xFF
+    LDA z:0xD3 ; Always 0x80, except when handler = sub_C5574C. Seems to be execution priority.
+    CMP #0xFF ; This value is never actually used as an argument.
     REP #0x20
-    BNE .loc_C60A66
-    JML .loc_C60ABA
+    BNE +
+    JML .out_of_memory ; Never happens here
 
-.loc_C60A66:
-    LDX a:addr(free_offset_in_object_pointer_array) ; orig=0x00BA
-    CPX a:addr(max_object_pointer_object) ; orig=0x00BC
-    BNE .loc_C60A72
-    JML .loc_C60ABA
++
+    LDX a:addr(allocator_cyclic_buffer_read_pointer) ; orig=0x00BA
+    CPX a:addr(allocator_cyclic_buffer_write_pointer) ; orig=0x00BC
+    BNE +
+    JML .out_of_memory
 
-.loc_C60A72:
++
     TXA
     INC A
     INC A
-    CMP #0x68
-    BNE .loc_C60A7D
+    CMP #allocator_cyclic_buffer.end - allocator_cyclic_buffer
+    BNE +
     LDA #0
 
-.loc_C60A7D:
-    STA a:addr(free_offset_in_object_pointer_array) ; orig=0x00BA
-    LDY a:addr(object_pointer_array),X
++
+    STA a:addr(allocator_cyclic_buffer_read_pointer) ; orig=0x00BA
+    LDY a:addr(allocator_cyclic_buffer),X
     LDA z:0xDB
     STA a:object.handler,Y
     LDA z:0xDC
     STA a:object.handler + 1,Y
-    LDX #addr(gameover_related_object)
+    LDX #addr(gameover_related_object) ; Just before the rest of the dynamic objects
 
-.loc_C60A90:
+.loop:
     SEP #0x20
-    LDA z:3,X
+    LDA z:dynamic_object.execution_priority,X
     CMP z:0xD3
     REP #0x20
-    BEQ .loc_C60AB0
-    BCC .loc_C60AB0
-    LDA z:4,X
-    STA a:addr(4),Y
+    BEQ .continue
+    BCC .continue
+    
+    ; Insert according to the priorty
+    LDA z:dynamic_object.prev,X
+    STA a:dynamic_object.prev,Y
     PHA
     TYA
-    STA z:4,X
+    STA z:dynamic_object.prev,X
     TXA
-    STA a:addr(6),Y
+    STA a:dynamic_object.next,Y
     PLX
     TYA
-    STA z:6,X
+    STA z:dynamic_object.next,X
     PLX
     CLC
     RTL
 
-.loc_C60AB0:
-    LDA z:6,X
+.continue:
+    LDA z:dynamic_object.next,X
     TAX
     CMP #0xFFFF
-    BEQ .loc_C60ABA
-    BRA .loc_C60A90
+    BEQ .out_of_memory
+    BRA .loop
 
-.loc_C60ABA:
-    LDY #0x1C40
+.out_of_memory:
+    LDY #addr(dynamic_objects.end)
     PLX
     SEC
     RTL
 
-sub_C60AC0:
+create_small_object:
 i16
     REP #0x20
     PHX
-    LDX a:addr(word_7E0078) ; orig=0x0078
-    CPX a:addr(word_7E007A) ; orig=0x007A
-    BNE .loc_C60ACF
-    JML .loc_C60B08
+    LDX a:addr(small_allocator_cyclic_buffer_read_pointer) ; orig=0x0078
+    CPX a:addr(small_allocator_cyclic_buffer_write_pointer) ; orig=0x007A
+    BNE +
+    JML .out_of_memory
++
 
-.loc_C60ACF:
     TXA
     INC A
     INC A
-    CMP #0x30
-    BNE .loc_C60ADA
+    CMP #small_allocator_cyclic_buffer.end - small_allocator_cyclic_buffer
+    BNE +
     LDA #0
++
 
-.loc_C60ADA:
-    STA a:addr(word_7E0078) ; orig=0x0078
-    LDY a:addr(bomb_related_array),X
+    STA a:addr(small_allocator_cyclic_buffer_read_pointer) ; orig=0x0078
+    LDY a:addr(small_allocator_cyclic_buffer),X
     LDA z:0x40
-    STA a:addr(0),Y
-    LDX #0x1C80
+    STA a:dynamic_object.handler,Y ; Todo: switch to small_object
+    LDX #addr(unknown_static_small_object) ; The first small object, comes before the static ones
 
-.loc_C60AE8:
-    LDA z:0,X
-    BNE .loc_C60B02
-    LDA z:4,X
-    STA a:addr(4),Y
+.loop:
+    LDA z:dynamic_object.handler,X
+    BNE .empty
+    LDA z:dynamic_object.prev,X
+    STA a:dynamic_object.prev,Y
     STA z:0x44
     TYA
-    STA z:4,X
+    STA z:dynamic_object.prev,X
     TXA
-    STA a:addr(6),Y
+    STA a:dynamic_object.next,Y
     LDX z:0x44
     TYA
-    STA z:6,X
+    STA z:dynamic_object.next,X
     PLX
     CLC
     RTL
 
-.loc_C60B02:
-    LDA z:6,X
+.empty:
+    LDA z:dynamic_object.next,X
     TAX
     INC A
-    BNE .loc_C60AE8
+    BNE .loop
 
-.loc_C60B08:
+.out_of_memory:
     PLX
     SEC
     RTL
 
 delete_object:
     REP #0x20
-    LDA a:addr(max_object_pointer_object) ; orig=0x00BC
+    LDA a:addr(allocator_cyclic_buffer_write_pointer) ; orig=0x00BC
     TAY
     INC A
     INC A
     CMP #0x68
-    BNE .loc_C60B1B
+    BNE +
     LDA #0
 
-.loc_C60B1B:
-    STA a:addr(max_object_pointer_object) ; orig=0x00BC
++
+    STA a:addr(allocator_cyclic_buffer_write_pointer) ; orig=0x00BC
+    
     TXA
-    STA a:addr(object_pointer_array),Y
-    LDY z:player.gameover_related,X
-    LDA z:object.handler+6,X
-    STA a:addr(6),Y
+    STA a:addr(allocator_cyclic_buffer),Y
+    
+    LDY z:dynamic_object.prev,X
+    LDA z:dynamic_object.next,X
+    STA a:dynamic_object.next,Y
     PHA
     PHY
     PLA
     PLY
-    STA a:addr(4),Y
-    STZ z:object.handler,X
-    STZ z:object.handler+2,X
+    STA a:dynamic_object.prev,Y
+    STZ z:dynamic_object.handler,X
+    STZ z:dynamic_object.handler+2,X
     RTL
 
-sub_C60B35:
+free_small_object:
     REP #0x20
-    LDA a:addr(word_7E007A) ; orig=0x007A
+    LDA a:addr(small_allocator_cyclic_buffer_write_pointer) ; orig=0x007A
     TAY
     INC A
     INC A
-    CMP #0x30
-    BNE .loc_C60B45
+    CMP #small_allocator_cyclic_buffer.end - small_allocator_cyclic_buffer
+    BNE +
     LDA #0
++
 
-.loc_C60B45:
-    STA a:addr(word_7E007A) ; orig=0x007A
+    STA a:addr(small_allocator_cyclic_buffer_write_pointer) ; orig=0x007A
     TXA
-    STA a:addr(bomb_related_array),Y
-    LDY z:4,X
-    LDA z:6,X
-    STA a:addr(6),Y
+    STA a:addr(small_allocator_cyclic_buffer),Y
+    LDY z:dynamic_object.prev,X
+    LDA z:dynamic_object.next,X
+    STA a:dynamic_object.next,Y
     PHA
     PHY
     PLA
     PLY
-    STA a:addr(4),Y
-    STZ z:0,X
+    STA a:dynamic_object.prev,Y
+    STZ z:dynamic_object.handler,X
     RTL
 
 byte_C60B5D:
@@ -4213,7 +4225,7 @@ i16
 update_palettes:
 i16
     SEP #0x20
-    LDX #addr(unk_7E1F80)
+    LDX #addr(unknown_palette_related_array)
 
 .loc_C6213C:
     LDA z:3,X
@@ -4239,7 +4251,7 @@ i16
     INX
     INX
     INX
-    CPX #addr(unk_7E1FC0)
+    CPX #addr(unknown_palette_related_array + 0x40)
     BNE .loc_C6213C
 
 .loc_C62163:
