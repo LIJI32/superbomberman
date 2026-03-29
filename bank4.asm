@@ -20,7 +20,7 @@ multi5_read_input:
     STA a:addr(joypad_1) ; orig=0x0CE1
     AND #0xF
     STA a:addr(joypad_1_connected) ; orig=0x0CEB
-    LDA a:addr(0x4016)
+    LDA a:JOYSER0
     LSR A
     ROL a:addr(joypad_1_connected) ; orig=0x0CEB
     LDA a:addr(JOYPAD_2_DATA_HIGH_BYTE)
@@ -35,7 +35,7 @@ multi5_read_input:
     STA a:addr(joypad_3) ; orig=0x0CE5
     AND #0xF
     STA a:addr(joypad_3_connected) ; orig=0x0CED
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     LSR A
     ROL a:addr(joypad_2_connected) ; orig=0x0CEC
     LSR A
@@ -44,7 +44,7 @@ multi5_read_input:
     LDY #0x10
 
 .loc_C4006B:
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     REP #0x20
     LSR A
     ROL a:addr(joypad_4) ; orig=0x0CE7
@@ -59,7 +59,7 @@ multi5_read_input:
     LDA a:addr(joypad_5) ; orig=0x0CE9
     AND #0xF
     STA a:addr(joypad_5_connected) ; orig=0x0CEF
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     LSR A
     ROL a:addr(joypad_4_connected) ; orig=0x0CEE
     LSR A
@@ -80,50 +80,50 @@ multi5_update_multitap_status:
     LDA a:addr(H_V_BLANK_FLAGS_AND_JOYPAD_STATUS)
     AND #1
     BNE .loc_C400DD
-    STZ a:addr(0x4016)
+    STZ a:JOYSER0
     LDA #1
-    STA a:addr(0x4016)
+    STA a:JOYSER0
     LDX #8
 
 .loc_C400EE:
-    LDA a:addr(0x4016)
+    LDA a:JOYSER0
     LSR A
     LSR A
-    ROL $az:addr(word_7E0040+1) ; orig=0x0041
-    LDA a:addr(0x4017)
+    ROL $az:0x41
+    LDA a:JOYSER1
     LSR A
     LSR A
-    ROL $az:addr(word_7E0042+1) ; orig=0x0043
+    ROL $az:0x43
     DEX
     BNE .loc_C400EE
-    STZ a:addr(0x4016)
+    STZ a:JOYSER0
     LDX #8
 
 .loc_C40106:
-    LDA a:addr(0x4016)
+    LDA a:JOYSER0
     LSR A
     LSR A
-    ROL $az:addr(word_7E0040) ; orig=0x0040
-    LDA a:addr(0x4017)
+    ROL $az:0x40
+    LDA a:JOYSER1
     LSR A
     LSR A
-    ROL $az:addr(word_7E0042) ; orig=0x0042
+    ROL $az:0x42
     DEX
     BNE .loc_C40106
-    LDA $az:addr(word_7E0040+1) ; orig=0x0041
+    LDA $az:0x41
     CMP #0xFF
     BNE .loc_C4012C
-    LDA $az:addr(word_7E0040) ; orig=0x0040
+    LDA $az:0x40
     CMP #0xFF
     BEQ .loc_C4012C
     LDA #0x80
     STA a:addr(multitap_status) ; orig=0x0CE0
 
 .loc_C4012C:
-    LDA $az:addr(word_7E0042+1) ; orig=0x0043
+    LDA $az:0x43
     CMP #0xFF
     BNE .loc_C40142
-    LDA $az:addr(word_7E0042) ; orig=0x0042
+    LDA $az:0x42
     CMP #0xFF
     BEQ .loc_C40142
     LDA #0x40
@@ -143,6 +143,8 @@ endif ; USE_MULTI5_BIOS
 main:
 ifndef J
     SEP #0x20
+else
+    a8
 endif
     STZ a:addr(NMI_V_H_COUNT_AND_JOYPAD_ENABLE)
     STZ a:addr(H_DMA_CHANNEL_ENABLE)
@@ -369,9 +371,9 @@ endif
     REP #0x20
     LDX #addr(level_manager_object)
     LDA a:addr(level_manager_object+object.handler+1) ; orig=0x0D01
-    STA $az:addr(byte_7E0051)
+    STA $az:0x51
     LDA a:addr(level_manager_object+object.handler) ; orig=0x0D00
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     JSL call_function_at_0050
     REP #0x20
     LDX #addr(player_1)
@@ -384,9 +386,9 @@ endif
     BIT #1
     BEQ .loc_C403D5
     LDA $az:addr(object.handler+1),X
-    STA $az:addr(byte_7E0051) ; orig=0x0051
+    STA $az:0x51
     LDA $az:addr(object.handler),X
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     JSL call_function_at_0050
     REP #0x20
 
@@ -398,16 +400,16 @@ endif
     PLA
     DEC A
     BNE .loc_C403B7
-    LDX #addr(enemy_objects)
+    LDX #addr(gameover_related_object)
 
 .loc_C403E4:
-    LDA $az:addr(1),X
-    STA $az:addr(byte_7E0051) ; orig=0x0051
-    LDA $az:addr(0),X
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    LDA $az:object.handler + 1,X
+    STA $az:0x51
+    LDA $az:object.handler,X
+    STA $az:0x50
     JSL call_function_at_0050
     REP #0x20
-    LDA $az:addr(6),X
+    LDA $az:6,X
     TAX
     INC A
     BNE .loc_C403E4
@@ -415,8 +417,8 @@ endif
     LDY a:addr(level_manager_object.hit_flags) ; orig=0x0D28
 
 .loc_C40402:
-    LDX a: addr(2),Y
-    LDA a: addr(0),Y
+    LDX a:2,Y
+    LDA a:0,Y
     CMP #0xFFFF
     BEQ .loc_C40417
     PHA
@@ -435,9 +437,9 @@ endif
     BEQ .loc_C4043A
     PHA
     LDA #0xC4
-    STA $az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:0x52
     LDA $az:addr(0),X
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     JSL call_function_at_0050
     REP #0x20
     PLX
@@ -504,7 +506,7 @@ transfer_bg1_bg3_tilemaps:
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
     LDA #0x100
     STA a:addr(DMA_6_BYTES_COUNT_LOW_BYTE)
-    LDA #0x816
+    LDA #addr(bg3_tilemap)
     STA a:addr(DMA_6_A_ADDRESS_LOW_BYTE)
     SEP #0x20
     LDA #0
@@ -603,7 +605,7 @@ call_function_at_00d0:
 nullsub_1:
     RTL
 
-gameover_writing_object:
+gameover_related_handler:
 i16
     REP #0x20
     LDA #addr(.loc_C40592)
@@ -625,7 +627,7 @@ i16
     REP #0x20
     INC $az:addr(0x20),X
     LDA $az:addr(0x20),X
-    STA $az:addr(word_7E0048) ; orig=0x0048
+    STA $az:0x48
     PHX
     LDX #addr(player_1)
     JSL write_gameover_for_player_if_needed
@@ -646,12 +648,12 @@ write_gameover_for_player_if_needed:
     EOR #0xC0        ; Clever way to get the other object.handler
     TAY
     LDA #0x46
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     LDA $az:addr(5),X
     AND #0xFF
     BEQ .loc_C405E2
     LDA #0x68
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
 
 .loc_C405E2:
     LDA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
@@ -670,15 +672,15 @@ endif
     JML write_gameover
 
 .loc_C405FA:
-    LDY $az:addr(word_7E0040) ; orig=0x0040
+    LDY $az:0x40
     LDA #0xB
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     REP #0x20
     LDA #addr(word_C30B2A)
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     SEP #0x20
     LDA #bank(word_C30B2A)
-    STA $az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:0x52
     JSL copy_to_bg3_tilemap
     REP #0x20
     TYA
@@ -686,20 +688,20 @@ endif
     ADC #0x2A
     TAY
     LDA #0xB
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     JSL copy_to_bg3_tilemap
     RTL
 
 hud_related:
     REP #0x20
     LDA #0xB
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     REP #0x20
     LDA #addr(storymode_hud_tilemap+0x46)
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     SEP #0x20
     LDA #bank(storymode_hud_tilemap+0x46)
-    STA $az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:0x52
     JSL copy_to_bg3_tilemap
     REP #0x20
     TYA
@@ -707,31 +709,31 @@ hud_related:
     ADC #0x2A
     TAY
     LDA #0xB
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     REP #0x20
     LDA #addr(storymode_hud_tilemap+0x86)
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     SEP #0x20
     LDA #bank(storymode_hud_tilemap+0x86)
-    STA $az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:0x52
     JSL copy_to_bg3_tilemap
     REP #0x20
-    STZ $az:addr(word_7E0040) ; orig=0x0040
-    STZ $az:addr(word_7E0042) ; orig=0x0042
+    STZ $az:0x40
+    STZ $az:0x42
     JSL add_to_score
     RTL
 
 write_gameover:
     REP #0x20
-    LDY $az:addr(word_7E0040) ; orig=0x0040
+    LDY $az:0x40
     LDA #0xB
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     REP #0x20
     LDA #addr(gameover_tilemap_top)
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     SEP #0x20
     LDA #bank(gameover_tilemap_top)
-    STA $az:addr(byte_7E0052) ; orig=0x0052
+    STA $az:0x52
     JSL copy_to_bg3_tilemap
     REP #0x20
     TYA
@@ -739,14 +741,14 @@ write_gameover:
     ADC #0x2A
     TAY
     LDA #0xB
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     JSL copy_to_bg3_tilemap
 
 nullsub_2:
     RTL
 
     SEP #0x20
-hud_related_object:
+hud_related_handler:
 i16
     REP #0x20
     STZ $az:addr(0x10),X
@@ -829,7 +831,7 @@ i16
 .loc_C40746:
     LDA a:addr(player_2.gameover_related) ; orig=0x0D84
     BEQ .locret_C40768
-    LDA a:addr(word_7E0CAC) ; orig=0x0CAC
+    LDA a:addr(story_mode_timers + 2) ; orig=0x0CAC
     CMP #0x1C
     BNE .loc_C40756
     JML hurry_up
@@ -842,8 +844,8 @@ i16
     TAY
     LDA #0xA7
     STA a:addr(bg3_tilemap+0x40),Y
-    INC a:addr(word_7E0CAC) ; orig=0x0CAC
-    INC a:addr(word_7E0CAC) ; orig=0x0CAC
+    INC a:addr(story_mode_timers + 2) ; orig=0x0CAC
+    INC a:addr(story_mode_timers + 2) ; orig=0x0CAC
 
 .locret_C40768:
 nullsub_C40768:
@@ -1038,7 +1040,7 @@ i16
     LDA a:addr(story_mode_timers) ; orig=0x0CAA
     CMP #0x1C
     BEQ .loc_C408D6
-    LDA a:addr(word_7E0CAC) ; orig=0x0CAC
+    LDA a:addr(story_mode_timers + 2) ; orig=0x0CAC
     CMP #0x1C
     BNE .loc_C40953
 
@@ -1087,7 +1089,7 @@ i16
     REP #0x20
 
 .loc_C40934:
-    LDA a:addr(word_7E0CAC) ; orig=0x0CAC
+    LDA a:addr(story_mode_timers + 2) ; orig=0x0CAC
     CMP #0x1C
     BNE .loc_C40953
     LDA a:addr(player_2.hit_flags) ; orig=0x0DAF
@@ -1102,10 +1104,10 @@ i16
 
 .loc_C40953:
     REP #0x20
-    LDA #addr(hud_related_object)
+    LDA #addr(hud_related_handler)
     STA $az:addr(0),X
     SEP #0x20
-    LDA #bank(hud_related_object)
+    LDA #bank(hud_related_handler)
     STA $az:addr(2),X
 
 .locret_C40962:
@@ -1123,7 +1125,7 @@ endif
     LDX #0
 
 .loc_C40971:
-    STZ a:addr(0xCE0),X
+    STZ a:addr(multitap_status),X
     INX
 if !USE_MULTI5_BIOS
     CPX #0x10
@@ -1131,30 +1133,30 @@ endif
     BNE .loc_C40971
     STZ a:addr(PROGRAMMABLE_I_O_PORT_OUTPUT)
     LDA #1
-    STA a:addr(0x4016)
+    STA a:JOYSER0
     LDX #8
 
 .loc_C40982:
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     LSR A
     LSR A
     ROL a:addr(multitap_status) ; orig=0x0CE0
     DEX
     BNE .loc_C40982
-    STZ a:addr(0x4016)
+    STZ a:JOYSER0
     LDA #0x80
     STA a:addr(PROGRAMMABLE_I_O_PORT_OUTPUT)
     LDA #1
-    STA a:addr(0x4016)
-    STZ a:addr(0x4016)
+    STA a:JOYSER0
+    STZ a:JOYSER0
     LDX #0x10
 
 .loc_C409A0:
-    LDA a:addr(0x4016)
+    LDA a:JOYSER0
     LSR A
     ROL a:addr(joypad_1) ; orig=0x0CE1
     ROL a:addr(joypad_1+1) ; orig=0x0CE2
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     LSR A
     ROL a:addr(joypad_2) ; orig=0x0CE3
     ROL a:addr(joypad_2+1) ; orig=0x0CE4
@@ -1163,10 +1165,10 @@ endif
     ROL a:addr(joypad_3+1) ; orig=0x0CE6
     DEX
     BNE .loc_C409A0
-    LDA a:addr(0x4016)
+    LDA a:JOYSER0
     AND #1
     STA a:addr(joypad_1_connected) ; orig=0x0CEB
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     LSR A
     ROL a:addr(joypad_2_connected) ; orig=0x0CEC
     AND #1
@@ -1178,7 +1180,7 @@ endif
     LDX #0x10
 
 .loc_C409DE:
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     LSR A
     ROL a:addr(joypad_4) ; orig=0x0CE7
     ROL a:addr(joypad_4+1) ; orig=0x0CE8
@@ -1187,7 +1189,7 @@ endif
     ROL a:addr(joypad_5+1) ; orig=0x0CEA
     DEX
     BNE .loc_C409DE
-    LDA a:addr(0x4017)
+    LDA a:JOYSER1
     LSR A
     ROL a:addr(joypad_4_connected) ; orig=0x0CEE
     AND #1
@@ -1195,22 +1197,22 @@ endif
 
 .loc_C409FE:
 if !USE_MULTI5_BIOS
-    LDA a:addr(word_7E0CE0) ; orig=0x0CE0
+    LDA a:addr(multitap_status) ; orig=0x0CE0
     AND #1
     ORA #0xB0
     STA NMI_V_H_COUNT_AND_JOYPAD_ENABLE
 endif
     REP #0x20
-    LDX #0xD40
+    LDX #addr(player_1)
     LDY #0
     JSL update_input_for_player_object
-    LDX #0xD80
+    LDX #addr(player_2)
     LDY #2
     JSL update_input_for_player_object
-    LDX #0xDC0
+    LDX #addr(player_3)
     LDY #4
     JSL update_input_for_player_object
-    LDX #0xE00
+    LDX #addr(player_4)
     LDY #6
     JSL update_input_for_player_object
     RTL
@@ -1252,10 +1254,10 @@ related_to_oam_transfer:
 i16
     REP #0x20
     LDA a:addr(word_7E0306) ; orig=0x0306
-    STA $az:addr(word_7E0055+1) ; orig=0x0056
+    STA $az:0x56
     SEP #0x20
     LDA a:addr(word_7E0308) ; orig=0x0308
-    STA $az:addr(word_7E0058) ; orig=0x0058
+    STA $az:0x58
     LDA a:addr(word_7E0308+1) ; orig=0x0309
     AND #0x80
     BEQ .loc_C40A8D
@@ -1272,10 +1274,10 @@ i16
     LDY #0x203
     LDA #1
     STA f:[z:0x56],Y
-    LDA $az:addr(word_7E0055+1) ; orig=0x0056
+    LDA $az:0x56
     CLC
     ADC #4
-    STA $az:addr(word_7E0055+1) ; orig=0x0056
+    STA $az:0x56
     BIT #0xF
     BNE .loc_C40A8D
     LDY #1
@@ -1285,33 +1287,33 @@ i16
 .loc_C40AAF:
     LDA #0xEE
     STA f:[z:0x56],Y
-    LDA $az:addr(word_7E0055+1) ; orig=0x0056
+    LDA $az:0x56
     CLC
     ADC #4
-    STA $az:addr(word_7E0055+1) ; orig=0x0056
+    STA $az:0x56
     BNE .loc_C40AAF
 
 .loc_C40ABE:
-    LDA $az:addr(unk_7E0057) ; orig=0x0057
+    LDA $az:0x57
     BIT #1
     BNE .loc_C40ACA
-    INC $az:addr(unk_7E0057) ; orig=0x0057
+    INC $az:0x57
     BRA .loc_C40AAF
 
 .loc_C40ACA:
     SEP #0x20
     LDA #0
-    STA $az:addr(word_7E0053) ; orig=0x0053
+    STA $az:0x53
     INC A
     INC A
     INC A
-    STA $az:addr(byte_7E0050) ; orig=0x0050
+    STA $az:0x50
     LDA #2
-    STA $az:addr(byte_7E0051) ; orig=0x0051
-    STA $az:addr(word_7E0053+1) ; orig=0x0054
+    STA $az:0x51
+    STA $az:0x54
     LDA #0x7F
-    STA $az:addr(byte_7E0052) ; orig=0x0052
-    STA $az:addr(word_7E0055) ; orig=0x0055
+    STA $az:0x52
+    STA $az:0x55
     LDY #0
     REP #0x20
     LDA a:addr(word_7E0306) ; orig=0x0306
@@ -1325,46 +1327,46 @@ i16
     SEP #0x20
 
 .loc_C40AFA:
-    STZ $az:addr(word_7E0040) ; orig=0x0040
+    STZ $az:0x40
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
     LDA f:[z:0x50],Y
     INY
     INY
     INY
     INY
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
     LSR A
-    ROR $az:addr(word_7E0040) ; orig=0x0040
-    LDA $az:addr(word_7E0040) ; orig=0x0040
+    ROR $az:0x40
+    LDA $az:0x40
     STA f:[z:0x53]
-    INC $az:addr(word_7E0053) ; orig=0x0053
+    INC $az:0x53
     DEX
     BNE .loc_C40AFA
     SEP #0x20
@@ -1373,10 +1375,10 @@ i16
 .loc_C40B44:
     LDA #0x55
     STA f:[z:0x53]
-    INC $az:addr(word_7E0053) ; orig=0x0053
+    INC $az:0x53
 
 .loc_C40B4B:
-    LDA $az:addr(word_7E0053) ; orig=0x0053
+    LDA $az:0x53
     CMP #0x20
     BCC .loc_C40B44
     SEP #0x20
@@ -1439,7 +1441,7 @@ i16
 dma_reset:
     REP #0x20
     LDA #0
-    STA $az:addr(word_7E0040) ; orig=0x0040
+    STA $az:0x40
     SEP #0x20
     LDA #0
     STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
@@ -1907,7 +1909,7 @@ i16
     JML .locret_C412A1
 
 .loc_C411CB:
-    STZ a:addr(0x12F),X
+    STZ a:addr(unk_dboot_2f),X
     LDA a:addr(current_mode) ; orig=0x0C3C
     CMP #1
     BNE .loc_C411D9
@@ -1993,7 +1995,7 @@ i16
     LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
     BIT #0x208
     BEQ .loc_C41290
-    LDA a:addr(0x13E),X
+    LDA a:addr(unk_dboot_3e),X
     AND #0xFF
     ASL A
     PHX
@@ -2150,8 +2152,8 @@ i16
 
 .loc_C4139D:
     SEP #0x20
-    INC a:addr(0x13F),X
-    LDA a:addr(0x13F),X
+    INC a:addr(unk_dboot_3f),X
+    LDA a:addr(unk_dboot_3f),X
     BIT #0xF
     BNE .loc_C413B0
     LDY #0xC
@@ -2504,7 +2506,7 @@ _play_hit_by_bomb_animation:
 enter_warp:
 i16
     SEP #0x20
-    INC a:addr(0x12F),X
+    INC a:addr(unk_dboot_2f),X
     JSL clear_playerquare_in_collision_map
     LDY #9
     JSL play_sound
@@ -2644,7 +2646,7 @@ i16
     STA z:player.x_position,X
     LDA z:0x42
     STA z:player.y_position,X
-    STZ a:addr(0x12F),X
+    STZ a:addr(unk_dboot_2f),X
     REP #0x20
     LDA #addr(play_exit_wrap_animation)
     STA z:object.handler,X
@@ -2664,7 +2666,7 @@ wrap_positions:
 do_trampoline:
 i16
     SEP #0x20
-    INC a:addr(0x12F),X
+    INC a:addr(unk_dboot_2f),X
     JSL clear_playerquare_in_collision_map
     LDY #0xB
     JSL play_sound
@@ -2672,7 +2674,7 @@ i16
     LDA z:player.y_position,X
     AND #0xF0
     ORA #8
-    STA a:addr(0x114),X
+    STA a:addr(unk_dboot_14),X
     LDA #0xF000
     STA z:player.trampoline_state,X
     REP #0x20
@@ -2789,17 +2791,17 @@ _trampoline_land:
     REP #0x20
     LDA z:0x14,X
     BMI .loc_C417FF
-    LDA a:addr(0x114),X
+    LDA a:addr(unk_dboot_14),X
     CMP z:0x14,X
     BCS .loc_C417FF
     SEP #0x20
-    LDA a:addr(0x114),X
+    LDA a:addr(unk_dboot_14),X
     STA z:player.y_position,X
     LDA z:player.direction,X
     STA z:0x40
     JSL change_direction_and_start_animation
     SEP #0x20
-    STZ a:addr(0x12F),X
+    STZ a:addr(unk_dboot_2f),X
     LDA z:player.is_ai,X
     BNE .loc_C41804
     REP #0x20
@@ -2827,7 +2829,7 @@ randomize_landing:
     REP #0x20
     LDA z:player.wrap_delay,X
     PHA
-    LDA a:addr(0x114),X
+    LDA a:addr(unk_dboot_14),X
     PHA
     PHX
     LDX z:0x40
@@ -2840,8 +2842,8 @@ randomize_landing:
     STA z:player.x_position,X
     LDA z:0x44
     CLC
-    ADC a:addr(0x114),X
-    STA a:addr(0x114),X
+    ADC a:addr(unk_dboot_14),X
+    STA a:addr(unk_dboot_14),X
     AND #0xF0
     ASL A
     ASL A
@@ -2864,7 +2866,7 @@ randomize_landing:
 
 .loc_C4185C:
     PLA
-    STA a:addr(0x114),X
+    STA a:addr(unk_dboot_14),X
     PLA
     STA z:player.wrap_delay,X
     RTL
@@ -3122,7 +3124,7 @@ sub_C41A40:
     ASL A
     TAY
     LDA #0
-    STA a:addr(0xCAA),Y
+    STA a:addr(story_mode_timers),Y
     SEP #0x20
     DEC a:addr(level_manager_object.gameover_related) ; orig=0x0D32
     STZ z:4,X
@@ -3443,30 +3445,30 @@ i16
     REP #0x20
     LDA z:player.score_digits_12,X
     SEC
-    SBC a:addr(0x11C),X
+    SBC a:addr(unk_dboot_1C),X
     LDA z:player.score_digits_56,X
-    SBC a:addr(0x11A),X
+    SBC a:addr(current_music_bank),X
     BCC locret
     SED
-    LDA a:addr(0x11C),X
+    LDA a:addr(unk_dboot_1C),X
     CLC
-    ADC a:addr(0x11C),X
-    STA a:addr(0x11C),X
-    LDA a:addr(0x11A),X
-    ADC a:addr(0x11A),X
-    STA a:addr(0x11A),X
+    ADC a:addr(unk_dboot_1C),X
+    STA a:addr(unk_dboot_1C),X
+    LDA a:addr(current_music_bank),X
+    ADC a:addr(current_music_bank),X
+    STA a:addr(current_music_bank),X
     CLD
     JSL add_extra_life
-    LDA a:addr(0x11C),X
+    LDA a:addr(unk_dboot_1C),X
     SEC
     SBC #0
-    LDA a:addr(0x11A),X
+    LDA a:addr(current_music_bank),X
     SBC #0x1000
     BCC .loc_C41C43
     LDA #0
-    STA a:addr(0x11C),X
+    STA a:addr(unk_dboot_1C),X
     LDA #0x1000
-    STA a:addr(0x11A),X
+    STA a:addr(current_music_bank),X
     BRA .loc_C41C43
 
 locret:
@@ -4593,7 +4595,7 @@ try_drop_bomb:
 sub_C4245D:
 i16
     REP #0x20
-    LDX #0xF40
+    LDX #addr(gameover_related_object)
 
 .loc_C42462:
     LDA z:0,X
@@ -4850,13 +4852,13 @@ i16
     LDA a:addr(collision_map),Y
     BIT #0xC0
     BNE .loc_C426DC
-    LDA a:addr(0x956),Y
+    LDA a:addr(collision_map + 0x40),Y
     BIT #0xC0
     BEQ .loc_C42682
     BIT #0x80
     BNE .loc_C4269E
     LDA #0x806
-    STA a:addr(0x534),Y
+    STA a:addr(bg1_tilemap + 0x40),Y
     BRA .loc_C4269E
 
 .loc_C42682:
@@ -4864,18 +4866,18 @@ i16
     BNE .loc_C42695
     LDA a:addr(bg1_tilemap+0x22) ; orig=0x0516
     ORA #8
-    STA a:addr(0x534),Y
-    STA a:addr(0x554),Y
+    STA a:addr(bg1_tilemap + 0x40),Y
+    STA a:addr(bg1_tilemap + 0x60),Y
     BRA .loc_C4269E
 
 .loc_C42695:
     LDA a:addr(bg1_tilemap+0x22) ; orig=0x0516
     ORA #8
-    STA a:addr(0x554),Y
+    STA a:addr(bg1_tilemap + 0x60),Y
 
 .loc_C4269E:
     LDX #0
-    LDA a:addr(0x8D6),Y
+    LDA a:addr(collision_map - 0x40),Y
     BIT #0xC0
     BEQ .loc_C426B9
     LDX #2
@@ -4914,14 +4916,14 @@ i16
 .loc_C426DC:
     BIT #0x80
     BNE .loc_C426EF
-    LDA a:addr(0x8D6),Y
+    LDA a:addr(collision_map - 0x40),Y
     BIT #0xC0
     BEQ .loc_C426EF
     LDA #0x802
     STA a:addr(bg1_tilemap),Y
 
 .loc_C426EF:
-    LDA a:addr(0x956),Y
+    LDA a:addr(collision_map + 0x40),Y
     BIT #0xC0
     BNE .loc_C426FF
     TYA
@@ -5474,16 +5476,16 @@ sub_C42C4B:
     LDA #0x300
     STA z:0x38,X
     LDA #3
-    STA a:addr(0x130),X
+    STA a:addr(dboot_paramater_0),X
     LDA #0
-    STA a:addr(0x138),X
+    STA a:addr(unk_dboot_38),X
 
 .loc_C42C72:
     LDA #0xFF90
     STA z:0x14,X
     LDA #0x98
     STA z:0x25,X
-    CPX #0xDC0
+    CPX #addr(player_3)
     BNE .loc_C42C8B
     LDA #0xFF80
     STA z:0x14,X
@@ -5518,7 +5520,7 @@ sub_C42C4B:
     BNE .loc_C42CDF
     LDA #0x28
     STA z:0x25,X
-    CPX #0xDC0
+    CPX #addr(player_3)
     BNE .loc_C42CD1
     LDA #0x18
     STA z:0x25,X
@@ -5603,7 +5605,7 @@ sub_C42D56:
     BNE sub_C42D0C.loc_C42D22
     LDA #0x98
     STA z:0x25,X
-    CPX #0xDC0
+    CPX #addr(player_3)
     BNE .loc_C42D6B
     LDA #0x58
     STA z:0x25,X
@@ -5639,14 +5641,14 @@ handle_player_movement_0:
 i16
 
     SEP #32
-    STZ a:addr(0x12F),X
+    STZ a:addr(unk_dboot_2f),X
     REP #0x20
     LDA #4
     STA z:0x40
     LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
     BIT #0x208
     BEQ .loc_C42DC4
-    LDA a:addr(0x13E),X
+    LDA a:addr(unk_dboot_3e),X
     AND #0xFF
     ASL A
     PHX
@@ -5778,8 +5780,8 @@ sub_C42E6B.loc_C42E8E:
 
 .loc_C42EB5:
     SEP #0x20
-    INC a:addr(0x13F),X
-    LDA a:addr(0x13F),X
+    INC a:addr(unk_dboot_3f),X
+    LDA a:addr(unk_dboot_3f),X
     BIT #0xF
     BNE sub_C42EC8
     LDY #0xC
@@ -5863,7 +5865,7 @@ sub_C42F13:
 wrap_related:
 i16
     SEP #0x20
-    INC a:addr(0x12F),X
+    INC a:addr(unk_dboot_2f),X
     JSL clear_playerquare_in_collision_map
     LDY #9
     JSL play_sound
@@ -6007,7 +6009,7 @@ i16
     STA z:0x11,X
     LDA z:0x42
     STA z:0x14,X
-    STZ a:addr(0x12F),X
+    STZ a:addr(unk_dboot_2f),X
     LDA #4
     STA z:0x20,X
     REP #0x20
@@ -6065,7 +6067,7 @@ i16
     LDA a:addr(current_mode) ; orig=0x0C3C
     CMP #3
     BEQ .loc_C430E4
-    DEC a:addr(0x106),X
+    DEC a:addr(unk_dboot_6),X
     BMI .loc_C430D1
     STZ z:0x2F,X
     JMP a:addr(.loc_C43150)
@@ -6714,7 +6716,7 @@ sub_C43573:
 .loc_C43591:
     REP #0x20
     LDA z:0x40
-    STA a:addr(0x30),Y
+    STA a:0x30,Y
     RTL
 
 .loc_C43599:
@@ -6978,14 +6980,14 @@ i16
     LDA #0xC
     JSL palette_related
     SEP #0x20
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
     STA z:0x40
     JSL sub_C43BDE
     SEP #0x20
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
@@ -7126,7 +7128,7 @@ i16
     BNE .loc_C438F4
     SEP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA #0x68
     STA z:0x11,X
     LDA #0xB8
@@ -7137,7 +7139,7 @@ i16
     STA z:0x40
     JSL sub_C43BDE
     SEP #0x20
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA #0xA8
     STA z:0x11,X
     LDA #0xB8
@@ -7393,7 +7395,7 @@ i16
     LDA #bank(sub_C42C4B)
     STA z:2,X
     LDA f:[z:0x50]
-    STA a:addr(0x106),X
+    STA a:addr(unk_dboot_6),X
     LDA f:[z:0x53]
     STA z:0x3D,X
     LDA #0
@@ -7440,7 +7442,7 @@ sub_C43B6E:
 sub_C43BA3:
 i16
     REP #0x20
-    LDY #0xD40
+    LDY #addr(player_1)
 
 .loc_C43BA8:
     SEP #0x20
@@ -7691,10 +7693,10 @@ sub_C43D4D:
     CMP #7
     BCS sub_C43DA2
     STZ z:0x1B,X
-    LDA a:addr(0x917),Y
+    LDA a:addr(collision_map + 1),Y
     BIT #8
     BEQ .loc_C43D7C
-    DEC a:addr(0x138),X
+    DEC a:addr(unk_dboot_38),X
     BNE .loc_C43D8E
     LDA #2
     STA z:0x26,X
@@ -8178,11 +8180,11 @@ sub_C44047:
     RTL
 
 .loc_C4406D:
-    LDA a:addr(0x8D6),Y
-    ORA a:addr(0x918),Y
-    ORA a:addr(0x956),Y
-    ORA a:addr(0x914),Y
-    BIT #0x800
+    LDA a:addr(collision_map - 0x40),Y
+    ORA a:addr(collision_map + 2),Y
+    ORA a:addr(collision_map + 0x40),Y
+    ORA a:addr(collision_map - 2),Y
+    BIT #POTENTIAL_BLAST
     BNE .loc_C44080
     CLC
     RTL
@@ -8819,14 +8821,14 @@ sub_C44460:
     BNE .loc_C44492
     TYA
     AND #0x1E
-    CMP a:addr(0x120),X
+    CMP a:addr(number_of_sounds),X
     BEQ .loc_C444A0
     RTL
 
 .loc_C44479:
     TYA
     AND #0x1E
-    CMP a:addr(0x120),X
+    CMP a:addr(number_of_sounds),X
     BCS .loc_C444A0
     SEC
     RTL
@@ -8835,7 +8837,7 @@ sub_C44460:
     REP #0x20
     TYA
     AND #0x3C0
-    CMP a:addr(0x122),X
+    CMP a:addr(number_of_musics_in_bank),X
     SEP #0x20
     BCS .loc_C444A0
     SEC
@@ -8845,7 +8847,7 @@ sub_C44460:
     REP #0x20
     TYA
     AND #0x3C0
-    CMP a:addr(0x122),X
+    CMP a:addr(number_of_musics_in_bank),X
     SEP #0x20
     BEQ .loc_C444A0
     RTL
@@ -8870,7 +8872,7 @@ sub_C444A2:
     REP #0x20
     TYA
     AND #0x3C0
-    CMP a:addr(0x122),X
+    CMP a:addr(number_of_musics_in_bank),X
     SEP #0x20
     BEQ .loc_C44505
     LDA z:0x4C
@@ -8893,7 +8895,7 @@ sub_C444A2:
 .loc_C444E3:
     TYA
     AND #0x1E
-    CMP a:addr(0x120),X
+    CMP a:addr(number_of_sounds),X
     BEQ .loc_C44505
     LDA z:0x4C
     STA z:0x40
@@ -9334,14 +9336,14 @@ sub_C447CF:
     LDA a:4,Y
     REP #0x20
     BEQ sub_C447F2
-    DEC a:addr(0x126),X
+    DEC a:addr(unk_dboot_26),X
     BNE sub_C447F2.loc_C44840
     ; fallthrough
 
 sub_C447F2:
     REP #0x20
     LDA #0x100
-    STA a:addr(0x126),X
+    STA a:addr(unk_dboot_26),X
     LDA #0xFF
     STA z:0x4A
     LDA a:addr(level_manager_object.number_of_human_players) ; orig=0x0D36
@@ -9370,7 +9372,7 @@ sub_C447F2:
     CPX z:0x42
     BEQ .loc_C44817
     TAY
-    STA a:addr(0x100),X
+    STA a:addr(dboot_ram_start),X
     LDA a:addr(4),Y
     AND #0xFF
     BEQ .loc_C44817
@@ -9380,20 +9382,20 @@ sub_C447F2:
 
 .loc_C44840:
     REP #0x20
-    LDY a:addr(0x100),X
+    LDY a:addr(dboot_ram_start),X
     LDA a:addr(0x11),Y
     AND #0xF0
     LSR A
     LSR A
     LSR A
-    STA a:addr(0x120),X
+    STA a:addr(number_of_sounds),X
     LDA a:addr(0x14),Y
     AND #0xF0
     ASL A
     ASL A
-    STA a:addr(0x122),X
-    ORA a:addr(0x120),X
-    STA a:addr(0x124),X
+    STA a:addr(number_of_musics_in_bank),X
+    ORA a:addr(number_of_sounds),X
+    STA a:addr(pointer_to_instrument_list),X
     STA z:0x53
 .locret_C44864:
     RTL
@@ -9415,7 +9417,7 @@ sub_C44865:
     STA z:0x40
     LDA #0xFFFF
     STA z:0x42
-    LDA #0xD40
+    LDA #addr(player_1)
 
 .loc_C4488D:
     TAX
@@ -9490,7 +9492,7 @@ sub_C448F5:
     AND f:byte_C44936,X
     ORA f:byte_C4493B,X
     PLX
-    STA a:addr(0x138),X
+    STA a:addr(unk_dboot_38),X
     RTL
 
 sub_C44911:
@@ -9523,12 +9525,12 @@ byte_C4493B:
 sub_C44945:
     SEP #0x20
     CLC
-    LDA a:addr(0x130),X
-    ADC a:addr(0x131),X
-    ADC a:addr(0x132),X
-    ADC a:addr(0x133),X
-    ADC a:addr(0x134),X
-    ADC a:addr(0x135),X
+    LDA a:addr(dboot_paramater_0),X
+    ADC a:addr(unk_dboot_31),X
+    ADC a:addr(unk_dboot_32),X
+    ADC a:addr(unk_dboot_33),X
+    ADC a:addr(unk_dboot_34),X
+    ADC a:addr(unk_dboot_35),X
     STA z:0x40
     BEQ .locret_C44997
     SEP #0x20
@@ -9586,14 +9588,14 @@ sub_C44998:
     ORA z:0x34,X
     TAY
     SEP #0x20
-    LDA a:addr(0x130),Y
+    LDA a:addr(dboot_paramater_0),Y
     BNE .loc_C449E1
     INC z:0x34,X
     BRA .loc_C449CF
 
 .loc_C449E1:
     DEC A
-    STA a:addr(0x130),Y
+    STA a:addr(dboot_paramater_0),Y
     REP #0x20
     LDA z:0x34,X
     ASL A
@@ -9934,19 +9936,19 @@ i16
     INC z:0x24,X
     CPX #addr(player_4 + player.sizeof)
     BCS .loc_C44C74
-    INC a:addr(0x108),X
-    LDA a:addr(0x108),X
+    INC a:addr(unk_dboot_8),X
+    LDA a:addr(unk_dboot_8),X
     STA a:addr(0x1C),Y
 
 .loc_C44C74:
     LDA a:addr(current_mode) ; orig=0x0C3C
     CMP #3
     BEQ .loc_C44CAD
-    CPX #0xDC0
+    CPX #addr(player_3)
     BEQ .loc_C44CAD
-    CPX #0xE00
+    CPX #addr(player_4)
     BEQ .loc_C44CAD
-    LDA a:addr(0x108),X
+    LDA a:addr(unk_dboot_8),X
     AND #7
     STA z:0x40
     ASL A
@@ -9968,7 +9970,7 @@ i16
     STZ z:0x41
     LDY z:0x40
     LDA #0
-    STA a:addr(0xC3F),Y
+    STA a:addr(combo_counter),Y
 
 .loc_C44CAD:
     CLC
@@ -10162,7 +10164,7 @@ sub_C44DA9:
     BIT #0x80
     BEQ .loc_C44E11
     LDA #0x1C
-    STA a:addr(0x4F5),Y
+    STA a:addr(bg1_tilemap+1),Y
 .loc_C44E11:
     REP #0x20
     LDA z:0xC,X
@@ -10328,7 +10330,7 @@ sub_C44DA9:
     JML explode_bomb
 
 .loc_C44F3B:
-    CPY #0xF40
+    CPY #addr(gameover_related_object)
     BCS .locret_C44F4D
     LDA a:addr(7),Y
     BEQ .locret_C44F4D
@@ -10649,7 +10651,7 @@ i16
     BIT #1
     BNE .loc_C45184
     INC z:0x42
-    LDA a:addr(0x917),Y
+    LDA a:addr(collision_map + 1),Y
     AND #0x10
     BNE .loc_C45184
     DEC z:0x42
@@ -10691,9 +10693,9 @@ i16
     BEQ .loc_C451D5
     AND #0xBF
     STA z:0x26,X
-    LDA a:addr(0x917),Y
+    LDA a:addr(collision_map + 1),Y
     ORA #0x70
-    STA a:addr(0x917),Y
+    STA a:addr(collision_map + 1),Y
 
 .loc_C451D5:
     PLX
@@ -11500,7 +11502,7 @@ sub_C4576B:
     DEC z:0x24,X
     PLX
     LDY z:8,X
-    CPY #0xF40
+    CPY #addr(gameover_related_object)
     BCS .locret_C4579D
     LDA a:addr(7),Y
     BEQ .locret_C4579D
@@ -12343,7 +12345,7 @@ sub_C45BDA:
     RTL
 sub_C45D39:
 i16
-    LDY #0xF40
+    LDY #addr(gameover_related_object)
 
 .loc_C45D3C:
     SEP #0x20
@@ -12974,7 +12976,7 @@ i16
     STA a:addr(unk_7E0E9A) ; orig=0x0E9A
     SEP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     STZ z:6,X
     STZ z:7,X
     STZ z:5,X
@@ -12986,7 +12988,7 @@ i16
     STZ z:0x1C,X
     JSL sub_C4774A
     SEP #0x20
-    LDX #0xD80
+    LDX #addr(player_2)
     STZ z:6,X
     STZ z:7,X
     LDA #1
@@ -13000,7 +13002,7 @@ i16
     STZ z:0x1C,X
     JSL sub_C4774A
     SEP #0x20
-    LDX #0xDC0
+    LDX #addr(player_3)
     STZ z:6,X
     LDA #2
     STA z:5,X
@@ -13010,7 +13012,7 @@ i16
     STA z:0x1F,X
     JSL sub_C4774A
     SEP #0x20
-    LDX #0xE00
+    LDX #addr(player_4)
     STZ z:6,X
     LDA #3
     STA z:5,X
@@ -13429,7 +13431,7 @@ sub_C4667D:
 
 sub_C4669F:
     REP #0x20
-    LDX #0xD40
+    LDX #addr(player_1)
 
 .loc_C466A4:
     LDA z:4,X
@@ -13485,12 +13487,12 @@ sub_C466D8:
     JML .loc_C467DF
 
 .loc_C466F7:
-    LDY #0xD40
-    LDX #0xD80
+    LDY #addr(player_1)
+    LDX #addr(player_2)
     LDA a:addr(4),Y
     BEQ .loc_C46708
-    LDY #0xD80
-    LDX #0xD40
+    LDY #addr(player_2)
+    LDX #addr(player_1)
 
 .loc_C46708:
     LDA a:addr(0x22),Y
@@ -13512,11 +13514,11 @@ sub_C466D8:
 
 .loc_C46729:
     LDA #0x10
-    STA a:addr(0xCF1),Y
+    STA a:addr(joypad_1_previous + 1),Y
     LDA #0
-    STA a:addr(0xCF8),Y
+    STA a:addr(joypad_1_pressed),Y
     LDA #0
-    STA a:addr(0xCF9),Y
+    STA a:addr(joypad_1_pressed + 1),Y
     PLY
 
 .loc_C46739:
@@ -13547,9 +13549,9 @@ sub_C466D8:
     LDA #0
     STA a:addr(0x1C),Y
     LDA #0x5000
-    STA a:addr(0x11C),Y
+    STA a:addr(unk_dboot_1C),Y
     LDA #0
-    STA a:addr(0x11A),Y
+    STA a:addr(current_music_bank),Y
     SEP #0x20
     PHY
     LDA a:addr(5),Y
@@ -13607,7 +13609,7 @@ sub_C466D8:
     db 4, 5, 5
 
 .loc_C467EE:
-    LDX #0xD40
+    LDX #addr(player_1)
 
 .loc_C467F1:
     REP #0x20
@@ -13616,7 +13618,7 @@ sub_C466D8:
     ASL A
     PHX
     TAX
-    LDA a:addr(0xCF0),X
+    LDA a:addr(joypad_1_previous),X
     PLX
     BIT #0xC0C0
     BEQ .loc_C46861
@@ -13627,12 +13629,12 @@ sub_C466D8:
     LDA f:byte_C3092C,X
     AND #0xFF
     STA z:0x40
-    LDA a:addr(0xC5F),X
+    LDA a:addr(word_7E0C5F),X
     BIT #2
     BEQ .loc_C4686F
     SEP #0x20
     LDA #0
-    STA a:addr(0xC5F),X
+    STA a:addr(word_7E0C5F),X
     PLX
     REP #0x20
     LDA z:5,X
@@ -13643,14 +13645,14 @@ sub_C466D8:
     LDA f:byte_C30930,X
     PLX
     LDY z:0x40
-    STA a:addr(0x816),Y
+    STA a:addr(bg3_tilemap),Y
     INC A
-    STA a:addr(0x818),Y
+    STA a:addr(bg3_tilemap + 2),Y
     CLC
     ADC #0xF
-    STA a:addr(0x856),Y
+    STA a:addr(bg3_tilemap + 0x40),Y
     INC A
-    STA a:addr(0x858),Y
+    STA a:addr(bg3_tilemap + 0x42),Y
     REP #0x20
     LDA #addr(init_player_handler)
     STA z:0,X
@@ -14462,7 +14464,7 @@ i16
     LDA #bank(battlemode_hud_tilemap)
     STA z:0x55
     JSL sub_C46FC9
-    LDX #0xD40
+    LDX #addr(player_1)
     REP #0x20
 
 .loc_C46F62:
@@ -15152,7 +15154,7 @@ i16
 sub_C47560:
 i16
     REP #0x20
-    LDX #0xF40
+    LDX #addr(gameover_related_object)
 
 .loc_C47565:
     LDA z:0,X
@@ -15237,61 +15239,76 @@ i16
     LDA #0x64
     STA a:addr(max_object_pointer_object) ; orig=0x00BC
     LDY #0
-    LDX #addr(pause_object)
+    LDX #addr(dynamic_objects)
 
-.loc_C475FE:
+    ; Deallocate existing dynamic objects, fill object_pointer_array
+.loop:
     TXA
     STA a:addr(object_pointer_array),Y
     INY
     INY
-    STZ z:0,X
-    STZ z:2,X
+    STZ z:object.handler,X
+    STZ z:object.handler + 2,X
     TXA
     CLC
     ADC #player.sizeof
     TAX
-    CMP #addr(unk_7E1C40)
-    BNE .loc_C475FE
+    CMP #addr(dynamic_objects.end)
+    BNE .loop
+
     LDA #0
-    STA a:addr(unk_7E0F44) ; orig=0x0F44
+    STA a:addr(gameover_related_object.prev) ; orig=0x0F44
+    
     LDA #0
-    STA a:addr(word_7E0F42+1) ; orig=0x0F43
-    LDA #addr(unk_7E0F80)
-    STA a:addr(word_7E0F46) ; orig=0x0F46
-    REP #0x20
-    LDA #addr(gameover_writing_object)
-    STA a:addr(enemy_objects) ; orig=0x0F40
-    SEP #0x20
-    LDA #bank(gameover_writing_object)
-    STA a:addr(word_7E0F42) ; orig=0x0F42
-    REP #0x20
-    LDX #addr(unk_7E0F80)
-    LDA #addr(enemy_objects)
-    STA z:4,X
-    LDA #0xFFFF
-    STA z:6,X
-    REP #0x20
+    STA a:addr(gameover_related_object + 3) ; orig=0x0F43
+    
     LDA #addr(hud_related_object)
-    STA z:0,X
+    STA a:addr(gameover_related_object.next) ; orig=0x0F46
+    
+    REP #0x20
+    LDA #addr(gameover_related_handler)
+    STA a:addr(gameover_related_object.handler) ; orig=0x0F40
     SEP #0x20
-    LDA #bank(hud_related_object)
-    STA z:2,X
+    
+    LDA #bank(gameover_related_handler)
+    STA a:addr(gameover_related_object.handler + 2) ; orig=0x0F42
+    
+    REP #0x20
+    LDX #addr(hud_related_object)
+    
+    LDA #addr(gameover_related_object)
+    STA z:dynamic_object.prev,X
+    
+    LDA #0xFFFF
+    STA z:dynamic_object.next,X
+    
+    REP #0x20
+    LDA #addr(hud_related_handler)
+    STA z:dynamic_object.handler,X
+    SEP #0x20
+    
+    LDA #bank(hud_related_handler)
+    STA z:dynamic_object.handler + 2,X
+    
     LDA #0xFE
     STA z:3,X
+    
     REP #0x20
-    LDX #0xD00
+    LDX #addr(level_manager_object)
+    
     SEP #0x20
     create_object handle_pause
     REP #0x20
-    STZ a:addr(word_7E0078) ; orig=0x0078
+    
+    STZ a:0x78
     LDA #0x2C
-    STA a:addr(word_7E007A) ; orig=0x007A
+    STA a:0x7a
     LDY #0
     LDX #0x1CC0
 
 .loc_C47680:
     TXA
-    STA a:addr(unk_7E04C4),Y
+    STA a:addr(bomb_related_array),Y
     INY
     INY
     STZ z:0,X
@@ -15430,10 +15447,10 @@ sub_C47770:
     STZ z:0x3A,X
     STZ z:0x3B,X
     LDA #0
-    STA a:addr(0x130),X
+    STA a:addr(dboot_paramater_0),X
     LDA #0
-    STA a:addr(0x132),X
-    STZ a:addr(0x134),X
+    STA a:addr(unk_dboot_32),X
+    STZ a:addr(unk_dboot_34),X
     RTL
 
 .loc_C477AB:
@@ -15448,10 +15465,10 @@ sub_C47770:
     STZ z:0x3A,X
     STZ z:0x3B,X
     LDA #0
-    STA a:addr(0x130),X
+    STA a:addr(dboot_paramater_0),X
     LDA #0
-    STA a:addr(0x132),X
-    STZ a:addr(0x134),X
+    STA a:addr(unk_dboot_32),X
+    STZ a:addr(unk_dboot_34),X
     RTL
 
 .loc_C477D2:
@@ -15466,10 +15483,10 @@ sub_C47770:
     STZ z:0x3A,X
     STZ z:0x3B,X
     LDA #0
-    STA a:addr(0x130),X
+    STA a:addr(dboot_paramater_0),X
     LDA #0
-    STA a:addr(0x132),X
-    STZ a:addr(0x134),X
+    STA a:addr(unk_dboot_32),X
+    STZ a:addr(unk_dboot_34),X
     RTL
 
 .loc_C477F9:
@@ -15484,10 +15501,10 @@ sub_C47770:
     STZ z:0x3A,X
     STZ z:0x3B,X
     LDA #0
-    STA a:addr(0x130),X
+    STA a:addr(dboot_paramater_0),X
     LDA #0
-    STA a:addr(0x132),X
-    STZ a:addr(0x134),X
+    STA a:addr(unk_dboot_32),X
+    STZ a:addr(unk_dboot_34),X
     RTL
 
 byte_C47820:
@@ -15579,9 +15596,9 @@ i16
     PHA
     LDA z:0x51
     PHA
-    LDA #0xC5F
+    LDA #addr(word_7E0C5F)
     STA z:0x53
-    LDX #0xD40
+    LDX #addr(player_1)
     LDY #0
 
 .loc_C47968:
@@ -15643,7 +15660,7 @@ i16
     LSR A
     LSR A
     DEC A
-    STA a:addr(0x13E),X
+    STA a:addr(unk_dboot_3e),X
     JSL sub_C47770
 .loc_C479CC:
     REP #0x20
@@ -15658,8 +15675,8 @@ i16
     JML .loc_C47968
 
 .loc_C479E1:
-    LDX #0xD40
-    LDA #0xC5F
+    LDX #addr(player_1)
+    LDA #addr(word_7E0C5F)
     STA z:0x53
 
 .loc_C479E9:
@@ -15683,7 +15700,7 @@ i16
     LSR A
     LSR A
     DEC A
-    STA a:addr(0x13E),X
+    STA a:addr(unk_dboot_3e),X
     JSL sub_C47770
 
 .loc_C47A0C:

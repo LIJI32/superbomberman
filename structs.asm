@@ -44,8 +44,18 @@ struct object
     org 0x40
 endstruct
 
-struct pause_handler
+struct dynamic_object
     object
+    org 4
+.prev
+    ds 2
+.next
+    ds 2
+    org 0x40
+endstruct
+
+struct pause_handler
+    dynamic_object
 
 ; Debug menu only
 org 0x10
@@ -67,7 +77,7 @@ PAUSE_HANDLER_STATE_CLOSING = 2
 
 ; Fields that are common to both player, enemy and most other visible objects
 struct sprite
-    object
+    dynamic_object ; Note: player objects are static objects
     org 3
     ds 5 ; Unknown / defined by "subclasses"
 .current_animation:
@@ -207,13 +217,8 @@ org 0x40
 endstruct
 
 struct enemy
-    object
-    org 3
-    ds 1
-.prev:
-    ds 2
-.next:
-    ds 2
+    dynamic_object
+    org 8
 .current_animation:
     ds 3
 .max_frame:
@@ -291,7 +296,7 @@ struct enemy
 endstruct
 
 struct score_popup_object
-    object
+    dynamic_object
     org 3
     ds 1
     ds 1

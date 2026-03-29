@@ -1200,11 +1200,11 @@ i16
 .loc_C60A7D:
     STA a:addr(free_offset_in_object_pointer_array) ; orig=0x00BA
     LDY a:addr(object_pointer_array),X
-    LDA z:low(unk_7E00DB)
-    STA a:addr(0),Y
-    LDA z:low(unk_7E00DC)
-    STA a:addr(1),Y
-    LDX #0xF40
+    LDA z:0xDB
+    STA a:object.handler,Y
+    LDA z:0xDC
+    STA a:object.handler + 1,Y
+    LDX #addr(gameover_related_object)
 
 .loc_C60A90:
     SEP #0x20
@@ -1259,7 +1259,7 @@ i16
 
 .loc_C60ADA:
     STA a:addr(word_7E0078) ; orig=0x0078
-    LDY a:addr(0x4C4),X
+    LDY a:addr(bomb_related_array),X
     LDA z:0x40
     STA a:addr(0),Y
     LDX #0x1C80
@@ -1331,7 +1331,7 @@ sub_C60B35:
 .loc_C60B45:
     STA a:addr(word_7E007A) ; orig=0x007A
     TXA
-    STA a:addr(0x4C4),Y
+    STA a:addr(bomb_related_array),Y
     LDY z:4,X
     LDA z:6,X
     STA a:addr(6),Y
@@ -2479,7 +2479,7 @@ sub_C6139F:
     LDA a:addr(collision_map),Y
     BIT #0x20
     BNE .loc_C613DE
-    LDA a:addr(0x917),Y
+    LDA a:addr(collision_map + 1),Y
     BIT #1
     BNE .loc_C613DE
     LDA z:0x40
@@ -2929,7 +2929,7 @@ i16
     LDA #0
 
 .loc_C616CB:
-    STA f:0xC3F,X
+    STA f:combo_counter & 0xFFFF,X ; Access through bank 0 rather than 7E, for some reason
     INX
     INX
     CPX #0x10
@@ -3988,7 +3988,7 @@ i16
 sub_C61F68:
 i16
     REP #0x20
-    LDY #0xD40
+    LDY #addr(player_1)
     SEP #0x20
     LDA a:addr(0x11),Y
     SEC
@@ -4133,7 +4133,7 @@ sub_C620A4:
 sub_C620C4:
 i16
     REP #0x20
-    LDY #0xD40
+    LDY #addr(player_1)
 
 .loc_C620C9:
     SEP #0x20
@@ -4706,22 +4706,22 @@ sub_C62460:
 .loc_C62478:
     STA a:addr(word_7E030C) ; orig=0x030C
     SEP #0x20
-    LDA a:addr(0x31C),X
+    LDA a:addr(unk_7E031C),X
     STA z:0x50
-    LDA a:addr(0x31D),X
+    LDA a:addr(unk_7E031C + 1),X
     STA z:0x51
-    LDA a:addr(0x31E),X
+    LDA a:addr(unk_7E031C + 2),X
     STA z:0x52
-    LDA a:addr(0x31F),X
+    LDA a:addr(unk_7E031C + 3),X
     STA z:0x53
-    LDA a:addr(0x320),X
+    LDA a:addr(unk_7E031C + 4),X
     STA z:0x54
-    LDA a:addr(0x321),X
+    LDA a:addr(unk_7E031C + 5),X
     STA z:0x55
     REP #0x20
-    LDA a:addr(0x322),X
+    LDA a:addr(unk_7E031C + 6),X
     STA z:0x40
-    LDA a:addr(0x324),X
+    LDA a:addr(unk_7E031C + 8),X
     STA z:0x42
     JSL call_function_at_0050
     JML sub_C62460
@@ -4757,11 +4757,11 @@ sub_C624DF:
     STA a:addr(DMA_5_PARAMS)
     LDA #0x22
     STA a:addr(DMA_5_B_ADDRESS)
-    LDA a:addr(word_7E0053) ; orig=0x0053
+    LDA a:0x53
     STA a:addr(DMA_5_A_ADDRESS_LOW_BYTE)
-    LDA a:addr(word_7E0053+1) ; orig=0x0054
+    LDA a:0x54
     STA a:addr(DMA_5_A_ADDRESS_HIGH_BYTE)
-    LDA a:addr(word_7E0055) ; orig=0x0055
+    LDA a:0x55
     STA a:addr(DMA_5_A_ADDRESS_BANK)
     LDA #0x20
     STA a:addr(DMA_5_BYTES_COUNT_LOW_BYTE)
@@ -4788,22 +4788,22 @@ sub_C62514:
     TAY
     SEP #0x20
     LDA z:0x50
-    STA a:addr(0x31C),X
+    STA a:addr(unk_7E031C),X
     LDA z:0x51
-    STA a:addr(0x31D),X
+    STA a:addr(unk_7E031C + 1),X
     LDA z:0x52
-    STA a:addr(0x31E),X
+    STA a:addr(unk_7E031C + 2),X
     LDA z:0x53
-    STA a:addr(0x31F),X
+    STA a:addr(unk_7E031C + 3),X
     LDA z:0x54
-    STA a:addr(0x320),X
+    STA a:addr(unk_7E031C + 4),X
     LDA z:0x55
-    STA a:addr(0x321),X
+    STA a:addr(unk_7E031C + 5),X
     REP #0x20
     LDA z:0x40
-    STA a:addr(0x322),X
+    STA a:addr(unk_7E031C + 6),X
     LDA z:0x42
-    STA a:addr(0x324),X
+    STA a:addr(unk_7E031C + 8),X
     TYA
     STA a:addr(word_7E030E) ; orig=0x030E
 
@@ -5240,8 +5240,8 @@ i16
 
 sub_C62834:
     REP #0x30
-    LDX a:addr(byte_7E00A0) ; orig=0x00A0
-    CPX a:addr(byte_7E00A2) ; orig=0x00A2
+    LDX a:addr(word_7E00A0) ; orig=0x00A0
+    CPX a:addr(word_7E00A2) ; orig=0x00A2
     BEQ .loc_C6288D
     SEP #0x20
     LDA z:0x6C
@@ -5280,10 +5280,10 @@ sub_C62834:
 
 .loc_C62881:
     REP #0x20
-    LDA a:addr(byte_7E00A0) ; orig=0x00A0
+    LDA a:addr(word_7E00A0) ; orig=0x00A0
     INC A
     AND #0x1F
-    STA a:addr(byte_7E00A0) ; orig=0x00A0
+    STA a:addr(word_7E00A0) ; orig=0x00A0
 
 .loc_C6288D:
     SEP #0x20
@@ -6554,7 +6554,7 @@ off_C634B5:
     da sub_C61562, sub_C615CE, sub_C61586, sub_C615AA; 0
 check_for_enemy_with_enemy_collision:
 i16
-    LDY #addr(enemy_objects)
+    LDY #addr(gameover_related_object)
     STX z:0x50
 
 .loc_C634C2:
@@ -6599,7 +6599,7 @@ i16
 sub_C634FC:
 i16
     REP #0x20
-    LDY #0xD40
+    LDY #addr(player_1)
 
 .loc_C63501:
     SEP #0x20
@@ -6636,14 +6636,14 @@ i16
     CLC
     ADC #0x40
     TAY
-    CMP #0xDC0
+    CMP #addr(player_3)
     BNE .loc_C63501
     RTL
 
 sub_C6353D:
 i16
     REP #0x20
-    LDY #0xD40
+    LDY #addr(player_1)
 
 .loc_C63542:
     LDA a:addr(4),Y
@@ -6694,7 +6694,7 @@ i16
     CLC
     ADC #0x40
     TAY
-    CMP #0xDC0
+    CMP #addr(player_3)
     BNE .loc_C63542
     RTL
 
@@ -6947,7 +6947,7 @@ sub_C6370B:
 .loc_C6374F:
     CPY #0x2DE
     BCS .loc_C6375B
-    LDA a:addr(0x917),Y
+    LDA a:addr(collision_map + 1),Y
     BIT #1
     BNE .loc_C63772
 

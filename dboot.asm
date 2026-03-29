@@ -209,7 +209,7 @@ play_music_return_should_reload_bank:
     PHP
     REP #0x30
     AND #0x3F
-    STA z:dboot_internal_parameter - dboot_ram_start
+    STA z:dboot_paramater_0 - dboot_ram_start
     LDA z:current_music_bank - dboot_ram_start
     INC A
     BEQ .loc_C48177
@@ -252,7 +252,7 @@ is_music_in_current_bank:
 
 .loc_C481A1:
     LDA f:[z:pointer_to_current_music_list - number_of_music_banks],Y
-    CMP z:dboot_internal_parameter - dboot_ram_start
+    CMP z:dboot_paramater_0 - dboot_ram_start
     BEQ .loc_C481AE
     INY
     DEX
@@ -272,21 +272,21 @@ sub_C481B1:
     PHP
     REP #0x30
     PHA
-    LDA z:unk_7E011C - dboot_ram_start
+    LDA z:unk_dboot_1C - dboot_ram_start
     JSR a:addr(send_command_on_apu_io_2_3)
     PLA
     JSR a:addr(send_command_on_apu_io_2_3_part_2)
-    INC z:unk_7E011C - dboot_ram_start
-    INC z:unk_7E011C - dboot_ram_start
+    INC z:unk_dboot_1C - dboot_ram_start
+    INC z:unk_dboot_1C - dboot_ram_start
     PLP
     RTS
 
 dboot_send_4_byte_command:
     PHP
     REP #0x30
-    LDA z:unk_7E0164 - dboot_ram_start
+    LDA z:unk_dboot_64 - dboot_ram_start
     JSR a:addr(send_command_on_apu_io_2_3)
-    LDA z:unk_7E0168 - dboot_ram_start
+    LDA z:unk_dboot_68 - dboot_ram_start
     JSR a:addr(send_command_on_apu_io_2_3_part_2)
     PLP
     RTS
@@ -413,7 +413,7 @@ load_music_bank:
     PHP
     REP #0x20
     LDA #0x2200
-    STA z:unk_7E011C - dboot_ram_start
+    STA z:unk_dboot_1C - dboot_ram_start
     JSR a:addr(parse_music_bank)
     JSR a:addr(clear_sound_related_buffer)
     JSR a:addr(send_apu_command_3e)
@@ -436,19 +436,19 @@ init_array_of_music_related_pointers:
 .loc_C482CB:
     LDA f:dboot_data_offsets,X
     XBA
-    STA z:unk_7E0166 - dboot_ram_start
+    STA z:unk_dboot_66 - dboot_ram_start
     LDA f:dboot_data_offsets + 2,X
     XBA
-    STA z:unk_7E0164 - dboot_ram_start
+    STA z:unk_dboot_64 - dboot_ram_start
     CMP #0x8000
-    ROL z:unk_7E0166 - dboot_ram_start
+    ROL z:unk_dboot_66 - dboot_ram_start
     CLC
-    LDA z:unk_7E0164 - dboot_ram_start
+    LDA z:unk_dboot_64 - dboot_ram_start
     AND #0x7FFF
     ADC #addr(dboot_data_offsets)
     ORA #0x8000
     STA z:array_of_music_related_pointers - number_of_music_banks,X
-    LDA z:unk_7E0166 - dboot_ram_start
+    LDA z:unk_dboot_66 - dboot_ram_start
     ADC #bank(dboot_data_offsets)
     STA z:array_of_music_related_pointers + 2 - number_of_music_banks,X
     INX
@@ -790,7 +790,7 @@ apu_io2_related:
 send_7_bit_data_on_apu_io_0:
     PHP
     SEP #0x20
-    STA z:dboot_internal_parameter - dboot_ram_start
+    STA z:dboot_paramater_0 - dboot_ram_start
     LDA z:last_write_to_apu_io_0 - dboot_ram_start
 
 .loc_C4850A:
@@ -799,7 +799,7 @@ send_7_bit_data_on_apu_io_0:
     LDA f:APU_I_O_PORT_0
     EOR #0x80    ; Toggle the last bit every write
     AND #0x80
-    ORA z:dboot_internal_parameter - dboot_ram_start
+    ORA z:dboot_paramater_0 - dboot_ram_start
     STA f:APU_I_O_PORT_0
     STA z:last_write_to_apu_io_0 - dboot_ram_start
     PLP
@@ -808,11 +808,11 @@ send_7_bit_data_on_apu_io_0:
 send_7_bit_data_on_apu_io_1:
     PHP
     SEP #0x20
-    STA z:dboot_internal_parameter - dboot_ram_start
+    STA z:dboot_paramater_0 - dboot_ram_start
     LDA f:APU_I_O_PORT_1
     EOR #0x80
     AND #0x80
-    ORA z:dboot_internal_parameter - dboot_ram_start
+    ORA z:dboot_paramater_0 - dboot_ram_start
     STA f:APU_I_O_PORT_1
     PLP
     RTS
@@ -821,16 +821,16 @@ load_instruments:
     PHP
     REP #0x30
     LDA #0x800
-    STA z:unk_7E0164 - dboot_ram_start
-    LDA z:unk_7E011C - dboot_ram_start
-    STA z:unk_7E0168 - dboot_ram_start
+    STA z:unk_dboot_64 - dboot_ram_start
+    LDA z:unk_dboot_1C - dboot_ram_start
+    STA z:unk_dboot_68 - dboot_ram_start
     JSR a:addr(dboot_send_4_byte_command)
     LDA z:number_of_instruments - number_of_music_banks
     STA z:instrument_loop_counter - dboot_ram_start
     ASL A
     CLC
-    ADC z:unk_7E011C - dboot_ram_start
-    STA z:dboot_internal_parameter - dboot_ram_start
+    ADC z:unk_dboot_1C - dboot_ram_start
+    STA z:dboot_paramater_0 - dboot_ram_start
     LDA z:pointer_to_instrument_list - dboot_ram_start
     STA z:dboot_temp_pointer - dboot_ram_start
     LDA z:pointer_to_instrument_list+2 - dboot_ram_start
@@ -843,7 +843,7 @@ load_instruments:
     STZ z:number_of_loaded_instruments - dboot_ram_start
 
 .loc_C48565:
-    LDA z:dboot_internal_parameter - dboot_ram_start
+    LDA z:dboot_paramater_0 - dboot_ram_start
     JSR a:addr(sub_C481B1)
     LDA #0
     SEP #0x20
@@ -867,8 +867,8 @@ load_instruments:
     LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks],Y
     XBA
     CLC
-    ADC z:dboot_internal_parameter - dboot_ram_start
-    STA z:dboot_internal_parameter - dboot_ram_start
+    ADC z:dboot_paramater_0 - dboot_ram_start
+    STA z:dboot_paramater_0 - dboot_ram_start
     DEC z:instrument_loop_counter - dboot_ram_start
     BNE .loc_C48565
     LDA z:pointer_to_instrument_list - dboot_ram_start
@@ -900,7 +900,7 @@ load_instruments:
 .loc_C485C2:
     LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks],Y
     XBA
-    STA z:unk_7E0134 - dboot_ram_start
+    STA z:unk_dboot_34 - dboot_ram_start
     INY
     INY
     LDA f:[z:0x54],Y
@@ -912,7 +912,7 @@ load_instruments:
     STA z:0x38
 
 .loc_C485D2:
-    LDA z:unk_7E0134 - dboot_ram_start
+    LDA z:unk_dboot_34 - dboot_ram_start
     CLC
     ADC #0xC
     TAY
@@ -929,21 +929,21 @@ load_instruments:
 
 .loc_C485F1:    
     REP #0x20 
-    LDA z:unk_7E0134 - dboot_ram_start
+    LDA z:unk_dboot_34 - dboot_ram_start
     CLC
     ADC z:current_pointer_to_instrument_related_data - dboot_ram_start
-    STA z:unk_7E0164 - dboot_ram_start
+    STA z:unk_dboot_64 - dboot_ram_start
     LDA #0
     ADC z:current_pointer_to_instrument_related_data+2 - dboot_ram_start
-    STA z:unk_7E0166 - dboot_ram_start
+    STA z:unk_dboot_66 - dboot_ram_start
     LDA #0x10
-    STA z:unk_7E0168 - dboot_ram_start
+    STA z:unk_dboot_68 - dboot_ram_start
     JSR a:addr(sub_C481D3)
-    LDA z:unk_7E0134 - dboot_ram_start
+    LDA z:unk_dboot_34 - dboot_ram_start
     CLC
     ADC #0x10
-    STA z:unk_7E0134 - dboot_ram_start
-    DEC z:unk_7E0138 - dboot_ram_start
+    STA z:unk_dboot_34 - dboot_ram_start
+    DEC z:unk_dboot_38 - dboot_ram_start
     BEQ .loc_C48619
     JML .loc_C485D2
 

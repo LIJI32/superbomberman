@@ -1734,14 +1734,14 @@ sub_C71396:
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags) ; orig=0x0314
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
     STA z:0x40
     JSL change_direction_and_start_animation
     SEP #0x20
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
@@ -1819,7 +1819,7 @@ sub_C71396:
     LDA #0xB8
     STA a:addr(player_2.y_position) ; orig=0x0D94
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     REP #0x20
     LDA #addr(up_walking_animation)
     STA z:0x50
@@ -1827,7 +1827,7 @@ sub_C71396:
     LDA #bank(up_walking_animation)
     STA z:0x52
     JSL start_animation
-    LDX #0xD80
+    LDX #addr(player_2)
     REP #0x20
     LDA #addr(up_walking_animation)
     STA z:0x50
@@ -1913,13 +1913,13 @@ sub_C71396:
     DEC z:0x30,X
     BNE .locret_C71559
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA #0
     STA z:0x40
     LDA #1
     STA z:0x42
     JSL add_to_score_if_allowed
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA #0
     STA z:0x40
     LDA #1
@@ -5898,14 +5898,14 @@ clown_mask_palettes:
 sub_C73FF8:
     SEP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
     STA z:0x40
     JSL change_direction_and_start_animation
     SEP #0x20
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
@@ -6011,13 +6011,13 @@ sub_C740B2:
     BCC .locret_C74129
     REP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA #0
     STA z:0x40
     LDA #1
     STA z:0x42
     JSL add_to_score_if_allowed
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA #0
     STA z:0x40
     LDA #1
@@ -6837,14 +6837,14 @@ sub_C7489C:
 .loc_C74925:
     SEP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
     STA z:0x40
     JSL change_direction_and_start_animation
     SEP #0x20
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
@@ -6910,13 +6910,13 @@ sub_C7489C:
     BCC .locret_C74A0B
     REP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA #0
     STA z:0x40
     LDA #1
     STA z:0x42
     JSL add_to_score_if_allowed
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA #0
     STA z:0x40
     LDA #1
@@ -10731,14 +10731,14 @@ i16
     STA z:0x14,X
     SEP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
     STA z:0x40
     JSL change_direction_and_start_animation
     SEP #0x20
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA z:0x1F,X
     STA z:0x1E,X
     LDA z:0x20,X
@@ -10852,7 +10852,7 @@ sub_C77292:
 i16
     PHX
     JSL sub_C4245D
-    LDX #0xD40
+    LDX #addr(player_1)
     REP #0x20
     LDA #0x68
     STA z:0x11,X
@@ -10864,7 +10864,7 @@ i16
     SEP #0x20
     LDA #bank(sub_C4273F)
     STA z:2,X
-    LDX #0xD80
+    LDX #addr(player_2)
     REP #0x20
     LDA #0xA8
     STA z:0x11,X
@@ -10964,13 +10964,13 @@ i16
 .loc_C77390:
     REP #0x20
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDA #0
     STA z:0x40
     LDA #1
     STA z:0x42
     JSL add_to_score_if_allowed
-    LDX #0xD80
+    LDX #addr(player_2)
     LDA #0
     STA z:0x40
     LDA #1
@@ -11539,14 +11539,14 @@ i16
     ADC z:0x50
     STA z:0x50
     LDA f:[z:0x50]
-    STA a:addr(0xC9D),Y
+    STA a:addr(bg1_h_scroll),Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
     SEC
     SBC #0x50
     AND #0x3FF
-    STA a:addr(0xC9F),Y
+    STA a:addr(bg1_v_scroll),Y
     INC z:0x50
     INC z:0x50
     SEP #0x20

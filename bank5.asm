@@ -3576,29 +3576,29 @@ sub_C53E1E:
     LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
     BIT #0x20
     BEQ .loc_C53E42
-    LDA a:addr(0x554),Y
+    LDA a:addr(bg1_tilemap + 0x60),Y
     CMP #0x826
     BEQ .loc_C53E5C
 
 .loc_C53E42:
-    LDA a:addr(0x956),Y
+    LDA a:addr(collision_map + 0x40),Y
     BIT #0x3E0
     BNE .loc_C53E53
     LDA #0xC
-    ORA a:addr(bg1_tilemap+0x22) ; orig=0x0516
-    STA a:addr(0x534),Y
+    ORA a:addr(bg1_tilemap + 0x22) ; orig=0x0516
+    STA a:addr(bg1_tilemap + 0x40),Y
 
 .loc_C53E53:
     LDA #0xC
-    ORA a:addr(bg1_tilemap+0x22) ; orig=0x0516
-    STA a:addr(0x554),Y
+    ORA a:addr(bg1_tilemap + 0x22) ; orig=0x0516
+    STA a:addr(bg1_tilemap + 0x60),Y
 
 .loc_C53E5C:
-    LDA a:addr(0x956),Y
+    LDA a:addr(collision_map + 0x40),Y
     BIT #0x40
     BEQ .locret_C53E6A
     LDA #0x802
-    STA a:addr(0x534),Y
+    STA a:addr(bg1_tilemap + 0x40),Y
 
 .locret_C53E6A:
     RTL
@@ -5656,7 +5656,7 @@ endif
     AND #0xFF
     PHA
     CLC
-    ADC #0xC5F
+    ADC #addr(word_7E0C5F)
     STA z:0x53
     PLA
     ASL A
@@ -6057,7 +6057,7 @@ sub_C5564B:
     LDY #3
 
 .loc_C55654:
-    LDA a:addr(0xC5F),Y
+    LDA a:addr(word_7E0C5F),Y
     CMP z:0x42
     BNE .loc_C5565D
     INC z:0x40
@@ -6868,28 +6868,28 @@ sub_C55C7F:
     STA z:0x42
     LDA #0x430
     STA z:0x44
-    LDA #0xD40
+    LDA #addr(player_1)
     STA z:0x46
     JSL sub_C55E66
     LDA #0x139
     STA z:0x42
     LDA #0x430
     STA z:0x44
-    LDA #0xD80
+    LDA #addr(player_2)
     STA z:0x46
     JSL sub_C55E66
     LDA #0x159
     STA z:0x42
     LDA #0x430
     STA z:0x44
-    LDA #0xDC0
+    LDA #addr(player_3)
     STA z:0x46
     JSL sub_C55E66
     LDA #0x179
     STA z:0x42
     LDA #0x430
     STA z:0x44
-    LDA #0xE00
+    LDA #addr(player_4)
     STA z:0x46
     JSL sub_C55E66
     RTL
@@ -7533,7 +7533,7 @@ i16
     LDA #bank(byte_C5617E)
     STA z:0x5B
     PHX
-    LDX #0xD40
+    LDX #addr(player_1)
     LDY #0
     REP #0x20
     LDA #0
@@ -7544,7 +7544,7 @@ i16
     STA z:0x40
     LDA #0
     STA z:0x42
-    LDA #0xC5F
+    LDA #addr(word_7E0C5F)
     STA z:0x50
 
 .loc_C5637B:
@@ -7569,7 +7569,7 @@ i16
     CLC
     ADC #0x40
     TAX
-    CMP #0xE40
+    CMP #addr(player_4 + player.sizeof)
     BNE .loc_C5637B
     LDA z:0x40
     ASL A
@@ -7820,21 +7820,21 @@ i16
     BEQ .loc_C565FB
     TAY
     LDA #0x4E
-    STA a:addr(0x826),Y
+    STA a:addr(bg3_tilemap + 0x10),Y
     LDA #0x20
-    STA a:addr(0x827),Y
+    STA a:addr(bg3_tilemap + 0x11),Y
     LDA #0x4F
-    STA a:addr(0x828),Y
+    STA a:addr(bg3_tilemap + 0x12),Y
     LDA #0x20
-    STA a:addr(0x829),Y
+    STA a:addr(bg3_tilemap + 0x13),Y
     LDA #0x5E
-    STA a:addr(0x866),Y
+    STA a:addr(bg3_tilemap + 0x50),Y
     LDA #0x20
-    STA a:addr(0x867),Y
+    STA a:addr(bg3_tilemap + 0x51),Y
     LDA #0x5F
-    STA a:addr(0x868),Y
+    STA a:addr(bg3_tilemap + 0x52),Y
     LDA #0x20
-    STA a:addr(0x869),Y
+    STA a:addr(bg3_tilemap + 0x53),Y
     SEP #0x20
     LDA a:addr(word_7E0C95+1) ; orig=0x0C96
     CMP #0x30
@@ -9917,14 +9917,14 @@ sub_C57ABF:
     BNE .locret_C57B10
     LDA #0xFFF8
     STA z:0x40
-    LDA #0xD80
+    LDA #addr(player_2)
     STA z:0x42
     LDA z:0x1E,X
     AND #0xFF
     BNE .loc_C57AE5
     LDA #8
     STA z:0x40
-    LDA #0xD40
+    LDA #addr(player_1)
     STA z:0x42
 
 .loc_C57AE5:
