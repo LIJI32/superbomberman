@@ -111,7 +111,7 @@ struct player
     object
     org 3
     ds 1 ; Unknown
-.gameover_related:
+.unknown_flags:
     ds 1
 .player_index:
     ds 1
@@ -153,7 +153,8 @@ struct player
     ds 1
 .direction: ; 0x20
     ds 1
-    ds 1 ; Unknown
+.last_zigzag_direction
+    ds 1
 .down_keys:
     ds 2
 .current_bomb_count:
@@ -249,6 +250,7 @@ struct enemy
     ds 1
 .hitpoints_left:
     ds 1
+.flashing_counter
     ds 1
 .collision_mask:
     ds 1
@@ -363,4 +365,27 @@ struct score_popup_object
     ds 1
 .flags:
     ds 1
+endstruct
+
+struct palette_slot
+.palette_index:
+    ds 1
+.fade_flags: ; Unsure
+    ds 1
+.fade_counter:
+    ds 1
+.fade_state:
+    ds 1
+.unknown:
+    ds 4
+endstruct
+
+struct trampoline_animator
+    dynamic_object
+org 0x20
+.tile_offset:
+    ds 2
+.animation_counter:
+    ds 2
+org 0x40
 endstruct

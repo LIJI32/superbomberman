@@ -27,6 +27,7 @@ BONUS_MASK      = 0x1F
 BOMB            = 0x20
 SOFT_BLOCK      = 0x40
 HARD_BLOCK      = 0x80
+BLAST           = 0x100
 POTENTIAL_BLAST = 0x800
 PLAYER          = 0x8000
 
@@ -342,6 +343,21 @@ BUTTON_SELECT = 0x2000
 BUTTON_Y      = 0x4000
 BUTTON_B      = 0x8000
 
+; Directions
+
+DIR_RIGHT = high(BUTTON_RIGHT)
+DIR_LEFT  = high(BUTTON_LEFT)
+DIR_DOWN  = high(BUTTON_DOWN)
+DIR_UP    = high(BUTTON_UP)
+
+; Level manager flags
+
+LEVEL_FLAGS_WRAP_ZONE = 0x20
+LEVEL_FLAGS_JUMP_ZONE = 0x40
+
+; Player hit flags
+HIT_FLAG_BLAST = 0x1
+HIT_FLAG_PUNCHED_BOMB = 0x80
 
 ; Misc. constants
 STORY_MODE_TIMER_TICKS = 15

@@ -1390,7 +1390,7 @@ i16
     STA z:0x38,X
     LDA #0xD
     STA z:0x3A,X
-    JSL random2
+    JSL fast_random
     SEP #0x20
     AND #0x7F
     CLC
@@ -1426,12 +1426,8 @@ i16
 
 _crane_hand:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C71136
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C71136:
     BIT #0x41
     BEQ .loc_C7113E
     JML .loc_C71255
@@ -1441,43 +1437,43 @@ _crane_hand:
     LDA #0x29
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x2A
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #0x2B
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #0x35
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #0x2C
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x2D
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA #addr(SHIRO_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #addr(KURO_PALETTE)
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDA #addr(MOOK_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA #addr(CRANE_PALETTE)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(.loc_C711B2)
     STA z:0,X
@@ -1487,12 +1483,8 @@ _crane_hand:
 
 .loc_C711B2:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C711BF
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C711BF:
     BIT #0x41
     BEQ .loc_C711C7
     JML .loc_C71255
@@ -1517,12 +1509,8 @@ _crane_hand:
 
 .loc_C711E8:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C711F5
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C711F5:
     BIT #0x41
     BEQ .loc_C711FD
     JML .loc_C71255
@@ -1536,7 +1524,7 @@ _crane_hand:
     BNE .loc_C71255
     DEC z:0x32,X
     BPL .loc_C7121F
-    JSL random2
+    JSL fast_random
     SEP #0x20
     AND #0x7F
     STA z:0x32,X
@@ -1614,12 +1602,8 @@ _crane_hand:
 
 .loc_C7129C:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C712A9
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C712A9:
     BIT #0x41
     BEQ sub_C712B1
     JML sub_C712B1.locret_C712DA
@@ -1636,18 +1620,18 @@ sub_C712B1:
     STA z:0x40
     LDY #0
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA f:crane_fire_palettes,X
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     PLX
 
 .locret_C712DA:
     RTL
     
 ; Dead code
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x3F
     BIT #1
@@ -1664,63 +1648,63 @@ sub_C712EE:
     LDA #0x2E
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x2E
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #0x2E
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #0x2E
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #0x2E
     STA z:0x40
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #0x2E
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x2E
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #0xA
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #0xB
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #0xE
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #0xF
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     DEC z:0x16,X
     RTL
@@ -1841,63 +1825,63 @@ sub_C71396:
     LDA #0x29
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x2A
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #0x2B
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #0x35
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #5
     STA z:0x40
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #0x2C
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x2D
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA #addr(SHIRO_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #addr(KURO_PALETTE)
     STA z:0x40
     LDA #addr(AO_PALETTE)
-    JSL palette_related
+    JSL set_palette
     LDA #addr(BOMB_PALETTE)
     STA z:0x40
     LDA #0xA
-    JSL palette_related
+    JSL set_palette
     LDA #addr(RED_BOMB_PALETTE)
     STA z:0x40
     LDA #0xB
-    JSL palette_related
+    JSL set_palette
     LDA #addr(MOOK_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA #addr(CRANE_PALETTE)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     LDA #addr(MISSLE_PALETTE)
     STA z:0x40
     LDA #0xE
-    JSL palette_related
+    JSL set_palette
     LDA #0xE
     STA z:0x40
     LDA #0xF
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #0x80
     STA z:0x30,X
@@ -2049,12 +2033,8 @@ unknown_crane_object:
 
 .loc_C7163D:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C7164A
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C7164A:
     BIT #0x41
     BEQ .loc_C71652
     JML .loc_C71672
@@ -2253,15 +2233,15 @@ i16
     LDA #addr(MECHA_BOMBER_BLUE_PALETTE)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     LDA #addr(MECHA_BOMBER_RED_PALETTE)
     STA z:0x40
     LDA #0xE
-    JSL palette_related
+    JSL set_palette
     LDA #addr(MECHA_BOMBER_MAGENTA_PALETTE)
     STA z:0x40
     LDA #0xF
-    JSL palette_related
+    JSL set_palette
     RTL
 
 sub_C7180C:
@@ -2643,12 +2623,8 @@ sub_C71A36:
 
 .loc_C71AAC:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C71AB9
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C71AB9:
     BIT #0x41
     BEQ .loc_C71AC1
     JML .loc_C71B1A
@@ -2672,9 +2648,9 @@ sub_C71A36:
     BCS .loc_C71B1A
     LDA #0xE0
     STA z:0x42
-    JSL sub_C61586
+    JSL test_collision_below
     BNE .loc_C71B1A
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x7F
     CLC
@@ -2864,12 +2840,8 @@ sub_C71C65:
 
 .loc_C71C72:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C71C7F
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C71C7F:
     BIT #0x41
     BEQ .loc_C71C87
     JML sub_C71CCE
@@ -2954,12 +2926,8 @@ j_delete_object:
 
 sub_C71D1B:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C71D28
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C71D28:
     BIT #0x41
     BEQ .loc_C71D30
     JML sub_C71CCE
@@ -3053,11 +3021,11 @@ i16
     LDA #addr(MOOK_PALETTE)
     STA z:0x40
     LDA #0xA
-    JSL palette_related
+    JSL set_palette
     LDA #addr(CARAT_DIAMOND_PALETTE)
     STA z:0x40
     LDA #0xB
-    JSL palette_related
+    JSL set_palette
     RTL
 
 sub_C71E32:
@@ -3149,11 +3117,11 @@ i16
     LDA #addr(BOMB_PALETTE)
     STA z:0x40
     LDA #0xA
-    JSL palette_related
+    JSL set_palette
     LDA #addr(RED_BOMB_PALETTE)
     STA z:0x40
     LDA #0xB
-    JSL palette_related
+    JSL set_palette
     RTL
 
 sub_C71F0C:
@@ -3603,63 +3571,53 @@ i16
 
 _bigaron:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C72502
-    JML nullsub_C30015
-
-.loc_C72502:
-    BIT #0x41
-    BEQ .loc_C7250A
-    JML .locret_C725B2
-
-.loc_C7250A:
+    handler_return_if_paused
     SEP #0x20
     LDY #7
     LDA #0x10
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x11
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #0x12
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #0x13
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x14
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA #6
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #7
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDA #addr(BIGARON_PALETTE_1)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA #addr(BIGARON_PALETTE_2)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     LDA #addr(BIGARON_FIRE_PALETTE)
     STA z:0x40
     LDA #0xE
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #0xF
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(.loc_C7258A)
     STA z:0,X
@@ -3688,18 +3646,14 @@ _bigaron:
 .loc_C725AE:
     JSL advance_animation
 
-.locret_C725B2:
+.ret:
     RTL
 
 bigaron_main:
 i16
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C725C0
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C725C0:
     BIT #0x41
     BEQ .loc_C725C8
     JML bigaron_advance_animation
@@ -3819,11 +3773,11 @@ i16
     LDA f:bigaron_palettes,X
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA f:bigaron_palettes+1,X
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     PLX
     JSL advance_animation_2
     RTL
@@ -3833,7 +3787,7 @@ bigaron_palettes:
     db BIGARON_FIRE_PALETTE, BIGARON_FIRE_PALETTE
 sub_C726B9:
 i16
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0xFF
     ORA #0x100
@@ -3865,12 +3819,8 @@ sub_C726C7:
 
 .loc_C726F1:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C726FE
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C726FE:
     BIT #0x41
     BEQ .loc_C72706
     JML bigaron_advance_animation
@@ -3973,7 +3923,7 @@ bigaron_movement:
     REP #0x20
     BNE .loc_C727DF
     PLA
-    JSL random2
+    JSL fast_random
     SEP #enemy.direction
     AND #3
     CLC
@@ -4171,20 +4121,10 @@ sub_C72916:
 sub_C7294D:
 i16
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C7295A
-    JML nullsub_C30015
-
-.loc_C7295A:
-    BIT #0x41
-    BEQ .loc_C72962
-    JML .locret_C729AC
-
-.loc_C72962:
+    handler_return_if_paused
     REP #0x20
     DEC z:0x20,X
-    BNE .locret_C729AC
+    BNE .ret
     LDA z:0x30,X
     STA a:addr(bg1_h_scroll) ; orig=0x0C9D
     LDA z:0x32,X
@@ -4213,13 +4153,13 @@ i16
     STA a:addr(bg1_v_scroll) ; orig=0x0C9F
     LDA f:[z:0x50]
     STA z:0x20,X
-    BNE .locret_C729AC
+    BNE .ret
     JSL delete_object
-.locret_C729AC:
+.ret:
     RTL
 
 sub_C729AD:
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #3
     CLC
@@ -4257,19 +4197,19 @@ sub_C729EE:
     STA z:0x18,X
     LDA #0
     STA z:0x38,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x1FF
     CLC
     ADC #0xFC00
     STA z:0x16,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x1FF
     CLC
     ADC #0xFF00
     STA z:0x1A,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0xF
     CLC
@@ -4291,12 +4231,8 @@ sub_C729EE:
 
 .loc_C72A4D:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C72A5A
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C72A5A:
     BIT #0x41
     BEQ .loc_C72A62
     JML .loc_C72AEA
@@ -4346,19 +4282,19 @@ sub_C729EE:
     INC z:0x38,X
     LDA #0x10
     STA z:0x18,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x7F
     CLC
     ADC #0xFE80
     STA z:0x16,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x7F
     CLC
     ADC #0xFFC0
     STA z:0x1A,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0xF
     CLC
@@ -5544,7 +5480,7 @@ _clown_mask:
     LDA #addr(CLOWN_MASK_SPOTLIGHT_PALETTE)
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(.loc_C73D4E)
     STA z:0,X
@@ -5595,7 +5531,7 @@ _clown_mask:
     LDA #0x24
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(sub_C73DBC)
     STA z:0,X
@@ -5608,12 +5544,8 @@ _clown_mask:
 sub_C73DBC:
 i16
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C73DC9
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C73DC9:
     BIT #0x41
     BEQ .loc_C73DD1
     JML .loc_C73E95
@@ -5828,12 +5760,8 @@ sub_C73EF1:
 
 .loc_C73F6B:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C73F78
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C73F78:
     BIT #0x41
     BEQ .loc_C73F80
     JML .loc_C73FCD
@@ -5850,15 +5778,15 @@ sub_C73EF1:
     LDA f:clown_mask_palettes,X
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA f:clown_mask_palettes+1,X
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     LDA f:clown_mask_palettes+2,X
     STA z:0x40
     LDA #0xE
-    JSL palette_related
+    JSL set_palette
     PLX
     REP #0x20
     DEC z:0x16,X
@@ -5965,15 +5893,15 @@ sub_C73FF8:
     LDA f:clown_mask_palettes,X
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA f:clown_mask_palettes+1,X
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     LDA f:clown_mask_palettes+2,X
     STA z:0x40
     LDA #0xE
-    JSL palette_related
+    JSL set_palette
     PLX
     JSL advance_animation_2
     RTL
@@ -6111,12 +6039,8 @@ sub_C74158:
 
 .loc_C741B5:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C741C2
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C741C2:
     BIT #0x41
     BEQ .loc_C741CA
     JML .loc_C7420C
@@ -6636,59 +6560,49 @@ i16
 
 .loc_C74796:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C747A3
-    JML nullsub_C30015
-
-.loc_C747A3:
-    BIT #0x41
-    BEQ .loc_C747AB
-    JML .locret_C74851
-
-.loc_C747AB:
+    handler_return_if_paused
     SEP #0x20
     LDY #7
     LDA #0x3B
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #0x3C
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #4
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #5
     STA z:0x40
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #0x3D
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x3E
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA #addr(SHIRO_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #addr(KURO_PALETTE)
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDA #addr(MECHA_ONITA_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     STZ z:0x30,X
     REP #0x20
@@ -6720,18 +6634,14 @@ i16
 .loc_C7484D:
     JSL advance_animation
 
-.locret_C74851:
+.ret:
     RTL
 
 sub_C74852:
 i16
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C7485F
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C7485F:
     BIT #0x41
     BEQ .loc_C74867
     JML .loc_C74887
@@ -6780,17 +6690,7 @@ sub_C7489C:
     JSL sub_C6353D
     JSL advance_animation
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C748D1
-    JML nullsub_C30015
-
-.loc_C748D1:
-    BIT #0x41
-    BEQ .loc_C748D9
-    JML .locret_C748F9
-
-.loc_C748D9:
+    handler_return_if_paused
     REP #0x20
     DEC z:0x34,X
     LDA z:0x34,X
@@ -6804,10 +6704,10 @@ sub_C7489C:
     LDA f:mecha_onita_palettes,X
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     PLX
 
-.locret_C748F9:
+.ret:
     RTL
 
 .loc_C748FA:
@@ -6975,12 +6875,8 @@ sub_C74A1C:
 
 .loc_C74A46:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C74A53
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C74A53:
     BIT #0x41
     BEQ .loc_C74A5B
     JML .loc_C74A98
@@ -7037,12 +6933,8 @@ sub_C74A1C:
 
 .loc_C74AC3:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C74AD0
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C74AD0:
     BIT #0x41
     BEQ .loc_C74AD8
     JML .loc_C74B14
@@ -7339,7 +7231,7 @@ sub_C74C32:
     RTL
 
 sub_C74CD2:
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x3F
     CLC
@@ -7356,7 +7248,7 @@ sub_C74CD2:
 .loc_C74CF0:
     LDA z:0x40
     STA z:0x16,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x3F
     CLC
@@ -8180,12 +8072,8 @@ i16
 
 .loc_C758CC:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C758D9
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C758D9:
     BIT #0x41
     BEQ .loc_C758E1
     JML sub_C75967
@@ -8201,12 +8089,8 @@ i16
 
 .loc_C758F2:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C758FF
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C758FF:
     BIT #0x41
     BEQ .loc_C75907
     JML sub_C75967
@@ -8231,12 +8115,8 @@ i16
 
 .loc_C75928:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C75935
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C75935:
     BIT #0x41
     BEQ .loc_C7593D
     JML sub_C75967
@@ -8244,7 +8124,7 @@ i16
 .loc_C7593D:
     JSL sub_C759FC
     JSL sub_C75AD6
-    JSL sub_C6153E
+    JSL test_collision
     REP #0x20
     AND #0x1FF
     CMP #0x11C
@@ -8278,12 +8158,8 @@ sub_C75967:
     STA a:addr(bg2_h_scroll) ; orig=0x0CA1
     LDY #0
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C75997
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C75997:
     BIT #0x41
     BEQ .loc_C7599F
     JML .loc_C759C1
@@ -8352,19 +8228,19 @@ i16
     LDA f:unk_C7604A,X
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA f:unk_C7604B,X
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA f:spiderer_palettes,X
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA f:spiderer_palettes+1,X
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     PLX
     REP #0x20
     LDA z:0x30,X
@@ -8409,12 +8285,8 @@ sub_C75A70:
     REP #0x20
     STZ z:0x38,X
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C75AAB
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C75AAB:
     BIT #0x41
     BEQ .loc_C75AB3
     JML sub_C75967
@@ -8751,7 +8623,7 @@ sub_C75D02:
     PLA
     STA z:0x52
     JSL start_animation
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #3
     CLC
@@ -8815,12 +8687,8 @@ sub_C75DAC:
 i16
     JSL load_animation_frame
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C75DBD
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C75DBD:
     BIT #0x41
     BEQ .loc_C75DC5
     JML sub_C75D5E
@@ -9015,12 +8883,8 @@ j_sub_C75ED2:
 sub_C75F36:
     JSL advance_animation
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C75F47
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C75F47:
     BIT #0x41
     BEQ .loc_C75F4F
     JML j_sub_C75ED2
@@ -9082,12 +8946,8 @@ sub_C75FA8:
 
 .loc_C75FBC:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C75FC9
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C75FC9:
     BIT #0x41
     BEQ .loc_C75FD1
     JML .loc_C75FDB
@@ -9108,43 +8968,43 @@ i16
     LDA #0x40
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x41
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #0x73
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #5
     STA z:0x40
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #0x42
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x43
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA #addr(SHIRO_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #addr(KURO_PALETTE)
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDA #addr(SPIDERER_PALETTE_0)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA #addr(SPIDERER_PALETTE_1)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     RTL
 
 unk_C7604A:
@@ -9750,30 +9610,20 @@ sub_C769AE:
 
 sub_C769DD:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C769EA
-    JML nullsub_C30015
-
-.loc_C769EA:
-    BIT #0x41
-    BEQ .loc_C769F2
-    JML .locret_C76A34
-
-.loc_C769F2:
+    handler_return_if_paused
     REP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_BATTLE_DELAY
-    BNE .locret_C76A34
+    BNE .ret
     LDA a:addr(number_of_visible_bonuses) ; orig=0x0C91
     CMP #0x20
-    BCS .locret_C76A34
+    BCS .ret
     DEC z:0x20,X
-    BNE .locret_C76A34
+    BNE .ret
     LDA #1
     STA z:0x20,X
     JSL sub_C43B6E
-    BCS .locret_C76A34
+    BCS .ret
     REP #0x20
     LDA #0x800
     STA z:0x20,X
@@ -9781,7 +9631,7 @@ sub_C769DD:
     STA z:0x50
     LDA z:0x31,X
     STA z:0x51
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0xE
     PHY
@@ -9789,7 +9639,7 @@ sub_C769DD:
     LDA f:[z:0x50],Y
     PLY
     JSL create_bonus_object
-.locret_C76A34:
+.ret:
     RTL
 
 word_C76A35:
@@ -9837,7 +9687,7 @@ i16
     LDA #addr(INTRO_BALOON_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(.loc_C76AB2)
     STA z:0,X
@@ -9847,12 +9697,8 @@ i16
 
 .loc_C76AB2:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C76ABF
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C76ABF:
     BIT #0x41
     BEQ .loc_C76AC7
     JML .loc_C76ADD
@@ -9946,19 +9792,19 @@ i16
     LDA #0x75
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #0x79
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #addr(POISON_PALETTE)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     LDA #addr(POISON_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(compressed_spiderer_tilemap+0xFC)
     STA z:0x53
@@ -9976,12 +9822,8 @@ i16
 
 .loc_C76BD5:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C76BE2
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C76BE2:
     BIT #0x41
     BEQ .loc_C76BEA
     JML sub_C76D6C
@@ -10008,12 +9850,8 @@ i16
 
 .loc_C76C0E:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C76C1B
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C76C1B:
     BIT #0x41
     BEQ .loc_C76C23
     JML sub_C76D6C
@@ -10035,12 +9873,8 @@ i16
 
 sub_C76C3A:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C76C47
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C76C47:
     BIT #0x41
     BEQ .loc_C76C4F
     JML sub_C76D6C
@@ -10283,12 +10117,8 @@ i16
 
 .loc_C76E43:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C76E50
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C76E50:
     BIT #0x41
     BEQ .loc_C76E58
     JML sub_C76D6C
@@ -10304,7 +10134,7 @@ i16
     PLX
     LDY #0
     LDA #3
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     DEC z:0x30,X
     BNE .loc_C76EAB
@@ -10516,12 +10346,8 @@ i16
 
 .loc_C76FFB:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C77008
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C77008:
     BIT #0x41
     BEQ .loc_C77010
     JML .loc_C77072
@@ -10588,12 +10414,8 @@ i16
 
 sub_C77077:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C77084
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C77084:
     BIT #0x41
     BEQ .loc_C7708C
     JML .loc_C77121
@@ -10754,12 +10576,8 @@ i16
 
 .loc_C771C3:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C771D0
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C771D0:
     BIT #0x41
     BEQ .loc_C771D8
     JML .loc_C771F7
@@ -11082,35 +10900,35 @@ i16
     SEP #0x20
     LDY #7
     LDA #0
-    JSL palette_related
+    JSL set_palette
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA z:0x42
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDA #0xA
-    JSL palette_related
+    JSL set_palette
     LDA #0xB
-    JSL palette_related
+    JSL set_palette
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     RTL
 
@@ -11121,47 +10939,47 @@ i16
     LDA #0
     STA z:0x40
     LDA #0
-    JSL palette_related
+    JSL set_palette
     LDA #0x40
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x41
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #4
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #5
     STA z:0x40
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #0x42
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x43
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     LDA #addr(SHIRO_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #addr(KURO_PALETTE)
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDA #addr(MOOK_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     LDA #addr(CARAT_DIAMOND_PALETTE)
     STA z:0x40
     LDA #0xD
-    JSL palette_related
+    JSL set_palette
     RTL
 
 sub_C77564:
@@ -11556,11 +11374,11 @@ i16
     LDA f:[z:0x50],Y
     STA z:0xD3
     LDY #7
-    JSL palette_related
+    JSL set_palette
     LDA #0xF
     STA z:0x40
     LDA z:0x30,X
-    JSL palette_related
+    JSL set_palette
     LDA z:0xD3
     STA z:0x30,X
     RTL
@@ -11568,19 +11386,19 @@ i16
 sub_C7786A:
     SEP #0x20
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #7
-    JSL palette_related
+    JSL set_palette
     RTL
 
 sub_C77897:
@@ -11590,31 +11408,31 @@ i16
     LDA #0x7D
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x7E
     STA z:0x40
     LDA #2
-    JSL palette_related
+    JSL set_palette
     LDA #0x7F
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     LDA #0x80
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #0x81
     STA z:0x40
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #0x82
     STA z:0x40
     LDA #6
-    JSL palette_related
+    JSL set_palette
     LDA #0x83
     STA z:0x40
     LDA #7
-    JSL palette_related
+    JSL set_palette
     RTL
 
 off_C778E3:

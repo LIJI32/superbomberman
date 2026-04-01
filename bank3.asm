@@ -14,7 +14,7 @@ init_dboot:
     REP #0x20
     ; fallthrough
 
-nullsub_C30015:
+handler_early_exit:
     RTL
 
 dboot_related_:

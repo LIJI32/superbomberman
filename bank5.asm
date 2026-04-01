@@ -3244,12 +3244,8 @@ i16
 
 .loc_C53BBA:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C53BC7
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C53BC7:
     BIT #0x41
     BEQ .loc_C53BCF
     JML .loc_C53BF2
@@ -3313,12 +3309,8 @@ sub_C53C16:
 
 .loc_C53C4D:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C53C5A
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C53C5A:
     BIT #0x41
     BEQ .loc_C53C62
     JML .loc_C53C85
@@ -3368,21 +3360,11 @@ sub_C53CA9:
 
 .loc_C53CBD:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C53CCA
-    JML nullsub_C30015
-
-.loc_C53CCA:
-    BIT #0x41
-    BEQ .loc_C53CD2
-    JML .locret_C53E1D
-
-.loc_C53CD2:
+    handler_return_if_paused
     REP #0x20
     DEC z:0x20,X
     BEQ .loc_C53CDC
-    JML .locret_C53E1D
+    JML .ret
 
 .loc_C53CDC:
     LDA #0xC30
@@ -3485,12 +3467,8 @@ sub_C53CA9:
 
 .loc_C53D9E:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C53DAB
-    JML nullsub_C30015
+    handler_return_in_transition
 
-.loc_C53DAB:
     BIT #0x41
     BEQ .loc_C53DB3
     JML .loc_C53DD7
@@ -3552,7 +3530,7 @@ sub_C53CA9:
 .loc_C53E19:
     JSL delete_object
 
-.locret_C53E1D:
+.ret:
     RTL
 
 ifdef J
@@ -3638,7 +3616,7 @@ sub_C53EAB:
     BCC .locret_C53EDD
     DEC z:0x20,X
     BNE .locret_C53EDD
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0xFF
     CLC
@@ -3689,7 +3667,7 @@ sub_C53F01:
     AND #0xFF
     ORA #5
     STA z:0x11,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x70
     CLC
@@ -3896,13 +3874,13 @@ moving_platform:
 
 .loc_C540BE:
     SEP #0x20
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x70
     CLC
     ADC #0x30
     STA z:0x18,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #2
     PHX
@@ -4137,17 +4115,17 @@ sub_C5421B:
     LDA #0x2E
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #addr(WHITE_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #9
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(sub_C54307)
     STA z:0,X
@@ -4195,28 +4173,28 @@ i16
     LDA #0x72
     STA z:0x40
     LDA #1
-    JSL palette_related
+    JSL set_palette
     LDA #0x67
     STA z:0x40
     LDA #4
-    JSL palette_related
+    JSL set_palette
     LDA #0x68
     STA z:0x40
     LDA #5
-    JSL palette_related
+    JSL set_palette
     LDA #addr(INTRO_BALOON_PALETTE)
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA #addr(INTRO_SHIP_PALETTE)
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     LDY #5
     LDA #addr(MAIN_MENU_PALETTE)
     STA z:0x40
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(sub_C543E6)
     STA z:0x50
@@ -4992,13 +4970,13 @@ sub_C54E4A:
     create_object sub_C54E77
     SEP #0x20
     LDA #0
-    STA a:addr(player_1.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.unknown_flags) ; orig=0x0D44
     LDA #0
-    STA a:addr(player_2.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.unknown_flags) ; orig=0x0D84
     LDA #0
-    STA a:addr(player_3.gameover_related) ; orig=0x0DC4
+    STA a:addr(player_3.unknown_flags) ; orig=0x0DC4
     LDA #0
-    STA a:addr(player_4.gameover_related) ; orig=0x0E04
+    STA a:addr(player_4.unknown_flags) ; orig=0x0E04
     RTL
 
 sub_C54E77:
@@ -5280,9 +5258,9 @@ sub_C55006:
 sub_C55051:
     SEP #0x20
     LDA #0
-    STA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
+    STA a:addr(level_manager_object.unknown_flags) ; orig=0x0D32
     LDA #4
-    STA a:addr(level_manager_object.gameover_related+1) ; orig=0x0D33
+    STA a:addr(level_manager_object.unknown_flags+1) ; orig=0x0D33
     LDA #1
     STA a:addr(word_7E0C5F) ; orig=0x0C5F
     LDA #1
@@ -5338,32 +5316,32 @@ sub_C550AF:
 
 .loc_C550C1:
     LDA #0xFF
-    STA a:addr(player_1.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.unknown_flags) ; orig=0x0D44
     LDA z:0x40
     STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0
-    STA a:addr(player_2.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.unknown_flags) ; orig=0x0D84
     LDA #0
     STA a:addr(player_2.lives) ; orig=0x0DBD
     LDA a:addr(joypad_2_pressed+1) ; orig=0x0CFB
     BIT #0x10
     BEQ .loc_C550F0
     LDA #0
-    STA a:addr(player_1.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.unknown_flags) ; orig=0x0D44
     LDA #0
     STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0xFF
-    STA a:addr(player_2.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.unknown_flags) ; orig=0x0D84
     LDA z:0x40
     STA a:addr(player_2.lives) ; orig=0x0DBD
 
 .loc_C550F0:
     LDA #0
-    STA a:addr(player_3.gameover_related) ; orig=0x0DC4
+    STA a:addr(player_3.unknown_flags) ; orig=0x0DC4
     LDA #0
-    STA a:addr(player_4.gameover_related) ; orig=0x0E04
+    STA a:addr(player_4.unknown_flags) ; orig=0x0E04
     LDA #1
-    STA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
+    STA a:addr(level_manager_object.unknown_flags) ; orig=0x0D32
     RTL
 
 sub_C55100:
@@ -5378,11 +5356,11 @@ sub_C55100:
 
 .loc_C55112:
     LDA #0xFF
-    STA a:addr(player_1.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.unknown_flags) ; orig=0x0D44
     LDA z:0x40
     STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0
-    STA a:addr(player_2.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.unknown_flags) ; orig=0x0D84
     LDA #0
     STA a:addr(player_2.lives) ; orig=0x0DBD
     REP #0x20
@@ -5391,22 +5369,22 @@ sub_C55100:
     BEQ .loc_C55146
     SEP #0x20
     LDA #0
-    STA a:addr(player_1.gameover_related) ; orig=0x0D44
+    STA a:addr(player_1.unknown_flags) ; orig=0x0D44
     LDA #0
     STA a:addr(player_1.lives) ; orig=0x0D7D
     LDA #0xFF
-    STA a:addr(player_2.gameover_related) ; orig=0x0D84
+    STA a:addr(player_2.unknown_flags) ; orig=0x0D84
     LDA z:0x40
     STA a:addr(player_2.lives) ; orig=0x0DBD
 
 .loc_C55146:
     SEP #0x20
     LDA #0
-    STA a:addr(player_3.gameover_related) ; orig=0x0DC4
+    STA a:addr(player_3.unknown_flags) ; orig=0x0DC4
     LDA #0
-    STA a:addr(player_4.gameover_related) ; orig=0x0E04
+    STA a:addr(player_4.unknown_flags) ; orig=0x0E04
     LDA #1
-    STA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
+    STA a:addr(level_manager_object.unknown_flags) ; orig=0x0D32
     RTL
 
 demo_screens_list:
@@ -6083,13 +6061,13 @@ sub_C55661:
     LDA #0
     JSL sub_C5564B
     LDA z:0x40
-    STA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
+    STA a:addr(level_manager_object.unknown_flags) ; orig=0x0D32
     LDA #1
     JSL sub_C5564B
     LDA z:0x40
-    STA a:addr(level_manager_object.gameover_related+1) ; orig=0x0D33
+    STA a:addr(level_manager_object.unknown_flags+1) ; orig=0x0D33
     CLC
-    ADC a:addr(level_manager_object.gameover_related) ; orig=0x0D32
+    ADC a:addr(level_manager_object.unknown_flags) ; orig=0x0D32
     CMP #2
     BCS .loc_C55698
     JML sub_C55623
@@ -6355,7 +6333,7 @@ i16
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_SCREEN_TRANSITION
-    BNE .locret_C55909
+    BNE .ret
     LDA #0
     STA z:0x20,X
     LDA #5
@@ -6364,7 +6342,7 @@ i16
     LDA #0x38
     STA z:0x40
     LDA #3
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     LDA #addr(.loc_C558DB)
     STA z:0,X
@@ -6375,28 +6353,18 @@ i16
 
 .loc_C558DB:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C558E8
-    JML nullsub_C30015
-
-.loc_C558E8:
-    BIT #0x41
-    BEQ .loc_C558F0
-    JML .locret_C55909
-
-.loc_C558F0:
+    handler_return_if_paused
     REP #0x20
     DEC z:0x20,X
-    BNE .locret_C55909
+    BNE .ret
     JSL create_flower_creator
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0xFF
     CLC
     ADC #0x40
     STA z:0x20,X
-.locret_C55909:
+.ret:
     RTL
 
 word_C5590A:
@@ -6543,17 +6511,7 @@ i16
 
 .loc_C55A77:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
-    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BEQ .loc_C55A84
-    JML nullsub_C30015
-
-.loc_C55A84:
-    BIT #0x41
-    BEQ .loc_C55A8C
-    JML .locret_C55ABD
-
-.loc_C55A8C:
+    handler_return_if_paused
     REP #0x20
     LDY z:0x12,X
     LDA a:addr(collision_map),Y
@@ -6574,9 +6532,9 @@ i16
     INC z:0x10,X
     LDA z:0x10,X
     CMP #0x80
-    BNE .locret_C55ABD
+    BNE .ret
     JML delete_object
-.locret_C55ABD:
+.ret:
     RTL
 
 create_spotlight:
@@ -6699,7 +6657,7 @@ sub_C55B5B:
     LDA z:0x30,X
     CMP #0x100
     BCS .locret_C55BDD
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x1F
     BIT #0x10
@@ -6711,7 +6669,7 @@ sub_C55B5B:
     CLC
     ADC #0x80
     STA z:0x34,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x1F
     BIT #0x10
@@ -6791,7 +6749,7 @@ sub_C55BDE:
     RTL
 
 sub_C55C34:
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x7F
     CLC
@@ -6808,7 +6766,7 @@ sub_C55C34:
 .loc_C55C51:
     LDA z:0x40
     STA z:0x16,X
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x7F
     CLC
@@ -7033,7 +6991,7 @@ i16
     STA z:0x40
     PLX
     LDA #0xC
-    JSL palette_related
+    JSL set_palette
     RTL
 
 scoreboard_palettes:
@@ -7187,11 +7145,11 @@ i16
     LDA f:victory_palettes,X
     STA z:0x40
     LDA #8
-    JSL palette_related
+    JSL set_palette
     LDA f:victory_palettes+1,X
     STA z:0x40
     LDA #9
-    JSL palette_related
+    JSL set_palette
     PLX
     REP #0x20
     LDA #addr(.loc_C55FBC)
@@ -7261,7 +7219,7 @@ i16
     REP #0x20
     DEC z:0x20,X
     BNE .locret_C5604B
-    JSL random2
+    JSL fast_random
     REP #0x20
     AND #0x3F
     CLC
@@ -7928,7 +7886,7 @@ i16
     STA z:0x40
     LDY #0
     LDA #0
-    JSL palette_related
+    JSL set_palette
     PLX
     RTL
 
@@ -9362,7 +9320,7 @@ i16
     LDA #addr(MECHA_BOMBER_GREEN_PALETTE)
     STA z:0x40
     LDA #0xA
-    JSL palette_related
+    JSL set_palette
     REP #0x20
     INC z:0x50
     INC z:0x50
@@ -9935,7 +9893,7 @@ sub_C57ABF:
     JML sub_C57CBE
 
 .loc_C57AF3:
-    LDA a:addr(level_manager_object.gameover_related) ; orig=0x0D32
+    LDA a:addr(level_manager_object.unknown_flags) ; orig=0x0D32
     AND #0xFF
     CMP #1
     BEQ .locret_C57B10

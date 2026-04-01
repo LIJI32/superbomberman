@@ -1,4 +1,8 @@
-org 0x7E0078
+org 0x7E0074
+unused_fast_rng_seed: ; Written but never read
+    ds 2
+fast_rng_seed:
+    ds 2
 small_allocator_cyclic_buffer_read_pointer:
     ds 2
 small_allocator_cyclic_buffer_write_pointer:
@@ -392,7 +396,7 @@ level_manager_object:
     ds 1
 .anonymous_8:
     ds 2
-.gameover_related:
+.unknown_flags:
     ds 2
     ds 1
 .anonymous_9:
@@ -480,8 +484,10 @@ small_objects:
     ds 0x20 * 22
 .end
 
-unknown_palette_related_array:
-    ds 8 * 0x10
+palette_slots:
+rept 16
+    palette_slot
+endr
 
 unk_7E2000:
 
