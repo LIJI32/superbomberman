@@ -1,3 +1,47 @@
+struct level level_representation, game_mode, flags, d1c, d3a,
+             tileset, bomb_tileset, level_structure,
+             overlay_tileset, overlay_tilemap,
+             hard_blocks, soft_blocks
+    dw $d1c
+.flags
+    dw $flags
+.game_mode
+    dw $game_mode
+    dw $d3a
+
+.tileset
+    df $tileset
+.bomb_tilset
+    df $bomb_tileset
+.overlay_tileset
+    df $overlay_tileset
+.level_structure
+    df $level_structure
+.overlay_tilemap
+    df $overlay_tilemap
+.level_representation
+    dw $level_representation
+.hard_blocks
+    dw $hard_blocks
+.soft_blocks
+    dw $soft_blocks ; off by one in story mode, for the level exit
+endstruct
+
+struct battle_stage_ppu_regs main_flags, subscreen_flags, color_math, grey, scroll_x, scroll_y
+.main_flags
+    db $main_flags
+.subscreen_flags
+    db $subscreen_flags
+.color_math
+    dw $color_math
+.color_data
+    dw ($grey) | 0xe0
+.scroll_x
+    dw ($scroll_x) & 0x3ff
+.scroll_y
+    dw ($scroll_y) & 0x3ff
+endstruct
+
 struct registers_init_table_entry offset, value
 .offset:
     db low($offset)
@@ -128,7 +172,7 @@ struct player
     ds 1
 .palette:
     ds 2
-.wrap_delay: ; 0x10
+.warp_delay: ; 0x10
     ds 1
 .x_position:
     ds 2

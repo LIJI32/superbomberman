@@ -1,43 +1,17 @@
 stage_6_1:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x35 ; saved_to_d3a
-    df speed_zone_graphic
-    df bomb_and_explosions_graphic
-    df clouds_graphic
-    df speed_zone_level_structure
-    df compressed_stage_1_6_overlay_tilemap
-    dw 0x61 ; level_representation
-    dw 4 ; hard_blocks
-    dw 36 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df speed_zone_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52854
-    dw 2
-    df tile_animation
-    df byte_C52854
-    dw 6
-    df set_overlay_blending
-    db 2
-    db 0x15 ; TODO
-    db 2
-    db 0x22
-    df create_overlay_scroller
-    dw 0
-    dw 0
-    dw 0xFFFF
-    dw 0
-    dw 0xF0F0
+    level 0x61, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x35,
+          speed_zone_graphic, bomb_and_explosions_graphic, speed_zone_level_structure, ; graphics
+          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          4, 36 ; hard/soft blocks
+
+    load_palettes speed_zone_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK_SHADED, speed_zone_soft_animation
+    tile_animation TILE_SOFTBLOCK, speed_zone_soft_animation
+    set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP
+    create_overlay_scroller 0, 0, -1, 0
+    init_functions_end
+
     df create_propene
     df create_banen
     df create_banen
@@ -45,53 +19,24 @@ stage_6_1:
     df create_denkyun
     df create_denkyun
     dw 0
+    
     dw BOMB_UP, FIRE_UP, WALL_PASS, 0
     
 stage_6_2:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x40 ; saved_to_d3a
-    df speed_zone_graphic
-    df bomb_and_explosions_graphic
-    df clouds_graphic
-    df speed_zone_level_structure
-    df compressed_stage_1_6_overlay_tilemap
-    dw 0x62 ; level_representation
-    dw 4 ; hard_blocks
-    dw 35 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df speed_zone_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52854
-    dw 2
-    df tile_animation
-    df byte_C52854
-    dw 6
-    df set_overlay_blending
-    db 2
-    db 0x15
-    db 2
-    db 0x22
-    df create_overlay_scroller
-    dw 0
-    dw 0
-    dw 1
-    dw 0
-    df hidden_bonus_object
-    dw 9
-    db 0
-    dw CAKE
-    db 0
-    dw 0xF0F0
+    level 0x62, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x40,
+          speed_zone_graphic, bomb_and_explosions_graphic, speed_zone_level_structure, ; graphics
+          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          4, 35 ; hard/soft blocks
+
+    load_palettes speed_zone_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK_SHADED, speed_zone_soft_animation
+    tile_animation TILE_SOFTBLOCK, speed_zone_soft_animation
+    set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP
+    create_overlay_scroller 0, 0, 1, 0
+    hidden_bonus_object BONUS_COND_PUNCHED_BOMB_HIT, CAKE
+    init_functions_end
+
     df create_moguchan
     df create_moguchan
     df create_kierun
@@ -100,48 +45,23 @@ stage_6_2:
     df create_bakuda
     df create_bakuda
     dw 0
+    
     dw KICK, SPEED_UP, 0
     
 stage_6_3:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x37 ; saved_to_d3a
-    df speed_zone_graphic
-    df bomb_and_explosions_graphic
-    df clouds_graphic
-    df speed_zone_level_structure
-    df compressed_stage_1_6_overlay_tilemap
-    dw 0x63 ; level_representation
-    dw 4 ; hard_blocks
-    dw 34 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df speed_zone_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52854
-    dw 2
-    df tile_animation
-    df byte_C52854
-    dw 6
-    df set_overlay_blending
-    db 2
-    db 0x15
-    db 2
-    db 0x22
-    df create_overlay_scroller
-    dw 0
-    dw 0x100
-    dw 0xFFFF
-    dw 0
-    dw 0xF0F0
+    level 0x63, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x37,
+          speed_zone_graphic, bomb_and_explosions_graphic, speed_zone_level_structure, ; graphics
+          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          4, 34 ; hard/soft blocks
+
+    load_palettes speed_zone_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK_SHADED, speed_zone_soft_animation
+    tile_animation TILE_SOFTBLOCK, speed_zone_soft_animation
+    set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP
+    create_overlay_scroller 0, 0x100, -1, 0
+    init_functions_end
+
     df create_kuwagen
     df create_kuwagen
     df create_kuwagen
@@ -151,77 +71,39 @@ stage_6_3:
     df create_metal_u
     df create_metal_u
     dw 0
+    
     dw BOMB_UP, REMOTE_CONTROL, PUNCH, 0
     
 stage_6_4:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x30 ; saved_to_d3a
-    df diamond_tower_tileset_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df diamond_tower_level_structure
-    df empty_tilemap
-    dw 0x64 ; level_representation
-    dw 0 ; hard_blocks
-    dw 23 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df diamond_tower_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C527F3
-    dw 4
-    df hidden_bonus_object
-    dw 0xB
-    db 0
-    dw APPLE
-    db 0
-    dw 0xF0F0
+    level 0x64, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x30,
+          diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          0, 23 ; hard/soft blocks
+
+    load_palettes diamond_tower_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
+    hidden_bonus_object BONUS_COND_SCORE_ENDS_WITH_20, APPLE
+    init_functions_end
+
     df create_yoroisu
     df create_yoroisu
     dw 0
+    
     dw BOMB_UP, EXTRA_TIME, EXTRA_LIFE, 0
     
 stage_6_5:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x40 ; saved_to_d3a
-    df diamond_tower_tileset_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df diamond_tower_level_structure
-    df empty_tilemap
-    dw 0x65 ; level_representation
-    dw 3 ; hard_blocks
-    dw 35 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df diamond_tower_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C527F3
-    dw 4
-    df hidden_bonus_object
-    dw 8
-    db 0
-    dw ICE_CREAM
-    db 0
-    dw 0xF0F0
+    level 0x65, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x40,
+          diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          3, 35 ; hard/soft blocks
+
+    load_palettes diamond_tower_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
+    hidden_bonus_object BONUS_COND_5_PUNCHES, ICE_CREAM
+    init_functions_end
+
     df create_robocom
     df create_robocom
     df create_robocom
@@ -231,35 +113,20 @@ stage_6_5:
     df create_pakupa
     df create_pakupa
     dw 0
+    
     dw BOMB_UP, KICK, EXTRA_TIME, 0
     
 stage_6_6:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x45 ; saved_to_d3a
-    df diamond_tower_tileset_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df diamond_tower_level_structure
-    df empty_tilemap
-    dw 0x66 ; level_representation
-    dw 5 ; hard_blocks
-    dw 35 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df diamond_tower_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C527F3
-    dw 4
-    dw 0xF0F0
+    level 0x66, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x45,
+          diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          5, 35 ; hard/soft blocks
+
+    load_palettes diamond_tower_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
+    init_functions_end
+
     df create_metal_propene
     df create_metal_propene
     df create_kinkaru
@@ -269,40 +136,21 @@ stage_6_6:
     df create_robocom
     df create_robocom
     dw 0
+    
     dw REMOTE_CONTROL, WALL_PASS, 0
     
 stage_6_7:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x36 ; saved_to_d3a
-    df diamond_tower_tileset_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df diamond_tower_level_structure
-    df empty_tilemap
-    dw 0x67 ; level_representation
-    dw 4 ; hard_blocks
-    dw 37 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df diamond_tower_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C527F3
-    dw 4
-    df hidden_bonus_object
-    dw 3
-    db 0
-    dw HEART
-    db 0
-    dw 0xF0F0
+    level 0x67, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x36,
+          diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          4, 37 ; hard/soft blocks
+
+    load_palettes diamond_tower_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
+    hidden_bonus_object BONUS_COND_PRESS_START, HEART
+    init_functions_end
+
     df create_kinkaru
     df create_kinkaru
     df create_kinkaru
@@ -312,37 +160,23 @@ stage_6_7:
     df create_robocom
     df create_robocom
     dw 0
+    
     dw EXTRA_LIFE, REMOTE_CONTROL, FULL_FIRE, 0
     
 stage_6_8:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 3 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x90 ; saved_to_d3a
-    df diamond_tower_tileset_graphic
-    df bomb_and_explosions_graphic
-    df spiderer_bg_graphic; overlay_tileset_pointer
-    df diamond_tower_level_structure
-    df compressed_spiderer_tilemap
-    dw 0x68 ; level_representation
-    dw 0 ; hard_blocks
-    dw 0 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df spiderer_boss_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df spiderer_boss_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C527F3
-    dw 4
-    dw 0xF0F0
+    level 0x68, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_BOSS_ALT, 0xE, 0x90,
+          diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
+          spiderer_bg_graphic, compressed_spiderer_tilemap, ; overlay
+          0, 0 ; hard/soft blocks
+
+    load_palettes spiderer_boss_palettes
+    load_global_sprites spiderer_boss_graphics
+    tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
+    init_functions_end
+
     df create_spiderer
     dw 0
+    
     dw 0
     
 spiderer_boss_graphics:

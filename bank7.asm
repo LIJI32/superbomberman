@@ -416,12 +416,13 @@ byte_C705CF:
     animation_frame animation_frame_C705B3, 5
     animation_frame animation_frame_C705B9, 6
     animation_frame animation_frame_C705C4, 7
-sub_C705E0:
+
+create_sound_test_handler:
     SEP #0x20
-    create_object sub_C705F7
+    create_object sound_test_handler
     RTL
 
-sub_C705F7:
+sound_test_handler:
     SEP #0x20
     LDA #0x17
     STA a:addr(main_screen_status) ; orig=0x0C97
@@ -11032,9 +11033,9 @@ sub_C7759C:
     STA a:addr(ADD_SUBTRACT_SELECT_AND_ENABLE)
     RTL
 
-sub_C775CC:
+credits_screen_init:
     SEP #0x20
-    create_object sub_C775FF
+    create_object credits_screen_handler
     SEP #0x20
     LDA a:addr(game_flags) ; orig=0x0314
     ORA #GAME_FLAGS_BATTLE_DELAY
@@ -11047,7 +11048,7 @@ sub_C775CC:
     JSL sub_C77734
     RTL
 
-sub_C775FF:
+credits_screen_handler:
     SEP #0x20
     LDA #0x11
     STA a:addr(main_screen_status) ; orig=0x0C97

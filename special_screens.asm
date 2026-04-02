@@ -1,39 +1,30 @@
+macro create_title_text_object text_id
+    df create_title_text_object
+    dw ($text_id) * 8
+endmacro
+
 title_screen:
-    db 0xE
-    db 3
-    db 0
-    db 0
-    db 1
-    db 0
+    dw 0x30E, 0, GAME_MODE_MENU
+    
     df title_graphic
     df title_2_graphic
     df title_background_graphic
     df empty_tilemap
     df compressed_title_tilemap
     df compressed_title_tilemap_2
-    df load_palettes
-    df title_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df title_graphics
-    dw 0x10
-    db 0
-    df sub_C541F8
-    df sub_C54E4A
-    df sub_C54DCD
-    dw 0
-    df sub_C54DCD
-    dw 8
-    df sub_C54DCD
-    dw 0x10
-    df sub_C54DCD
-    dw 0x18
+    
+    load_palettes title_screen_palettes
+    load_global_sprites title_graphics
+    df title_screen_init
+    df create_title_input_handler
+    create_title_text_object 0
+    create_title_text_object 1
+    create_title_text_object 2
+    create_title_text_object 3
 if DISPLAY_LICENSED_BY
-    df sub_C54DCD
-    dw 0x20
+    create_title_text_object 4
 endif
-    dw 0xF0F0
+    init_functions_end
 
 title_graphics:
     df menu_graphic_0
@@ -53,79 +44,48 @@ title_graphics:
     df menu_graphic_0
     df menu_graphic_0
 
+
+macro create_battle_menu_setting_handler setting
+    df create_battle_menu_setting_handler
+    db $setting
+endmacro
+
+macro create_battle_menu_static_object object, x, y, palette
+    df create_battle_menu_static_object
+    dw ($palette) * 2
+    dw 0x30 ; unknown
+    dw $x
+    dw $y
+    da $object
+endmacro
+
 battle_screen:
-    db 0xE
-    db 1
-    db 0
-    db 0
-    db 6
-    db 0
+    dw 0x10E, 0, GAME_MODE_BATTLE_MENU
+    
     df empty_tilemap
     df bonuses_graphic
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
-    df load_palettes
-    df battle_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df battle_menu_graphics
-    dw 0x10
-    db 0
-    df sub_C5549C
-    df sub_C55240
-    db 0
-    df sub_C55240
-    db 1
-    df sub_C55240
-    db 2
-    df sub_C55240
-    db 3
-    df sub_C55240
-    db 4
-    df sub_C55240
-    db 5
-    df sub_C55240
-    db 6
-    df sub_C55794
-    dw 0
-    dw 0x30
-    dw 0x88
-    dw 0x58
-    da byte_C514EA
-    df sub_C55794
-    dw 0
-    dw 0x30
-    dw 0x88
-    dw 0x158
-    da byte_C514EA
-    df sub_C55794
-    dw 0
-    dw 0x30
-    dw 0x88
-    dw 0x58
-    da byte_C514FB
-    df sub_C55794
-    dw 0
-    dw 0x30
-    dw 0x88
-    dw 0x160
-    da byte_C51500
-    df sub_C55794
-    dw 0
-    dw 0x30
-    dw 0x88
-    dw 0xB8
-    da byte_C514E1
-    df sub_C55794
-    dw 0
-    dw 0x30
-    dw 0x88
-    dw 0x108
-    da byte_C5150F
-    dw 0xF0F0
+    
+    load_palettes battle_screen_palettes
+    load_global_sprites battle_menu_graphics
+    df create_battle_menu_handler
+    create_battle_menu_setting_handler BATTLE_MENU_SETTING_PLAYER_1
+    create_battle_menu_setting_handler BATTLE_MENU_SETTING_PLAYER_2
+    create_battle_menu_setting_handler BATTLE_MENU_SETTING_PLAYER_3
+    create_battle_menu_setting_handler BATTLE_MENU_SETTING_PLAYER_4
+    create_battle_menu_setting_handler BATTLE_MENU_SETTING_COM_LEVEL
+    create_battle_menu_setting_handler BATTLE_MENU_SETTING_GAME_COUNT
+    create_battle_menu_setting_handler BATTLE_MENU_SETTING_STAGE
+    create_battle_menu_static_object battle_menu_leds, 0x88, 0x58, 0
+    create_battle_menu_static_object battle_menu_leds, 0x88, 0x158, 0
+    create_battle_menu_static_object battle_menu_page_1_static_text, 0x88, 0x58, 0
+    create_battle_menu_static_object battle_menu_page_2_static_text, 0x88, 0x160, 0
+    create_battle_menu_static_object battle_menu_page_1_flashing_arrow, 0x88, 0xB8, 0
+    create_battle_menu_static_object battle_menu_page_2_flashing_arrow, 0x88, 0x108, 0
+    init_functions_end
 
 battle_menu_graphics:
     df battle_menu_graphic_0
@@ -146,28 +106,18 @@ battle_menu_graphics:
     df menu_graphic_0
 
 introduction_screen:
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
+    dw 0, 0, GAME_MODE_MENU
+    
     df draw_screen_gradient_graphic
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
     df compressed_introduction_tilemap
-    df load_palettes
-    df introduction_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df intro_screen_fake_graphics
-    dw 0x10
-    db 0
-    df sub_C564DB
-    dw 0xF0F0
+    load_palettes introduction_screen_palettes
+    load_global_sprites intro_screen_fake_graphics
+    df create_intro_scene_handler
+    init_functions_end
 
 intro_screen_fake_graphics:
     df intro_1_graphic_0
@@ -195,32 +145,22 @@ intro_screen_graphics:
     da intro_4_graphic_0, intro_4_graphic_1, intro_4_graphic_2, intro_4_graphic_3, intro_4_graphic_4, intro_4_graphic_5, intro_1_graphic_0, intro_1_graphic_0
 
 draw_screen:
-    db 0x3E
-    db 0xF
-    db 0
-    db 0
-    db 1
-    db 0
+    dw 0xf3e, 0, GAME_MODE_MENU
+    
     df draw_screen_gradient_graphic
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
     df compressed_draw_and_victory_tilemap
-    df load_palettes
-    df draw_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df draw_screen_graphics
-    dw 0x10
-    db 0
+    load_palettes draw_screen_palettes
+    load_global_sprites draw_screen_graphics
 if FALLING_BOMBERMEN_DRAW
     df draw_falling_bombermen
 else
     df draw_falling_letters
 endif
-    dw 0xF0F0
+    init_functions_end
 
 draw_screen_graphics:
     df falling_bombermen_graphic_0
@@ -251,52 +191,27 @@ endif
     df menu_graphic_0
 
 victory_screen:
-    db 0xBE
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
+    dw 0xbe, 0, GAME_MODE_MENU
+
     df battle_win_graphic
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
     df empty_tilemap
     df compressed_draw_and_victory_tilemap
-    df load_palettes
-    df victory_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df victory_screen_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52A1D
-    dw 2
-    df tile_animation
-    df byte_C52BB4
-    dw 4
-    df tile_animation
-    df byte_C52D4B
-    dw 6
-    df tile_animation
-    df byte_C52EE2
-    dw 8
-    df tile_animation
-    df byte_C53079
-    dw 0xA
-    df tile_animation
-    df byte_C53210
-    dw 0xC
-    df tile_animation
-    df byte_C533A7
-    dw 0xE
-    df tile_animation
-    df byte_C5353E
-    dw 0x20
-    df sub_C55F0A
-    dw 0xF0F0
+    
+    load_palettes victory_screen_palettes
+    load_global_sprites victory_screen_graphics
+    tile_animation 2, victory_crowd_wave_animation_1
+    tile_animation 4, victory_crowd_wave_animation_2
+    tile_animation 6, victory_crowd_wave_animation_3
+    tile_animation 8, victory_crowd_wave_animation_4
+    tile_animation 0xA, victory_crowd_wave_animation_5
+    tile_animation 0xC, victory_crowd_wave_animation_6
+    tile_animation 0xE, victory_crowd_wave_animation_7
+    tile_animation 0x20, victory_crowd_wave_animation_8
+    df init_victory_screen
+    init_functions_end
 
 victory_screen_graphics:
     df victory_pose_graphic_0
@@ -329,19 +244,11 @@ map_screen:
     df empty_tilemap
     df compressed_map_tilemap
     df compressed_pattern_tilemap
-    df load_palettes
-    df map_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df map_graphics
-    dw 0x10
-    db 0
-    df sub_C57602
-    df tile_animation
-    df byte_C5292E
-    dw 0x200
-    dw 0xF0F0
+    load_palettes map_screen_palettes
+    load_global_sprites map_graphics
+    df create_map_screen_handler
+    tile_animation 0x200, water_animation
+    init_functions_end
 
 map_graphics:
     df bomberman_graphic_0
@@ -374,16 +281,10 @@ credits_screen:
     df credit_image_4_graphic
     df compressed_credits_tilemap
     df compressed_credits_tilemap
-    df load_palettes
-    df credits_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df credits_graphics
-    dw 0x10
-    db 0
-    df sub_C775CC
-    dw 0xF0F0
+    load_palettes credits_screen_palettes
+    load_global_sprites credits_graphics
+    df credits_screen_init
+    init_functions_end
 
 credits_graphics:
     df big_font_graphic_0
@@ -404,141 +305,86 @@ credits_graphics:
     df menu_graphic_0
 
 light_zone_demo:
-    db 0   ; saved_to_d1c
-    db 0
-    db 1   ; spawn_and_flags
-    db 4   ; more_flags
-    dw 3   ; screen_mode
-    dw 0x200  ; saved_to_d3a
-    df dome_graphic; tileset_pointer  ; tileset_bank
-    df bomb_and_explosions_graphic; unknown_pointer2  ; unknown_bank2
-    df empty_tilemap
-    df dome_level_structure
-    df compressed_spotlight_tilemap; anonymous_2  ; field_16
-    dw 0   ; level_representation
-    dw 0   ; hard_blocks
-    dw 55  ; soft_blocks, off by one in story mode, for the level exit
+    level 0, GAME_MODE_BATTLE, LEVEL_FLAGS_DEMO | LEVEL_FLAGS_LIGHT_ZONE, 0, 0x200,
+          dome_graphic, bomb_and_explosions_graphic, dome_level_structure, ; graphics
+          empty_tilemap, compressed_spotlight_tilemap, ; overlay
+          0, 55 ; hard/soft blocks
+
     df create_spotlight
-    df sub_C56E67
-    df load_palettes
-    df light_zone_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df western_zone_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C51FED
-    dw 6
-    df tile_animation
-    df byte_C5200C
-    dw 2
-    dw 0xF0F0
+    df create_demo_handler
+    load_palettes light_zone_palettes
+    load_global_sprites western_zone_graphics
+    tile_animation TILE_SOFTBLOCK, dome_soft_animation
+    tile_animation TILE_SOFTBLOCK_SHADED, dome_shaded_soft_animation
+    init_functions_end
+
     dw 0
-    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP
-    dw SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, 0xD, 0xD, POISON, POISON, POISON
-    dw POISON, POISON, POISON, POISON, POISON, 0
-    db 0x12, 0x1D, 2, 0x83, 0xE0, 0, 0x80, 0, 0x80, 0
+
+    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP,
+       SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, PUNCH, PUNCH, POISON, POISON, POISON,
+       POISON, POISON, POISON, POISON, POISON, 0
+       
+    battle_stage_ppu_regs OBJ_EN | BG2_EN, OBJ_EN | BG1_EN | BG3_EN | BG4_EN,
+                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 0,
+                          128, 128
 
 warp_zone_demo:
-    db 0   ; saved_to_d1c
-    db 0
-    db 0x21  ; spawn_and_flags
-    db 0   ; more_flags
-    dw 3   ; screen_mode
-    dw 0x200  ; saved_to_d3a
-    df warp_zone_graphic; tileset_pointer  ; tileset_bank
-    df bomb_and_explosions_graphic; unknown_pointer2  ; unknown_bank2
-    df empty_tilemap
-    df warp_zone_level_structure
-    df empty_tilemap
-    dw 0   ; level_representation
-    dw 0   ; hard_blocks
-    dw 50  ; soft_blocks, off by one in story mode, for the level exit
-    df sub_C56E67
-    df load_palettes
-    df warp_zone_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df warp_zone_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52915
-    dw 0x26
-    dw 0xF0F0
+    level 0, GAME_MODE_BATTLE, LEVEL_FLAGS_DEMO | LEVEL_FLAGS_WARP_ZONE, 0, 0x200,
+          warp_zone_graphic, bomb_and_explosions_graphic, warp_zone_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          0, 50 ; hard/soft blocks
+
+    df create_demo_handler
+    load_palettes warp_zone_palettes
+    load_global_sprites warp_zone_graphics
+    tile_animation 0x26, warp_animation
+    init_functions_end
+
     dw 0
-    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP
-    dw SPEED_UP, SPEED_UP, SPEED_UP, POISON, POISON, KICK, KICK, KICK, 0xD, 0xD
-    dw 0xD, 0xA, 0xA, 0
-    db 0x17, 0x17, 0, 0x83, 0xE8, 0, 0, 0, 0, 0
+
+    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP,
+       SPEED_UP, SPEED_UP, SPEED_UP, POISON, POISON, KICK, KICK, KICK, PUNCH, PUNCH,
+       PUNCH, FULL_FIRE, FULL_FIRE, 0
+
+    battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
+                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          0, 0
 
 jump_zone_demo:
-    db 0   ; saved_to_d1c
-    db 0
-    db 0x41  ; spawn_and_flags
-    db 0   ; more_flags
-    dw 3   ; screen_mode
-    dw 0x200  ; saved_to_d3a
-    df castle_graphic; tileset_pointer  ; tileset_bank
-    df bomb_and_explosions_graphic; unknown_pointer2  ; unknown_bank2
-    df trampoline_and_crane_graphic  ; overlay_tileset_bank
-    df castle_level_structure
-    df empty_tilemap
-    dw 0   ; level_representation
-    dw 0   ; hard_blocks
-    dw 55  ; soft_blocks, off by one in story mode, for the level exit
-    df sub_C56E67
-    df load_palettes
-    df jump_zone_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df western_zone_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C51E3C
-    dw 6
-    df tile_animation
-    df byte_C51E3C
-    dw 2
-    dw 0xF0F0
+    level 0, GAME_MODE_BATTLE, LEVEL_FLAGS_DEMO | LEVEL_FLAGS_JUMP_ZONE, 0, 0x200,
+          castle_graphic, bomb_and_explosions_graphic, castle_level_structure, ; graphics
+          trampoline_and_crane_graphic, empty_tilemap, ; overlay
+          0, 55 ; hard/soft blocks
+
+    df create_demo_handler
+    load_palettes jump_zone_palettes
+    load_global_sprites western_zone_graphics
+    tile_animation TILE_SOFTBLOCK, castle_soft_animation
+    tile_animation TILE_SOFTBLOCK_SHADED, castle_soft_animation
+    init_functions_end
+
     dw 0
-    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, SPEED_UP
-    dw SPEED_UP, POISON, POISON, KICK, KICK, KICK, 0xD, 0xD, 0xD, 0
-    db 0x17, 0x17, 0, 0x83, 0xE8, 0, 0, 0, 0, 0
+
+    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, SPEED_UP,
+       SPEED_UP, POISON, POISON, KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, 0
+
+    battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
+                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          0, 0
 
 continue_screen:
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
+    dw 0, 0, GAME_MODE_MENU
     df continue_border_graphic
     df empty_tilemap
     df continue_background_graphic
     df empty_tilemap
     df compressed_continue_tilemap
     df compressed_pattern_tilemap
-    df load_palettes
-    df continue_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df continue_graphics
-    dw 0x10
-    db 0
-    df sub_C56EB6
-    df create_overlay_scroller
-    dw 0
-    dw 0
-    dw 1
-    dw 1
-    dw 0xF0F0
+    load_palettes continue_screen_palettes
+    load_global_sprites continue_graphics
+    df create_continue_screen_handler
+    create_overlay_scroller 0, 0, 1, 1
+    init_functions_end
 
 continue_graphics:
     df menu_graphic_0
@@ -559,57 +405,31 @@ continue_graphics:
     df menu_graphic_0
 
 sound_test:
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
+    dw 0, 0, GAME_MODE_MENU
     df continue_border_graphic
     df empty_tilemap
     df musical_note_graphic
     df empty_tilemap
     df compressed_continue_tilemap
     df compressed_pattern_tilemap
-    df load_palettes
-    df continue_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df continue_graphics
-    dw 0x10
-    db 0
-    df sub_C705E0
-    dw 0xF0F0
+    load_palettes continue_screen_palettes
+    load_global_sprites continue_graphics
+    df create_sound_test_handler
+    init_functions_end
 
 password_screen:
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
+    dw 0, 0, GAME_MODE_MENU
     df continue_border_graphic
     df empty_tilemap
     df continue_background_graphic
     df empty_tilemap
     df compressed_continue_tilemap
     df compressed_pattern_tilemap
-    df load_palettes
-    df continue_screen_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df continue_graphics
-    dw 0x10
-    db 0
-    df sub_C57153
-    df create_overlay_scroller
-    dw 0
-    dw 0
-    dw 0xFFFF
-    dw 0xFFFF
-    dw 0xF0F0
+    load_palettes continue_screen_palettes
+    load_global_sprites continue_graphics
+    df create_password_screen_handler
+    create_overlay_scroller 0, 0, -1, -1
+    init_functions_end
 
 title_screen_palettes:
     db HUD_PALETTE, CONTINUE_PALETTE_2, CONTINUE_PALETTE_2, CONTINUE_PALETTE_2

@@ -31,6 +31,15 @@ BLAST           = 0x100
 POTENTIAL_BLAST = 0x800
 PLAYER          = 0x8000
 
+; Tiles
+
+TILE_SOFTBLOCK_SHADED  = 0x02
+TILE_HARDBLOCK         = 0x04
+TILE_SOFTBLOCK         = 0x06
+TILE_EMPTY             = 0x08
+TILE_EMPTY_SOFT_SHADED = 0x0A
+TILE_EMPTY_HARD_SHADED = 0x0C
+
 ; A Palettes (Backgrounds)
 HUD_PALETTE     = 0
 PEACE_TOWN_PALETTE_1 = 1
@@ -350,14 +359,81 @@ DIR_LEFT  = high(BUTTON_LEFT)
 DIR_DOWN  = high(BUTTON_DOWN)
 DIR_UP    = high(BUTTON_UP)
 
-; Level manager flags
+; Level flags
 
-LEVEL_FLAGS_WRAP_ZONE = 0x20
-LEVEL_FLAGS_JUMP_ZONE = 0x40
+; Story mode only spawn locations
+LEVEL_FLAGS_SPAWN_DEFAULT        = 0x0001
+LEVEL_FLAGS_SPAWN_BOSS           = 0x0002
+LEVEL_FLAGS_SPAWN_BOSS_ALT       = 0x0003
+LEVEL_FLAGS_SPAWN_WORLD_5        = 0x0005
+
+LEVEL_FLAGS_DEMO                 = 0x0001
+LEVEL_FLAGS_SOFTBLOCK_ANYWHERE   = 0x0004 ; Allow softblocks on every empty space
+LEVEL_FLAGS_WESTERN              = 0x0008 ; Battle only
+LEVEL_FLAGS_SPEED_MODE           = 0x0010 ; Battle only
+LEVEL_FLAGS_WARP_ZONE            = 0x0020
+LEVEL_FLAGS_JUMP_ZONE            = 0x0040
+; 0x80 - unknown
+LEVEL_FLAGS_POWER_ZONE           = 0x0100 ; Battle only
+LEVEL_FLAGS_WESTERN_ALT          = 0x0200 ; Like Western, but allows softblocks anywhere
+LEVEL_FLAGS_LIGHT_ZONE           = 0x0400 ; Used to fix the scoreboard graphics in Light Zone
+LEVEL_FLAGS_TUNNEL_ZONE          = 0x0800 ; Blocks softblocks inside tunnels
+LEVEL_FLAGS_BELT_ZONE            = 0x1000
+; 0x2000 - unknown
+LEVEL_FLAGS_FLOWER_ZONE          = 0x4000 ; Used in Flower Zone, NOT related to flower growth, tractors or clouds
+LEVEL_FLAGS_HARDCODED_HARDBLOCKS = 0x8000 ; For cases where hardblocks can't be automatically inferred from the level structures, like 3_8. Hardcoded to values 0804 and 0808.
+
+; Hidden Bonus Conditions
+
+BONUS_COND_LIVES_DROP_TO_ZERO  = 0
+BONUS_COND_DONT_MOVE           = 1
+BONUS_COND_DONT_MOVE_ON_EXIT   = 2
+BONUS_COND_PRESS_START         = 3
+BONUS_COND_BOMBS_IN_CORNERS    = 4
+BONUS_COND_UNCOVER_ALL_BONUSES = 5
+BONUS_COND_COMBO_OF_3          = 6
+BONUS_COND_SPAWN_ENEMY         = 7
+BONUS_COND_5_PUNCHES           = 8
+BONUS_COND_PUNCHED_BOMB_HIT    = 9
+BONUS_COND_PLACE_6_BOMBS       = 10
+BONUS_COND_SCORE_ENDS_WITH_20  = 11
+
+; Battle menu settings
+
+BATTLE_MENU_SETTING_PLAYER_1   = 0
+BATTLE_MENU_SETTING_PLAYER_2   = 1
+BATTLE_MENU_SETTING_PLAYER_3   = 2
+BATTLE_MENU_SETTING_PLAYER_4   = 3
+BATTLE_MENU_SETTING_COM_LEVEL  = 4
+BATTLE_MENU_SETTING_GAME_COUNT = 5
+BATTLE_MENU_SETTING_STAGE      = 6
 
 ; Player hit flags
 HIT_FLAG_BLAST = 0x1
 HIT_FLAG_PUNCHED_BOMB = 0x80
+
+; Hardware definitions
+
+; TM/TS
+
+BG1_EN = 0x01
+BG2_EN = 0x02
+BG3_EN = 0x04
+BG4_EN = 0x08
+OBJ_EN = 0x10
+
+; CGWSEL & CGADSUB
+
+COLMAT_DIRECT        = 0x01
+COLMAT_USE_SUBSCREEN = 0x02
+COLMAT_BG1           = 0x0100
+COLMAT_BG2           = 0x0200
+COLMAT_BG3           = 0x0400
+COLMAT_BG4           = 0x0800
+COLMAT_OBJ           = 0x1000
+COLMAT_BACKDROP      = 0x2000
+COLMAT_HALF_MODE     = 0x4000
+COLMAT_SUBSTRACT     = 0x8000
 
 ; Misc. constants
 STORY_MODE_TIMER_TICKS = 15

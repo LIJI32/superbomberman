@@ -1518,7 +1518,7 @@ handle_player_tile:
 .empty_tile:
     REP #0x20
     LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
-    BIT #LEVEL_FLAGS_WRAP_ZONE
+    BIT #LEVEL_FLAGS_WARP_ZONE
     BNE .warp_zone
     
     BIT #LEVEL_FLAGS_JUMP_ZONE
@@ -1572,7 +1572,7 @@ handle_player_tile:
     AND #~0x80
     STA z:player.unknown_flags,X
     LDA z:player.is_ai,X
-    BNE .wrap_is_ai
+    BNE .warp_is_ai
     
     REP #0x20
     LDA #addr(do_player_warp)
@@ -1582,7 +1582,7 @@ handle_player_tile:
     STA z:player.handler + 2,X
     RTL
 
-.wrap_is_ai:
+.warp_is_ai:
     REP #0x20
     LDA #addr(do_player_warp_ai)
     STA z:player.handler,X
@@ -2793,11 +2793,11 @@ call_screen_init_functions:
     SEP #0x20
     STZ a:addr(byte_7E0C3E) ; orig=0x0C3E
 
-.loc_C61662:
+-
     REP #0x20
     LDA f:[z:0x50]
     CMP #0xF0F0
-    BEQ .loc_C6168B
+    BEQ .done
     STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
@@ -2814,9 +2814,9 @@ call_screen_init_functions:
     STA z:0x56
     PLA
     STA z:0x53
-    BRA .loc_C61662
+    BRA -
 
-.loc_C6168B:
+.done:
     INC z:0x50
     INC z:0x50
     RTL
@@ -5472,7 +5472,7 @@ i16
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE hidden_bonus_object.locret_C62B02
-    LDA #bank(is_dying_bonus)
+    LDA #bank(lives_drop_to_zero_bonus)
     STA z:0x55
     LDA z:0x16,X
     ASL A
@@ -5512,7 +5512,7 @@ i16
     JSL delete_object
     RTL
 
-is_dying_bonus:
+lives_drop_to_zero_bonus:
     REP #0x20
     LDA a:addr(object.handler),Y
     CMP #addr(_player_death)
@@ -5818,7 +5818,7 @@ score_20_bonus:
     RTL
 
 hidden_bonus_verifiers_array:
-    da is_dying_bonus    ; 0
+    da lives_drop_to_zero_bonus ; 0
     da dont_move_bonus ; 1
     da dont_move_on_exit_bonus; 2
     da press_start_bonus ; 3
@@ -12059,10 +12059,10 @@ chameleoman:
     LDA #0xE0
     STA z:0x1C,X
     REP #0x20
-    LDA #addr(wrapping_animation)
+    LDA #addr(warpping_animation)
     STA z:0x50
     SEP #0x20
-    LDA #bank(wrapping_animation)
+    LDA #bank(warpping_animation)
     STA z:0x52
     JSL start_animation
     SEP #0x20

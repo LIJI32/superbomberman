@@ -1842,7 +1842,7 @@ hit_by_bomb_animation:
     animation_frame animation_frame_C40BF4, 5; 6
     animation_frame animation_frame_C40DBE, 6; 7
     animation_frame animation_frame_C40D80, 6; 8
-enter_wrap_animation:
+enter_warp_animation:
     db 9
     animation_frame animation_frame_C40DDD, 7; 0
     animation_frame animation_frame_C40DED, 6; 1
@@ -2494,7 +2494,7 @@ i16
     ORA #8
     STA z:player.y_position,X
     REP #0x20
-    LDA #addr(enter_wrap_animation)
+    LDA #addr(enter_warp_animation)
     STA z:0x50
     SEP #0x20
     PHK
@@ -2502,53 +2502,53 @@ i16
     STA z:0x52
     JSL start_animation
     REP #0x20
-    LDA #addr(_enter_wrap)
+    LDA #addr(_enter_warp)
     STA z:0,X
     SEP #0x20
-    LDA #bank(_enter_wrap)
+    LDA #bank(_enter_warp)
     STA z:2,X
 
-_enter_wrap:
+_enter_warp:
     JSL advance_animation
     BCC .locret_C41612
     REP #0x20
-    LDA #addr(wrap_delay)
+    LDA #addr(warp_delay)
     STA z:0,X
     SEP #0x20
-    LDA #bank(wrap_delay)
+    LDA #bank(warp_delay)
     STA z:2,X
 
 .locret_C41612:
     RTL
 
-wrap_delay:
+warp_delay:
     SEP #0x20
     LDA #0x40
-    STA z:player.wrap_delay,X
+    STA z:player.warp_delay,X
     REP #0x20
-    LDA #addr(_wrap_delay)
+    LDA #addr(_warp_delay)
     STA z:object.handler,X
     SEP #0x20
-    LDA #bank(_wrap_delay)
+    LDA #bank(_warp_delay)
     STA z:object.handler+2,X
 
-_wrap_delay:
+_warp_delay:
     SEP #0x20
     handler_return_if_paused
     SEP #0x20
-    DEC z:player.wrap_delay,X
+    DEC z:player.warp_delay,X
     BNE .ret
     REP #0x20
-    LDA #addr(exit_wrap)
+    LDA #addr(exit_warp)
     STA z:object.handler,X
     SEP #0x20
-    LDA #bank(exit_wrap)
+    LDA #bank(exit_warp)
     STA z:object.handler+2,X
 
 .ret:
     RTL
 
-play_exit_wrap_animation:
+play_exit_warp_animation:
     REP #0x20
     LDA #addr(unknown_animation)
     STA z:0x50
@@ -2558,13 +2558,13 @@ play_exit_wrap_animation:
     STA z:0x52
     JSL start_animation
     REP #0x20
-    LDA #addr(_play_exit_wrap_animation)
+    LDA #addr(_play_exit_warp_animation)
     STA z:object.handler,X
     SEP #0x20
-    LDA #bank(_play_exit_wrap_animation)
+    LDA #bank(_play_exit_warp_animation)
     STA z:object.handler+2,X
 
-_play_exit_wrap_animation:
+_play_exit_warp_animation:
     JSL advance_animation
     BCC .locret_C4168A
     SEP #0x20
@@ -2581,7 +2581,7 @@ _play_exit_wrap_animation:
 .locret_C4168A:
     RTL
 
-exit_wrap:
+exit_warp:
 i16
     PHX
     LDX #5
@@ -2591,9 +2591,9 @@ i16
     ASL A
     ASL A
     TAX
-    LDA f:wrap_positions,X
+    LDA f:warp_positions,X
     STA z:0x40
-    LDA f:wrap_positions+2,X
+    LDA f:warp_positions+2,X
     STA z:0x42
     PLX
     SEP #0x20
@@ -2612,16 +2612,16 @@ i16
     STA z:player.y_position,X
     STZ a:addr(unk_dboot_2f),X
     REP #0x20
-    LDA #addr(play_exit_wrap_animation)
+    LDA #addr(play_exit_warp_animation)
     STA z:object.handler,X
     SEP #0x20
-    LDA #bank(play_exit_wrap_animation)
+    LDA #bank(play_exit_warp_animation)
     STA z:object.handler+2,X
 
 .locret_C416D0:
     RTL
 
-wrap_positions:
+warp_positions:
     dw 0x48, 0x38    ; 0
     dw 0xC8, 0x38    ; 2
     dw 0x48, 0x98    ; 4
@@ -2791,7 +2791,7 @@ _trampoline_land:
 
 randomize_landing:
     REP #0x20
-    LDA z:player.wrap_delay,X
+    LDA z:player.warp_delay,X
     PHA
     LDA a:addr(unk_dboot_14),X
     PHA
@@ -2832,7 +2832,7 @@ randomize_landing:
     PLA
     STA a:addr(unk_dboot_14),X
     PLA
-    STA z:player.wrap_delay,X
+    STA z:player.warp_delay,X
     RTL
 
 trampoline_deltas:
@@ -2905,7 +2905,7 @@ a16
     JSL dma_related_
     PLX
     REP #0x20
-    LDA #addr(enter_wrap_animation)
+    LDA #addr(enter_warp_animation)
     STA z:0x50
     SEP #0x20
     PHK
@@ -4421,25 +4421,25 @@ sub_C4236D:
 
 sub_C42375:
     REP #0x20
-    LDA z:player.wrap_delay,X
+    LDA z:player.warp_delay,X
     AND #0xF00
     CMP #0x900
     BCC sub_C42395
-    LDA z:player.wrap_delay,X
+    LDA z:player.warp_delay,X
     AND #0x700
     CMP z:0x3E,X
     BCS sub_C42395
-    LDA z:player.wrap_delay,X
+    LDA z:player.warp_delay,X
     AND #0xF800
     ORA #0x800
-    STA z:player.wrap_delay,X
+    STA z:player.warp_delay,X
     RTL
 
 sub_C42395:
-    LDA z:player.wrap_delay,X
+    LDA z:player.warp_delay,X
     SEC
     SBC z:0x3E,X
-    STA z:player.wrap_delay,X
+    STA z:player.warp_delay,X
     RTL
 
 sub_C4239D:
@@ -5178,10 +5178,10 @@ player_animation_list:
     da right_walking_animation; 0x1E
     da down_walking_animation; 0x1F
     da left_walking_animation; 0x20
-    da wrapping_animation; 0x21
-    da wrapping_animation; 0x22
-    da wrapping_animation; 0x23
-    da wrapping_animation; 0x24
+    da warpping_animation; 0x21
+    da warpping_animation; 0x22
+    da warpping_animation; 0x23
+    da warpping_animation; 0x24
 animation_frame_C4294B:
     db 1
     frame_oam_tile 0xF8, 0xF8, 0, 0x20
@@ -5200,7 +5200,7 @@ animation_frame_C42963:
 animation_frame_C42969:
     db 1
     frame_oam_tile 0xF8, 0xF8, 0x2000, 0x20
-wrapping_animation:
+warpping_animation:
     db 0x12
     animation_frame animation_frame_C4294B, 0x30; 0
     animation_frame animation_frame_C42951, 6; 1
@@ -5825,7 +5825,7 @@ i16
     ORA #8
     STA z:0x14,X
     REP #0x20
-    LDA #addr(enter_wrap_animation)
+    LDA #addr(enter_warp_animation)
     STA z:0x50
     SEP #0x20
     PHK
@@ -5926,9 +5926,9 @@ i16
     ASL A
     ASL A
     TAX
-    LDA f:wrap_positions,X
+    LDA f:warp_positions,X
     STA z:0x40
-    LDA f:wrap_positions+2,X
+    LDA f:warp_positions+2,X
     STA z:0x42
     PLX
     SEP #0x20
@@ -6572,7 +6572,7 @@ i16
     create_object .loc_C434FC
     REP #0x20
     BCC .loc_C434F5
-    JML sub_C436C1.locret_C436FC
+    JML arena_level_initializer.locret_C436FC
 
 .loc_C434F5:
     LDA #0x500
@@ -6633,7 +6633,7 @@ sub_C43573:
     SEP #0x20
     create_object .loc_C43599
     BCC .loc_C43591
-    JML sub_C436C1.locret_C436FC
+    JML arena_level_initializer.locret_C436FC
 
 .loc_C43591:
     REP #0x20
@@ -6792,7 +6792,7 @@ sub_C43573:
 .locret_C436C0:
     RTL
 
-sub_C436C1:
+arena_level_initializer:
     SEP #0x20
     create_object mecha_bomberman_related.loc_C4375E
     BCS .locret_C436FC
@@ -6818,12 +6818,12 @@ i16
 
     BIT #0x41
     BEQ .loc_C43712
-    JML sub_C436C1.locret_C436FC
+    JML arena_level_initializer.locret_C436FC
 
 .loc_C43712:
     SEP #0x20
     LDA a:addr(level_manager_object.enemy_count) ; orig=0x0D25
-    BNE sub_C436C1.locret_C436FC
+    BNE arena_level_initializer.locret_C436FC
     LDA a:addr(level_manager_object.level_representation) ; orig=0x0D24
     CMP #0x58
     BNE .loc_C43724
@@ -6846,12 +6846,12 @@ i16
 
     BIT #0x41
     BEQ .loc_C4374D
-    JML sub_C436C1.locret_C436FC
+    JML arena_level_initializer.locret_C436FC
 
 .loc_C4374D:
     REP #0x20
     DEC z:0x10,X
-    BNE sub_C436C1.locret_C436FC
+    BNE arena_level_initializer.locret_C436FC
     SEP #0x20
     INC a:addr(level_manager_object.level_representation) ; orig=0x0D24
     INC a:addr(level_manager_object.fade_related_) ; orig=0x0D10
@@ -6863,7 +6863,7 @@ i16
 
     BIT #0x41
     BEQ .loc_C43773
-    JML sub_C436C1.locret_C436FC
+    JML arena_level_initializer.locret_C436FC
 
 .loc_C43773:
     REP #0x20
@@ -12883,7 +12883,7 @@ sub_C46359:
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_PAUSED | GAME_FLAGS_DEBUG_MENU
     BEQ .loc_C46365
-    JMP a:addr(nullsub_C463DD)
+    JMP a:addr(null_versus_initializer)
 
 .loc_C46365:
     SEP #0x20
@@ -12926,7 +12926,7 @@ sub_C463A5:
     LDX #0xD00
     LDA a:addr(current_screen) ; orig=0x00A4
     CMP z:0x10,X
-    BEQ nullsub_C463DD
+    BEQ null_versus_initializer
     LDA a:addr(level_manager_object.fade_related_) ; orig=0x0D10
     STA a:addr(level_manager_object.anonymous_2) ; orig=0x0D16
     LDA a:addr(level_manager_object.level_representation) ; orig=0x0D24
@@ -12945,7 +12945,7 @@ sub_C463A5:
     STA z:2,X
     ; fallthrough
 
-nullsub_C463DD:
+null_versus_initializer:
     RTL
 
 sub_C463DE:
@@ -12956,7 +12956,7 @@ sub_C463DE:
     LDA #bank(.loc_C46406)
     STA z:2,X
     JSL sub_C4669F
-    BCS nullsub_C463DD
+    BCS null_versus_initializer
     REP #0x20
     LDA #INVINCIBILITY_FRAMES
     STA z:player.invincibility_countdown,X
@@ -12972,7 +12972,7 @@ sub_C463DE:
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_PAUSED | GAME_FLAGS_DEBUG_MENU
     BEQ .loc_C46412
-    JMP a:addr(nullsub_C463DD)
+    JMP a:addr(null_versus_initializer)
 
 .loc_C46412:
     SEP #0x20
@@ -12980,7 +12980,7 @@ sub_C463DE:
     LDA z:0x35,X
     CMP #0xFF
     BEQ .loc_C46420
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C46420:
     STZ z:0x35,X
@@ -13035,7 +13035,7 @@ sub_C463DE:
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_PAUSED | GAME_FLAGS_DEBUG_MENU
     BEQ .loc_C464A4
-    JMP a:addr(nullsub_C463DD)
+    JMP a:addr(null_versus_initializer)
 
 .loc_C464A4:
     SEP #0x20
@@ -13043,7 +13043,7 @@ sub_C463DE:
     LDA z:0x35,X
     CMP #0x40
     BEQ .loc_C464B2
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C464B2:
     JSL sub_C4245D
@@ -13256,7 +13256,7 @@ sub_C4667D:
     LDA a:addr(game_flags) ; orig=0x0314
     BIT #GAME_FLAGS_PAUSED | GAME_FLAGS_DEBUG_MENU
     BEQ .loc_C46689
-    JMP a:addr(nullsub_C463DD)
+    JMP a:addr(null_versus_initializer)
 
 .loc_C46689:
     SEP #0x20
@@ -13264,7 +13264,7 @@ sub_C4667D:
     LDA z:0x35,X
     CMP #0x40
     BEQ .loc_C46697
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C46697:
     LDA #0x37
@@ -13901,7 +13901,7 @@ sub_C46C0B:
     SEP #0x20
     DEC z:0x20,X
     BEQ .loc_C46C15
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C46C15:
     REP #0x20
@@ -14232,7 +14232,7 @@ sub_C46EBD:
     STA z:0x40
     JSL sub_C466C1
     BEQ .loc_C46ECD
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C46ECD:
     REP #0x20
@@ -14246,7 +14246,7 @@ sub_C46EBD:
     SEP #0x20
     DEC z:0x21,X
     BEQ .loc_C46EE4
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C46EE4:
     LDA #0
@@ -14717,7 +14717,7 @@ sub_C472EF:
     STA z:0x40
     JSL sub_C466C1
     BEQ .loc_C472FF
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C472FF:
     REP #0x20
@@ -16244,7 +16244,7 @@ _screen_loader_object:
     SEP #0x20
     DEC z:0x21,X
     BEQ .loc_C47F95
-    JML nullsub_C463DD
+    JML null_versus_initializer
 
 .loc_C47F95:
     LDA #0

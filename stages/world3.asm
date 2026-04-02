@@ -1,33 +1,15 @@
 stage_3_1:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x43 ; saved_to_d3a
-    df garden_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df garden_level_structure
-    df empty_tilemap
-    dw 0x31 ; level_representation
-    dw 7 ; hard_blocks
-    dw 33 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df garden_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52565
-    dw 6
-    df tile_animation
-    df byte_C52688
-    dw 2
-    dw 0xF0F0
+    level 0x31, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x43,
+          garden_graphic, bomb_and_explosions_graphic, garden_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          7, 33 ; hard/soft blocks
+
+    load_palettes garden_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK, garden_soft_animation
+    tile_animation TILE_SOFTBLOCK_SHADED, garden_shaded_soft_animation
+    init_functions_end
+
     df create_kouraru
     df create_moguchan
     df create_kouraru
@@ -35,38 +17,21 @@ stage_3_1:
     df create_moguchan
     df create_moguchan
     dw 0
+    
     dw BOMB_UP, KICK, RED_BOMBS, 0
     
 stage_3_2:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x42 ; saved_to_d3a
-    df garden_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df garden_level_structure
-    df empty_tilemap
-    dw 0x32 ; level_representation
-    dw 4 ; hard_blocks
-    dw 32 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df garden_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52565
-    dw 6
-    df tile_animation
-    df byte_C52688
-    dw 2
-    dw 0xF0F0
+    level 0x32, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x42,
+          garden_graphic, bomb_and_explosions_graphic, garden_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          4, 32 ; hard/soft blocks
+
+    load_palettes garden_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK, garden_soft_animation
+    tile_animation TILE_SOFTBLOCK_SHADED, garden_shaded_soft_animation
+    init_functions_end
+
     df create_moguchan
     df create_moguchan
     df create_pakupa
@@ -76,43 +41,22 @@ stage_3_2:
     df create_kouraru
     df create_kouraru
     dw 0
+    
     dw PUNCH, VEST, 0
     
 stage_3_3:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x41 ; saved_to_d3a
-    df garden_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df garden_level_structure
-    df empty_tilemap
-    dw 0x33 ; level_representation
-    dw 5 ; hard_blocks
-    dw 35 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df garden_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52565
-    dw 6
-    df tile_animation
-    df byte_C52688
-    dw 2
-    df hidden_bonus_object
-    dw 0xB
-    db 0
-    dw APPLE
-    db 0
-    dw 0xF0F0
+    level 0x33, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x41,
+          garden_graphic, bomb_and_explosions_graphic, garden_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          5, 35 ; hard/soft blocks
+
+    load_palettes garden_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK, garden_soft_animation
+    tile_animation TILE_SOFTBLOCK_SHADED, garden_shaded_soft_animation
+    hidden_bonus_object BONUS_COND_SCORE_ENDS_WITH_20, APPLE
+    init_functions_end
+
     df create_kierun
     df create_kierun
     df create_moguchan
@@ -120,44 +64,23 @@ stage_3_3:
     df create_dengurin
     df create_dengurin
     dw 0
+    
     dw BOMB_UP, FULL_FIRE, BOMB_UP, 0
     
 stage_3_4:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x40 ; saved_to_d3a
-    df factory_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df factory_level_structure
-    df empty_tilemap
-    dw 0x34 ; level_representation
-    dw 6 ; hard_blocks
-    dw 33 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df factory_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52504
-    dw 2
-    df tile_animation
-    df byte_C52504
-    dw 6
+    level 0x34, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x40,
+          factory_graphic, bomb_and_explosions_graphic, factory_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          6, 33 ; hard/soft blocks
+
+    load_palettes factory_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK_SHADED, factory_soft_animation
+    tile_animation TILE_SOFTBLOCK, factory_soft_animation
     df create_moving_platforms
-    df hidden_bonus_object
-    dw 0
-    db 0
-    dw KENDAMA
-    db 0
-    dw 0xF0F0
+    hidden_bonus_object BONUS_COND_LIVES_DROP_TO_ZERO, KENDAMA
+    init_functions_end
+
     df create_anzenda
     df create_anzenda
     df create_anzenda
@@ -167,39 +90,22 @@ stage_3_4:
     df create_keibin
     df create_keibin
     dw 0
+    
     dw REMOTE_CONTROL, PUNCH, 0
     
 stage_3_5:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x40 ; saved_to_d3a
-    df factory_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df factory_level_structure
-    df empty_tilemap
-    dw 0x35 ; level_representation
-    dw 6 ; hard_blocks
-    dw 34 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df factory_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52504
-    dw 2
-    df tile_animation
-    df byte_C52504
-    dw 6
+    level 0x35, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x40,
+          factory_graphic, bomb_and_explosions_graphic, factory_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          6, 34 ; hard/soft blocks
+
+    load_palettes factory_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK_SHADED, factory_soft_animation
+    tile_animation TILE_SOFTBLOCK, factory_soft_animation
     df create_moving_platforms
-    dw 0xF0F0
+    init_functions_end
+
     df create_anzenda
     df create_anzenda
     df create_anzenda
@@ -209,44 +115,23 @@ stage_3_5:
     df create_kuwagen
     df create_anzenda
     dw 0
+    
     dw EXTRA_TIME, EXTRA_LIFE, EXTRA_TIME, 0
     
 stage_3_6:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x39 ; saved_to_d3a
-    df factory_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df factory_level_structure
-    df empty_tilemap
-    dw 0x36 ; level_representation
-    dw 7 ; hard_blocks
-    dw 32 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df factory_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52504
-    dw 2
-    df tile_animation
-    df byte_C52504
-    dw 6
+    level 0x36, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x39,
+          factory_graphic, bomb_and_explosions_graphic, factory_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          7, 32 ; hard/soft blocks
+
+    load_palettes factory_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK_SHADED, factory_soft_animation
+    tile_animation TILE_SOFTBLOCK, factory_soft_animation
     df create_moving_platforms
-    df hidden_bonus_object
-    dw 0xA
-    db 0
-    dw FIRE_EXT
-    db 0
-    dw 0xF0F0
+    hidden_bonus_object BONUS_COND_PLACE_6_BOMBS, FIRE_EXT
+    init_functions_end
+
     df create_chameleoman
     df create_chameleoman
     df create_chameleoman
@@ -255,44 +140,23 @@ stage_3_6:
     df create_chameleoman
     df create_chameleoman
     dw 0
+    
     dw BOMB_UP, RED_BOMBS, 0
     
 stage_3_7:
-    db 0xE ; saved_to_d1c
-    db 0
-    db 1 ; spawn_and_flags
-    db 0 ; more_flags
-    dw 2 ; screen_mode
-    dw 0x38 ; saved_to_d3a
-    df factory_graphic
-    df bomb_and_explosions_graphic
-    df empty_tilemap
-    df factory_level_structure
-    df empty_tilemap
-    dw 0x37 ; level_representation
-    dw 6 ; hard_blocks
-    dw 22 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df factory_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df standard_level_graphics
-    dw 0x10
-    db 0
-    df tile_animation
-    df byte_C52504
-    dw 2
-    df tile_animation
-    df byte_C52504
-    dw 6
+    level 0x37, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x38,
+          factory_graphic, bomb_and_explosions_graphic, factory_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          6, 22 ; hard/soft blocks
+
+    load_palettes factory_palettes
+    load_global_sprites standard_level_graphics
+    tile_animation TILE_SOFTBLOCK_SHADED, factory_soft_animation
+    tile_animation TILE_SOFTBLOCK, factory_soft_animation
     df create_moving_platforms
-    df hidden_bonus_object
-    dw 7
-    db 0
-    dw HEART
-    db 0
-    dw 0xF0F0
+    hidden_bonus_object BONUS_COND_SPAWN_ENEMY, HEART
+    init_functions_end
+
     df create_kuwagen
     df create_kuwagen
     df create_kuwagen
@@ -302,36 +166,22 @@ stage_3_7:
     df create_chameleoman
     df create_chameleoman
     dw 0
+    
     dw KICK, SPEED_UP, PUNCH, 0
     
 stage_3_8:
-    db 0 ; saved_to_d1c
-    db 0
-    db 2 ; spawn_and_flags
-    db 0x80 ; 0x80 here sets a flags that disables "automatic" detection
- ; of hard block and free spaces tiles, and forces the hard
- ; coded values of 0804 and 0808.
-    dw 2 ; screen_mode
-    dw 0x80 ; saved_to_d3a
-    df factory_graphic
-    df bomb_and_explosions_graphic
-    df trampoline_and_crane_graphic; overlay_tileset_pointer
-    df crane_boss_level_structure
-    df compressed_handcrane_tilemap
-    dw 0x38 ; level_representation
-    dw 0 ; hard_blocks
-    dw 0 ; soft_blocks, off by one in story mode, for the level exit
-    df load_palettes
-    df crane_hand_boss_palettes
-    dw 0x10
-    db 0
-    df load_global_sprites
-    df level_3_8_graphics_array
-    dw 0x10
-    db 0
-    dw 0xF0F0
+    level 0x38, GAME_MODE_STORY, LEVEL_FLAGS_HARDCODED_HARDBLOCKS | LEVEL_FLAGS_SPAWN_BOSS, 0, 0x80,
+          factory_graphic, bomb_and_explosions_graphic, crane_boss_level_structure, ; graphics
+          trampoline_and_crane_graphic, compressed_handcrane_tilemap, ; overlay
+          0, 0 ; hard/soft blocks
+
+    load_palettes crane_hand_boss_palettes
+    load_global_sprites level_3_8_graphics_array
+    init_functions_end
+
     df create_crane_hand
     dw 0
+    
     dw 0
     
 level_3_8_graphics_array:

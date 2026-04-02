@@ -87,3 +87,46 @@ macro handler_return_if_paused
     JML .ret
 +
 endmacro
+
+macro load_palettes palettes
+    df load_palettes
+    df $palettes
+    dw 0x10 ; Number of palettes
+    db 0 ; Unused?
+endmacro
+
+macro load_global_sprites graphics
+    df load_global_sprites
+    df $graphics
+    dw 0x10 ; Number of graphic lists
+    db 0 ; Unused?
+endmacro
+
+macro tile_animation tile, animation
+    df tile_animation
+    df $animation
+    dw $tile
+endmacro
+
+macro hidden_bonus_object event, bonus
+    df hidden_bonus_object
+    dw $event
+    db 0
+    dw $bonus
+    db 0
+endmacro
+
+macro set_overlay_blending main_flags, subscreen_flags, color_math
+    df set_overlay_blending
+    db $main_flags, $subscreen_flags
+    dw $color_math
+endmacro
+
+macro create_overlay_scroller start_x, start_y, speed_x, speed_y
+    df create_overlay_scroller
+    dw $start_x, $start_y, $speed_x, $speed_y
+endmacro
+
+macro init_functions_end
+    dw 0xF0F0
+endmacro
