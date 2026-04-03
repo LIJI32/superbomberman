@@ -22,7 +22,7 @@ db " DBOOT VER1.03 ", 0
     AND #0xFF
     ASL A
     TAX
-    JMP [addr(dboot_commands_array),X]
+    JMP [addr(dboot_commands_array), X]
     ; fallthrough
 
 sub_C4802A:
@@ -251,7 +251,7 @@ is_music_in_current_bank:
     BEQ .loc_C481AB
 
 .loc_C481A1:
-    LDA f:[z:pointer_to_current_music_list - number_of_music_banks],Y
+    LDA f:[z:pointer_to_current_music_list - number_of_music_banks], Y
     CMP z:dboot_paramater_0 - dboot_ram_start
     BEQ .loc_C481AE
     INY
@@ -305,7 +305,7 @@ sub_C481D3:
     TAX
 
 .loc_C481E7:
-    LDA f:[z:0x64],Y
+    LDA f:[z:0x64], Y
     STA f:APU_I_O_PORT_2
     SEP #0x20
     LDA f:APU_I_O_PORT_0
@@ -352,7 +352,7 @@ sub_C48220:
     TAX
 
 .loc_C48234:
-    LDA f:[z:0x64],Y
+    LDA f:[z:0x64], Y
     STA f:APU_I_O_PORT_2
     SEP #0x20
     LDA f:APU_I_O_PORT_0
@@ -434,10 +434,10 @@ init_array_of_music_related_pointers:
     LDX #0
 
 .loc_C482CB:
-    LDA f:dboot_data_offsets,X
+    LDA f:dboot_data_offsets, X
     XBA
     STA z:unk_dboot_66 - dboot_ram_start
-    LDA f:dboot_data_offsets + 2,X
+    LDA f:dboot_data_offsets + 2, X
     XBA
     STA z:unk_dboot_64 - dboot_ram_start
     CMP #0x8000
@@ -447,10 +447,10 @@ init_array_of_music_related_pointers:
     AND #0x7FFF
     ADC #addr(dboot_data_offsets)
     ORA #0x8000
-    STA z:array_of_music_related_pointers - number_of_music_banks,X
+    STA z:array_of_music_related_pointers - number_of_music_banks, X
     LDA z:unk_dboot_66 - dboot_ram_start
     ADC #bank(dboot_data_offsets)
-    STA z:array_of_music_related_pointers + 2 - number_of_music_banks,X
+    STA z:array_of_music_related_pointers + 2 - number_of_music_banks, X
     INX
     INX
     INX
@@ -458,7 +458,7 @@ init_array_of_music_related_pointers:
     CPX #0x18
     BNE .loc_C482CB
     LDY #0
-    LDA f:[z:array_of_music_related_pointers - number_of_music_banks],Y
+    LDA f:[z:array_of_music_related_pointers - number_of_music_banks], Y
     XBA
     STA z:number_of_music_banks - number_of_music_banks
     LDA z:array_of_music_related_pointers - dboot_ram_start
@@ -494,7 +494,7 @@ parse_music_bank:
 .loc_C48331:
     SEC
     LDA z:array_of_music_related_pointers - dboot_ram_start
-    ADC f:[z:array_of_music_related_pointers - number_of_music_banks],Y
+    ADC f:[z:array_of_music_related_pointers - number_of_music_banks], Y
     STA z:array_of_music_related_pointers - dboot_ram_start
     LDA z:array_of_music_related_pointers+2 - dboot_ram_start
     ADC #0
@@ -519,7 +519,7 @@ i16
     REP #0x20
     LDA #0
     SEP #0x20
-    LDA f:[z:array_of_music_related_pointers - number_of_music_banks],Y
+    LDA f:[z:array_of_music_related_pointers - number_of_music_banks], Y
     REP #0x20 
     STA z:number_of_instruments - number_of_music_banks 
     TYA
@@ -539,7 +539,7 @@ i16
     LDY #0
     TYA
     SEP #0x20
-    LDA f:[z:array_of_music_related_pointers - number_of_music_banks],Y
+    LDA f:[z:array_of_music_related_pointers - number_of_music_banks], Y
     REP #0x20 
     STA z:number_of_sounds - dboot_ram_start
     TYA
@@ -559,7 +559,7 @@ i16
     LDY #0
     TYA
     SEP #0x20
-    LDA f:[z:array_of_music_related_pointers - number_of_music_banks],Y
+    LDA f:[z:array_of_music_related_pointers - number_of_music_banks], Y
     REP #0x20 
     STA z:number_of_musics_in_bank - dboot_ram_start
     TYA
@@ -586,11 +586,11 @@ clear_sound_related_buffer:
     LDA #0xFF
 
 .loc_C483D4:
-    STA f:sound_related_buffer,X
-    STA f:unk_7FFC80,X
-    STA f:loaded_instruments,X
-    STA f:unk_7FFD80,X
-    STA f:unk_7FFE00,X
+    STA f:sound_related_buffer, X
+    STA f:unk_7FFC80, X
+    STA f:loaded_instruments, X
+    STA f:unk_7FFD80, X
+    STA f:unk_7FFE00, X
     DEX
     BPL .loc_C483D4
     PLP
@@ -602,7 +602,7 @@ clear_dboot_data:
     LDX #0x7F
 
 .loc_C483F2:
-    STZ z:number_of_music_banks - number_of_music_banks,X
+    STZ z:number_of_music_banks - number_of_music_banks, X
     DEX
     BPL .loc_C483F2
     REP #0x10
@@ -611,7 +611,7 @@ i16
     LDA #0
 
 .loc_C483FE:
-    STA f:0x7FFC00,X
+    STA f:0x7FFC00, X
     DEX
     BPL .loc_C483FE
     REP #0x20
@@ -657,7 +657,7 @@ dboot_load_spc_program:
     JML .loc_C48459
 
 .loc_C48449:
-    LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
+    LDA f:[z:dboot_temp_pointer - number_of_music_banks], Y
     INY
     BEQ .loc_C48437
 
@@ -668,7 +668,7 @@ dboot_load_spc_program:
 
 .loc_C48453:
     XBA
-    LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
+    LDA f:[z:dboot_temp_pointer - number_of_music_banks], Y
     INY
     BEQ .loc_C48440
 
@@ -698,14 +698,14 @@ dboot_load_spc_program:
 .loc_C48476:
     PHA
     REP #0x20
-    LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
+    LDA f:[z:dboot_temp_pointer - number_of_music_banks], Y
     INY
     INY
     BPL .loc_C484A7
 
 .loc_C4847F:
     TAX
-    LDA f:[z:dboot_temp_pointer - number_of_music_banks],Y
+    LDA f:[z:dboot_temp_pointer - number_of_music_banks], Y
     INY
     INY
     BPL .loc_C484AE
@@ -850,7 +850,7 @@ load_instruments:
     LDA f:[z:dboot_temp_pointer - number_of_music_banks]
     TAX
     LDA z:number_of_loaded_instruments - dboot_ram_start
-    STA f:loaded_instruments,X
+    STA f:loaded_instruments, X
     INC z:number_of_loaded_instruments - dboot_ram_start
     REP #0x20 
     INC z:dboot_temp_pointer - dboot_ram_start
@@ -864,7 +864,7 @@ load_instruments:
     CLC
     ADC #4
     TAY
-    LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks],Y
+    LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks], Y
     XBA
     CLC
     ADC z:dboot_paramater_0 - dboot_ram_start
@@ -898,12 +898,12 @@ load_instruments:
     INC z:0x52
 
 .loc_C485C2:
-    LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks],Y
+    LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks], Y
     XBA
     STA z:unk_dboot_34 - dboot_ram_start
     INY
     INY
-    LDA f:[z:0x54],Y
+    LDA f:[z:0x54], Y
     XBA
     LSR A
     LSR A
@@ -918,13 +918,13 @@ load_instruments:
     TAY
     LDA #0
     SEP #0x20
-    LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks],Y
+    LDA f:[z:current_pointer_to_instrument_related_data - number_of_music_banks], Y
     TAX
-    LDA f:unk_7FFD80,X
+    LDA f:unk_7FFD80, X
     CMP #0xFF
     BNE .loc_C485F1
     LDA z:number_of_loaded_instruments - dboot_ram_start
-    STA f:0x7FFD80,X
+    STA f:0x7FFD80, X
     INC z:number_of_loaded_instruments - dboot_ram_start
 
 .loc_C485F1:    
@@ -958,12 +958,12 @@ load_instruments:
 
 .loc_C48625:
     TYX
-    LDA f:0x7FFD80,X
+    LDA f:0x7FFD80, X
     CMP #0xFF
     BEQ .loc_C48634
     TAX
     TYA
-    STA f:0x7FFE00,X
+    STA f:0x7FFE00, X
 
 .loc_C48634:
     INY
@@ -990,7 +990,7 @@ sub_C4863B:
     STZ z:0x30
 
 .loc_C48659:
-    LDA f:0x7FFE00,X
+    LDA f:0x7FFE00, X
     CMP #0xFF
     BEQ .loc_C48663
     INC z:0x30
@@ -1020,7 +1020,7 @@ sub_C4863B:
     LDX #0
 
 .loc_C48690:
-    LDA f:0x7FFE00,X
+    LDA f:0x7FFE00, X
     INX
     AND #0xFF
     CMP #0xFF
@@ -1031,7 +1031,7 @@ sub_C4863B:
     CLC
     ADC #6
     TAY
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     XBA
     CLC
     ADC z:0x30
@@ -1042,7 +1042,7 @@ sub_C4863B:
     JSR a:addr(sub_C481B1)
     DEY
     DEY
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     XBA
     CLC
     ADC z:0x30
@@ -1065,7 +1065,7 @@ sub_C4863B:
     LDX #0
 
 .loc_C486DD:
-    LDA f:0x7FFE00,X
+    LDA f:0x7FFE00, X
     INX
     AND #0xFF
     CMP #0xFF
@@ -1074,12 +1074,12 @@ sub_C4863B:
     ASL A
     ASL A
     TAY
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     XBA
     STA z:0x66
     INY
     INY
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     XBA
     STA z:0x64
     CMP #0x8000
@@ -1095,7 +1095,7 @@ sub_C4863B:
     STA z:0x66
     INY
     INY
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     XBA
     STA z:0x68
     PHX
@@ -1156,7 +1156,7 @@ sub_C48728:
     TAX
     SEP #0x20
     LDA z:0x3C
-    STA f:0x7FFC80,X
+    STA f:0x7FFC80, X
     INC z:0x3C
     REP #0x20
     TXA
@@ -1301,7 +1301,7 @@ sub_C4882B:
     TAX
     SEP #0x20
     LDA z:0x3C
-    STA f:0x7FFC00,X
+    STA f:0x7FFC00, X
     INC z:0x3C
     REP #0x20
     TXA

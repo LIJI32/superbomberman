@@ -135,7 +135,9 @@ struct sprite
 .ticks_left_for_frames:
     ds 1
 .palette:
-    ds 2
+    ds 1
+.graphics_slot:
+    ds 1
     ds 1
 .x_position:
     ds 3
@@ -171,7 +173,9 @@ struct player
 .ticks_left_for_frames:
     ds 1
 .palette:
-    ds 2
+    ds 1
+.graphics_slot:
+    ds 1
 .warp_delay: ; 0x10
     ds 1
 .x_position:
@@ -275,7 +279,9 @@ struct enemy
 .ticks_left_for_frames:
     ds 1
 .palette:
-    ds 2
+    ds 1
+.graphics_slot:
+    ds 1
 .fractional_x:
     ds 1
 .x_position:

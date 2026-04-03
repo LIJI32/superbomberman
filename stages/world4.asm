@@ -222,7 +222,7 @@ dome_palettes:
     db BONUS_PALETTE_1, BONUS_PALETTE_2, DOME_BOMB_PALETTE; a_palettes
     db DOME_FIRE_PALETTE ; a_palettes
     db SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-    db FREE, FREE, FREE, WHITE_PALETTE; b_palettes
+    db FREE_PALETTE, FREE_PALETTE, FREE_PALETTE, WHITE_PALETTE; b_palettes
     
 mecha_onita_boss_palettes:
     db    HUD_PALETTE, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes

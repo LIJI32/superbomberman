@@ -1,3 +1,7 @@
+org 0x7E0053
+far_function_pointer:
+    ds 3
+
 org 0x7E0074
 unused_fast_rng_seed: ; Written but never read
     ds 2
@@ -220,7 +224,8 @@ org 0x7E0C3E
 byte_7E0C3E:
 
 org 0x7E0C3F
-combo_counter:
+combo_counters:
+    ds 0x10
 
 org 0x7E0C5F
 word_7E0C5F:
@@ -248,8 +253,10 @@ word_7E0C8B:
     ds 2
 word_7E0C8D:
     ds 2
-word_7E0C8F:
-    ds 2
+byte_7E0C8F:
+    ds 1
+use_mini_graphics:
+    ds 1
 number_of_visible_bonuses:
     ds 2
 word_7E0C93:
@@ -394,7 +401,7 @@ level_manager_object:
     ds 1
     ds 1
     ds 1
-.anonymous_8:
+.game_mode:
     ds 2
 .unknown_flags:
     ds 2
@@ -544,14 +551,21 @@ unk_7F0400:
     ds 0x200
 graphics_table:
     ds 0x60
-palette_allocation_related_array:
-    ds 0x10
-unk_7F0670:
-
+palette_table:
+    .background
+    ds 8
+    .sprite
+    ds 8
+    .end
+shuffled_bonus_index_array:
+    ds 0x40
+    
 org 0x7F06AE
 unk_7F06AE:
     ds 2
-unk_7F06B0:
+enemy_creation_functions:
+    ; Arbitrary size, not actually limited by it and not directly followed by anything
+    ds 0x60
 
 org 0x7FFC00
 sound_related_buffer:

@@ -720,14 +720,14 @@ interrupt_register_init:
     LDX #0
 
 .loc_C30CB8:
-    LDA interrupt_registers_init_table,X
+    LDA interrupt_registers_init_table, X
     CMP #0xFF
     BEQ .loc_C30CCC
     TAY
     INX
-    LDA interrupt_registers_init_table,X
+    LDA interrupt_registers_init_table, X
     INX
-    STA 0x4200,Y
+    STA 0x4200, Y
     BRA .loc_C30CB8
 
 .loc_C30CCC:
@@ -739,14 +739,14 @@ gpu_registers_init:
     LDX #0
 
 .loc_C30CD3:
-    LDA gpu_registers_init_table,X
+    LDA gpu_registers_init_table, X
     CMP #0xFF
     BEQ .loc_C30CE7
     TAY
     INX
-    LDA gpu_registers_init_table,X
+    LDA gpu_registers_init_table, X
     INX
-    STA 0x2100,Y
+    STA 0x2100, Y
     BRA .loc_C30CD3
 
 .loc_C30CE7:
@@ -780,26 +780,16 @@ standard_level_graphics:
     df bomberman_graphic_1
     df bomberman_graphic_2
     df bomberman_graphic_3
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
     df score_banner_and_bomb_graphic
     df enemy_explosion_graphic
 boss_level_graphics:
@@ -807,26 +797,16 @@ boss_level_graphics:
     df bomberman_graphic_1
     df bomberman_graphic_2
     df bomberman_graphic_3
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
-    dw 0
-    db 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
+    df 0
     df score_banner_and_bomb_graphic
     df explosion_graphic
 

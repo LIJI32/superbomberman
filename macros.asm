@@ -53,7 +53,7 @@ macro lda_tile_id register
 endmacro
 
 macro lda_tile_id_offset register, x, y
-    LDA z:sprite.x_position,X
+    LDA z:sprite.x_position, X
     CLC
     ADC #($x) & 0xffff
     AND #0xF0
@@ -62,7 +62,7 @@ macro lda_tile_id_offset register, x, y
     LSR A
     STA z:0x40
     
-    LDA z:sprite.y_position,X
+    LDA z:sprite.y_position, X
     CLC
     ADC #($y) & 0xffff
     AND #0xF0
@@ -92,14 +92,14 @@ macro load_palettes palettes
     df load_palettes
     df $palettes
     dw 0x10 ; Number of palettes
-    db 0 ; Unused?
+    db 0 ; Unused
 endmacro
 
 macro load_global_sprites graphics
     df load_global_sprites
     df $graphics
     dw 0x10 ; Number of graphic lists
-    db 0 ; Unused?
+    db 0 ; Unused
 endmacro
 
 macro tile_animation tile, animation
@@ -127,6 +127,43 @@ macro create_overlay_scroller start_x, start_y, speed_x, speed_y
     dw $start_x, $start_y, $speed_x, $speed_y
 endmacro
 
+INIT_FUNCTIONS_TERMINATOR = 0xF0F0
+
 macro init_functions_end
-    dw 0xF0F0
+    dw INIT_FUNCTIONS_TERMINATOR
+endmacro
+
+macro allocate_graphics list, count
+    REP #0x20
+    LDA #$count
+    STA z:allocate_graphics.COUNT
+    
+    REP #0x20
+    LDA #addr($list)
+    STA z:allocate_graphics.GRAPHICS
+    SEP #0x20
+    LDA #bank($list)
+    STA z:allocate_graphics.GRAPHICS + 2
+    
+    PHY
+    JSL allocate_graphics
+    PLY
+endmacro
+
+macro allocate_object_graphics list, count
+    allocate_graphics $list, $count
+    SEP #0x20
+    LDA z:allocate_graphics.INDEX_USED
+    STA a:addr(sprite.graphics_slot), Y
+endmacro
+
+macro allocate_object_palette palette_index
+    SEP #0x20
+    LDA #$palette_index
+    STA z:allocate_sprite_palette.PALETTE
+    JSL allocate_sprite_palette
+    SEP #0x20
+    LDA z:allocate_sprite_palette.SLOT_INDEX
+    STA a:addr(sprite.effective_palette), Y
+    STA a:addr(sprite.real_palette), Y
 endmacro

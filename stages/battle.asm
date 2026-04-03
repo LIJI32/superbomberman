@@ -182,7 +182,7 @@ tunnel_zone:
                           8, -25
 
 duel_zone:
-    level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_WESTERN_ALT, 0, 0x200,
+    level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_DUEL_ZONE, 0, 0x200,
           park_graphic, bomb_and_explosions_graphic, park_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -389,7 +389,7 @@ unknown_palettes:
     db DIAMOND_TOWER_BOMB_PALETTE, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
     db DIAMOND_TOWER_BOMB_PALETTE, DIAMOND_TOWER_FIRE_PALETTE; a_palettes
     db SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-    db AKA_PALETTE, AO_PALETTE, FREE, WHITE_PALETTE; b_palettes
+    db AKA_PALETTE, AO_PALETTE, FREE_PALETTE, WHITE_PALETTE; b_palettes
 
 unknown_palettes2:
     db    HUD_PALETTE, 0x56, 0x57, 0x58, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes

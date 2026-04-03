@@ -11,10 +11,10 @@ BG3_SCROLL_PAUSED = 0x428
 handle_pause:
 i16
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY
     BNE .ret
-    LDA z:pause_handler.state,X
+    LDA z:pause_handler.state, X
     BEQ .idle
     JML animate_pause
 
@@ -24,7 +24,7 @@ i16
 ifndef DEBUG
     JML .debug_ret
 else
-    LDA a:addr(game_flags) ; orig=0x0314 ; Deleted debug menu activation
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_DEBUG_MENU
     BEQ .debug_ret
     JSL handle_debug_menu_input
@@ -32,9 +32,9 @@ else
 endif
 
 +
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     EOR #GAME_FLAGS_PAUSED
-    STA a:addr(game_flags) ; orig=0x0314
+    STA a:addr(game_flags)
     BIT #GAME_FLAGS_PAUSED
     BEQ .unpause
     
@@ -43,17 +43,17 @@ endif
     
     SEP #0x20
     LDA #PAUSE_HANDLER_STATE_OPENING
-    STA z:pause_handler.state,X
-    STZ z:pause_handler.state + 1,X
+    STA z:pause_handler.state, X
+    STZ z:pause_handler.state + 1, X
     LDA #low(BG3_SCROLL_UNPAUSED)
-    STA z:pause_handler.scroll,X
+    STA z:pause_handler.scroll, X
     LDA #high(BG3_SCROLL_UNPAUSED)
-    STA z:pause_handler.scroll + 1,X
+    STA z:pause_handler.scroll + 1, X
     RTL
 
 .unpause:
     LDA #PAUSE_HANDLER_STATE_CLOSING
-    STA z:pause_handler.state,X
+    STA z:pause_handler.state, X
 
 .ret:
     RTL
@@ -63,55 +63,55 @@ endif
 
 animate_pause:
     REP #0x20
-    LDA z:pause_handler.state,X
+    LDA z:pause_handler.state, X
     BIT #PAUSE_HANDLER_STATE_OPENING
     BNE .opening
     
-    LDA z:pause_handler.scroll,X
+    LDA z:pause_handler.scroll, X
     SEC
     SBC #5
     CMP #BG3_SCROLL_UNPAUSED
-    STA z:pause_handler.scroll,X
+    STA z:pause_handler.scroll, X
     BCS .done
     
     LDA #BG3_SCROLL_UNPAUSED ; Overflowed, cap the value
-    STA z:pause_handler.scroll,X
-    STZ z:pause_handler.state,X
+    STA z:pause_handler.scroll, X
+    STZ z:pause_handler.state, X
     BRA .done
     RTL
 
 .opening:
-    LDA z:pause_handler.scroll,X
+    LDA z:pause_handler.scroll, X
     CLC
     ADC #5
     
     CMP #BG3_SCROLL_PAUSED
-    STA z:pause_handler.scroll,X
+    STA z:pause_handler.scroll, X
     BCC .done
     
     LDA #BG3_SCROLL_PAUSED ; Overflowed, cap the value
-    STA z:pause_handler.scroll,X
-    STZ z:pause_handler.state,X
+    STA z:pause_handler.scroll, X
+    STZ z:pause_handler.state, X
 
 .done:
     REP #0x20
-    LDA z:pause_handler.scroll,X
-    STA a:addr(bg3_v_scroll_2) ; orig=0x0CA7
+    LDA z:pause_handler.scroll, X
+    STA a:addr(bg3_v_scroll_2)
     RTL
 
 should_toggle_pause:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_LEVEL_END
     BNE .ret_false
-    LDA a:addr(current_mode) ; orig=0x0C3C
+    LDA a:addr(current_mode)
     CMP #GAME_MODE_BATTLE
     BEQ +
     CMP #GAME_MODE_STORY
     BNE .ret_false
 
 +
-    LDA a:addr(level_manager_object.fade_related_) ; orig=0x0D10
+    LDA a:addr(level_manager_object.fade_related_)
     CMP #0x34
     BEQ .ret_false
     CMP #0x35
@@ -126,9 +126,9 @@ should_toggle_pause:
 
 .loop:
     TAY
-    LDA a:addr(player_1.is_ai),Y
+    LDA a:addr(player_1.is_ai), Y
     BNE +
-    LDA a:addr(player_1.unknown_flags),Y
+    LDA a:addr(player_1.unknown_flags), Y
     BEQ .continue
 +
     TYA
@@ -139,7 +139,7 @@ should_toggle_pause:
     LSR A
     PHY
     TAY
-    LDA a:addr(joypad_1_pressed+1),Y
+    LDA a:addr(joypad_1_pressed+1), Y
     PLY
     BIT #high(BUTTON_START | BUTTON_SELECT)
     BNE .ret_true
@@ -164,7 +164,7 @@ endif
     RTL
 
 toggle_debug:
-    LDA a:addr(game_flags) ; orig=0x0314 ; Deleted debug menu activation
+    LDA a:addr(game_flags)
     EOR #GAME_FLAGS_DEBUG_MENU
     BIT #GAME_FLAGS_DEBUG_MENU
     BNE open_debug_menu
@@ -179,7 +179,7 @@ open_debug_menu:
     TYA
     CLC
     ADC #addr(player_1)
-    STA z:pause_handler.controlling_player,X
+    STA z:pause_handler.controlling_player, X
     LDA z:0x40
     PHA
     PHX
@@ -191,47 +191,47 @@ open_debug_menu:
     STA z:0x40
     REP #0x20
     LDA #addr(unk_7E21E6)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #bank(unk_7E21E6)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     LDA z:0x40
     ORA #0x20
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
     LDA #addr(debug_menu_initializer)
-    STA z:pause_handler.handler,X
+    STA z:pause_handler.handler, X
     SEP #0x20
     LDA #bank(debug_menu_initializer)
-    STA z:pause_handler.handler + 2,X
+    STA z:pause_handler.handler + 2, X
     RTL
 
 debug_menu_initializer:
     REP #0x20
     LDA #addr(handle_pause)
-    STA z:pause_handler.handler,X
+    STA z:pause_handler.handler, X
     SEP #0x20
     LDA #bank(handle_pause)
-    STA z:pause_handler.handler + 2,X
+    STA z:pause_handler.handler + 2, X
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     ORA #GAME_FLAGS_DEBUG_MENU
-    STA a:addr(game_flags) ; orig=0x0314
+    STA a:addr(game_flags)
     JSL fill_debug_info
     SEP #0x20
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     PHA
     LDA #0
-    STA a:addr(debug_cursor) ; orig=0x0316
+    STA a:addr(debug_cursor)
 
 .loc_C60141:
     REP #0x20
     PHX
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     AND #0xFF
     TAX
     SEP #0x20
-    LDA f:debug_menu_value_types,X
+    LDA f:debug_menu_value_types, X
     STA z:0x40
     REP #0x20
     PLX
@@ -247,12 +247,12 @@ debug_menu_initializer:
 
 .loop:
     SEP #0x20
-    INC a:addr(debug_cursor) ; orig=0x0316
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    INC a:addr(debug_cursor)
+    LDA a:addr(debug_cursor)
     CMP #DEBUG_MENU_LENGTH
     BNE .loc_C60141
     PLA
-    STA a:addr(debug_cursor) ; orig=0x0316
+    STA a:addr(debug_cursor)
     RTL
 
 .on_off:
@@ -280,7 +280,7 @@ get_debug_data_addr:
     SEP #0x20
     STZ z:0x52
     REP #0x20
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     AND #0xFF
     CLC
     ADC #addr(debug_menu_data)
@@ -290,8 +290,8 @@ get_debug_data_addr:
 
 handle_debug_menu_input:
     SEP #0x20
-    LDY z:0x10,X
-    LDA a:addr(0x22),Y
+    LDY z:0x10, X
+    LDA a:addr(0x22), Y
     BIT #0x30
     BNE .loc_C601C8
     INY
@@ -301,18 +301,18 @@ handle_debug_menu_input:
 
 .loc_C601C8:
     PHY
-    LDA a:addr(0x22),Y
+    LDA a:addr(0x22), Y
     BIT #0x80
     BEQ .loc_C6020E
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     CMP #0x11
     BNE .loc_C601EE
     REP #0x20
     PHX
-    LDA a:addr(debug_bgm) ; orig=0x00B5
+    LDA a:addr(debug_bgm)
     AND #0xFF
     TAX
-    LDA f:sounds_list,X
+    LDA f:sounds_list, X
     PLX
     AND #0xFF
     TAY
@@ -320,15 +320,15 @@ handle_debug_menu_input:
 
 .loc_C601EE:
     SEP #0x20
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     CMP #0x12
     BNE .loc_C6020E
     REP #0x20
     PHX
-    LDA a:addr(debug_se) ; orig=0x00B6
+    LDA a:addr(debug_se)
     AND #0xFF
     TAX
-    LDA f:musics_lists,X
+    LDA f:musics_lists, X
     PLX
     AND #0xFF
     TAY
@@ -337,7 +337,7 @@ handle_debug_menu_input:
 .loc_C6020E:
     SEP #0x20
     PLY
-    LDA a:addr(0x23),Y
+    LDA a:addr(0x23), Y
     STA z:0x4E
     AND #0xC
     BEQ .loc_C60247
@@ -346,21 +346,21 @@ handle_debug_menu_input:
     LDA z:0x4E
     BIT #8
     BEQ .loc_C60235
-    DEC a:addr(debug_cursor) ; orig=0x0316
+    DEC a:addr(debug_cursor)
     BPL .loc_C60230
     LDA #0x12
-    STA a:addr(debug_cursor) ; orig=0x0316
+    STA a:addr(debug_cursor)
 
 .loc_C60230:
     JSL draw_debug_cursor
     RTL
 
 .loc_C60235:
-    INC a:addr(debug_cursor) ; orig=0x0316
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    INC a:addr(debug_cursor)
+    LDA a:addr(debug_cursor)
     CMP #DEBUG_MENU_LENGTH
     BNE .loc_C60242
-    STZ a:addr(debug_cursor) ; orig=0x0316
+    STZ a:addr(debug_cursor)
 
 .loc_C60242:
     JSL draw_debug_cursor
@@ -375,11 +375,11 @@ handle_debug_menu_input:
     BEQ .locret_C60246
     REP #0x20
     PHX
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     AND #0xFF
     TAX
     SEP #0x20
-    LDA f:debug_menu_value_types,X
+    LDA f:debug_menu_value_types, X
     STA z:0x40
     REP #0x20
     PLX
@@ -397,7 +397,7 @@ handle_debug_menu_input:
     SEP #0x20
     STZ z:0x52
     REP #0x20
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     AND #0xFF
     CLC
     ADC #0xA4
@@ -414,7 +414,7 @@ handle_debug_menu_input:
     STA z:0x40
     STZ z:0x52
     REP #0x20
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     AND #0xFF
     CLC
     ADC #0xA4
@@ -453,7 +453,7 @@ handle_debug_menu_input:
     STA z:0x40
     STZ z:0x52
     REP #0x20
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     AND #0xFF
     CLC
     ADC #0xA4
@@ -489,25 +489,25 @@ handle_debug_menu_input:
 clear_debug_cursor:
     REP #0x20
     LDA #addr(unk_7E2020)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     PHX
     SEP #0x20
     LDA #bank(unk_7E2020)
-    STA z:0x55
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    STA z:addr(far_function_pointer + 2)
+    LDA a:addr(debug_cursor)
     CLC
     ADC #8
     REP #0x20
     AND #0xFF
     ASL A
     TAX
-    LDA f:offsets_to_debug_menu_map,X
+    LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #' '
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
     PLX
     RTL
@@ -515,25 +515,25 @@ clear_debug_cursor:
 draw_debug_cursor:
     REP #0x20
     LDA #addr(unk_7E2020)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #bank(unk_7E2020)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     PHX
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     CLC
     ADC #8
     REP #0x20
     AND #0xFF
     ASL A
     TAX
-    LDA f:offsets_to_debug_menu_map,X
+    LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #'☺'
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
     PLX
     RTL
@@ -543,59 +543,59 @@ write_on_off:
     STA z:0x40
     REP #0x20
     LDA #addr(unk_7E2038)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     PHX
     SEP #0x20
     LDA #bank(unk_7E2038)
-    STA z:0x55
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    STA z:addr(far_function_pointer + 2)
+    LDA a:addr(debug_cursor)
     CLC
     ADC #8
     REP #0x20
     AND #0xFF
     ASL A
     TAX
-    LDA f:offsets_to_debug_menu_map,X
+    LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA z:0x40
     BNE .write_on
 
 ; write off
     LDA #'O'
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     SEP #0x20
     LDA #'F'
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     SEP #0x20
     LDA #'F'
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     BRA .loc_C603D5
 
 .write_on:
     SEP #0x20
     LDA #' '
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     SEP #0x20
     LDA #'O'
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     SEP #0x20
     LDA #'N'
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
 
 .loc_C603D5:
     REP #0x20
@@ -608,8 +608,8 @@ draw_number:
     STA z:0x40
     SEP #0x20
     LDA #bank(unk_7E203A)
-    STA z:0x55
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    STA z:addr(far_function_pointer + 2)
+    LDA a:addr(debug_cursor)
     CLC
     ADC #8
     REP #0x20
@@ -617,12 +617,12 @@ draw_number:
     ASL A
     PHX
     TAX
-    LDA f:offsets_to_debug_menu_map,X
+    LDA f:offsets_to_debug_menu_map, X
     CLC
     ADC #addr(unk_7E203A)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     CMP #0x11
     BEQ .loc_C6040B
     CMP #0x12
@@ -634,7 +634,7 @@ draw_number:
     AND #0xFF
     TAX
     SEP #0x20
-    LDA f:int_to_bcd,X
+    LDA f:int_to_bcd, X
     STA z:0x40
 
 .loc_C6041B:
@@ -647,17 +647,17 @@ draw_number:
     LSR A
     TAX
     SEP #0x20
-    LDA f:hex_digits,X
-    STA f:[z:0x53]
+    LDA f:hex_digits, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
     LDA z:0x40
     AND #0xF
     TAX
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     SEP #0x20
-    LDA f:hex_digits,X
-    STA f:[z:0x53]
+    LDA f:hex_digits, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
     PLX
     RTL
@@ -672,48 +672,48 @@ int_to_bcd:
 draw_speed_or_screen_name:
     SEP #0x20
     STA z:0x40
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    LDA a:addr(debug_cursor)
     BEQ .loc_C604D4
     REP #0x20
     LDA #addr(unk_7E2038)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     PHX
     SEP #0x20
     LDA #bank(unk_7E2038)
-    STA z:0x55
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    STA z:addr(far_function_pointer + 2)
+    LDA a:addr(debug_cursor)
     CLC
     ADC #8
     REP #0x20
     AND #0xFF
     ASL A
     TAX
-    LDA f:offsets_to_debug_menu_map,X
+    LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     LDA z:0x40
     AND #0xFF
     ASL A
     ASL A
     TAX
     SEP #0x20
-    LDA f:speed_names,X
-    STA f:[z:0x53]
+    LDA f:speed_names, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INX
     SEP #0x20
-    LDA f:speed_names,X
-    STA f:[z:0x53]
+    LDA f:speed_names, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INX
     SEP #0x20
-    LDA f:speed_names,X
-    STA f:[z:0x53]
+    LDA f:speed_names, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
     PLX
     RTL
@@ -721,44 +721,44 @@ draw_speed_or_screen_name:
 .loc_C604D4:
     REP #0x20
     LDA #addr(unk_7E2038)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     PHX
     SEP #0x20
     LDA #bank(unk_7E2038)
-    STA z:0x55
-    LDA a:addr(debug_cursor) ; orig=0x0316
+    STA z:addr(far_function_pointer + 2)
+    LDA a:addr(debug_cursor)
     CLC
     ADC #8
     REP #0x20
     AND #0xFF
     ASL A
     TAX
-    LDA f:offsets_to_debug_menu_map,X
+    LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     LDA z:0x40
     AND #0xFF
     ASL A
     ASL A
     TAX
     SEP #0x20
-    LDA f:screen_names,X
-    STA f:[z:0x53]
+    LDA f:screen_names, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INX
     SEP #0x20
-    LDA f:screen_names,X
-    STA f:[z:0x53]
+    LDA f:screen_names, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INX
     SEP #0x20
-    LDA f:screen_names,X
-    STA f:[z:0x53]
+    LDA f:screen_names, X
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
     PLX
     RTL
@@ -767,41 +767,41 @@ close_debug_menu:
     JSL remove_debug_menu_from_tilemap
     REP #0x20
     LDA #addr(set_data_from_debug_menu)
-    STA z:pause_handler.handler,X
+    STA z:pause_handler.handler, X
     SEP #0x20
     LDA #bank(set_data_from_debug_menu)
-    STA z:pause_handler.handler + 2,X
+    STA z:pause_handler.handler + 2, X
     RTL
 
 set_data_from_debug_menu:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     AND #~GAME_FLAGS_DEBUG_MENU
-    STA a:addr(game_flags) ; orig=0x0314
+    STA a:addr(game_flags)
     REP #0x20
     PHX
-    LDA z:pause_handler.controlling_player,X
+    LDA z:pause_handler.controlling_player, X
     TAX
     SEP #0x20
-    LDA a:addr(debug_no_death) ; orig=0x00A5
-    STA z:player.no_death,X
+    LDA a:addr(debug_no_death)
+    STA z:player.no_death, X
     
-    LDA a:addr(debug_bomb_up) ; orig=0x00A7
-    STA z:player.bombups,X
+    LDA a:addr(debug_bomb_up)
+    STA z:player.bombups, X
     
-    LDA z:player.fireups,X
+    LDA z:player.fireups, X
     AND #0x80 ; Clear max fire
-    ORA a:addr(debug_fire_up) ; orig=0x00A8
-    STA z:player.fireups,X
+    ORA a:addr(debug_fire_up)
+    STA z:player.fireups, X
     
-    LDA a:addr(debug_speed_up) ; orig=0x00A9
-    STA z:player.speedups,X
+    LDA a:addr(debug_speed_up)
+    STA z:player.speedups, X
     
-    LDA a:addr(debug_remocon) ; orig=0x00AA
-    STA z:player.remote_control,X
+    LDA a:addr(debug_remocon)
+    STA z:player.remote_control, X
     
-    STZ z:player.powerups + 1,X
-    LDA a:addr(debug_wall_pass) ; orig=0x00AB
+    STZ z:player.powerups + 1, X
+    LDA a:addr(debug_wall_pass)
     ASL A
     ASL A
     ASL A
@@ -809,56 +809,56 @@ set_data_from_debug_menu:
     ASL A
     ASL A
     AND #high(POWERUPS_WALL_PASS)
-    ORA z:player.powerups + 1,X
-    STA z:player.powerups + 1,X
+    ORA z:player.powerups + 1, X
+    STA z:player.powerups + 1, X
     
-    LDA a:addr(debug_bomb_pass) ; orig=0x00AC
+    LDA a:addr(debug_bomb_pass)
     ASL A
     ASL A
     ASL A
     ASL A
     ASL A
     AND #high(POWERUPS_BOMB_PASS)
-    ORA z:player.powerups + 1,X
-    STA z:player.powerups + 1,X
+    ORA z:player.powerups + 1, X
+    STA z:player.powerups + 1, X
     
-    LDA a:addr(debug_fire_pass) ; orig=0x00AD
-    STA z:player.invincibility_countdown,X
+    LDA a:addr(debug_fire_pass)
+    STA z:player.invincibility_countdown, X
     BEQ +
     REP #0x20
     LDA #0x160 ; A lot shorter than INVINCIBILITY_FRAMES for some reason
-    STA z:player.invincibility_countdown,X
+    STA z:player.invincibility_countdown, X
     SEP #0x20
 +
 
-    LDA a:addr(debug_full_fire) ; orig=0x00AE
+    LDA a:addr(debug_full_fire)
     BEQ .clear_full_fire
-    LDA z:player.fireups,X
+    LDA z:player.fireups, X
     ORA #0x80 ; set full fire flag
     BRA +
 
 .clear_full_fire:
-    LDA z:player.fireups,X
+    LDA z:player.fireups, X
     AND #0x7F
 
 +
-    STA z:player.fireups,X
+    STA z:player.fireups, X
     
-    LDA a:addr(debug_break_thr) ; orig=0x00AF
-    STA z:player.powerups,X
+    LDA a:addr(debug_break_thr)
+    STA z:player.powerups, X
     
-    LDA a:addr(debug_power) ; orig=0x00B0
+    LDA a:addr(debug_power)
     AND #high(POWERUPS_KICK) ; Yes, this is a bug in the original
-    ORA z:player.powerups + 1,X
-    STA z:player.powerups + 1,X
+    ORA z:player.powerups + 1, X
+    STA z:player.powerups + 1, X
     
-    LDA a:addr(debug_kick) ; orig=0x00B1
+    LDA a:addr(debug_kick)
     ASL A
     AND #high(POWERUPS_PUNCH) ; Yes, this is a bug in the original
-    ORA z:player.powerups + 1,X
-    STA z:player.powerups + 1,X
+    ORA z:player.powerups + 1, X
+    STA z:player.powerups + 1, X
     
-    LDA a:addr(debug_skull) ; orig=0x00B2
+    LDA a:addr(debug_skull)
     BEQ .no_poison
     JSL apply_poison
     SEP #0x20
@@ -867,44 +867,44 @@ set_data_from_debug_menu:
     PLX
     REP #0x20
     LDA #addr(handle_pause)
-    STA z:object.handler,X
+    STA z:object.handler, X
     SEP #0x20
     LDA #bank(handle_pause)
-    STA z:object.handler + 2,X
+    STA z:object.handler + 2, X
     RTL
 
 .no_poison:
-    STA z:player.debug_skull,X
+    STA z:player.debug_skull, X
     
 ; Restore handler
     PLX
     REP #0x20
     LDA #addr(handle_pause)
-    STA z:object.handler,X
+    STA z:object.handler, X
     SEP #0x20
     LDA #bank(handle_pause)
-    STA z:object.handler + 2,X
+    STA z:object.handler + 2, X
     RTL
 
 fill_debug_info:
     REP #0x20
     PHX
-    LDA z:pause_handler.controlling_player,X
+    LDA z:pause_handler.controlling_player, X
     TAX
     SEP #0x20
     
-    LDA z:player.no_death,X
-    STA a:addr(debug_no_death) ; orig=0x00A5
-    LDA z:player.bombups,X
-    STA a:addr(debug_bomb_up) ; orig=0x00A7
-    LDA z:player.fireups,X
+    LDA z:player.no_death, X
+    STA a:addr(debug_no_death)
+    LDA z:player.bombups, X
+    STA a:addr(debug_bomb_up)
+    LDA z:player.fireups, X
     AND #0x7F ; Clear the Max Fire flag
-    STA a:addr(debug_fire_up) ; orig=0x00A8
-    LDA z:player.speedups,X
-    STA a:addr(debug_speed_up) ; orig=0x00A9
-    LDA z:player.remote_control,X
-    STA a:addr(debug_remocon) ; orig=0x00AA
-    LDA z:player.powerups + 1,X
+    STA a:addr(debug_fire_up)
+    LDA z:player.speedups, X
+    STA a:addr(debug_speed_up)
+    LDA z:player.remote_control, X
+    STA a:addr(debug_remocon)
+    LDA z:player.powerups + 1, X
     LSR A
     LSR A
     LSR A
@@ -912,39 +912,39 @@ fill_debug_info:
     LSR A
     LSR A
     AND #1
-    STA a:addr(debug_wall_pass) ; orig=0x00AB
-    LDA z:player.powerups + 1,X
+    STA a:addr(debug_wall_pass)
+    LDA z:player.powerups + 1, X
     LSR A
     LSR A
     LSR A
     LSR A
     LSR A
     AND #1
-    STA a:addr(debug_bomb_pass) ; orig=0x00AC
-    LDA z:player.invincibility_countdown,X
+    STA a:addr(debug_bomb_pass)
+    LDA z:player.invincibility_countdown, X
     BEQ +
     LDA #1
 
 +
-    STA a:addr(debug_fire_pass) ; orig=0x00AD
-    LDA z:player.fireups,X
+    STA a:addr(debug_fire_pass)
+    LDA z:player.fireups, X
     AND #0x80 ; Max fire flag
     BEQ +
     LDA #1
 
 +
-    STA a:addr(debug_full_fire) ; orig=0x00AE
-    LDA z:player.powerups,X
-    STA a:addr(debug_break_thr) ; orig=0x00AF
-    LDA z:player.powerups + 1,X
+    STA a:addr(debug_full_fire)
+    LDA z:player.powerups, X
+    STA a:addr(debug_break_thr)
+    LDA z:player.powerups + 1, X
     AND #1
-    STA a:addr(debug_power) ; orig=0x00B0
-    LDA z:player.powerups + 1,X
+    STA a:addr(debug_power)
+    LDA z:player.powerups + 1, X
     LSR A
     AND #1
-    STA a:addr(debug_kick) ; orig=0x00B1
-    LDA z:player.debug_skull,X
-    STA a:addr(debug_skull) ; orig=0x00B2
+    STA a:addr(debug_kick)
+    LDA z:player.debug_skull, X
+    STA a:addr(debug_skull)
     PLX
     RTL
 
@@ -1110,7 +1110,7 @@ i16
     LDA #0
 
 .loc_C609EE:
-    STA f:[z:0x50],Y
+    STA f:[z:0x50], Y
     DEY
     DEY
     BNE .loc_C609EE
@@ -1127,10 +1127,10 @@ draw_debug_menu:
 .loc_C60A02:
     REP #0x20
     LDA #addr(unk_7E2000)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #bank(unk_7E2000)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     LDA f:[z:0x50]
     CMP #0xFF
     BNE .loc_C60A16
@@ -1141,17 +1141,17 @@ draw_debug_menu:
     AND #0xFF
     ASL A
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     INC z:0x50
     LDA f:[z:0x50]
     AND #0xFF
     ASL A
     TAX
-    LDA f:offsets_to_debug_menu_map,X
+    LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     INC z:0x50
     SEP #0x20
     LDA #0xF
@@ -1159,14 +1159,14 @@ draw_debug_menu:
 
 .loc_C60A3B:
     LDA f:[z:0x50]
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
+    INC z:addr(far_function_pointer)
     SEP #0x20
     LDA #0x20
-    STA f:[z:0x53]
+    STA f:[z:addr(far_function_pointer)]
     REP #0x20
-    INC z:0x53
+    INC z:addr(far_function_pointer)
     INC z:0x50
     SEP #0x20
     DEC z:0x40
@@ -1192,8 +1192,8 @@ i16
     JML .out_of_memory ; Never happens here
 
 +
-    LDX a:addr(allocator_cyclic_buffer_read_pointer) ; orig=0x00BA
-    CPX a:addr(allocator_cyclic_buffer_write_pointer) ; orig=0x00BC
+    LDX a:addr(allocator_cyclic_buffer_read_pointer)
+    CPX a:addr(allocator_cyclic_buffer_write_pointer)
     BNE +
     JML .out_of_memory
 
@@ -1206,39 +1206,39 @@ i16
     LDA #0
 
 +
-    STA a:addr(allocator_cyclic_buffer_read_pointer) ; orig=0x00BA
-    LDY a:addr(allocator_cyclic_buffer),X
+    STA a:addr(allocator_cyclic_buffer_read_pointer)
+    LDY a:addr(allocator_cyclic_buffer), X
     LDA z:0xDB
-    STA a:object.handler,Y
+    STA a:object.handler, Y
     LDA z:0xDC
-    STA a:object.handler + 1,Y
+    STA a:object.handler + 1, Y
     LDX #addr(gameover_related_object) ; Just before the rest of the dynamic objects
 
 .loop:
     SEP #0x20
-    LDA z:dynamic_object.execution_priority,X
+    LDA z:dynamic_object.execution_priority, X
     CMP z:0xD3
     REP #0x20
     BEQ .continue
     BCC .continue
     
     ; Insert according to the priorty
-    LDA z:dynamic_object.prev,X
-    STA a:dynamic_object.prev,Y
+    LDA z:dynamic_object.prev, X
+    STA a:dynamic_object.prev, Y
     PHA
     TYA
-    STA z:dynamic_object.prev,X
+    STA z:dynamic_object.prev, X
     TXA
-    STA a:dynamic_object.next,Y
+    STA a:dynamic_object.next, Y
     PLX
     TYA
-    STA z:dynamic_object.next,X
+    STA z:dynamic_object.next, X
     PLX
     CLC
     RTL
 
 .continue:
-    LDA z:dynamic_object.next,X
+    LDA z:dynamic_object.next, X
     TAX
     CMP #0xFFFF
     BEQ .out_of_memory
@@ -1254,8 +1254,8 @@ create_small_object:
 i16
     REP #0x20
     PHX
-    LDX a:addr(small_allocator_cyclic_buffer_read_pointer) ; orig=0x0078
-    CPX a:addr(small_allocator_cyclic_buffer_write_pointer) ; orig=0x007A
+    LDX a:addr(small_allocator_cyclic_buffer_read_pointer)
+    CPX a:addr(small_allocator_cyclic_buffer_write_pointer)
     BNE +
     JML .out_of_memory
 +
@@ -1268,31 +1268,31 @@ i16
     LDA #0
 +
 
-    STA a:addr(small_allocator_cyclic_buffer_read_pointer) ; orig=0x0078
-    LDY a:addr(small_allocator_cyclic_buffer),X
+    STA a:addr(small_allocator_cyclic_buffer_read_pointer)
+    LDY a:addr(small_allocator_cyclic_buffer), X
     LDA z:0x40
-    STA a:dynamic_object.handler,Y ; Todo: switch to small_object
+    STA a:dynamic_object.handler, Y ; Todo: switch to small_object
     LDX #addr(unknown_static_small_object) ; The first small object, comes before the static ones
 
 .loop:
-    LDA z:dynamic_object.handler,X
+    LDA z:dynamic_object.handler, X
     BNE .empty
-    LDA z:dynamic_object.prev,X
-    STA a:dynamic_object.prev,Y
+    LDA z:dynamic_object.prev, X
+    STA a:dynamic_object.prev, Y
     STA z:0x44
     TYA
-    STA z:dynamic_object.prev,X
+    STA z:dynamic_object.prev, X
     TXA
-    STA a:dynamic_object.next,Y
+    STA a:dynamic_object.next, Y
     LDX z:0x44
     TYA
-    STA z:dynamic_object.next,X
+    STA z:dynamic_object.next, X
     PLX
     CLC
     RTL
 
 .empty:
-    LDA z:dynamic_object.next,X
+    LDA z:dynamic_object.next, X
     TAX
     INC A
     BNE .loop
@@ -1304,7 +1304,7 @@ i16
 
 delete_object:
     REP #0x20
-    LDA a:addr(allocator_cyclic_buffer_write_pointer) ; orig=0x00BC
+    LDA a:addr(allocator_cyclic_buffer_write_pointer)
     TAY
     INC A
     INC A
@@ -1313,26 +1313,26 @@ delete_object:
     LDA #0
 
 +
-    STA a:addr(allocator_cyclic_buffer_write_pointer) ; orig=0x00BC
+    STA a:addr(allocator_cyclic_buffer_write_pointer)
     
     TXA
-    STA a:addr(allocator_cyclic_buffer),Y
+    STA a:addr(allocator_cyclic_buffer), Y
     
-    LDY z:dynamic_object.prev,X
-    LDA z:dynamic_object.next,X
-    STA a:dynamic_object.next,Y
+    LDY z:dynamic_object.prev, X
+    LDA z:dynamic_object.next, X
+    STA a:dynamic_object.next, Y
     PHA
     PHY
     PLA
     PLY
-    STA a:dynamic_object.prev,Y
-    STZ z:dynamic_object.handler,X
-    STZ z:dynamic_object.handler+2,X
+    STA a:dynamic_object.prev, Y
+    STZ z:dynamic_object.handler, X
+    STZ z:dynamic_object.handler+2, X
     RTL
 
 free_small_object:
     REP #0x20
-    LDA a:addr(small_allocator_cyclic_buffer_write_pointer) ; orig=0x007A
+    LDA a:addr(small_allocator_cyclic_buffer_write_pointer)
     TAY
     INC A
     INC A
@@ -1341,18 +1341,18 @@ free_small_object:
     LDA #0
 +
 
-    STA a:addr(small_allocator_cyclic_buffer_write_pointer) ; orig=0x007A
+    STA a:addr(small_allocator_cyclic_buffer_write_pointer)
     TXA
-    STA a:addr(small_allocator_cyclic_buffer),Y
-    LDY z:dynamic_object.prev,X
-    LDA z:dynamic_object.next,X
-    STA a:dynamic_object.next,Y
+    STA a:addr(small_allocator_cyclic_buffer), Y
+    LDY z:dynamic_object.prev, X
+    LDA z:dynamic_object.next, X
+    STA a:dynamic_object.next, Y
     PHA
     PHY
     PLA
     PLY
-    STA a:dynamic_object.prev,Y
-    STZ z:dynamic_object.handler,X
+    STA a:dynamic_object.prev, Y
+    STZ z:dynamic_object.handler, X
     RTL
 
 diagonal_zigzag_button_map:
@@ -1367,7 +1367,7 @@ is_player_on_obstacle:
     ; BOMB = high(POWERUPS_BOMB_PASS)
     ; SOFT_BLOCK = high(POWERUPS_WALL_PASS)
     REP #0x20
-    LDA z:player.powerups + 1,X
+    LDA z:player.powerups + 1, X
     AND #high(POWERUPS_BOMB_PASS | POWERUPS_WALL_PASS)    
     EOR #0xFF
     AND #BOMB | SOFT_BLOCK | HARD_BLOCK   
@@ -1375,7 +1375,7 @@ is_player_on_obstacle:
     
     lda_tile_id X
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     
     AND z:0x42
     BNE .ret_true
@@ -1400,7 +1400,7 @@ get_collision_mask_for_position:
     ASL A
     ADC z:0x44
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     RTL
 
 get_object_square_index:
@@ -1410,14 +1410,14 @@ get_object_square_index:
 
 center_object_on_tile:
     SEP #0x20
-    LDA z:sprite.x_position,X
+    LDA z:sprite.x_position, X
     AND #0xF0
     ORA #8
-    STA z:sprite.x_position,X
-    LDA z:sprite.y_position,X
+    STA z:sprite.x_position, X
+    LDA z:sprite.y_position, X
     AND #0xF0
     ORA #8
-    STA z:sprite.y_position,X
+    STA z:sprite.y_position, X
     RTL
 
 ; Bug: This function is sometimes called even when the game is paused.
@@ -1426,17 +1426,17 @@ center_object_on_tile:
 handle_enemy_damage:
     SEP #0x20
     ; Reset the palette from potentially the white one
-    LDA z:enemy.real_palette,X
-    STA z:enemy.effective_palette,X
+    LDA z:enemy.real_palette, X
+    STA z:enemy.effective_palette, X
     
     ; Then set it to white based on the flashing counter
-    LDA z:enemy.flashing_counter,X
+    LDA z:enemy.flashing_counter, X
     BEQ +
-    DEC z:enemy.flashing_counter,X
+    DEC z:enemy.flashing_counter, X
     BIT #1
     BEQ .ret_false
     LDA #PALETTE_STATIC_WHITE
-    STA z:enemy.effective_palette,X
+    STA z:enemy.effective_palette, X
     BRA .ret_false
 +
 
@@ -1444,7 +1444,7 @@ handle_enemy_damage:
     
     lda_tile_id X
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
 
     BIT #BLAST
     BNE .hit
@@ -1452,17 +1452,17 @@ handle_enemy_damage:
     AND #0x3F
     CMP #0x3F
     BNE .ret_false
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     ORA #0xF03F ; This one too
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
 
 .hit:
     SEP #0x20
-    LDA z:enemy.hitpoints_left,X
+    LDA z:enemy.hitpoints_left, X
     BEQ .ret_true
-    DEC z:enemy.hitpoints_left,X
+    DEC z:enemy.hitpoints_left, X
     LDA #32 ; Flash for 32 frames
-    STA z:enemy.flashing_counter,X
+    STA z:enemy.flashing_counter, X
     CLC
     RTL
 
@@ -1479,7 +1479,7 @@ handle_player_tile:
     
     lda_tile_id X
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     
     AND #BONUS_MASK | BOMB | SOFT_BLOCK | HARD_BLOCK | BLAST
     BEQ .empty_tile
@@ -1502,93 +1502,93 @@ handle_player_tile:
     ASL A
     TAX
     LDA #bank(bomb_up_bonus)
-    STA z:0x55
-    LDA f:bonus_handlers,X
-    STA z:0x53
+    STA z:addr(far_function_pointer + 2)
+    LDA f:bonus_handlers, X
+    STA z:addr(far_function_pointer)
     PLX
-    JSL call_function_at_0053
+    JSL call_far_function_at_0053
 
 .nothing:
     SEP #0x20
-    LDA z:player.unknown_flags,X
+    LDA z:player.unknown_flags, X
     ORA #0x80
-    STA z:player.unknown_flags,X
+    STA z:player.unknown_flags, X
     RTL
 
 .empty_tile:
     REP #0x20
-    LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
+    LDA a:addr(level_manager_object.spawn_and_flags)
     BIT #LEVEL_FLAGS_WARP_ZONE
     BNE .warp_zone
     
     BIT #LEVEL_FLAGS_JUMP_ZONE
     BEQ .nothing
-    LDA a:addr(bg1_tilemap),Y
-    CMP #0xA40 ; Trampoline tile
+    LDA a:addr(bg1_tilemap), Y
+    CMP #ATTRIBUTED_TILE_TRAMPOLINE
     BNE .nothing
     
     ; Handle trampoline
     SEP #0x20
-    LDA z:player.unknown_flags,X
+    LDA z:player.unknown_flags, X
     BIT #0x80
     BEQ .ret
     
     AND #~0x80
-    STA z:player.unknown_flags,X
+    STA z:player.unknown_flags, X
     JSL create_trampoline_animator
     SEP #0x20
-    LDA z:player.is_ai,X
+    LDA z:player.is_ai, X
     BNE .is_ai
     
     REP #0x20
     LDA #addr(do_trampoline)
-    STA z:player.handler,X
+    STA z:player.handler, X
     SEP #0x20
     LDA #bank(do_trampoline)
-    STA z:player.handler + 2,X
+    STA z:player.handler + 2, X
     RTL
 
 .is_ai:
     REP #0x20
     LDA #addr(do_trampoline)
-    STA z:player.handler,X
+    STA z:player.handler, X
     SEP #0x20
     LDA #bank(do_trampoline)
-    STA z:player.handler + 2,X
+    STA z:player.handler + 2, X
     RTL
 
 .warp_zone:
     REP #0x20
-    LDA a:addr(bg1_tilemap),Y
+    LDA a:addr(bg1_tilemap), Y
     CMP #0x826 ; Warp tile
     BNE .nothing
     
-    LDA z:player.unknown_flags,X
+    LDA z:player.unknown_flags, X
     BIT #0x80
     BEQ .ret
     
     SEP #0x20
-    LDA z:player.unknown_flags,X
+    LDA z:player.unknown_flags, X
     AND #~0x80
-    STA z:player.unknown_flags,X
-    LDA z:player.is_ai,X
+    STA z:player.unknown_flags, X
+    LDA z:player.is_ai, X
     BNE .warp_is_ai
     
     REP #0x20
     LDA #addr(do_player_warp)
-    STA z:player.handler,X
+    STA z:player.handler, X
     SEP #0x20
     LDA #bank(do_player_warp)
-    STA z:player.handler + 2,X
+    STA z:player.handler + 2, X
     RTL
 
 .warp_is_ai:
     REP #0x20
     LDA #addr(do_player_warp_ai)
-    STA z:player.handler,X
+    STA z:player.handler, X
     SEP #0x20
     LDA #bank(do_player_warp_ai)
-    STA z:player.handler + 2,X
+    STA z:player.handler + 2, X
 
 .ret:
     RTL
@@ -1600,12 +1600,12 @@ handle_player_tile:
     AND #BONUS_MASK | BOMB
     CMP #BONUS_MASK | BOMB
     BNE .ret2
-    LDA z:player.hit_flags,X
+    LDA z:player.hit_flags, X
     ORA #HIT_FLAG_PUNCHED_BOMB
-    STA z:player.hit_flags,X
-    LDA a:addr(collision_map),Y
+    STA z:player.hit_flags, X
+    LDA a:addr(collision_map), Y
     ORA #BONUS_MASK | BOMB | PLAYER | 0x7000 ; TODO: unknown constant
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
 
 .ret2:
     RTL
@@ -1631,11 +1631,11 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:player.collected_bombups,X
-    LDA z:player.bombups,X
+    INC a:player.collected_bombups, X
+    LDA z:player.bombups, X
     CMP #9
     BEQ .maxed
-    INC z:player.bombups,X
+    INC z:player.bombups, X
 
 .maxed:
     LDY #SOUND_BONUS
@@ -1659,11 +1659,11 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:player.collected_fireups,X
-    LDA z:player.fireups,X
+    INC a:player.collected_fireups, X
+    LDA z:player.fireups, X
     CMP #9
     BEQ .maxed
-    INC z:player.fireups,X
+    INC z:player.fireups, X
 
 .maxed:
     LDY #SOUND_BONUS
@@ -1684,10 +1684,10 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.remote_control,X
+    LDA z:player.remote_control, X
     ORA #remote_control_REMOTE_CONTROL
-    STA z:player.remote_control,X
-    INC a:player.collected_remote_controls,X
+    STA z:player.remote_control, X
+    INC a:player.collected_remote_controls, X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1707,11 +1707,11 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:player.collected_speedups,X
-    LDA z:player.speedups,X
+    INC a:player.collected_speedups, X
+    LDA z:player.speedups, X
     CMP #3
     BCS .maxed
-    INC z:player.speedups,X
+    INC z:player.speedups, X
 
 .maxed:
     LDY #SOUND_BONUS
@@ -1722,7 +1722,7 @@ vest:
 i16
     REP #0x20
     LDA #INVINCIBILITY_FRAMES
-    STA z:player.invincibility_countdown,X
+    STA z:player.invincibility_countdown, X
 
     ; Add 500 to the score
     LDA #0x0500
@@ -1752,10 +1752,10 @@ extra_life_bonus:
 add_extra_life:
 i16
     SEP #0x20
-    LDA z:player.lives,X
+    LDA z:player.lives, X
     CMP #9
     BEQ .maxed
-    INC z:0x3D,X
+    INC z:0x3D, X
 
 .maxed:
     JSL draw_number_of_lives
@@ -1777,10 +1777,10 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.powerups + 1,X
+    LDA z:player.powerups + 1, X
     ORA #high(POWERUPS_BOMB_PASS)
     AND #low(~high(POWERUPS_KICK))
-    STA z:player.powerups + 1,X
+    STA z:player.powerups + 1, X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1800,9 +1800,9 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.powerups + 1,X
+    LDA z:player.powerups + 1, X
     ORA #high(POWERUPS_WALL_PASS)
-    STA z:player.powerups + 1,X
+    STA z:player.powerups + 1, X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1812,20 +1812,20 @@ extra_time_bonus:
 i16
     REP #0x20
     
-    LDA z:player.is_ai,X
+    LDA z:player.is_ai, X
     AND #0xFF
     BNE .ai
     
-    LDA z:player.player_index,X
+    LDA z:player.player_index, X
     AND #0xFF
     ASL A
     TAY
     LDA #0
-    STA a:addr(story_mode_timers),Y
+    STA a:addr(story_mode_timers), Y
     
     ; Tilemap copy dest
     pos y, 1, 3 ; Player 1
-    LDA z:player.player_index,X
+    LDA z:player.player_index, X
     AND #0xFF
     BEQ +
     pos y, 17, 3 ; Player 2
@@ -1876,9 +1876,9 @@ i16
     
     ; Mark fireups as temporarily maxed
     SEP #0x20
-    LDA z:player.fireups,X
+    LDA z:player.fireups, X
     ORA #0x80
-    STA z:player.fireups,X
+    STA z:player.fireups, X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1898,9 +1898,9 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    LDA z:player.powerups,X
+    LDA z:player.powerups, X
     ORA #POWERUPS_RED_BOMBS
-    STA z:player.powerups,X
+    STA z:player.powerups, X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1920,12 +1920,12 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:player.collected_kicks,X
+    INC a:player.collected_kicks, X
     
-    LDA z:player.powerups + 1,X
+    LDA z:player.powerups + 1, X
     ORA #high(POWERUPS_KICK)
     AND #low(~high(POWERUPS_BOMB_PASS))
-    STA z:player.powerups + 1,X
+    STA z:player.powerups + 1, X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1945,11 +1945,11 @@ i16
     JSL clear_bonus_tile
     
     SEP #0x20
-    INC a:player.collected_punches,X
+    INC a:player.collected_punches, X
     
-    LDA z:player.powerups + 1,X
+    LDA z:player.powerups + 1, X
     ORA #high(POWERUPS_PUNCH)
-    STA z:player.powerups + 1,X
+    STA z:player.powerups + 1, X
     
     LDY #SOUND_BONUS
     JSL play_sound
@@ -1992,25 +1992,25 @@ i16
 
 exit_bonus:
     SEP #0x20
-    LDA a:addr(level_manager_object.enemy_count) ; orig=0x0D25
+    LDA a:addr(level_manager_object.enemy_count)
     BNE .ret
     JSL is_object_aligned
     BCS .ret
     REP #0x20
     LDA #addr(enter_level_exit)
-    STA z:player.handler,X
+    STA z:player.handler, X
     SEP #0x20
     LDA #bank(enter_level_exit)
-    STA z:player.handler + 2,X
+    STA z:player.handler + 2, X
     
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_LEVEL_END
     BNE .ret
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     AND #GAME_FLAGS_SCREEN_TRANSITION
     ORA #GAME_FLAGS_LEVEL_END
-    STA a:addr(game_flags) ; orig=0x0314
+    STA a:addr(game_flags)
 
 .ret:
     RTL
@@ -2018,15 +2018,15 @@ exit_bonus:
 set_player_hit:
     SEP #0x20
     LDA #HIT_FLAG_BLAST
-    STA z:player.hit_flags,X
+    STA z:player.hit_flags, X
     RTL
 
 heart_bonus:
 i16
     SEP #0x20
-    LDA z:player.powerups + 1,X
+    LDA z:player.powerups + 1, X
     ORA #high(POWERUPS_HEART)
-    STA z:player.powerups + 1,X
+    STA z:player.powerups + 1, X
     
     ; Add 800 to the score
     REP #0x20
@@ -2062,7 +2062,7 @@ question_mark_bonus:
 i16
     SEP #0x20
     LDA #bank(bomb_up_bonus)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     PHX
     LDX #0x17
     JSL random
@@ -2081,10 +2081,10 @@ i16
 +
     ASL A
     TAX
-    LDA f:bonus_handlers,X
+    LDA f:bonus_handlers, X
     PLX
-    STA z:0x53
-    JSL call_function_at_0053
+    STA z:addr(far_function_pointer)
+    JSL call_far_function_at_0053
     RTL
 
 kendama_bonus:
@@ -2141,7 +2141,7 @@ fire_extinguisher_bonus:
 i16
     SEP #0x20
     LDA #9
-    STA z:player.lives,X
+    STA z:player.lives, X
     
     REP #0x20
     ; Add 9000 to the score
@@ -2195,9 +2195,9 @@ clear_bonus_tile:
     TAY
     REP #0x20
     LDA #0
-    STA a:addr(collision_map),Y
-    LDA a:addr(bg1_tilemap+0x20),Y
-    STA a:addr(bg1_tilemap),Y
+    STA a:addr(collision_map), Y
+    LDA a:addr(bg1_tilemap+0x20), Y
+    STA a:addr(bg1_tilemap), Y
     RTL
 
 apply_poison:
@@ -2205,12 +2205,12 @@ i16
     REP #0x20
     PHX
     LDX #7
-    LDA a:addr(current_mode) ; orig=0x0C3C
+    LDA a:addr(current_mode)
     AND #0xFF
     CMP #GAME_MODE_BATTLE
     BEQ .battle_mode
     ; Check for World 5
-    LDA a:addr(level_manager_object.level_representation) ; orig=0x0D24
+    LDA a:addr(level_manager_object.level_representation)
     AND #0xF0
     CMP #0x50
     BNE .battle_mode
@@ -2222,9 +2222,9 @@ i16
     ASL A
     ASL A
     TAX
-    LDA f:poison_table,X
+    LDA f:poison_table, X
     STA z:0x40
-    LDA f:poison_table+2,X
+    LDA f:poison_table+2, X
     STA z:0x42
     PLX
     LDA z:0x40
@@ -2250,7 +2250,7 @@ create_unused_palette_manager:
     BCS .ret
     SEP #0x20
     LDA #2
-    TSB a:addr(game_flags) ; orig=0x0314
+    TSB a:addr(game_flags)
 .ret:
     RTL
     
@@ -2291,22 +2291,22 @@ i16
     JSL set_palette
     REP #0x20
     LDA #addr(unused_palette_manager)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(unused_palette_manager)
-    STA z:2,X
+    STA z:2, X
     RTL
 
 unused_palette_manager:
 i16
     REP #0x20
-    LDA #addr(palette_allocation_related_array)
-    STA z:0x53
+    LDA #addr(palette_table)
+    STA z:addr(far_function_pointer)
     SEP #0x20
-    LDA #bank(palette_allocation_related_array)
-    STA z:0x55
+    LDA #bank(palette_table)
+    STA z:addr(far_function_pointer + 2)
     REP #0x20
-    INC z:0x53
+    INC z:addr(far_function_pointer)
     LDA #1
     STA z:0x42
     LDA #0
@@ -2315,16 +2315,16 @@ i16
     STA z:0x46
     JSL sub_C475C8
     REP #0x20
-    LDA #addr(palette_allocation_related_array)
-    STA z:0x53
+    LDA #addr(palette_table)
+    STA z:addr(far_function_pointer)
     SEP #0x20
-    LDA #bank(palette_allocation_related_array)
-    STA z:0x55
+    LDA #bank(palette_table)
+    STA z:addr(far_function_pointer + 2)
     REP #0x20
-    LDA #addr(palette_allocation_related_array)
+    LDA #addr(palette_table)
     CLC
     ADC #8
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     LDA #8
     STA z:0x42
     LDA #0
@@ -2334,24 +2334,24 @@ i16
     JSL sub_C475C8
     REP #0x20
     LDA #addr(.loc_C612AC)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C612AC)
-    STA z:2,X
+    STA z:2, X
     REP #0x20
     LDA #0x20
-    STA z:0x10,X
-    LDA a:addr(level_manager_object.level_representation) ; orig=0x0D24
+    STA z:0x10, X
+    LDA a:addr(level_manager_object.level_representation)
     AND #0xF0
     CMP #0x50
     BNE .loc_C612AC
-    LDA a:addr(level_manager_object.level_representation) ; orig=0x0D24
+    LDA a:addr(level_manager_object.level_representation)
     AND #0xF
     DEC A
     PHX
     TAX
     SEP #0x20
-    LDA f:palette_per_mecha_bomber,X
+    LDA f:palette_per_mecha_bomber, X
     STA z:0x40
     LDY #0
     LDA #0xC
@@ -2362,18 +2362,18 @@ i16
     SEP #0x20
     handler_return_if_paused
     REP #0x20
-    DEC z:0x10,X
+    DEC z:0x10, X
     BNE .ret
     JSL sub_C61309
     REP #0x20
     LDA #0x10
-    STA z:0x10,X
+    STA z:0x10, X
     REP #0x20
     LDA #addr(.loc_C612DF)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C612DF)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C612DF:
     SEP #0x20
@@ -2385,13 +2385,13 @@ i16
 
 .loc_C612F4:
     REP #0x20
-    DEC z:0x10,X
+    DEC z:0x10, X
     BNE .ret
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     ; The bit it's setting off isn't even used, what is it trying to achieve?
     AND #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_UNKNOWN | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY | GAME_FLAGS_LEVEL_END | GAME_FLAGS_DEBUG_MENU
-    STA a:addr(game_flags) ; orig=0x0314
+    STA a:addr(game_flags)
     JSL delete_object
 
 .ret:
@@ -2404,19 +2404,19 @@ i16
     LDX #0x1C80
 
 .loc_C6130F:
-    LDA z:0,X
+    LDA z:0, X
     CMP #addr(sub_C44DA9)
     BNE .loc_C61324
     SEP #0x20
     LDA #8
-    STA z:3,X
-    LDA z:0xC,X
+    STA z:3, X
+    LDA z:0xC, X
     ORA #0x10
-    STA z:0xC,X
+    STA z:0xC, X
     REP #0x20
 
 .loc_C61324:
-    LDA z:6,X
+    LDA z:6, X
     TAX
     INC A
     BNE .loc_C6130F
@@ -2442,38 +2442,38 @@ create_trampoline_animator:
 +
 
     LDA z:0x40
-    STA a:addr(trampoline_animator.tile_offset),Y
+    STA a:addr(trampoline_animator.tile_offset), Y
     LDA #0
-    STA a:addr(trampoline_animator.animation_counter),Y
+    STA a:addr(trampoline_animator.animation_counter), Y
     RTL
 
 trampoline_animator:
     SEP #0x20
     handler_return_if_paused
     REP #0x20
-    LDY z:trampoline_animator.tile_offset,X
-    LDA z:trampoline_animator.animation_counter,X
+    LDY z:trampoline_animator.tile_offset, X
+    LDA z:trampoline_animator.animation_counter, X
     ASL A
     PHX
     TAX
     SEP #0x20
-    LDA f:trampoline_animation_tiles,X
+    LDA f:trampoline_animation_tiles, X
     STA z:0x40
     PLX
     LDA z:0x40
-    STA a:addr(bg1_tilemap+0x20),Y
-    LDA a:addr(collision_map),Y
+    STA a:addr(bg1_tilemap+0x20), Y
+    LDA a:addr(collision_map), Y
     BIT #BOMB
     BNE .skip_render
-    LDA a:addr(collision_map + 1),Y
+    LDA a:addr(collision_map + 1), Y
     BIT #high(BLAST)
     BNE .skip_render
     LDA z:0x40
-    STA a:addr(bg1_tilemap),Y
+    STA a:addr(bg1_tilemap), Y
 
 .skip_render:
-    INC z:trampoline_animator.animation_counter,X
-    LDA z:trampoline_animator.animation_counter,X
+    INC z:trampoline_animator.animation_counter, X
+    LDA z:trampoline_animator.animation_counter, X
     CMP f:trampoline_animation_length
     BNE .ret
     JML delete_object
@@ -2489,32 +2489,32 @@ handle_zigzag_inputs:
     AND #0xF
     TAX
     SEP #0x20
-    LDA f:diagonal_zigzag_button_map,X
+    LDA f:diagonal_zigzag_button_map, X
     STA z:0x40
     PLX
     LDA z:0x40
     BEQ .non_diagonal
-    LDA z:player.last_zigzag_direction,X
+    LDA z:player.last_zigzag_direction, X
     AND z:.INPUT_DIRECTIONS
     BNE .resume_zigzag
     ; The last zigzag direction is not being held anymore
-    LDA z:player.direction,X
+    LDA z:player.direction, X
     AND #DIR_RIGHT | DIR_LEFT
     BEQ .facing_vertically
     
     ; Already facing horizontally, keep moving in that direction
     LDA z:.INPUT_DIRECTIONS
     AND #DIR_RIGHT | DIR_LEFT
-    STA z:player.direction,X
-    STA z:player.last_zigzag_direction,X
+    STA z:player.direction, X
+    STA z:player.last_zigzag_direction, X
     BRA +
 
 .facing_vertically:
     ; Already facing vertically, keep moving in that direction
     LDA z:.INPUT_DIRECTIONS
     AND #DIR_UP | DIR_DOWN
-    STA z:player.direction,X
-    STA z:player.last_zigzag_direction,X
+    STA z:player.direction, X
+    STA z:player.last_zigzag_direction, X
 +
 
     JSL start_animation_by_index
@@ -2537,7 +2537,7 @@ handle_zigzag_inputs:
     BRA .up_left
 
 .non_diagonal:
-    STZ z:player.last_zigzag_direction,X
+    STZ z:player.last_zigzag_direction, X
     RTL
 
 .up_right:
@@ -2552,7 +2552,7 @@ handle_zigzag_inputs:
 +
 
     SEP #0x20
-    LDA z:player.last_zigzag_direction,X
+    LDA z:player.last_zigzag_direction, X
     EOR #DIR_UP | DIR_RIGHT
     STA z:.INPUT_DIRECTIONS
     RTL
@@ -2569,7 +2569,7 @@ handle_zigzag_inputs:
 +
 
     SEP #0x20
-    LDA z:player.last_zigzag_direction,X
+    LDA z:player.last_zigzag_direction, X
     EOR #DIR_UP | DIR_LEFT
     STA z:.INPUT_DIRECTIONS
     RTL
@@ -2586,7 +2586,7 @@ handle_zigzag_inputs:
 +
 
     SEP #0x20
-    LDA z:player.last_zigzag_direction,X
+    LDA z:player.last_zigzag_direction, X
     EOR #DIR_DOWN | DIR_LEFT
     STA z:.INPUT_DIRECTIONS
     RTL
@@ -2597,27 +2597,27 @@ handle_zigzag_inputs:
     JSL is_hard_block_on_right
     BCS .keep_direction
     SEP #0x20
-    LDA z:player.last_zigzag_direction,X
+    LDA z:player.last_zigzag_direction, X
     EOR #DIR_DOWN | DIR_RIGHT
     STA z:.INPUT_DIRECTIONS
     RTL
 
 .keep_direction:
     SEP #0x20
-    LDA z:player.direction,X
-    CMP z:player.last_zigzag_direction,X
+    LDA z:player.direction, X
+    CMP z:player.last_zigzag_direction, X
     BNE +
     STA z:.INPUT_DIRECTIONS
     RTL
 +
 
-    STA z:player.last_zigzag_direction,X
+    STA z:player.last_zigzag_direction, X
     STA z:.INPUT_DIRECTIONS
     RTL
 
 is_hard_block_on_right:
     SEP #0x20
-    LDA z:sprite.x_position,X
+    LDA z:sprite.x_position, X
     AND #0xF
     CMP #8
     BNE .ret_false ; Not centered vertically
@@ -2627,7 +2627,7 @@ is_hard_block_on_right:
     INC A
     INC A
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #HARD_BLOCK
     BNE .ret_true
 
@@ -2641,7 +2641,7 @@ is_hard_block_on_right:
 
 is_hard_block_on_left:
     SEP #0x20
-    LDA z:sprite.x_position,X
+    LDA z:sprite.x_position, X
     AND #0xF
     CMP #8
     BNE .ret_false ; Not centered vertically
@@ -2651,7 +2651,7 @@ is_hard_block_on_left:
     DEC A
     DEC A
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #HARD_BLOCK
     BNE .ret_true
 
@@ -2665,7 +2665,7 @@ is_hard_block_on_left:
 
 is_hard_block_below:
     SEP #0x20
-    LDA z:sprite.y_position,X
+    LDA z:sprite.y_position, X
     AND #0xF
     CMP #8
     BNE .ret_false ; Not centered vertically
@@ -2674,7 +2674,7 @@ is_hard_block_below:
     CLC
     ADC #0x40 ; Y += 1
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #HARD_BLOCK
     BNE .ret_true
 
@@ -2688,7 +2688,7 @@ is_hard_block_below:
 
 is_hard_block_above:
     SEP #0x20
-    LDA z:sprite.y_position,X
+    LDA z:sprite.y_position, X
     AND #0xF
     CMP #8
     BNE .ret_false ; Not centered vertically
@@ -2697,7 +2697,7 @@ is_hard_block_above:
     SEC
     SBC #0x40 ; Y -= 1
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #HARD_BLOCK
     BNE .ret_true
 
@@ -2713,7 +2713,7 @@ test_collision:
     REP #0x20
     lda_tile_id_offset X, 0, 0
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT z:0x42
     RTL
 
@@ -2721,7 +2721,7 @@ test_collision_above:
     REP #0x20
     lda_tile_id_offset X, 0, -9
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT z:0x42
     RTL
 
@@ -2729,7 +2729,7 @@ test_collision_below:
     REP #0x20
     lda_tile_id_offset X, 0, 8
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT z:0x42
     RTL
 
@@ -2737,7 +2737,7 @@ test_collision_on_the_left:
     REP #0x20
     lda_tile_id_offset X, -9, 0
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT z:0x42
     RTL
 
@@ -2745,7 +2745,7 @@ test_collision_on_the_right:
     REP #0x20
     lda_tile_id_offset X, 8, 0
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT z:0x42
     RTL
 
@@ -2762,9 +2762,9 @@ fast_random:
     STA z:addr(unused_fast_rng_seed)
     PHX
     TAX
-    LDA f:random_data,X
+    LDA f:random_data, X
     LDX z:addr(fast_rng_seed)
-    EOR f:random_data,X
+    EOR f:random_data, X
     PLX
     PHA
     INC z:addr(fast_rng_seed)
@@ -2791,29 +2791,29 @@ ds 9
 
 call_screen_init_functions:
     SEP #0x20
-    STZ a:addr(byte_7E0C3E) ; orig=0x0C3E
+    STZ a:addr(byte_7E0C3E)
 
 -
     REP #0x20
     LDA f:[z:0x50]
-    CMP #0xF0F0
+    CMP #INIT_FUNCTIONS_TERMINATOR
     BEQ .done
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:0x54
+    STA z:addr(far_function_pointer + 1)
     INC z:0x50
     INC z:0x50
-    LDA z:0x53
+    LDA z:addr(far_function_pointer)
     PHA
     LDA z:0x56
     PHA
-    JSL call_function_at_0053
+    JSL call_far_function_at_0053
     REP #0x20
     PLA
     STA z:0x56
     PLA
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     BRA -
 
 .done:
@@ -2821,206 +2821,246 @@ call_screen_init_functions:
     INC z:0x50
     RTL
 
-sub_C61690:
+level_reset:
 i16
     REP #0x20
     LDX #0
     LDA #0
 
-.loc_C61698:
-    STA f:0x7F0600,X
+-
+    STA f:graphics_table, X
     INX
     INX
     CPX #0x60
-    BNE .loc_C61698
+    BNE -
+    
     LDX #0
     LDA #0xFFFF
-
-.loc_C616A9:
-    STA f:0x7F0660,X
+-
+    STA f:palette_table, X
     INX
     INX
     CPX #0x10
-    BNE .loc_C616A9
+    BNE -
+    
     LDX #0
     LDA #0xFFFF
-
-.loc_C616BA:
-    STA f:0x7F0670,X
+-
+    STA f:shuffled_bonus_index_array, X
     INX
     INX
     CPX #0x40
-    BNE .loc_C616BA
+    BNE -
+    
     LDX #0
     LDA #0
-
-.loc_C616CB:
-    STA f:combo_counter & 0xFFFF,X ; Access through bank 0 rather than 7E, for some reason
+-
+    STA f:combo_counters & 0xFFFF, X ; Access through bank 0 rather than 7E, for some reason
     INX
     INX
     CPX #0x10
-    BNE .loc_C616CB
+    BNE -
     RTL
 
 create_enemies:
     REP #0x20
-    LDA #addr(unk_7F06B0)
-    STA z:0x5F
+    .ROM_ENEMY_FUNCTION_PTR = 0x56
+    .BONUS_PTR = 0x5C
+    .RAM_ENEMY_FUNCTION_PTR = 0x5F
+    .BONUSES_LEFT = 0x4A
+    .ASSIGNED_BONUS = 0x48
+    .SHUFFLED_BONUS_INDEX_ARRAY_PTR = 0x59
+    
+    ; Initialize local variables
+    LDA #addr(enemy_creation_functions)
+    STA z:.RAM_ENEMY_FUNCTION_PTR
     SEP #0x20
-    LDA #bank(unk_7F06B0)
-    STA z:0x61
+    LDA #bank(enemy_creation_functions)
+    STA z:.RAM_ENEMY_FUNCTION_PTR + 2
+    
     SEP #0x20
-    LDA a:addr(level_manager_object.pointer_to_enemy_list) ; orig=0x0D18
-    STA z:0x56
-    LDA a:addr(level_manager_object.pointer_to_enemy_list+1) ; orig=0x0D19
-    STA z:0x57
+    LDA a:addr(level_manager_object.pointer_to_enemy_list)
+    STA z:.ROM_ENEMY_FUNCTION_PTR
+    LDA a:addr(level_manager_object.pointer_to_enemy_list+1)
+    STA z:.ROM_ENEMY_FUNCTION_PTR + 1
     LDA #bank(stage_1_1)
-    STA z:0x58
-    LDA a:addr(level_manager_object.pointer_to_bonus_list) ; orig=0x0D1A
-    STA z:0x5C
-    LDA a:addr(level_manager_object.pointer_to_bonus_list+1) ; orig=0x0D1B
-    STA z:0x5D
+    STA z:.ROM_ENEMY_FUNCTION_PTR + 2
+    
+    LDA a:addr(level_manager_object.pointer_to_bonus_list)
+    STA z:.BONUS_PTR
+    LDA a:addr(level_manager_object.pointer_to_bonus_list+1)
+    STA z:.BONUS_PTR + 1
     LDA #bank(stage_1_1)
-    STA z:0x5E
-    LDA a:addr(level_manager_object.anonymous_8) ; orig=0x0D30
-    CMP #3
-    BNE .loc_C6170D
-    JML .locret_C61774
+    STA z:.BONUS_PTR + 2
+    
+    LDA a:addr(level_manager_object.game_mode)
+    CMP #GAME_MODE_BATTLE
+    BNE +
+    JML .ret
++
 
-.loc_C6170D:
+.loop
     JSL generate_random_position
     JSL get_collision_mask_for_position
     REP #0x20
-    BIT #0x60F0
-    BNE .loc_C6170D
-    LDA f:[z:0x56]
-    BEQ .locret_C61774
-    STA z:0x53
-    INC z:0x56
-    LDA f:[z:0x56]
-    STA z:0x54
-    INC z:0x56
-    INC z:0x56
-    LDA #0x2000
-    STA a:addr(collision_map),Y
-    STZ z:0x48
-    LDA z:0x4A
-    BEQ .loc_C61748
-    DEC z:0x4A
-    LDA f:[z:0x59]
-    INC z:0x59
-    INC z:0x59
+    BIT #HARD_BLOCK |  SOFT_BLOCK | BOMB | EXIT | ENEMY | RESERVED_FREE
+    BNE .loop
+    
+    ; No more enemies
+    LDA f:[z:.ROM_ENEMY_FUNCTION_PTR]
+    BEQ .ret
+    
+    ; Copy the function pointer to 0x53 so we can call it later via call_far_function_at_0053
+    STA z:addr(far_function_pointer)
+    INC z:.ROM_ENEMY_FUNCTION_PTR
+    LDA f:[z:.ROM_ENEMY_FUNCTION_PTR]
+    STA z:addr(far_function_pointer + 1)
+    INC z:.ROM_ENEMY_FUNCTION_PTR
+    INC z:.ROM_ENEMY_FUNCTION_PTR
+    
+    ; Update collision mask for the tile
+    LDA #ENEMY
+    STA a:addr(collision_map), Y
+    
+    STZ z:.ASSIGNED_BONUS
+    LDA z:.BONUSES_LEFT
+    BEQ +
+    
+    ; Assign a bonus by the shuffled bonus index array
+    DEC z:.BONUSES_LEFT
+    LDA f:[z:.SHUFFLED_BONUS_INDEX_ARRAY_PTR]
+    INC z:.SHUFFLED_BONUS_INDEX_ARRAY_PTR
+    INC z:.SHUFFLED_BONUS_INDEX_ARRAY_PTR
     PHY
     ASL A
     TAY
-    LDA f:[z:0x5C],Y
-    STA z:0x48
+    LDA f:[z:.BONUS_PTR], Y
+    STA z:.ASSIGNED_BONUS
     PLY
++
 
-.loc_C61748:
+    ; Save temp variables
     LDA z:0x50
     PHA
-    LDA z:0x53
+    LDA z:addr(far_function_pointer)
     PHA
-    LDA z:0x56
+    LDA z:.ROM_ENEMY_FUNCTION_PTR
     PHA
-    LDA z:0x5F
+    LDA z:.RAM_ENEMY_FUNCTION_PTR
     PHA
     LDA z:0x60
     PHA
-    JSL call_function_at_0053
+    
+    JSL call_far_function_at_0053
+    
+    ; Restore temp variables
     REP #0x20
     PLA
     STA z:0x60
     PLA
-    STA z:0x5F
+    STA z:.RAM_ENEMY_FUNCTION_PTR
     PLA
-    STA z:0x56
+    STA z:.ROM_ENEMY_FUNCTION_PTR
     PLA
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     PLA
     STA z:0x50
-    INC z:0x5F
-    INC z:0x5F
-    INC z:0x5F
-    BRA .loc_C6170D
-.locret_C61774:
+    
+    ; Next enemy
+    INC z:.RAM_ENEMY_FUNCTION_PTR
+    INC z:.RAM_ENEMY_FUNCTION_PTR
+    INC z:.RAM_ENEMY_FUNCTION_PTR
+    BRA .loop
+.ret:
     RTL
 
-call_function_at_0053:
+call_far_function_at_0053:
     JML [0x53]
-
-    db 0x40
+    RTI
+    
 load_global_sprites:
+    .ARGS = 0x50
+    .TABLE_PTR = 0x62
+    
     REP #0x20
-    LDA f:[z:0x50]
-    STA z:0x5F
-    INC z:0x50
-    LDA f:[z:0x50]
-    STA z:0x60
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:0x50]
-    STA z:0x40
-    INC z:0x50
-    INC z:0x50
-    INC z:0x50
+    LDA f:[z:.ARGS]
+    STA z:allocate_graphics.GRAPHICS
+    INC z:.ARGS
+    LDA f:[z:.ARGS]
+    STA z:allocate_graphics.GRAPHICS + 1
+    INC z:.ARGS
+    INC z:.ARGS
+    
+    LDA f:[z:.ARGS]
+    STA z:allocate_graphics.COUNT
+    INC z:.ARGS
+    INC z:.ARGS
+    
+    INC z:.ARGS ; Unused single byte argument
+    
     PHY
     PHX
     JSL allocate_graphics
     SEP #0x20
-    LDA a:addr(word_7E0C8F+1) ; orig=0x0C90
-    BEQ .loc_C617C2
+    LDA a:addr(use_mini_graphics)
+    BEQ .done
+    
+    .COUNT = 0x40
+    ; Iterate 15 graphics, replace with mini graphics if needed
     REP #0x20
-    LDA #graphics_table - unk_7F0000
-    STA z:0x62
+    LDA #addr(graphics_table)
+    STA z:.TABLE_PTR
     SEP #0x20
     LDA #bank(graphics_table)
-    STA z:0x64
+    STA z:.TABLE_PTR + 2
+    
     REP #0x20
     LDA #0xF
-    STA z:0x40
+    STA z:.COUNT
 
-.loc_C617B4:
-    JSL sub_C617C5
-    INC z:0x62
-    INC z:0x62
-    INC z:0x62
-    DEC z:0x40
-    BNE .loc_C617B4
+-
+    JSL replace_graphics_with_mini
+    INC z:.TABLE_PTR
+    INC z:.TABLE_PTR
+    INC z:.TABLE_PTR
+    DEC z:.COUNT
+    BNE -
 
-.loc_C617C2:
+.done:
     PLX
     PLY
     RTL
 
-sub_C617C5:
+replace_graphics_with_mini:
 i16
+    .TABLE_PTR = 0x62
+    .LOOP_COUNTER = 0x42
+
     REP #0x20
     LDX #0
     LDY #1
-    LDA #6
-    STA z:0x42
+    LDA #(bomberman_graphics_2.end - bomberman_graphics_2) / 3
+    STA z:.LOOP_COUNTER
 
-.loc_C617D2:
-    LDA f:[z:0x62]
-    CMP f:bomberman_graphics_2,X
-    BNE .loc_C617EF
-    LDA f:[z:0x62],Y
-    CMP f:bomberman_graphics_2+1,X
-    BNE .loc_C617EF
-    LDA f:bomberman_mini_graphics,X
-    STA f:[z:0x62]
-    LDA f:bomberman_mini_graphics+1,X
-    STA f:[z:0x62],Y
+-
+    LDA f:[z:.TABLE_PTR]
+    CMP f:bomberman_graphics_2, X
+    BNE +
+    LDA f:[z:.TABLE_PTR], Y
+    CMP f:bomberman_graphics_2+1, X
+    BNE +
+    LDA f:bomberman_mini_graphics, X
+    STA f:[z:.TABLE_PTR]
+    LDA f:bomberman_mini_graphics+1, X
+    STA f:[z:.TABLE_PTR], Y
     RTL
++
 
-.loc_C617EF:
     INX
     INX
     INX
-    DEC z:0x42
-    BNE .loc_C617D2
+    DEC z:.LOOP_COUNTER
+    BNE -
     RTL
 
 bomberman_graphics_2:
@@ -3030,6 +3070,8 @@ bomberman_graphics_2:
     df bomberman_graphic_3
     df bomberman_extra_graphic_0
     df bomberman_extra_graphic_1
+    .end
+    
 bomberman_mini_graphics:
     df bomberman_mini_graphic_0
     df bomberman_mini_graphic_1
@@ -3037,402 +3079,480 @@ bomberman_mini_graphics:
     df bomberman_mini_graphic_3
     df bomberman_mini_graphic_4
     df bomberman_mini_warp_graphic
+
 allocate_graphics:
 i16
+    .GRAPHICS = 0x5F ; argument
+    .COUNT = 0x40 ; argument
+    .TABLE_PTR = 0x62
+    .INDEX_USED = 0x42 ; output
+
     REP #0x20
-    STZ z:0x42
+    STZ z:.INDEX_USED
     REP #0x20
-    LDA #graphics_table - unk_7F0000
-    STA z:0x62
+    LDA #addr(graphics_table)
+    STA z:.TABLE_PTR
     SEP #0x20
     LDA #bank(graphics_table)
-    STA z:0x64
+    STA z:.TABLE_PTR + 2
 
-.loc_C6182C:
+-
     REP #0x20
-    LDA f:[z:0x5F]
-    CMP f:[z:0x62]
-    BNE .loc_C6183E
+    LDA f:[z:.GRAPHICS]
+    CMP f:[z:.TABLE_PTR]
+    BNE +
     LDY #1
-    LDA f:[z:0x5F],Y
-    CMP f:[z:0x62],Y
-    BNE .loc_C6183E
+    LDA f:[z:.GRAPHICS], Y
+    CMP f:[z:.TABLE_PTR], Y
+    BNE +
+    ; Already loaded
     RTL
++
 
-.loc_C6183E:
-    LDA f:[z:0x62]
-    BEQ .loc_C6184C
-    INC z:0x62
-    INC z:0x62
-    INC z:0x62
-    INC z:0x42
-    BRA .loc_C6182C
+    LDA f:[z:.TABLE_PTR]
+    BEQ .found_free
+    INC z:.TABLE_PTR
+    INC z:.TABLE_PTR
+    INC z:.TABLE_PTR
+    INC z:.INDEX_USED
+    BRA -
 
-.loc_C6184C:
-    LDA f:[z:0x5F]
-    STA f:[z:0x62]
+.found_free:
+    ; Copy the graphics list
+-
+    LDA f:[z:.GRAPHICS]
+    STA f:[z:.TABLE_PTR]
     LDY #1
-    LDA f:[z:0x5F],Y
-    STA f:[z:0x62],Y
-    INC z:0x5F
-    INC z:0x5F
-    INC z:0x5F
-    INC z:0x62
-    INC z:0x62
-    INC z:0x62
-    DEC z:0x40
-    BNE .loc_C6184C
+    LDA f:[z:.GRAPHICS], Y
+    STA f:[z:.TABLE_PTR], Y
+    INC z:.GRAPHICS
+    INC z:.GRAPHICS
+    INC z:.GRAPHICS
+    INC z:.TABLE_PTR
+    INC z:.TABLE_PTR
+    INC z:.TABLE_PTR
+    DEC z:.COUNT
+    BNE -
     RTL
 
 load_palettes:
+    .ARGS = 0x50
+    .PALETTES = 0x5F
+    .COUNT = 0x44
+    .TABLE_PTR = 0x62
+    
     REP #0x20
-    LDA f:[z:0x50]
-    STA z:0x5F
-    INC z:0x50
-    LDA f:[z:0x50]
-    STA z:0x60
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:0x50]
-    STA z:0x44
-    INC z:0x50
-    INC z:0x50
-    INC z:0x50
+    LDA f:[z:.ARGS]
+    STA z:.PALETTES
+    INC z:.ARGS
+    LDA f:[z:.ARGS]
+    STA z:.PALETTES + 1
+    INC z:.ARGS
+    INC z:.ARGS
+    
+    LDA f:[z:.ARGS]
+    STA z:.COUNT
+    INC z:.ARGS
+    INC z:.ARGS
+    
+    INC z:.ARGS ; Unused argument
+    
     REP #0x20
-    LDA #addr(palette_allocation_related_array)
-    STA z:0x62
+    LDA #addr(palette_table)
+    STA z:.TABLE_PTR
     SEP #0x20
-    LDA #bank(palette_allocation_related_array)
-    STA z:0x64
+    LDA #bank(palette_table)
+    STA z:.TABLE_PTR + 2
     SEP #0x20
 
-.loc_C61891:
-    LDA f:[z:0x5F]
-    STA f:[z:0x62]
+    ; Simply copy the buffer to the palette table
+-
+    LDA f:[z:.PALETTES]
+    STA f:[z:.TABLE_PTR]
     REP #0x20
-    INC z:0x5F
-    INC z:0x62
+    INC z:.PALETTES
+    INC z:.TABLE_PTR
     SEP #0x20
-    DEC z:0x44
-    BNE .loc_C61891
+    DEC z:.COUNT
+    BNE -
     RTL
 
-palette_allocation_related:
+allocate_sprite_palette:
+    .TABLE_PTR = 0x62
+    .PALETTE = 0x40 ; Argument
+    .SLOT_INDEX = 0x42 ; Return value
     REP #0x20
-    STZ z:0x42
+    STZ z:.SLOT_INDEX
     REP #0x20
-    LDA #addr(palette_allocation_related_array+8)
-    STA z:0x62
+    LDA #addr(palette_table.sprite)
+    STA z:.TABLE_PTR
     SEP #0x20
-    LDA #bank(palette_allocation_related_array+8)
-    STA z:0x64
+    LDA #bank(palette_table.sprite)
+    STA z:.TABLE_PTR + 2
 
-.loc_C618B3:
-    LDA f:[z:0x62]
-    CMP z:0x40
-    BEQ .locret_C618D4
-    CMP #0xFF
-    BEQ .loc_C618D0
+-
+    LDA f:[z:.TABLE_PTR]
+    CMP z:.PALETTE ; Already loaded?
+    BEQ .ret
+    
+    CMP #FREE_PALETTE
+    BEQ .found_free
+    
     REP #0x20
-    INC z:0x62
-    LDA z:0x62
-    CMP #0x670
-    BEQ .locret_C618D4
-    INC z:0x42
-    INC z:0x42
+    INC z:.TABLE_PTR
+    LDA z:.TABLE_PTR
+    
+    ; No space ?
+    CMP #addr(palette_table.end)
+    BEQ .ret
+    
+    INC z:.SLOT_INDEX
+    INC z:.SLOT_INDEX
     SEP #0x20
-    BRA .loc_C618B3
+    BRA -
 
-.loc_C618D0:
-    LDA z:0x40
-    STA f:[z:0x62]
+.found_free:
+    LDA z:.PALETTE
+    STA f:[z:.TABLE_PTR]
 
-.locret_C618D4:
+.ret:
     RTL
 
-    dw 0x28, 0x18, 0xE8, 0xB8, 0xE8
-    dw 0x18, 0x28, 0xB8, 0x28, 0x38
-    dw 0xE8, 0xA8, 0xE8, 0x38, 0x28
-    dw 0xA8, 0, 0, 0, 0x101
+; Possibly related to a deleted battle stage
+unknown_unused_data:
+    dw 0x028, 0x018, 0x0E8, 0x0B8, 0x0E8
+    dw 0x018, 0x028, 0x0B8, 0x028, 0x038
+    dw 0x0E8, 0x0A8, 0x0E8, 0x038, 0x028
+    dw 0x0A8, 0x000, 0x000, 0x000, 0x101
     dw 0x100, 0x101, 0x101, 0x202, 0x201
     dw 0x202, 0x202, 0x303, 0x302, 0x303
     dw 0x303, 0x404, 0x403, 0x404, 0x404
     dw 0x404
-word_C6191D:
-    dw 0x88, 0x806, 0x40
-    dw 0x98, 0x806, 0x40
-    dw 0xC8, 0x806, 0x40
-    dw 0xCC, 0x806, 0x40
-    dw 0xD0, 0x806, 0x40
-    dw 0xD4, 0x806, 0x40
-    dw 0xD8, 0x806, 0x40
-    dw 0x10C, 0x806, 0x40
-    dw 0x110, 0x806, 0x40
-    dw 0x114, 0x806, 0x40
-    dw 0x148, 0x806, 0x40
-    dw 0x14A, 0x806, 0x40
-    dw 0x156, 0x806, 0x40
-    dw 0x158, 0x806, 0x40
-    dw 0x1C8, 0x806, 0x40
-    dw 0x1CA, 0x806, 0x40
-    dw 0x1D6, 0x806, 0x40
-    dw 0x1D8, 0x806, 0x40
-    dw 0x20C, 0x806, 0x40
-    dw 0x214, 0x806, 0x40
-    dw 0x210, 0x806, 0x40
-    dw 0x248, 0x806, 0x40
-    dw 0x24C, 0x806, 0x40
-    dw 0x250, 0x806, 0x40
-    dw 0x254, 0x806, 0x40
-    dw 0x258, 0x806, 0x40
-    dw 0x288, 0x806, 0x40
-    dw 0x298, 0x806, 0x40
-word_C619C5:
-    dw 0x44, 1
-    dw 0xC4, 1
-    dw 0x144, 0xC
-    dw 0x1C4, 0xD
-    dw 0x244, 1
-    dw 0x2C4, 1
-    dw 0x48, 1
-    dw 0x4C, 4
-    dw 0x50, 0xA
-    dw 0x54, 4
-    dw 0x58, 1
-    dw 0x5C, 1
-    dw 0xDC, 1
-    dw 0x15C, 0xD
-    dw 0x1DC, 0xC
-    dw 0x25C, 1
-    dw 0x2DC, 1
-    dw 0x2C8, 1
-    dw 0x2CC, 4
-    dw 0x2D0, 0xA
-    dw 0x2D4, 4
-    dw 0x2D8, 1
+    
+; Duel zone soft block locations are static. Boring!
+
+macro duel_zone_block x, y
+    dw 0x44 + ($x) * 2 + ($y) * 0x40, ATTRIBUTED_TILE_SOFTBLOCK, SOFT_BLOCK
+endmacro
+
+duel_zone_block_locations:
+    duel_zone_block 2,  1
+    duel_zone_block 10, 1
+    duel_zone_block 2,  2
+    duel_zone_block 4,  2
+    duel_zone_block 6,  2
+    duel_zone_block 8,  2
+    duel_zone_block 10, 2
+    duel_zone_block 4,  3
+    duel_zone_block 6,  3
+    duel_zone_block 8,  3
+    duel_zone_block 2,  4
+    duel_zone_block 3,  4
+    duel_zone_block 9,  4
+    duel_zone_block 10, 4
+    duel_zone_block 2,  6
+    duel_zone_block 3,  6
+    duel_zone_block 9,  6
+    duel_zone_block 10, 6
+    duel_zone_block 4,  7
+    duel_zone_block 8,  7
+    duel_zone_block 6,  7
+    duel_zone_block 2,  8
+    duel_zone_block 4,  8
+    duel_zone_block 6,  8
+    duel_zone_block 8,  8
+    duel_zone_block 10, 8
+    duel_zone_block 2,  9
+    duel_zone_block 10, 9
+    .end
+unmacro duel_zone_block
+    
+macro duel_zone_bonus x, y, bonus
+    dw 0x44 + ($x) * 2 + ($y) * 0x40, $bonus
+endmacro
+duel_zone_bonuses:
+    duel_zone_bonus 0,  0,  BOMB_UP
+    duel_zone_bonus 0,  2,  BOMB_UP
+    duel_zone_bonus 0,  4,  KICK
+    duel_zone_bonus 0,  6,  PUNCH
+    duel_zone_bonus 0,  8,  BOMB_UP
+    duel_zone_bonus 0,  10, BOMB_UP
+    duel_zone_bonus 2,  0,  BOMB_UP
+    duel_zone_bonus 4,  0,  SPEED_UP
+    duel_zone_bonus 6,  0,  FULL_FIRE
+    duel_zone_bonus 8,  0,  SPEED_UP
+    duel_zone_bonus 10, 0,  BOMB_UP
+    duel_zone_bonus 12, 0,  BOMB_UP
+    duel_zone_bonus 12, 2,  BOMB_UP
+    duel_zone_bonus 12, 4,  PUNCH
+    duel_zone_bonus 12, 6,  KICK
+    duel_zone_bonus 12, 8,  BOMB_UP
+    duel_zone_bonus 12, 10, BOMB_UP
+    duel_zone_bonus 2,  10, BOMB_UP
+    duel_zone_bonus 4,  10, SPEED_UP
+    duel_zone_bonus 6,  10, FULL_FIRE
+    duel_zone_bonus 8,  10, SPEED_UP
+    duel_zone_bonus 10, 10, BOMB_UP
+    .end
+unmacro duel_zone_bonus
+    
 generate_soft_blocks:
 i16
+    .REMAINING_BONUSES = 0x48 ; Argument
+    .SHUFFLED_BONUS_INDEXES = 0x59 ; Argument
+    .COUNTDOWN = 0x46
+    .BONUS_PTR = 0x53
+    
     REP #0x20
-    LDA a:addr(level_manager_object.soft_blocks) ; orig=0x0D3C
-    STA z:0x46
-    BNE .loc_C61A6F
-    LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
-    BIT #0x200
-    BEQ .locret_C61A6E
+    LDA a:addr(level_manager_object.soft_blocks)
+    STA z:.COUNTDOWN
+    
+    BNE .normal_mode
+    LDA a:addr(level_manager_object.spawn_and_flags)
+    BIT #LEVEL_FLAGS_DUEL_ZONE
+    BEQ .ret
+    
+    ; Duel zone
     PHX
     PHY
     LDX #0
-
-.loc_C61A33:
-    LDA f:word_C6191D,X
+-
+    LDA f:duel_zone_block_locations, X ; Get block offset
     TAY
-    LDA f:word_C6191D+2,X
-    STA a:addr(bg1_tilemap),Y
-    LDA f:word_C6191D+4,X
-    STA a:addr(collision_map),Y
+    LDA f:duel_zone_block_locations + 2, X ; Save tile to tilemap
+    STA a:addr(bg1_tilemap), Y
+    LDA f:duel_zone_block_locations + 4, X ; and collision mask to the map
+    STA a:addr(collision_map), Y
+    
     INX
     INX
     INX
     INX
     INX
     INX
-    CPX #0xA8
-    BNE .loc_C61A33
+    
+    CPX #duel_zone_block_locations.end - duel_zone_block_locations
+    BNE -
+    
     LDX #0
-
-.loc_C61A54:
-    LDA f:word_C619C5,X
+-
+    LDA f:duel_zone_bonuses, X ; Get tile offset
     TAY
-    LDA f:word_C619C5+2,X
+    LDA f:duel_zone_bonuses + 2, X ; and the bonus
     PHX
-    JSL create_bonus_object
+    JSL create_bonus_object ; and make them into a bonus object
     PLX
     INX
     INX
     INX
     INX
-    CPX #0x58
-    BNE .loc_C61A54
+    CPX #duel_zone_bonuses.end - duel_zone_bonuses
+    BNE -
     PLY
     PLX
 
-.locret_C61A6E:
+.ret:
     RTL
 
-.loc_C61A6F:
+    ; Normal mode
+.normal_mode:
     SEP #0x20
-    LDA a:addr(level_manager_object.pointer_to_bonus_list) ; orig=0x0D1A
-    STA z:0x53
-    LDA a:addr(level_manager_object.pointer_to_bonus_list+1) ; orig=0x0D1B
-    STA z:0x54
+    LDA a:addr(level_manager_object.pointer_to_bonus_list)
+    STA z:addr(.BONUS_PTR)
+    LDA a:addr(level_manager_object.pointer_to_bonus_list+1)
+    STA z:addr(.BONUS_PTR + 1)
     LDA #bank(stage_1_1)
-    STA z:0x55
-.loc_C61A7F:
+    STA z:addr(.BONUS_PTR + 2)
+    
+-
     JSL generate_random_position
     JSL get_collision_mask_for_position
     REP #0x20
-    BIT #EXIT|BOMB|SOFT_BLOCK|HARD_BLOCK|0x4000
-    BNE .loc_C61A7F
+    BIT #EXIT | BOMB | SOFT_BLOCK | HARD_BLOCK | RESERVED_FREE
+    BNE -
+
     REP #0x20
-    LDA #0x806
-    STA a:addr(bg1_tilemap),Y
-    LDA z:0x48
-    BEQ .loc_C61AA8
-    DEC z:0x48
-    LDA f:[z:0x59]
-    INC z:0x59
-    INC z:0x59
+    LDA #ATTRIBUTED_TILE_SOFTBLOCK
+    STA a:addr(bg1_tilemap), Y
+    LDA z:.REMAINING_BONUSES
+    BEQ .no_bonus
+    
+    ; Obtain a bonus and place it
+    DEC z:.REMAINING_BONUSES
+    LDA f:[z:.SHUFFLED_BONUS_INDEXES]
+    INC z:.SHUFFLED_BONUS_INDEXES
+    INC z:.SHUFFLED_BONUS_INDEXES
     PHY
     ASL A
     TAY
-    LDA f:[z:0x53],Y
+    LDA f:[z:addr(.BONUS_PTR)], Y
     PLY
 
-.loc_C61AA8:
+.no_bonus:
     ORA #SOFT_BLOCK
-    STA a:addr(collision_map),Y
-    DEC z:0x46
-    BEQ .loc_C61AB6
-    JML .loc_C61A7F
+    STA a:addr(collision_map), Y
+    DEC z:.COUNTDOWN
+    BEQ +
+    JML -
++
 
-.loc_C61AB6:
     SEP #0x20
-    LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
-    BIT #0x40       ; Trampolines flag
-    BNE .loc_C61AC0
+    LDA a:addr(level_manager_object.spawn_and_flags)
+    BIT #LEVEL_FLAGS_JUMP_ZONE
+    BNE +
     RTL
++
 
-.loc_C61AC0:
+    .REMAINING_TRAMPOLINES = .REMAINING_BONUSES
     REP #0x20
     LDA #0x10
-    STA z:0x48
+    STA z:.REMAINING_TRAMPOLINES
 
-.loc_C61AC7:    ; Generate Trampolines
+-
     JSL generate_random_position
     JSL get_collision_mask_for_position
     REP #0x20
-    BIT #EXIT|BOMB|SOFT_BLOCK|HARD_BLOCK|0x4000
-    BNE .loc_C61AC7
+    BIT #EXIT | BOMB | SOFT_BLOCK | HARD_BLOCK | RESERVED_FREE
+    BNE -
+    
     REP #0x20
-    LDA #0xA40
-    STA a:addr(bg1_tilemap),Y
-    STA a:addr(bg1_tilemap+0x20),Y
-    DEC z:0x48
-    BNE .loc_C61AC7
+    LDA #ATTRIBUTED_TILE_TRAMPOLINE
+    STA a:addr(bg1_tilemap), Y
+    STA a:addr(bg1_tilemap+0x20), Y
+    DEC z:.REMAINING_TRAMPOLINES
+    BNE -
     RTL
 
 copy_enemy_creation_functions:
+    .SRC = 0x50 ; Argument, points to the relevant part of the level struct
+    .DEST = 0x53
     REP #0x20
-    LDA #addr(unk_7F06B0)
-    STA z:0x53
+    LDA #addr(enemy_creation_functions)
+    STA z:addr(.DEST)
     SEP #0x20
-    LDA #bank(unk_7F06B0)
-    STA z:0x55
+    LDA #bank(enemy_creation_functions)
+    STA z:addr(.DEST + 2)
+    
     REP #0x20
-    LDA z:0x50
-    STA a:addr(level_manager_object.pointer_to_enemy_list) ; orig=0x0D18
+    LDA z:.SRC
+    STA a:addr(level_manager_object.pointer_to_enemy_list)
 
-.loc_C61AFA:
-    LDA f:[z:0x50]
-    STA f:[z:0x53]
-    BEQ .loc_C61B15
-    INC z:0x50
-    INC z:0x53
-    LDA f:[z:0x50]
-    STA f:[z:0x53]
-    INC z:0x50
-    INC z:0x50
-    INC z:0x53
-    INC z:0x53
-    INC a:addr(level_manager_object.enemy_count) ; orig=0x0D25
-    BRA .loc_C61AFA
+-
+    LDA f:[z:.SRC]
+    STA f:[z:.DEST]
+    BEQ .done
+    INC z:.SRC
+    INC z:.DEST
+    LDA f:[z:.SRC]
+    STA f:[z:.DEST]
+    INC z:.SRC
+    INC z:.SRC
+    INC z:.DEST
+    INC z:.DEST
+    INC a:addr(level_manager_object.enemy_count)
+    BRA -
 
-.loc_C61B15:
+.done:
+    INC z:.SRC
+    INC z:.SRC
+    RTL
+
+count_level_bonuses:
+    .BONUS_LIST = 0x50 ; The level struct pointer. At this point, it points to the bonus list
+    .BONUS_COUNT = 0x46 ; Output
+    REP #0x20
+    LDA z:.BONUS_LIST
+    STA a:addr(level_manager_object.pointer_to_bonus_list)
+    STZ z:.BONUS_COUNT
+
+-
+    LDA f:[z:.BONUS_LIST]
+    BEQ .done
+    INC z:.BONUS_LIST
+    INC z:.BONUS_LIST
+    INC z:.BONUS_COUNT
+    BRA -
+
+.done:
     INC z:0x50
     INC z:0x50
     RTL
 
-process_bonuses:
-    REP #0x20
-    LDA z:0x50
-    STA a:addr(level_manager_object.pointer_to_bonus_list) ; orig=0x0D1A
-    STZ z:0x46
-
-.loc_C61B23:
-    LDA f:[z:0x50]
-    BEQ .loc_C61B2F
-    INC z:0x50
-    INC z:0x50
-    INC z:0x46
-    BRA .loc_C61B23
-
-.loc_C61B2F:
-    INC z:0x50
-    INC z:0x50
-    RTL
-
-related_to_enemy_bonuses:
+shuffle_and_divide_bonuses:
 i16
+    .BONUS_COUNT = count_level_bonuses.BONUS_COUNT ; Input
+    .ENEMY_BONUSES = 0x4A
+    .SOFTBLOCK_BONUSES = 0x48
+    .SHUFFLED_COUNTER = 0xD3
+    .SHUFFLED_ARRAY_LENGTH = 0xD5
     REP #0x20
-    LDA z:0x46
+    LDA z:.BONUS_COUNT
     STA z:0x48
-    LDA z:0x46
-    STA a:addr(level_manager_object.bonus_count) ; orig=0x0D03
-    LDA a:addr(level_manager_object.anonymous_8) ; orig=0x0D30
-    CMP #3
-    BEQ .loc_C61B69
+    LDA z:.BONUS_COUNT
+    STA a:addr(level_manager_object.bonus_count)
+    
+    LDA a:addr(level_manager_object.game_mode)
+    CMP #GAME_MODE_BATTLE
+    BEQ .battle_mode
+    
     LDA #0
-    STA z:0x48
+    STA z:.SOFTBLOCK_BONUSES
     LDA #0
-    STA z:0x4A
-    LDA z:0x46
-    BEQ sub_C61BA3
-    LDX z:0x46
+    STA z:.ENEMY_BONUSES
+    
+    LDA z:.BONUS_COUNT
+    BEQ .ret_false ; No bonuses in this stage
+    
+    LDX z:.BONUS_COUNT
     JSL random
-    STA z:0x48
-    LDA z:0x46
+    STA z:.SOFTBLOCK_BONUSES
+    LDA z:.BONUS_COUNT
     SEC
-    SBC z:0x48
-    CMP a:addr(level_manager_object.enemy_count) ; orig=0x0D25
-    BCS related_to_enemy_bonuses
-    STA z:0x4A
+    SBC z:.SOFTBLOCK_BONUSES
+    CMP a:addr(level_manager_object.enemy_count)
+    BCS shuffle_and_divide_bonuses ; Assigned more enemy bonuses than enemies, restart the process
+    STA z:.ENEMY_BONUSES
 
-.loc_C61B69:
-    STZ z:0xD3
-    LDA z:0x46
-    BEQ sub_C61BA3
+.battle_mode:
+    STZ z:.SHUFFLED_COUNTER
+    LDA z:.BONUS_COUNT
+    BEQ .ret_false
 
-.loc_C61B6F:
-    LDA z:0xD3
-    STA z:0xD5
-    LDX z:0x46
+-
+    LDA z:.SHUFFLED_COUNTER
+    STA z:.SHUFFLED_ARRAY_LENGTH
+    LDX z:.BONUS_COUNT
     JSL random
-    LDX #0xFFFE
-    JSL sub_C61B95
-    BCS .loc_C61B6F
+    LDX #-2
+    JSL .search_in_shuffled_array
+    BCS - ; Already in the shuffled array, try again
+    
+    ; Put in the shuffled array
     PHA
-    LDA z:0xD3
+    LDA z:.SHUFFLED_COUNTER
     ASL A
     TAX
     PLA
-    STA f:0x7F0670,X
-    INC z:0xD3
-    LDA z:0xD3
-    CMP z:0x46
-    BNE .loc_C61B6F
+    STA f:shuffled_bonus_index_array, X
+    
+    ; Advance and continue
+    INC z:.SHUFFLED_COUNTER
+    LDA z:.SHUFFLED_COUNTER
+    CMP z:.BONUS_COUNT
+    BNE -
     RTL
 
-sub_C61B95:
+.search_in_shuffled_array:
     INX
     INX
-    DEC z:0xD5
-    BMI sub_C61BA3
-    CMP f:0x7F0670,X
-    BNE sub_C61B95
+    DEC z:.SHUFFLED_ARRAY_LENGTH
+    BMI .ret_false
+    CMP f:shuffled_bonus_index_array, X
+    BNE .search_in_shuffled_array
     SEC
     RTL
 
-sub_C61BA3:
+.ret_false:
     CLC
     RTL
 
@@ -3500,18 +3620,18 @@ word_C61C4D:
 
 sub_C61C7B:
     REP #0x20
-    LDA a:addr(level_manager_object.anonymous_8) ; orig=0x0D30
+    LDA a:addr(level_manager_object.game_mode)
     AND #0xFF
-    CMP #2
+    CMP #GAME_MODE_STORY
     BNE .loc_C61C97
-    LDA a:addr(level_manager_object.level_representation) ; orig=0x0D24
+    LDA a:addr(level_manager_object.level_representation)
     AND #0xF
     CMP #8
     BNE .loc_C61C97
     JML set_unallowed_soft_blocks.locret_C61D1F
 
 .loc_C61C97:
-    LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
+    LDA a:addr(level_manager_object.spawn_and_flags)
     BIT #4
     BEQ .loc_C61CA3
     JML set_unallowed_soft_blocks.locret_C61D1F
@@ -3548,8 +3668,8 @@ sub_C61C7B:
     STA z:0xDB
     LDA #0xC
     STA z:0x4A
-    LDA a:addr(level_manager_object.anonymous_8) ; orig=0x0D30
-    CMP #3
+    LDA a:addr(level_manager_object.game_mode)
+    CMP #GAME_MODE_BATTLE
     BEQ set_unallowed_soft_blocks
     LDA #6
     STA z:0x4A
@@ -3572,7 +3692,7 @@ set_unallowed_soft_blocks:
     LDA f:[z:0x5C]
     TAY
     LDA z:0xDB
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
     INC z:0x5C
     INC z:0x5C
     DEC z:0x4A
@@ -3663,10 +3783,10 @@ sub_C61D8E:
 
 generate_hard_blocks_and_exit:
     REP #0x20
-    LDA a:addr(current_mode) ; orig=0x0C3C
+    LDA a:addr(current_mode)
     CMP #2
     BNE .locret_C61E1F
-    LDA a:addr(level_manager_object.spawn_and_flags) ; orig=0x0D38
+    LDA a:addr(level_manager_object.spawn_and_flags)
     BIT #6
     BNE .locret_C61E1F
     LDA #0x70       ; Number of free tiles + 1
@@ -3675,7 +3795,7 @@ generate_hard_blocks_and_exit:
 
 .loc_C61DE0:
     LDA #0
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
 
 .loc_C61DE6:
     JSL generate_random_position
@@ -3685,21 +3805,21 @@ generate_hard_blocks_and_exit:
     BNE .loc_C61DE6
     REP #0x20
     LDA #addr(HARD_BLOCK)
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
     PHY
     JSL is_map_non_continous
     PLY
     BCS .loc_C61DE0
     REP #0x20
-    LDA a:addr(bg1_tilemap+0x24) ; orig=0x0518
-    STA a:addr(bg1_tilemap),Y
+    LDA a:addr(bg1_tilemap+0x24)
+    STA a:addr(bg1_tilemap), Y
     DEC z:0x4A
     DEC z:0x48
     BPL .loc_C61DE6
     LDA #EXIT|SOFT_BLOCK
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
     LDA #0x806
-    STA a:addr(bg1_tilemap),Y
+    STA a:addr(bg1_tilemap), Y
 
 .locret_C61E1F:
     RTL
@@ -3780,7 +3900,7 @@ add_unprocessed_neighbor_tiles_to_stack:
     STZ z:0x44
     LDA #3
     STA z:0x46
-    STY z:0x53
+    STY z:addr(far_function_pointer)
 
 .loc_C61E9E:
     PHY
@@ -3789,9 +3909,9 @@ add_unprocessed_neighbor_tiles_to_stack:
     TAX
     TYA
     CLC
-    ADC f:collision_map_direction_offsets,X
+    ADC f:collision_map_direction_offsets, X
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #PLAYER
     BNE .loc_C61EDA
     AND #BONUS_MASK|BOMB|SOFT_BLOCK|HARD_BLOCK
@@ -3808,28 +3928,28 @@ add_unprocessed_neighbor_tiles_to_stack:
     STA f:[z:0x5F]
     INC z:0x5C
     INC z:0x5C
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     ORA #PLAYER
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
     INC z:0x4C
 
 .loc_C61EDA:
     PLY
     DEC z:0x46
     BPL .loc_C61E9E
-    LDY z:0x53
+    LDY z:addr(far_function_pointer)
     RTL
 
 .loc_C61EE2:
-    STY z:0x53
-    LDA a:addr(collision_map),Y
+    STY z:addr(far_function_pointer)
+    LDA a:addr(collision_map), Y
     ORA #PLAYER
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
     INC z:0x4C
     PLY
     DEC z:0x46
     BPL .loc_C61E9E
-    LDY z:0x53
+    LDY z:addr(far_function_pointer)
     RTL
 
 apply_mask_to_collision_map:
@@ -3839,9 +3959,9 @@ i16
     LDY #collision_map.end - collision_map
 
 .loc_C61EFE:
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     AND z:0x40
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
     DEY
     DEY
     BPL .loc_C61EFE
@@ -3916,9 +4036,9 @@ i16
     REP #0x20
     LDY #addr(player_1)
     SEP #0x20
-    LDA a:addr(0x11),Y
+    LDA a:addr(0x11), Y
     SEC
-    SBC z:0x11,X
+    SBC z:0x11, X
     BCS .loc_C61F7A
     EOR #0xFF
     INC A
@@ -3926,9 +4046,9 @@ i16
 .loc_C61F7A:
     CMP #0x40
     BCS .loc_C61F8F
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     SEC
-    SBC z:0x14,X
+    SBC z:0x14, X
     BCS .loc_C61F89
     EOR #0xFF
     INC A
@@ -4051,7 +4171,7 @@ sub_C620A4:
     REP #0x20
     BCS .locret_C620C3
     LDA z:0x40
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
 
 .locret_C620C3:
     RTL
@@ -4063,11 +4183,11 @@ i16
 
 .loc_C620C9:
     SEP #0x20
-    LDA a:addr(4),Y
+    LDA a:addr(4), Y
     BEQ .loc_C620FA
-    LDA a:addr(0x11),Y
+    LDA a:addr(0x11), Y
     SEC
-    SBC z:0x11,X
+    SBC z:0x11, X
     BEQ .loc_C620F2
     BCS .loc_C620DD
     EOR #0xFF
@@ -4076,9 +4196,9 @@ i16
 .loc_C620DD:
     CMP #0x10
     BCS .loc_C620FA
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     SEC
-    SBC z:0x14,X
+    SBC z:0x14, X
 
 .loc_C620E7:
     BCS .loc_C620EC
@@ -4092,14 +4212,14 @@ i16
     RTL
 
 .loc_C620F2:
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     SEC
-    SBC z:0x14,X
+    SBC z:0x14, X
     BNE .loc_C620E7
 
 .loc_C620FA:
     REP #0x20
-    LDA a:addr(6),Y
+    LDA a:addr(6), Y
     TAY
     CMP #0xFFFF
     BNE .loc_C620C9
@@ -4142,7 +4262,7 @@ i16
     LDX #addr(palette_slots)
 
 .loc_C6213C:
-    LDA z:3,X
+    LDA z:3, X
     BIT #1
     BEQ .loc_C62156
     CMP #3
@@ -4152,7 +4272,7 @@ i16
     BRA .loc_C62156
 
 .loc_C6214E:
-    STA z:3,X
+    STA z:3, X
     JSL fade_a_palette
     SEP #0x20
 
@@ -4169,7 +4289,7 @@ i16
     BNE .loc_C6213C
 
 .loc_C62163:
-    LDA z:3,X
+    LDA z:3, X
     BIT #1
     BEQ .loc_C6217D
     CMP #3
@@ -4179,7 +4299,7 @@ i16
     BRA .loc_C6217D
 
 .loc_C62175:
-    STA z:3,X
+    STA z:3, X
     JSL fade_b_palette
     SEP #0x20
 
@@ -4194,9 +4314,9 @@ i16
     INX
     CPX #0x2000
     BNE .loc_C62163
-    LDA a:addr(word_7E0318) ; orig=0x0318
+    LDA a:addr(word_7E0318)
     BEQ .locret_C621A3
-    STZ a:addr(word_7E0318) ; orig=0x0318
+    STZ a:addr(word_7E0318)
     REP #0x20
     LDA #addr(sub_C624AF)
     STA z:0x50
@@ -4211,28 +4331,28 @@ i16
 load_a_palette:
     REP #0x20
     LDA #addr(a_palettes)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #bank(a_palettes)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     BRA load_palette_at_53
 
 load_b_palette:
     REP #0x20
     LDA #addr(b_palettes)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #bank(b_palettes)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
 
 load_palette_at_53:
     SEP #0x20
-    STZ z:2,X
-    LDA z:3,X
+    STZ z:2, X
+    LDA z:3, X
     AND #0xFE
-    STA z:3,X
+    STA z:3, X
     REP #0x20
-    LDA z:4,X
+    LDA z:4, X
     CLC
     ADC #addr(unk_7F0400)
     STA z:0x50
@@ -4240,7 +4360,7 @@ load_palette_at_53:
     LDA #bank(unk_7F0400)
     STA z:0x52
     REP #0x20
-    LDA z:0,X
+    LDA z:0, X
     AND #0xFF
     ASL A
     ASL A
@@ -4249,107 +4369,107 @@ load_palette_at_53:
     ASL A
     STA z:0x42
     CLC
-    ADC z:0x53
-    STA z:0x53
-    LDA f:[z:0x53]
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
-    LDA a:addr(word_7E0318) ; orig=0x0318
+    LDA a:addr(word_7E0318)
     ORA #1
-    STA a:addr(word_7E0318) ; orig=0x0318
+    STA a:addr(word_7E0318)
     RTL
 
 -
@@ -4358,10 +4478,10 @@ load_palette_at_53:
 fade_a_palette:
     REP #0x20
     LDA #addr(a_palettes)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #bank(a_palettes)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     BRA fade_palette
 
     SEP #0x20
@@ -4369,44 +4489,44 @@ fade_b_palette:
 
     REP #0x20
     LDA #addr(b_palettes)
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     LDA #bank(b_palettes)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
 
 fade_palette:
     REP #0x20
-    LDA z:1,X
+    LDA z:1, X
     PHX
     AND #0xF
     TAX
     TAY
     SEP #0x20
-    LDA f:byte_C62426,X
+    LDA f:byte_C62426, X
     PLX
-    AND a:addr(word_7E0304) ; orig=0x0304
+    AND a:addr(word_7E0304)
     BNE -
     PHX
     REP #0x20
     TYA
     TAX
     SEP #0x20
-    LDA f:byte_C62416,X
+    LDA f:byte_C62416, X
     PLX
     STA z:0x40
-    LDA z:2,X
+    LDA z:2, X
     SEC
     SBC z:0x40
-    STA z:2,X
+    STA z:2, X
     BCS .loc_C6230B
-    STZ z:2,X
-    LDA z:3,X
+    STZ z:2, X
+    LDA z:3, X
     AND #0xFE
-    STA z:3,X
+    STA z:3, X
 
 .loc_C6230B:
     REP #0x20
-    LDA z:4,X
+    LDA z:4, X
     CLC
     ADC #addr(unk_7F0400)
     STA z:0x50
@@ -4414,7 +4534,7 @@ fade_palette:
     LDA #bank(unk_7F0400)
     STA z:0x52
     REP #0x20
-    LDA z:0,X
+    LDA z:0, X
     AND #0xFF
     ASL A
     ASL A
@@ -4423,8 +4543,8 @@ fade_palette:
     ASL A
     STA z:0x42
     CLC
-    ADC z:0x53
-    STA z:0x53
+    ADC z:addr(far_function_pointer)
+    STA z:addr(far_function_pointer)
     LDA #0x10
     STA z:0x4A
 
@@ -4437,26 +4557,26 @@ fade_palette:
 
 sub_C6233E:
     REP #0x20
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA f:[z:0x50]
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     INC z:0x50
     INC z:0x50
     SEP #0x20
-    LDA a:addr(word_7E0318) ; orig=0x0318
+    LDA a:addr(word_7E0318)
     ORA #1
-    STA a:addr(word_7E0318) ; orig=0x0318
+    STA a:addr(word_7E0318)
     RTL
     
 sub_C62357:
     REP #0x20
-    LDA z:3,X
+    LDA z:3, X
     AND #1
     BEQ sub_C6233E
     LDA f:[z:0x50]
     STA z:0x42
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA z:0x48
     STZ z:0x46
     SEP #0x20
@@ -4522,8 +4642,8 @@ sub_C62357:
     STA f:[z:0x50]
     INC z:0x50
     INC z:0x50
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     RTL
 
 sub_C623E1:
@@ -4534,13 +4654,13 @@ sub_C623E1:
     LDA z:0x41
     SEC
     SBC z:0x44
-    CMP z:2,X
+    CMP z:2, X
     BCC .loc_C62413
 
 .loc_C623F1:
-    LDA a:addr(word_7E0318) ; orig=0x0318
+    LDA a:addr(word_7E0318)
     ORA #1
-    STA a:addr(word_7E0318) ; orig=0x0318
+    STA a:addr(word_7E0318)
     LDA z:0x44
     CMP z:0x41
     BEQ .locret_C62412
@@ -4603,18 +4723,18 @@ set_palette:
     TAX
     SEP #0x20
     LDA z:0x40
-    STA z:palette_slot.palette_index,X
+    STA z:palette_slot.palette_index, X
     TYA
-    STA z:palette_slot.fade_flags,X
+    STA z:palette_slot.fade_flags, X
     LDA #0x20
-    STA z:palette_slot.fade_counter,X
+    STA z:palette_slot.fade_counter, X
     LDA #1
-    STA z:palette_slot.fade_state,X
+    STA z:palette_slot.fade_state, X
     TYA
     AND #0xFF
     BNE .needs_fade
     LDA #3
-    STA z:palette_slot.fade_state,X
+    STA z:palette_slot.fade_state, X
 
 .needs_fade:
     PLX
@@ -4622,8 +4742,8 @@ set_palette:
 
 sub_C62460:
     REP #0x20
-    LDA a:addr(word_7E030C) ; orig=0x030C
-    CMP a:addr(word_7E030E) ; orig=0x030E
+    LDA a:addr(word_7E030C)
+    CMP a:addr(word_7E030E)
     BNE .loc_C6246B
     RTL
 
@@ -4636,24 +4756,24 @@ sub_C62460:
     LDA #0
 
 .loc_C62478:
-    STA a:addr(word_7E030C) ; orig=0x030C
+    STA a:addr(word_7E030C)
     SEP #0x20
-    LDA a:addr(unk_7E031C),X
+    LDA a:addr(unk_7E031C), X
     STA z:0x50
-    LDA a:addr(unk_7E031C + 1),X
+    LDA a:addr(unk_7E031C + 1), X
     STA z:0x51
-    LDA a:addr(unk_7E031C + 2),X
+    LDA a:addr(unk_7E031C + 2), X
     STA z:0x52
-    LDA a:addr(unk_7E031C + 3),X
-    STA z:0x53
-    LDA a:addr(unk_7E031C + 4),X
-    STA z:0x54
-    LDA a:addr(unk_7E031C + 5),X
-    STA z:0x55
+    LDA a:addr(unk_7E031C + 3), X
+    STA z:addr(far_function_pointer)
+    LDA a:addr(unk_7E031C + 4), X
+    STA z:addr(far_function_pointer + 1)
+    LDA a:addr(unk_7E031C + 5), X
+    STA z:addr(far_function_pointer + 2)
     REP #0x20
-    LDA a:addr(unk_7E031C + 6),X
+    LDA a:addr(unk_7E031C + 6), X
     STA z:0x40
-    LDA a:addr(unk_7E031C + 8),X
+    LDA a:addr(unk_7E031C + 8), X
     STA z:0x42
     JSL call_function_at_0050
     JML sub_C62460
@@ -4706,7 +4826,7 @@ sub_C624DF:
 sub_C62514:
     REP #0x20
     PHX
-    LDA a:addr(word_7E030E) ; orig=0x030E
+    LDA a:addr(word_7E030E)
     TAX
     CLC
     ADC #0xA
@@ -4715,42 +4835,42 @@ sub_C62514:
     LDA #0
 
 .loc_C62527:
-    CMP a:addr(word_7E030C) ; orig=0x030C
+    CMP a:addr(word_7E030C)
     BEQ .loc_C6255F
     TAY
     SEP #0x20
     LDA z:0x50
-    STA a:addr(unk_7E031C),X
+    STA a:addr(unk_7E031C), X
     LDA z:0x51
-    STA a:addr(unk_7E031C + 1),X
+    STA a:addr(unk_7E031C + 1), X
     LDA z:0x52
-    STA a:addr(unk_7E031C + 2),X
-    LDA z:0x53
-    STA a:addr(unk_7E031C + 3),X
-    LDA z:0x54
-    STA a:addr(unk_7E031C + 4),X
-    LDA z:0x55
-    STA a:addr(unk_7E031C + 5),X
+    STA a:addr(unk_7E031C + 2), X
+    LDA z:addr(far_function_pointer)
+    STA a:addr(unk_7E031C + 3), X
+    LDA z:addr(far_function_pointer + 1)
+    STA a:addr(unk_7E031C + 4), X
+    LDA z:addr(far_function_pointer + 2)
+    STA a:addr(unk_7E031C + 5), X
     REP #0x20
     LDA z:0x40
-    STA a:addr(unk_7E031C + 6),X
+    STA a:addr(unk_7E031C + 6), X
     LDA z:0x42
-    STA a:addr(unk_7E031C + 8),X
+    STA a:addr(unk_7E031C + 8), X
     TYA
-    STA a:addr(word_7E030E) ; orig=0x030E
+    STA a:addr(word_7E030E)
 
 .loc_C6255D:
     PLX
     RTL
 
 .loc_C6255F:
-    INC a:addr(word_7E030A) ; orig=0x030A
+    INC a:addr(word_7E030A)
     BRA .loc_C6255D
 
 unknown_init_:
     REP #0x20
-    STZ a:addr(word_7E030C) ; orig=0x030C
-    STZ a:addr(word_7E030E) ; orig=0x030E
+    STZ a:addr(word_7E030C)
+    STZ a:addr(word_7E030E)
     RTL
 
 advance_animation_2:
@@ -4768,42 +4888,42 @@ advance_animation:
 .loc_C6257D:
     LDA #addr(level_manager_object.hit_flags)
     STA z:0x56
-    LDA a:addr(level_manager_object.hit_flags) ; orig=0x0D28
+    LDA a:addr(level_manager_object.hit_flags)
 
 .loc_C62585:
     TAY
-    LDA a:addr(4),Y
+    LDA a:addr(4), Y
     AND #0xFF
-    CMP z:player.y_position,X
+    CMP z:player.y_position, X
     BCC .loc_C6259A
     STY z:0x56
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     CMP #0xFFFF
     BNE .loc_C62585
 
 .loc_C6259A:
-    LDY a:addr(word_7E00BE) ; orig=0x00BE
+    LDY a:addr(word_7E00BE)
     LDA [z:0x56]
-    STA a:addr(0),Y
+    STA a:addr(0), Y
     TYA
     STA [z:0x56]
-    LDA z:player.y_position,X
-    STA a:addr(4),Y
+    LDA z:player.y_position, X
+    STA a:addr(4), Y
     TXA
-    STA a:addr(2),Y
-    LDA a:addr(word_7E00BE) ; orig=0x00BE
+    STA a:addr(2), Y
+    LDA a:addr(word_7E00BE)
     CLC
     ADC #0x40
-    STA a:addr(word_7E00BE) ; orig=0x00BE
+    STA a:addr(word_7E00BE)
     SEP #0x20
     LDA z:0x40
-    STA a:addr(5),Y
-    LDA z:player.ticks_left_for_frames,X
+    STA a:addr(5), Y
+    LDA z:player.ticks_left_for_frames, X
     DEC A
     BNE .loc_C625CF
-    LDA z:player.current_frame,X
+    LDA z:player.current_frame, X
     INC A
-    CMP z:player.max_frame,X
+    CMP z:player.max_frame, X
     BCC .loc_C625CF
     REP #0x20
     SEC
@@ -4816,22 +4936,22 @@ advance_animation:
 
 sub_C625D3:
     SEP #0x20
-    LDA a:addr(5),Y
+    LDA a:addr(5), Y
     BEQ load_animation_frame
     REP #0x20
-    LDA z:0xC,X
+    LDA z:0xC, X
     PHA
     JSL load_animation_frame
     REP #0x20
     PLA
-    STA z:0xC,X
+    STA z:0xC, X
     CLC
     RTL
 
 load_animation_frame:
 i16
     SEP #0x20
-    LDA a:addr(word_7E0308+1) ; orig=0x0309
+    LDA a:addr(word_7E0308+1)
     BIT #0xC0
     BEQ .loc_C62601
     BIT #0x80
@@ -4840,52 +4960,52 @@ i16
 
 .loc_C625FB:
     EOR #1
-    STA a:addr(word_7E0308+1) ; orig=0x0309
+    STA a:addr(word_7E0308+1)
     RTL
 
 .loc_C62601:
-    LDA z:0xC,X
+    LDA z:0xC, X
     ASL A
     ASL A
     CLC
-    ADC z:8,X
+    ADC z:8, X
     STA z:0x50
     LDA #0
-    ADC z:9,X
+    ADC z:9, X
     STA z:0x51
-    LDA z:0xA,X
+    LDA z:0xA, X
     STA z:0x52
     LDY #1
     LDA f:[z:0x50]
-    STA z:0x53
-    LDA f:[z:0x50],Y
+    STA z:addr(far_function_pointer)
+    LDA f:[z:0x50], Y
     INY
-    STA z:0x54
-    LDA f:[z:0x50],Y
-    STA z:0x55
-    LDA f:[z:0x53]
+    STA z:addr(far_function_pointer + 1)
+    LDA f:[z:0x50], Y
+    STA z:addr(far_function_pointer + 2)
+    LDA f:[z:addr(far_function_pointer)]
     BNE .loc_C6262C
     JML .loc_C62731
 
 .loc_C6262C:
     STA z:0x4C
-    INC z:0x53
+    INC z:addr(far_function_pointer)
     BNE .loc_C62634
-    INC z:0x54
+    INC z:addr(far_function_pointer + 1)
 
 .loc_C62634:
-    LDA a:addr(word_7E0306) ; orig=0x0306
+    LDA a:addr(word_7E0306)
     STA z:0x56
-    LDA a:addr(word_7E0306+1) ; orig=0x0307
+    LDA a:addr(word_7E0306+1)
     STA z:0x57
-    LDA a:addr(word_7E0308) ; orig=0x0308
+    LDA a:addr(word_7E0308)
     STA z:0x58
     REP #0x20
-    LDA z:0x11,X
+    LDA z:0x11, X
     SEC
     SBC #8
     STA z:0x4A
-    LDA z:0x14,X
+    LDA z:0x14, X
     CLC
     ADC #0x18
     STA z:0xD3
@@ -4893,7 +5013,7 @@ i16
 
 .loc_C62657:
     STZ z:0x41
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     BPL .loc_C6265F
     DEC z:0x41
 
@@ -4907,13 +5027,13 @@ i16
     AND #1
     STA z:0x4D
     LDY #1
-    LDA f:[z:0x53],Y
+    LDA f:[z:addr(far_function_pointer)], Y
     CLC
     ADC z:0xD3
     STA f:[z:0x56]
     INC z:0x56
     STZ z:0x41
-    LDA f:[z:0x53],Y
+    LDA f:[z:addr(far_function_pointer)], Y
     STA z:0x40
     BPL .loc_C62684
     DEC z:0x41
@@ -4941,9 +5061,9 @@ i16
     INY
     LDA #0
     XBA
-    LDA f:[z:0x53],Y
+    LDA f:[z:addr(far_function_pointer)], Y
     CLC
-    ADC z:0xF,X
+    ADC z:0xF, X
     AND #0xF
     PHX
     TAX
@@ -4953,47 +5073,47 @@ i16
     INC z:0x47
 
 .loc_C626B8:
-    LDA f:byte_C307D7+0x58,X
+    LDA f:byte_C307D7+0x58, X
     PLX
     LDY #3
-    ORA f:[z:0x53],Y
+    ORA f:[z:addr(far_function_pointer)], Y
     STA f:[z:0x56]
     INC z:0x56
     INY
-    LDA f:[z:0x53],Y
+    LDA f:[z:addr(far_function_pointer)], Y
     AND #0xCF
-    ORA z:0xE,X
+    ORA z:0xE, X
     ORA z:0x47
     CLC
-    ADC z:0x1E,X
+    ADC z:0x1E, X
     STA f:[z:0x56]
-    LDA f:[z:0x53],Y
+    LDA f:[z:addr(far_function_pointer)], Y
     AND #0x20
     PHX
     TAX
-    LDA f:byte_C307D7+0x58,X
+    LDA f:byte_C307D7+0x58, X
     PLX
     ORA z:0x4D
     LDY #0x200
-    STA f:[z:0x56],Y
+    STA f:[z:0x56], Y
     INC z:0x56
-    LDA a:addr(word_7E0306) ; orig=0x0306
+    LDA a:addr(word_7E0306)
     CLC
     ADC #4
-    STA a:addr(word_7E0306) ; orig=0x0306
+    STA a:addr(word_7E0306)
     BNE .loc_C626FF
-    LDA a:addr(word_7E0306+1) ; orig=0x0307
+    LDA a:addr(word_7E0306+1)
     BIT #1
     BNE .loc_C62729
-    INC a:addr(word_7E0306+1) ; orig=0x0307
+    INC a:addr(word_7E0306+1)
     INC z:0x57
 
 .loc_C626FF:
     REP #0x20
-    LDA z:0x53
+    LDA z:addr(far_function_pointer)
     CLC
     ADC #5
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     DEC z:0x4C
     BEQ .loc_C62731
@@ -5002,28 +5122,28 @@ i16
     REP #0x20
     DEC z:0x56
     DEC z:0x56
-    LDA z:0x53
+    LDA z:addr(far_function_pointer)
     CLC
     ADC #5
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     SEP #0x20
     DEC z:0x4C
     BEQ .loc_C62731
     JMP a:addr(.loc_C62657)
 
 .loc_C62729:
-    LDA a:addr(word_7E0308+1) ; orig=0x0309
+    LDA a:addr(word_7E0308+1)
     ORA #0x80
-    STA a:addr(word_7E0308+1) ; orig=0x0309
+    STA a:addr(word_7E0308+1)
 
 .loc_C62731:
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_DEBUG_MENU
     BNE .loc_C6273F
-    LDA z:0xD,X
+    LDA z:0xD, X
     DEC A
     BEQ .loc_C62743
-    STA z:0xD,X
+    STA z:0xD, X
 
 .loc_C6273F:
     REP #0x20
@@ -5031,38 +5151,38 @@ i16
     RTL
 
 .loc_C62743:
-    LDA z:0xC,X
+    LDA z:0xC, X
     INC A
-    CMP z:0xB,X
+    CMP z:0xB, X
     BCC .loc_C62763
-    STZ z:0xC,X
-    LDA z:8,X
+    STZ z:0xC, X
+    LDA z:8, X
     STA z:0x50
-    LDA z:9,X
+    LDA z:9, X
     STA z:0x51
-    LDA z:0xA,X
+    LDA z:0xA, X
     STA z:0x52
     LDY #3
-    LDA f:[z:0x50],Y
-    STA z:0xD,X
+    LDA f:[z:0x50], Y
+    STA z:0xD, X
     REP #0x20
     SEC
     RTL
 
 .loc_C62763:
-    STA z:0xC,X
+    STA z:0xC, X
     ASL A
     ASL A
     CLC
-    ADC z:8,X
+    ADC z:8, X
     STA z:0x50
     LDA #0x7500
     ORA #0x5185
-    LDA z:0xA,X
+    LDA z:0xA, X
     STA z:0x52
     LDY #3
-    LDA f:[z:0x50],Y
-    STA z:0xD,X
+    LDA f:[z:0x50], Y
+    STA z:0xD, X
     REP #0x20
     CLC
     RTL
@@ -5076,7 +5196,7 @@ sub_C62781:
 sub_C6278B:
 i16
     SEP #0x20
-    LDA a:addr(word_7E0308+1) ; orig=0x0309
+    LDA a:addr(word_7E0308+1)
     BIT #0xC0
     BEQ .loc_C627A2
     BIT #0x80
@@ -5085,15 +5205,15 @@ i16
 
 .loc_C6279C:
     EOR #1
-    STA a:addr(word_7E0308+1) ; orig=0x0309
+    STA a:addr(word_7E0308+1)
     RTL
 
 .loc_C627A2:
-    LDA a:addr(word_7E0306) ; orig=0x0306
+    LDA a:addr(word_7E0306)
     STA z:0x56
-    LDA a:addr(word_7E0306+1) ; orig=0x0307
+    LDA a:addr(word_7E0306+1)
     STA z:0x57
-    LDA a:addr(word_7E0308) ; orig=0x0308
+    LDA a:addr(word_7E0308)
     STA z:0x58
     LDA #0xF0
     CLC
@@ -5109,7 +5229,7 @@ i16
     LDA #0
     STA z:0x47
     XBA
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     PHX
     TAX
     BIT #8
@@ -5117,81 +5237,81 @@ i16
     INC z:0x47
 
 .loc_C627D5:
-    LDA f:byte_C307D7+0x58,X
+    LDA f:byte_C307D7+0x58, X
     PLX
     LDY #3
-    ORA f:[z:0x50],Y
+    ORA f:[z:0x50], Y
     STA f:[z:0x56]
     INC z:0x56
     INY
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     AND #0xF
     ORA z:0x48
     ORA z:0x47
     STA f:[z:0x56]
     LDA #2
     LDY #0x200
-    STA f:[z:0x56],Y
-    LDA a:addr(word_7E0306) ; orig=0x0306
+    STA f:[z:0x56], Y
+    LDA a:addr(word_7E0306)
     CLC
     ADC #4
-    STA a:addr(word_7E0306) ; orig=0x0306
+    STA a:addr(word_7E0306)
     BNE .locret_C6280A
-    LDA a:addr(word_7E0306+1) ; orig=0x0307
+    LDA a:addr(word_7E0306+1)
     BIT #1
     BNE .loc_C6280B
-    INC a:addr(word_7E0306+1) ; orig=0x0307
+    INC a:addr(word_7E0306+1)
 
 .locret_C6280A:
     RTL
 
 .loc_C6280B:
-    LDA a:addr(word_7E0308+1) ; orig=0x0309
+    LDA a:addr(word_7E0308+1)
     ORA #0x80
-    STA a:addr(word_7E0308+1) ; orig=0x0309
+    STA a:addr(word_7E0308+1)
     RTL
 
 start_animation:
 i16
     SEP #0x20
     LDA f:[z:0x50]
-    STA z:player.max_frame,X
-    STZ z:player.current_frame,X
+    STA z:player.max_frame, X
+    STZ z:player.current_frame, X
     REP #0x20
     INC z:0x50
     LDA z:0x50
-    STA z:player.current_animation,X
+    STA z:player.current_animation, X
     SEP #0x20
     LDA z:0x52
-    STA z:player.current_animation+2,X
+    STA z:player.current_animation+2, X
     LDY #3
-    LDA f:[z:0x50],Y
-    STA z:player.ticks_left_for_frames,X
+    LDA f:[z:0x50], Y
+    STA z:player.ticks_left_for_frames, X
     REP #0x20
     RTL
 
 sub_C62834:
     REP #0x30
-    LDX a:addr(word_7E00A0) ; orig=0x00A0
-    CPX a:addr(word_7E00A2) ; orig=0x00A2
+    LDX a:addr(word_7E00A0)
+    CPX a:addr(word_7E00A2)
     BEQ .loc_C6288D
     SEP #0x20
     LDA z:0x6C
     BNE .loc_C6288D
-    LDA a:addr(0x80),X
+    LDA a:addr(0x80), X
     STA z:0x40
     REP #0x20
     AND #0xFF
     TAX
     SEP #0x20
-    LDA f:byte_C62896,X
+    LDA f:byte_C62896, X
     CMP z:0x6E
     BCS .loc_C6285D
     LDA z:0x6F
     BNE .loc_C62881
 
 .loc_C6285D:
-    LDA f:byte_C62896,X
+    LDA f:byte_C62896, X
     STA z:0x6E
     LDA z:0x40
     CMP z:0x70
@@ -5207,15 +5327,15 @@ sub_C62834:
 .loc_C62876:
     STA z:0x70
     STA a:addr(APU_I_O_PORT_2)
-    LDA f:byte_C628C8,X
+    LDA f:byte_C628C8, X
     STA z:0x6F
 
 .loc_C62881:
     REP #0x20
-    LDA a:addr(word_7E00A0) ; orig=0x00A0
+    LDA a:addr(word_7E00A0)
     INC A
     AND #0x1F
-    STA a:addr(word_7E00A0) ; orig=0x00A0
+    STA a:addr(word_7E00A0)
 
 .loc_C6288D:
     SEP #0x20
@@ -5255,15 +5375,15 @@ graphics_decompression_8192_bytes:
     STA z:0x48
 
 .loc_C6296F:
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     TAY
-    INC z:0x53
-    INC z:0x53
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
     SEP #0x20
-    LDA f:[z:0x53]
+    LDA f:[z:addr(far_function_pointer)]
     STA z:0x52
     REP #0x20
-    INC z:0x53
+    INC z:addr(far_function_pointer)
     JSL graphics_decompression_1024_bytes
     REP #0x20
     INC z:0x48
@@ -5275,10 +5395,10 @@ graphics_decompression_8192_bytes:
 sub_C62990:
     REP #0x20
     STZ z:0x48
-    LDA z:0x53
+    LDA z:addr(far_function_pointer)
     TAY
     SEP #0x20
-    LDA z:0x55
+    LDA z:addr(far_function_pointer + 2)
     STA z:0x52
 
 .loc_C6299D:
@@ -5296,7 +5416,7 @@ graphics_decompression_1024_bytes:
     AND #0xF
     ASL A
     TAX
-    LDA f:graphic_load_offsets,X
+    LDA f:graphic_load_offsets, X
     TAX
     SEP #0x20
     LDA z:0x52
@@ -5329,7 +5449,7 @@ graphics_decompression_128_bytes:
     LDA #8
     STA z:0x44
     STZ z:0x42
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     STA z:0x43
     INY
 
@@ -5340,12 +5460,12 @@ graphics_decompression_128_bytes:
     BRA .loc_C62A0D
 
 .loc_C62A07:
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     STA z:0x42
     INY
 
 .loc_C62A0D:
-    STA f:0x7E2800,X
+    STA f:0x7E2800, X
     INX
     INX
     DEC z:0x44
@@ -5361,9 +5481,9 @@ graphics_decompression_128_bytes:
 
 graphics_decompression_81aa_terminated_interleaved:
     REP #0x20
-    LDY z:0x53
+    LDY z:addr(far_function_pointer)
     SEP #0x20
-    LDA z:0x55
+    LDA z:addr(far_function_pointer + 2)
     PHA
     PLB
     PHX
@@ -5383,12 +5503,12 @@ graphics_decompression_81aa_terminated:
     LDA #8
     STA z:0x44
     STZ z:0x42
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     STA z:0x43
     INY
     CMP #0x81
     BNE .loc_C62A5F
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     CMP #0xAA
     BNE .loc_C62A5F
     INY
@@ -5402,12 +5522,12 @@ graphics_decompression_81aa_terminated:
     BRA .loc_C62A6D
 
 .loc_C62A67:
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     STA z:0x42
     INY
 
 .loc_C62A6D:
-    STA f:0x7E2800,X
+    STA f:0x7E2800, X
     INX
     INX
     DEC z:0x44
@@ -5446,22 +5566,22 @@ hidden_bonus_object:
     create_object sub_C62B03
     REP #0x20
     LDA f:[z:0x50]
-    STA a:addr(0x16),Y
+    STA a:addr(0x16), Y
     INC z:0x50
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:addr(0x18),Y
+    STA a:addr(0x18), Y
     INC z:0x50
     INC z:0x50
     INC z:0x50
     LDA #0
-    STA a:addr(0x20),Y
-    STA a:addr(0x22),Y
-    STA a:addr(0x24),Y
-    STA a:addr(0x26),Y
-    STA a:addr(0x28),Y
-    STA a:addr(0x2A),Y
+    STA a:addr(0x20), Y
+    STA a:addr(0x22), Y
+    STA a:addr(0x24), Y
+    STA a:addr(0x26), Y
+    STA a:addr(0x28), Y
+    STA a:addr(0x2A), Y
 
 .locret_C62B02:
     RTL
@@ -5469,26 +5589,26 @@ hidden_bonus_object:
 sub_C62B03:
 i16
     REP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE hidden_bonus_object.locret_C62B02
     LDA #bank(lives_drop_to_zero_bonus)
-    STA z:0x55
-    LDA z:0x16,X
+    STA z:addr(far_function_pointer + 2)
+    LDA z:0x16, X
     ASL A
     PHX
     TAX
-    LDA f:hidden_bonus_verifiers_array,X
-    STA z:0x53
+    LDA f:hidden_bonus_verifiers_array, X
+    STA z:addr(far_function_pointer)
     PLX
     LDY #addr(player_1)
-    JSL call_function_at_0053
+    JSL call_far_function_at_0053
     BCS .loc_C62B35
     LDY #addr(player_2)
     PHX
     INX
     INX
-    JSL call_function_at_0053
+    JSL call_far_function_at_0053
     PLX
     BCS .loc_C62B35
     RTL
@@ -5496,16 +5616,16 @@ i16
 .loc_C62B35:
     REP #0x20
     LDA #addr(.loc_C62B42)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C62B42)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C62B42:
     JSL sub_C43B6E
     BCS hidden_bonus_object.locret_C62B02
     REP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     JSL create_bonus_object
     LDY #4
     JSL play_sound
@@ -5514,11 +5634,11 @@ i16
 
 lives_drop_to_zero_bonus:
     REP #0x20
-    LDA a:addr(object.handler),Y
+    LDA a:addr(object.handler), Y
     CMP #addr(_player_death)
     BNE clear_carry
     SEP #0x20
-    LDA a:addr(0x3D),Y
+    LDA a:addr(0x3D), Y
     CMP #1
     BNE clear_carry
     ; fallthrough
@@ -5533,16 +5653,16 @@ clear_carry:
 
 dont_move_bonus:
     REP #0b100000
-    LDA a:addr(4),Y
+    LDA a:addr(4), Y
     AND #0xFF
     BEQ clear_carry
-    LDA a:addr(player.down_keys),Y
+    LDA a:addr(player.down_keys), Y
     BEQ .loc_C62B84
-    STZ z:0x20,X
+    STZ z:0x20, X
 
 .loc_C62B84:
-    INC z:0x20,X
-    LDA z:0x20,X
+    INC z:0x20, X
+    LDA z:0x20, X
     CMP #0x500
     BEQ set_carry
     CLC
@@ -5550,7 +5670,7 @@ dont_move_bonus:
 
 dont_move_on_exit_bonus:
     REP #0x20
-    LDA a:addr(4),Y
+    LDA a:addr(4), Y
     AND #0xFF
     BEQ clear_carry
     PHX
@@ -5558,15 +5678,15 @@ dont_move_on_exit_bonus:
     JSL get_object_square_index
     PLX
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     AND #BONUS_MASK
     CMP #addr(EXIT)
     BEQ .loc_C62BAE
-    STZ z:0x20,X
+    STZ z:0x20, X
 
 .loc_C62BAE:
-    INC z:0x20,X
-    LDA z:0x20,X
+    INC z:0x20, X
+    LDA z:0x20, X
     CMP #0x500
     BNE .loc_C62BBB
     JML set_carry
@@ -5577,7 +5697,7 @@ dont_move_on_exit_bonus:
 
 press_start_bonus:
     SEP #0x20
-    LDA a:addr(player.down_keys+1),Y
+    LDA a:addr(player.down_keys+1), Y
     BIT #0x10
     BNE .loc_C62BCA
     JML clear_carry
@@ -5601,7 +5721,7 @@ i16
     LDY #0x2DC
     LDA #8
     JSL verify_bomb_in_location
-    LDA z:0x20,X
+    LDA z:0x20, X
     CMP #0xF
     BEQ .loc_C62BFC
     JML clear_carry
@@ -5612,22 +5732,22 @@ i16
 
 verify_bomb_in_location:
     STA z:0x40
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     AND #EXIT|BOMB|SOFT_BLOCK|HARD_BLOCK
     CMP #addr(BOMB)
     BNE .locret_C62C0F
-    LDA z:0x20,X
+    LDA z:0x20, X
     ORA z:0x40
-    STA z:0x20,X
+    STA z:0x20, X
 
 .locret_C62C0F:
     RTL
 
 uncover_all_bonuses_bonus:
     SEP #0x20
-    LDA a:addr(level_manager_object.bonus_count) ; orig=0x0D03
+    LDA a:addr(level_manager_object.bonus_count)
     INC A
-    CMP a:addr(number_of_visible_bonuses) ; orig=0x0C91
+    CMP a:addr(number_of_visible_bonuses)
     BEQ .loc_C62C1F
     JML clear_carry
 
@@ -5644,97 +5764,97 @@ combo_of_3_bonus:
     LSR A
     TAY
     SEP #0x20
-    LDA a:addr(combo_counter),Y
+    LDA a:addr(combo_counters), Y
     CMP #3
     BCC .loc_C62C38
     JML set_carry
 
 .loc_C62C38:
-    LDA a:addr(combo_counter+1),Y
+    LDA a:addr(combo_counters+1), Y
     CMP #3
     BCC .loc_C62C43
     JML set_carry
 
 .loc_C62C43:
-    LDA a:addr(combo_counter+2),Y
+    LDA a:addr(combo_counters+2), Y
     CMP #3
     BCC .loc_C62C4E
     JML set_carry
 
 .loc_C62C4E:
-    LDA a:addr(combo_counter+3),Y
+    LDA a:addr(combo_counters+3), Y
     CMP #3
     BCC .loc_C62C59
     JML set_carry
 
 .loc_C62C59:
-    LDA a:addr(combo_counter+4),Y
+    LDA a:addr(combo_counters+4), Y
     CMP #3
     BCC .loc_C62C64
     JML set_carry
 
 .loc_C62C64:
-    LDA a:addr(combo_counter+5),Y
+    LDA a:addr(combo_counters+5), Y
     CMP #3
     BCC .loc_C62C6F
     JML set_carry
 
 .loc_C62C6F:
-    LDA a:addr(combo_counter+6),Y
+    LDA a:addr(combo_counters+6), Y
     CMP #3
     BCC .loc_C62C7A
     JML set_carry
 
 .loc_C62C7A:
-    LDA a:addr(combo_counter+7),Y
+    LDA a:addr(combo_counters+7), Y
     CMP #3
     BCC .loc_C62C85
     JML set_carry
 
 .loc_C62C85:
-    LDA a:addr(combo_counter+8),Y
+    LDA a:addr(combo_counters+8), Y
     CMP #3
     BCC .loc_C62C90
     JML set_carry
 
 .loc_C62C90:
-    LDA a:addr(combo_counter+9),Y
+    LDA a:addr(combo_counters+9), Y
     CMP #3
     BCC .loc_C62C9B
     JML set_carry
 
 .loc_C62C9B:
-    LDA a:addr(combo_counter+0xA),Y
+    LDA a:addr(combo_counters+0xA), Y
     CMP #3
     BCC .loc_C62CA6
     JML set_carry
 
 .loc_C62CA6:
-    LDA a:addr(combo_counter+0xB),Y
+    LDA a:addr(combo_counters+0xB), Y
     CMP #3
     BCC .loc_C62CB1
     JML set_carry
 
 .loc_C62CB1:
-    LDA a:addr(combo_counter+0xC),Y
+    LDA a:addr(combo_counters+0xC), Y
     CMP #3
     BCC .loc_C62CBC
     JML set_carry
 
 .loc_C62CBC:
-    LDA a:addr(combo_counter+0xD),Y
+    LDA a:addr(combo_counters+0xD), Y
     CMP #3
     BCC .loc_C62CC7
     JML set_carry
 
 .loc_C62CC7:
-    LDA a:addr(combo_counter+0xE),Y
+    LDA a:addr(combo_counters+0xE), Y
     CMP #3
     BCC .loc_C62CD2
     JML set_carry
 
 .loc_C62CD2:
-    LDA a:addr(combo_counter+0xF),Y
+    LDA a:addr(combo_counters+0xF), Y
     CMP #3
     BCC .loc_C62CDD
     JML set_carry
@@ -5745,37 +5865,37 @@ combo_of_3_bonus:
 
 spawn_enemy_bonus:
     SEP #0x20
-    LDA z:0x24,X
+    LDA z:0x24, X
     BEQ .loc_C62CE9
     JML .loc_C62CF0
 
 .loc_C62CE9:
-    INC z:0x24,X
-    LDA a:addr(level_manager_object.enemy_count) ; orig=0x0D25
-    STA z:0x20,X
+    INC z:0x24, X
+    LDA a:addr(level_manager_object.enemy_count)
+    STA z:0x20, X
 
 .loc_C62CF0:
-    LDA z:0x20,X
-    CMP a:addr(level_manager_object.enemy_count) ; orig=0x0D25
+    LDA z:0x20, X
+    CMP a:addr(level_manager_object.enemy_count)
     BCS .loc_C62CFB
     JML set_carry
 
 .loc_C62CFB:
-    LDA a:addr(level_manager_object.enemy_count) ; orig=0x0D25
-    STA z:0x20,X
+    LDA a:addr(level_manager_object.enemy_count)
+    STA z:0x20, X
     CLC
     RTL
 
 punch_5_bonus:
     REP #0x20
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     CMP #addr(punch)
     BEQ .loc_C62D10
     JML clear_carry
 
 .loc_C62D10:
-    INC z:0x20,X
-    LDA z:0x20,X
+    INC z:0x20, X
+    LDA z:0x20, X
     CMP #5
     BEQ .loc_C62D1D
     JML clear_carry
@@ -5786,7 +5906,7 @@ punch_5_bonus:
 
 bomb_hit_bonus:
     REP #0x20
-    LDA a:addr(0),Y
+    LDA a:addr(0), Y
     CMP #addr(_play_hit_by_bomb_animation)
     BNE .loc_C62D2D
     JML set_carry
@@ -5797,7 +5917,7 @@ bomb_hit_bonus:
 
 place_6_bombs_bonus:
     SEP #0x20
-    LDA a:addr(player.current_bomb_count),Y
+    LDA a:addr(player.current_bomb_count), Y
     CMP #6
     BNE .loc_C62D3C
     JML set_carry
@@ -5808,7 +5928,7 @@ place_6_bombs_bonus:
 
 score_20_bonus:
     SEP #0x20
-    LDA a:addr(player.score_digits_12),Y
+    LDA a:addr(player.score_digits_12), Y
     CMP #0x20
     BNE .loc_C62D4B
     JML set_carry
@@ -6097,14 +6217,14 @@ byte_C631A8:
     animation_frame animation_frame_C62FEE, 3
 sub_C631C1:
     REP #0x20
-    LDA z:0x11,X
+    LDA z:0x11, X
     AND #0xF0
     LSR A
     LSR A
     LSR A
     LSR A
     STA z:0x40
-    LDA z:0x14,X
+    LDA z:0x14, X
     AND #0xF0
     ADC z:0x40
     TAY
@@ -6119,47 +6239,47 @@ sub_C631D7:
 
 .loc_C631F3:
     REP #0x20
-    LDA z:0x11,X
-    STA a:addr(0x11),Y
-    LDA z:0x14,X
-    STA a:addr(0x14),Y
+    LDA z:0x11, X
+    STA a:addr(0x11), Y
+    LDA z:0x14, X
+    STA a:addr(0x14), Y
     LDA f:[z:0x50]
-    STA a:addr(0x16),Y
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:0x50]
-    STA a:addr(0x19),Y
+    STA a:addr(0x16), Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:addr(0x20),Y
+    STA a:addr(0x19), Y
+    INC z:0x50
+    INC z:0x50
+    LDA f:[z:0x50]
+    STA a:addr(0x20), Y
     INC z:0x50
     INC z:0x50
     LDA #0
-    STA a:addr(0x24),Y
+    STA a:addr(0x24), Y
     LDA #0
-    STA a:addr(0x26),Y
+    STA a:addr(0x26), Y
     LDA #0
-    STA a:addr(0x28),Y
+    STA a:addr(0x28), Y
     LDA f:[z:0x50]
     PHA
     AND #0x7FFF
-    STA a:addr(0x22),Y
+    STA a:addr(0x22), Y
     LDA #addr(byte_C62F23)
     STA z:0x50
     LDA #0xE30
-    STA a:addr(0xE),Y
+    STA a:addr(0xE), Y
     LDA #6
-    STA a:addr(0x1E),Y
+    STA a:addr(0x1E), Y
     PLA
     BIT #0x8000
     BEQ .loc_C6325D
     LDA #addr(byte_C631A8)
     STA z:0x50
     LDA #0xB30
-    STA a:addr(0xE),Y
+    STA a:addr(0xE), Y
     LDA #6
-    STA a:addr(0x1E),Y
+    STA a:addr(0x1E), Y
 
 .loc_C6325D:
     PHX
@@ -6177,8 +6297,8 @@ i16
     SEP #0x20
     handler_return_if_paused
     REP #0x20
-    LDA z:0x26,X
-    INC z:0x26,X
+    LDA z:0x26, X
+    INC z:0x26, X
     BIT #0x1F
     BNE .loc_C63292
     LDY #0x1B
@@ -6186,8 +6306,8 @@ i16
 
 .loc_C63292:
     REP #0x20
-    LDA z:0x28,X
-    INC z:0x28,X
+    LDA z:0x28, X
+    INC z:0x28, X
     BIT #0xF
     BNE .loc_C632A4
     LDY #0x15
@@ -6195,15 +6315,15 @@ i16
 
 .loc_C632A4:
     REP #0x20
-    DEC z:0x20,X
+    DEC z:0x20, X
     BNE .loc_C632AE
     JML delete_object
 
 .loc_C632AE:
-    DEC z:0x24,X
+    DEC z:0x24, X
     BPL .ret
-    LDA z:0x22,X
-    STA z:0x24,X
+    LDA z:0x22, X
+    STA z:0x24, X
     JSL sub_C632C8
     PHX
     INX
@@ -6218,7 +6338,7 @@ i16
 sub_C632C8:
     JSL fast_random
     REP #0x20
-    AND z:0x16,X
+    AND z:0x16, X
     BIT #1
     BNE .loc_C632D9
     EOR #0xFFFF
@@ -6226,8 +6346,8 @@ sub_C632C8:
 
 .loc_C632D9:
     CLC
-    ADC z:0x11,X
-    STA z:0x30,X
+    ADC z:0x11, X
+    STA z:0x30, X
     RTL
 
 sub_C632DF:
@@ -6238,20 +6358,20 @@ sub_C632DF:
     JML sub_C631C1.ret
 
 .loc_C632FD:
-    LDA z:0x30,X
-    STA a:addr(0x11),Y
-    LDA z:0x33,X
-    STA a:addr(0x14),Y
-    LDA z:8,X
-    STA a:addr(8),Y
-    LDA z:0xA,X
-    STA a:addr(0xA),Y
-    LDA z:0xC,X
-    STA a:addr(0xC),Y
-    LDA z:0xE,X
-    STA a:addr(0xE),Y
-    LDA z:0x1E,X
-    STA a:addr(0x1E),Y
+    LDA z:0x30, X
+    STA a:addr(0x11), Y
+    LDA z:0x33, X
+    STA a:addr(0x14), Y
+    LDA z:8, X
+    STA a:addr(8), Y
+    LDA z:0xA, X
+    STA a:addr(0xA), Y
+    LDA z:0xC, X
+    STA a:addr(0xC), Y
+    LDA z:0xE, X
+    STA a:addr(0xE), Y
+    LDA z:0x1E, X
+    STA a:addr(0x1E), Y
     RTL
 
 sub_C63321:
@@ -6270,15 +6390,15 @@ create_enemy_explosion:
 
 .loc_C63348:
     REP #0x20
-    LDA z:enemy.x_position,X
-    STA a:addr(enemy.x_position),Y
-    LDA z:enemy.y_position,X
-    STA a:addr(enemy.y_position),Y
+    LDA z:enemy.x_position, X
+    STA a:addr(enemy.x_position), Y
+    LDA z:enemy.y_position, X
+    STA a:addr(enemy.y_position), Y
     LDA z:0x46
-    STA a:addr(enemy.animation),Y
+    STA a:addr(enemy.animation), Y
     SEP #0x20
-    LDA z:enemy.flags,X
-    STA a:addr(enemy.flags),Y
+    LDA z:enemy.flags, X
+    STA a:addr(enemy.flags), Y
     RTL
 
 enemy_explosion:
@@ -6287,11 +6407,11 @@ i16
     JSL play_sound
     SEP #0x20
     LDA #6
-    STA z:enemy.effective_palette,X
+    STA z:enemy.effective_palette, X
     LDA #0xE
-    STA z:enemy.palette+1,X
+    STA z:enemy.palette+1, X
     LDA #0x30
-    STA z:enemy.palette,X
+    STA z:enemy.palette, X
     REP #0x20
     LDA #addr(byte_C62E99)
     STA z:0x50
@@ -6302,10 +6422,10 @@ i16
     JSL start_animation
     REP #0x20
     LDA #addr(_enemy_explosion)
-    STA z:object.handler,X
+    STA z:object.handler, X
     SEP #0x20
     LDA #bank(_enemy_explosion)
-    STA z:object.handler+2,X
+    STA z:object.handler+2, X
 
 _enemy_explosion:
     SEP #0x20
@@ -6313,7 +6433,7 @@ _enemy_explosion:
     JSL advance_animation
     BCC .ret
     SEP #0x20
-    LDA z:enemy.flags,X
+    LDA z:enemy.flags, X
     BIT #4
     BNE .loc_C633BB
     JSL create_score_popup
@@ -6327,21 +6447,21 @@ _enemy_explosion:
 kill_enemy:
     SEP #0x20
     LDA #0x20
-    STA z:0x20,X
+    STA z:0x20, X
     LDA #0
-    STA z:enemy.hits_left_for_direction_switch,X
-    LDA a:addr(collision_map+1),Y
-    STA z:enemy.flags,X
+    STA z:enemy.hits_left_for_direction_switch, X
+    LDA a:addr(collision_map+1), Y
+    STA z:enemy.flags, X
     REP #0x20
     LDA #addr(_kill_enemy)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(_kill_enemy)
-    STA z:2,X
+    STA z:2, X
 
 _kill_enemy:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BEQ .loc_C633E9
     JML .locret_C63455
@@ -6356,18 +6476,18 @@ _kill_enemy:
     JML .loc_C63406
 
 .loc_C63402:
-    DEC z:enemy.direction,X
+    DEC z:enemy.direction, X
     BEQ .loc_C63417
 
 .loc_C63406:
     LDA #0xE
-    STA z:enemy.effective_palette,X
-    LDA z:enemy.hits_left_for_direction_switch,X
+    STA z:enemy.effective_palette, X
+    LDA z:enemy.hits_left_for_direction_switch, X
     EOR #1
-    STA z:enemy.hits_left_for_direction_switch,X
+    STA z:enemy.hits_left_for_direction_switch, X
     BNE .locret_C63455
-    LDA z:enemy.real_palette,X
-    STA z:enemy.effective_palette,X
+    LDA z:enemy.real_palette, X
+    STA z:enemy.effective_palette, X
     RTL
 
 .loc_C63417:
@@ -6376,26 +6496,26 @@ _kill_enemy:
     REP #0x20
     JSL get_object_square_index
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     AND #BONUS_MASK|BOMB|SOFT_BLOCK|HARD_BLOCK|0x100
     BNE .loc_C63439
-    LDA z:enemy.carried_bonus,X
+    LDA z:enemy.carried_bonus, X
     AND #0x1F
     BEQ .loc_C63439
     JSL create_bonus_object
 
 .loc_C63439:
     REP #0x20
-    LDA z:enemy.unknown_3a,X
+    LDA z:enemy.unknown_3a, X
     STA z:0x50
-    LDA z:0x3B,X
+    LDA z:0x3B, X
     STA z:0x51
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
     ORA #0x10
     STA f:[z:0x50]
-    DEC a:addr(level_manager_object.enemy_count) ; orig=0x0D25
+    DEC a:addr(level_manager_object.enemy_count)
     JSL delete_object
 .locret_C63455:
     RTL
@@ -6404,7 +6524,7 @@ calculate_score_for_enemy:
     REP #0x20
     LDA #0
     STA z:0x40
-    LDA z:enemy.flags,X
+    LDA z:enemy.flags, X
     BIT #4
     BNE .locret_C63494
     BIT #2
@@ -6413,7 +6533,7 @@ calculate_score_for_enemy:
     STA z:0x40
 
 .loc_C6346E:
-    LDA z:enemy.flags,X
+    LDA z:enemy.flags, X
     AND #0xF0
     LSR A
     LSR A
@@ -6422,7 +6542,7 @@ calculate_score_for_enemy:
     ORA z:0x40
     TAY
     SEP #0x20
-    LDA a:addr(combo_counter),Y
+    LDA a:addr(combo_counters), Y
     CMP #4
     BCC .loc_C63485
     LDA #4
@@ -6430,8 +6550,8 @@ calculate_score_for_enemy:
 .loc_C63485:
     STA z:0x46
     INC A
-    STA a:addr(combo_counter),Y
-    LDA z:enemy.score_index,X
+    STA a:addr(combo_counters), Y
+    LDA z:enemy.score_index, X
     CLC
     ADC z:0x46
     STA z:0x46
@@ -6445,16 +6565,16 @@ test_collision_mask_for_enemy_next_square:
     LDA #bank(test_collision_above)
     STA z:0x52
     LDA #bank(test_collision_above)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     REP #0x20
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     AND #0xFF
     ASL A
     CLC
     ADC #addr(test_collision_funtions)
     STA z:0x50
     LDA f:[z:0x50]
-    STA z:0x53
+    STA z:addr(far_function_pointer)
     JML [0x53]
 
     RTI
@@ -6469,12 +6589,12 @@ i16
 
 .loc_C634C2:
     SEP #0x20
-    LDA a:addr(3),Y
+    LDA a:addr(3), Y
     BIT #1
     BEQ .loc_C634EB
-    LDA a:enemy.x_position,Y
+    LDA a:enemy.x_position, Y
     SEC
-    SBC z:enemy.x_position,X
+    SBC z:enemy.x_position, X
     BCS .loc_C634D6
     EOR #0xFF
     INC A
@@ -6482,9 +6602,9 @@ i16
 .loc_C634D6:
     CMP #0x10
     BCS .loc_C634EB
-    LDA a:enemy.y_position,Y
+    LDA a:enemy.y_position, Y
     SEC
-    SBC z:enemy.y_position,X
+    SBC z:enemy.y_position, X
     BCS .loc_C634E5
     EOR #0xFF
     INC A
@@ -6497,7 +6617,7 @@ i16
 
 .loc_C634EB:
     REP #0x20
-    LDA a:enemy.next,Y
+    LDA a:enemy.next, Y
     TAY
     CMP z:0x50
     BEQ .loc_C634EB
@@ -6513,12 +6633,12 @@ i16
 
 .loc_C63501:
     SEP #0x20
-    LDA a:addr(4),Y
+    LDA a:addr(4), Y
     BIT #1
     BEQ .loc_C6352F
-    LDA a:addr(0x11),Y
+    LDA a:addr(0x11), Y
     SEC
-    SBC z:0x11,X
+    SBC z:0x11, X
     BCS .loc_C63515
     EOR #0xFF
     INC A
@@ -6526,9 +6646,9 @@ i16
 .loc_C63515:
     CMP z:0x41
     BCS .loc_C6352F
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     SEC
-    SBC z:0x14,X
+    SBC z:0x14, X
     BCS .loc_C63524
     EOR #0xFF
     INC A
@@ -6538,7 +6658,7 @@ i16
     BCS .loc_C6352F
     SEP #0x20
     LDA #1
-    STA a:addr(0x2F),Y
+    STA a:addr(0x2F), Y
 
 .loc_C6352F:
     REP #0x20
@@ -6556,15 +6676,15 @@ i16
     LDY #addr(player_1)
 
 .loc_C63542:
-    LDA a:addr(4),Y
+    LDA a:addr(4), Y
     BIT #0xFF
     BEQ .loc_C63593
     LDA z:0x42
     AND #0xFF
     STA z:0x46
-    LDA a:addr(0x11),Y
+    LDA a:addr(0x11), Y
     SEC
-    SBC z:0x11,X
+    SBC z:0x11, X
     BCS .loc_C63566
     EOR #0xFFFF
     INC A
@@ -6580,9 +6700,9 @@ i16
     LDA z:0x44
     AND #0xFF
     STA z:0x46
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     SEC
-    SBC z:0x14,X
+    SBC z:0x14, X
     BCS .loc_C63586
     EOR #0xFFFF
     INC A
@@ -6595,9 +6715,9 @@ i16
 .loc_C63586:
     CMP z:0x46
     BCS .loc_C63593
-    LDA a:addr(0x2F),Y
+    LDA a:addr(0x2F), Y
     ORA #1
-    STA a:addr(0x2F),Y
+    STA a:addr(0x2F), Y
 
 .loc_C63593:
     TYA
@@ -6610,14 +6730,14 @@ i16
 
 sub_C6359F:
     SEP #0x20
-    LDA a:addr(4),Y
+    LDA a:addr(4), Y
     BIT #1
     BEQ .loc_C635DE
     LDA z:0x42
     STA z:0x41
-    LDA a:addr(0x11),Y
+    LDA a:addr(0x11), Y
     SEC
-    SBC z:0x11,X
+    SBC z:0x11, X
     BCS .loc_C635BD
     PHA
     LDA z:0x43
@@ -6631,9 +6751,9 @@ sub_C6359F:
     BCS .loc_C635DE
     LDA z:0x44
     STA z:0x40
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     SEC
-    SBC z:0x14,X
+    SBC z:0x14, X
     BCS .loc_C635D6
     PHA
     LDA z:0x45
@@ -6664,9 +6784,9 @@ sub_C635EA:
     SEP #0x20
     LDA #1
     STA z:0x44
-    LDA a:addr(0x11),Y
+    LDA a:addr(0x11), Y
     SEC
-    SBC z:0x11,X
+    SBC z:0x11, X
     BCS .locret_C635FC
     LDA #3
     STA z:0x44
@@ -6678,9 +6798,9 @@ sub_C635FD:
     SEP #0x20
     LDA #2
     STA z:0x44
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     SEC
-    SBC z:0x14,X
+    SBC z:0x14, X
     BCS .locret_C6360D
     STZ z:0x44
 
@@ -6690,8 +6810,8 @@ sub_C635FD:
 straight_movement:
     SEP #0x20
     LDA #bank(vectors_for_speed_and_direction)
-    STA z:0x55
-    LDA z:enemy.speed,X
+    STA z:addr(far_function_pointer + 2)
+    LDA z:enemy.speed, X
     REP #0x20
     AND #0xFF
     ASL A
@@ -6699,19 +6819,19 @@ straight_movement:
     ASL A
     ASL A
     STA z:0x40
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     AND #0xF
     ASL A
     ASL A
     CLC
     ADC #addr(vectors_for_speed_and_direction)
     ADC z:0x40
-    STA z:0x53
-    LDA z:enemy.fractional_x,X
+    STA z:addr(far_function_pointer)
+    LDA z:enemy.fractional_x, X
     PHA
-    LDA z:enemy.fractional_y,X
+    LDA z:enemy.fractional_y, X
     PHA
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     BIT #1
     BNE .loc_C63643
     JSL straighten_x
@@ -6722,16 +6842,16 @@ straight_movement:
 
 .loc_C63647:
     REP #0x20
-    LDA z:enemy.fractional_x,X
+    LDA z:enemy.fractional_x, X
     CLC
-    ADC f:[z:0x53]
-    STA z:enemy.fractional_x,X
-    INC z:0x53
-    INC z:0x53
-    LDA z:enemy.fractional_y,X
+    ADC f:[z:addr(far_function_pointer)]
+    STA z:enemy.fractional_x, X
+    INC z:addr(far_function_pointer)
+    INC z:addr(far_function_pointer)
+    LDA z:enemy.fractional_y, X
     CLC
-    ADC f:[z:0x53]
-    STA z:enemy.fractional_y,X
+    ADC f:[z:addr(far_function_pointer)]
+    STA z:enemy.fractional_y, X
     JSL check_for_enemy_with_enemy_collision
     REP #0x20
     BCS .loc_C63667
@@ -6742,19 +6862,19 @@ straight_movement:
 
 .loc_C63667:
     PLA
-    STA z:enemy.fractional_y,X
+    STA z:enemy.fractional_y, X
     PLA
-    STA z:enemy.fractional_x,X
+    STA z:enemy.fractional_x, X
     JSL fast_random
     SEP #0x20
     AND #3
-    CMP z:enemy.direction,X
+    CMP z:enemy.direction, X
     BNE .loc_C63681
 
 .loc_C63679:
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     EOR #2
-    STA z:enemy.direction,X
+    STA z:enemy.direction, X
     SEC
     RTL
 
@@ -6765,42 +6885,42 @@ straight_movement:
     SEC
     RTL
 
-    LDA z:0x20,X
+    LDA z:0x20, X
     INC A
     AND #3
-    STA z:0x20,X
+    STA z:0x20, X
     SEC
     RTL
     JMP a:addr(sub_C63818)
     
 straighten_x:
     SEP #0x20
-    LDA z:enemy.x_position,X
+    LDA z:enemy.x_position, X
     AND #0xF
     CMP #8
     BEQ .locret_C636A8
     BCC .loc_C636A6
-    DEC z:enemy.x_position,X
+    DEC z:enemy.x_position, X
     RTL
 
 .loc_C636A6:
-    INC z:enemy.x_position,X
+    INC z:enemy.x_position, X
 
 .locret_C636A8:
     RTL
 
 straighten_y:
     SEP #0x20
-    LDA z:enemy.y_position,X
+    LDA z:enemy.y_position, X
     AND #0xF
     CMP #8
     BEQ .locret_C636BA
     BCC .loc_C636B8
-    DEC z:enemy.y_position,X
+    DEC z:enemy.y_position, X
     RTL
 
 .loc_C636B8:
-    INC z:enemy.y_position,X
+    INC z:enemy.y_position, X
 
 .locret_C636BA:
     RTL
@@ -6815,7 +6935,7 @@ sub_C6370B:
     REP #0x20
     LDA z:0x42
     CLC
-    ADC z:0x11,X
+    ADC z:0x11, X
     AND #0x1F0
     LSR A
     LSR A
@@ -6823,7 +6943,7 @@ sub_C6370B:
     STA z:0x40
     LDA z:0x44
     CLC
-    ADC z:0x14,X
+    ADC z:0x14, X
     AND #0xF0
     ASL A
     ASL A
@@ -6857,7 +6977,7 @@ sub_C6370B:
 .loc_C6374F:
     CPY #0x2DE
     BCS .loc_C6375B
-    LDA a:addr(collision_map + 1),Y
+    LDA a:addr(collision_map + 1), Y
     BIT #1
     BNE .loc_C63772
 
@@ -6896,16 +7016,16 @@ wanderer_movement:
 
 .loc_C6378F:
     SEP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     STA z:0x52
-    LDA z:enemy.direction,X
-    CMP z:enemy.animation_direction,X
+    LDA z:enemy.direction, X
+    CMP z:enemy.animation_direction, X
     BEQ .locret_C637AF
-    STA z:enemy.animation_direction,X
+    STA z:enemy.animation_direction, X
     REP #0x20
     AND #0xFF
     ASL A
-    ADC z:enemy.animation,X
+    ADC z:enemy.animation, X
     STA z:0x50
     LDA f:[z:0x50]
     STA z:0x50
@@ -6916,9 +7036,9 @@ wanderer_movement:
 
 random_wanderer_movement:
     SEP #0x20
-    DEC z:0x21,X
+    DEC z:0x21, X
     BNE .loc_C637CF
-    INC z:0x21,X
+    INC z:0x21, X
     JSL is_object_aligned
     BCS .loc_C637CF
     JSL fast_random
@@ -6926,7 +7046,7 @@ random_wanderer_movement:
     AND #0x3F
     CLC
     ADC #0x10
-    STA z:0x21,X
+    STA z:0x21, X
     JSL sub_C6382F
 
 .loc_C637CF:
@@ -6941,16 +7061,16 @@ random_wanderer_movement:
 
 .loc_C637E6:
     SEP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     STA z:0x52
-    LDA z:0x20,X
-    CMP z:0x22,X
+    LDA z:0x20, X
+    CMP z:0x22, X
     BEQ .locret_C63806
-    STA z:0x22,X
+    STA z:0x22, X
     REP #0x20
     AND #0xFF
     ASL A
-    ADC z:0x16,X
+    ADC z:0x16, X
     STA z:0x50
     LDA f:[z:0x50]
     STA z:0x50
@@ -6961,36 +7081,36 @@ random_wanderer_movement:
 
 enemy_hit_deadend:
     SEP #0x20
-    DEC z:enemy.hits_left_for_direction_switch,X
+    DEC z:enemy.hits_left_for_direction_switch, X
     BNE .loc_C63811
     JML sub_C63818
 
 .loc_C63811:
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     EOR #2
-    STA z:enemy.direction,X
+    STA z:enemy.direction, X
     RTL
 
 sub_C63818:
     SEP #0x20
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     INC A
     AND #3
-    STA z:enemy.direction,X
+    STA z:enemy.direction, X
     JSL fast_random
     SEP #0x20
     AND #3
     INC A
     INC A
     INC A
-    STA z:enemy.hits_left_for_direction_switch,X
+    STA z:enemy.hits_left_for_direction_switch, X
     RTL
 
 sub_C6382F:
     JSL fast_random
     SEP #0x20
     AND #3
-    STA z:0x20,X
+    STA z:0x20, X
     RTL
 
 follower_movement:
@@ -6998,7 +7118,7 @@ follower_movement:
     JSL is_object_aligned
     BCC .loc_C6388E
     REP #0x20
-    LDA z:enemy.collision_mask,X
+    LDA z:enemy.collision_mask, X
     STA z:0x42
     JSL test_collision_mask_for_enemy_next_square
     BEQ .loc_C63852
@@ -7010,16 +7130,16 @@ follower_movement:
 
 .loc_C6385C:
     SEP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     STA z:0x52
-    LDA z:enemy.direction,X
-    CMP z:enemy.animation_direction,X
+    LDA z:enemy.direction, X
+    CMP z:enemy.animation_direction, X
     BEQ .locret_C6387C
-    STA z:enemy.animation_direction,X
+    STA z:enemy.animation_direction, X
     REP #0x20
     AND #0xFF
     ASL A
-    ADC z:enemy.animation,X
+    ADC z:enemy.animation, X
     STA z:0x50
     LDA f:[z:0x50]
     STA z:0x50
@@ -7030,9 +7150,9 @@ follower_movement:
 
 .loc_C6387D:
     SEP #0x20
-    INC z:enemy.hits_left_for_direction_switch,X
+    INC z:enemy.hits_left_for_direction_switch, X
     REP #0x20
-    LDA z:enemy.collision_mask,X
+    LDA z:enemy.collision_mask, X
     STA z:0x42
     JSL test_collision_mask_for_enemy_next_square
     BEQ .loc_C63852
@@ -7041,10 +7161,10 @@ follower_movement:
 .loc_C6388E:
     JSL follower_movement_2
     SEP #0x20
-    LDA z:enemy.hits_left_for_direction_switch,X
+    LDA z:enemy.hits_left_for_direction_switch, X
     BEQ .loc_C6387D
-    STZ z:enemy.hits_left_for_direction_switch,X
-    LDA z:0x20,X
+    STZ z:enemy.hits_left_for_direction_switch, X
+    LDA z:0x20, X
     BIT #1
     BNE .loc_C638A8
     JSL sub_C635EA
@@ -7056,22 +7176,22 @@ follower_movement:
     BEQ .loc_C638C6
 
 .loc_C638AE:
-    LDA z:0x20,X
+    LDA z:0x20, X
     PHA
     LDA z:0x44
-    STA z:enemy.direction,X
+    STA z:enemy.direction, X
     REP #0x20
-    LDA z:enemy.collision_mask,X
+    LDA z:enemy.collision_mask, X
     STA z:0x42
     JSL test_collision_mask_for_enemy_next_square
     SEP #0x20
     BEQ .loc_C638E0
     PLA
-    STA z:enemy.direction,X
+    STA z:enemy.direction, X
 
 .loc_C638C6:
     REP #0x20
-    LDA z:enemy.collision_mask,X
+    LDA z:enemy.collision_mask, X
     STA z:0x42
     JSL test_collision_mask_for_enemy_next_square
     BNE .loc_C638D6
@@ -7079,10 +7199,10 @@ follower_movement:
 
 .loc_C638D6:
     SEP #0x20
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     INC A
     AND #3
-    STA z:enemy.direction,X
+    STA z:enemy.direction, X
     RTL
 
 .loc_C638E0:
@@ -7104,16 +7224,16 @@ missle_movement:
 
 .loc_C638FF:
     SEP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     STA z:0x52
-    LDA z:0x20,X
-    CMP z:0x22,X
+    LDA z:0x20, X
+    CMP z:0x22, X
     BEQ .locret_C6391F
-    STA z:0x22,X
+    STA z:0x22, X
     REP #0x20
     AND #0xFF
     ASL A
-    ADC z:0x16,X
+    ADC z:0x16, X
     STA z:0x50
     LDA f:[z:0x50]
     STA z:0x50
@@ -7126,19 +7246,19 @@ missle_movement:
     REP #0x20
     BIT #0x20
     BEQ sub_C63983
-    LDA z:0x20,X
+    LDA z:0x20, X
     PHA
     AND #0xFF
     PHX
     TAX
     SEP #0x20
-    LDA f:byte_C63943,X
+    LDA f:byte_C63943, X
     PLX
-    STA z:0x20,X
+    STA z:0x20, X
     JSL sub_C41D24
     REP #0x20
     PLA
-    STA z:0x20,X
+    STA z:0x20, X
     BRA .loc_C638F5
 byte_C63943:
     db 8, 1, 4, 2
@@ -7158,16 +7278,16 @@ wanderer_movement2:
 
 .loc_C63962:
     SEP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     STA z:0x52
-    LDA z:0x20,X
-    CMP z:0x22,X
+    LDA z:0x20, X
+    CMP z:0x22, X
     BEQ .locret_C63982
-    STA z:0x22,X
+    STA z:0x22, X
     REP #0x20
     AND #0xFF
     ASL A
-    ADC z:0x16,X
+    ADC z:0x16, X
     STA z:0x50
     LDA f:[z:0x50]
     STA z:0x50
@@ -7179,7 +7299,7 @@ wanderer_movement2:
 sub_C63983:
     JSL follower_movement_2
     SEP #0x20
-    LDA z:0x20,X
+    LDA z:0x20, X
     BIT #1
     BNE .loc_C63997
     JSL sub_C635EA
@@ -7191,10 +7311,10 @@ sub_C63983:
     BEQ .loc_C639B6
 
 .loc_C6399D:
-    LDA z:0x20,X
+    LDA z:0x20, X
     PHA
     LDA z:0x44
-    STA z:0x20,X
+    STA z:0x20, X
     REP #0x20
     LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
     STA z:0x42
@@ -7202,13 +7322,13 @@ sub_C63983:
     SEP #0x20
     BEQ .loc_C639BE
     PLA
-    STA z:0x20,X
+    STA z:0x20, X
 
 .loc_C639B6:
-    LDA z:0x20,X
+    LDA z:0x20, X
     INC A
     AND #3
-    STA z:0x20,X
+    STA z:0x20, X
     RTL
 
 .loc_C639BE:
@@ -7219,25 +7339,25 @@ follower_movement_2:
 i16
     REP #0x20
     LDY #addr(player_2)
-    LDA a:addr(player_1.unknown_flags) ; orig=0x0D44
+    LDA a:addr(player_1.unknown_flags)
     AND #0xFF
     BEQ .locret_C63A1B
     LDY #addr(player_1)
-    LDA a:addr(player_2.unknown_flags) ; orig=0x0D84
+    LDA a:addr(player_2.unknown_flags)
     AND #0xFF
     BEQ .locret_C63A1B
-    LDA z:enemy.x_position,X
+    LDA z:enemy.x_position, X
     SEC
-    SBC a:addr(player_1.x_position) ; orig=0x0D51
+    SBC a:addr(player_1.x_position)
     BPL .loc_C639E4
     EOR #0xFFFF
     INC A
 
 .loc_C639E4:
     STA z:0x40
-    LDA z:enemy.y_position,X
+    LDA z:enemy.y_position, X
     SEC
-    SBC a:addr(player_1.y_position) ; orig=0x0D54
+    SBC a:addr(player_1.y_position)
     BPL .loc_C639F2
     EOR #0xFFFF
     INC A
@@ -7246,18 +7366,18 @@ i16
     CLC
     ADC z:0x40
     STA z:0x42
-    LDA z:enemy.x_position,X
+    LDA z:enemy.x_position, X
     SEC
-    SBC a:addr(player_2.x_position) ; orig=0x0D91
+    SBC a:addr(player_2.x_position)
     BPL .loc_C63A03
     EOR #0xFFFF
     INC A
 
 .loc_C63A03:
     STA z:0x40
-    LDA z:enemy.y_position,X
+    LDA z:enemy.y_position, X
     SEC
-    SBC a:addr(player_2.y_position) ; orig=0x0D94
+    SBC a:addr(player_2.y_position)
     BPL .loc_C63A11
     EOR #0xFFFF
     INC A
@@ -7288,17 +7408,17 @@ pakupa_is_bomb_in_direction:
     CLC
     ADC z:0x40
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #SOFT_BLOCK|HARD_BLOCK
     BNE .loc_C63A55
     BIT #BOMB
     BNE .loc_C63A57
-    LDA a:addr(debug_vs_check) ; orig=0x00B4 ; Color the tiles if debug_vs_check is on
+    LDA a:addr(debug_vs_check)
     AND #0xFF
     BEQ .loc_C63A51
-    LDA a:addr(bg1_tilemap),Y
+    LDA a:addr(bg1_tilemap), Y
     ORA #0x200
-    STA a:addr(bg1_tilemap),Y
+    STA a:addr(bg1_tilemap), Y
 
 .loc_C63A51:
     DEC z:0x42
@@ -7321,21 +7441,21 @@ pakupa_is_bomb_in_line_of_sight:
     REP #0x20
     LDA #0
     STA z:0x44
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     PHA
 
 .loc_C63A6B:
     SEP #0x20
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     AND #3
-    STA z:enemy.direction,X
-    INC z:enemy.direction,X
+    STA z:enemy.direction, X
+    INC z:enemy.direction, X
     REP #0x20
     AND #0xFF
     ASL A
     PHX
     TAX
-    LDA f:line_of_sight_offsets,X
+    LDA f:line_of_sight_offsets, X
     PLX
     STA z:0x40
     JSL pakupa_is_bomb_in_direction
@@ -7345,13 +7465,13 @@ pakupa_is_bomb_in_line_of_sight:
     CMP #4
     BNE .loc_C63A6B
     PLA
-    STA z:enemy.direction,X
+    STA z:enemy.direction, X
     CLC
     RTL
 
 .loc_C63A98:
     PLA
-    DEC z:enemy.direction,X
+    DEC z:enemy.direction, X
     SEC
     RTL
 
@@ -7372,16 +7492,16 @@ pakupa_movement:
 
 .loc_C63ABE:
     SEP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     STA z:0x52
-    LDA z:enemy.direction,X
-    CMP z:enemy.animation_direction,X
+    LDA z:enemy.direction, X
+    CMP z:enemy.animation_direction, X
     BEQ nullsub_C63ADE
-    STA z:enemy.animation_direction,X
+    STA z:enemy.animation_direction, X
     REP #0x20
     AND #0xFF
     ASL A
-    ADC z:enemy.animation,X
+    ADC z:enemy.animation, X
     STA z:0x50
     LDA f:[z:0x50]
     STA z:0x50
@@ -7394,7 +7514,7 @@ nullsub_C63ADE:
 kuwagen_movement:
 i16
     REP #0x20
-    LDA z:enemy.speed,X
+    LDA z:enemy.speed, X
     PHA
     LDY #addr(player_1)
     JSL is_in_line_of_sight
@@ -7403,14 +7523,14 @@ i16
     JSL is_in_line_of_sight
     BCC .loc_C63B39
     REP #0x20
-    STZ z:0x30,X
+    STZ z:0x30, X
     LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
     STA z:0x42
     JSL test_collision_mask_for_enemy_next_square
     BEQ .loc_C63B0D
     REP #0x20
     PLA
-    STA z:0x19,X
+    STA z:0x19, X
     JMP a:addr(enemy_hit_deadend)
 
 .loc_C63B0D:
@@ -7419,16 +7539,16 @@ i16
 
 .loc_C63B13:
     SEP #0x20
-    LDA z:0x18,X
+    LDA z:0x18, X
     STA z:0x52
-    LDA z:0x20,X
-    CMP z:0x22,X
+    LDA z:0x20, X
+    CMP z:0x22, X
     BEQ .loc_C63B33
-    STA z:0x22,X
+    STA z:0x22, X
     REP #0x20
     AND #0xFF
     ASL A
-    ADC z:0x16,X
+    ADC z:0x16, X
     STA z:0x50
     LDA f:[z:0x50]
     STA z:0x50
@@ -7437,34 +7557,34 @@ i16
 .loc_C63B33:
     REP #0x20
     PLA
-    STA z:0x19,X
+    STA z:0x19, X
     RTL
 
 .loc_C63B39:
     SEP #0x20
-    LDA z:enemy.direction,X
+    LDA z:enemy.direction, X
     BIT #1
     BNE .loc_C63B4B
-    LDA z:enemy.x_position,X
+    LDA z:enemy.x_position, X
     AND #0xF
     CMP #8
     BNE .loc_C63B0D
     BRA .loc_C63B53
 
 .loc_C63B4B:
-    LDA z:enemy.y_position,X
+    LDA z:enemy.y_position, X
     AND #0xF
     CMP #8
     BNE .loc_C63B0D
 
 .loc_C63B53:
     REP #0x20
-    INC z:enemy.field_30,X
-    LDA z:enemy.field_30,X
+    INC z:enemy.field_30, X
+    LDA z:enemy.field_30, X
     CMP #0x20
     BNE .loc_C63B13
-    DEC z:enemy.field_30,X
-    INC z:enemy.speed,X
+    DEC z:enemy.field_30, X
+    INC z:enemy.speed, X
     BRA .loc_C63B0D
 
 is_in_line_of_sight:
@@ -7473,7 +7593,7 @@ is_in_line_of_sight:
     STA z:0x42
     LDA #0xC0C
     STA z:0x44
-    LDA z:0x20,X
+    LDA z:0x20, X
     BIT #1
     BNE .loc_C63B81
     LDA #0xC0C
@@ -7498,12 +7618,12 @@ is_in_line_of_sight:
     SEP #0x20
     LDA z:0x44
     EOR #2
-    CMP z:0x20,X
+    CMP z:0x20, X
     BEQ .loc_C63BBE
-    LDA z:0x20,X
+    LDA z:0x20, X
     STA z:0x45
     LDA z:0x44
-    STA z:0x20,X
+    STA z:0x20, X
     REP #0x20
     LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
     STA z:0x42
@@ -7513,7 +7633,7 @@ is_in_line_of_sight:
 
 .loc_C63BBA:
     LDA z:0x45
-    STA z:0x20,X
+    STA z:0x20, X
 .loc_C63BBE:
     SEC
     RTL
@@ -7533,12 +7653,12 @@ is_in_line_of_sight:
     SEP #0x20
     LDA z:0x44
     EOR #2
-    CMP z:0x20,X
+    CMP z:0x20, X
     BEQ .loc_C63BBE
-    LDA z:0x20,X
+    LDA z:0x20, X
     STA z:0x45
     LDA z:0x44
-    STA z:0x20,X
+    STA z:0x20, X
     REP #0x20
     LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
     STA z:0x42
@@ -7552,20 +7672,20 @@ is_in_line_of_sight:
 
 sub_C63BF9:
     REP #0x20
-    LDA z:0x11,X
+    LDA z:0x11, X
     CLC
     ADC #0x200
     STA z:0x48
-    LDA z:0x14,X
+    LDA z:0x14, X
     CLC
     ADC #0x200
     STA z:0x4A
-    LDA a:addr(0x11),Y
+    LDA a:addr(0x11), Y
     AND #0xFF
     CLC
     ADC #0x200
     STA z:0x4C
-    LDA a:addr(0x14),Y
+    LDA a:addr(0x14), Y
     CLC
     ADC #0x200
     STA z:0x4E
@@ -10051,53 +10171,32 @@ create_metal_kuwagen:
 
 .loc_C658E6:
     LDA #1
-    STA a:addr(enemy.hitpoints_left),Y
+    STA a:addr(enemy.hitpoints_left), Y
     LDA #2
-    STA a:addr(enemy.direction),Y
+    STA a:addr(enemy.direction), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(enemy.x_position),Y
+    STA a:addr(enemy.x_position), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(enemy.y_position),Y
+    STA a:addr(enemy.y_position), Y
     LDA z:0x5F
-    STA a:addr(enemy.unknown_3a),Y
+    STA a:addr(enemy.unknown_3a), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(enemy.carried_bonus),Y
+    STA a:addr(enemy.carried_bonus), Y
     LDA #0x30
-    STA a:addr(enemy.palette),Y
-    LDA a:addr(3),Y
+    STA a:addr(enemy.palette), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(kuwagen_graphic_pointers)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(kuwagen_graphic_pointers)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(enemy.palette+1),Y
-    SEP #0x20
-    LDA #addr(METAL_KUWAGEN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(player.effective_palette),Y
-    STA a:addr(player.real_palette),Y
+    STA a:addr(3), Y
+    allocate_object_graphics kuwagen_graphic_pointers, 2
+    allocate_object_palette METAL_KUWAGEN_PALETTE
     RTL
 
 create_kuwagen:
@@ -10107,60 +10206,39 @@ create_kuwagen:
     REP #0x20
     BCS create_enemy_ret
     LDA #0
-    STA a:addr(enemy.hitpoints_left),Y
+    STA a:addr(enemy.hitpoints_left), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(kuwagen_graphic_pointers)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(kuwagen_graphic_pointers)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(KUWAGEN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(player.effective_palette),Y
-    STA a:addr(player.real_palette),Y
+    STA a:addr(3), Y
+    allocate_object_graphics kuwagen_graphic_pointers, 2
+    allocate_object_palette KUWAGEN_PALETTE
 create_enemy_ret:
     RTL
 
 kuwagen:
     REP #0x20
     LDA #0
-    STA z:0x30,X
+    STA z:0x30, X
     LDA #addr(byte_C63EB8)
     STA z:0x50
     SEP #0x20
@@ -10170,29 +10248,29 @@ kuwagen:
     JSL start_animation
     REP #0x20
     LDA #addr(off_C67D03)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D03)
-    STA z:0x18,X
+    STA z:0x18, X
     SEP #0x20
     LDA #2
-    STA z:0x3D,X
+    STA z:0x3D, X
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     REP #0x20
     LDA #addr(_kuwagen)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(_kuwagen)
-    STA z:2,X
+    STA z:2, X
 
 _kuwagen:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C65A41
     JML kill_enemy
@@ -10231,65 +10309,44 @@ create_senshiyan:
 
 .loc_C65A8F:
     LDA #2
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #3
-    STA z:0x40
-    REP #0x20
-    LDA #addr(senshiyan_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(senshiyan_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(SENSHIYAN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics senshiyan_graphics, 3
+    allocate_object_palette SENSHIYAN_PALETTE
     RTL
 
 senshiyan:
     REP #0x20
     LDA #addr(off_C67D0B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D0B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #0
-    STA z:0x34,X
+    STA z:0x34, X
     LDA #addr(byte_C64044)
     STA z:0x50
     SEP #0x20
@@ -10299,32 +10356,32 @@ senshiyan:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #4
-    STA z:0x3D,X
+    STA z:0x3D, X
     JSL create_senshiyan_part
     REP #0x20
     LDA #addr(sub_C65B5D)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C65B5D)
-    STA z:2,X
+    STA z:2, X
 sub_C65B4D:
     JSL fast_random
     REP #0x20
     AND #0xFF
     CLC
     ADC #0x40
-    STA z:0x30,X
+    STA z:0x30, X
     RTL
 
 sub_C65B5D:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C65B6A
     JML kill_enemy
@@ -10341,7 +10398,7 @@ sub_C65B5D:
 
 .loc_C65B7A:
     REP #0x20
-    LDA z:0x34,X
+    LDA z:0x34, X
     BNE .loc_C65BAF
     JSL wanderer_movement
     JSL handle_enemy_damage
@@ -10350,10 +10407,10 @@ sub_C65B5D:
 
 .loc_C65B8E:
     REP #0x20
-    DEC z:0x30,X
+    DEC z:0x30, X
     BNE .loc_C65B9F
     LDA #0x81
-    STA z:0x34,X
+    STA z:0x34, X
     JSL sub_C65B4D
     BRA .loc_C65BAF
 .loc_C65B9F:
@@ -10371,7 +10428,7 @@ sub_C65B5D:
 
 .loc_C65BB9:
     REP #0x20
-    DEC z:0x34,X
+    DEC z:0x34, X
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
@@ -10380,11 +10437,11 @@ sub_C65B5D:
 
 sub_C65BCB:
     REP #0x20
-    LDA z:0x11,X
+    LDA z:0x11, X
     PHA
-    LDA z:0x14,X
+    LDA z:0x14, X
     PHA
-    LDA z:0x22,X
+    LDA z:0x22, X
     AND #0xFF
     CMP #0xFF
     BNE .loc_C65BE0
@@ -10394,23 +10451,23 @@ sub_C65BCB:
     ASL A
     PHX
     TAX
-    LDA f:unk_C65EB9,X
+    LDA f:unk_C65EB9, X
     PLX
     SEP #0x20
     CLC
-    ADC z:0x11,X
-    STA z:0x11,X
+    ADC z:0x11, X
+    STA z:0x11, X
     XBA
     CLC
-    ADC z:0x14,X
-    STA z:0x14,X
-    STZ z:0x32,X
+    ADC z:0x14, X
+    STA z:0x14, X
+    STZ z:0x32, X
     JSL sub_C65D5E
     REP #0x20
     PLA
-    STA z:0x14,X
+    STA z:0x14, X
     PLA
-    STA z:0x11,X
+    STA z:0x11, X
     RTL
 
 create_senshiyan_part:
@@ -10421,16 +10478,16 @@ create_senshiyan_part:
 
 .loc_C65C20:
     REP #0x20
-    LDA z:0xE,X
-    STA a:addr(0xE),Y
-    LDA z:0x1E,X
-    STA a:addr(0x1E),Y
-    LDA z:0x11,X
-    STA a:addr(0x11),Y
-    LDA z:0x14,X
-    STA a:addr(0x14),Y
+    LDA z:0xE, X
+    STA a:addr(0xE), Y
+    LDA z:0x1E, X
+    STA a:addr(0x1E), Y
+    LDA z:0x11, X
+    STA a:addr(0x11), Y
+    LDA z:0x14, X
+    STA a:addr(0x14), Y
     TXA
-    STA a:addr(0x34),Y
+    STA a:addr(0x34), Y
     RTL
 
 sub_C65C3B:
@@ -10444,66 +10501,66 @@ sub_C65C3B:
     JSL start_animation
     REP #0x20
     LDA #addr(sub_C65C59)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C65C59)
-    STA z:2,X
+    STA z:2, X
     ; fallthrough
 
 sub_C65C59:
     SEP #0x20
-    LDY z:0x34,X
-    LDA a:addr(0x20),Y
-    STA z:0x20,X
-    LDA a:addr(0x22),Y
-    STA z:0x22,X
+    LDY z:0x34, X
+    LDA a:addr(0x20), Y
+    STA z:0x20, X
+    LDA a:addr(0x22), Y
+    STA z:0x22, X
     REP #0x20
-    LDA a:addr(0x11),Y
-    STA z:0x11,X
-    LDA a:addr(0x14),Y
-    STA z:0x14,X
-    LDA a:addr(0),Y
+    LDA a:addr(0x11), Y
+    STA z:0x11, X
+    LDA a:addr(0x14), Y
+    STA z:0x14, X
+    LDA a:addr(0), Y
     BNE .loc_C65C7C
     JML delete_object
 
 .loc_C65C7C:
-    LDA a:addr(0x34),Y
+    LDA a:addr(0x34), Y
     CMP #0x80
     BNE .loc_C65C9B
     SEP #0x20
     LDA #0xFF
-    STA z:0x23,X
+    STA z:0x23, X
     LDA #9
-    STA z:0x24,X
+    STA z:0x24, X
     REP #0x20
     LDA #addr(sub_C65CC2)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C65CC2)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C65C9B:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE .locret_C65CC1
     SEP #0x20
-    LDA z:0x22,X
+    LDA z:0x22, X
     CMP #0xFF
     BNE .loc_C65CAE
     LDA #2
 
 .loc_C65CAE:
     ASL A
-    STA z:0xC,X
+    STA z:0xC, X
     REP #0x20
-    LDA z:0x14,X
+    LDA z:0x14, X
     PHA
-    INC z:0x14,X
+    INC z:0x14, X
     JSL advance_animation_2
     REP #0x20
     PLA
-    STA z:0x14,X
+    STA z:0x14, X
 
 .locret_C65CC1:
     RTL
@@ -10518,37 +10575,37 @@ sub_C65CC2:
 
 .loc_C65CD7:
     REP #0x20
-    LDY z:0x34,X
-    LDA a:addr(0),Y
+    LDY z:0x34, X
+    LDA a:addr(0), Y
     BNE .loc_C65CE4
     JML delete_object
 
 .loc_C65CE4:
     SEP #0x20
-    LDA z:0xC,X
-    CMP z:0x23,X
+    LDA z:0xC, X
+    CMP z:0x23, X
     BEQ .loc_C65D03
-    STA z:0x23,X
-    DEC z:0x24,X
+    STA z:0x23, X
+    DEC z:0x24, X
     BNE .loc_C65D03
     LDA #0x20
-    STA z:0x23,X
+    STA z:0x23, X
     REP #0x20
     LDA #addr(sub_C65D14)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C65D14)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C65D03:
     REP #0x20
-    LDA z:0x14,X
+    LDA z:0x14, X
     PHA
-    INC z:0x14,X
+    INC z:0x14, X
     JSL advance_animation
     REP #0x20
     PLA
-    STA z:0x14,X
+    STA z:0x14, X
     RTL
 
 sub_C65D14:
@@ -10561,32 +10618,32 @@ sub_C65D14:
 
 .loc_C65D29:
     REP #0x20
-    LDY z:0x34,X
-    LDA a:addr(0),Y
+    LDY z:0x34, X
+    LDA a:addr(0), Y
     BNE .loc_C65D36
     JML delete_object
 
 .loc_C65D36:
     SEP #0x20
-    DEC z:0x23,X
+    DEC z:0x23, X
     BNE .loc_C65D4D
     JSL sub_C65BCB
     REP #0x20
     LDA #addr(sub_C65C59)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C65C59)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C65D4D:
     REP #0x20
-    LDA z:0x14,X
+    LDA z:0x14, X
     PHA
-    INC z:0x14,X
+    INC z:0x14, X
     JSL advance_animation_2
     REP #0x20
     PLA
-    STA z:0x14,X
+    STA z:0x14, X
     RTL
 
 sub_C65D5E:
@@ -10597,51 +10654,51 @@ sub_C65D5E:
 
 .loc_C65D7A:
     SEP #0x20
-    LDA a:addr(3),Y
+    LDA a:addr(3), Y
     AND #0xFE
-    STA a:addr(3),Y
-    LDA z:0x22,X
+    STA a:addr(3), Y
+    LDA z:0x22, X
     CMP #0xFF
     BNE .loc_C65D8C
     LDA #2
 
 .loc_C65D8C:
-    STA a:addr(0x22),Y
-    LDA z:0x32,X
-    STA a:addr(0x32),Y
+    STA a:addr(0x22), Y
+    LDA z:0x32, X
+    STA a:addr(0x32), Y
     LDA #4
-    STA a:addr(0x1E),Y
+    STA a:addr(0x1E), Y
     REP #0x20
-    LDA z:0x34,X
-    STA a:addr(0x34),Y
-    LDA z:0xE,X
-    STA a:addr(0xE),Y
-    LDA z:0x11,X
-    STA a:addr(0x11),Y
-    LDA z:0x14,X
-    STA a:addr(0x14),Y
+    LDA z:0x34, X
+    STA a:addr(0x34), Y
+    LDA z:0xE, X
+    STA a:addr(0xE), Y
+    LDA z:0x11, X
+    STA a:addr(0x11), Y
+    LDA z:0x14, X
+    STA a:addr(0x14), Y
     LDA #0
-    STA a:addr(0x30),Y
+    STA a:addr(0x30), Y
     RTL
 
 sub_C65DB6:
     REP #0x20
-    LDY z:0x34,X
-    LDA a:addr(0),Y
+    LDY z:0x34, X
+    LDA a:addr(0), Y
     BNE .loc_C65DC3
     JML delete_object
 
 .loc_C65DC3:
-    LDA z:0x32,X
+    LDA z:0x32, X
     AND #0xFE
     STA z:0x40
     ASL z:0x40
     PHX
     TAX
-    LDA f:off_C65F01,X
+    LDA f:off_C65F01, X
     STA z:0x50
     PLX
-    LDA z:0x22,X
+    LDA z:0x22, X
     AND #0xFF
     ASL A
     ASL A
@@ -10651,17 +10708,17 @@ sub_C65DB6:
     ADC z:0x40
     PHX
     TAX
-    LDA f:unk_C65EC1,X
+    LDA f:unk_C65EC1, X
     ASL A
     ASL A
     STA z:0x40
-    LDA f:unk_C65EC3,X
+    LDA f:unk_C65EC3, X
     ASL A
     ASL A
     PLX
-    STA z:0x18,X
+    STA z:0x18, X
     LDA z:0x40
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     PHK
     PLA
@@ -10669,10 +10726,10 @@ sub_C65DB6:
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C65E0F)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C65E0F)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C65E0F:
     SEP #0x20
@@ -10684,14 +10741,14 @@ sub_C65DB6:
 
 .loc_C65E24:
     REP #0x20
-    LDY z:0x34,X
-    LDA a:addr(0),Y
+    LDY z:0x34, X
+    LDA a:addr(0), Y
     BNE .loc_C65E31
     JML delete_object
 
 .loc_C65E31:
-    INC z:0x30,X
-    LDA z:0x30,X
+    INC z:0x30, X
+    LDA z:0x30, X
     CMP #0x40
     BNE .loc_C65E3E
     JML delete_object
@@ -10702,8 +10759,8 @@ sub_C65DB6:
     CMP #6
     BNE .loc_C65E56
     SEP #0x20
-    INC z:0x32,X
-    LDA z:0x32,X
+    INC z:0x32, X
+    LDA z:0x32, X
     CMP #6
     BEQ .loc_C65E84
     JSL sub_C65D5E
@@ -10711,37 +10768,37 @@ sub_C65DB6:
 .loc_C65E56:
     REP #0x20
     STZ z:0x40
-    LDA z:0x16,X
+    LDA z:0x16, X
     BPL .loc_C65E60
     DEC z:0x40
 
 .loc_C65E60:
     CLC
-    ADC z:0x10,X
-    STA z:0x10,X
+    ADC z:0x10, X
+    STA z:0x10, X
     SEP #0x20
     LDA z:0x40
-    ADC z:0x12,X
-    STA z:0x12,X
+    ADC z:0x12, X
+    STA z:0x12, X
     REP #0x20
     STZ z:0x40
-    LDA z:0x18,X
+    LDA z:0x18, X
     BPL .loc_C65E77
     DEC z:0x40
 
 .loc_C65E77:
     CLC
-    ADC z:0x13,X
-    STA z:0x13,X
+    ADC z:0x13, X
+    STA z:0x13, X
     SEP #0x20
     LDA z:0x40
-    ADC z:0x15,X
-    STA z:0x15,X
+    ADC z:0x15, X
+    STA z:0x15, X
 
 .loc_C65E84:
     REP #0x20
-    LDA z:0x12,X
-    ORA z:0x15,X
+    LDA z:0x12, X
+    ORA z:0x15, X
     AND #0xFF
     BNE .loc_C65E98
     LDA #0x404
@@ -10750,22 +10807,22 @@ sub_C65DB6:
 
 .loc_C65E98:
     REP #0x20
-    LDA z:0x14,X
+    LDA z:0x14, X
     PHA
-    LDA z:0x22,X
+    LDA z:0x22, X
     AND #0xFF
     CMP #2
     BNE .loc_C65EAF
-    LDA z:0x14,X
+    LDA z:0x14, X
     CLC
     ADC #0x10
-    STA z:0x14,X
+    STA z:0x14, X
 
 .loc_C65EAF:
     JSL advance_animation
     REP #0x20
     PLA
-    STA z:0x14,X
+    STA z:0x14, X
     RTL
 
 unk_C65EB9:
@@ -10855,62 +10912,41 @@ create_metal_propene:
 
 .loc_C65F27:
     LDA #4
-    STA a:addr(enemy.hitpoints_left),Y
+    STA a:addr(enemy.hitpoints_left), Y
     LDA #2
-    STA a:addr(enemy.direction),Y
+    STA a:addr(enemy.direction), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(enemy.x_position),Y
+    STA a:addr(enemy.x_position), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(enemy.y_position),Y
+    STA a:addr(enemy.y_position), Y
     LDA z:0x5F
-    STA a:addr(enemy.unknown_3a),Y
+    STA a:addr(enemy.unknown_3a), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(enemy.carried_bonus),Y
+    STA a:addr(enemy.carried_bonus), Y
     LDA #0x30
-    STA a:addr(enemy.palette),Y
-    LDA a:addr(3),Y
+    STA a:addr(enemy.palette), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(metal_propene_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(metal_propene_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(enemy.palette+1),Y
-    SEP #0x20
-    LDA #addr(METAL_PROPENE_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(enemy.effective_palette),Y
-    STA a:addr(enemy.real_palette),Y
+    STA a:addr(3), Y
+    allocate_object_graphics metal_propene_graphics, 2
+    allocate_object_palette METAL_PROPENE_PALETTE
     RTL
 
 metal_propene:
     REP #0x20
     LDA #addr(off_C67D13)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D13)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C641BE)
     STA z:0x50
@@ -10921,24 +10957,24 @@ metal_propene:
     JSL start_animation
     SEP #0x20
     LDA #0x40
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #2
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #6
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C65FDE)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C65FDE)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C65FDE:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C65FEB
     JML kill_enemy
@@ -10977,62 +11013,41 @@ create_propene:
 
 .loc_C66039:
     LDA #0
-    STA a:addr(enemy.hitpoints_left),Y
+    STA a:addr(enemy.hitpoints_left), Y
     LDA #2
-    STA a:addr(enemy.direction),Y
+    STA a:addr(enemy.direction), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(enemy.x_position),Y
+    STA a:addr(enemy.x_position), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(enemy.y_position),Y
+    STA a:addr(enemy.y_position), Y
     LDA z:0x5F
-    STA a:addr(enemy.unknown_3a),Y
+    STA a:addr(enemy.unknown_3a), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(enemy.carried_bonus),Y
+    STA a:addr(enemy.carried_bonus), Y
     LDA #0x30
-    STA a:addr(enemy.palette),Y
-    LDA a:addr(3),Y
+    STA a:addr(enemy.palette), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(propene_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(propene_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(enemy.palette+1),Y
-    SEP #0x20
-    LDA #addr(PROPENE_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(enemy.effective_palette),Y
-    STA a:addr(enemy.real_palette),Y
+    STA a:addr(3), Y
+    allocate_object_graphics propene_graphics, 2
+    allocate_object_palette PROPENE_PALETTE
     RTL
 
 propene:
     REP #0x20
     LDA #addr(off_C67D13)
-    STA z:object.handler+0x16,X
+    STA z:object.handler+0x16, X
     SEP #0x20
     LDA #bank(off_C67D13)
-    STA z:object.handler+0x18,X
+    STA z:object.handler+0x18, X
     REP #0x20
     LDA #addr(propene_animation)
     STA z:0x50
@@ -11043,24 +11058,24 @@ propene:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:enemy.hits_left_for_direction_switch,X
+    STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF
-    STA z:enemy.animation_direction,X
+    STA z:enemy.animation_direction, X
     LDA #0
-    STA z:enemy.speed,X
+    STA z:enemy.speed, X
     LDA #0
-    STA z:enemy.score_index,X
-    STZ z:enemy.field_30,X
+    STA z:enemy.score_index, X
+    STZ z:enemy.field_30, X
     REP #0x20
     LDA #addr(_propene)
-    STA z:object.handler,X
+    STA z:object.handler, X
     SEP #0x20
     LDA #bank(_propene)
-    STA z:object.handler+2,X
+    STA z:object.handler+2, X
 
 _propene:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C660FD
     JML kill_enemy
@@ -11099,62 +11114,41 @@ create_denkyun:
 
 .loc_C6614B:
     LDA #1
-    STA a:addr(enemy.hitpoints_left),Y
+    STA a:addr(enemy.hitpoints_left), Y
     LDA #2
-    STA a:addr(enemy.direction),Y
+    STA a:addr(enemy.direction), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #1
-    STA z:0x40
-    REP #0x20
-    LDA #addr(denkyun_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(denkyun_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(DENKYUN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics denkyun_graphics, 1
+    allocate_object_palette DENKYUN_PALETTE
     RTL
 
 denkyun:
     REP #0x20
     LDA #addr(off_C67DAB)
-    STA z:object.handler+0x16,X
+    STA z:object.handler+0x16, X
     SEP #0x20
     LDA #bank(off_C67DAB)
-    STA z:object.handler+0x18,X
+    STA z:object.handler+0x18, X
     REP #0x20
     LDA #addr(denkyun_animation)
     STA z:0x50
@@ -11165,24 +11159,24 @@ denkyun:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:enemy.score_index,X
-    STZ z:0x30,X
+    STA z:enemy.score_index, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C66202)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66202)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66202:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6620F
     JML kill_enemy
@@ -11221,62 +11215,41 @@ create_starnuts:
 
 .loc_C6625D:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #3
-    STA z:0x40
-    REP #0x20
-    LDA #addr(starnuts_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(starnuts_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(STARNUTS_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics starnuts_graphics, 3
+    allocate_object_palette STARNUTS_PALETTE
     RTL
 
 starnuts:
     REP #0x20
     LDA #addr(off_C67D93)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D93)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C65739)
     STA z:0x50
@@ -11287,24 +11260,24 @@ starnuts:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #1
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C66314)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66314)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66314:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66321
     JML kill_enemy
@@ -11343,62 +11316,41 @@ create_banen:
 
 .loc_C6636F:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(banen_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(banen_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(BANEN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics banen_graphics, 2
+    allocate_object_palette BANEN_PALETTE
     RTL
 
 banen:
     REP #0x20
     LDA #addr(off_C67D1B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D1B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C643C8)
     STA z:0x50
@@ -11409,25 +11361,25 @@ banen:
     JSL start_animation
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #1
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(.loc_C66428)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66428)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66428:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66435
     JML kill_enemy
@@ -11466,62 +11418,41 @@ create_cuppen:
 
 .loc_C66483:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(cuppen_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(cuppen_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(CUPPEN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics cuppen_graphics, 2
+    allocate_object_palette CUPPEN_PALETTE
     RTL
 
 cuppen:
     REP #0x20
     LDA #addr(off_C67D23)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D23)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C6448A)
     STA z:0x50
@@ -11532,24 +11463,24 @@ cuppen:
     JSL start_animation
     SEP #0x20
     LDA #0x40
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C6653A)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C6653A)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C6653A:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66547
     JML kill_enemy
@@ -11588,62 +11519,41 @@ create_keibin:
 
 .loc_C66595:
     LDA #2
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(keibin_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(keibin_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(KEIBIN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics keibin_graphics, 2
+    allocate_object_palette KEIBIN_PALETTE
     RTL
 
 keibin:
     REP #0x20
     LDA #addr(off_C67D8B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D8B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C654D6)
     STA z:0x50
@@ -11654,24 +11564,24 @@ keibin:
     JSL start_animation
     SEP #0x20
     LDA #0x40
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C6664C)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C6664C)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C6664C:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66659
     JML kill_enemy
@@ -11710,62 +11620,41 @@ create_anzenda:
 
 .loc_C666A7:
     LDA #1
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(anzenda_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(anzenda_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(ANZENDA_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics anzenda_graphics, 2
+    allocate_object_palette ANZENDA_PALETTE
     RTL
 
 anzenda:
     REP #0x20
     LDA #addr(off_C67D2B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D2B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C6458D)
     STA z:0x50
@@ -11776,24 +11665,24 @@ anzenda:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #3
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C6675E)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C6675E)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C6675E:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6676B
     JML kill_enemy
@@ -11832,53 +11721,32 @@ create_yoroisu:
 
 .loc_C667B9:
     LDA #7
-    STA a:enemy.hitpoints_left,Y
+    STA a:enemy.hitpoints_left, Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #6
-    STA z:0x40
-    REP #0x20
-    LDA #addr(yoroisu_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(yoroisu_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(YOROISO_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics yoroisu_graphics, 6
+    allocate_object_palette YOROISO_PALETTE
     RTL
 
 yoroisu:
@@ -11892,31 +11760,31 @@ yoroisu:
     JSL start_animation
     REP #0x20
     LDA #addr(off_C67D33)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D33)
-    STA z:0x18,X
+    STA z:0x18, X
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #5
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(.loc_C66872)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66872)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66872:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6687F
     JML kill_enemy
@@ -11935,7 +11803,7 @@ yoroisu:
     JSL get_object_square_index
     REP #0x20
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #0x100
     BNE .loc_C668BC
 
@@ -11956,27 +11824,27 @@ yoroisu:
 
 .loc_C668BC:
     REP #0x20
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     AND #0xF
     SEC
     SBC #0xC
     STA z:0x40
-    LDA z:0x20,X
+    LDA z:0x20, X
     AND #0xFF
     PHX
     TAX
     SEP #0x20
-    LDA f:byte_C668F9,X
+    LDA f:byte_C668F9, X
     PLX
     CMP z:0x40
     BNE .loc_C6689E
     REP #0x20
-    LDA z:0x20,X
+    LDA z:0x20, X
     AND #0xFF
     ASL A
     PHX
     TAX
-    LDA f:off_C67D3B,X
+    LDA f:off_C67D3B, X
     STA z:0x50
     PLX
     SEP #0x20
@@ -11999,65 +11867,44 @@ create_chameleoman:
 
 .loc_C6691D:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #1
-    STA z:0x40
-    REP #0x20
-    LDA #addr(chameleoman_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(chameleoman_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(CHAMELEOMAN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics chameleoman_graphics, 1
+    allocate_object_palette CHAMELEOMAN_PALETTE
     RTL
 
 chameleoman:
     REP #0x20
     LDA #addr(player_animation_list+0x42)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(player_animation_list+0x42)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #0xE0
-    STA z:0x1C,X
+    STA z:0x1C, X
     REP #0x20
     LDA #addr(warpping_animation)
     STA z:0x50
@@ -12066,30 +11913,30 @@ chameleoman:
     STA z:0x52
     JSL start_animation
     SEP #0x20
-    LDA z:0x1E,X
-    STA z:0x33,X
-    LDA z:0xF,X
-    STA z:0x34,X
+    LDA z:0x1E, X
+    STA z:0x33, X
+    LDA z:0xF, X
+    STA z:0x34, X
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #1
-    STA z:0x31,X
+    STA z:0x31, X
     LDA #0
-    STA z:0x32,X
+    STA z:0x32, X
     LDA #2
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(sub_C669FB)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C669FB)
-    STA z:2,X
+    STA z:2, X
 
 sub_C669ED:
     JSL fast_random
@@ -12097,12 +11944,12 @@ sub_C669ED:
     AND #0x3F
     CLC
     ADC #0xC0
-    STA z:0x30,X
+    STA z:0x30, X
     RTL
 
 sub_C669FB:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66A08
     JML kill_enemy
@@ -12119,12 +11966,12 @@ sub_C669FB:
 
 .loc_C66A18:
     SEP #0x20
-    DEC z:0x30,X
+    DEC z:0x30, X
     BNE .loc_C66A22
     JML .loc_C66AE3
 
 .loc_C66A22:
-    LDA z:0x31,X
+    LDA z:0x31, X
     BEQ .loc_C66A2C
     JSL wanderer_movement2
     BRA .loc_C66A30
@@ -12145,22 +11992,22 @@ sub_C669FB:
 
 .loc_C66A49:
     SEP #0x20
-    LDA z:0x33,X
-    CMP z:0x1E,X
+    LDA z:0x33, X
+    CMP z:0x1E, X
     BNE .loc_C66A55
     JML kill_enemy
 
 .loc_C66A55:
     LDA #0
-    STA z:0x3E,X
+    STA z:0x3E, X
     LDA #0x20
-    STA z:0x3F,X
+    STA z:0x3F, X
     REP #0x20
     LDA #addr(.loc_C66A6B)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66A6B)
-    STA z:2,X
+    STA z:2, X
 
 .locret_C66A6A:
     RTL
@@ -12170,7 +12017,7 @@ sub_C669FB:
     LDA #bank(player_animation_list)
     STA z:0x52
     REP #0x20
-    LDA z:0x20,X
+    LDA z:0x20, X
     AND #0xFF
     ASL A
     ADC #addr(player_animation_list+0x3A)
@@ -12180,14 +12027,14 @@ sub_C669FB:
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C66A93)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66A93)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66A93:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66AA0
     JML kill_enemy
@@ -12203,14 +12050,14 @@ sub_C669FB:
     JML .loc_C66AC1
 
 .loc_C66AB0:
-    DEC z:0x3F,X
+    DEC z:0x3F, X
     BNE .loc_C66AC1
     REP #0x20
     LDA #addr(.loc_C66AE3)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66AE3)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66AC1:
     REP #0x20
@@ -12220,53 +12067,53 @@ sub_C669FB:
     JSL advance_animation_2
     SEP #0x20
     LDA #0xE
-    STA z:0x1E,X
-    LDA z:0x3E,X
+    STA z:0x1E, X
+    LDA z:0x3E, X
     EOR #1
-    STA z:0x3E,X
+    STA z:0x3E, X
     BEQ .locret_C66A6A
-    LDA z:0x32,X
-    STA z:0x1E,X
+    LDA z:0x32, X
+    STA z:0x1E, X
     RTL
 
 .loc_C66AE3:
     JSL sub_C669ED
     SEP #0x20
-    LDA z:0x31,X
+    LDA z:0x31, X
     EOR #1
-    STA z:0x31,X
+    STA z:0x31, X
     BNE .loc_C66AFB
     JSL fast_random
     SEP #0x20
     AND #2
-    STA z:0x32,X
+    STA z:0x32, X
 
 .loc_C66AFB:
     REP #0x20
     LDA #addr(.loc_C66B29)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66B29)
-    STA z:2,X
+    STA z:2, X
     SEP #0x20
     LDA #0x20
-    STA z:0x36,X
+    STA z:0x36, X
     LDA #0
-    STA z:0x37,X
+    STA z:0x37, X
     LDA #bank(player_animation_list+0x42)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(player_animation_list+0x42)
-    STA z:0x16,X
-    LDA z:0x31,X
+    STA z:0x16, X
+    LDA z:0x31, X
     BIT #1
     BNE .loc_C66B29
     LDA #addr(player_animation_list+0x3A)
-    STA z:0x16,X
+    STA z:0x16, X
 
 .loc_C66B29:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66B36
     JML kill_enemy
@@ -12300,14 +12147,14 @@ i16
     SEP #0x20
     LDA #bank(byte_C66BFC)
     STA z:0xDD
-    DEC z:0x36,X
+    DEC z:0x36, X
     BNE .locret_C66BE5
-    LDA z:0x37,X
+    LDA z:0x37, X
     CMP #0x20
     BEQ .loc_C66BE6
-    INC z:0x37,X
+    INC z:0x37, X
     STA z:0x40
-    LDA z:0x31,X
+    LDA z:0x31, X
     BIT #1
     BNE .loc_C66B88
     LDA z:0x40
@@ -12326,23 +12173,23 @@ i16
     ADC #addr(byte_C66BFC)
     STA z:0xDB
     SEP #0x20
-    LDA z:0x32,X
-    STA z:0x1F,X
+    LDA z:0x32, X
+    STA z:0x1F, X
     LDA #0
-    STA z:0xF,X
+    STA z:0xF, X
     LDA #bank(player_animation_list)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
     LDY #1
-    LDA f:[z:0xDB],Y
-    STA z:0x36,X
+    LDA f:[z:0xDB], Y
+    STA z:0x36, X
     LDA f:[z:0xDB]
     BEQ .loc_C66BBB
-    LDA z:0x33,X
-    STA z:0x1F,X
-    LDA z:0x34,X
-    STA z:0xF,X
+    LDA z:0x33, X
+    STA z:0x1F, X
+    LDA z:0x34, X
+    STA z:0xF, X
     LDA #bank(player_animation_list)
-    STA z:0x55
+    STA z:addr(far_function_pointer + 2)
 
 .loc_C66BBB:
     SEP #0x20
@@ -12355,15 +12202,15 @@ i16
     ASL A
     ASL A
     TAY
-    LDA z:0x20,X
+    LDA z:0x20, X
     AND #0xFF
     ASL A
     ADC #addr(player_animation_list+0x3A)
     STA z:0x50
-    LDA f:[z:0x50],Y
+    LDA f:[z:0x50], Y
     STA z:0x50
     SEP #0x20
-    LDA z:0x55
+    LDA z:addr(far_function_pointer + 2)
     STA z:0x52
     JSL start_animation
 
@@ -12373,13 +12220,13 @@ i16
 .loc_C66BE6:
     SEP #0x20
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     REP #0x20
     LDA #addr(sub_C669FB)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C669FB)
-    STA z:2,X
+    STA z:2, X
     JMP a:addr(sub_C669FB.loc_C66A3F)
 
 byte_C66BFC:
@@ -12403,16 +12250,16 @@ create_missle:
 
 .loc_C66C5E:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     TXA
-    STA a:addr(0x38),Y
-    INC z:0x30,X
+    STA a:addr(0x38), Y
+    INC z:0x30, X
     PHX
-    LDA z:0x34,X
+    LDA z:0x34, X
     TAX
-    LDA z:0x11,X
+    LDA z:0x11, X
     PLX
     SEC
     SBC #0x88
@@ -12420,42 +12267,42 @@ create_missle:
     INC A
     CLC
     ADC #0x88
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA #0x40
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     REP #0x20
-    LDA #addr(unk_7F06B0)
-    STA a:addr(0x3A),Y
+    LDA #addr(enemy_creation_functions)
+    STA a:addr(0x3A), Y
     SEP #0x20
-    LDA #bank(unk_7F06B0)
-    STA a:addr(0x3C),Y
+    LDA #bank(enemy_creation_functions)
+    STA a:addr(0x3C), Y
     SEP #0x20
     LDA #1
-    STA a:addr(3),Y
+    STA a:addr(3), Y
     LDA #0x30
-    STA a:addr(0xE),Y
+    STA a:addr(0xE), Y
     LDA #8
-    STA a:addr(0xF),Y
+    STA a:addr(0xF), Y
     LDA #0xC
-    STA a:addr(0x1E),Y
+    STA a:addr(0x1E), Y
     LDA #0xC
-    STA a:addr(0x1F),Y
+    STA a:addr(0x1F), Y
     LDA #0
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0
-    STA a:addr(0x3F),Y
+    STA a:addr(0x3F), Y
     RTL
 
 missle:
     REP #0x20
     LDA #addr(off_C67D63)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D63)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #0
-    STA z:0x1A,X
+    STA z:0x1A, X
     LDA #addr(byte_C648A6)
     STA z:0x50
     SEP #0x20
@@ -12465,21 +12312,21 @@ missle:
     JSL start_animation
     SEP #0x20
     LDA #0x10
-    STA z:0x30,X
+    STA z:0x30, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:0x20,X
+    STA z:0x20, X
     REP #0x20
     LDA #addr(.loc_C66CFF)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66CFF)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66CFF:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66D0C
     JML kill_enemy
@@ -12504,15 +12351,15 @@ missle:
 
 .loc_C66D2D:
     SEP #0x20
-    DEC z:0x30,X
+    DEC z:0x30, X
     BEQ .loc_C66D37
     JML .loc_C66E56
 
 .loc_C66D37:
-    LDY z:0x38,X
-    LDA a:addr(0x32),Y
+    LDY z:0x38, X
+    LDA a:addr(0x32), Y
     DEC A
-    STA a:addr(0x32),Y
+    STA a:addr(0x32), Y
     JMP a:addr(.loc_C66DE1)
     STY z:0x56
     SEP #0x20
@@ -12523,65 +12370,44 @@ missle:
 
 .loc_C66D63:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(missle_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(missle_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(MISSLE_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics missle_graphics, 2
+    allocate_object_palette MISSLE_PALETTE
     REP #0x20
     TYA
-    STA a:addr(0x38),Y
+    STA a:addr(0x38), Y
     RTL
 
 .loc_C66DE1:
     REP #0x20
     LDA #addr(off_C67D63)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D63)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C648A6)
     STA z:0x50
@@ -12592,23 +12418,23 @@ missle:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(.loc_C66E1E)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66E1E)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66E1E:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66E2B
     JML kill_enemy
@@ -12629,10 +12455,10 @@ missle:
     BCC .loc_C66E56
     SEP #0x20
     PHY
-    LDY z:0x38,X
-    LDA a:addr(0x30),Y
+    LDY z:0x38, X
+    LDA a:addr(0x30), Y
     DEC A
-    STA a:addr(0x30),Y
+    STA a:addr(0x30), Y
     PLY
     JML kill_enemy
 
@@ -12654,62 +12480,41 @@ create_kouraru:
 
 .loc_C66E86:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #3
-    STA z:0x40
-    REP #0x20
-    LDA #addr(kouraru_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(kouraru_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(KOURARU_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics kouraru_graphics, 3
+    allocate_object_palette KOURARU_PALETTE
     RTL
 
 kouraru:
     REP #0x20
     LDA #addr(off_C67D43)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D43)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C64910)
     STA z:0x50
@@ -12720,24 +12525,24 @@ kouraru:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #1
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C66F3D)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C66F3D)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C66F3D:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C66F4A
     JML kill_enemy
@@ -12776,62 +12581,41 @@ create_pakupa:
 
 .loc_C66F98:
     LDA #2
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #3
-    STA z:0x40
-    REP #0x20
-    LDA #addr(pakupa_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(pakupa_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(PAKUPA_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics pakupa_graphics, 3
+    allocate_object_palette PAKUPA_PALETTE
     RTL
 
 pakupa:
     REP #0x20
     LDA #addr(off_C67D4B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D4B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C64A13)
     STA z:0x50
@@ -12842,25 +12626,25 @@ pakupa:
     JSL start_animation
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(.loc_C67051)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67051)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67051:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6705E
     JML kill_enemy
@@ -12896,11 +12680,11 @@ replace_bomb_with_hard_block:
     JSL get_object_square_index
     REP #0x20
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #BOMB
     BEQ .locret_C670A5
     LDA #HARD_BLOCK|0x500
-    STA a:addr(collision_map),Y
+    STA a:addr(collision_map), Y
 
 .locret_C670A5:
     RTL
@@ -12915,62 +12699,41 @@ create_douken:
 
 .loc_C670C6:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #1
-    STA z:0x40
-    REP #0x20
-    LDA #addr(douken_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(douken_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(DOUKEN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics douken_graphics, 1
+    allocate_object_palette DOUKEN_PALETTE
     RTL
 
 douken:
     REP #0x20
     LDA #addr(off_C67D53)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D53)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C64AFC)
     STA z:0x50
@@ -12981,26 +12744,26 @@ douken:
     JSL start_animation
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #0
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C67181)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67181)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67181:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C6718E
     JML kill_enemy
@@ -13039,62 +12802,41 @@ create_dengurin:
 
 .loc_C671DC:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #3
-    STA z:0x40
-    REP #0x20
-    LDA #addr(dengurin_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(dengurin_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(DENGURIN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics dengurin_graphics, 3
+    allocate_object_palette DENGURIN_PALETTE
     RTL
 
 dengurin:
     REP #0x20
     LDA #addr(off_C67D5B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D5B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C64C51)
     STA z:0x50
@@ -13105,24 +12847,24 @@ dengurin:
     JSL start_animation
     SEP #0x20
     LDA #0x40
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0x40
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:0x3D,X
-    STZ z:0x30,X
+    STA z:0x3D, X
+    STZ z:0x30, X
     REP #0x20
     LDA #addr(.loc_C67293)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67293)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67293:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C672A0
     JML kill_enemy
@@ -13161,65 +12903,44 @@ create_robocom:
 
 .loc_C672EE:
     LDA #2
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #3
-    STA z:0x40
-    REP #0x20
-    LDA #addr(robocom_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(robocom_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(ROBOCOM_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics robocom_graphics, 3
+    allocate_object_palette ROBOCOM_PALETTE
     RTL
 
 robocom:
     REP #0x20
     LDA #addr(off_C67D6B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D6B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #0xE0
-    STA z:0x1C,X
+    STA z:0x1C, X
     LDA #addr(byte_C64E6F)
     STA z:0x50
     SEP #0x20
@@ -13229,25 +12950,25 @@ robocom:
     JSL start_animation
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #1
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #3
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(.loc_C673AC)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C673AC)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C673AC:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C673B9
     JML kill_enemy
@@ -13286,65 +13007,44 @@ create_metal_u:
 
 .loc_C67407:
     LDA #1
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #1
-    STA z:0x40
-    REP #0x20
-    LDA #addr(metal_u_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(metal_u_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(METAL_U_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics metal_u_graphics, 1
+    allocate_object_palette METAL_U_PALETTE
     RTL
 
 metal_u:
     REP #0x20
     LDA #addr(off_C67DA3)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67DA3)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
-    STA z:enemy.collision_mask,X
+    STA z:enemy.collision_mask, X
     LDA #addr(byte_C65842)
     STA z:0x50
     SEP #0x20
@@ -13354,25 +13054,25 @@ metal_u:
     JSL start_animation
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #1
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #5
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(.loc_C674C5)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C674C5)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C674C5:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C674D2
     JML kill_enemy
@@ -13411,65 +13111,44 @@ create_kinkaru:
 
 .loc_C67520:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(kinkaru_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(kinkaru_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(KINKARU_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics kinkaru_graphics, 2
+    allocate_object_palette KINKARU_PALETTE
     RTL
 
 kinkaru:
     REP #0x20
     LDA #addr(off_C67D9B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D9B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #0xA0
-    STA z:0x1C,X
+    STA z:0x1C, X
     LDA #addr(byte_C657E1)
     STA z:0x50
     SEP #0x20
@@ -13479,25 +13158,25 @@ kinkaru:
     JSL start_animation
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #1
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #3
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #4
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(.loc_C675DE)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C675DE)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C675DE:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C675EB
     JML kill_enemy
@@ -13536,65 +13215,44 @@ create_moguchan:
 
 .loc_C67639:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #3
-    STA z:0x40
-    REP #0x20
-    LDA #addr(moguchan_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(moguchan_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(MOGUCHAN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics moguchan_graphics, 3
+    allocate_object_palette MOGUCHAN_PALETTE
     RTL
 
 moguchan:
     REP #0x20
     LDA #addr(off_C67D73)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D73)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #0xE0
-    STA z:0x1C,X
+    STA z:0x1C, X
     LDA #addr(byte_C65038)
     STA z:0x50
     SEP #0x20
@@ -13604,32 +13262,32 @@ moguchan:
     JSL start_animation
     SEP #0x20
     LDA #0x30
-    STA z:0xE,X
+    STA z:0xE, X
     LDA #1
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #2
-    STA z:0x3D,X
+    STA z:0x3D, X
     JSL fast_random
     REP #0x20
     AND #0xFF
     CLC
     ADC #0x400
-    STA z:0x30,X
+    STA z:0x30, X
     REP #0x20
     LDA #addr(sub_C67706)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C67706)
-    STA z:2,X
+    STA z:2, X
     ; fallthrough
 
 sub_C67706:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67713
     JML kill_enemy
@@ -13646,7 +13304,7 @@ sub_C67706:
 
 .loc_C67723:
     REP #0x20
-    DEC z:0x30,X
+    DEC z:0x30, X
     BEQ .loc_C67747
     JSL follower_movement
     JSL handle_enemy_damage
@@ -13666,7 +13324,7 @@ sub_C67706:
     AND #0x1F
     CLC
     ADC #0x60
-    STA z:0x30,X
+    STA z:0x30, X
     REP #0x20
     LDA #addr(byte_C6505A)
     STA z:0x50
@@ -13677,20 +13335,20 @@ sub_C67706:
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C67772)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67772)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67772:
     JSL advance_animation
     BCC .locret_C67785
     REP #0x20
     LDA #addr(sub_C67786)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C67786)
-    STA z:2,X
+    STA z:2, X
 
 .locret_C67785:
     RTL
@@ -13705,7 +13363,7 @@ sub_C67786:
 
 .loc_C6779B:
     REP #0x20
-    DEC z:0x30,X
+    DEC z:0x30, X
     BNE sub_C67706.locret_C67785
     PHX
     JSL generate_random_position
@@ -13716,17 +13374,17 @@ sub_C67786:
     LDA z:0x40
     AND #0xFF
     ORA #8
-    STA z:0x11,X
+    STA z:0x11, X
     LDA z:0x42
     AND #0xFF
     ORA #8
-    STA z:0x14,X
+    STA z:0x14, X
     JSL check_for_enemy_with_enemy_collision
     BCC .loc_C677CE
 
 .loc_C677C9:
     SEP #0x20
-    INC z:0x30,X
+    INC z:0x30, X
     RTL
 
 .loc_C677CE:
@@ -13740,10 +13398,10 @@ sub_C67786:
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C677EC)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C677EC)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C677EC:
     JSL advance_animation
@@ -13755,9 +13413,9 @@ sub_C67786:
     SEP #0x20
     AND #0x3F
     ORA #0xC0
-    STA z:0x30,X
+    STA z:0x30, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     REP #0x20
     LDA #addr(byte_C65038)
     STA z:0x50
@@ -13768,10 +13426,10 @@ sub_C67786:
     JSL start_animation
     REP #0x20
     LDA #addr(sub_C67706)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C67706)
-    STA z:2,X
+    STA z:2, X
     RTL
 
 sub_C67825:
@@ -13788,7 +13446,7 @@ sub_C67825:
     ASL A
     ADC z:0x44
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     BIT #0xFF
     RTL
 
@@ -13802,55 +13460,34 @@ create_red_bakuda:
 
 .loc_C67862:
     LDA #1
-    STA a:addr(0x38),Y
+    STA a:addr(0x38), Y
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(bakuda_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(bakuda_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(RED_BAKUDA_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics bakuda_graphics, 2
+    allocate_object_palette RED_BAKUDA_PALETTE
     RTL
 
 create_bakuda:
@@ -13863,64 +13500,43 @@ create_bakuda:
 
 .loc_C67900:
     LDA #0
-    STA a:addr(0x38),Y
+    STA a:addr(0x38), Y
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(bakuda_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(bakuda_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(BAKUDA_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics bakuda_graphics, 2
+    allocate_object_palette BAKUDA_PALETTE
     RTL
 
 bakuda:
     REP #0x20
     LDA #addr(off_C67D7B)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D7B)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C6528C)
     STA z:0x50
@@ -13931,30 +13547,30 @@ bakuda:
     JSL start_animation
     SEP #0x20
     LDA #3
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #3
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(sub_C679C8)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C679C8)
-    STA z:2,X
+    STA z:2, X
 sub_C679BB:
     JSL fast_random
     SEP #0x20
     AND #0x3F
     ORA #0xC0
-    STA z:0x30,X
+    STA z:0x30, X
     RTL
 
 sub_C679C8:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C679D5
     JML kill_enemy
@@ -13971,9 +13587,9 @@ sub_C679C8:
 
 .loc_C679E5:
     SEP #0x20
-    LDA z:0x30,X
+    LDA z:0x30, X
     BEQ .loc_C67A0B
-    DEC z:0x30,X
+    DEC z:0x30, X
 .loc_C679ED:
     JSL wanderer_movement
     JSL handle_enemy_damage
@@ -13996,13 +13612,13 @@ sub_C679C8:
     JSL get_object_square_index
     REP #0x20
     TAY
-    LDA a:addr(collision_map),Y
+    LDA a:addr(collision_map), Y
     AND #0xFF
     BEQ .loc_C67A28
     JML .loc_C679ED
 
 .loc_C67A28:
-    STY z:0x26,X
+    STY z:0x26, X
     LDA #addr(byte_C652E6)
     STA z:0x50
     SEP #0x20
@@ -14012,10 +13628,10 @@ sub_C679C8:
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C67A46)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67A46)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67A46:
     JSL handle_enemy_damage
@@ -14033,7 +13649,7 @@ sub_C679C8:
 
 .loc_C67A65:
     REP #0x20
-    LDA z:0x26,X
+    LDA z:0x26, X
     STA z:0x56
     LDA #addr(byte_C6530F)
     STA z:0x50
@@ -14043,33 +13659,33 @@ sub_C679C8:
     STA z:0x52
     JSL start_animation
     SEP #0x20
-    LDA z:5,X
+    LDA z:5, X
     PHA
     LDA #2
-    STA z:0x31,X
+    STA z:0x31, X
     LDA #0
-    STA z:0x33,X
+    STA z:0x33, X
     LDA #2
-    STA z:5,X
+    STA z:5, X
     JSL sub_C44BA4
     JSL center_object_on_tile
     SEP #0x20
     LDA #0x20
-    STA z:0x31,X
+    STA z:0x31, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     PLA
-    STA z:5,X
+    STA z:5, X
     REP #0x20
     LDA #addr(.loc_C67AAD)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67AAD)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67AAD:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67ABA
     JML kill_enemy
@@ -14086,14 +13702,14 @@ sub_C679C8:
 
 .loc_C67ACA:
     SEP #0x20
-    DEC z:0x31,X
+    DEC z:0x31, X
     BNE .locret_C67B10
     REP #0x20
     LDA #addr(.loc_C67ADD)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67ADD)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67ADD:
     REP #0x20
@@ -14113,10 +13729,10 @@ sub_C679C8:
     JSL start_animation
     REP #0x20
     LDA #addr(sub_C679C8)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C679C8)
-    STA z:2,X
+    STA z:2, X
 
 .locret_C67B10:
     RTL
@@ -14131,62 +13747,41 @@ create_kierun:
 
 .loc_C67B31:
     LDA #0
-    STA a:addr(0x1A),Y
+    STA a:addr(0x1A), Y
     LDA #2
-    STA a:addr(0x20),Y
+    STA a:addr(0x20), Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11),Y
+    STA a:addr(0x11), Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14),Y
+    STA a:addr(0x14), Y
     LDA z:0x5F
-    STA a:addr(0x3A),Y
+    STA a:addr(0x3A), Y
     LDA z:0x60
-    STA a:addr(0x3B),Y
+    STA a:addr(0x3B), Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E),Y
+    STA a:addr(0x3E), Y
     LDA #0x30
-    STA a:addr(0xE),Y
-    LDA a:addr(3),Y
+    STA a:addr(0xE), Y
+    LDA a:addr(3), Y
     ORA #1
-    STA a:addr(3),Y
-    REP #0x20
-    LDA #2
-    STA z:0x40
-    REP #0x20
-    LDA #addr(kierun_graphics)
-    STA z:0x5F
-    SEP #0x20
-    LDA #bank(kierun_graphics)
-    STA z:0x61
-    PHY
-    JSL allocate_graphics
-    PLY
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0xF),Y
-    SEP #0x20
-    LDA #addr(KIERUN_PALETTE)
-    STA z:0x40
-    JSL palette_allocation_related
-    SEP #0x20
-    LDA z:0x42
-    STA a:addr(0x1E),Y
-    STA a:addr(0x1F),Y
+    STA a:addr(3), Y
+    allocate_object_graphics kierun_graphics, 2
+    allocate_object_palette KIERUN_PALETTE
     RTL
 
 kierun:
     REP #0x20
     LDA #addr(off_C67D83)
-    STA z:0x16,X
+    STA z:0x16, X
     SEP #0x20
     LDA #bank(off_C67D83)
-    STA z:0x18,X
+    STA z:0x18, X
     REP #0x20
     LDA #addr(byte_C653CE)
     STA z:0x50
@@ -14197,31 +13792,31 @@ kierun:
     JSL start_animation
     SEP #0x20
     LDA #0x40
-    STA z:0x21,X
+    STA z:0x21, X
     LDA #0xFF
-    STA z:0x22,X
+    STA z:0x22, X
     LDA #0
-    STA z:0x19,X
+    STA z:0x19, X
     LDA #3
-    STA z:0x3D,X
+    STA z:0x3D, X
     REP #0x20
     LDA #addr(sub_C67BF3)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C67BF3)
-    STA z:2,X
+    STA z:2, X
 
 sub_C67BE6:
     JSL fast_random
     SEP #0x20
     AND #0x3F
     ORA #0xC0
-    STA z:0x30,X
+    STA z:0x30, X
     RTL
 
 sub_C67BF3:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67C00
     JML kill_enemy
@@ -14238,7 +13833,7 @@ sub_C67BF3:
 
 .loc_C67C10:
     SEP #0x20
-    DEC z:0x30,X
+    DEC z:0x30, X
     BEQ sub_C67C34
     JSL random_wanderer_movement
 
@@ -14266,14 +13861,14 @@ sub_C67C34:
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C67C52)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(.loc_C67C52)
-    STA z:2,X
+    STA z:2, X
 
 .loc_C67C52:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67C5F
     JML kill_enemy
@@ -14301,17 +13896,17 @@ sub_C67C34:
     JSL start_animation
     REP #0x20
     LDA #addr(sub_C67C94)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C67C94)
-    STA z:2,X
+    STA z:2, X
 
 .locret_C67C93:
     RTL
 
 sub_C67C94:
     SEP #0x20
-    LDA a:addr(game_flags) ; orig=0x0314
+    LDA a:addr(game_flags)
     BIT #GAME_FLAGS_UNKNOWN
     BEQ .loc_C67CA1
     JML kill_enemy
@@ -14339,10 +13934,10 @@ sub_C67C94:
     JSL start_animation
     REP #0x20
     LDA #addr(sub_C67CD6)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C67CD6)
-    STA z:2,X
+    STA z:2, X
     RTL
 
 sub_C67CD6:
@@ -14362,10 +13957,10 @@ i16
     JSL start_animation
     REP #0x20
     LDA #addr(sub_C67BF3)
-    STA z:0,X
+    STA z:0, X
     SEP #0x20
     LDA #bank(sub_C67BF3)
-    STA z:2,X
+    STA z:2, X
     JSL sub_C67BE6
     RTL
 
