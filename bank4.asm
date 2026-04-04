@@ -2216,16 +2216,16 @@ poison_rendering_invisibile:
     AND #0xF
     BEQ + ; Every 16 frames
     JML handle_player_flashing_and_invincibility
-
 +
+
     JSL fast_random
     SEP #0x20
     AND #0xF0
     CMP #0x40
     BEQ +
     JML handle_player_flashing_and_invincibility
-
 +
+
     ; Randomly make the player flash visible
     LDA a:player.poison_state + 1, X
     ORA #high(POISON_FLASHING_VISIBLE)
@@ -2318,8 +2318,8 @@ handle_player_flashing_and_invincibility:
     ; Poison ran out, clear state
     LDA #0
     STA a:player.poison_state + 2, X
-
 +
+
     STA a:player.poison_state, X
 
 .no_poison:
@@ -2346,8 +2346,8 @@ handle_player_flashing_and_invincibility:
     LDA z:player.real_palette, X
     STA z:player.effective_palette, X
     RTL
-
 +
+
     LDA #PALETTE_STATIC_BLACK
     STA z:player.effective_palette, X
     RTL
@@ -2368,8 +2368,8 @@ i16
     CMP #addr(player_4 + player.sizeof)
     BNE +
     LDA #addr(player_1) ; Wrap around
-
 +
+
     TAY
     CMP z:0x40
     BEQ .ret ; Looped back, return
@@ -2427,8 +2427,8 @@ i16
     BIT #POISON_INVISIBILITY
     BEQ +
     AND #POISON_TIMER_MASK | POISON_INVISIBILITY ; Removes the flash visible flag
-
 +
+
     ; Copy poison state
     STA a:player.poison_state, Y
     LDA a:player.poison_state + 2, X
@@ -9222,8 +9222,8 @@ sub_C447CF:
     CMP #1
     BNE +
     JML sub_C447F2.locret_C44864
-
 +
+
     LDY a:0x100,X
     LDA a:4, Y
     REP #0x20
@@ -13769,7 +13769,7 @@ i16
     STA a:addr(level_manager_object.level_representation)
     JSL level_initialization_related
     JSL hud_related_0
-    JSL sub_C61C7B
+    JSL reserve_free_level_tiles
     JSL level_reset
     REP #0x20
     INC z:0x50
@@ -14608,7 +14608,7 @@ i16
     JSL sub_C47A8D
     JSL level_initialization_related
     JSL hud_related_0
-    JSL sub_C61C7B
+    JSL reserve_free_level_tiles
     JSL level_reset
     JSL call_screen_init_functions
     REP #0x20
@@ -14825,7 +14825,7 @@ i16
     INC z:0x50
     INC z:0x50
     JSL tilemap_decompression
-    JSL sub_C61C7B
+    JSL reserve_free_level_tiles
     JSL level_reset
     REP #0x20
     INC z:0x50

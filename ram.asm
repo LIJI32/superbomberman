@@ -11,6 +11,8 @@ small_allocator_cyclic_buffer_read_pointer:
     ds 2
 small_allocator_cyclic_buffer_write_pointer:
     ds 2
+rng_seed:
+    ds 2
     
 org 0x7E00A0
 word_7E00A0:

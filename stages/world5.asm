@@ -1,5 +1,5 @@
 stage_5_1:
-    level 0x51, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
+    level 0x51, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -18,7 +18,7 @@ stage_5_1:
     dw 0
     
 stage_5_2:
-    level 0x52, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
+    level 0x52, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -37,7 +37,7 @@ stage_5_2:
     dw 0
     
 stage_5_3:
-    level 0x53, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
+    level 0x53, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -56,7 +56,7 @@ stage_5_3:
     dw 0
     
 stage_5_4:
-    level 0x54, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
+    level 0x54, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -75,7 +75,7 @@ stage_5_4:
     dw 0
     
 stage_5_5:
-    level 0x55, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
+    level 0x55, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -94,7 +94,7 @@ stage_5_5:
     dw 0
     
 stage_5_6:
-    level 0x56, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
+    level 0x56, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -113,7 +113,7 @@ stage_5_6:
     dw 0
     
 stage_5_7:
-    level 0x57, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
+    level 0x57, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x30,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks
@@ -132,7 +132,7 @@ stage_5_7:
     dw 0
     
 stage_5_8:
-    level 0x58, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x50,
+    level 0x58, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_SPAWN_WORLD_5 | LEVEL_FLAGS_HARDCODED_HARDBLOCKS, 0xE, 0x50,
           arena_graphic, bomb_and_explosions_graphic, arena_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
           0, 0 ; hard/soft blocks

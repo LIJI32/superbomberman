@@ -30,8 +30,8 @@ else
     JSL handle_debug_menu_input
     RTL
 endif
-
 +
+
     LDA a:addr(game_flags)
     EOR #GAME_FLAGS_PAUSED
     STA a:addr(game_flags)
@@ -109,8 +109,8 @@ should_toggle_pause:
     BEQ +
     CMP #GAME_MODE_STORY
     BNE .ret_false
-
 +
+
     LDA a:addr(level_manager_object.fade_related_)
     CMP #0x34
     BEQ .ret_false
@@ -174,7 +174,7 @@ toggle_debug:
 DEBUG_MENU_LENGTH     = 19
 
 open_debug_menu:
-; Y = player index * 0x40
+    ; Y = player index * 0x40
     REP #0x20
     TYA
     CLC
@@ -241,8 +241,8 @@ debug_menu_initializer:
     BIT #0x80
     BEQ +
     JML .enum
-
 +
+
     BRA .number
 
 .loop:
@@ -840,8 +840,8 @@ set_data_from_debug_menu:
 .clear_full_fire:
     LDA z:player.fireups, X
     AND #0x7F
-
 +
+
     STA z:player.fireups, X
     
     LDA a:addr(debug_break_thr)
@@ -924,15 +924,15 @@ fill_debug_info:
     LDA z:player.invincibility_countdown, X
     BEQ +
     LDA #1
-
 +
+
     STA a:addr(debug_fire_pass)
     LDA z:player.fireups, X
     AND #0x80 ; Max fire flag
     BEQ +
     LDA #1
-
 +
+
     STA a:addr(debug_full_fire)
     LDA z:player.powerups, X
     STA a:addr(debug_break_thr)
@@ -1190,22 +1190,22 @@ i16
     REP #0x20
     BNE +
     JML .out_of_memory ; Never happens here
-
 +
+
     LDX a:addr(allocator_cyclic_buffer_read_pointer)
     CPX a:addr(allocator_cyclic_buffer_write_pointer)
     BNE +
     JML .out_of_memory
-
 +
+
     TXA
     INC A
     INC A
     CMP #allocator_cyclic_buffer.end - allocator_cyclic_buffer
     BNE +
     LDA #0
-
 +
+
     STA a:addr(allocator_cyclic_buffer_read_pointer)
     LDY a:addr(allocator_cyclic_buffer), X
     LDA z:0xDB
@@ -1311,8 +1311,8 @@ delete_object:
     CMP #0x68
     BNE +
     LDA #0
-
 +
+
     STA a:addr(allocator_cyclic_buffer_write_pointer)
     
     TXA
@@ -1387,18 +1387,21 @@ is_player_on_obstacle:
     RTL
 
 get_collision_mask_for_position:
+    .X = 0x40 ; Argument
+    .Y = 0x42 ; Argument
+    .OFFSET = 0x44
     REP #0x20
-    LDA z:0x40
+    LDA z:.X
     AND #0xF0
     LSR A
     LSR A
     LSR A
-    STA z:0x44
-    LDA z:0x42
+    STA z:.OFFSET
+    LDA z:.Y
     AND #0xF0
     ASL A
     ASL A
-    ADC z:0x44
+    ADC z:.OFFSET
     TAY
     LDA a:addr(collision_map), Y
     RTL
@@ -2077,8 +2080,8 @@ i16
 
 .extra_life:
     LDA #EXTRA_LIFE
-
 +
+
     ASL A
     TAX
     LDA f:bonus_handlers, X
@@ -3555,279 +3558,371 @@ i16
 .ret_false:
     CLC
     RTL
+    
+macro tile_offset x, y
+    dw 0x44 + ($x) * 2 + ($y) * 0x40
+endmacro
 
-word_C61BA5:
-    dw 0x104, 0x144
-    dw 0x146, 0x184
-    dw 0x52, 0x54
-    dw 0x56, 0x94
-    dw 0x110, 0x150
-    dw 0x14E, 0x152
-    dw 0x190, 0x1D0
-    dw 0x1CE, 0x1D2
-    dw 0x210, 0x19C
-    dw 0x1DC, 0x1DA
-    dw 0x21C, 0x2CA
-    dw 0x2CC, 0x28C
-    dw 0x2CE
-word_C61BD7:
-    dw 0x48, 0x4A
-    dw 0x88, 0xC8
-    dw 0xC6, 0xC4
-    dw 0x104, 0x58
-    dw 0x56, 0x98
-    dw 0xD8, 0xDA
-    dw 0xDC, 0x11C
-word_C61BF3:
-    dw 0x44, 0x46
-    dw 0x48, 0x84
-    dw 0xC4, 0x58
-    dw 0x5A, 0x5C
-    dw 0x9C, 0xDC
-    dw 0x244, 0x284
-    dw 0x2C4, 0x2C6
-    dw 0x2C8, 0x25C
-    dw 0x29C, 0x2DC
-    dw 0x2DA, 0x2D8
-word_C61C1B:
-    dw 0x44, 0x46
-    dw 0x84, 0x5A
-    dw 0x5C, 0x9C
-    dw 0x284, 0x2C4
-    dw 0x2C6, 0x29C
-    dw 0x2DC, 0x2DA
-word_C61C33:
-    dw 0x14C, 0x14E
-    dw 0x150, 0x152
-    dw 0x154, 0x18C
-    dw 0x190, 0x194
-    dw 0x1CC, 0x1CE
-    dw 0x1D0, 0x1D2
-    dw 0x1D4
-word_C61C4D:
-    dw 0xC8, 0xC6
-    dw 0x88, 0xCA
-    dw 0x108, 0xD8
-    dw 0xD6, 0x98
-    dw 0xDA, 0x118
-    dw 0x248, 0x208
-    dw 0x246, 0x24A
-    dw 0x288, 0x258
-    dw 0x256, 0x218
-    dw 0x25A, 0x298
-    dw 0x150, 0x190
-    dw 0x1D0
-
-sub_C61C7B:
+tunnel_zone_reserved_free_tiles:
+    tile_offset 0,  3
+    tile_offset 0,  4
+    tile_offset 1,  4
+    tile_offset 0,  5
+    tile_offset 7,  0
+    tile_offset 8,  0
+    tile_offset 9,  0
+    tile_offset 8,  1
+    tile_offset 6,  3
+    tile_offset 6,  4
+    tile_offset 5,  4
+    tile_offset 7,  4
+    tile_offset 6,  5
+    tile_offset 6,  6
+    tile_offset 5,  6
+    tile_offset 7,  6
+    tile_offset 6,  7
+    tile_offset 12, 5
+    tile_offset 12, 6
+    tile_offset 11, 6
+    tile_offset 12, 7
+    tile_offset 3,  10
+    tile_offset 4,  10
+    tile_offset 4,  9
+    tile_offset 5,  10
+    .end
+    
+extended_story_mode_reserved_free_tiles:
+    tile_offset 2,  0
+    tile_offset 3,  0
+    tile_offset 2,  1
+    tile_offset 2,  2
+    tile_offset 1,  2
+    tile_offset 0,  2
+    tile_offset 0,  3
+    tile_offset 10, 0
+    tile_offset 9,  0
+    tile_offset 10, 1
+    tile_offset 10, 2
+    tile_offset 11, 2
+    tile_offset 12, 2
+    tile_offset 12, 3
+    .end
+    
+belt_zone_reserved_free_tiles:
+    tile_offset 0,  0
+    tile_offset 1,  0
+    tile_offset 2,  0
+    tile_offset 0,  1
+    tile_offset 0,  2
+    tile_offset 10, 0
+    tile_offset 11, 0
+    tile_offset 12, 0
+    tile_offset 12, 1
+    tile_offset 12, 2
+    tile_offset 0,  8
+    tile_offset 0,  9
+    tile_offset 0,  10
+    tile_offset 1,  10
+    tile_offset 2,  10
+    tile_offset 12, 8
+    tile_offset 12, 9
+    tile_offset 12, 10
+    tile_offset 11, 10
+    tile_offset 10, 10
+    .end
+    
+standard_reserved_free_tiles:
+    tile_offset 0,  0
+    tile_offset 1,  0
+    tile_offset 0,  1
+    tile_offset 11, 0
+    tile_offset 12, 0
+    tile_offset 12, 1
+    .story_mode_end
+    tile_offset 0,  9
+    tile_offset 0,  10
+    tile_offset 1,  10
+    tile_offset 12, 9
+    tile_offset 12, 10
+    tile_offset 11, 10
+    .battle_mode_end
+    
+western_zone_reserved_free_tiles:
+    tile_offset 4, 4
+    tile_offset 5, 4
+    tile_offset 6, 4
+    tile_offset 7, 4
+    tile_offset 8, 4
+    tile_offset 4, 5
+    tile_offset 6, 5
+    tile_offset 8, 5
+    tile_offset 4, 6
+    tile_offset 5, 6
+    tile_offset 6, 6
+    tile_offset 7, 6
+    tile_offset 8, 6
+    .end
+    
+warp_zone_reserved_free_tiles:
+    tile_offset 2,  2
+    tile_offset 1,  2
+    tile_offset 2,  1
+    tile_offset 3,  2
+    tile_offset 2,  3
+    tile_offset 10, 2
+    tile_offset 9,  2
+    tile_offset 10, 1
+    tile_offset 11, 2
+    tile_offset 10, 3
+    tile_offset 2,  8
+    tile_offset 2,  7
+    tile_offset 1,  8
+    tile_offset 3,  8
+    tile_offset 2,  9
+    tile_offset 10, 8
+    tile_offset 9,  8
+    tile_offset 10, 7
+    tile_offset 11, 8
+    tile_offset 10, 9
+    tile_offset 6,  4
+    tile_offset 6,  5
+    tile_offset 6,  6
+    .end
+    
+reserve_free_level_tiles:
     REP #0x20
     LDA a:addr(level_manager_object.game_mode)
     AND #0xFF
     CMP #GAME_MODE_STORY
-    BNE .loc_C61C97
+    BNE + ; Battle mode
     LDA a:addr(level_manager_object.level_representation)
     AND #0xF
     CMP #8
-    BNE .loc_C61C97
-    JML set_unallowed_soft_blocks.locret_C61D1F
+    BNE + ; Non-boss
+    JML set_collision_mask_for_tiles.ret ; Story mode boss, do nothing
++
 
-.loc_C61C97:
     LDA a:addr(level_manager_object.spawn_and_flags)
-    BIT #4
-    BEQ .loc_C61CA3
-    JML set_unallowed_soft_blocks.locret_C61D1F
+    BIT #LEVEL_FLAGS_SOFTBLOCK_ANYWHERE
+    BEQ +
+    JML set_collision_mask_for_tiles.ret
++
 
-.loc_C61CA3:
-    BIT #8
-    BEQ .loc_C61CAC
-    JML sub_C61D20
+    BIT #LEVEL_FLAGS_WESTERN
+    BEQ +
+    JML western_zone_reserve_free_level_tiles
++
 
-.loc_C61CAC:
-    BIT #0x20
-    BEQ .loc_C61CB5
-    JML sub_C61D3B
+    BIT #LEVEL_FLAGS_WARP_ZONE
+    BEQ +
+    JML warp_zone_reserve_free_level_tiles
++
 
-.loc_C61CB5:
-    BIT #0x1000
-    BEQ .loc_C61CBE
-    JML sub_C61D73
+    BIT #LEVEL_FLAGS_BELT_ZONE
+    BEQ +
+    JML belt_zone_reserve_free_level_tiles
++
 
-.loc_C61CBE:
-    BIT #0x800
-    BEQ .loc_C61CC7
-    JML sub_C61D8E
+    BIT #LEVEL_FLAGS_TUNNEL_ZONE
+    BEQ +
+    JML tunnel_zone_reserve_free_level_tiles
++
 
-.loc_C61CC7:
     REP #0x20
-    LDA #addr(word_C61C1B)
-    STA z:0x5C
+    LDA #addr(standard_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61C1B)
-    STA z:0x5E
+    LDA #bank(standard_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
+    
     REP #0x20
-    LDA #0x4000
-    STA z:0xDB
-    LDA #0xC
-    STA z:0x4A
+    LDA #RESERVED_FREE
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    
+    LDA #(standard_reserved_free_tiles.battle_mode_end - standard_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    
     LDA a:addr(level_manager_object.game_mode)
     CMP #GAME_MODE_BATTLE
-    BEQ set_unallowed_soft_blocks
-    LDA #6
-    STA z:0x4A
-    LDA #0x6000
-    STA z:0xDB
-    JSL set_unallowed_soft_blocks
+    BEQ set_collision_mask_for_tiles
+    
+    ; Story mode
+    LDA #(standard_reserved_free_tiles.story_mode_end - standard_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+
+    LDA #RESERVED_FREE | ENEMY
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    JSL set_collision_mask_for_tiles
+    
+    ; Allow soft blocks in these, but forbid enemies
     REP #0x20
-    LDA #addr(word_C61BD7)
-    STA z:0x5C
+    LDA #addr(extended_story_mode_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61BD7)
-    STA z:0x5E
+    LDA #bank(extended_story_mode_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
     REP #0x20
-    LDA #0xE
-    STA z:0x4A
-    LDA #0x2000
-    STA z:0xDB
+    LDA #(extended_story_mode_reserved_free_tiles.end - extended_story_mode_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    LDA #ENEMY
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    ; fallthrough
 
-set_unallowed_soft_blocks:
-    LDA f:[z:0x5C]
+set_collision_mask_for_tiles:
+    ; Arguments
+    .OFFSET_ARRAY = 0x5c
+    .COUNT = 0x4A
+    .MASK_VALUE = 0xDB
+    LDA f:[z:.OFFSET_ARRAY]
     TAY
-    LDA z:0xDB
+    LDA z:.MASK_VALUE
     STA a:addr(collision_map), Y
-    INC z:0x5C
-    INC z:0x5C
-    DEC z:0x4A
-    BNE set_unallowed_soft_blocks
+    INC z:.OFFSET_ARRAY
+    INC z:.OFFSET_ARRAY
+    DEC z:.COUNT
+    BNE set_collision_mask_for_tiles
 
-.locret_C61D1F:
+.ret:
     RTL
 
-sub_C61D20:
+western_zone_reserve_free_level_tiles:
     REP #0x20
-    LDA #addr(word_C61C33)
-    STA z:0x5C
+    LDA #addr(western_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61C33)
-    STA z:0x5E
+    LDA #bank(western_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
     REP #0x20
-    LDA #0x4000
-    STA z:0xDB
-    LDA #0xD
-    STA z:0x4A
-    BRA set_unallowed_soft_blocks
+    LDA #RESERVED_FREE
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    LDA #(western_zone_reserved_free_tiles.end - western_zone_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    BRA set_collision_mask_for_tiles
 
-sub_C61D3B:
+warp_zone_reserve_free_level_tiles:
     REP #0x20
-    LDA #addr(word_C61C4D)
-    STA z:0x5C
+    LDA #addr(warp_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61C4D)
-    STA z:0x5E
+    LDA #bank(warp_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
     REP #0x20
-    LDA #0x4000
-    STA z:0xDB
-    LDA #0x17
-    STA z:0x4A
-    JSL set_unallowed_soft_blocks
+    LDA #RESERVED_FREE
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    LDA #(warp_zone_reserved_free_tiles.end - warp_zone_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    JSL set_collision_mask_for_tiles
+    
     REP #0x20
-    LDA #addr(word_C61C1B)
-    STA z:0x5C
+    LDA #addr(standard_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61C1B)
-    STA z:0x5E
+    LDA #bank(standard_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
     REP #0x20
-    LDA #0x4000
-    STA z:0xDB
-    LDA #0xC
-    STA z:0x4A
-    BRA set_unallowed_soft_blocks
+    LDA #RESERVED_FREE
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    LDA #(standard_reserved_free_tiles.battle_mode_end - standard_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    BRA set_collision_mask_for_tiles
 
-sub_C61D73:
+belt_zone_reserve_free_level_tiles:
     REP #0x20
-    LDA #addr(word_C61BF3)
-    STA z:0x5C
+    LDA #addr(belt_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61BF3)
-    STA z:0x5E
+    LDA #bank(belt_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
     REP #0x20
-    LDA #0x4000
-    STA z:0xDB
-    LDA #0x14
-    STA z:0x4A
-    BRA set_unallowed_soft_blocks
+    LDA #RESERVED_FREE
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    LDA #(belt_zone_reserved_free_tiles.end - belt_zone_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    BRA set_collision_mask_for_tiles
 
-sub_C61D8E:
+tunnel_zone_reserve_free_level_tiles:
     REP #0x20
-    LDA #addr(word_C61BA5)
-    STA z:0x5C
+    LDA #addr(tunnel_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61BA5)
-    STA z:0x5E
+    LDA #bank(tunnel_zone_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
     REP #0x20
-    LDA #0x4000
-    STA z:0xDB
-    LDA #0x19
-    STA z:0x4A
-    JSL set_unallowed_soft_blocks
+    LDA #RESERVED_FREE
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    LDA #(tunnel_zone_reserved_free_tiles.end - tunnel_zone_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    JSL set_collision_mask_for_tiles
+    
     REP #0x20
-    LDA #addr(word_C61C1B)
-    STA z:0x5C
+    LDA #addr(standard_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY
     SEP #0x20
-    LDA #bank(word_C61C1B)
-    STA z:0x5E
+    LDA #bank(standard_reserved_free_tiles)
+    STA z:set_collision_mask_for_tiles.OFFSET_ARRAY + 2
     REP #0x20
-    LDA #0x4000
-    STA z:0xDB
-    LDA #0xC
-    STA z:0x4A
-    JMP a:addr(set_unallowed_soft_blocks)
+    LDA #RESERVED_FREE
+    STA z:set_collision_mask_for_tiles.MASK_VALUE
+    LDA #(standard_reserved_free_tiles.battle_mode_end - standard_reserved_free_tiles) / 2
+    STA z:set_collision_mask_for_tiles.COUNT
+    JMP a:addr(set_collision_mask_for_tiles)
 
 generate_hard_blocks_and_exit:
+    .FREE_TILES = 0x4A
+    .COUNT = 0x48 ; argument
     REP #0x20
     LDA a:addr(current_mode)
-    CMP #2
-    BNE .locret_C61E1F
+    CMP #GAME_MODE_STORY
+    BNE .ret
     LDA a:addr(level_manager_object.spawn_and_flags)
-    BIT #6
-    BNE .locret_C61E1F
-    LDA #0x70       ; Number of free tiles + 1
-    STA z:0x4A    ; Used later in verification
-    BRA .loc_C61DE6
+    BIT #LEVEL_FLAGS_SPAWN_BOSS | LEVEL_FLAGS_SPAWN_WORLD_5
+    BNE .ret
+    LDA #112 ; Number of free tiles in an empty level, + 1
+    STA z:.FREE_TILES ; Used later in is_map_non_continuous
+    BRA .loop
 
-.loc_C61DE0:
+.delete_and_retry:
     LDA #0
     STA a:addr(collision_map), Y
 
-.loc_C61DE6:
+.loop:
     JSL generate_random_position
     JSL get_collision_mask_for_position
     REP #0x20
-    BIT #EXIT|BOMB|SOFT_BLOCK|HARD_BLOCK|0x4000
-    BNE .loc_C61DE6
+    BIT #EXIT | BOMB | SOFT_BLOCK | HARD_BLOCK | RESERVED_FREE
+    BNE .loop
+    
     REP #0x20
     LDA #addr(HARD_BLOCK)
     STA a:addr(collision_map), Y
     PHY
-    JSL is_map_non_continous
+    JSL is_map_non_continuous
     PLY
-    BCS .loc_C61DE0
+    BCS .delete_and_retry
+    
     REP #0x20
-    LDA a:addr(bg1_tilemap+0x24)
+    LDA a:addr(bg1_tilemap + 0x24) ; Contains the hard block tile at this point in time
     STA a:addr(bg1_tilemap), Y
-    DEC z:0x4A
-    DEC z:0x48
-    BPL .loc_C61DE6
-    LDA #EXIT|SOFT_BLOCK
+    
+    DEC z:.FREE_TILES
+    DEC z:.COUNT
+    BPL .loop
+    
+    ; Replace the last tile with an exist softblock
+    LDA #EXIT | SOFT_BLOCK
     STA a:addr(collision_map), Y
-    LDA #0x806
+    LDA #ATTRIBUTED_TILE_SOFTBLOCK
     STA a:addr(bg1_tilemap), Y
 
-.locret_C61E1F:
+.ret:
     RTL
 
 generate_random_position:
+    .X = 0x40 ; Output
+    .Y = 0x42 ; Output
 i16
     REP #0x20
-    LDX #0xD
+    LDX #13
     JSL random
     SEP #0x20
     INC A
@@ -3836,10 +3931,11 @@ i16
     ASL A
     ASL A
     ASL A
-    STA z:0x40
+    STA z:.X
+    
     REP #0x20
-    LDX #0xB
-    LDA z:0x40
+    LDX #11
+    LDA z:.X
     PHA
     JSL random
     SEP #0x20
@@ -3848,108 +3944,128 @@ i16
     ASL A
     ASL A
     ASL A
-    STA z:0x42
+    STA z:.Y
     REP #0x20
     PLA
-    STA z:0x40
+    STA z:.X ; Write X again because it was overwritten
     RTL
 
-is_map_non_continous:
+is_map_non_continuous:
+    .EXPECTED_TILES = generate_hard_blocks_and_exit.FREE_TILES
+    .STACK = 0x5F
+    .STACK_OFFSET = 0x5C
+    .REACHED_TILES = 0x4C
 i16
     REP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA z:0x61
+    STA z:.STACK + 2
     LDY #0x44       ; Default Player 1 start position
-    STZ z:0x5C
-    STZ z:0x4C
+    STZ z:.STACK_OFFSET
+    STZ z:.REACHED_TILES
 
-.loc_C61E5C:
+.process_tile
     JSL add_unprocessed_neighbor_tiles_to_stack
-    LDA z:0x44
-    BEQ .loc_C61E7C
-    LDA z:0x4C
-    CMP z:0x4A
-    BNE .loc_C61E5C
+    LDA z:add_unprocessed_neighbor_tiles_to_stack.NEIGHBORS_ADDED
+    BEQ .pop_stack ; Didn't find new neighbors, pop stack
+    LDA z:.REACHED_TILES
+    CMP z:.EXPECTED_TILES
+    BNE .process_tile
+    
+    ; Reached the target, we're continuous
     LDA #addr(~(PLAYER))
-    JSL apply_mask_to_collision_map
+    JSL apply_mask_to_collision_map ; Clean up
     CLC
     RTL
 
-.loc_C61E73:
+.finished_stack:
+    ; Emptied the stack without reaching the target, not continuous 
     LDA #addr(~(PLAYER))
-    JSL apply_mask_to_collision_map
+    JSL apply_mask_to_collision_map ; Clean up
     SEC
     RTL
 
-.loc_C61E7C:
+.pop_stack:
     REP #0x20
-    LDA z:0x5C
-    BEQ .loc_C61E73
-    DEC z:0x5C
-    DEC z:0x5C
-    LDA z:0x5C
+    LDA z:.STACK_OFFSET
+    BEQ .finished_stack
+    DEC z:.STACK_OFFSET
+    DEC z:.STACK_OFFSET
+    LDA z:.STACK_OFFSET
     CLC
-    ADC #addr(temp_uncompressed_graphics) ; Reused as a stack to queue (yes...) unprocessed tiles
-    STA z:0x5F
-    LDA f:[z:0x5F]
+    ADC #addr(temp_uncompressed_graphics) ; Reused as a stack of unprocessed tiles
+    STA z:.STACK
+    LDA f:[z:.STACK]
     TAY
-    BRA .loc_C61E5C
+    BRA .process_tile
 
 add_unprocessed_neighbor_tiles_to_stack:
+    .TILE_OFFSET = 0x53
+    .NEIGHBORS_ADDED = 0x44
+    .NEIGHBORS_LEFT = 0x46
+    .STACK = is_map_non_continuous.STACK
+    .STACK_OFFSET = is_map_non_continuous.STACK_OFFSET
+    .REACHED_TILES = is_map_non_continuous.REACHED_TILES
+    
     REP #0x20
     STZ z:0x44
     LDA #3
-    STA z:0x46
-    STY z:addr(far_function_pointer)
+    STA z:.NEIGHBORS_LEFT
+    STY z:.TILE_OFFSET
 
-.loc_C61E9E:
+.loop:
+    ; Get offset to neighbor
     PHY
-    LDA z:0x46
+    LDA z:.NEIGHBORS_LEFT
     ASL A
     TAX
     TYA
     CLC
     ADC f:collision_map_direction_offsets, X
     TAY
+    
+    ; Get the collision mask for the neighbor
     LDA a:addr(collision_map), Y
-    BIT #PLAYER
-    BNE .loc_C61EDA
-    AND #BONUS_MASK|BOMB|SOFT_BLOCK|HARD_BLOCK
-    BNE .loc_C61EDA
-    INC z:0x44
-    LDA z:0x44
+    BIT #PLAYER ; Reuse the player bit as a "visited" mark
+    BNE .skip
+    
+    AND #BONUS_MASK | BOMB | SOFT_BLOCK | HARD_BLOCK ; Blocked
+    BNE .skip
+    
+    INC z:.NEIGHBORS_ADDED
+    LDA z:.NEIGHBORS_ADDED
     CMP #1
-    BEQ .loc_C61EE2
-    LDA z:0x5C
+    BEQ .first_added
+    
+    LDA z:.STACK_OFFSET
     CLC
     ADC #addr(temp_uncompressed_graphics)
-    STA z:0x5F
+    STA z:.STACK
     TYA
-    STA f:[z:0x5F]
-    INC z:0x5C
-    INC z:0x5C
+    STA f:[z:.STACK]
+    INC z:.STACK_OFFSET
+    INC z:.STACK_OFFSET
     LDA a:addr(collision_map), Y
     ORA #PLAYER
     STA a:addr(collision_map), Y
-    INC z:0x4C
+    INC z:.REACHED_TILES
 
-.loc_C61EDA:
+.skip:
     PLY
-    DEC z:0x46
-    BPL .loc_C61E9E
-    LDY z:addr(far_function_pointer)
+    DEC z:.NEIGHBORS_LEFT
+    BPL .loop
+    LDY z:addr(.TILE_OFFSET)
     RTL
 
-.loc_C61EE2:
-    STY z:addr(far_function_pointer)
+.first_added:
+    STY z:.TILE_OFFSET
     LDA a:addr(collision_map), Y
     ORA #PLAYER
     STA a:addr(collision_map), Y
-    INC z:0x4C
+    INC z:.REACHED_TILES
     PLY
-    DEC z:0x46
-    BPL .loc_C61E9E
-    LDY z:addr(far_function_pointer)
+    DEC z:.NEIGHBORS_LEFT
+    BPL .loop
+    LDY z:.TILE_OFFSET
     RTL
 
 apply_mask_to_collision_map:
@@ -3958,108 +4074,120 @@ i16
     STA z:0x40
     LDY #collision_map.end - collision_map
 
-.loc_C61EFE:
+-
     LDA a:addr(collision_map), Y
     AND z:0x40
     STA a:addr(collision_map), Y
     DEY
     DEY
-    BPL .loc_C61EFE
+    BPL -
     RTL
 
 collision_map_direction_offsets:
-    dw addr(-0x40)
-    dw addr(-2)
+    dw -0x40
+    dw -2
     dw 2
     dw 0x40
+    
 random:
     REP #0x20
-    LDA z:0x7C
-    ORA #1
-    STA z:0x40
-    LDA #0x383
-    STA z:0x42
-    JSL sub_C61F54
-    LDA z:0x44
-    STA z:0x42
-    STA z:0x7C
+    LDA z:addr(rng_seed)
+    ORA #1 ; This makes the PRNG 15-bit instead of 16-bit for absolutely no reason. Should have been INC A.
+    STA z:multiply.FIRST
+    LDA #899
+    STA z:multiply.SECOND
+    JSL multiply
+    LDA z:multiply.RESULT
+    STA z:multiply_and_divide_by_0x10000.FIRST
+    STA z:addr(rng_seed)
     TXA
     XBA
-    STA z:0xDB
-    JSL sub_C61F36
-    LDA z:0x40
+    STA z:multiply_and_divide_by_0x10000.SECOND
+    JSL multiply_and_divide_by_0x10000
+    LDA z:multiply_and_divide_by_0x10000.RESULT
     RTL
 
-sub_C61F36:
+multiply_and_divide_by_0x10000:
 i16
-    STZ z:0x44
-    STZ z:0x40
+    .RESULT = 0x40 ; Result
+    .FIRST = 0x42 ; Argument
+    .SECOND = 0xDB ; Argument
+    .MULTIPLICATION = 0x44
+    STZ z:.MULTIPLICATION
+    STZ z:.RESULT
     LDY #8
 
-.loc_C61F3D:
-    ASL z:0x44
-    ROL z:0x40
-    ASL z:0xDB
-    BCC .loc_C61F50
-    LDA z:0x42
+-
+    ASL z:.MULTIPLICATION
+    ROL z:.RESULT
+    ASL z:.SECOND
+    BCC .zero_bit
+    LDA z:.FIRST
     CLC
-    ADC z:0x44
-    STA z:0x44
-    BCC .loc_C61F50
-    INC z:0x40
+    ADC z:.MULTIPLICATION
+    STA z:.MULTIPLICATION
+    BCC .zero_bit
+    INC z:.RESULT
 
-.loc_C61F50:
+.zero_bit:
     DEY
-    BNE .loc_C61F3D
+    BNE -
     RTL
 
-sub_C61F54:
+multiply:
 i16
+    .FIRST = 0x40 ; Argument
+    .SECOND = 0x42 ; Argument
+    .RESULT = 0x44 ; Result
     LDY #0x10
 
-.loc_C61F57:
-    ASL z:0x44
-    ASL z:0x40
-    BCC .loc_C61F64
-    LDA z:0x42
+-
+    ASL z:.RESULT
+    ASL z:.FIRST
+    BCC .zero_bit
+    LDA z:.SECOND
     CLC
-    ADC z:0x44
-    STA z:0x44
+    ADC z:.RESULT
+    STA z:.RESULT
 
-.loc_C61F64:
+.zero_bit:
     DEY
-    BNE .loc_C61F57
+    BNE -
     RTL
 
-sub_C61F68:
+; Unused function
+is_close_to_player_1:
 i16
     REP #0x20
     LDY #addr(player_1)
     SEP #0x20
-    LDA a:addr(0x11), Y
+    LDA a:sprite.x_position, Y
     SEC
-    SBC z:0x11, X
-    BCS .loc_C61F7A
+    SBC z:sprite.x_position, X
+    ; Absolute value
+    BCS +
     EOR #0xFF
     INC A
++
 
-.loc_C61F7A:
     CMP #0x40
-    BCS .loc_C61F8F
-    LDA a:addr(0x14), Y
+    BCS .return_false
+    LDA a:sprite.y_position, Y
     SEC
-    SBC z:0x14, X
-    BCS .loc_C61F89
+    SBC z:sprite.y_position, X
+    ; Absolute value
+    BCS +
     EOR #0xFF
     INC A
++
 
-.loc_C61F89:
+.return_true:
     CMP #0x40
-    BCS .loc_C61F8F
+    BCS .return_false
     SEC
     RTL
 
-.loc_C61F8F:
+.return_false:
     CLC
     RTL
 
