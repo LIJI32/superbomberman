@@ -306,15 +306,15 @@ sub_C481D3:
 
 .loc_C481E7:
     LDA f:[z:0x64], Y
-    STA f:APU_I_O_PORT_2
+    STA f:APUIO2
     SEP #0x20
-    LDA f:APU_I_O_PORT_0
+    LDA f:APUIO0
     EOR #0x80
     AND #0x80
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
 
 .loc_C481FB:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C481FB
     REP #0x20
     INY
@@ -353,15 +353,15 @@ sub_C48220:
 
 .loc_C48234:
     LDA f:[z:0x64], Y
-    STA f:APU_I_O_PORT_2
+    STA f:APUIO2
     SEP #0x20
-    LDA f:APU_I_O_PORT_0
+    LDA f:APUIO0
     EOR #0x80
     AND #0x80
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
 
 .loc_C48248:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C48248
     REP #0x20
     INY
@@ -380,15 +380,15 @@ sub_C48220:
 send_command_on_apu_io_2_3:
     PHP
     REP #0x20
-    STA f:APU_I_O_PORT_2
+    STA f:APUIO2
     SEP #0x20
-    LDA f:APU_I_O_PORT_0
+    LDA f:APUIO0
     EOR #0x80
     ORA #0x40
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
 
 .loc_C48277:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C48277
     PLP
     RTS
@@ -396,15 +396,15 @@ send_command_on_apu_io_2_3:
 send_command_on_apu_io_2_3_part_2:
     PHP
     REP #0x20
-    STA f:APU_I_O_PORT_2
+    STA f:APUIO2
     SEP #0x20
-    LDA f:APU_I_O_PORT_0
+    LDA f:APUIO0
     EOR #0x80
     AND #0x80
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
 
 .loc_C48294:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C48294
     PLP
     RTS
@@ -640,7 +640,7 @@ dboot_load_spc_program:
     LDA #0xBBAA
 
 .loc_C4842B:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C4842B
     SEP #0x20
     LDA #0xCC
@@ -676,19 +676,19 @@ dboot_load_spc_program:
     XBA
 
 .loc_C4845A:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C4845A
     INC A
 
 .loc_C48461:
     REP #0x20
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
     SEP #0x20
     DEX
     BNE .loc_C48453
 
 .loc_C4846C:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C4846C
 
 .loc_C48472:
@@ -711,18 +711,18 @@ dboot_load_spc_program:
     BPL .loc_C484AE
 
 .loc_C48486:
-    STA f:APU_I_O_PORT_2
+    STA f:APUIO2
     SEP #0x20
     CPX #1
     LDA #0
     ROL A
-    STA f:APU_I_O_PORT_1
+    STA f:APUIO1
     ADC #0x7F
     PLA
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
 
 .loc_C4849D:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C4849D
     BVS .loc_C48449
     PLP
@@ -763,7 +763,7 @@ sub_C484D1:
     LDA #0x968
 
 .loc_C484D7:
-    CMP f:APU_I_O_PORT_2
+    CMP f:APUIO2
     BNE .loc_C484D7
     STZ z:0x76
     PLP
@@ -773,17 +773,17 @@ apu_io2_related:
     PHP
     REP #0x20
     LDA #0
-    STA f:APU_I_O_PORT_2
+    STA f:APUIO2
     LDA #0x265
 
 .loc_C484EE:
-    CMP f:APU_I_O_PORT_2
+    CMP f:APUIO2
     BNE .loc_C484EE
     PHA
     LDA #0
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
     PLA
-    STA f:APU_I_O_PORT_2
+    STA f:APUIO2
     PLP
     RTS
 
@@ -794,13 +794,13 @@ send_7_bit_data_on_apu_io_0:
     LDA z:last_write_to_apu_io_0 - dboot_ram_start
 
 .loc_C4850A:
-    CMP f:APU_I_O_PORT_0
+    CMP f:APUIO0
     BNE .loc_C4850A
-    LDA f:APU_I_O_PORT_0
+    LDA f:APUIO0
     EOR #0x80    ; Toggle the last bit every write
     AND #0x80
     ORA z:dboot_paramater_0 - dboot_ram_start
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
     STA z:last_write_to_apu_io_0 - dboot_ram_start
     PLP
     RTS
@@ -809,11 +809,11 @@ send_7_bit_data_on_apu_io_1:
     PHP
     SEP #0x20
     STA z:dboot_paramater_0 - dboot_ram_start
-    LDA f:APU_I_O_PORT_1
+    LDA f:APUIO1
     EOR #0x80
     AND #0x80
     ORA z:dboot_paramater_0 - dboot_ram_start
-    STA f:APU_I_O_PORT_1
+    STA f:APUIO1
     PLP
     RTS
 
@@ -1464,10 +1464,10 @@ sub_C4892E:
 sub_C489B7:
     PHP
     SEP #0x20
-    LDA f:APU_I_O_PORT_0
+    LDA f:APUIO0
     EOR #0x80
     ORA #1
-    STA f:APU_I_O_PORT_0
+    STA f:APUIO0
     PLP
     RTS
 

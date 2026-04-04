@@ -4194,87 +4194,87 @@ i16
 sub_C61F91:
     SEP #0x20
     LDA #0x80
-    STA a:addr(VRAM_ADDRESS_INCREMENT_VALUE)
+    STA a:addr(VMAIN)
     REP #0x20
     LDA #0x58CC
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x4E8
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4E9
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4EA
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4EB
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4EC
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4ED
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4EE
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4EF
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x58EC
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x4F8
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4F9
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4FA
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4FB
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4FC
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4FD
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4FE
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x4FF
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     RTL
 
 sub_C62007:
     SEP #0x20
     LDA #0x80
-    STA a:addr(VRAM_ADDRESS_INCREMENT_VALUE)
+    STA a:addr(VMAIN)
     REP #0x20
     LDA #0x58CC
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0x58EC
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     LDA #0
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     RTL
 
 sub_C6207D:
@@ -4909,46 +4909,46 @@ sub_C62460:
 sub_C624AF:
     SEP #0x20
     LDA #0
-    STA a:addr(ADDRESS_FOR_CG_RAM_WRITE)
+    STA a:addr(CGADD)
     LDA #0
-    STA a:addr(DMA_5_PARAMS)
+    STA a:addr(DMAP5)
     LDA #0x22
-    STA a:addr(DMA_5_B_ADDRESS)
+    STA a:addr(BBAD5)
     LDA #low(unk_7F0400)
-    STA a:addr(DMA_5_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL5)
     LDA #high(unk_7F0400)
-    STA a:addr(DMA_5_A_ADDRESS_HIGH_BYTE)
+    STA a:addr(A1TH5)
     LDA #bank(unk_7F0400)
-    STA a:addr(DMA_5_A_ADDRESS_BANK)
+    STA a:addr(A1B5)
     LDA #0
-    STA a:addr(DMA_5_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL5)
     LDA #2
-    STA a:addr(DMA_5_BYTES_COUNT_HIGH_BYTE)
+    STA a:addr(DASH5)
     LDA #0x20
-    STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
+    STA a:addr(MDMAEN)
     RTL
 
 sub_C624DF:
     SEP #0x20
     LDA #0
-    STA a:addr(ADDRESS_FOR_CG_RAM_WRITE)
+    STA a:addr(CGADD)
     SEP #0x20
     LDA #0
-    STA a:addr(DMA_5_PARAMS)
+    STA a:addr(DMAP5)
     LDA #0x22
-    STA a:addr(DMA_5_B_ADDRESS)
+    STA a:addr(BBAD5)
     LDA a:0x53
-    STA a:addr(DMA_5_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL5)
     LDA a:0x54
-    STA a:addr(DMA_5_A_ADDRESS_HIGH_BYTE)
+    STA a:addr(A1TH5)
     LDA a:0x55
-    STA a:addr(DMA_5_A_ADDRESS_BANK)
+    STA a:addr(A1B5)
     LDA #0x20
-    STA a:addr(DMA_5_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL5)
     LDA #0
-    STA a:addr(DMA_5_BYTES_COUNT_HIGH_BYTE)
+    STA a:addr(DASH5)
     LDA #0x20
-    STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
+    STA a:addr(MDMAEN)
     RTL
 
 sub_C62514:
@@ -5445,7 +5445,7 @@ sub_C62834:
     CMP z:0x70
     BNE .loc_C62876
     LDA #0
-    STA a:addr(APU_I_O_PORT_2)
+    STA a:addr(APUIO2)
     STA z:0x6F
     STA z:0x6E
     DEC A
@@ -5454,7 +5454,7 @@ sub_C62834:
 
 .loc_C62876:
     STA z:0x70
-    STA a:addr(APU_I_O_PORT_2)
+    STA a:addr(APUIO2)
     LDA f:byte_C628C8, X
     STA z:0x6F
 

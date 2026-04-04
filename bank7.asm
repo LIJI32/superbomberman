@@ -10120,14 +10120,14 @@ word_C76EAE:
 
 sub_C76EC2:
     LDA f:[z:addr(far_function_pointer)], Y
-    STA a:addr(DATA_FOR_VRAM_WRITE_LOW_BYTE)
+    STA a:addr(VMDATAL)
     INY
     INY
     CPY #6
     BNE sub_C76EC2
     SEP #0x20
     LDA #0x80
-    STA a:addr(VRAM_ADDRESS_INCREMENT_VALUE)
+    STA a:addr(VMAIN)
     RTL
 
 word_C76ED6:
@@ -10198,9 +10198,9 @@ sub_C76F41:
     LSR A
     LSR A
     SEP #0x20
-    STA a:addr(MULTIPLICAND_A)
+    STA a:addr(WRMPYA)
     LDA z:0x40
-    STA a:addr(MULTPLIER_B)
+    STA a:addr(WRMPYB)
     NOP
     NOP
     NOP
@@ -10210,7 +10210,7 @@ sub_C76F41:
     NOP
     NOP
     REP #0x20
-    LDA a:addr(PRODUCT_REMAINDER_RESULT_LOW_BYTE)
+    LDA a:addr(RDMPYL)
     RTL
 
 sub_C76F62:
@@ -10458,15 +10458,15 @@ sub_C77077:
 sub_C77137:
     REP #0x20
     LDA #0x5400
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     RTL
 
@@ -10930,9 +10930,9 @@ i16
 sub_C77564:
     SEP #0x20
     LDA #0xF
-    STA a:addr(V_COUNT_TIMER)
+    STA a:addr(VTIMEL)
     LDA #0x80
-    STA a:addr(H_COUNT_TIMER)
+    STA a:addr(HTIMEL)
     REP #0x20
     LDA #addr(sub_C77580)
     STA a:addr(unknown_function_pointer)
@@ -10944,9 +10944,9 @@ sub_C77564:
 sub_C77580:
     SEP #0x20
     LDA #0x9F
-    STA a:addr(V_COUNT_TIMER)
+    STA a:addr(VTIMEL)
     LDA #0x80
-    STA a:addr(H_COUNT_TIMER)
+    STA a:addr(HTIMEL)
     REP #0x20
     LDA #addr(sub_C7759C)
     STA a:addr(unknown_function_pointer)
@@ -10958,9 +10958,9 @@ sub_C77580:
 sub_C7759C:
     SEP #0x20
     LDA #0x4F
-    STA a:addr(V_COUNT_TIMER)
+    STA a:addr(VTIMEL)
     LDA #0x80
-    STA a:addr(H_COUNT_TIMER)
+    STA a:addr(HTIMEL)
     REP #0x20
     LDA #addr(sub_C77580)
     STA a:addr(unknown_function_pointer)
@@ -10968,13 +10968,13 @@ sub_C7759C:
     LDA #bank(sub_C77580)
     STA a:addr(unknown_function_pointer+2)
     LDA #0x10
-    STA a:addr(BG_AND_OBJECT_ENABLE_MAIN_SCREEN)
+    STA a:addr(TM)
     LDA #0
-    STA a:addr(BG_AND_OBJECT_ENABLE_SUB_SCREEN)
+    STA a:addr(TS)
     LDA #0
-    STA a:addr(INITIAL_SETTINGS_FOR_COLOR_ADDITION)
+    STA a:addr(CGWSEL)
     LDA #0
-    STA a:addr(ADD_SUBTRACT_SELECT_AND_ENABLE)
+    STA a:addr(CGADSUB)
     RTL
 
 credits_screen_init:
@@ -11283,7 +11283,7 @@ sub_C777FD:
     CMP a:addr(frame_count)
     BEQ .loc_C77811
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
 
 .loc_C7781D:

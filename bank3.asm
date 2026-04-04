@@ -505,85 +505,85 @@ some_array_of_scores:
     dw 0, 0         ; 0x12
 
 gpu_registers_init_table:
-    registers_init_table_entry SCREEN_DISPLAY_REGISTER, 0x8F
-    registers_init_table_entry OAM_SIZE_AND_DATA_AREA_DESIGNATION, 3
-    registers_init_table_entry ADDRESS_FOR_ACCESSING_OAM_LOW, 0
-    registers_init_table_entry ADDRESS_FOR_ACCESSING_OAM_HIGH, 0
-    registers_init_table_entry BG_MODE_AND_TILE_SIZE_SETTING, 0x31
-    registers_init_table_entry MOSAIC_SIZE_AND_BG_ENABLE, 0
-    registers_init_table_entry BG_1_ADDRESS_AND_SIZE, 0x50
-    registers_init_table_entry BG_2_ADDRESS_AND_SIZE, 0x54
-    registers_init_table_entry BG_3_ADDRESS_AND_SIZE, 0x5A
-    registers_init_table_entry BG_4_ADDRESS_AND_SIZE, 0x58
-    registers_init_table_entry BG_1_AND_2_TILE_DATA_DESIGNATION, 0
-    registers_init_table_entry BG_3_AND_4_TILE_DATA_DESIGNATION, 0x44
-    registers_init_table_entry BG_1_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_1_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_1_V_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_1_V_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_2_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_2_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_2_V_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_2_V_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_3_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_3_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_3_V_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_3_V_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_4_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_4_H_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_4_V_SCROLL_OFFSET, 0
-    registers_init_table_entry BG_4_V_SCROLL_OFFSET, 0
-    registers_init_table_entry VRAM_ADDRESS_INCREMENT_VALUE, 0x80
-    registers_init_table_entry ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE, 0
-    registers_init_table_entry ADDRESS_FOR_VRAM_READ_WRITE_HIGH_BYTE, 0
-    registers_init_table_entry INITIAL_SETTING_FOR_MODE_7, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_A, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_A, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_B, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_B, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_C, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_C, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_D, 0
-    registers_init_table_entry MODE_7_MATRIX_PARAMETER_D, 0
-    registers_init_table_entry MODE_7_CENTER_POSITION_X, 0
-    registers_init_table_entry MODE_7_CENTER_POSITION_X, 0
-    registers_init_table_entry MODE_7_CENTER_POSITION_Y, 0
-    registers_init_table_entry MODE_7_CENTER_POSITION_Y, 0
-    registers_init_table_entry ADDRESS_FOR_CG_RAM_WRITE, 0
-    registers_init_table_entry BG_1_AND_2_WINDOW_MASK_SETTINGS, 0
-    registers_init_table_entry BG_3_AND_4_WINDOW_MASK_SETTINGS, 0
-    registers_init_table_entry OBJ_AND_COLOR_WINDOW_SETTINGS, 0
-    registers_init_table_entry WINDOW_1_LEFT_POSITION_DESIGNATION, 0
-    registers_init_table_entry WINDOW_1_RIGHT_POSITION_DESIGNATION, 0
-    registers_init_table_entry WINDOW_2_LEFT_POSTION_DESIGNATION, 0
-    registers_init_table_entry WINDOW_2_RIGHT_POSTION_DESIGNATION, 0
-    registers_init_table_entry BG_1_2_3_4_WINDOW_LOGIC_SETTINGS, 0
-    registers_init_table_entry COLOR_AND_OBJ_WINDOW_LOGIC_SETTINGS, 0;
-    registers_init_table_entry BG_AND_OBJECT_ENABLE_MAIN_SCREEN, 0x17
-    registers_init_table_entry BG_AND_OBJECT_ENABLE_SUB_SCREEN, 0x17
-    registers_init_table_entry WINDOW_MASK_DESIGNATION_FOR_MAIN_SCREEN, 0
-    registers_init_table_entry WINDOW_MASK_DESIGNATION_FOR_SUB_SCREEN, 0
-    registers_init_table_entry INITIAL_SETTINGS_FOR_COLOR_ADDITION, 0
-    registers_init_table_entry ADD_SUBTRACT_SELECT_AND_ENABLE, 0
-    registers_init_table_entry FIXED_COLOR_DATA, 0xE0
-    registers_init_table_entry SCREEN_INITIAL_SETTINGS, 0
+    registers_init_table_entry INIDISP, 0x8F
+    registers_init_table_entry OBSEL, 3
+    registers_init_table_entry OAMADDL, 0
+    registers_init_table_entry OAMADDH, 0
+    registers_init_table_entry BGMODE, 0x31
+    registers_init_table_entry MOSAIC, 0
+    registers_init_table_entry BG1SC, 0x50
+    registers_init_table_entry BG2SC, 0x54
+    registers_init_table_entry BG3SC, 0x5A
+    registers_init_table_entry BG4SC, 0x58
+    registers_init_table_entry BG12NBA, 0
+    registers_init_table_entry BG34NBA, 0x44
+    registers_init_table_entry BG1HOFS, 0
+    registers_init_table_entry BG1HOFS, 0
+    registers_init_table_entry BG1VOFS, 0
+    registers_init_table_entry BG1VOFS, 0
+    registers_init_table_entry BG2HOFS, 0
+    registers_init_table_entry BG2HOFS, 0
+    registers_init_table_entry BG2VOFS, 0
+    registers_init_table_entry BG2VOFS, 0
+    registers_init_table_entry BG3HOFS, 0
+    registers_init_table_entry BG3HOFS, 0
+    registers_init_table_entry BG3VOFS, 0
+    registers_init_table_entry BG3VOFS, 0
+    registers_init_table_entry BG4HOFS, 0
+    registers_init_table_entry BG4HOFS, 0
+    registers_init_table_entry BG4VOFS, 0
+    registers_init_table_entry BG4VOFS, 0
+    registers_init_table_entry VMAIN, 0x80
+    registers_init_table_entry VMADDL, 0
+    registers_init_table_entry VMADDH, 0
+    registers_init_table_entry M7SEL, 0
+    registers_init_table_entry M7A, 0
+    registers_init_table_entry M7A, 0
+    registers_init_table_entry M7B, 0
+    registers_init_table_entry M7B, 0
+    registers_init_table_entry M7C, 0
+    registers_init_table_entry M7C, 0
+    registers_init_table_entry M7D, 0
+    registers_init_table_entry M7D, 0
+    registers_init_table_entry M7X, 0
+    registers_init_table_entry M7X, 0
+    registers_init_table_entry M7Y, 0
+    registers_init_table_entry M7Y, 0
+    registers_init_table_entry CGADD, 0
+    registers_init_table_entry W12SEL, 0
+    registers_init_table_entry W34SEL, 0
+    registers_init_table_entry WOBJSEL, 0
+    registers_init_table_entry WH0, 0
+    registers_init_table_entry WH1, 0
+    registers_init_table_entry WH2, 0
+    registers_init_table_entry WH3, 0
+    registers_init_table_entry WBGLOG, 0
+    registers_init_table_entry WOBJLOG, 0;
+    registers_init_table_entry TM, 0x17
+    registers_init_table_entry TS, 0x17
+    registers_init_table_entry TMW, 0
+    registers_init_table_entry TSW, 0
+    registers_init_table_entry CGWSEL, 0
+    registers_init_table_entry CGADSUB, 0
+    registers_init_table_entry COLDATA, 0xE0
+    registers_init_table_entry SETINI, 0
     ; Terminator
     db 0xFF
 interrupt_registers_init_table:
-    registers_init_table_entry NMI_V_H_COUNT_AND_JOYPAD_ENABLE, 0
-    registers_init_table_entry PROGRAMMABLE_I_O_PORT_OUTPUT, 0xFF
-    registers_init_table_entry MULTIPLICAND_A, 0
-    registers_init_table_entry MULTPLIER_B, 0
-    registers_init_table_entry DIVIDEND_LOW_BYTE, 0
-    registers_init_table_entry DIVIDEND_HIGH_BYTE, 0
-    registers_init_table_entry DIVISOR_B, 0
-    registers_init_table_entry H_COUNT_TIMER, 0
-    registers_init_table_entry H_COUNT_TIMER_MSB, 0
-    registers_init_table_entry V_COUNT_TIMER, 0
-    registers_init_table_entry V_COUNT_TIMER_MSB, 0
-    registers_init_table_entry REGULAR_DMA_CHANNEL_ENABLE, 0
-    registers_init_table_entry H_DMA_CHANNEL_ENABLE, 0
-    registers_init_table_entry CYCLE_SPEED_DESIGNATION, 0
+    registers_init_table_entry NMITIMEN, 0
+    registers_init_table_entry WRIO, 0xFF
+    registers_init_table_entry WRMPYA, 0
+    registers_init_table_entry WRMPYB, 0
+    registers_init_table_entry WRDIVL, 0
+    registers_init_table_entry WRDIVH, 0
+    registers_init_table_entry WRDIVB, 0
+    registers_init_table_entry HTIMEL, 0
+    registers_init_table_entry HTIMEH, 0
+    registers_init_table_entry VTIMEL, 0
+    registers_init_table_entry VTIMEH, 0
+    registers_init_table_entry MDMAEN, 0
+    registers_init_table_entry HDMAEN, 0
+    registers_init_table_entry MEMSEL, 0
     ; Terminator
     db 0xFF
 battle_menu_items:
@@ -696,23 +696,23 @@ score_popup_related:
 transfer_oam:
     SEP #0x20
     LDA #0
-    STA ADDRESS_FOR_ACCESSING_OAM_LOW
+    STA OAMADDL
     LDA #0
-    STA DMA_6_PARAMS ; ab0cdeee a = Direction b = Type c = Inc/Dec d = Auto/Fixed e = Word Size Select
+    STA DMAP6 ; ab0cdeee a = Direction b = Type c = Inc/Dec d = Auto/Fixed e = Word Size Select
     LDA #0
-    STA DMA_6_A_ADDRESS_LOW_BYTE
+    STA A1TL6
     LDA #0
-    STA DMA_6_A_ADDRESS_HIGH_BYTE
+    STA A1TH6
     LDA #0x7F
-    STA DMA_6_A_ADDRESS_BANK
+    STA A1B6
     LDA #4
-    STA DMA_6_B_ADDRESS
+    STA BBAD6
     LDA #0x20
-    STA DMA_6_BYTES_COUNT_LOW_BYTE
+    STA DASL6
     LDA #2
-    STA DMA_6_BYTES_COUNT_HIGH_BYTE
+    STA DASH6
     LDA #0x40
-    STA REGULAR_DMA_CHANNEL_ENABLE ; abcdefgh a = Channel 7...h = Channel 0: 1 = Enable 0 = Disable
+    STA MDMAEN ; abcdefgh a = Channel 7...h = Channel 0: 1 = Enable 0 = Disable
     RTL
 
 interrupt_register_init:

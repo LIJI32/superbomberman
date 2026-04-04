@@ -11,27 +11,27 @@ multi5_read_input:
     STZ a:addr(multitap_status)
 
 .loc_C4001A:        ; Wait for auto-joypad to complete
-    LDA a:addr(H_V_BLANK_FLAGS_AND_JOYPAD_STATUS)
+    LDA a:addr(HVBJOY)
     AND #1
     BNE .loc_C4001A
-    LDA a:addr(JOYPAD_1_DATA_HIGH_BYTE)
+    LDA a:addr(JOY1H)
     STA a:addr(joypad_1+1)
-    LDA a:addr(JOYPAD_1_DATA_LOW_BYTE)
+    LDA a:addr(JOY1L)
     STA a:addr(joypad_1)
     AND #0xF
     STA a:addr(joypad_1_connected)
     LDA a:JOYSER0
     LSR A
     ROL a:addr(joypad_1_connected)
-    LDA a:addr(JOYPAD_2_DATA_HIGH_BYTE)
+    LDA a:addr(JOY2H)
     STA a:addr(joypad_2+1)
-    LDA a:addr(JOYPAD_2_DATA_LOW_BYTE)
+    LDA a:addr(JOY2L)
     STA a:addr(joypad_2)
     AND #0xF
     STA a:addr(joypad_2_connected)
-    LDA a:addr(JOYPAD_4_DATA_HIGH_BYTE)
+    LDA a:addr(JOY4H)
     STA a:addr(joypad_3+1)
-    LDA a:addr(JOYPAD_4_DATA_LOW_BYTE)
+    LDA a:addr(JOY4L)
     STA a:addr(joypad_3)
     AND #0xF
     STA a:addr(joypad_3_connected)
@@ -40,7 +40,7 @@ multi5_read_input:
     ROL a:addr(joypad_2_connected)
     LSR A
     ROL a:addr(joypad_3_connected)
-    STZ a:addr(PROGRAMMABLE_I_O_PORT_OUTPUT)
+    STZ a:addr(WRIO)
     LDY #0x10
 
 .loc_C4006B:
@@ -65,7 +65,7 @@ multi5_read_input:
     LSR A
     ROL a:addr(joypad_5_connected)
     LDA #0x80
-    STA a:addr(PROGRAMMABLE_I_O_PORT_OUTPUT)
+    STA a:addr(WRIO)
     PLP
     RTS
 
@@ -77,7 +77,7 @@ multi5_update_multitap_status:
     STZ a:addr(multitap_status)
 
 .loc_C400DD:        ; Wait for auto-joypad to finish
-    LDA a:addr(H_V_BLANK_FLAGS_AND_JOYPAD_STATUS)
+    LDA a:addr(HVBJOY)
     AND #1
     BNE .loc_C400DD
     STZ a:JOYSER0
@@ -146,16 +146,16 @@ ifndef J
 else
     a8
 endif
-    STZ a:addr(NMI_V_H_COUNT_AND_JOYPAD_ENABLE)
-    STZ a:addr(H_DMA_CHANNEL_ENABLE)
-    STZ a:addr(REGULAR_DMA_CHANNEL_ENABLE)
-    STZ a:addr(REGULAR_DMA_CHANNEL_ENABLE)
-    STZ a:addr(APU_I_O_PORT_0)
-    STZ a:addr(APU_I_O_PORT_1)
-    STZ a:addr(APU_I_O_PORT_2)
-    STZ a:addr(APU_I_O_PORT_3)
+    STZ a:addr(NMITIMEN)
+    STZ a:addr(HDMAEN)
+    STZ a:addr(MDMAEN)
+    STZ a:addr(MDMAEN)
+    STZ a:addr(APUIO0)
+    STZ a:addr(APUIO1)
+    STZ a:addr(APUIO2)
+    STZ a:addr(APUIO3)
     LDA #0x8F
-    STA a:addr(SCREEN_DISPLAY_REGISTER)
+    STA a:addr(INIDISP)
 ifdef J
     CLC
     XCE
@@ -256,27 +256,27 @@ endif
     JSL dma_reset
     REP #0x20
     LDA #0x4000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(bg3_tileset_graphic)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(bg3_tileset_graphic)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA #0x58C0
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x680
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(bg3_ram_map)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(bg3_ram_map)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA #0x3FF
@@ -300,12 +300,12 @@ endif
     CLI
 ifdef J
     LDA #0xB1
-    STA a:addr(NMI_V_H_COUNT_AND_JOYPAD_ENABLE)
+    STA a:addr(NMITIMEN)
 endif
     LDA #0x20
-    STA a:addr(V_COUNT_TIMER)
+    STA a:addr(VTIMEL)
     LDA #0xB8
-    STA a:addr(H_COUNT_TIMER)
+    STA a:addr(HTIMEL)
 ifdef J
     REP #0x20
     LDA #addr(nullsub_1)
@@ -316,16 +316,16 @@ ifdef J
     SEP #0x20
 else
     LDA #0xB1
-    STA a:addr(NMI_V_H_COUNT_AND_JOYPAD_ENABLE)
+    STA a:addr(NMITIMEN)
 endif
     LDA #0x17
     STA a:addr(main_screen_status)
     LDA #0x17
     STA a:addr(subscreen_status)
     LDA #1
-    STA a:addr(CYCLE_SPEED_DESIGNATION)
+    STA a:addr(MEMSEL)
     LDA #0b111001
-    STA a:addr(BG_MODE_AND_TILE_SIZE_SETTING)
+    STA a:addr(BGMODE)
     LDA #0x8F
     STA a:addr(word_7E031A)
     REP #0x20
@@ -339,16 +339,16 @@ wait_for_vblank:
     BEQ wait_for_vblank
     SEP #0x20
     LDA #0x8F
-    STA a:addr(SCREEN_DISPLAY_REGISTER)
-    STZ a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(INIDISP)
+    STZ a:addr(HDMAEN)
     JSL transfer_oam
     JSL transfer_bg1_bg3_tilemaps
     JSL sub_C62460
     SEP #0x20
     LDA a:addr(word_7E031A)
-    STA a:addr(SCREEN_DISPLAY_REGISTER)
+    STA a:addr(INIDISP)
     LDA a:addr(byte_7E0CA9)
-    STA a:addr(MOSAIC_SIZE_AND_BG_ENABLE)
+    STA a:addr(MOSAIC)
     JSL update_bg_scrolling
     JSL handle_player_input
 ifdef DEBUG
@@ -461,21 +461,21 @@ call_function_at_0050:
 update_bg_scrolling:
     SEP #0x20
     LDA a:addr(bg1_h_scroll)
-    STA a:addr(BG_1_H_SCROLL_OFFSET)
+    STA a:addr(BG1HOFS)
     LDA a:addr(bg1_h_scroll+1)
-    STA a:addr(BG_1_H_SCROLL_OFFSET)
+    STA a:addr(BG1HOFS)
     LDA a:addr(bg1_v_scroll)
-    STA a:addr(BG_1_V_SCROLL_OFFSET)
+    STA a:addr(BG1VOFS)
     LDA a:addr(bg1_v_scroll+1)
-    STA a:addr(BG_1_V_SCROLL_OFFSET)
+    STA a:addr(BG1VOFS)
     LDA a:addr(bg2_h_scroll)
-    STA a:addr(BG_2_H_SCROLL_OFFSET)
+    STA a:addr(BG2HOFS)
     LDA a:addr(bg2_h_scroll+1)
-    STA a:addr(BG_2_H_SCROLL_OFFSET)
+    STA a:addr(BG2HOFS)
     LDA a:addr(bg2_v_scroll)
-    STA a:addr(BG_2_V_SCROLL_OFFSET)
+    STA a:addr(BG2VOFS)
     LDA a:addr(bg2_v_scroll+1)
-    STA a:addr(BG_2_V_SCROLL_OFFSET)
+    STA a:addr(BG2VOFS)
     RTL
 
 transfer_bg1_bg3_tilemaps:
@@ -484,35 +484,35 @@ transfer_bg1_bg3_tilemaps:
     CMP #0x30
     BEQ .locret_C404DF
     LDA #1
-    STA a:addr(DMA_5_PARAMS)
-    STA a:addr(DMA_6_PARAMS)
+    STA a:addr(DMAP5)
+    STA a:addr(DMAP6)
     LDA #0x18
-    STA a:addr(DMA_5_B_ADDRESS)
-    STA a:addr(DMA_6_B_ADDRESS)
+    STA a:addr(BBAD5)
+    STA a:addr(BBAD6)
     REP #0x20
     LDA #0x5000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x322
-    STA a:addr(DMA_5_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL5)
     LDA #addr(bg1_tilemap)
-    STA a:addr(DMA_5_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL5)
     SEP #0x20
     LDA #0
-    STA a:addr(DMA_5_A_ADDRESS_BANK)
+    STA a:addr(A1B5)
     LDA #0x20
-    STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
+    STA a:addr(MDMAEN)
     REP #0x20
     LDA #0x5800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x100
-    STA a:addr(DMA_6_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL6)
     LDA #addr(bg3_tilemap)
-    STA a:addr(DMA_6_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL6)
     SEP #0x20
     LDA #0
-    STA a:addr(DMA_6_A_ADDRESS_BANK)
+    STA a:addr(A1B6)
     LDA #0x40
-    STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
+    STA a:addr(MDMAEN)
 
 .locret_C404DF:
     RTL
@@ -527,7 +527,7 @@ vblank:
     LDA #0
     PHA
     PLB
-    CMP f:NMI_ENABLE
+    CMP f:RDNMI
     LDA f:addr(screen_flags)
     BIT #1
     BNE .loc_C404FE
@@ -539,17 +539,17 @@ vblank:
     BIT #2
     BEQ .loc_C40525
     LDA #4
-    STA a:addr(BG_AND_OBJECT_ENABLE_MAIN_SCREEN)
+    STA a:addr(TM)
     LDA #0
-    STA a:addr(BG_AND_OBJECT_ENABLE_SUB_SCREEN)
+    STA a:addr(TS)
     LDA #0
-    STA a:addr(INITIAL_SETTINGS_FOR_COLOR_ADDITION)
+    STA a:addr(CGWSEL)
     LDA #0
-    STA a:addr(ADD_SUBTRACT_SELECT_AND_ENABLE)
+    STA a:addr(CGADSUB)
     LDA a:addr(bg3_v_scroll_2)
-    STA a:addr(BG_3_V_SCROLL_OFFSET)
+    STA a:addr(BG3VOFS)
     LDA a:addr(bg3_v_scroll_2+1)
-    STA a:addr(BG_3_V_SCROLL_OFFSET)
+    STA a:addr(BG3VOFS)
 
 .loc_C40525:
     REP #0x30
@@ -570,25 +570,25 @@ irq:
     LDA #0
     PHA
     PLB
-    LDA a:addr(IRQ_FLAG_BY_H_V_COUNT_TIMER)
+    LDA a:addr(TIMEUP)
     BPL .loc_C40572
     LDA a:addr(bg3_v_scroll)
-    STA a:addr(BG_3_V_SCROLL_OFFSET)
+    STA a:addr(BG3VOFS)
     LDA a:addr(bg3_v_scroll+1)
-    STA a:addr(BG_3_V_SCROLL_OFFSET)
+    STA a:addr(BG3VOFS)
     LDA a:addr(main_screen_status)
-    STA a:addr(BG_AND_OBJECT_ENABLE_MAIN_SCREEN)
+    STA a:addr(TM)
     LDA a:addr(subscreen_status)
-    STA a:addr(BG_AND_OBJECT_ENABLE_SUB_SCREEN)
+    STA a:addr(TS)
     LDA a:addr(color_addition_settings)
-    STA a:addr(INITIAL_SETTINGS_FOR_COLOR_ADDITION)
+    STA a:addr(CGWSEL)
     LDA a:addr(add_substract_select_and_enable)
-    STA a:addr(ADD_SUBTRACT_SELECT_AND_ENABLE)
+    STA a:addr(CGADSUB)
     JSL call_function_at_00d0
     LDA #0x81
-    STA a:addr(NMI_V_H_COUNT_AND_JOYPAD_ENABLE)
+    STA a:addr(NMITIMEN)
     LDA #0xB1
-    STA a:addr(NMI_V_H_COUNT_AND_JOYPAD_ENABLE)
+    STA a:addr(NMITIMEN)
 
 .loc_C40572:
     REP #0x30
@@ -1109,7 +1109,7 @@ if !USE_MULTI5_BIOS
     CPX #0x10
 endif
     BNE .loc_C40971
-    STZ a:addr(PROGRAMMABLE_I_O_PORT_OUTPUT)
+    STZ a:addr(WRIO)
     LDA #1
     STA a:JOYSER0
     LDX #8
@@ -1123,7 +1123,7 @@ endif
     BNE .loc_C40982
     STZ a:JOYSER0
     LDA #0x80
-    STA a:addr(PROGRAMMABLE_I_O_PORT_OUTPUT)
+    STA a:addr(WRIO)
     LDA #1
     STA a:JOYSER0
     STZ a:JOYSER0
@@ -1151,7 +1151,7 @@ endif
     ROL a:addr(joypad_2_connected)
     AND #1
     STA a:addr(joypad_3_connected)
-    STZ a:addr(PROGRAMMABLE_I_O_PORT_OUTPUT)
+    STZ a:addr(WRIO)
     LDA a:addr(multitap_status)
     INC A
     BNE .loc_C409FE
@@ -1178,7 +1178,7 @@ if !USE_MULTI5_BIOS
     LDA a:addr(multitap_status)
     AND #1
     ORA #0xB0
-    STA NMI_V_H_COUNT_AND_JOYPAD_ENABLE
+    STA NMITIMEN
 endif
     REP #0x20
     LDX #addr(player_1)
@@ -1366,13 +1366,13 @@ i16
 dma_related_:
     SEP #0x20
     LDA #0x80
-    STA a:addr(VRAM_ADDRESS_INCREMENT_VALUE)
+    STA a:addr(VMAIN)
     LDA #1
-    STA a:addr(DMA_4_PARAMS)
+    STA a:addr(DMAP4)
     LDA #0x18
-    STA a:addr(DMA_4_B_ADDRESS)
+    STA a:addr(BBAD4)
     LDA #0x10
-    STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
+    STA a:addr(MDMAEN)
     RTL
 
 transfer_debug_menu_to_vram:
@@ -1384,15 +1384,15 @@ transfer_debug_menu_to_vram:
     BEQ .locret_C40B9E
     REP #0x20
     LDA #0x58C0
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x680
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(bg3_ram_map)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(bg3_ram_map)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
 
 .locret_C40B9E:
@@ -1422,25 +1422,25 @@ dma_reset:
     STA $az:0x40
     SEP #0x20
     LDA #0
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_HIGH_BYTE)
+    STA a:addr(VMADDL)
+    STA a:addr(VMADDH)
     LDA #0x80
-    STA a:addr(VRAM_ADDRESS_INCREMENT_VALUE)
+    STA a:addr(VMAIN)
     LDA #9
-    STA a:addr(DMA_4_PARAMS)
+    STA a:addr(DMAP4)
     LDA #0b11000
-    STA a:addr(DMA_4_B_ADDRESS)
+    STA a:addr(BBAD4)
     LDA #0x40
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     LDA #0
-    STA a:addr(DMA_4_A_ADDRESS_HIGH_BYTE)
+    STA a:addr(A1TH4)
     LDA #0
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     LDA #0
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
-    STA a:addr(DMA_4_BYTES_COUNT_HIGH_BYTE)
+    STA a:addr(DASL4)
+    STA a:addr(DASH4)
     LDA #0x10
-    STA a:addr(REGULAR_DMA_CHANNEL_ENABLE)
+    STA a:addr(MDMAEN)
     RTL
 
 animation_frame_C40BF4:
@@ -2890,18 +2890,18 @@ a16
     CMP a:addr(frame_count)
     BEQ .loc_C418CB
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x6800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     PLX
     REP #0x20
@@ -13154,30 +13154,30 @@ sub_C463DE:
 .loc_C465A9:
     REP #0x20
     LDA #0x5CC0
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x600
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(scoreboard_tilemap)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(scoreboard_tilemap)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     RTL
 
 sub_C465CB:
     REP #0x20
     LDA z:0x40
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x10
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA z:addr(far_function_pointer)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA z:addr(far_function_pointer + 2)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     RTL
     
@@ -13607,7 +13607,7 @@ screen_load_related:
 i16
     SEP #0x20
     LDA #0x8F
-    STA a:addr(SCREEN_DISPLAY_REGISTER)
+    STA a:addr(INIDISP)
     LDA #bank(stage_1_1)
     STA z:0x52
     JSL sub_C62007
@@ -13661,15 +13661,15 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0x1C00
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(byte_7E3400)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(byte_7E3400)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
@@ -13687,15 +13687,15 @@ i16
     JSL sub_C47C58
     REP #0x20
     LDA #0
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x2000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
@@ -13712,15 +13712,15 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0x2000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x2000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDX #0
@@ -13735,15 +13735,15 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0x1000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL sub_C47B11
     REP #0x20
@@ -13815,15 +13815,15 @@ i16
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x7000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA #addr(splash_graphics)
@@ -13834,15 +13834,15 @@ i16
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x7800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     SEP #0x20
     LDA #0xF
@@ -14046,18 +14046,18 @@ sub_C46CFC:
     CMP a:addr(frame_count)
     BEQ .loc_C46D16
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x6000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     SEP #0x20
@@ -14067,18 +14067,18 @@ sub_C46CFC:
     CMP a:addr(frame_count)
     BEQ .loc_C46D4A
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x6800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     SEP #0x20
@@ -14088,18 +14088,18 @@ sub_C46CFC:
     CMP a:addr(frame_count)
     BEQ .loc_C46D7E
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x7000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     SEP #0x20
@@ -14109,18 +14109,18 @@ sub_C46CFC:
     CMP a:addr(frame_count)
     BEQ .loc_C46DB2
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x7800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL sub_C61F91
     REP #0x20
@@ -14174,7 +14174,7 @@ i16
     INC z:0x50
     INC z:0x50
     LDA #0xE0
-    STA a:addr(FIXED_COLOR_DATA)
+    STA a:addr(COLDATA)
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
@@ -14502,15 +14502,15 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x2000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
@@ -14527,15 +14527,15 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0x1000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x2000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
@@ -14552,15 +14552,15 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0x2000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x2000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
@@ -14577,15 +14577,15 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0x3000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x2000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL sub_C47B11
     REP #0x20
@@ -14631,54 +14631,54 @@ i16
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x6000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x6800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x7000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x7800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     SEP #0x20
     LDY #0
@@ -14876,26 +14876,26 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C4744E
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     SEP #0x20
     LDA #0x8F
-    STA a:addr(SCREEN_DISPLAY_REGISTER)
+    STA a:addr(INIDISP)
     LDY #6
     LDA f:[z:0x50], Y
     STA a:addr(bg2_h_scroll)
-    STA a:addr(BG_2_H_SCROLL_OFFSET)
+    STA a:addr(BG2HOFS)
     INY
     LDA f:[z:0x50], Y
     STA a:addr(bg2_h_scroll+1)
-    STA a:addr(BG_2_H_SCROLL_OFFSET)
+    STA a:addr(BG2HOFS)
     INY
     LDA f:[z:0x50], Y
     STA a:addr(bg2_v_scroll)
-    STA a:addr(BG_2_V_SCROLL_OFFSET)
+    STA a:addr(BG2VOFS)
     INY
     LDA f:[z:0x50], Y
     STA a:addr(bg2_v_scroll+1)
-    STA a:addr(BG_2_V_SCROLL_OFFSET)
+    STA a:addr(BG2VOFS)
     REP #0x20
     LDY #0
     LDA f:[z:0x50], Y
@@ -14905,55 +14905,55 @@ i16
     STA a:addr(color_addition_settings)
     LDY #4
     LDA f:[z:0x50], Y
-    STA a:addr(FIXED_COLOR_DATA)
+    STA a:addr(COLDATA)
     JSL sub_C62460
     REP #0x20
     LDA #0
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0xC00
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA #0x2400
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x400
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(unk_7E4000)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(unk_7E4000)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA #0x5000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x322
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(bg1_tilemap)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #0
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA #0x5400
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     SEP #0x20
     LDA #0x60
@@ -14963,7 +14963,7 @@ i16
     DEC z:0x40
     BNE .loc_C4752D
     LDA a:addr(word_7E031A)
-    STA a:addr(SCREEN_DISPLAY_REGISTER)
+    STA a:addr(INIDISP)
     PLA
     STA a:addr(level_manager_object.game_mode)
     PLX
@@ -15576,15 +15576,15 @@ sub_C47A29:
     REP #0x20
     JSL tilemap_decompression
     LDA #0x5000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     RTL
 
@@ -15593,15 +15593,15 @@ i16
     REP #0x20
     JSL tilemap_decompression
     LDA #0x5000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDX #0
@@ -15622,15 +15622,15 @@ sub_C47A8D:
     REP #0x20
     JSL tilemap_decompression
     LDA #0x5400
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(unexpanded_collision_map)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     RTL
 
@@ -15695,15 +15695,15 @@ i16
 sub_C47B11:
     REP #0x20
     LDA #0x5000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(empty_tilemap)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(empty_tilemap)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     RTL
 
@@ -16000,18 +16000,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47D48
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x1C00
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x800
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(byte_7E3400)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(byte_7E3400)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
@@ -16034,18 +16034,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47D9A
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x600
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1400
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(byte_7E3400)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(byte_7E3400)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
@@ -16067,18 +16067,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47DE8
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x2000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     SEP #0x20
     LDA a:addr(frame_count)
@@ -16087,18 +16087,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47E18
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x2800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(byte_7E3400+0x400)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(byte_7E3400+0x400)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     LDX #0xD00
     JSL level_initialization_related
@@ -16148,18 +16148,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47EA2
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x6000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     SEP #0x20
@@ -16169,18 +16169,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47ED6
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x6800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     SEP #0x20
@@ -16190,18 +16190,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47F0A
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x7000
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL graphics_decompression_8192_bytes
     SEP #0x20
@@ -16211,18 +16211,18 @@ i16
     CMP a:addr(frame_count)
     BEQ .loc_C47F3E
     LDA #0
-    STA a:addr(H_DMA_CHANNEL_ENABLE)
+    STA a:addr(HDMAEN)
     REP #0x20
     LDA #0x7800
-    STA a:addr(ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE)
+    STA a:addr(VMADDL)
     LDA #0x1000
-    STA a:addr(DMA_4_BYTES_COUNT_LOW_BYTE)
+    STA a:addr(DASL4)
     REP #0x20
     LDA #addr(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_LOW_BYTE)
+    STA a:addr(A1TL4)
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA a:addr(DMA_4_A_ADDRESS_BANK)
+    STA a:addr(A1B4)
     JSL dma_related_
     JSL sub_C61F91
     PLX
@@ -16230,7 +16230,7 @@ i16
     LDA #0x20
     STA z:0x21,X
     LDA #0b11100000
-    STA a:addr(FIXED_COLOR_DATA)
+    STA a:addr(COLDATA)
     LDA #8
     STA a:addr(game_flags)
     REP #0x20

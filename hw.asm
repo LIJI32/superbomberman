@@ -1,102 +1,147 @@
-SCREEN_DISPLAY_REGISTER = 0x2100
-OAM_SIZE_AND_DATA_AREA_DESIGNATION = 0x2101
-ADDRESS_FOR_ACCESSING_OAM_LOW = 0x2102
-ADDRESS_FOR_ACCESSING_OAM_HIGH = 0x2103
-BG_MODE_AND_TILE_SIZE_SETTING = 0x2105
-MOSAIC_SIZE_AND_BG_ENABLE = 0x2106
-BG_1_ADDRESS_AND_SIZE = 0x2107
-BG_2_ADDRESS_AND_SIZE = 0x2108
-BG_3_ADDRESS_AND_SIZE = 0x2109
-BG_4_ADDRESS_AND_SIZE = 0x210A
-BG_1_AND_2_TILE_DATA_DESIGNATION = 0x210B
-BG_3_AND_4_TILE_DATA_DESIGNATION = 0x210C
-BG_1_H_SCROLL_OFFSET = 0x210D
-BG_1_V_SCROLL_OFFSET = 0x210E
-BG_2_H_SCROLL_OFFSET = 0x210F
-BG_2_V_SCROLL_OFFSET = 0x2110
-BG_3_H_SCROLL_OFFSET = 0x2111
-BG_3_V_SCROLL_OFFSET = 0x2112
-BG_4_H_SCROLL_OFFSET = 0x2113
-BG_4_V_SCROLL_OFFSET = 0x2114
-VRAM_ADDRESS_INCREMENT_VALUE = 0x2115
-ADDRESS_FOR_VRAM_READ_WRITE_LOW_BYTE = 0x2116
-ADDRESS_FOR_VRAM_READ_WRITE_HIGH_BYTE = 0x2117
-INITIAL_SETTING_FOR_MODE_7 = 0x211A
-MODE_7_MATRIX_PARAMETER_A = 0x211B
-MODE_7_MATRIX_PARAMETER_B = 0x211C
-MODE_7_MATRIX_PARAMETER_C = 0x211D
-MODE_7_MATRIX_PARAMETER_D = 0x211E
-MODE_7_CENTER_POSITION_X = 0x211F
-MODE_7_CENTER_POSITION_Y = 0x2120
-ADDRESS_FOR_CG_RAM_WRITE = 0x2121
-BG_1_AND_2_WINDOW_MASK_SETTINGS = 0x2123
-BG_3_AND_4_WINDOW_MASK_SETTINGS = 0x2124
-OBJ_AND_COLOR_WINDOW_SETTINGS = 0x2125
-WINDOW_1_LEFT_POSITION_DESIGNATION = 0x2126
-WINDOW_1_RIGHT_POSITION_DESIGNATION = 0x2127
-WINDOW_2_LEFT_POSTION_DESIGNATION = 0x2128
-WINDOW_2_RIGHT_POSTION_DESIGNATION = 0x2129
-BG_1_2_3_4_WINDOW_LOGIC_SETTINGS = 0x212A
-COLOR_AND_OBJ_WINDOW_LOGIC_SETTINGS = 0x212B
-BG_AND_OBJECT_ENABLE_MAIN_SCREEN = 0x212C
-BG_AND_OBJECT_ENABLE_SUB_SCREEN = 0x212D
-WINDOW_MASK_DESIGNATION_FOR_MAIN_SCREEN = 0x212E
-WINDOW_MASK_DESIGNATION_FOR_SUB_SCREEN = 0x212F
-INITIAL_SETTINGS_FOR_COLOR_ADDITION = 0x2130
-ADD_SUBTRACT_SELECT_AND_ENABLE = 0x2131
-FIXED_COLOR_DATA = 0x2132
-SCREEN_INITIAL_SETTINGS = 0x2133
-APU_I_O_PORT_0 = 0x2140
-APU_I_O_PORT_1 = 0x2141
-APU_I_O_PORT_2 = 0x2142
-APU_I_O_PORT_3 = 0x2143
-NMI_V_H_COUNT_AND_JOYPAD_ENABLE = 0x4200
-PROGRAMMABLE_I_O_PORT_OUTPUT = 0x4201
-MULTIPLICAND_A = 0x4202
-MULTPLIER_B = 0x4203
-DIVIDEND_LOW_BYTE = 0x4204
-DIVIDEND_HIGH_BYTE = 0x4205
-DIVISOR_B = 0x4206
-H_COUNT_TIMER = 0x4207
-H_COUNT_TIMER_MSB = 0x4208
-V_COUNT_TIMER = 0x4209
-V_COUNT_TIMER_MSB = 0x420A
-REGULAR_DMA_CHANNEL_ENABLE = 0x420B
-H_DMA_CHANNEL_ENABLE = 0x420C
-CYCLE_SPEED_DESIGNATION = 0x420D
-NMI_ENABLE = 0x4210
-IRQ_FLAG_BY_H_V_COUNT_TIMER = 0x4211
-H_V_BLANK_FLAGS_AND_JOYPAD_STATUS = 0x4212
-JOYPAD_1_DATA_LOW_BYTE = 0x4218
-JOYPAD_1_DATA_HIGH_BYTE = 0x4219
-JOYPAD_2_DATA_LOW_BYTE = 0x421A
-JOYPAD_2_DATA_HIGH_BYTE = 0x421B
-JOYPAD_4_DATA_LOW_BYTE = 0x421E
-JOYPAD_4_DATA_HIGH_BYTE = 0x421F
-DMA_4_PARAMS = 0x4340
-DMA_4_B_ADDRESS = 0x4341
-DMA_4_A_ADDRESS_LOW_BYTE = 0x4342
-DMA_4_A_ADDRESS_HIGH_BYTE = 0x4343
-DMA_4_A_ADDRESS_BANK = 0x4344
-DMA_4_BYTES_COUNT_LOW_BYTE = 0x4345
-DMA_4_BYTES_COUNT_HIGH_BYTE = 0x4346
-DMA_5_PARAMS = 0x4350
-DMA_5_B_ADDRESS = 0x4351
-DMA_5_A_ADDRESS_LOW_BYTE = 0x4352
-DMA_5_A_ADDRESS_BANK = 0x4354
-DMA_5_BYTES_COUNT_LOW_BYTE = 0x4355
-DMA_6_PARAMS = 0x4360
-DMA_6_B_ADDRESS = 0x4361
-DMA_6_A_ADDRESS_LOW_BYTE = 0x4362
-DMA_6_A_ADDRESS_HIGH_BYTE = 0x4363
-DMA_6_A_ADDRESS_BANK = 0x4364
-DMA_6_BYTES_COUNT_LOW_BYTE = 0x4365
-DMA_6_BYTES_COUNT_HIGH_BYTE = 0x4366
-DMA_5_A_ADDRESS_HIGH_BYTE = 0x4353
-DMA_5_BYTES_COUNT_HIGH_BYTE = 0x4356
-PRODUCT_REMAINDER_RESULT_LOW_BYTE = 0x4216
-DATA_FOR_VRAM_WRITE_LOW_BYTE = 0x2118
-QUOTIENT_OF_DIVIDE_RESULT_LOW_BYTE = 0x4214
+; Derived from https://wiki.superfamicom.org/registers
 
-JOYSER0 = 0x4016
-JOYSER1 = 0x4017
+; PPU Registers
+
+INIDISP     = 0x2100 ; Screen Display Register
+OBSEL       = 0x2101 ; Object Size and Character Size Register
+OAMADDL     = 0x2102 ; OAM Address Registers (Low)
+OAMADDH     = 0x2103 ; OAM Address Registers (High)
+OAMDATA     = 0x2104 ; OAM Data Write Register
+BGMODE      = 0x2105 ; BG Mode and Character Size Register
+MOSAIC      = 0x2106 ; Mosaic Register
+BG1SC       = 0x2107 ; BG Tilemap Address Registers (BG1)
+BG2SC       = 0x2108 ; BG Tilemap Address Registers (BG2)
+BG3SC       = 0x2109 ; BG Tilemap Address Registers (BG3)
+BG4SC       = 0x210A ; BG Tilemap Address Registers (BG4)
+BG12NBA     = 0x210B ; BG Character Address Registers (BG1&2)
+BG34NBA     = 0x210C ; BG Character Address Registers (BG3&4)
+BG1HOFS     = 0x210D ; BG Scroll Registers (BG1)
+BG1VOFS     = 0x210E ; BG Scroll Registers (BG1)
+BG2HOFS     = 0x210F ; BG Scroll Registers (BG2)
+BG2VOFS     = 0x2110 ; BG Scroll Registers (BG2)
+BG3HOFS     = 0x2111 ; BG Scroll Registers (BG3)
+BG3VOFS     = 0x2112 ; BG Scroll Registers (BG3)
+BG4HOFS     = 0x2113 ; BG Scroll Registers (BG4)
+BG4VOFS     = 0x2114 ; BG Scroll Registers (BG4)
+VMAIN       = 0x2115 ; Video Port Control Register
+VMADDL      = 0x2116 ; VRAM Address Registers (Low)
+VMADDH      = 0x2117 ; VRAM Address Registers (High)
+VMDATAL     = 0x2118 ; VRAM Data Write Registers (Low)
+VMDATAH     = 0x2119 ; VRAM Data Write Registers (High)
+M7SEL       = 0x211A ; Mode 7 Settings Register
+M7A         = 0x211B ; Mode 7 Matrix Registers
+M7B         = 0x211C ; Mode 7 Matrix Registers
+M7C         = 0x211D ; Mode 7 Matrix Registers
+M7D         = 0x211E ; Mode 7 Matrix Registers
+M7X         = 0x211F ; Mode 7 Matrix Registers
+M7Y         = 0x2120 ; Mode 7 Matrix Registers
+CGADD       = 0x2121 ; CGRAM Address Register
+CGDATA      = 0x2122 ; CGRAM Data Write Register
+W12SEL      = 0x2123 ; Window Mask Settings Registers
+W34SEL      = 0x2124 ; Window Mask Settings Registers
+WOBJSEL     = 0x2125 ; Window Mask Settings Registers
+WH0         = 0x2126 ; Window Position Registers (WH0)
+WH1         = 0x2127 ; Window Position Registers (WH1)
+WH2         = 0x2128 ; Window Position Registers (WH2)
+WH3         = 0x2129 ; Window Position Registers (WH3)
+WBGLOG      = 0x212A ; Window Mask Logic registers (BG)
+WOBJLOG     = 0x212B ; Window Mask Logic registers (OBJ)
+TM          = 0x212C ; Screen Destination Registers
+TS          = 0x212D ; Screen Destination Registers
+TMW         = 0x212E ; Window Mask Destination Registers
+TSW         = 0x212F ; Window Mask Destination Registers
+CGWSEL      = 0x2130 ; Color Math Registers
+CGADSUB     = 0x2131 ; Color Math Registers
+COLDATA     = 0x2132 ; Color Math Registers
+SETINI      = 0x2133 ; Screen Mode Select Register
+MPYL        = 0x2134 ; Multiplication Result Registers
+MPYM        = 0x2135 ; Multiplication Result Registers
+MPYH        = 0x2136 ; Multiplication Result Registers
+SLHV        = 0x2137 ; Software Latch Register
+OAMDATAREAD = 0x2138 ; OAM Data Read Register
+VMDATALREAD = 0x2139 ; VRAM Data Read Register (Low)
+VMDATAHREAD = 0x213A ; VRAM Data Read Register (High)
+CGDATAREAD  = 0x213B ; CGRAM Data Read Register
+OPHCT       = 0x213C ; Scanline Location Registers (Horizontal)
+OPVCT       = 0x213D ; Scanline Location Registers (Vertical)
+STAT77      = 0x213E ; PPU Status Register
+STAT78      = 0x213F ; PPU Status Register
+APUIO0      = 0x2140 ; APU IO Registers
+APUIO1      = 0x2141 ; APU IO Registers
+APUIO2      = 0x2142 ; APU IO Registers
+APUIO3      = 0x2143 ; APU IO Registers
+WMDATA      = 0x2180 ; WRAM Data Register
+WMADDL      = 0x2181 ; WRAM Address Registers
+WMADDM      = 0x2182 ; WRAM Address Registers
+WMADDH      = 0x2183 ; WRAM Address Registers
+
+; Joypad Registers
+JOYSER0     = 0x4016 ; Old Style Joypad Registers
+JOYSER1     = 0x4017 ; Old Style Joypad Registers
+
+; Internal CPU Registers
+NMITIMEN    = 0x4200 ; Interrupt Enable Register
+WRIO        = 0x4201 ; IO Port Write Register
+WRMPYA      = 0x4202 ; Multiplicand Registers
+WRMPYB      = 0x4203 ; Multiplicand Registers
+WRDIVL      = 0x4204 ; Divisor & Dividend Registers
+WRDIVH      = 0x4205 ; Divisor & Dividend Registers
+WRDIVB      = 0x4206 ; Divisor & Dividend Registers
+HTIMEL      = 0x4207 ; IRQ Timer Registers (Horizontal - Low)
+HTIMEH      = 0x4208 ; IRQ Timer Registers (Horizontal - High)
+VTIMEL      = 0x4209 ; IRQ Timer Registers (Vertical - Low)
+VTIMEH      = 0x420A ; IRQ Timer Registers (Vertical - High)
+MDMAEN      = 0x420B ; DMA Enable Register
+HDMAEN      = 0x420C ; HDMA Enable Register
+MEMSEL      = 0x420D ; ROM Speed Register
+RDNMI       = 0x4210 ; Interrupt Flag Registers
+TIMEUP      = 0x4211 ; Interrupt Flag Registers
+HVBJOY      = 0x4212 ; PPU Status Register
+RDIO        = 0x4213 ; IO Port Read Register
+RDDIVL      = 0x4214 ; Multiplication Or Divide Result Registers (Low)
+RDDIVH      = 0x4215 ; Multiplication Or Divide Result Registers (High)
+RDMPYL      = 0x4216 ; Multiplication Or Divide Result Registers (Low)
+RDMPYH      = 0x4217 ; Multiplication Or Divide Result Registers (High)
+JOY1L       = 0x4218 ; Controller Port Data Registers (Pad 1 - Low)
+JOY1H       = 0x4219 ; Controller Port Data Registers (Pad 1 - High)
+JOY2L       = 0x421A ; Controller Port Data Registers (Pad 2 - Low)
+JOY2H       = 0x421B ; Controller Port Data Registers (Pad 2 - High)
+JOY3L       = 0x421C ; Controller Port Data Registers (Pad 3 - Low)
+JOY3H       = 0x421D ; Controller Port Data Registers (Pad 3 - High)
+JOY4L       = 0x421E ; Controller Port Data Registers (Pad 4 - Low)
+JOY4H       = 0x421F ; Controller Port Data Registers (Pad 4 - High)
+
+macro dma_registers x
+; DMA Registers
+DMAP$x      = 0x4300 + ($x * 0x10) ; DMA Control Register
+BBAD$x      = 0x4301 + ($x * 0x10) ; DMA Destination Register
+A1TL$x      = 0x4302 + ($x * 0x10) ; DMA Source Address Registers
+A1TH$x      = 0x4303 + ($x * 0x10) ; DMA Source Address Registers
+A1B$x       = 0x4304 + ($x * 0x10) ; DMA Source Address Registers
+DASL$x      = 0x4305 + ($x * 0x10) ; DMA Size Registers (Low)
+DASH$x      = 0x4306 + ($x * 0x10) ; DMA Size Registers (High)
+
+; HDMA Registers
+DMAP$x      = 0x4300 + ($x * 0x10) ; HDMA Control Register
+BBAD$x      = 0x4301 + ($x * 0x10) ; HDMA Destination Register
+A1TL$x      = 0x4302 + ($x * 0x10) ; HDMA Table Address Registers
+A1TH$x      = 0x4303 + ($x * 0x10) ; HDMA Table Address Registers
+A1B$x       = 0x4304 + ($x * 0x10) ; HDMA Table Address Registers
+DASL$x      = 0x4305 + ($x * 0x10) ; HDMA Indirect Address Registers
+DASH$x      = 0x4306 + ($x * 0x10) ; HDMA Indirect Address Registers
+DASB$x      = 0x4307 + ($x * 0x10) ; HDMA Indirect Address Registers
+A2AL$x      = 0x4308 + ($x * 0x10) ; HDMA Mid Frame Table Address Registers (Low)
+A2AH$x      = 0x4309 + ($x * 0x10) ; HDMA Mid Frame Table Address Registers (High)
+NTLR$x      = 0x430A + ($x * 0x10) ; HDMA Line Counter Register
+endmacro
+
+dma_registers 0
+dma_registers 1
+dma_registers 2
+dma_registers 3
+dma_registers 4
+dma_registers 5
+dma_registers 6
+dma_registers 7
+
+unmacro dma_registers
