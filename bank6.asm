@@ -191,13 +191,13 @@ open_debug_menu:
     STA z:0x40
     REP #0x20
     LDA #addr(unk_7E21E6)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(unk_7E21E6)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA z:0x40
     ORA #0x20
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
     LDA #addr(debug_menu_initializer)
     STA z:pause_handler.handler, X
@@ -489,11 +489,11 @@ handle_debug_menu_input:
 clear_debug_cursor:
     REP #0x20
     LDA #addr(unk_7E2020)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PHX
     SEP #0x20
     LDA #bank(unk_7E2020)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA a:addr(debug_cursor)
     CLC
     ADC #8
@@ -503,11 +503,11 @@ clear_debug_cursor:
     TAX
     LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:0x53
+    STA z:0x53
     SEP #0x20
     LDA #' '
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
     PLX
     RTL
@@ -515,10 +515,10 @@ clear_debug_cursor:
 draw_debug_cursor:
     REP #0x20
     LDA #addr(unk_7E2020)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(unk_7E2020)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     PHX
     LDA a:addr(debug_cursor)
     CLC
@@ -529,11 +529,11 @@ draw_debug_cursor:
     TAX
     LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:0x53
+    STA z:0x53
     SEP #0x20
     LDA #'☺'
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
     PLX
     RTL
@@ -543,11 +543,11 @@ write_on_off:
     STA z:0x40
     REP #0x20
     LDA #addr(unk_7E2038)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PHX
     SEP #0x20
     LDA #bank(unk_7E2038)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA a:addr(debug_cursor)
     CLC
     ADC #8
@@ -557,45 +557,45 @@ write_on_off:
     TAX
     LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:0x53
+    STA z:0x53
     SEP #0x20
     LDA z:0x40
     BNE .write_on
 
 ; write off
     LDA #'O'
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     SEP #0x20
     LDA #'F'
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     SEP #0x20
     LDA #'F'
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     BRA .loc_C603D5
 
 .write_on:
     SEP #0x20
     LDA #' '
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     SEP #0x20
     LDA #'O'
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     SEP #0x20
     LDA #'N'
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
 
 .loc_C603D5:
     REP #0x20
@@ -608,7 +608,7 @@ draw_number:
     STA z:0x40
     SEP #0x20
     LDA #bank(unk_7E203A)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA a:addr(debug_cursor)
     CLC
     ADC #8
@@ -620,7 +620,7 @@ draw_number:
     LDA f:offsets_to_debug_menu_map, X
     CLC
     ADC #addr(unk_7E203A)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA a:addr(debug_cursor)
     CMP #0x11
@@ -648,16 +648,16 @@ draw_number:
     TAX
     SEP #0x20
     LDA f:hex_digits, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
     LDA z:0x40
     AND #0xF
     TAX
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     SEP #0x20
     LDA f:hex_digits, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
     PLX
     RTL
@@ -676,11 +676,11 @@ draw_speed_or_screen_name:
     BEQ .loc_C604D4
     REP #0x20
     LDA #addr(unk_7E2038)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PHX
     SEP #0x20
     LDA #bank(unk_7E2038)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA a:addr(debug_cursor)
     CLC
     ADC #8
@@ -690,8 +690,8 @@ draw_speed_or_screen_name:
     TAX
     LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:0x53
+    STA z:0x53
     LDA z:0x40
     AND #0xFF
     ASL A
@@ -699,21 +699,21 @@ draw_speed_or_screen_name:
     TAX
     SEP #0x20
     LDA f:speed_names, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     INX
     SEP #0x20
     LDA f:speed_names, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     INX
     SEP #0x20
     LDA f:speed_names, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
     PLX
     RTL
@@ -721,11 +721,11 @@ draw_speed_or_screen_name:
 .loc_C604D4:
     REP #0x20
     LDA #addr(unk_7E2038)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PHX
     SEP #0x20
     LDA #bank(unk_7E2038)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA a:addr(debug_cursor)
     CLC
     ADC #8
@@ -735,8 +735,8 @@ draw_speed_or_screen_name:
     TAX
     LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:0x53
+    STA z:0x53
     LDA z:0x40
     AND #0xFF
     ASL A
@@ -744,21 +744,21 @@ draw_speed_or_screen_name:
     TAX
     SEP #0x20
     LDA f:screen_names, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     INX
     SEP #0x20
     LDA f:screen_names, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     INX
     SEP #0x20
     LDA f:screen_names, X
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
     PLX
     RTL
@@ -1127,10 +1127,10 @@ draw_debug_menu:
 .loc_C60A02:
     REP #0x20
     LDA #addr(unk_7E2000)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(unk_7E2000)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA f:[z:0x50]
     CMP #0xFF
     BNE .loc_C60A16
@@ -1141,8 +1141,8 @@ draw_debug_menu:
     AND #0xFF
     ASL A
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:0x53
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
     AND #0xFF
@@ -1150,8 +1150,8 @@ draw_debug_menu:
     TAX
     LDA f:offsets_to_debug_menu_map, X
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:0x53
+    STA z:0x53
     INC z:0x50
     SEP #0x20
     LDA #0xF
@@ -1159,14 +1159,14 @@ draw_debug_menu:
 
 .loc_C60A3B:
     LDA f:[z:0x50]
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
+    INC z:0x53
     SEP #0x20
     LDA #0x20
-    STA f:[z:addr(far_function_pointer)]
+    STA f:[z:0x53]
     REP #0x20
-    INC z:addr(far_function_pointer)
+    INC z:0x53
     INC z:0x50
     SEP #0x20
     DEC z:0x40
@@ -1505,9 +1505,9 @@ handle_player_tile:
     ASL A
     TAX
     LDA #bank(bomb_up_bonus)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA f:bonus_handlers, X
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PLX
     JSL call_far_function_at_0053
 
@@ -2065,7 +2065,7 @@ question_mark_bonus:
 i16
     SEP #0x20
     LDA #bank(bomb_up_bonus)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     PHX
     LDX #0x17
     JSL random
@@ -2086,7 +2086,7 @@ i16
     TAX
     LDA f:bonus_handlers, X
     PLX
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL call_far_function_at_0053
     RTL
 
@@ -2304,12 +2304,12 @@ unused_palette_manager:
 i16
     REP #0x20
     LDA #addr(palette_table)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(palette_table)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
-    INC z:addr(far_function_pointer)
+    INC z:0x53
     LDA #1
     STA z:0x42
     LDA #0
@@ -2319,15 +2319,15 @@ i16
     JSL sub_C475C8
     REP #0x20
     LDA #addr(palette_table)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(palette_table)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA #addr(palette_table)
     CLC
     ADC #8
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA #8
     STA z:0x42
     LDA #0
@@ -2801,13 +2801,13 @@ call_screen_init_functions:
     LDA f:[z:0x50]
     CMP #INIT_FUNCTIONS_TERMINATOR
     BEQ .done
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     PHA
     LDA z:0x56
     PHA
@@ -2816,7 +2816,7 @@ call_screen_init_functions:
     PLA
     STA z:0x56
     PLA
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     BRA -
 
 .done:
@@ -2914,10 +2914,10 @@ create_enemies:
     BEQ .ret
     
     ; Copy the function pointer to 0x53 so we can call it later via call_far_function_at_0053
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:.ROM_ENEMY_FUNCTION_PTR
     LDA f:[z:.ROM_ENEMY_FUNCTION_PTR]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:.ROM_ENEMY_FUNCTION_PTR
     INC z:.ROM_ENEMY_FUNCTION_PTR
     
@@ -2945,7 +2945,7 @@ create_enemies:
     ; Save temp variables
     LDA z:0x50
     PHA
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     PHA
     LDA z:.ROM_ENEMY_FUNCTION_PTR
     PHA
@@ -2965,7 +2965,7 @@ create_enemies:
     PLA
     STA z:.ROM_ENEMY_FUNCTION_PTR
     PLA
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PLA
     STA z:0x50
     
@@ -3361,11 +3361,11 @@ i16
 .normal_mode:
     SEP #0x20
     LDA a:addr(level_manager_object.pointer_to_bonus_list)
-    STA z:addr(.BONUS_PTR)
+    STA z:.BONUS_PTR
     LDA a:addr(level_manager_object.pointer_to_bonus_list+1)
-    STA z:addr(.BONUS_PTR + 1)
+    STA z:.BONUS_PTR + 1
     LDA #bank(stage_1_1)
-    STA z:addr(.BONUS_PTR + 2)
+    STA z:.BONUS_PTR + 2
     
 -
     JSL generate_random_position
@@ -3388,7 +3388,7 @@ i16
     PHY
     ASL A
     TAY
-    LDA f:[z:addr(.BONUS_PTR)], Y
+    LDA f:[z:.BONUS_PTR], Y
     PLY
 
 .no_bonus:
@@ -3431,10 +3431,10 @@ copy_enemy_creation_functions:
     .DEST = 0x53
     REP #0x20
     LDA #addr(enemy_creation_functions)
-    STA z:addr(.DEST)
+    STA z:.DEST
     SEP #0x20
     LDA #bank(enemy_creation_functions)
-    STA z:addr(.DEST + 2)
+    STA z:.DEST + 2
     
     REP #0x20
     LDA z:.SRC
@@ -4053,7 +4053,7 @@ add_unprocessed_neighbor_tiles_to_stack:
     PLY
     DEC z:.NEIGHBORS_LEFT
     BPL .loop
-    LDY z:addr(.TILE_OFFSET)
+    LDY z:.TILE_OFFSET
     RTL
 
 .first_added:
@@ -4191,91 +4191,57 @@ i16
     CLC
     RTL
 
-sub_C61F91:
+write_paused_text:
     SEP #0x20
     LDA #0x80
     STA a:addr(VMAIN)
+    
     REP #0x20
-    LDA #0x58CC
+    LDA #BG3_BASE + 0xCC
     STA a:addr(VMADDL)
-    LDA #0x4E8
+    
+    .TILE = 0x4E8
+rept 8
+    LDA #.TILE
     STA a:addr(VMDATAL)
-    LDA #0x4E9
-    STA a:addr(VMDATAL)
-    LDA #0x4EA
-    STA a:addr(VMDATAL)
-    LDA #0x4EB
-    STA a:addr(VMDATAL)
-    LDA #0x4EC
-    STA a:addr(VMDATAL)
-    LDA #0x4ED
-    STA a:addr(VMDATAL)
-    LDA #0x4EE
-    STA a:addr(VMDATAL)
-    LDA #0x4EF
-    STA a:addr(VMDATAL)
-    LDA #0x58EC
+    .TILE = .TILE + 1
+endr
+    
+    LDA #BG3_BASE + 0xEC
     STA a:addr(VMADDL)
-    LDA #0x4F8
+
+    .TILE = 0x4F8
+rept 8
+    LDA #.TILE
     STA a:addr(VMDATAL)
-    LDA #0x4F9
-    STA a:addr(VMDATAL)
-    LDA #0x4FA
-    STA a:addr(VMDATAL)
-    LDA #0x4FB
-    STA a:addr(VMDATAL)
-    LDA #0x4FC
-    STA a:addr(VMDATAL)
-    LDA #0x4FD
-    STA a:addr(VMDATAL)
-    LDA #0x4FE
-    STA a:addr(VMDATAL)
-    LDA #0x4FF
-    STA a:addr(VMDATAL)
+    .TILE = .TILE + 1
+endr
     RTL
 
-sub_C62007:
+clear_paused_text:
     SEP #0x20
     LDA #0x80
     STA a:addr(VMAIN)
+    
     REP #0x20
-    LDA #0x58CC
+    LDA #BG3_BASE + 0xCC
     STA a:addr(VMADDL)
+    
+rept 8
     LDA #0
     STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0x58EC
+endr
+    
+    LDA #BG3_BASE + 0xEC
     STA a:addr(VMADDL)
+
+rept 8
     LDA #0
     STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
-    LDA #0
-    STA a:addr(VMDATAL)
+endr
     RTL
+
+; Dead code start
 
 sub_C6207D:
     REP #0x20
@@ -4384,27 +4350,29 @@ i16
     BNE .loc_C6210B
     RTL
 
+; Dead code end
+
 update_palettes:
 i16
     SEP #0x20
     LDX #addr(palette_slots)
 
-.loc_C6213C:
-    LDA z:3, X
-    BIT #1
-    BEQ .loc_C62156
-    CMP #3
-    BNE .loc_C6214E
+-
+    LDA z:palette_slot.flags, X
+    BIT #PALETTE_SLOT_FLAG_NEEDS_UPDATE
+    BEQ .next
+    CMP #PALETTE_SLOT_FLAG_NEEDS_UPDATE | PALETTE_SLOT_FLAG_FADING
+    BNE .fade
     JSL load_a_palette
     SEP #0x20
-    BRA .loc_C62156
+    BRA .next
 
-.loc_C6214E:
-    STA z:3, X
+.fade:
+    STA z:palette_slot.flags, X
     JSL fade_a_palette
     SEP #0x20
 
-.loc_C62156:
+.next:
     INX
     INX
     INX
@@ -4414,24 +4382,24 @@ i16
     INX
     INX
     CPX #addr(palette_slots + palette_slot.sizeof * 8)
-    BNE .loc_C6213C
+    BNE -
 
-.loc_C62163:
-    LDA z:3, X
-    BIT #1
-    BEQ .loc_C6217D
-    CMP #3
-    BNE .loc_C62175
+-
+    LDA z:palette_slot.flags, X
+    BIT #PALETTE_SLOT_FLAG_NEEDS_UPDATE
+    BEQ .next_b
+    CMP #PALETTE_SLOT_FLAG_NEEDS_UPDATE | PALETTE_SLOT_FLAG_FADING
+    BNE .fade_b
     JSL load_b_palette
     SEP #0x20
-    BRA .loc_C6217D
+    BRA .next_b
 
-.loc_C62175:
-    STA z:3, X
+.fade_b:
+    STA z:palette_slot.flags, X
     JSL fade_b_palette
     SEP #0x20
 
-.loc_C6217D:
+.next_b:
     INX
     INX
     INX
@@ -4440,305 +4408,255 @@ i16
     INX
     INX
     INX
-    CPX #0x2000
-    BNE .loc_C62163
-    LDA a:addr(word_7E0318)
-    BEQ .locret_C621A3
-    STZ a:addr(word_7E0318)
+    CPX #addr(palette_slots.end)
+    BNE -
+    
+    LDA a:addr(palettes_require_transfer)
+    BEQ .ret
+    STZ a:addr(palettes_require_transfer)
     REP #0x20
-    LDA #addr(sub_C624AF)
-    STA z:0x50
+    LDA #addr(transfer_palettes)
+    STA z:schedule_vblank_function.FUNCTION
     SEP #0x20
-    LDA #bank(sub_C624AF)
-    STA z:0x52
-    JSL sub_C62514
+    LDA #bank(transfer_palettes)
+    STA z:schedule_vblank_function.FUNCTION + 2
+    JSL schedule_vblank_function
 
-.locret_C621A3:
+.ret:
     RTL
 
 load_a_palette:
     REP #0x20
     LDA #addr(a_palettes)
-    STA z:addr(far_function_pointer)
+    STA z:load_palette.BASE
     SEP #0x20
     LDA #bank(a_palettes)
-    STA z:addr(far_function_pointer + 2)
-    BRA load_palette_at_53
+    STA z:load_palette.BASE + 2
+    BRA load_palette
 
 load_b_palette:
     REP #0x20
     LDA #addr(b_palettes)
-    STA z:addr(far_function_pointer)
+    STA z:load_palette.BASE
     SEP #0x20
     LDA #bank(b_palettes)
-    STA z:addr(far_function_pointer + 2)
+    STA z:load_palette.BASE + 2
+    ; fallthrough
 
-load_palette_at_53:
+load_palette:
+    .BASE = 0x53 ; Argument
+    .PALETTE = 0x50
+    .ROM_OFFSET = 0x42
     SEP #0x20
-    STZ z:2, X
-    LDA z:3, X
-    AND #0xFE
-    STA z:3, X
+    STZ z:palette_slot.fade_counter, X
+    LDA z:palette_slot.flags, X
+    AND #~PALETTE_SLOT_FLAG_NEEDS_UPDATE
+    STA z:palette_slot.flags, X
+    
     REP #0x20
-    LDA z:4, X
+    LDA z:palette_slot.offset, X
     CLC
-    ADC #addr(unk_7F0400)
-    STA z:0x50
+    ADC #addr(palettes)
+    STA z:.PALETTE
     SEP #0x20
-    LDA #bank(unk_7F0400)
-    STA z:0x52
+    LDA #bank(palettes)
+    STA z:.PALETTE + 2
+    
     REP #0x20
-    LDA z:0, X
+    LDA z:palette_slot.palette_index, X
     AND #0xFF
     ASL A
     ASL A
     ASL A
     ASL A
     ASL A
-    STA z:0x42
+    STA z:.ROM_OFFSET
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
-    LDA a:addr(word_7E0318)
+    
+    ADC z:.BASE
+    STA z:.BASE
+    ; Copy
+rept 16
+    LDA f:[z:.BASE]
+    STA f:[z:.PALETTE]
+    INC z:.BASE
+    INC z:.BASE
+    INC z:.PALETTE
+    INC z:.PALETTE
+endr
+    
+    LDA a:addr(palettes_require_transfer)
     ORA #1
-    STA a:addr(word_7E0318)
+    STA a:addr(palettes_require_transfer)
     RTL
 
--
+fade_palette.ret:
     RTL
     
 fade_a_palette:
     REP #0x20
     LDA #addr(a_palettes)
-    STA z:addr(far_function_pointer)
+    STA z:fade_palette.BASE
     SEP #0x20
     LDA #bank(a_palettes)
-    STA z:addr(far_function_pointer + 2)
+    STA z:addr(fade_palette.BASE + 2)
     BRA fade_palette
-
-    SEP #0x20
+    
+    SEP #0x20 ; Dead code
+    
 fade_b_palette:
 
     REP #0x20
     LDA #addr(b_palettes)
-    STA z:addr(far_function_pointer)
+    STA z:fade_palette.BASE
     SEP #0x20
     LDA #bank(b_palettes)
-    STA z:addr(far_function_pointer + 2)
+    STA z:fade_palette.BASE + 2
+    ; fallthrough
 
 fade_palette:
+    .BASE = 0x53 ; Argument
+    .LOOP_COUNTER = 0x4A
+    
+    ; Calculate the step size. TODO: figure what it does
     REP #0x20
-    LDA z:1, X
+    LDA z:palette_slot.fade_flags, X
     PHX
     AND #0xF
     TAX
     TAY
     SEP #0x20
-    LDA f:byte_C62426, X
+    LDA f:fade_steps_related_2, X
     PLX
-    AND a:addr(word_7E0304)
-    BNE -
+    AND a:addr(palette_fade_disable_mask) ; Always zero, never set
+    BNE .ret ; Never happens
     PHX
     REP #0x20
     TYA
     TAX
     SEP #0x20
-    LDA f:byte_C62416, X
+    LDA f:fade_steps_related, X
     PLX
-    STA z:0x40
-    LDA z:2, X
+    STA z:step_color.STEP
+    
+    LDA z:palette_slot.fade_counter, X
     SEC
-    SBC z:0x40
-    STA z:2, X
-    BCS .loc_C6230B
-    STZ z:2, X
-    LDA z:3, X
-    AND #0xFE
-    STA z:3, X
+    SBC z:step_color.STEP
+    
+    STA z:palette_slot.fade_counter, X
+    BCS +
+    STZ z:palette_slot.fade_counter, X
+    LDA z:palette_slot.flags, X
+    AND #~PALETTE_SLOT_FLAG_NEEDS_UPDATE
+    STA z:palette_slot.flags, X
++
 
-.loc_C6230B:
     REP #0x20
-    LDA z:4, X
+    LDA z:palette_slot.offset, X
     CLC
-    ADC #addr(unk_7F0400)
-    STA z:0x50
+    ADC #addr(palettes)
+    STA z:copy_color.DEST
     SEP #0x20
-    LDA #bank(unk_7F0400)
-    STA z:0x52
+    LDA #bank(palettes)
+    STA z:copy_color.DEST + 2
     REP #0x20
-    LDA z:0, X
+    LDA z:palette_slot.palette_index, X
     AND #0xFF
     ASL A
     ASL A
     ASL A
     ASL A
     ASL A
-    STA z:0x42
+    STA z:0x42 ; Never read again
     CLC
-    ADC z:addr(far_function_pointer)
-    STA z:addr(far_function_pointer)
+    ADC z:copy_color.SRC
+    STA z:copy_color.SRC
+    
     LDA #0x10
-    STA z:0x4A
+    STA z:.LOOP_COUNTER
 
-.loc_C62333:
-    JSL sub_C62357
+-
+    JSL step_color
     REP #0x20
-    DEC z:0x4A
-    BNE .loc_C62333
+    DEC z:.LOOP_COUNTER
+    BNE -
+
     RTL
 
-sub_C6233E:
+copy_color:
+    .SRC = 0x53 ; Argument
+    .DEST = 0x50 ; Argument
     REP #0x20
-    LDA f:[z:addr(far_function_pointer)]
-    STA f:[z:0x50]
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    INC z:0x50
-    INC z:0x50
+    LDA f:[z:.SRC]
+    STA f:[z:.DEST]
+    INC z:.SRC
+    INC z:.SRC
+    INC z:.DEST
+    INC z:.DEST
     SEP #0x20
-    LDA a:addr(word_7E0318)
+    LDA a:addr(palettes_require_transfer)
     ORA #1
-    STA a:addr(word_7E0318)
+    STA a:addr(palettes_require_transfer)
     RTL
     
-sub_C62357:
+step_color:
+    .SRC_PTR = 0x50 ; Argument
+    .DEST_PTR = 0x53 ; Argument
+    .STEP = 0x40 ; Argument
+    .DEST_COLOR = 0x48
+    .SRC_COLOR = 0x42
+    .OUT_COLOR = 0x46
+    
     REP #0x20
-    LDA z:3, X
-    AND #1
-    BEQ sub_C6233E
-    LDA f:[z:0x50]
-    STA z:0x42
-    LDA f:[z:addr(far_function_pointer)]
-    STA z:0x48
-    STZ z:0x46
+    LDA z:palette_slot.flags, X
+    AND #PALETTE_SLOT_FLAG_NEEDS_UPDATE
+    BEQ copy_color
+    
+    LDA f:[z:.SRC_PTR]
+    STA z:.SRC_COLOR
+    LDA f:[z:0x53]
+    STA z:.DEST_COLOR
+    
+    ; Red
+    STZ z:.OUT_COLOR
     SEP #0x20
-    LDA z:0x48
+    LDA z:.DEST_COLOR
     AND #0x1F
-    STA z:0x41
-    LDA z:0x42
+    STA z:step_color_value.DEST_VALUE
+    LDA z:.SRC_COLOR
     AND #0x1F
-    STA z:0x44
-    JSL sub_C623E1
-    SEP #0x20
-    AND #0x1F
-    STA z:0x46
-    REP #0x20
-    LDA z:0x48
-    LSR A
-    LSR A
-    LSR A
-    LSR A
-    LSR A
-    SEP #0x20
-    AND #0x1F
-    STA z:0x41
-    REP #0x20
-    LDA z:0x42
-    LSR A
-    LSR A
-    LSR A
-    LSR A
-    LSR A
+    STA z:step_color_value.SRC_VALUE
+    JSL step_color_value
+    
+    ; Store
     SEP #0x20
     AND #0x1F
-    STA z:0x44
-    JSL sub_C623E1
+    STA z:.OUT_COLOR
+    
+    ; Green
+    REP #0x20
+    LDA z:.DEST_COLOR
+    LSR A
+    LSR A
+    LSR A
+    LSR A
+    LSR A
+    SEP #0x20
+    AND #0x1F
+    STA z:step_color_value.DEST_VALUE
+    REP #0x20
+    LDA z:.SRC_COLOR
+    LSR A
+    LSR A
+    LSR A
+    LSR A
+    LSR A
+    SEP #0x20
+    AND #0x1F
+    STA z:step_color_value.SRC_VALUE
+    JSL step_color_value
+
+    ; Store
     REP #0x20
     AND #0x1F
     ASL A
@@ -4746,76 +4664,90 @@ sub_C62357:
     ASL A
     ASL A
     ASL A
-    ORA z:0x46
-    STA z:0x46
-    LDA z:0x49
+    ORA z:.OUT_COLOR
+    STA z:.OUT_COLOR
+    
+    ; Blue
+    LDA z:.DEST_COLOR + 1
     LSR A
     LSR A
     AND #0x1F
-    STA z:0x41
-    LDA z:0x43
+    STA z:step_color_value.DEST_VALUE
+    LDA z:.SRC_COLOR + 1
     LSR A
     LSR A
     AND #0x1F
-    STA z:0x44
-    JSL sub_C623E1
+    STA z:step_color_value.SRC_VALUE
+    JSL step_color_value
+
+    ; Store
     SEP #0x20
     AND #0x1F
     ASL A
     ASL A
-    ORA z:0x47
-    STA z:0x47
+    ORA z:.OUT_COLOR + 1
+    STA z:.OUT_COLOR + 1
+    
+    ; Update
     REP #0x20
-    LDA z:0x46
-    STA f:[z:0x50]
-    INC z:0x50
-    INC z:0x50
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    LDA z:.OUT_COLOR
+    STA f:[z:.SRC_PTR]
+    
+    INC z:.SRC_PTR
+    INC z:.SRC_PTR
+    INC z:.DEST_PTR
+    INC z:.DEST_PTR
     RTL
 
-sub_C623E1:
+step_color_value:
+    .SRC_VALUE = 0x44 ; Argument
+    .DEST_VALUE = 0x41 ; Argument
+    .STEP = step_color.STEP ; Argument
+    ; A = SRC_VALUE on entry
+    
     SEP #0x20
     SEC
-    SBC z:0x41
-    BCS .loc_C623F1
-    LDA z:0x41
+    SBC z:.DEST_VALUE
+    BCS .fade ; SRC > DEST
+    
+    LDA z:.DEST_VALUE
     SEC
-    SBC z:0x44
-    CMP z:2, X
-    BCC .loc_C62413
+    SBC z:.SRC_VALUE
+    CMP z:palette_slot.fade_counter, X
+    BCC .ret_src ; DEST - SRC > counter, it's too early to start fading the source
 
-.loc_C623F1:
-    LDA a:addr(word_7E0318)
+.fade:
+    LDA a:addr(palettes_require_transfer)
     ORA #1
-    STA a:addr(word_7E0318)
-    LDA z:0x44
-    CMP z:0x41
-    BEQ .locret_C62412
-    BCC .loc_C62409
+    STA a:addr(palettes_require_transfer)
+    
+    LDA z:.SRC_VALUE
+    CMP z:.DEST_VALUE
+    BEQ .ret ; SRC = DEST, nothing to do
+    
+    BCC .increase
     SEC
-    SBC z:0x40
-    BCS .locret_C62408
-    LDA z:0x41
-
-.locret_C62408:
+    SBC z:.STEP
+    BCS +
+    LDA z:.DEST_VALUE ; Overflowed, set to dest directly
++
     RTL
 
-.loc_C62409:
+.increase:
     CLC
-    ADC z:0x40
+    ADC z:.STEP
     CMP #0x1F
-    BCC .locret_C62412
-    LDA z:0x41
-
-.locret_C62412:
+    BCC +
+    LDA z:.DEST_VALUE ; Overflowed, set to dest directly
++
+.ret
     RTL
 
-.loc_C62413:
-    LDA z:0x44
+.ret_src:
+    LDA z:.SRC_VALUE
     RTL
 
-byte_C62416:
+fade_steps_related:
     db 0x20, 0x10
     db 8, 4
     db 2, 1
@@ -4825,7 +4757,7 @@ byte_C62416:
     db 1, 1
     db 1, 1
     
-byte_C62426:
+fade_steps_related_2:
     db 0, 0
     db 0, 0
     db 0, 0
@@ -4857,56 +4789,64 @@ set_palette:
     LDA #0x20
     STA z:palette_slot.fade_counter, X
     LDA #1
-    STA z:palette_slot.fade_state, X
+    STA z:palette_slot.flags, X
     TYA
     AND #0xFF
     BNE .needs_fade
     LDA #3
-    STA z:palette_slot.fade_state, X
+    STA z:palette_slot.flags, X
 
 .needs_fade:
     PLX
     RTL
 
-sub_C62460:
+process_vblank_queue:
+    .FUNCTION = 0x50
+    .PTR_ARG = 0x53
+    .WORD_ARG_1 = 0x40
+    .WORD_ARG_2 = 0x42
+    
     REP #0x20
-    LDA a:addr(word_7E030C)
-    CMP a:addr(word_7E030E)
-    BNE .loc_C6246B
-    RTL
+    LDA a:addr(vblank_queue_read_end)
+    CMP a:addr(vblank_queue_write_end)
+    BNE +
+    RTL ; Cyclic buffer empty
++
 
-.loc_C6246B:
     TAX
     CLC
-    ADC #0xA
-    CMP #0x140
-    BCC .loc_C62478
-    LDA #0
+    ADC #vblank_queued_function.sizeof
+    CMP #vblank_queue_cyclic_buffer.end - vblank_queue_cyclic_buffer
+    BCC +
+    LDA #0 ; Wrap around
++
 
-.loc_C62478:
-    STA a:addr(word_7E030C)
+    STA a:addr(vblank_queue_read_end)
     SEP #0x20
-    LDA a:addr(unk_7E031C), X
-    STA z:0x50
-    LDA a:addr(unk_7E031C + 1), X
-    STA z:0x51
-    LDA a:addr(unk_7E031C + 2), X
-    STA z:0x52
-    LDA a:addr(unk_7E031C + 3), X
-    STA z:addr(far_function_pointer)
-    LDA a:addr(unk_7E031C + 4), X
-    STA z:addr(far_function_pointer + 1)
-    LDA a:addr(unk_7E031C + 5), X
-    STA z:addr(far_function_pointer + 2)
+    LDA a:addr(vblank_queue_cyclic_buffer.function), X
+    STA z:.FUNCTION
+    LDA a:addr(vblank_queue_cyclic_buffer.function + 1), X
+    STA z:.FUNCTION + 1
+    LDA a:addr(vblank_queue_cyclic_buffer.function + 2), X
+    STA z:.FUNCTION + 2
+    
+    LDA a:addr(vblank_queue_cyclic_buffer.ptr_arg), X
+    STA z:.PTR_ARG
+    LDA a:addr(vblank_queue_cyclic_buffer.ptr_arg + 1), X
+    STA z:.PTR_ARG + 1
+    LDA a:addr(vblank_queue_cyclic_buffer.ptr_arg + 2), X
+    STA z:.PTR_ARG + 2
+    
     REP #0x20
-    LDA a:addr(unk_7E031C + 6), X
-    STA z:0x40
-    LDA a:addr(unk_7E031C + 8), X
-    STA z:0x42
-    JSL call_function_at_0050
-    JML sub_C62460
+    LDA a:addr(vblank_queue_cyclic_buffer.word_arg_1), X
+    STA z:.WORD_ARG_1
+    LDA a:addr(vblank_queue_cyclic_buffer.word_arg_2), X
+    STA z:.WORD_ARG_2
+    
+    JSL call_far_function_at_0050
+    JML process_vblank_queue
 
-sub_C624AF:
+transfer_palettes:
     SEP #0x20
     LDA #0
     STA a:addr(CGADD)
@@ -4914,11 +4854,11 @@ sub_C624AF:
     STA a:addr(DMAP5)
     LDA #0x22
     STA a:addr(BBAD5)
-    LDA #low(unk_7F0400)
+    LDA #low(palettes)
     STA a:addr(A1TL5)
-    LDA #high(unk_7F0400)
+    LDA #high(palettes)
     STA a:addr(A1TH5)
-    LDA #bank(unk_7F0400)
+    LDA #bank(palettes)
     STA a:addr(A1B5)
     LDA #0
     STA a:addr(DASL5)
@@ -4928,7 +4868,9 @@ sub_C624AF:
     STA a:addr(MDMAEN)
     RTL
 
-sub_C624DF:
+; Unused
+transfer_palettes_from_address:
+    .ADDRESS = 0x53
     SEP #0x20
     LDA #0
     STA a:addr(CGADD)
@@ -4937,11 +4879,11 @@ sub_C624DF:
     STA a:addr(DMAP5)
     LDA #0x22
     STA a:addr(BBAD5)
-    LDA a:0x53
+    LDA a:.ADDRESS
     STA a:addr(A1TL5)
-    LDA a:0x54
+    LDA a:.ADDRESS + 1
     STA a:addr(A1TH5)
-    LDA a:0x55
+    LDA a:.ADDRESS + 2
     STA a:addr(A1B5)
     LDA #0x20
     STA a:addr(DASL5)
@@ -4951,54 +4893,62 @@ sub_C624DF:
     STA a:addr(MDMAEN)
     RTL
 
-sub_C62514:
+schedule_vblank_function:
+    .FUNCTION = 0x50 ; Argument
+    .PTR_ARG = 0x53 ; Argument
+    .WORD_ARG_1 = 0x40 ; Argument
+    .WORD_ARG_2 = 0x42 ; Argument
+    
     REP #0x20
     PHX
-    LDA a:addr(word_7E030E)
+    LDA a:addr(vblank_queue_write_end)
     TAX
     CLC
-    ADC #0xA
-    CMP #0x140
-    BCC .loc_C62527
-    LDA #0
+    ADC #vblank_queued_function.sizeof
+    CMP #vblank_queue_cyclic_buffer.end - vblank_queue_cyclic_buffer
+    BCC +
+    LDA #0 ; Wrap around
++
 
-.loc_C62527:
-    CMP a:addr(word_7E030C)
-    BEQ .loc_C6255F
+    CMP a:addr(vblank_queue_read_end)
+    BEQ .out_of_space
     TAY
     SEP #0x20
-    LDA z:0x50
-    STA a:addr(unk_7E031C), X
-    LDA z:0x51
-    STA a:addr(unk_7E031C + 1), X
-    LDA z:0x52
-    STA a:addr(unk_7E031C + 2), X
-    LDA z:addr(far_function_pointer)
-    STA a:addr(unk_7E031C + 3), X
-    LDA z:addr(far_function_pointer + 1)
-    STA a:addr(unk_7E031C + 4), X
-    LDA z:addr(far_function_pointer + 2)
-    STA a:addr(unk_7E031C + 5), X
-    REP #0x20
-    LDA z:0x40
-    STA a:addr(unk_7E031C + 6), X
-    LDA z:0x42
-    STA a:addr(unk_7E031C + 8), X
-    TYA
-    STA a:addr(word_7E030E)
 
-.loc_C6255D:
+    LDA z:.FUNCTION
+    STA a:addr(vblank_queue_cyclic_buffer.function), X
+    LDA z:.FUNCTION + 1
+    STA a:addr(vblank_queue_cyclic_buffer.function + 1), X
+    LDA z:.FUNCTION + 2
+    STA a:addr(vblank_queue_cyclic_buffer.function + 2), X
+    
+    LDA z:.PTR_ARG
+    STA a:addr(vblank_queue_cyclic_buffer.ptr_arg), X
+    LDA z:.PTR_ARG + 1
+    STA a:addr(vblank_queue_cyclic_buffer.ptr_arg + 1), X
+    LDA z:.PTR_ARG + 2
+    STA a:addr(vblank_queue_cyclic_buffer.ptr_arg + 2), X
+    
+    REP #0x20
+    LDA z:.WORD_ARG_1
+    STA a:addr(vblank_queue_cyclic_buffer.word_arg_1), X
+    LDA z:.WORD_ARG_2
+    STA a:addr(vblank_queue_cyclic_buffer.word_arg_2), X
+    TYA
+    STA a:addr(vblank_queue_write_end)
+
+.done:
     PLX
     RTL
 
-.loc_C6255F:
-    INC a:addr(word_7E030A)
-    BRA .loc_C6255D
+.out_of_space:
+    INC a:addr(vblank_queue_overflows)
+    BRA .done
 
-unknown_init_:
+reset_vblank_queue:
     REP #0x20
-    STZ a:addr(word_7E030C)
-    STZ a:addr(word_7E030E)
+    STZ a:addr(vblank_queue_read_end)
+    STZ a:addr(vblank_queue_write_end)
     RTL
 
 advance_animation_2:
@@ -5006,7 +4956,6 @@ advance_animation_2:
     LDA #0xFF
     STA z:0x40
     BRA advance_animation.loc_C6257D
-    ; fallthrough
 
 advance_animation:
     REP #0x20
@@ -5105,21 +5054,21 @@ i16
     STA z:0x52
     LDY #1
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA f:[z:0x50], Y
     INY
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     LDA f:[z:0x50], Y
-    STA z:addr(far_function_pointer + 2)
-    LDA f:[z:addr(far_function_pointer)]
+    STA z:0x53 + 2
+    LDA f:[z:0x53]
     BNE .loc_C6262C
     JML .loc_C62731
 
 .loc_C6262C:
     STA z:0x4C
-    INC z:addr(far_function_pointer)
+    INC z:0x53
     BNE .loc_C62634
-    INC z:addr(far_function_pointer + 1)
+    INC z:0x53 + 1
 
 .loc_C62634:
     LDA a:addr(word_7E0306)
@@ -5141,7 +5090,7 @@ i16
 
 .loc_C62657:
     STZ z:0x41
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     BPL .loc_C6265F
     DEC z:0x41
 
@@ -5155,13 +5104,13 @@ i16
     AND #1
     STA z:0x4D
     LDY #1
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     CLC
     ADC z:0xD3
     STA f:[z:0x56]
     INC z:0x56
     STZ z:0x41
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     STA z:0x40
     BPL .loc_C62684
     DEC z:0x41
@@ -5189,7 +5138,7 @@ i16
     INY
     LDA #0
     XBA
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     CLC
     ADC z:0xF, X
     AND #0xF
@@ -5204,18 +5153,18 @@ i16
     LDA f:byte_C307D7+0x58, X
     PLX
     LDY #3
-    ORA f:[z:addr(far_function_pointer)], Y
+    ORA f:[z:0x53], Y
     STA f:[z:0x56]
     INC z:0x56
     INY
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     AND #0xCF
     ORA z:0xE, X
     ORA z:0x47
     CLC
     ADC z:0x1E, X
     STA f:[z:0x56]
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     AND #0x20
     PHX
     TAX
@@ -5238,10 +5187,10 @@ i16
 
 .loc_C626FF:
     REP #0x20
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     CLC
     ADC #5
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     DEC z:0x4C
     BEQ .loc_C62731
@@ -5250,10 +5199,10 @@ i16
     REP #0x20
     DEC z:0x56
     DEC z:0x56
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     CLC
     ADC #5
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     DEC z:0x4C
     BEQ .loc_C62731
@@ -5503,15 +5452,15 @@ graphics_decompression_8192_bytes:
     STA z:0x48
 
 .loc_C6296F:
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     TAY
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     SEP #0x20
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     STA z:0x52
     REP #0x20
-    INC z:addr(far_function_pointer)
+    INC z:0x53
     JSL graphics_decompression_1024_bytes
     REP #0x20
     INC z:0x48
@@ -5523,10 +5472,10 @@ graphics_decompression_8192_bytes:
 sub_C62990:
     REP #0x20
     STZ z:0x48
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     TAY
     SEP #0x20
-    LDA z:addr(far_function_pointer + 2)
+    LDA z:0x53 + 2
     STA z:0x52
 
 .loc_C6299D:
@@ -5609,9 +5558,9 @@ graphics_decompression_128_bytes:
 
 graphics_decompression_81aa_terminated_interleaved:
     REP #0x20
-    LDY z:addr(far_function_pointer)
+    LDY z:0x53
     SEP #0x20
-    LDA z:addr(far_function_pointer + 2)
+    LDA z:0x53 + 2
     PHA
     PLB
     PHX
@@ -5721,13 +5670,13 @@ i16
     BIT #GAME_FLAGS_SCREEN_TRANSITION
     BNE hidden_bonus_object.locret_C62B02
     LDA #bank(lives_drop_to_zero_bonus)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA z:0x16, X
     ASL A
     PHX
     TAX
     LDA f:hidden_bonus_verifiers_array, X
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PLX
     LDY #addr(player_1)
     JSL call_far_function_at_0053
@@ -6693,7 +6642,7 @@ test_collision_mask_for_enemy_next_square:
     LDA #bank(test_collision_above)
     STA z:0x52
     LDA #bank(test_collision_above)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA z:enemy.direction, X
     AND #0xFF
@@ -6702,7 +6651,7 @@ test_collision_mask_for_enemy_next_square:
     ADC #addr(test_collision_funtions)
     STA z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JML [0x53]
 
     RTI
@@ -6938,7 +6887,7 @@ sub_C635FD:
 straight_movement:
     SEP #0x20
     LDA #bank(vectors_for_speed_and_direction)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA z:enemy.speed, X
     REP #0x20
     AND #0xFF
@@ -6954,7 +6903,7 @@ straight_movement:
     CLC
     ADC #addr(vectors_for_speed_and_direction)
     ADC z:0x40
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA z:enemy.fractional_x, X
     PHA
     LDA z:enemy.fractional_y, X
@@ -6972,13 +6921,13 @@ straight_movement:
     REP #0x20
     LDA z:enemy.fractional_x, X
     CLC
-    ADC f:[z:addr(far_function_pointer)]
+    ADC f:[z:0x53]
     STA z:enemy.fractional_x, X
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     LDA z:enemy.fractional_y, X
     CLC
-    ADC f:[z:addr(far_function_pointer)]
+    ADC f:[z:0x53]
     STA z:enemy.fractional_y, X
     JSL check_for_enemy_with_enemy_collision
     REP #0x20
@@ -12306,7 +12255,7 @@ i16
     LDA #0
     STA z:0xF, X
     LDA #bank(player_animation_list)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDY #1
     LDA f:[z:0xDB], Y
     STA z:0x36, X
@@ -12317,7 +12266,7 @@ i16
     LDA z:0x34, X
     STA z:0xF, X
     LDA #bank(player_animation_list)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
 
 .loc_C66BBB:
     SEP #0x20
@@ -12338,7 +12287,7 @@ i16
     LDA f:[z:0x50], Y
     STA z:0x50
     SEP #0x20
-    LDA z:addr(far_function_pointer + 2)
+    LDA z:0x53 + 2
     STA z:0x52
     JSL start_animation
 

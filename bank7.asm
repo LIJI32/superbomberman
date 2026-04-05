@@ -3937,7 +3937,7 @@ bigaron_straighten:
     BNE .loc_C72840
     SEP #0x20
     LDA #bank(vectors_for_speed_and_direction)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA z:0x20, X
     AND #0xF
@@ -3945,7 +3945,7 @@ bigaron_straighten:
     ASL A
     CLC
     ADC #addr(vectors_for_speed_and_direction)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA z:0x20, X
     BIT #1
     BNE .loc_C72826
@@ -3953,13 +3953,13 @@ bigaron_straighten:
     REP #0x20
     LDA z:0x10, X
     CLC
-    ADC f:[z:addr(far_function_pointer)]
+    ADC f:[z:0x53]
     STA z:0x10, X
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     LDA z:0x13, X
     CLC
-    ADC f:[z:addr(far_function_pointer)]
+    ADC f:[z:0x53]
     STA z:0x13, X
     CLC
     RTL
@@ -3969,13 +3969,13 @@ bigaron_straighten:
     REP #0x20
     LDA z:0x10, X
     CLC
-    ADC f:[z:addr(far_function_pointer)]
+    ADC f:[z:0x53]
     STA z:0x10, X
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
     LDA z:0x13, X
     CLC
-    ADC f:[z:addr(far_function_pointer)]
+    ADC f:[z:0x53]
     STA z:0x13, X
     CLC
     RTL
@@ -9752,10 +9752,10 @@ i16
     JSL set_palette
     REP #0x20
     LDA #addr(compressed_spiderer_tilemap+0xFC)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(compressed_spiderer_tilemap+0xFC)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     JSL tilemap_decompression
     REP #0x20
     LDA #addr(sub_C77137)
@@ -9763,7 +9763,7 @@ i16
     SEP #0x20
     LDA #bank(sub_C77137)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
 
 .loc_C76BD5:
     SEP #0x20
@@ -9861,7 +9861,7 @@ sub_C76C3A:
     ASL A
     PHX
     TAX
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     STA z:0x40
     LDA f:word_C76D91, X
     BPL .loc_C76CA1
@@ -9879,7 +9879,7 @@ sub_C76C3A:
 
 .loc_C76CB2:
     JSL sub_C76F41
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA z:0x56
     STA z:0x40
     LDA f:word_C76D91+2, X
@@ -9901,7 +9901,7 @@ sub_C76C3A:
 .loc_C76CD9:
     JSL sub_C76F41
     CLC
-    ADC z:addr(far_function_pointer)
+    ADC z:0x53
     LSR A
     CMP #2
     BPL .loc_C76CEB
@@ -10042,17 +10042,17 @@ i16
     STA z:0x30, X
     REP #0x20
     LDA #addr(word_C76EDE)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(word_C76EDE)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA #addr(word_C76EAE + 2)
     STA z:0x50
     SEP #0x20
     LDA #bank(word_C76EAE + 2)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
     REP #0x20
     LDA #addr(.loc_C76E43)
     STA z:0, X
@@ -10090,17 +10090,17 @@ i16
 .loc_C76E80:
     REP #0x20
     LDA #addr(word_C76ED6)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(word_C76ED6)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA #addr(word_C76EAE + 2)
     STA z:0x50
     SEP #0x20
     LDA #bank(word_C76EAE + 2)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
     REP #0x20
     LDA #addr(sub_C76C3A)
     STA z:0, X
@@ -10119,7 +10119,7 @@ word_C76EAE:
     dw 0xA021, 0x0000 
 
 sub_C76EC2:
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     STA a:addr(VMDATAL)
     INY
     INY
@@ -10228,7 +10228,7 @@ sub_C76F62:
     LSR A
     LSR A
     LSR A
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA a:addr(0x14), Y
     AND #0xFF
     SEC
@@ -11016,7 +11016,7 @@ credits_screen_handler:
     STA z:0x52
     PHX
     PHY
-    JSL sub_C62514
+    JSL schedule_vblank_function
     PLY
     PLX
     RTL

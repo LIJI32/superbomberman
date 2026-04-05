@@ -145,3 +145,9 @@ dma_registers 6
 dma_registers 7
 
 unmacro dma_registers
+
+; BG base addresses
+
+BG1_BASE = 0x5000
+BG2_BASE = 0x5400
+BG3_BASE = 0x5800

@@ -2784,28 +2784,28 @@ draw_falling_letters:
     LDA #0x40
     STA z:0x42
     LDA #0x599
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL sub_C53ACB
     LDA #0x6B
     STA z:0x40
     LDA #0x60
     STA z:0x42
     LDA #0x59E
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL sub_C53ACB
     LDA #0x98
     STA z:0x40
     LDA #0x80
     STA z:0x42
     LDA #0x5A3
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL sub_C53ACB
     LDA #0xC3
     STA z:0x40
     LDA #0xA0
     STA z:0x42
     LDA #0x5A8
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL sub_C53ACB
     RTL
 
@@ -2845,7 +2845,7 @@ sub_C53ACB:
     STA a:addr(0x18), Y
     LDA z:0x42
     STA a:addr(0x20), Y
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     STA a:addr(0x22), Y
     RTL
 
@@ -3123,7 +3123,7 @@ sub_C53CA9:
     TYA
     LSR A
     ADC #0x5400
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     REP #0x20
     LDA #addr(sub_C53E6B)
     STA z:0x50
@@ -3132,7 +3132,7 @@ sub_C53CA9:
     STA z:0x52
     PHX
     PHY
-    JSL sub_C62514
+    JSL schedule_vblank_function
     PLY
     PLX
 
@@ -3278,7 +3278,7 @@ sub_C53E6B:
     LDA #0x80
     STA a:addr(VMAIN)
     REP #0x20
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     STA a:addr(VMADDL)
     LDA #0
     STA a:addr(VMDATAL)
@@ -3764,7 +3764,7 @@ sub_C5421B:
     STA z:0x52
     PHX
     PHY
-    JSL sub_C62514
+    JSL schedule_vblank_function
     PLY
     PLX
     RTL
@@ -3872,7 +3872,7 @@ i16
     SEP #0x20
     LDA #bank(sub_C543E6)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
     REP #0x20
     LDA #0x28
     STA z:0x20, X
@@ -5070,11 +5070,11 @@ tile_animation:
     REP #0x20
     BCS .loc_C551AC
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     STA a:addr(0x16), Y
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
@@ -5087,7 +5087,7 @@ tile_animation:
     INC z:0x50
     LDA #0xFFFF
     STA a:addr(0xB), Y
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     AND #0xFF
     STA a:addr(0xD), Y
     SEP #0x20
@@ -5134,7 +5134,7 @@ a16
     SEP #0x20
     LDA #bank(sub_C551F3)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
 
 .locret_C551F2:
     RTL
@@ -5220,7 +5220,7 @@ battle_menu_setting_handler:
     INY
     INY
     LDA f:[z:0xDB], Y
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INY
     INY
     LDA f:[z:0xDB], Y
@@ -5256,13 +5256,13 @@ endif
 .loc_C552D5:
     SEP #0x20
     LDA #0xC3
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA [z:0x50]
     AND #0xFF
     ASL A
     TAY
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     STA z:0x50
     SEP #0x20
     PHK
@@ -5306,7 +5306,7 @@ endif
     PHA
     CLC
     ADC #addr(word_7E0C5F)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PLA
     ASL A
     ASL A
@@ -5319,23 +5319,23 @@ endif
     BEQ .loc_C5539A
     BIT #1
     BNE .loc_C55360
-    LDA [z:addr(far_function_pointer)]
+    LDA [z:0x53]
     DEC A
-    STA [z:addr(far_function_pointer)]
+    STA [z:0x53]
     BPL .loc_C5536D
     LDA f:[z:0xDB], Y
     DEC A
-    STA [z:addr(far_function_pointer)]
+    STA [z:0x53]
     BRA .loc_C5536D
 
 .loc_C55360:
-    LDA [z:addr(far_function_pointer)]
+    LDA [z:0x53]
     INC A
-    STA [z:addr(far_function_pointer)]
+    STA [z:0x53]
     CMP f:[z:0xDB], Y
     BNE .loc_C5536D
     LDA #0
-    STA [z:addr(far_function_pointer)]
+    STA [z:0x53]
 
 .loc_C5536D:
     LDA z:0x30, X
@@ -5350,7 +5350,7 @@ endif
     INY
     LDA f:[z:0xDB], Y
     STA z:0x50
-    LDA [z:addr(far_function_pointer)]
+    LDA [z:0x53]
     AND #0xFF
     ASL A
     TAY
@@ -5386,18 +5386,18 @@ if JOYPAD_RELATED_BUGFIX
 else
     BNE .loc_C55373
 endif
-    LDA [z:addr(far_function_pointer)]
+    LDA [z:0x53]
     BNE .loc_C55373
     LDA a:addr(level_manager_object.soft_blocks)
     BIT #1
     BNE .loc_C553C9
     LDA #2
-    STA [z:addr(far_function_pointer)]
+    STA [z:0x53]
     BRA .loc_C55373
 
 .loc_C553C9:
     LDA #1
-    STA [z:addr(far_function_pointer)]
+    STA [z:0x53]
     BRA .loc_C55373
 
 sub_C553CF:
@@ -5575,7 +5575,7 @@ battle_menu_handler:
     SEP #0x20
     LDA #bank(sub_C5545C)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
     JSL sub_C5572F
     REP #0x20
     LDA #addr(byte_C500A1)
@@ -5773,7 +5773,7 @@ sub_C55661:
     SEP #0x20
     LDA #bank(sub_C55478)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
     REP #0x20
     LDA #addr(sub_C556F1)
     STA z:0, X
@@ -7910,7 +7910,7 @@ sub_C56C37:
 
 .loc_C56C43:
     LDA #0xC3
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     PHX
     REP #0x20
     LDA z:0x36, X
@@ -7920,12 +7920,12 @@ sub_C56C37:
     BIT #1
     BNE .loc_C56C65
     LDA z:0x30, X
-    STA z:addr(far_function_pointer)
-    LDA f:[z:addr(far_function_pointer)]
+    STA z:0x53
+    LDA f:[z:0x53]
     TAY
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    LDA z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
+    LDA z:0x53
     STA z:0x30, X
 
 .loc_C56C65:
@@ -7987,7 +7987,7 @@ sub_C56C37:
 .loc_C56CC6:
     SEP #0x20
     LDA #bank(temp_uncompressed_graphics)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA z:0x34, X
     STA z:0x40
@@ -7997,7 +7997,7 @@ sub_C56C37:
     ASL A
     CLC
     ADC #addr(temp_uncompressed_graphics)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     REP #0x20
     LDA #addr(sub_C56DA2)
     STA z:0x50
@@ -8005,7 +8005,7 @@ sub_C56C37:
     LDA #bank(sub_C56DA2)
     STA z:0x52
     PHY
-    JSL sub_C62514
+    JSL schedule_vblank_function
     PLY
     REP #0x20
     LDA z:0x34, X
@@ -8083,10 +8083,10 @@ word_C56D66:
 sub_C56D78:
     SEP #0x20
     LDA #0xC3
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA z:0x30, X
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PHX
     JSL graphics_decompression_8192_bytes
     PLX
@@ -8099,7 +8099,7 @@ sub_C56D78:
     SEP #0x20
     LDA #bank(sub_C56DA2)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
     RTL
 
 sub_C56DA2:
@@ -8109,10 +8109,10 @@ sub_C56DA2:
     LDA #0x800
     STA a:addr(DASL4)
     REP #0x20
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     STA a:addr(A1TL4)
     SEP #0x20
-    LDA z:addr(far_function_pointer + 2)
+    LDA z:0x53 + 2
     STA a:addr(A1B4)
     JSL dma_related_
     RTL
@@ -9200,7 +9200,7 @@ sub_C576B5:
     LDA #bank(byte_C576E3)
     STA z:0x52
     LDA #bank(byte_C576E3)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA a:addr(level_manager_object.anonymous_2+1)
     AND #0xF0
@@ -9215,7 +9215,7 @@ sub_C576B5:
 
 .loc_C576D3:
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL call_far_function_at_0053
     LDA f:[z:0x50]
     CMP #0xFFFF

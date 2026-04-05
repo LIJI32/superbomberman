@@ -290,6 +290,11 @@ FREE_PALETTE                  = 0xFF
 PALETTE_STATIC_BLACK = 0x0C
 PALETTE_STATIC_WHITE = 0x0E
 
+; Palette slot flags
+
+PALETTE_SLOT_FLAG_NEEDS_UPDATE = 1
+PALETTE_SLOT_FLAG_FADING = 2
+
 ; Player powerup flags
 
 remote_control_REMOTE_CONTROL = 0x01

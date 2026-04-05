@@ -80,6 +80,18 @@ struct battle_menu_item x_position, y_position, max_value, option_list
     ds 8
 endstruct
 
+struct vblank_queued_function
+.function
+    ds 3
+.ptr_arg:
+    ds 3
+.word_arg_1:
+    ds 2
+.word_arg_2:
+    ds 2    
+endstruct
+
+
 ; Object structures
 
 struct object
@@ -424,10 +436,11 @@ struct palette_slot
     ds 1
 .fade_counter:
     ds 1
-.fade_state:
+.flags:
     ds 1
-.unknown:
-    ds 4
+.offset:
+    ds 2
+    ds 2 ; padding
 endstruct
 
 struct trampoline_animator

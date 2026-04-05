@@ -1,7 +1,3 @@
-org 0x7E0053
-far_function_pointer:
-    ds 3
-
 org 0x7E0074
 unused_fast_rng_seed: ; Written but never read
     ds 2
@@ -173,17 +169,17 @@ frame_count:
     ds 2
 
 org 0x7E0304
-word_7E0304:
+palette_fade_disable_mask: ; Fade debug variable, not used
     ds 2
 word_7E0306:
     ds 2
 word_7E0308:
     ds 2
-word_7E030A:
+vblank_queue_overflows: ; Seems like a debug variable, has no real effect
     ds 2
-word_7E030C:
+vblank_queue_read_end:
     ds 2
-word_7E030E:
+vblank_queue_write_end:
     ds 2
 word_7E0310:
     ds 2
@@ -193,14 +189,15 @@ game_flags:
     ds 2
 debug_cursor:
     ds 2
-word_7E0318:
+palettes_require_transfer:
     ds 2
 word_7E031A:
     ds 2
-unk_7E031C:
-    ds 10
-    
-org 0x7E045C
+vblank_queue_cyclic_buffer:
+rept 32
+    vblank_queued_function
+endr
+.end
 allocator_cyclic_buffer:
     ds (50 + 2) * 2
 .end
@@ -497,6 +494,7 @@ palette_slots:
 rept 16
     palette_slot
 endr
+.end
 
 unk_7E2000:
 
@@ -549,7 +547,7 @@ empty_tilemap:
 org 0x7F0000
 unk_7F0000:
     ds 0x400
-unk_7F0400:
+palettes:
     ds 0x200
 graphics_table:
     ds 0x60

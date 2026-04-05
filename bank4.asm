@@ -252,7 +252,7 @@ endif
     JSL gpu_registers_init
     JSL init_dboot
     JSL dboot_related_
-    JSL unknown_init_
+    JSL reset_vblank_queue
     JSL dma_reset
     REP #0x20
     LDA #0x4000
@@ -343,7 +343,7 @@ wait_for_vblank:
     STZ a:addr(HDMAEN)
     JSL transfer_oam
     JSL transfer_bg1_bg3_tilemaps
-    JSL sub_C62460
+    JSL process_vblank_queue
     SEP #0x20
     LDA a:addr(word_7E031A)
     STA a:addr(INIDISP)
@@ -374,7 +374,7 @@ endif
     STA $az:0x51
     LDA a:addr(level_manager_object+object.handler)
     STA $az:0x50
-    JSL call_function_at_0050
+    JSL call_far_function_at_0050
     REP #0x20
     LDX #addr(player_1)
     LDA #4
@@ -389,7 +389,7 @@ endif
     STA $az:0x51
     LDA $az:addr(object.handler), X
     STA $az:0x50
-    JSL call_function_at_0050
+    JSL call_far_function_at_0050
     REP #0x20
 
 .loc_C403D5:
@@ -407,7 +407,7 @@ endif
     STA $az:0x51
     LDA $az:object.handler, X
     STA $az:0x50
-    JSL call_function_at_0050
+    JSL call_far_function_at_0050
     REP #0x20
     LDA $az:6, X
     TAX
@@ -440,7 +440,7 @@ endif
     STA $az:0x52
     LDA $az:addr(0), X
     STA $az:0x50
-    JSL call_function_at_0050
+    JSL call_far_function_at_0050
     REP #0x20
     PLX
     BRA .loc_C4041C
@@ -454,7 +454,7 @@ endif
     STA a:addr(screen_flags)
     JMP a:addr(wait_for_vblank)
 
-call_function_at_0050:
+call_far_function_at_0050:
     JML [0x50]
     RTI
 
@@ -490,7 +490,7 @@ transfer_bg1_bg3_tilemaps:
     STA a:addr(BBAD5)
     STA a:addr(BBAD6)
     REP #0x20
-    LDA #0x5000
+    LDA #BG1_BASE
     STA a:addr(VMADDL)
     LDA #0x322
     STA a:addr(DASL5)
@@ -502,7 +502,7 @@ transfer_bg1_bg3_tilemaps:
     LDA #0x20
     STA a:addr(MDMAEN)
     REP #0x20
-    LDA #0x5800
+    LDA #BG3_BASE
     STA a:addr(VMADDL)
     LDA #0x100
     STA a:addr(DASL6)
@@ -1281,17 +1281,17 @@ i16
 .loc_C40ACA:
     SEP #0x20
     LDA #0
-    STA $az:addr(far_function_pointer)
+    STA $az:0x53
     INC A
     INC A
     INC A
     STA $az:0x50
     LDA #2
     STA $az:0x51
-    STA $az:addr(far_function_pointer + 1)
+    STA $az:0x53 + 1
     LDA #0x7F
     STA $az:0x52
-    STA $az:addr(far_function_pointer + 2)
+    STA $az:0x53 + 2
     LDY #0
     REP #0x20
     LDA a:addr(word_7E0306)
@@ -1343,8 +1343,8 @@ i16
     LSR A
     ROR $az:0x40
     LDA $az:0x40
-    STA f:[z:addr(far_function_pointer)]
-    INC $az:addr(far_function_pointer)
+    STA f:[z:0x53]
+    INC $az:0x53
     DEX
     BNE .loc_C40AFA
     SEP #0x20
@@ -1352,11 +1352,11 @@ i16
 
 .loc_C40B44:
     LDA #0x55
-    STA f:[z:addr(far_function_pointer)]
-    INC $az:addr(far_function_pointer)
+    STA f:[z:0x53]
+    INC $az:0x53
 
 .loc_C40B4B:
-    LDA $az:addr(far_function_pointer)
+    LDA $az:0x53
     CMP #0x20
     BCC .loc_C40B44
     SEP #0x20
@@ -1931,14 +1931,14 @@ i16
     JSL copy_to_bg3_tilemap
     SEP #0x20
     LDA #bank(storymode_normal_spawn_spot)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA a:addr(level_manager_object.spawn_and_flags)
     AND #0xE
     PHX
     TAX
     LDA f:storymode_spawn_spots_array, X
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA f:directions_for_spawn_spots, X
     STA z:0x40
     PLX
@@ -1952,11 +1952,11 @@ i16
     ASL A
     ASL A
     TAY
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     STA z:player.x_position, X
     INY
     INY
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     STA z:player.y_position, X
     REP #0x20
     LDA #addr(handle_player_movement)
@@ -2867,19 +2867,19 @@ a16
     PHX
     REP #0x20
     LDA #addr(warp_graphics)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(warp_graphics)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     SEP #0x20
     LDA a:addr(use_mini_graphics)
     BEQ .loc_C418C2
     REP #0x20
     LDA #addr(warp_mini_graphics)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(warp_mini_graphics)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
 
 .loc_C418C2:
     JSL graphics_decompression_8192_bytes
@@ -7255,7 +7255,7 @@ i16
     PHX
     LDX #addr(player_2)
     LDA #bank(byte_C43D2C)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA #bank(hits_per_mecha_bomber)
     STA z:0x52
     LDA a:addr(level_manager_object.unknown_flags)
@@ -7279,7 +7279,7 @@ i16
     AND #0xF
     DEC A
     ADC #addr(byte_C43D2C)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     REP #0x20
     LDA #addr(sub_C42C4B)
     STA z:0, X
@@ -7288,7 +7288,7 @@ i16
     STA z:2, X
     LDA f:[z:0x50]
     STA a:addr(unk_dboot_6), X
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     STA z:0x3D, X
     LDA #0
     STA z:0x19, X
@@ -7650,7 +7650,7 @@ sub_C43DA2:
     LDA z:0x26,X
     BNE .loc_C43DEF
     STZ z:0x1B,X
-    CPY z:addr(far_function_pointer)
+    CPY z:0x53
     BNE .loc_C43DEF
     LDA #6
     STA z:0x26,X
@@ -8350,7 +8350,7 @@ sub_C441F8:
     PLX
 
 .loc_C4421E:
-    CPY z:addr(far_function_pointer)
+    CPY z:0x53
     BEQ .loc_C44237
     TYA
     PHX
@@ -8414,7 +8414,7 @@ sub_C4426A:
     PLX
 
 .loc_C44290:
-    CPY z:addr(far_function_pointer)
+    CPY z:0x53
     BEQ .loc_C442A9
     TYA
     PHX
@@ -8459,7 +8459,7 @@ sub_C442B8:
     JSL sub_C44440
     BCS .locret_C4430D
     REP #0x20
-    CPY z:addr(far_function_pointer)
+    CPY z:0x53
     BEQ .loc_C442FB
     BIT #0x200
     BEQ .loc_C442E2
@@ -8468,7 +8468,7 @@ sub_C442B8:
 .loc_C442E2:
     JSL sub_C444A2
     REP #0x20
-    CPY z:addr(far_function_pointer)
+    CPY z:0x53
     BEQ .loc_C442FB
     BIT #0x200
     BEQ .loc_C442F3
@@ -9288,7 +9288,7 @@ sub_C447F2:
     STA a:addr(number_of_musics_in_bank),X
     ORA a:addr(number_of_sounds),X
     STA a:addr(pointer_to_instrument_list),X
-    STA z:addr(far_function_pointer)
+    STA z:0x53
 .locret_C44864:
     RTL
 
@@ -9355,7 +9355,7 @@ sub_C44865:
     ASL A
     STA z:0xD3
     JSL get_object_square_index
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDX z:0x5F
     RTL
 
@@ -12126,7 +12126,7 @@ sub_C45BDA:
     INC z:0x5F
     LDA f:[z:0x5F]
     BEQ .loc_C45D2C
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x5F
     LDA f:[z:0x5F]
     BIT #0x1000
@@ -12152,14 +12152,14 @@ sub_C45BDA:
     LDA f:[z:0x5F]
     AND #0xEFFF
     STA f:[z:0x5F]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     DEC z:0x5F
     INC a:addr(level_manager_object.enemy_count)
     STZ z:0x48
     PHY
     LDA z:0x50
     PHA
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     PHA
     LDA z:0x56
     PHA
@@ -12182,7 +12182,7 @@ sub_C45BDA:
     PLA
     STA z:0x56
     PLA
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     PLA
     STA z:0x50
     PLY
@@ -13088,7 +13088,7 @@ sub_C463DE:
     SEP #0x20
     LDA #bank(.loc_C465A9)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
     REP #0x20
     LDX #0xD00
     LDA #8
@@ -13173,10 +13173,10 @@ sub_C465CB:
     LDA #0x10
     STA a:addr(DASL4)
     REP #0x20
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     STA a:addr(A1TL4)
     SEP #0x20
-    LDA z:addr(far_function_pointer + 2)
+    LDA z:0x53 + 2
     STA a:addr(A1B4)
     JSL dma_related_
     RTL
@@ -13213,9 +13213,9 @@ sub_C465EB:
     PHX
     TAX
     LDA f:.byte_C46656,X
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA f:.byte_C46656+1,X
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     PLX
     LDA #8
     STA z:0x20,X
@@ -13227,7 +13227,7 @@ sub_C465EB:
     SEP #0x20
     LDA #bank(sub_C465CB)
     STA z:0x52
-    JSL sub_C62514
+    JSL schedule_vblank_function
 
 .locret_C46655:
     RTL
@@ -13610,7 +13610,7 @@ i16
     STA a:addr(INIDISP)
     LDA #bank(stage_1_1)
     STA z:0x52
-    JSL sub_C62007
+    JSL clear_paused_text
     REP #0x20
     LDA z:0x10,X
     AND #0xFF
@@ -13648,10 +13648,10 @@ i16
     INC z:0x50
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -13673,10 +13673,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -13699,10 +13699,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -13728,10 +13728,10 @@ i16
     STA z:0x40
     REP #0x20
     LDA #addr(bonuses_graphic)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(bonuses_graphic)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA #0x1000
@@ -13748,19 +13748,19 @@ i16
     JSL sub_C47B11
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     JSL sub_C47B33
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     JSL sub_C47A8D
@@ -13808,10 +13808,10 @@ i16
 .loc_C46B2A:
     REP #0x20
     LDA #addr(off_C47087)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(off_C47087)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x7000
@@ -13827,10 +13827,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA #addr(splash_graphics)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(splash_graphics)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     JSL graphics_decompression_8192_bytes
     REP #0x20
     LDA #0x7800
@@ -14034,10 +14034,10 @@ sub_C46CFC:
     JSL sub_C475A1
     SEP #0x20
     LDA #0x7F
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA #0x600
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL graphics_decompression_8192_bytes
     SEP #0x20
     LDA a:addr(frame_count)
@@ -14122,7 +14122,7 @@ sub_C46CFC:
     LDA #bank(temp_uncompressed_graphics)
     STA a:addr(A1B4)
     JSL dma_related_
-    JSL sub_C61F91
+    JSL write_paused_text
     REP #0x20
     LDA #addr(sub_C46DF1)
     STA a:addr(level_manager_object+object.handler)
@@ -14269,10 +14269,10 @@ i16
     BEQ .loc_C46F3A
     REP #0x20
     LDA #addr(storymode_hud_tilemap)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(storymode_hud_tilemap)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     JSL sub_C46FC9
     REP #0x20
     LDX #addr(player_1)
@@ -14291,20 +14291,20 @@ i16
 .loc_C46F3A:
     REP #0x20
     LDA #addr(empty_tilemap)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(empty_tilemap)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     JSL sub_C46FC9
     RTL
 
 .loc_C46F4C:
     REP #0x20
     LDA #addr(battlemode_hud_tilemap)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(battlemode_hud_tilemap)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     JSL sub_C46FC9
     LDX #addr(player_1)
     REP #0x20
@@ -14371,7 +14371,7 @@ i16
     LDY #0xFE
 
 .loc_C46FCE:
-    LDA f:[z:addr(far_function_pointer)], Y
+    LDA f:[z:0x53], Y
     STA a:addr(bg3_tilemap), Y
     DEY
     DEY
@@ -14489,10 +14489,10 @@ menu_screens_related:
 i16
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -14514,10 +14514,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -14539,10 +14539,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -14564,10 +14564,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -14590,19 +14590,19 @@ i16
     JSL sub_C47B11
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     JSL sub_C47B33
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     JSL sub_C47A8D
@@ -14613,10 +14613,10 @@ i16
     JSL call_screen_init_functions
     REP #0x20
     LDA #graphics_table - unk_7F0000
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(graphics_table)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA #0x10
     STA a:addr(game_flags)
     LDA a:addr(level_manager_object.fade_related_)
@@ -14768,10 +14768,10 @@ i16
     INC z:0x50
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -14785,10 +14785,10 @@ i16
     INC z:0x50
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     LDA a:addr(level_manager_object.spawn_and_flags)
@@ -14796,10 +14796,10 @@ i16
     BEQ .loc_C473A4
     REP #0x20
     LDA #addr(empty_tilemap)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(empty_tilemap)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
 
 .loc_C473A4:
     REP #0x20
@@ -14809,19 +14809,19 @@ i16
     JSL graphics_decompression_81aa_terminated_interleaved
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     JSL sub_C47B33
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     JSL tilemap_decompression
@@ -14906,7 +14906,7 @@ i16
     LDY #4
     LDA f:[z:0x50], Y
     STA a:addr(COLDATA)
-    JSL sub_C62460
+    JSL process_vblank_queue
     REP #0x20
     LDA #0
     STA a:addr(VMADDL)
@@ -15018,12 +15018,12 @@ small_object_nop_handler:
 sub_C4757D:
     REP #0x20
     LDA #addr(palette_table)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(palette_table)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
-    INC z:addr(far_function_pointer)
+    INC z:0x53
     LDA #1
     STA z:0x42
     LDA a:addr(level_manager_object.anonymous_5)
@@ -15037,15 +15037,15 @@ sub_C475A1:
 i16
     REP #0x20
     LDA #addr(palette_table)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     SEP #0x20
     LDA #bank(palette_table)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA #addr(palette_table)
     CLC
     ADC #8
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDA #8
     STA z:0x42
     LDA a:addr(level_manager_object.anonymous_5+1)
@@ -15062,12 +15062,12 @@ sub_C475C8:
 
 .loc_C475D4:
     SEP #0x20
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     STA z:0x40
     LDA z:0x42
     JSL set_palette
     REP #0x20
-    INC z:addr(far_function_pointer)
+    INC z:0x53
     INC z:0x42
     LDA z:0x42
     CMP z:0x46
@@ -15438,20 +15438,20 @@ i16
 
 .loc_C47952:
     REP #0x20
-    LDA z:addr(far_function_pointer)
+    LDA z:0x53
     PHA
     LDA z:0x50
     PHA
     LDA z:0x51
     PHA
     LDA #addr(word_7E0C5F)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDX #addr(player_1)
     LDY #0
 
 .loc_C47968:
     SEP #0x20
-    LDA [z:addr(far_function_pointer)]
+    LDA [z:0x53]
     BEQ .loc_C479A8
     CMP #2
     BNE .loc_C47976
@@ -15516,8 +15516,8 @@ i16
     CLC
     ADC #0x40
     TAX
-    INC z:addr(far_function_pointer)
-    LDA z:addr(far_function_pointer)
+    INC z:0x53
+    LDA z:0x53
     CMP #0xC63
     BEQ .loc_C479E1
     JML .loc_C47968
@@ -15525,10 +15525,10 @@ i16
 .loc_C479E1:
     LDX #addr(player_1)
     LDA #addr(word_7E0C5F)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
 
 .loc_C479E9:
-    LDA [z:addr(far_function_pointer)]
+    LDA [z:0x53]
     BIT #2
     BEQ .loc_C47A0C
     LDA f:[z:0x5C], Y
@@ -15556,8 +15556,8 @@ i16
     CLC
     ADC #0x40
     TAX
-    INC z:addr(far_function_pointer)
-    LDA z:addr(far_function_pointer)
+    INC z:0x53
+    LDA z:0x53
     CMP #0xC63
     BEQ .loc_C47A1F
     JML .loc_C479E9
@@ -15568,7 +15568,7 @@ i16
     PLA
     STA z:0x50
     PLA
-    STA z:addr(far_function_pointer)
+    STA z:0x53
 .locret_C47A28:
     RTL
 
@@ -15637,11 +15637,11 @@ sub_C47A8D:
 tilemap_decompression:
 i16
     SEP #0x20
-    LDA z:addr(far_function_pointer + 2)
+    LDA z:0x53 + 2
     PHA
     PLB
     REP #0x20
-    LDY z:addr(far_function_pointer)
+    LDY z:0x53
     PHX
     LDX #0
     LDA #1
@@ -15732,10 +15732,10 @@ i16
     BNE .loc_C47B67
     LDA #0x10
     STA z:0x44
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     STA z:0x40
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
 
 .loc_C47B67:
     LDA #0
@@ -15765,22 +15765,22 @@ i16
     BNE .loc_C47BA5
     LDA #0x10
     STA z:0x44
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     STA z:0x40
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
 
 .loc_C47BA5:
     ASL z:0x40
     BCC .loc_C47BB9
-    LDA f:[z:addr(far_function_pointer)]
+    LDA f:[z:0x53]
     STA z:0x46
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
-    LDA f:[z:addr(far_function_pointer)]
+    INC z:0x53
+    INC z:0x53
+    LDA f:[z:0x53]
     STA z:0x48
-    INC z:addr(far_function_pointer)
-    INC z:addr(far_function_pointer)
+    INC z:0x53
+    INC z:0x53
 
 .loc_C47BB9:
     LDA z:0x46
@@ -15878,7 +15878,7 @@ i16
     PHA
     LDA #bank(byte_7E3400)
     STA z:0x52
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     LDA #0x60
     STA z:0x40
     REP #0x20
@@ -15887,7 +15887,7 @@ i16
     LDA #addr(byte_7E3400)
     STA z:0x50
     LDA #addr(byte_7E3400+0x10)
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     LDY #0xFFF0
 
 .loc_C47C79:
@@ -15908,10 +15908,10 @@ i16
 
 .loc_C47C93:
     LDA f:[z:0x50], Y
-    ORA f:[z:addr(far_function_pointer)], Y
+    ORA f:[z:0x53], Y
     INY
     ORA f:[z:0x50], Y
-    ORA f:[z:addr(far_function_pointer)], Y
+    ORA f:[z:0x53], Y
     EOR #0xFF
     STA z:0x44
     STA z:0x45
@@ -15923,8 +15923,8 @@ i16
     STA f:[z:0x50], Y
     LDA f:0x7E2810,X
     AND z:0x44
-    ORA f:[z:addr(far_function_pointer)], Y
-    STA f:[z:addr(far_function_pointer)], Y
+    ORA f:[z:0x53], Y
+    STA f:[z:0x53], Y
     SEP #0x20
     INY
     INY
@@ -15982,10 +15982,10 @@ i16
     INC z:0x50
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -16015,10 +16015,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -16049,10 +16049,10 @@ i16
     JSL dma_related_
     REP #0x20
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -16109,10 +16109,10 @@ i16
     ADC #0xC
     STA z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     INC z:0x50
     LDA f:[z:0x50]
-    STA z:addr(far_function_pointer + 1)
+    STA z:0x53 + 1
     INC z:0x50
     INC z:0x50
     REP #0x20
@@ -16136,10 +16136,10 @@ i16
     STA z:0x50
     SEP #0x20
     LDA #bank(graphics_table)
-    STA z:addr(far_function_pointer + 2)
+    STA z:0x53 + 2
     REP #0x20
     LDA #graphics_table - unk_7F0000
-    STA z:addr(far_function_pointer)
+    STA z:0x53
     JSL graphics_decompression_8192_bytes
     SEP #0x20
     LDA a:addr(frame_count)
@@ -16224,7 +16224,7 @@ i16
     LDA #bank(temp_uncompressed_graphics)
     STA a:addr(A1B4)
     JSL dma_related_
-    JSL sub_C61F91
+    JSL write_paused_text
     PLX
     SEP #0x20
     LDA #0x20
