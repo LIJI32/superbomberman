@@ -291,7 +291,7 @@ get_debug_data_addr:
 handle_debug_menu_input:
     SEP #0x20
     LDY z:0x10, X
-    LDA a:addr(0x22), Y
+    LDA a:0x22, Y
     BIT #0x30
     BNE .loc_C601C8
     INY
@@ -301,7 +301,7 @@ handle_debug_menu_input:
 
 .loc_C601C8:
     PHY
-    LDA a:addr(0x22), Y
+    LDA a:0x22, Y
     BIT #0x80
     BEQ .loc_C6020E
     LDA a:addr(debug_cursor)
@@ -337,7 +337,7 @@ handle_debug_menu_input:
 .loc_C6020E:
     SEP #0x20
     PLY
-    LDA a:addr(0x23), Y
+    LDA a:0x23, Y
     STA z:0x4E
     AND #0xC
     BEQ .loc_C60247
@@ -3865,7 +3865,7 @@ tunnel_zone_reserve_free_level_tiles:
     STA z:set_collision_mask_for_tiles.MASK_VALUE
     LDA #(standard_reserved_free_tiles.battle_mode_end - standard_reserved_free_tiles) / 2
     STA z:set_collision_mask_for_tiles.COUNT
-    JMP a:addr(set_collision_mask_for_tiles)
+    JMP a:set_collision_mask_for_tiles
 
 generate_hard_blocks_and_exit:
     .FREE_TILES = 0x4A
@@ -4194,26 +4194,26 @@ i16
 write_paused_text:
     SEP #0x20
     LDA #0x80
-    STA a:addr(VMAIN)
+    STA a:VMAIN
     
     REP #0x20
     LDA #BG3_BASE + 0xCC
-    STA a:addr(VMADDL)
+    STA a:VMADDL
     
     .TILE = 0x4E8
 rept 8
     LDA #.TILE
-    STA a:addr(VMDATAL)
+    STA a:VMDATAL
     .TILE = .TILE + 1
 endr
     
     LDA #BG3_BASE + 0xEC
-    STA a:addr(VMADDL)
+    STA a:VMADDL
 
     .TILE = 0x4F8
 rept 8
     LDA #.TILE
-    STA a:addr(VMDATAL)
+    STA a:VMDATAL
     .TILE = .TILE + 1
 endr
     RTL
@@ -4221,23 +4221,23 @@ endr
 clear_paused_text:
     SEP #0x20
     LDA #0x80
-    STA a:addr(VMAIN)
+    STA a:VMAIN
     
     REP #0x20
     LDA #BG3_BASE + 0xCC
-    STA a:addr(VMADDL)
+    STA a:VMADDL
     
 rept 8
     LDA #0
-    STA a:addr(VMDATAL)
+    STA a:VMDATAL
 endr
     
     LDA #BG3_BASE + 0xEC
-    STA a:addr(VMADDL)
+    STA a:VMADDL
 
 rept 8
     LDA #0
-    STA a:addr(VMDATAL)
+    STA a:VMDATAL
 endr
     RTL
 
@@ -4265,7 +4265,7 @@ sub_C620A4:
     REP #0x20
     BCS .locret_C620C3
     LDA z:0x40
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
 
 .locret_C620C3:
     RTL
@@ -4277,9 +4277,9 @@ i16
 
 .loc_C620C9:
     SEP #0x20
-    LDA a:addr(4), Y
+    LDA a:4, Y
     BEQ .loc_C620FA
-    LDA a:addr(0x11), Y
+    LDA a:0x11, Y
     SEC
     SBC z:0x11, X
     BEQ .loc_C620F2
@@ -4290,7 +4290,7 @@ i16
 .loc_C620DD:
     CMP #0x10
     BCS .loc_C620FA
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     SEC
     SBC z:0x14, X
 
@@ -4306,14 +4306,14 @@ i16
     RTL
 
 .loc_C620F2:
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     SEC
     SBC z:0x14, X
     BNE .loc_C620E7
 
 .loc_C620FA:
     REP #0x20
-    LDA a:addr(6), Y
+    LDA a:6, Y
     TAY
     CMP #0xFFFF
     BNE .loc_C620C9
@@ -4849,48 +4849,48 @@ process_vblank_queue:
 transfer_palettes:
     SEP #0x20
     LDA #0
-    STA a:addr(CGADD)
+    STA a:CGADD
     LDA #0
-    STA a:addr(DMAP5)
+    STA a:DMAP5
     LDA #0x22
-    STA a:addr(BBAD5)
+    STA a:BBAD5
     LDA #low(palettes)
-    STA a:addr(A1TL5)
+    STA a:A1TL5
     LDA #high(palettes)
-    STA a:addr(A1TH5)
+    STA a:A1TH5
     LDA #bank(palettes)
-    STA a:addr(A1B5)
-    LDA #0
-    STA a:addr(DASL5)
-    LDA #2
-    STA a:addr(DASH5)
+    STA a:A1B5
+    LDA #low(palettes.end - palettes)
+    STA a:DASL5
+    LDA #high(palettes.end - palettes)
+    STA a:DASH5
     LDA #0x20
-    STA a:addr(MDMAEN)
+    STA a:MDMAEN
     RTL
 
 ; Unused
-transfer_palettes_from_address:
+transfer_palette_from_address:
     .ADDRESS = 0x53
     SEP #0x20
     LDA #0
-    STA a:addr(CGADD)
+    STA a:CGADD
     SEP #0x20
     LDA #0
-    STA a:addr(DMAP5)
+    STA a:DMAP5
     LDA #0x22
-    STA a:addr(BBAD5)
+    STA a:BBAD5
     LDA a:.ADDRESS
-    STA a:addr(A1TL5)
+    STA a:A1TL5
     LDA a:.ADDRESS + 1
-    STA a:addr(A1TH5)
+    STA a:A1TH5
     LDA a:.ADDRESS + 2
-    STA a:addr(A1B5)
-    LDA #0x20
-    STA a:addr(DASL5)
+    STA a:A1B5
+    LDA #0x20 ; One palette
+    STA a:DASL5
     LDA #0
-    STA a:addr(DASH5)
+    STA a:DASH5
     LDA #0x20
-    STA a:addr(MDMAEN)
+    STA a:MDMAEN
     RTL
 
 schedule_vblank_function:
@@ -4951,93 +4951,97 @@ reset_vblank_queue:
     STZ a:addr(vblank_queue_write_end)
     RTL
 
-advance_animation_2:
+render_sprite:
     REP #0x20
     LDA #0xFF
-    STA z:0x40
-    BRA advance_animation.loc_C6257D
+    STA z:render_sprite_animated.FLAG
+    BRA +
 
-advance_animation:
+; TODO: There are two rendering lists and they're somehow coupled with specifically player 1 and 2's rendering list, figure that out
+render_sprite_animated:
+    .FLAG = 0x40
     REP #0x20
     LDA #0
-    STA z:0x40
+    STA z:.FLAG
++
 
-.loc_C6257D:
-    LDA #addr(level_manager_object.hit_flags)
+    LDA #addr(level_manager_object.rendering_linked_list)
     STA z:0x56
-    LDA a:addr(level_manager_object.hit_flags)
+    LDA a:addr(level_manager_object.rendering_linked_list)
 
-.loc_C62585:
+-
     TAY
-    LDA a:addr(4), Y
+    LDA a:rendering_linked_list.neighbor_y, Y
     AND #0xFF
-    CMP z:player.y_position, X
-    BCC .loc_C6259A
+    CMP z:sprite.y_position, X
+    BCC .found
     STY z:0x56
-    LDA a:addr(0), Y
+    LDA a:rendering_linked_list.prev, Y
     CMP #0xFFFF
-    BNE .loc_C62585
+    BNE -
 
-.loc_C6259A:
-    LDY a:addr(word_7E00BE)
+.found
+    LDY a:addr(first_sprite_ptr)
     LDA [z:0x56]
-    STA a:addr(0), Y
+    STA a:rendering_linked_list.prev, Y
     TYA
     STA [z:0x56]
-    LDA z:player.y_position, X
-    STA a:addr(4), Y
+    LDA z:sprite.y_position, X
+    STA a:rendering_linked_list.neighbor_y, Y
     TXA
-    STA a:addr(2), Y
-    LDA a:addr(word_7E00BE)
+    STA a:rendering_linked_list.next, Y
+    LDA a:addr(first_sprite_ptr)
     CLC
-    ADC #0x40
-    STA a:addr(word_7E00BE)
+    ADC #object.sizeof
+    STA a:addr(first_sprite_ptr)
+    
     SEP #0x20
-    LDA z:0x40
-    STA a:addr(5), Y
-    LDA z:player.ticks_left_for_frames, X
+    LDA z:.FLAG
+    STA a:rendering_linked_list.animation_paused, Y
+    LDA z:sprite.ticks_left_for_frames, X
     DEC A
-    BNE .loc_C625CF
-    LDA z:player.current_frame, X
+    BNE +
+    LDA z:sprite.current_frame, X
     INC A
-    CMP z:player.max_frame, X
-    BCC .loc_C625CF
+    CMP z:sprite.max_frame, X
+    BCC +
     REP #0x20
     SEC
     RTL
++
 
-.loc_C625CF:
     REP #0x20
     CLC
     RTL
 
 sub_C625D3:
     SEP #0x20
-    LDA a:addr(5), Y
+    LDA a:rendering_linked_list.animation_paused, Y
     BEQ load_animation_frame
+    
     REP #0x20
-    LDA z:0xC, X
+    LDA z:sprite.current_frame, X
     PHA
     JSL load_animation_frame
     REP #0x20
     PLA
-    STA z:0xC, X
+    STA z:sprite.current_frame, X ; Don't let it advance
     CLC
     RTL
 
 load_animation_frame:
 i16
     SEP #0x20
-    LDA a:addr(word_7E0308+1)
+    LDA a:addr(byte_7E0309)
     BIT #0xC0
     BEQ .loc_C62601
     BIT #0x80
-    BEQ .loc_C625FB
+    BEQ +
     JML .loc_C62729
++
 
-.loc_C625FB:
     EOR #1
-    STA a:addr(word_7E0308+1)
+    STA a:addr(byte_7E0309)
     RTL
 
 .loc_C62601:
@@ -5071,11 +5075,11 @@ i16
     INC z:0x53 + 1
 
 .loc_C62634:
-    LDA a:addr(word_7E0306)
+    LDA a:addr(ptr_7E0306)
     STA z:0x56
-    LDA a:addr(word_7E0306+1)
+    LDA a:addr(ptr_7E0306+1)
     STA z:0x57
-    LDA a:addr(word_7E0308)
+    LDA a:addr(ptr_7E0306 + 2)
     STA z:0x58
     REP #0x20
     LDA z:0x11, X
@@ -5174,15 +5178,15 @@ i16
     LDY #0x200
     STA f:[z:0x56], Y
     INC z:0x56
-    LDA a:addr(word_7E0306)
+    LDA a:addr(ptr_7E0306)
     CLC
     ADC #4
-    STA a:addr(word_7E0306)
+    STA a:addr(ptr_7E0306)
     BNE .loc_C626FF
-    LDA a:addr(word_7E0306+1)
+    LDA a:addr(ptr_7E0306+1)
     BIT #1
     BNE .loc_C62729
-    INC a:addr(word_7E0306+1)
+    INC a:addr(ptr_7E0306+1)
     INC z:0x57
 
 .loc_C626FF:
@@ -5194,7 +5198,7 @@ i16
     SEP #0x20
     DEC z:0x4C
     BEQ .loc_C62731
-    JMP a:addr(.loc_C62657)
+    JMP a:.loc_C62657
 .loc_C62712:
     REP #0x20
     DEC z:0x56
@@ -5206,12 +5210,12 @@ i16
     SEP #0x20
     DEC z:0x4C
     BEQ .loc_C62731
-    JMP a:addr(.loc_C62657)
+    JMP a:.loc_C62657
 
 .loc_C62729:
-    LDA a:addr(word_7E0308+1)
+    LDA a:addr(byte_7E0309)
     ORA #0x80
-    STA a:addr(word_7E0308+1)
+    STA a:addr(byte_7E0309)
 
 .loc_C62731:
     LDA a:addr(game_flags)
@@ -5273,7 +5277,7 @@ sub_C62781:
 sub_C6278B:
 i16
     SEP #0x20
-    LDA a:addr(word_7E0308+1)
+    LDA a:addr(byte_7E0309)
     BIT #0xC0
     BEQ .loc_C627A2
     BIT #0x80
@@ -5282,15 +5286,15 @@ i16
 
 .loc_C6279C:
     EOR #1
-    STA a:addr(word_7E0308+1)
+    STA a:addr(byte_7E0309)
     RTL
 
 .loc_C627A2:
-    LDA a:addr(word_7E0306)
+    LDA a:addr(ptr_7E0306)
     STA z:0x56
-    LDA a:addr(word_7E0306+1)
+    LDA a:addr(ptr_7E0306+1)
     STA z:0x57
-    LDA a:addr(word_7E0308)
+    LDA a:addr(ptr_7E0306 + 2)
     STA z:0x58
     LDA #0xF0
     CLC
@@ -5329,23 +5333,23 @@ i16
     LDA #2
     LDY #0x200
     STA f:[z:0x56], Y
-    LDA a:addr(word_7E0306)
+    LDA a:addr(ptr_7E0306)
     CLC
     ADC #4
-    STA a:addr(word_7E0306)
+    STA a:addr(ptr_7E0306)
     BNE .locret_C6280A
-    LDA a:addr(word_7E0306+1)
+    LDA a:addr(ptr_7E0306+1)
     BIT #1
     BNE .loc_C6280B
-    INC a:addr(word_7E0306+1)
+    INC a:addr(ptr_7E0306+1)
 
 .locret_C6280A:
     RTL
 
 .loc_C6280B:
-    LDA a:addr(word_7E0308+1)
+    LDA a:addr(byte_7E0309)
     ORA #0x80
-    STA a:addr(word_7E0308+1)
+    STA a:addr(byte_7E0309)
     RTL
 
 start_animation:
@@ -5375,7 +5379,7 @@ sub_C62834:
     SEP #0x20
     LDA z:0x6C
     BNE .loc_C6288D
-    LDA a:addr(0x80), X
+    LDA a:0x80, X
     STA z:0x40
     REP #0x20
     AND #0xFF
@@ -5394,7 +5398,7 @@ sub_C62834:
     CMP z:0x70
     BNE .loc_C62876
     LDA #0
-    STA a:addr(APUIO2)
+    STA a:APUIO2
     STA z:0x6F
     STA z:0x6E
     DEC A
@@ -5403,7 +5407,7 @@ sub_C62834:
 
 .loc_C62876:
     STA z:0x70
-    STA a:addr(APUIO2)
+    STA a:APUIO2
     LDA f:byte_C628C8, X
     STA z:0x6F
 
@@ -5526,7 +5530,7 @@ graphics_decompression_128_bytes:
     LDA #8
     STA z:0x44
     STZ z:0x42
-    LDA a:addr(0), Y
+    LDA a:0, Y
     STA z:0x43
     INY
 
@@ -5537,7 +5541,7 @@ graphics_decompression_128_bytes:
     BRA .loc_C62A0D
 
 .loc_C62A07:
-    LDA a:addr(0), Y
+    LDA a:0, Y
     STA z:0x42
     INY
 
@@ -5580,12 +5584,12 @@ graphics_decompression_81aa_terminated:
     LDA #8
     STA z:0x44
     STZ z:0x42
-    LDA a:addr(0), Y
+    LDA a:0, Y
     STA z:0x43
     INY
     CMP #0x81
     BNE .loc_C62A5F
-    LDA a:addr(0), Y
+    LDA a:0, Y
     CMP #0xAA
     BNE .loc_C62A5F
     INY
@@ -5599,7 +5603,7 @@ graphics_decompression_81aa_terminated:
     BRA .loc_C62A6D
 
 .loc_C62A67:
-    LDA a:addr(0), Y
+    LDA a:0, Y
     STA z:0x42
     INY
 
@@ -5643,22 +5647,22 @@ hidden_bonus_object:
     create_object sub_C62B03
     REP #0x20
     LDA f:[z:0x50]
-    STA a:addr(0x16), Y
+    STA a:0x16, Y
     INC z:0x50
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:addr(0x18), Y
+    STA a:0x18, Y
     INC z:0x50
     INC z:0x50
     INC z:0x50
     LDA #0
-    STA a:addr(0x20), Y
-    STA a:addr(0x22), Y
-    STA a:addr(0x24), Y
-    STA a:addr(0x26), Y
-    STA a:addr(0x28), Y
-    STA a:addr(0x2A), Y
+    STA a:0x20, Y
+    STA a:0x22, Y
+    STA a:0x24, Y
+    STA a:0x26, Y
+    STA a:0x28, Y
+    STA a:0x2A, Y
 
 .locret_C62B02:
     RTL
@@ -5715,7 +5719,7 @@ lives_drop_to_zero_bonus:
     CMP #addr(_player_death)
     BNE clear_carry
     SEP #0x20
-    LDA a:addr(0x3D), Y
+    LDA a:0x3D, Y
     CMP #1
     BNE clear_carry
     ; fallthrough
@@ -5730,7 +5734,7 @@ clear_carry:
 
 dont_move_bonus:
     REP #0b100000
-    LDA a:addr(4), Y
+    LDA a:4, Y
     AND #0xFF
     BEQ clear_carry
     LDA a:addr(player.down_keys), Y
@@ -5747,7 +5751,7 @@ dont_move_bonus:
 
 dont_move_on_exit_bonus:
     REP #0x20
-    LDA a:addr(4), Y
+    LDA a:4, Y
     AND #0xFF
     BEQ clear_carry
     PHX
@@ -5757,7 +5761,7 @@ dont_move_on_exit_bonus:
     TAY
     LDA a:addr(collision_map), Y
     AND #BONUS_MASK
-    CMP #addr(EXIT)
+    CMP #EXIT
     BEQ .loc_C62BAE
     STZ z:0x20, X
 
@@ -5811,7 +5815,7 @@ verify_bomb_in_location:
     STA z:0x40
     LDA a:addr(collision_map), Y
     AND #EXIT|BOMB|SOFT_BLOCK|HARD_BLOCK
-    CMP #addr(BOMB)
+    CMP #BOMB
     BNE .locret_C62C0F
     LDA z:0x20, X
     ORA z:0x40
@@ -5965,7 +5969,7 @@ spawn_enemy_bonus:
 
 punch_5_bonus:
     REP #0x20
-    LDA a:addr(0), Y
+    LDA a:0, Y
     CMP #addr(punch)
     BEQ .loc_C62D10
     JML clear_carry
@@ -5983,7 +5987,7 @@ punch_5_bonus:
 
 bomb_hit_bonus:
     REP #0x20
-    LDA a:addr(0), Y
+    LDA a:0, Y
     CMP #addr(_play_hit_by_bomb_animation)
     BNE .loc_C62D2D
     JML set_carry
@@ -6317,46 +6321,46 @@ sub_C631D7:
 .loc_C631F3:
     REP #0x20
     LDA z:0x11, X
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x14, X
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA f:[z:0x50]
-    STA a:addr(0x16), Y
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:0x50]
-    STA a:addr(0x19), Y
+    STA a:0x16, Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:addr(0x20), Y
+    STA a:0x19, Y
+    INC z:0x50
+    INC z:0x50
+    LDA f:[z:0x50]
+    STA a:0x20, Y
     INC z:0x50
     INC z:0x50
     LDA #0
-    STA a:addr(0x24), Y
+    STA a:0x24, Y
     LDA #0
-    STA a:addr(0x26), Y
+    STA a:0x26, Y
     LDA #0
-    STA a:addr(0x28), Y
+    STA a:0x28, Y
     LDA f:[z:0x50]
     PHA
     AND #0x7FFF
-    STA a:addr(0x22), Y
+    STA a:0x22, Y
     LDA #addr(byte_C62F23)
     STA z:0x50
     LDA #0xE30
-    STA a:addr(0xE), Y
+    STA a:0xE, Y
     LDA #6
-    STA a:addr(0x1E), Y
+    STA a:0x1E, Y
     PLA
     BIT #0x8000
     BEQ .loc_C6325D
     LDA #addr(byte_C631A8)
     STA z:0x50
     LDA #0xB30
-    STA a:addr(0xE), Y
+    STA a:0xE, Y
     LDA #6
-    STA a:addr(0x1E), Y
+    STA a:0x1E, Y
 
 .loc_C6325D:
     PHX
@@ -6436,19 +6440,19 @@ sub_C632DF:
 
 .loc_C632FD:
     LDA z:0x30, X
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x33, X
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:8, X
-    STA a:addr(8), Y
+    STA a:8, Y
     LDA z:0xA, X
-    STA a:addr(0xA), Y
+    STA a:0xA, Y
     LDA z:0xC, X
-    STA a:addr(0xC), Y
+    STA a:0xC, Y
     LDA z:0xE, X
-    STA a:addr(0xE), Y
+    STA a:0xE, Y
     LDA z:0x1E, X
-    STA a:addr(0x1E), Y
+    STA a:0x1E, Y
     RTL
 
 sub_C63321:
@@ -6507,7 +6511,7 @@ i16
 _enemy_explosion:
     SEP #0x20
     handler_return_if_paused
-    JSL advance_animation
+    JSL render_sprite_animated
     BCC .ret
     SEP #0x20
     LDA z:enemy.flags, X
@@ -6544,7 +6548,7 @@ _kill_enemy:
     JML .locret_C63455
 
 .loc_C633E9:
-    JSL advance_animation_2
+    JSL render_sprite
     SEP #0x20
     handler_return_in_transition
 
@@ -6666,7 +6670,7 @@ i16
 
 .loc_C634C2:
     SEP #0x20
-    LDA a:addr(3), Y
+    LDA a:3, Y
     BIT #1
     BEQ .loc_C634EB
     LDA a:enemy.x_position, Y
@@ -6710,10 +6714,10 @@ i16
 
 .loc_C63501:
     SEP #0x20
-    LDA a:addr(4), Y
+    LDA a:4, Y
     BIT #1
     BEQ .loc_C6352F
-    LDA a:addr(0x11), Y
+    LDA a:0x11, Y
     SEC
     SBC z:0x11, X
     BCS .loc_C63515
@@ -6723,7 +6727,7 @@ i16
 .loc_C63515:
     CMP z:0x41
     BCS .loc_C6352F
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     SEC
     SBC z:0x14, X
     BCS .loc_C63524
@@ -6735,7 +6739,7 @@ i16
     BCS .loc_C6352F
     SEP #0x20
     LDA #1
-    STA a:addr(0x2F), Y
+    STA a:0x2F, Y
 
 .loc_C6352F:
     REP #0x20
@@ -6753,13 +6757,13 @@ i16
     LDY #addr(player_1)
 
 .loc_C63542:
-    LDA a:addr(4), Y
+    LDA a:4, Y
     BIT #0xFF
     BEQ .loc_C63593
     LDA z:0x42
     AND #0xFF
     STA z:0x46
-    LDA a:addr(0x11), Y
+    LDA a:0x11, Y
     SEC
     SBC z:0x11, X
     BCS .loc_C63566
@@ -6777,7 +6781,7 @@ i16
     LDA z:0x44
     AND #0xFF
     STA z:0x46
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     SEC
     SBC z:0x14, X
     BCS .loc_C63586
@@ -6792,9 +6796,9 @@ i16
 .loc_C63586:
     CMP z:0x46
     BCS .loc_C63593
-    LDA a:addr(0x2F), Y
+    LDA a:0x2F, Y
     ORA #1
-    STA a:addr(0x2F), Y
+    STA a:0x2F, Y
 
 .loc_C63593:
     TYA
@@ -6807,12 +6811,12 @@ i16
 
 sub_C6359F:
     SEP #0x20
-    LDA a:addr(4), Y
+    LDA a:4, Y
     BIT #1
     BEQ .loc_C635DE
     LDA z:0x42
     STA z:0x41
-    LDA a:addr(0x11), Y
+    LDA a:0x11, Y
     SEC
     SBC z:0x11, X
     BCS .loc_C635BD
@@ -6828,7 +6832,7 @@ sub_C6359F:
     BCS .loc_C635DE
     LDA z:0x44
     STA z:0x40
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     SEC
     SBC z:0x14, X
     BCS .loc_C635D6
@@ -6861,7 +6865,7 @@ sub_C635EA:
     SEP #0x20
     LDA #1
     STA z:0x44
-    LDA a:addr(0x11), Y
+    LDA a:0x11, Y
     SEC
     SBC z:0x11, X
     BCS .locret_C635FC
@@ -6875,7 +6879,7 @@ sub_C635FD:
     SEP #0x20
     LDA #2
     STA z:0x44
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     SEC
     SBC z:0x14, X
     BCS .locret_C6360D
@@ -6968,7 +6972,7 @@ straight_movement:
     STA z:0x20, X
     SEC
     RTL
-    JMP a:addr(sub_C63818)
+    JMP a:sub_C63818
     
 straighten_x:
     SEP #0x20
@@ -7284,7 +7288,7 @@ follower_movement:
 
 .loc_C638E0:
     PLA
-    JMP a:addr(.loc_C63852)
+    JMP a:.loc_C63852
 
 missle_movement:
     REP #0x20
@@ -7608,7 +7612,7 @@ i16
     REP #0x20
     PLA
     STA z:0x19, X
-    JMP a:addr(enemy_hit_deadend)
+    JMP a:enemy_hit_deadend
 
 .loc_C63B0D:
     JSL straight_movement
@@ -7757,12 +7761,12 @@ sub_C63BF9:
     CLC
     ADC #0x200
     STA z:0x4A
-    LDA a:addr(0x11), Y
+    LDA a:0x11, Y
     AND #0xFF
     CLC
     ADC #0x200
     STA z:0x4C
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     CLC
     ADC #0x200
     STA z:0x4E
@@ -10263,15 +10267,15 @@ create_metal_kuwagen:
     LDA z:0x5F
     STA a:addr(enemy.unknown_3a), Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
     STA a:addr(enemy.carried_bonus), Y
     LDA #0x30
     STA a:addr(enemy.palette), Y
-    LDA a:addr(3), Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics kuwagen_graphic_pointers, 2
     allocate_object_palette METAL_KUWAGEN_PALETTE
     RTL
@@ -10285,28 +10289,28 @@ create_kuwagen:
     LDA #0
     STA a:addr(enemy.hitpoints_left), Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics kuwagen_graphic_pointers, 2
     allocate_object_palette KUWAGEN_PALETTE
 create_enemy_ret:
@@ -10373,7 +10377,7 @@ _kuwagen:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_senshiyan:
@@ -10386,30 +10390,30 @@ create_senshiyan:
 
 .loc_C65A8F:
     LDA #2
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics senshiyan_graphics, 3
     allocate_object_palette SENSHIYAN_PALETTE
     RTL
@@ -10495,7 +10499,7 @@ sub_C65B5D:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 .loc_C65BAF:
@@ -10509,7 +10513,7 @@ sub_C65B5D:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation_2
+    JSL render_sprite
     RTL
 
 sub_C65BCB:
@@ -10556,15 +10560,15 @@ create_senshiyan_part:
 .loc_C65C20:
     REP #0x20
     LDA z:0xE, X
-    STA a:addr(0xE), Y
+    STA a:0xE, Y
     LDA z:0x1E, X
-    STA a:addr(0x1E), Y
+    STA a:0x1E, Y
     LDA z:0x11, X
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x14, X
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     TXA
-    STA a:addr(0x34), Y
+    STA a:0x34, Y
     RTL
 
 sub_C65C3B:
@@ -10587,21 +10591,21 @@ sub_C65C3B:
 sub_C65C59:
     SEP #0x20
     LDY z:0x34, X
-    LDA a:addr(0x20), Y
+    LDA a:0x20, Y
     STA z:0x20, X
-    LDA a:addr(0x22), Y
+    LDA a:0x22, Y
     STA z:0x22, X
     REP #0x20
-    LDA a:addr(0x11), Y
+    LDA a:0x11, Y
     STA z:0x11, X
-    LDA a:addr(0x14), Y
+    LDA a:0x14, Y
     STA z:0x14, X
-    LDA a:addr(0), Y
+    LDA a:0, Y
     BNE .loc_C65C7C
     JML delete_object
 
 .loc_C65C7C:
-    LDA a:addr(0x34), Y
+    LDA a:0x34, Y
     CMP #0x80
     BNE .loc_C65C9B
     SEP #0x20
@@ -10634,7 +10638,7 @@ sub_C65C59:
     LDA z:0x14, X
     PHA
     INC z:0x14, X
-    JSL advance_animation_2
+    JSL render_sprite
     REP #0x20
     PLA
     STA z:0x14, X
@@ -10653,7 +10657,7 @@ sub_C65CC2:
 .loc_C65CD7:
     REP #0x20
     LDY z:0x34, X
-    LDA a:addr(0), Y
+    LDA a:0, Y
     BNE .loc_C65CE4
     JML delete_object
 
@@ -10679,7 +10683,7 @@ sub_C65CC2:
     LDA z:0x14, X
     PHA
     INC z:0x14, X
-    JSL advance_animation
+    JSL render_sprite_animated
     REP #0x20
     PLA
     STA z:0x14, X
@@ -10696,7 +10700,7 @@ sub_C65D14:
 .loc_C65D29:
     REP #0x20
     LDY z:0x34, X
-    LDA a:addr(0), Y
+    LDA a:0, Y
     BNE .loc_C65D36
     JML delete_object
 
@@ -10717,7 +10721,7 @@ sub_C65D14:
     LDA z:0x14, X
     PHA
     INC z:0x14, X
-    JSL advance_animation_2
+    JSL render_sprite
     REP #0x20
     PLA
     STA z:0x14, X
@@ -10731,37 +10735,37 @@ sub_C65D5E:
 
 .loc_C65D7A:
     SEP #0x20
-    LDA a:addr(3), Y
+    LDA a:3, Y
     AND #0xFE
-    STA a:addr(3), Y
+    STA a:3, Y
     LDA z:0x22, X
     CMP #0xFF
     BNE .loc_C65D8C
     LDA #2
 
 .loc_C65D8C:
-    STA a:addr(0x22), Y
+    STA a:0x22, Y
     LDA z:0x32, X
-    STA a:addr(0x32), Y
+    STA a:0x32, Y
     LDA #4
-    STA a:addr(0x1E), Y
+    STA a:0x1E, Y
     REP #0x20
     LDA z:0x34, X
-    STA a:addr(0x34), Y
+    STA a:0x34, Y
     LDA z:0xE, X
-    STA a:addr(0xE), Y
+    STA a:0xE, Y
     LDA z:0x11, X
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x14, X
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA #0
-    STA a:addr(0x30), Y
+    STA a:0x30, Y
     RTL
 
 sub_C65DB6:
     REP #0x20
     LDY z:0x34, X
-    LDA a:addr(0), Y
+    LDA a:0, Y
     BNE .loc_C65DC3
     JML delete_object
 
@@ -10819,7 +10823,7 @@ sub_C65DB6:
 .loc_C65E24:
     REP #0x20
     LDY z:0x34, X
-    LDA a:addr(0), Y
+    LDA a:0, Y
     BNE .loc_C65E31
     JML delete_object
 
@@ -10896,7 +10900,7 @@ sub_C65DB6:
     STA z:0x14, X
 
 .loc_C65EAF:
-    JSL advance_animation
+    JSL render_sprite_animated
     REP #0x20
     PLA
     STA z:0x14, X
@@ -11004,15 +11008,15 @@ create_metal_propene:
     LDA z:0x5F
     STA a:addr(enemy.unknown_3a), Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
     STA a:addr(enemy.carried_bonus), Y
     LDA #0x30
     STA a:addr(enemy.palette), Y
-    LDA a:addr(3), Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics metal_propene_graphics, 2
     allocate_object_palette METAL_PROPENE_PALETTE
     RTL
@@ -11077,7 +11081,7 @@ metal_propene:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_propene:
@@ -11105,15 +11109,15 @@ create_propene:
     LDA z:0x5F
     STA a:addr(enemy.unknown_3a), Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
     STA a:addr(enemy.carried_bonus), Y
     LDA #0x30
     STA a:addr(enemy.palette), Y
-    LDA a:addr(3), Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics propene_graphics, 2
     allocate_object_palette PROPENE_PALETTE
     RTL
@@ -11178,7 +11182,7 @@ _propene:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_denkyun:
@@ -11198,23 +11202,23 @@ create_denkyun:
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics denkyun_graphics, 1
     allocate_object_palette DENKYUN_PALETTE
     RTL
@@ -11279,7 +11283,7 @@ denkyun:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_starnuts:
@@ -11292,30 +11296,30 @@ create_starnuts:
 
 .loc_C6625D:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics starnuts_graphics, 3
     allocate_object_palette STARNUTS_PALETTE
     RTL
@@ -11380,7 +11384,7 @@ starnuts:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_banen:
@@ -11393,30 +11397,30 @@ create_banen:
 
 .loc_C6636F:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics banen_graphics, 2
     allocate_object_palette BANEN_PALETTE
     RTL
@@ -11482,7 +11486,7 @@ banen:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_cuppen:
@@ -11495,30 +11499,30 @@ create_cuppen:
 
 .loc_C66483:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics cuppen_graphics, 2
     allocate_object_palette CUPPEN_PALETTE
     RTL
@@ -11583,7 +11587,7 @@ cuppen:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_keibin:
@@ -11596,30 +11600,30 @@ create_keibin:
 
 .loc_C66595:
     LDA #2
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics keibin_graphics, 2
     allocate_object_palette KEIBIN_PALETTE
     RTL
@@ -11684,7 +11688,7 @@ keibin:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_anzenda:
@@ -11697,30 +11701,30 @@ create_anzenda:
 
 .loc_C666A7:
     LDA #1
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics anzenda_graphics, 2
     allocate_object_palette ANZENDA_PALETTE
     RTL
@@ -11785,7 +11789,7 @@ anzenda:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_yoroisu:
@@ -11800,28 +11804,28 @@ create_yoroisu:
     LDA #7
     STA a:enemy.hitpoints_left, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics yoroisu_graphics, 6
     allocate_object_palette YOROISO_PALETTE
     RTL
@@ -11896,7 +11900,7 @@ yoroisu:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 .loc_C668BC:
@@ -11944,30 +11948,30 @@ create_chameleoman:
 
 .loc_C6691D:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics chameleoman_graphics, 1
     allocate_object_palette CHAMELEOMAN_PALETTE
     RTL
@@ -12061,7 +12065,7 @@ sub_C669FB:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
 .loc_C66A3F:
     JSL handle_enemy_damage
     BCS .loc_C66A49
@@ -12141,7 +12145,7 @@ sub_C669FB:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation_2
+    JSL render_sprite
     SEP #0x20
     LDA #0xE
     STA z:0x1E, X
@@ -12210,7 +12214,7 @@ sub_C669FB:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation_2
+    JSL render_sprite
     JSL sub_C66B64
     JSL handle_enemy_damage
     BCC .locret_C66B63
@@ -12304,7 +12308,7 @@ i16
     SEP #0x20
     LDA #bank(sub_C669FB)
     STA z:2, X
-    JMP a:addr(sub_C669FB.loc_C66A3F)
+    JMP a:sub_C669FB.loc_C66A3F
 
 byte_C66BFC:
     db 0, 0x20, 1, 1, 0, 3, 1, 1
@@ -12327,11 +12331,11 @@ create_missle:
 
 .loc_C66C5E:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     TXA
-    STA a:addr(0x38), Y
+    STA a:0x38, Y
     INC z:0x30, X
     PHX
     LDA z:0x34, X
@@ -12344,30 +12348,30 @@ create_missle:
     INC A
     CLC
     ADC #0x88
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA #0x40
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     REP #0x20
     LDA #addr(enemy_creation_functions)
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     SEP #0x20
     LDA #bank(enemy_creation_functions)
-    STA a:addr(0x3C), Y
+    STA a:0x3C, Y
     SEP #0x20
     LDA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     LDA #0x30
-    STA a:addr(0xE), Y
+    STA a:0xE, Y
     LDA #8
-    STA a:addr(0xF), Y
+    STA a:0xF, Y
     LDA #0xC
-    STA a:addr(0x1E), Y
+    STA a:0x1E, Y
     LDA #0xC
-    STA a:addr(0x1F), Y
+    STA a:0x1F, Y
     LDA #0
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0
-    STA a:addr(0x3F), Y
+    STA a:0x3F, Y
     RTL
 
 missle:
@@ -12434,10 +12438,10 @@ missle:
 
 .loc_C66D37:
     LDY z:0x38, X
-    LDA a:addr(0x32), Y
+    LDA a:0x32, Y
     DEC A
-    STA a:addr(0x32), Y
-    JMP a:addr(.loc_C66DE1)
+    STA a:0x32, Y
+    JMP a:.loc_C66DE1
     STY z:0x56
     SEP #0x20
     create_object .loc_C66DE1
@@ -12447,35 +12451,35 @@ missle:
 
 .loc_C66D63:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics missle_graphics, 2
     allocate_object_palette MISSLE_PALETTE
     REP #0x20
     TYA
-    STA a:addr(0x38), Y
+    STA a:0x38, Y
     RTL
 
 .loc_C66DE1:
@@ -12533,9 +12537,9 @@ missle:
     SEP #0x20
     PHY
     LDY z:0x38, X
-    LDA a:addr(0x30), Y
+    LDA a:0x30, Y
     DEC A
-    STA a:addr(0x30), Y
+    STA a:0x30, Y
     PLY
     JML kill_enemy
 
@@ -12544,7 +12548,7 @@ missle:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_kouraru:
@@ -12557,30 +12561,30 @@ create_kouraru:
 
 .loc_C66E86:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics kouraru_graphics, 3
     allocate_object_palette KOURARU_PALETTE
     RTL
@@ -12645,7 +12649,7 @@ kouraru:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_pakupa:
@@ -12658,30 +12662,30 @@ create_pakupa:
 
 .loc_C66F98:
     LDA #2
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics pakupa_graphics, 3
     allocate_object_palette PAKUPA_PALETTE
     RTL
@@ -12750,7 +12754,7 @@ pakupa:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 replace_bomb_with_hard_block:
@@ -12776,30 +12780,30 @@ create_douken:
 
 .loc_C670C6:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics douken_graphics, 1
     allocate_object_palette DOUKEN_PALETTE
     RTL
@@ -12866,7 +12870,7 @@ douken:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_dengurin:
@@ -12879,30 +12883,30 @@ create_dengurin:
 
 .loc_C671DC:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics dengurin_graphics, 3
     allocate_object_palette DENGURIN_PALETTE
     RTL
@@ -12967,7 +12971,7 @@ dengurin:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_robocom:
@@ -12980,30 +12984,30 @@ create_robocom:
 
 .loc_C672EE:
     LDA #2
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics robocom_graphics, 3
     allocate_object_palette ROBOCOM_PALETTE
     RTL
@@ -13071,7 +13075,7 @@ robocom:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_metal_u:
@@ -13084,30 +13088,30 @@ create_metal_u:
 
 .loc_C67407:
     LDA #1
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics metal_u_graphics, 1
     allocate_object_palette METAL_U_PALETTE
     RTL
@@ -13175,7 +13179,7 @@ metal_u:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_kinkaru:
@@ -13188,30 +13192,30 @@ create_kinkaru:
 
 .loc_C67520:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics kinkaru_graphics, 2
     allocate_object_palette KINKARU_PALETTE
     RTL
@@ -13279,7 +13283,7 @@ kinkaru:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 create_moguchan:
@@ -13292,30 +13296,30 @@ create_moguchan:
 
 .loc_C67639:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics moguchan_graphics, 3
     allocate_object_palette MOGUCHAN_PALETTE
     RTL
@@ -13392,7 +13396,7 @@ sub_C67706:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 .loc_C67747:
@@ -13418,7 +13422,7 @@ sub_C67706:
     STA z:2, X
 
 .loc_C67772:
-    JSL advance_animation
+    JSL render_sprite_animated
     BCC .locret_C67785
     REP #0x20
     LDA #addr(sub_C67786)
@@ -13481,7 +13485,7 @@ sub_C67786:
     STA z:2, X
 
 .loc_C677EC:
-    JSL advance_animation
+    JSL render_sprite_animated
     BCS .loc_C677F6
     JML sub_C67706.locret_C67785
 
@@ -13537,32 +13541,32 @@ create_red_bakuda:
 
 .loc_C67862:
     LDA #1
-    STA a:addr(0x38), Y
+    STA a:0x38, Y
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics bakuda_graphics, 2
     allocate_object_palette RED_BAKUDA_PALETTE
     RTL
@@ -13577,32 +13581,32 @@ create_bakuda:
 
 .loc_C67900:
     LDA #0
-    STA a:addr(0x38), Y
+    STA a:0x38, Y
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics bakuda_graphics, 2
     allocate_object_palette BAKUDA_PALETTE
     RTL
@@ -13677,7 +13681,7 @@ sub_C679C8:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 .loc_C67A0B:
@@ -13720,7 +13724,7 @@ sub_C679C8:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     BCS .loc_C67A65
     JML .locret_C67B10
 
@@ -13793,7 +13797,7 @@ sub_C679C8:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     BCC .locret_C67B10
     JSL sub_C679BB
     REP #0x20
@@ -13824,30 +13828,30 @@ create_kierun:
 
 .loc_C67B31:
     LDA #0
-    STA a:addr(0x1A), Y
+    STA a:0x1A, Y
     LDA #2
-    STA a:addr(0x20), Y
+    STA a:0x20, Y
     REP #0x20
     LDA z:0x40
     AND #0xF0
     ORA #8
-    STA a:addr(0x11), Y
+    STA a:0x11, Y
     LDA z:0x42
     AND #0xF0
     ORA #8
-    STA a:addr(0x14), Y
+    STA a:0x14, Y
     LDA z:0x5F
-    STA a:addr(0x3A), Y
+    STA a:0x3A, Y
     LDA z:0x60
-    STA a:addr(0x3B), Y
+    STA a:0x3B, Y
     SEP #0x20
     LDA z:0x48
-    STA a:addr(0x3E), Y
+    STA a:0x3E, Y
     LDA #0x30
-    STA a:addr(0xE), Y
-    LDA a:addr(3), Y
+    STA a:0xE, Y
+    LDA a:3, Y
     ORA #1
-    STA a:addr(3), Y
+    STA a:3, Y
     allocate_object_graphics kierun_graphics, 2
     allocate_object_palette KIERUN_PALETTE
     RTL
@@ -13924,7 +13928,7 @@ sub_C67C1A:
     LDA #0xC0C
     STA z:0x40
     JSL sub_C634FC
-    JSL advance_animation
+    JSL render_sprite_animated
     RTL
 
 sub_C67C34:

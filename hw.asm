@@ -112,23 +112,15 @@ JOY4L       = 0x421E ; Controller Port Data Registers (Pad 4 - Low)
 JOY4H       = 0x421F ; Controller Port Data Registers (Pad 4 - High)
 
 macro dma_registers x
-; DMA Registers
-DMAP$x      = 0x4300 + ($x * 0x10) ; DMA Control Register
-BBAD$x      = 0x4301 + ($x * 0x10) ; DMA Destination Register
-A1TL$x      = 0x4302 + ($x * 0x10) ; DMA Source Address Registers
-A1TH$x      = 0x4303 + ($x * 0x10) ; DMA Source Address Registers
-A1B$x       = 0x4304 + ($x * 0x10) ; DMA Source Address Registers
-DASL$x      = 0x4305 + ($x * 0x10) ; DMA Size Registers (Low)
-DASH$x      = 0x4306 + ($x * 0x10) ; DMA Size Registers (High)
+; H/DMA Registers
+DMAP$x      = 0x4300 + ($x * 0x10) ; H/DMA Control Register
+BBAD$x      = 0x4301 + ($x * 0x10) ; H/DMA Destination Register
+A1TL$x      = 0x4302 + ($x * 0x10) ; H/DMA Table Address Registers
+A1TH$x      = 0x4303 + ($x * 0x10) ; H/DMA Table Address Registers
+A1B$x       = 0x4304 + ($x * 0x10) ; H/DMA Table Address Registers
+DASL$x      = 0x4305 + ($x * 0x10) ; H/DMA Indirect Address Registers
+DASH$x      = 0x4306 + ($x * 0x10) ; H/DMA Indirect Address Registers
 
-; HDMA Registers
-DMAP$x      = 0x4300 + ($x * 0x10) ; HDMA Control Register
-BBAD$x      = 0x4301 + ($x * 0x10) ; HDMA Destination Register
-A1TL$x      = 0x4302 + ($x * 0x10) ; HDMA Table Address Registers
-A1TH$x      = 0x4303 + ($x * 0x10) ; HDMA Table Address Registers
-A1B$x       = 0x4304 + ($x * 0x10) ; HDMA Table Address Registers
-DASL$x      = 0x4305 + ($x * 0x10) ; HDMA Indirect Address Registers
-DASH$x      = 0x4306 + ($x * 0x10) ; HDMA Indirect Address Registers
 DASB$x      = 0x4307 + ($x * 0x10) ; HDMA Indirect Address Registers
 A2AL$x      = 0x4308 + ($x * 0x10) ; HDMA Mid Frame Table Address Registers (Low)
 A2AH$x      = 0x4309 + ($x * 0x10) ; HDMA Mid Frame Table Address Registers (High)

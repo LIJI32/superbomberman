@@ -693,24 +693,29 @@ byte_C30C24:
     db 0xFF
 score_popup_related:
     dw 0xC4D, 0xC52, 0xC57, 0xC5C, 0xC61, 0xC66, 0xC6B, 0xC6B, 0xC6B, 0xC6B
+    
 transfer_oam:
     SEP #0x20
     LDA #0
     STA OAMADDL
     LDA #0
     STA DMAP6 ; ab0cdeee a = Direction b = Type c = Inc/Dec d = Auto/Fixed e = Word Size Select
-    LDA #0
+    
+    LDA #low(oam)
     STA A1TL6
-    LDA #0
+    LDA #high(oam)
     STA A1TH6
-    LDA #0x7F
+    LDA #bank(oam)
     STA A1B6
-    LDA #4
+    
+    LDA #low(OAMDATA)
     STA BBAD6
-    LDA #0x20
+    
+    LDA #low(hi_oam.end - oam)
     STA DASL6
-    LDA #2
+    LDA #high(hi_oam.end - oam)
     STA DASH6
+    
     LDA #0x40
     STA MDMAEN ; abcdefgh a = Channel 7...h = Channel 0: 1 = Enable 0 = Disable
     RTL

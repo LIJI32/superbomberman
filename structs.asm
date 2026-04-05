@@ -91,6 +91,16 @@ struct vblank_queued_function
     ds 2    
 endstruct
 
+struct rendering_linked_list
+.prev
+    ds 2
+.next
+    ds 2
+.neighbor_y
+    ds 1
+.animation_paused:
+    ds 1
+endstruct
 
 ; Object structures
 
@@ -220,9 +230,8 @@ struct player
 .current_bomb_count:
     ds 2
     ds 2 ; Unknown
-.anonymous_6:
-    ds 2
-    ds 4 ; Unknown
+.rendering_linked_list:
+    ds rendering_linked_list.sizeof
 .no_death: ; Debug-controlled
     ds 1
 .hit_flags:
@@ -330,12 +339,8 @@ struct enemy
     ds 2
     ds 1
     ds 1
-.anonymous_6:
-    ds 2
-    ds 1
-    ds 1
-    ds 1
-    ds 1
+.rendering_linked_list:
+    ds rendering_linked_list.sizeof
     ds 1
 .hit_flags:
     ds 1
@@ -449,6 +454,20 @@ org 0x20
 .tile_offset:
     ds 2
 .animation_counter:
+    ds 2
+org 0x40
+endstruct
+
+struct tile_animator
+    dynamic_object
+org 0xb
+.current_frame:
+    ds 2
+.max_frame:
+    ds 2
+    
+org 0x16
+.animation_address
     ds 2
 org 0x40
 endstruct

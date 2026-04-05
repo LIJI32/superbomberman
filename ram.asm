@@ -60,7 +60,7 @@ allocator_cyclic_buffer_read_pointer:
     ds 2
 allocator_cyclic_buffer_write_pointer:
     ds 2
-word_7E00BE:
+first_sprite_ptr:
     ds 2
     
     
@@ -171,10 +171,10 @@ frame_count:
 org 0x7E0304
 palette_fade_disable_mask: ; Fade debug variable, not used
     ds 2
-word_7E0306:
-    ds 2
-word_7E0308:
-    ds 2
+ptr_7E0306:
+    ds 3
+byte_7E0309:
+    ds 1
 vblank_queue_overflows: ; Seems like a debug variable, has no real effect
     ds 2
 vblank_queue_read_end:
@@ -206,11 +206,15 @@ org 0x7E04C4
 small_allocator_cyclic_buffer:
     ds 0x30
 .end
-bg1_tilemap:
 
-org 0x7E0816
+bg1_tilemap:
+    ds 0x322
+.end
+
 bg3_tilemap:
     ds 0x100
+.end
+
 collision_map:
     ds 0x320
 .end
@@ -392,12 +396,8 @@ level_manager_object:
 .enemy_count:
     ds 2
     ds 1
-.hit_flags:
-    ds 2
-    ds 1
-    ds 1
-    ds 1
-    ds 1
+.rendering_linked_list:
+    ds rendering_linked_list.sizeof
     ds 1
     ds 1
 .game_mode:
@@ -545,10 +545,19 @@ org 0x7E6800
 empty_tilemap:
 
 org 0x7F0000
-unk_7F0000:
-    ds 0x400
+oam:
+    ds 0x200
+hi_oam:
+    ds 0x20
+    .end
+
+; Unknown
+    ds 0x1e0
+
 palettes:
     ds 0x200
+    .end
+
 graphics_table:
     ds 0x60
 palette_table:
