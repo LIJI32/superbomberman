@@ -8,15 +8,13 @@ all: $(OUT)/superbomberman.sfc compare
 .PHONY: all compare clean
 
 -include $(OUT)/superbomberman.dep
-# Files not caught by create_dep:
-$(OUT)/superbomberman.sfc: config/$(CONFIG).asm $(OUT)/graphics/overlays/bomb_and_explosions_palette_0.bin $(OUT)/graphics/overlays/bomb_and_explosions_palette_1.bin
 
 TITLE = "\033[1m\033[36m"
 TITLE_END = "\033[0m"
 
-$(OUT)/%.dep: %.asm
+$(OUT)/superbomberman.dep: superbomberman.asm
 	mkdir -p $(OUT)
-	python tools/create_dep.py $< "$(OUT)" > $@
+	sfcasm $< -O $(OUT)/superbomberman.sfc -M $@ -l superbomberman.layout -V "CONFIG=\"$(CONFIG)\"" -DOUT="$(OUT)"
 
 $(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout
 	@echo -e $(TITLE)Compiling $@...$(TITLE_END)
