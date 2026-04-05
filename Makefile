@@ -18,10 +18,9 @@ $(OUT)/%.dep: %.asm
 	mkdir -p $(OUT)
 	python tools/create_dep.py $< "$(OUT)" > $@
 
-$(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout tools/checksum.py
+$(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout
 	@echo -e $(TITLE)Compiling $@...$(TITLE_END)
-	sfcasm $< -o $@ -l superbomberman.layout -V "CONFIG=\"$(CONFIG)\"" -DOUT="$(OUT)" -v "$(OUT)/superbomberman.var"  -s "$(OUT)/superbomberman.sym"
-	python tools/checksum.py $@
+	sfcasm $< -o $@ -l superbomberman.layout -V "CONFIG=\"$(CONFIG)\"" -DOUT="$(OUT)" -v "$(OUT)/superbomberman.var"  -s "$(OUT)/superbomberman.sym" -c
 
 
 #### Graphic rules ####
