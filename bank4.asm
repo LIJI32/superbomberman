@@ -384,12 +384,12 @@ endif
 .loc_C403B7:
     PHA
     STX a:addr(word_7E0310)
-    LDA $az:addr(player.unknown_flags), X
+    LDA $az:player.unknown_flags, X
     BIT #1
     BEQ .loc_C403D5
-    LDA $az:addr(object.handler+1), X
+    LDA $az:object.handler+1, X
     STA $az:0x51
-    LDA $az:addr(object.handler), X
+    LDA $az:object.handler, X
     STA $az:0x50
     JSL call_far_function_at_0050
     REP #0x20
@@ -890,10 +890,10 @@ sub_C40769:
 
 .loc_C407AB:
     REP #0x20
-    LDA #addr(death_related)
+    LDA #addr(cpu_death)
     STA $az:0, X
     SEP #0x20
-    LDA #bank(death_related)
+    LDA #bank(cpu_death)
     STA $az:2, X
 
 .loc_C407BA:
@@ -1001,7 +1001,7 @@ i16
     REP #0x20
     LDA #0x100
     STA $az:0x12, X
-    LDY #5
+    LDY #SOUND_TIMER_WARNING
     JSL play_sound
     REP #0x20
     LDA #addr(.loc_C408A6)
@@ -1898,7 +1898,7 @@ i16
     JML .locret_C412A1
 
 .loc_C411CB:
-    STZ a:addr(unk_dboot_2f), X
+    STZ a:0x12f, X
     LDA a:addr(current_mode)
     CMP #1
     BNE .loc_C411D9
@@ -1984,7 +1984,7 @@ i16
     LDA a:addr(level_manager_object.spawn_and_flags)
     BIT #0x208
     BEQ .loc_C41290
-    LDA a:addr(unk_dboot_3e), X
+    LDA a:0x13e, X
     AND #0xFF
     ASL A
     PHX
@@ -2137,11 +2137,11 @@ i16
 
 .loc_C4139D:
     SEP #0x20
-    INC a:addr(unk_dboot_3f), X
-    LDA a:addr(unk_dboot_3f), X
+    INC a:0x13f, X
+    LDA a:0x13f, X
     BIT #0xF
     BNE .loc_C413B0
-    LDY #0xC
+    LDY #SOUND_STEP
     JSL play_sound
 
 .loc_C413B0:
@@ -2491,9 +2491,9 @@ _play_hit_by_bomb_animation:
 do_player_warp:
 i16
     SEP #0x20
-    INC a:addr(unk_dboot_2f), X
+    INC a:0x12f, X
     JSL clear_playerquare_in_collision_map
-    LDY #9
+    LDY #SOUND_WARP
     JSL play_sound
     SEP #0x20
     LDA z:player.x_position, X ; Round position to whole tile
@@ -2621,7 +2621,7 @@ i16
     STA z:player.x_position, X
     LDA z:0x42
     STA z:player.y_position, X
-    STZ a:addr(unk_dboot_2f), X
+    STZ a:0x12f, X
     REP #0x20
     LDA #addr(play_exit_warp_animation)
     STA z:object.handler, X
@@ -2641,15 +2641,15 @@ warp_positions:
 do_trampoline:
 i16
     SEP #0x20
-    INC a:addr(unk_dboot_2f), X
+    INC a:0x12f, X
     JSL clear_playerquare_in_collision_map
-    LDY #0xB
+    LDY #SOUND_TRAMPOLINE
     JSL play_sound
     REP #0x20
     LDA z:player.y_position, X
     AND #0xF0
     ORA #8
-    STA a:addr(unk_dboot_14), X
+    STA a:0x114, X
     LDA #0xF000
     STA z:player.trampoline_state, X
     REP #0x20
@@ -2766,17 +2766,17 @@ _trampoline_land:
     REP #0x20
     LDA z:0x14, X
     BMI .loc_C417FF
-    LDA a:addr(unk_dboot_14), X
+    LDA a:0x114, X
     CMP z:0x14, X
     BCS .loc_C417FF
     SEP #0x20
-    LDA a:addr(unk_dboot_14), X
+    LDA a:0x114, X
     STA z:player.y_position, X
     LDA z:player.direction, X
     STA z:0x40
     JSL change_direction_and_start_animation
     SEP #0x20
-    STZ a:addr(unk_dboot_2f), X
+    STZ a:0x12f, X
     LDA z:player.is_ai, X
     BNE .loc_C41804
     REP #0x20
@@ -2804,7 +2804,7 @@ randomize_landing:
     REP #0x20
     LDA z:player.warp_delay, X
     PHA
-    LDA a:addr(unk_dboot_14), X
+    LDA a:0x114, X
     PHA
     PHX
     LDX z:0x40
@@ -2817,8 +2817,8 @@ randomize_landing:
     STA z:player.x_position, X
     LDA z:0x44
     CLC
-    ADC a:addr(unk_dboot_14), X
-    STA a:addr(unk_dboot_14), X
+    ADC a:0x114, X
+    STA a:0x114, X
     AND #0xF0
     ASL A
     ASL A
@@ -2841,7 +2841,7 @@ randomize_landing:
 
 .loc_C4185C:
     PLA
-    STA a:addr(unk_dboot_14), X
+    STA a:0x114, X
     PLA
     STA z:player.warp_delay, X
     RTL
@@ -3008,7 +3008,7 @@ last_human_death:
 player_death:
 i16
     JSL clear_playerquare_in_collision_map
-    LDY #0x1F
+    LDY #SOUND_DEATH
     JSL play_sound
     SEP #0x20
     LDA a:addr(current_mode)
@@ -3420,30 +3420,30 @@ i16
     REP #0x20
     LDA z:player.score_digits_12, X
     SEC
-    SBC a:addr(unk_dboot_1C), X
+    SBC a:0x11C, X
     LDA z:player.score_digits_56, X
-    SBC a:addr(current_music_bank), X
+    SBC a:0x11a, X
     BCC locret
     SED
-    LDA a:addr(unk_dboot_1C), X
+    LDA a:0x11C, X
     CLC
-    ADC a:addr(unk_dboot_1C), X
-    STA a:addr(unk_dboot_1C), X
-    LDA a:addr(current_music_bank), X
-    ADC a:addr(current_music_bank), X
-    STA a:addr(current_music_bank), X
+    ADC a:0x11C, X
+    STA a:0x11C, X
+    LDA a:0x11a, X
+    ADC a:0x11a, X
+    STA a:0x11a, X
     CLD
     JSL add_extra_life
-    LDA a:addr(unk_dboot_1C), X
+    LDA a:0x11C, X
     SEC
     SBC #0
-    LDA a:addr(current_music_bank), X
+    LDA a:0x11a, X
     SBC #0x1000
     BCC .loc_C41C43
     LDA #0
-    STA a:addr(unk_dboot_1C), X
+    STA a:0x11C, X
     LDA #0x1000
-    STA a:addr(current_music_bank), X
+    STA a:0x11a, X
     BRA .loc_C41C43
 
 locret:
@@ -5437,9 +5437,9 @@ sub_C42C4B:
     LDA #0x300
     STA z:0x38, X
     LDA #3
-    STA a:addr(dboot_paramater_0), X
+    STA a:0x130, X
     LDA #0
-    STA a:addr(unk_dboot_38), X
+    STA a:0x138, X
 
 .loc_C42C72:
     LDA #0xFF90
@@ -5602,14 +5602,14 @@ handle_player_movement_0:
 i16
 
     SEP #32
-    STZ a:addr(unk_dboot_2f), X
+    STZ a:0x12f, X
     REP #0x20
     LDA #4
     STA z:0x40
     LDA a:addr(level_manager_object.spawn_and_flags)
     BIT #0x208
     BEQ .loc_C42DC4
-    LDA a:addr(unk_dboot_3e), X
+    LDA a:0x13e, X
     AND #0xFF
     ASL A
     PHX
@@ -5733,15 +5733,15 @@ sub_C42E6B.loc_C42E8E:
     JML sub_C42F13
 
 .loc_C42EB2:
-    JMP a:death_related
+    JMP a:cpu_death
 
 .loc_C42EB5:
     SEP #0x20
-    INC a:addr(unk_dboot_3f), X
-    LDA a:addr(unk_dboot_3f), X
+    INC a:0x13f, X
+    LDA a:0x13f, X
     BIT #0xF
     BNE sub_C42EC8
-    LDY #0xC
+    LDY #SOUND_STEP
     JSL play_sound
     ; fallthrough
 
@@ -5767,7 +5767,7 @@ sub_C42ED2:
     JML sub_C42F13
 
 .loc_C42EF6:
-    JMP a:death_related
+    JMP a:cpu_death
 
 sub_C42EF9:
     SEP #0x20
@@ -5822,9 +5822,9 @@ sub_C42F13:
 do_player_warp_ai:
 i16
     SEP #0x20
-    INC a:addr(unk_dboot_2f), X
+    INC a:0x12f, X
     JSL clear_playerquare_in_collision_map
-    LDY #9
+    LDY #SOUND_WARP
     JSL play_sound
     SEP #0x20
     LDA z:0x11, X
@@ -5956,7 +5956,7 @@ i16
     STA z:0x11, X
     LDA z:0x42
     STA z:0x14, X
-    STZ a:addr(unk_dboot_2f), X
+    STZ a:0x12f, X
     LDA #4
     STA z:0x20, X
     REP #0x20
@@ -6004,7 +6004,7 @@ sub_C43074:
 .locret_C430B5:
     RTL
 
-death_related:
+cpu_death:
 i16
     SEP #0x20
     LDA z:0x1F, X
@@ -6012,11 +6012,11 @@ i16
     LDA #0
     STA z:0x12, X
     LDA a:addr(current_mode)
-    CMP #3
-    BEQ .loc_C430E4
-    DEC a:addr(unk_dboot_6), X
+    CMP #GAME_MODE_BATTLE
+    BEQ .battle_mode
+    DEC a:0x106, X
     BMI .loc_C430D1
-    STZ z:0x2F, X
+    STZ z:player.hit_flags, X
     JMP a:.loc_C43150
 
 .loc_C430D1:
@@ -6027,11 +6027,11 @@ i16
     JML .loc_C430EB
 
 .loc_C430DE:
-    JSL sub_C708CC
+    JSL world_5_death
     BRA .loc_C430EB
 
-.loc_C430E4:
-    LDY #0x1F
+.battle_mode:
+    LDY #SOUND_DEATH
     JSL play_sound
 
 .loc_C430EB:
@@ -9772,7 +9772,7 @@ i16
     STA a:addr(collision_map), Y
     LDA #0x1880
     STA a:addr(bg1_tilemap), Y
-    LDY #0x1E
+    LDY #SOUND_PLACE_BOMB
     JSL play_sound
     PLY
     SEP #0x20
@@ -10281,7 +10281,7 @@ sub_C44DA9:
     ASL A
     STA z:0x1E,X
     PHY
-    LDY #0xF
+    LDY #SOUND_BOMB_NEUTERED
     JSL play_sound
     JSL sub_C53976
     PLY
@@ -10560,7 +10560,7 @@ i16
     JMP a:sub_C44DA9.loc_C44E11
 .loc_C451AB:
     PHY
-    LDY #7
+    LDY #SOUND_SUDDEN_DEATH_BLOCK
     JSL play_sound
     PLY
     SEP #0x20
@@ -11149,7 +11149,7 @@ i16
     REP #0x20
     LDA #addr(sub_C455EA)
     STA z:0,X
-    LDY #8
+    LDY #SOUND_PUNCH_BOMB
     JSL play_sound
     SEP #0x20
     LDY z:8,X
@@ -11205,7 +11205,7 @@ sub_C455EA:
 
 .loc_C45645:
     PHY
-    LDY #4
+    LDY #SOUND_SECRET_BONUS_APPEAR
     JSL play_sound
     PLY
     SEP #0x20
@@ -11296,7 +11296,7 @@ sub_C455EA:
 
 .loc_C456EE:
     PHY
-    LDY #4
+    LDY #SOUND_SECRET_BONUS_APPEAR
     JSL play_sound
     SEP #0x20
     LDY z:8,X
@@ -11485,7 +11485,7 @@ i16
 
 .loc_C45838:
     PHY
-    LDY #0x15
+    LDY #SOUND_BOMB_EXPLOSION
     JSL play_sound
     PLY
     JSL sub_C4576B

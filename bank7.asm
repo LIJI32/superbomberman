@@ -732,7 +732,7 @@ sub_C708A2:
     JSL render_sprite_animated
     RTL
 
-sub_C708CC:
+world_5_death:
 i16
     SEP #0x20
     create_object sub_C708FE
@@ -745,7 +745,7 @@ i16
     STA a:0x20, Y
     LDA #0
     STA a:0x22, Y
-    LDY #0x12
+    LDY #SOUND_CROWD_CHEER
     JSL play_sound
     RTL
 
@@ -753,7 +753,7 @@ sub_C708FE:
 i16
     REP #0x20
     DEC z:0x20, X
-    BNE .locret_C70923
+    BNE .ret
     LDA z:0x22, X
     PHX
     TAX
@@ -767,10 +767,10 @@ i16
     STA z:0x20, X
     INC z:0x22, X
     INC z:0x22, X
-    LDY #0x11
+    LDY #SOUND_CROWD_WHISTLE
     JSL play_sound
 
-.locret_C70923:
+.ret:
     RTL
 
 word_C70924:
@@ -2595,7 +2595,7 @@ sub_C71A36:
     PLA
     STA z:0x52
     JSL start_animation
-    LDY #0x19
+    LDY #SOUND_CRANE_HAND_DOOR
     JSL play_sound
     REP #0x20
     LDA #addr(.loc_C71A8D)
@@ -2693,7 +2693,7 @@ i16
     PLA
     STA z:0x52
     JSL start_animation
-    LDY #0x19
+    LDY #SOUND_CRANE_HAND_DOOR
     JSL play_sound
     REP #0x20
     LDA #addr(.loc_C71B51)
@@ -2913,7 +2913,7 @@ sub_C71CCE:
     LDA z:0xB, X
     CMP #0x30E
     BNE .loc_C71D11
-    LDY #0x17
+    LDY #SOUND_CRANE
     JSL play_sound
 
 .loc_C71D11:
@@ -3831,7 +3831,7 @@ sub_C726C7:
     STA z:0x52
     JSL sub_C72916
     JSL sub_C729AD
-    LDY #0x13
+    LDY #SOUND_BIGARON_HAMMER_STRIKE
     JSL play_sound
 
 .loc_C72735:
@@ -4043,7 +4043,7 @@ i16
     SEP #0x20
     LDA #bank(.loc_C728C3)
     STA z:2, X
-    LDY #0x18
+    LDY #SOUND_BOSS_DEATH
     JSL play_sound
 
 .loc_C728C3:
@@ -5904,7 +5904,7 @@ sub_C740B2:
     SEP #0x20
     LDA #bank(.loc_C740D7)
     STA z:2, X
-    LDY #0x18
+    LDY #SOUND_BOSS_DEATH
     JSL play_sound
 
 .loc_C740D7:
@@ -6760,7 +6760,7 @@ sub_C7489C:
     SEP #0x20
     LDA #bank(.loc_C749B9)
     STA z:2, X
-    LDY #0x18
+    LDY #SOUND_BOSS_DEATH
     JSL play_sound
     RTL
 
@@ -6829,7 +6829,7 @@ sub_C74A1C:
     PLA
     STA z:0x52
     JSL start_animation
-    LDY #6
+    LDY #SOUND_MECHA_ONITA_HIT
     JSL play_sound
 
 .loc_C74A46:
@@ -8125,7 +8125,7 @@ sub_C75967:
     LDA f:[z:0xDB], Y
     BEQ .loc_C759C1
     PHY
-    LDY #0x1C
+    LDY #SOUND_SPIDERER_STEP
     JSL play_sound
     PLY
 .loc_C759C1:
@@ -8621,14 +8621,14 @@ sub_C75D75:
     STA z:0x52
     JSL start_animation
     REP #0x20
-    LDA #addr(sub_C75DAC)
+    LDA #addr(spiderer_launch_bomb)
     STA z:0, X
     SEP #0x20
-    LDA #bank(sub_C75DAC)
+    LDA #bank(spiderer_launch_bomb)
     STA z:2, X
     RTL
 
-sub_C75DAC:
+spiderer_launch_bomb:
 i16
     JSL load_animation_frame
     SEP #0x20
@@ -8644,7 +8644,7 @@ i16
     BNE sub_C75D5E
     LDA #0x10
     STA z:0x20, X
-    LDY #8
+    LDY #SOUND_PUNCH_BOMB
     JSL play_sound
     JSL sub_C45E15
     REP #0x20
@@ -10607,7 +10607,7 @@ i16
     BNE nullsub_10
     LDA #0x10
     STA z:0x10, X
-    LDY #0x1A
+    LDY #SOUND_BUILDING_CRUMBLE
     JSL play_sound
     RTL
 

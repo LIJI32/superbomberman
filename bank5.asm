@@ -2897,7 +2897,7 @@ sub_C53B0B:
 
 sub_C53B5D:
     SEP #0x20
-    create_object sub_C53B7C
+    create_object hurry_up_object_init
     REP #0x20
     BCC .locret_C53B7B
     JML sub_C55264
@@ -2905,21 +2905,21 @@ sub_C53B5D:
 .locret_C53B7B:
     RTL
 
-sub_C53B7C:
+hurry_up_object_init:
 i16
-    LDY #5
+    LDY #SOUND_TIMER_WARNING
     JSL play_sound
     REP #0x20
-    LDA #0xC30
+    LDA #0xC30 ; That's not the palette, was is it then? Seems like an address
     STA z:0xE, X
-    LDA #4
-    STA z:0x1E, X
-    LDA #0x140
-    STA z:0x11, X
-    LDA #0x66
-    STA z:0x14, X
+    LDA #4 ; Red Bomberman's palette is loaded here
+    STA z:sprite.effective_palette, X
+    LDA #320
+    STA z:sprite.x_position, X
+    LDA #102
+    STA z:sprite.y_position, X
     LDA #0
-    STA z:0x20, X
+    STA z:sprite.direction, X ; Not sure why it's needed
     LDA #addr(byte_C51D57)
     STA z:0x50
     SEP #0x20
@@ -2929,10 +2929,10 @@ i16
     JSL start_animation
     REP #0x20
     LDA #addr(.loc_C53BBA)
-    STA z:0, X
+    STA z:sprite.handler, X
     SEP #0x20
     LDA #bank(.loc_C53BBA)
-    STA z:2, X
+    STA z:sprite.handler + 2, X
 
 .loc_C53BBA:
     SEP #0x20
@@ -3138,7 +3138,7 @@ sub_C53CA9:
 
 .loc_C53D70:
     JSL sub_C53E1E
-    LDY #7
+    LDY #SOUND_SUDDEN_DEATH_BLOCK
     JSL play_sound
     REP #0x20
     LDA #0x10
@@ -4820,7 +4820,7 @@ endif
     SEC
     SBC #3
     STA z:0x14, X
-    LDY #0
+    LDY #SOUND_MENU_SELECT
     JSL play_sound
     RTL
 
@@ -4879,7 +4879,7 @@ sub_C54FEA:
     SEP #0x20
     LDA #0x3C
     STA a:addr(current_screen)
-    LDY #1
+    LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     REP #0x20
     LDA #addr(sub_C54FBD)
@@ -4890,7 +4890,7 @@ sub_C54FEA:
     RTL
     
 sub_C55006:
-    LDY #1
+    LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     JSL fade_out_music
     SEP #0x20
@@ -5678,7 +5678,7 @@ i16
     LDA #6
     STA a:addr(level_manager_object.soft_blocks+1)
     PHA
-    LDY #0
+    LDY #SOUND_MENU_SELECT
     JSL play_sound
     SEP #0x20
     PLA
@@ -5704,8 +5704,8 @@ i16
     JSL sub_C55710
     RTL
 
-sub_C55623:
-    LDY #0x1D
+illegal_battle_mode_settings:
+    LDY #SOUND_ERROR
     JSL play_sound
     JSL sub_C55710
     RTL
@@ -5756,10 +5756,10 @@ sub_C55661:
     ADC a:addr(level_manager_object.unknown_flags)
     CMP #2
     BCS .loc_C55698
-    JML sub_C55623
+    JML illegal_battle_mode_settings
 
 .loc_C55698:
-    LDY #1
+    LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     SEP #0x20
     LDA f:word_C32F81
@@ -6542,7 +6542,7 @@ sub_C55D23:
     SEP #0x20
     create_object sub_C55D57
     REP #0x20
-    BCS nullsub_C55D56
+    BCS alloc_failure
     LDA z:0x40
     STA a:0x11, Y
     LDA z:0x42
@@ -6555,7 +6555,7 @@ sub_C55D23:
     STA a:0x1E, Y
     ; fallthrough
 
-nullsub_C55D56:
+alloc_failure:
     RTL
 
 sub_C55D57:
@@ -6582,7 +6582,7 @@ sub_C55D79:
     SEP #0x20
     create_object sub_C55D9A
     REP #0x20
-    BCS nullsub_C55D56
+    BCS alloc_failure
     LDA #0x40
     STA a:0x20, Y
     RTL
@@ -6692,10 +6692,10 @@ off_C55E58:
     da byte_C514A4, byte_C514A4
 sub_C55E66:
     SEP #0x20
-    create_object sub_C55EA4
+    create_object scoreboard_handler
     REP #0x20
     BCC .loc_C55E84
-    JML nullsub_C55D56
+    JML alloc_failure
 
 .loc_C55E84:
     TXA
@@ -6712,7 +6712,7 @@ sub_C55E66:
     STA a:0x1E, Y
     RTL
 
-sub_C55EA4:
+scoreboard_handler:
 i16
     REP #0x20
     LDA #addr(.loc_C55EF5)
@@ -6777,7 +6777,7 @@ init_victory_screen:
     create_object victory_screen_handler
     REP #0x20
     BCC .loc_C55F28
-    JML nullsub_C55D56
+    JML alloc_failure
 
 .loc_C55F28:
     LDA #0x100
@@ -6796,8 +6796,8 @@ init_victory_screen:
     LDA #0xE0
     STA a:COLDATA
     JSL sub_C56084
-    JSL sub_C5600A
-    JSL sub_C5604C
+    JSL create_whistle_player
+    JSL create_crowd_cheer_player
     RTL
 
 victory_screen_handler:
@@ -6888,58 +6888,58 @@ i16
     JSL load_animation_frame
     RTL
 
-sub_C5600A:
+create_whistle_player:
     SEP #0x20
-    create_object sub_C5602F
+    create_object whistle_player
     REP #0x20
-    BCC .loc_C56028
-    JML nullsub_C55D56
+    BCC +
+    JML alloc_failure
++
 
-.loc_C56028:
     LDA #0x40
-    STA a:0x20, Y
+    STA a:crowd_player.timer, Y
     RTL
 
-sub_C5602F:
+whistle_player:
 i16
     REP #0x20
-    DEC z:0x20, X
-    BNE .locret_C5604B
+    DEC z:crowd_player.timer, X
+    BNE .ret
     JSL fast_random
-    REP #0x20
+    REP #crowd_player.timer
     AND #0x3F
     CLC
-    ADC #0x20
-    STA z:0x20, X
-    LDY #0x11
+    ADC #32
+    STA z:crowd_player.timer, X
+    LDY #SOUND_CROWD_WHISTLE
     JSL play_sound
 
-.locret_C5604B:
+.ret:
     RTL
 
-sub_C5604C:
+create_crowd_cheer_player:
     SEP #0x20
-    create_object sub_C56071
+    create_object crowd_cheer_player
     REP #0x20
-    BCC .loc_C5606A
-    JML nullsub_C55D56
+    BCC +
+    JML alloc_failure
++
 
-.loc_C5606A:
     LDA #0x20
-    STA a:0x20, Y
+    STA a:crowd_player.timer, Y
     RTL
 
-sub_C56071:
+crowd_cheer_player:
 i16
     REP #0x20
-    DEC z:0x20, X
-    BNE .locret_C56083
-    LDA #0x18
-    STA z:0x20, X
-    LDY #0x12
+    DEC z:crowd_player.timer, X
+    BNE .ret
+    LDA #24
+    STA z:crowd_player.timer, X
+    LDY #SOUND_CROWD_CHEER
     JSL play_sound
 
-.locret_C56083:
+.ret:
     RTL
 
 sub_C56084:
@@ -6947,7 +6947,7 @@ sub_C56084:
     create_object sub_C560A3
     REP #0x20
     BCC .locret_C560A2
-    JML nullsub_C55D56
+    JML alloc_failure
 
 .locret_C560A2:
     RTL
@@ -7157,7 +7157,7 @@ draw_falling_bombermen:
     create_object sub_C56338
     REP #0x20
     BCC .locret_C56337
-    JML nullsub_C55D56
+    JML alloc_failure
 
 .locret_C56337:
     RTL
@@ -7282,7 +7282,7 @@ sub_C5640B:
     create_object sub_C56487
     REP #0x20
     BCC .loc_C56429
-    JML nullsub_C55D56
+    JML alloc_failure
 
 .loc_C56429:
     LDA #0
@@ -7485,7 +7485,7 @@ i16
     BNE .loc_C565FB
     INC a:addr(byte_7E0C8F)
     REP #0x20
-    LDY #1
+    LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     REP #0x20
     LDA #addr(.loc_C565FB)
@@ -8327,7 +8327,7 @@ i16
     AND #3
     BEQ .loc_C56F9C
     REP #0x20
-    LDY #0
+    LDY #SOUND_MENU_SELECT
     JSL play_sound
     LDA z:0x20, X
     EOR #1
@@ -8344,7 +8344,7 @@ i16
     RTL
 
 .loc_C56FA1:
-    LDY #1
+    LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     SEP #0x20
     LDA z:0x20, X
@@ -8631,7 +8631,7 @@ i16
     JML sub_C572B0
 
 .loc_C5721D:
-    LDY #1
+    LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     SEP #0x20
 
@@ -8659,7 +8659,7 @@ i16
     LDA z:0x49
     BIT #0xC
     BEQ .loc_C57264
-    LDY #0
+    LDY #SOUND_MENU_SELECT
     JSL play_sound
     SEP #0x20
     INC z:0x30, X
@@ -8679,38 +8679,40 @@ i16
 sub_C5726B:
     JSL render_sprite_animated
     RTL
-sub_C57270:
+    
+password_entry_check_mini:
 i16
     REP #0x20
-    LDA #addr(.loc_C572AB)
+    LDA #addr(password_entry_idle_handler)
     STA z:0, X
     SEP #0x20
-    LDA #bank(.loc_C572AB)
+    LDA #bank(password_entry_idle_handler)
     STA z:2, X
     SEP #0x20
-    LDA #0x31
+    LDA #SCREEN_TITLE
     STA a:addr(current_screen)
-    LDY #0x1D
-    LDA z:0x30, X
+    LDY #SOUND_ERROR
+    LDA z:password_entry.digits + 0, X
     CMP #5
-    BNE .loc_C572A7
-    LDA z:0x31, X
+    BNE +
+    LDA z:password_entry.digits + 1, X
     CMP #6
-    BNE .loc_C572A7
-    LDA z:0x32, X
+    BNE +
+    LDA z:password_entry.digits + 2, X
     CMP #5
-    BNE .loc_C572A7
-    LDA z:0x33, X
+    BNE +
+    LDA z:password_entry.digits + 3, X
     CMP #6
-    BNE .loc_C572A7
+    BNE +
     LDA #1
     STA a:addr(use_mini_graphics)
-    LDY #0xE
+    LDY #SOUND_PAUSE
 
-.loc_C572A7:
++
     JSL play_sound
+    ; fallthrough
 
-.loc_C572AB:
+password_entry_idle_handler:
     JSL render_sprite_animated
     RTL
 
@@ -8758,7 +8760,7 @@ i16
     SEP #0x20
     BIT #1
     BEQ .loc_C57302
-    JML sub_C57270
+    JML password_entry_check_mini
 
 .loc_C57302:
     STA z:0x3B, X
@@ -8770,7 +8772,7 @@ i16
     AND #7
     CMP z:0x38, X
     BEQ .loc_C57316
-    JML sub_C57270
+    JML password_entry_check_mini
 
 .loc_C57316:
     LDA z:0x39, X
@@ -8781,11 +8783,11 @@ i16
     ADC z:0x3A, X
     CMP #0x30
     BCC .loc_C57326
-    JML sub_C57270
+    JML password_entry_check_mini
 
 .loc_C57326:
     STA a:addr(current_screen)
-    LDY #1
+    LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     JSL sub_C55100
     JSL sub_C462BA
@@ -10014,7 +10016,7 @@ i16
     SEP #0x20
     LDA #bank(sub_C57E3D)
     STA z:2, X
-    LDY #0x16
+    LDY #SOUND_ENEMY_DEATH
     JSL play_sound
 
 .loc_C57E38:

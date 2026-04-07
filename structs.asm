@@ -464,10 +464,25 @@ org 0xb
 .current_frame:
     ds 2
 .max_frame:
-    ds 2
-    
+    ds 2    
 org 0x16
 .animation_address
     ds 2
+org 0x40
+endstruct
+
+struct crowd_player ; Either whistle_player or crowd_cheer_player
+    dynamic_object
+org 0x20
+.timer:
+    ds 2
+org 0x40
+endstruct
+
+struct password_entry
+    sprite
+org 0x30
+.digits
+    ds 4
 org 0x40
 endstruct

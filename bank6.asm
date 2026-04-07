@@ -5708,7 +5708,7 @@ i16
     REP #0x20
     LDA z:0x18, X
     JSL create_bonus_object
-    LDY #4
+    LDY #SOUND_SECRET_BONUS_APPEAR
     JSL play_sound
     JSL delete_object
     RTL
@@ -6382,7 +6382,7 @@ i16
     INC z:0x26, X
     BIT #0x1F
     BNE .loc_C63292
-    LDY #0x1B
+    LDY #SOUND_BOSS_EXPLOSION
     JSL play_sound
 
 .loc_C63292:
@@ -6391,7 +6391,7 @@ i16
     INC z:0x28, X
     BIT #0xF
     BNE .loc_C632A4
-    LDY #0x15
+    LDY #SOUND_BOMB_EXPLOSION
     JSL play_sound
 
 .loc_C632A4:
@@ -6484,7 +6484,7 @@ create_enemy_explosion:
 
 enemy_explosion:
 i16
-    LDY #0x16
+    LDY #SOUND_ENEMY_DEATH
     JSL play_sound
     SEP #0x20
     LDA #6
