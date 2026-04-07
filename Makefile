@@ -21,6 +21,12 @@ $(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout
 	sfcasm $< -o $@ -l superbomberman.layout -V "CONFIG=\"$(CONFIG)\"" -DOUT="$(OUT)" -v "$(OUT)/superbomberman.var"  -s "$(OUT)/superbomberman.sym" -c
 
 
+### Tools ###
+$(OUT)/tools/%: tools/%.c tools/fileio.h
+	@echo -e $(TITLE)Building tool $(notdir $@)...$(TITLE_END)
+	@mkdir -p $(dir $@)
+	$(CC) -O3 -Wall -Werror -Wno-char-subscripts -g -o $@ $<
+
 #### Graphic rules ####
 
 CONVERTING_GRAPHIC = @echo -e $(TITLE)Converting graphic $<...$(TITLE_END)
@@ -163,15 +169,15 @@ $(OUT)/level_structures/%.bin: level_structures/%.def
 	python tools/level_structure.py encode $< $@
 
 # Tilemaps
-$(OUT)/tilemaps/%.bin: tilemaps/%.def
+$(OUT)/tilemaps/%.bin: tilemaps/%.def $(OUT)/tools/tilemap
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Encoding $@...$(TITLE_END)
-	python tools/tilemap.py encode $< $@
+	$(OUT)/tools/tilemap encode $< $@
 
-$(OUT)/tilemaps/compressed_%.bin: tilemaps/%.def
+$(OUT)/tilemaps/compressed_%.bin: tilemaps/%.def $(OUT)/tools/tilemap
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Encoding $@...$(TITLE_END)
-	python tools/tilemap.py compress $< $@
+	$(OUT)/tools/tilemap compress $< $@
 
 
 clean:
