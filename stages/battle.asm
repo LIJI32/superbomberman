@@ -202,7 +202,7 @@ duel_zone:
 flower_zone:
     level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_FLOWER_ZONE, 0, 0x200,
           garden_graphic, bomb_and_explosions_graphic, garden_level_structure, ; graphics
-          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          clouds_graphic, compressed_cloud_overlay_tilemap, ; overlay
           0, 50 ; hard/soft blocks
 
     df create_flower_zone_handler

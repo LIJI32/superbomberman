@@ -109,7 +109,7 @@ stage_1_5:
 stage_1_6:
     level 0x16, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x47,
           castle_graphic, bomb_and_explosions_graphic, castle_level_structure, ; graphics
-          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          clouds_graphic, compressed_cloud_overlay_tilemap, ; overlay
           6, 33 ; hard/soft blocks
 
     load_palettes castle_palettes

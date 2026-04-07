@@ -1,7 +1,7 @@
 stage_6_1:
     level 0x61, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x35,
           speed_zone_graphic, bomb_and_explosions_graphic, speed_zone_level_structure, ; graphics
-          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          clouds_graphic, compressed_cloud_overlay_tilemap, ; overlay
           4, 36 ; hard/soft blocks
 
     load_palettes speed_zone_palettes
@@ -25,7 +25,7 @@ stage_6_1:
 stage_6_2:
     level 0x62, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x40,
           speed_zone_graphic, bomb_and_explosions_graphic, speed_zone_level_structure, ; graphics
-          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          clouds_graphic, compressed_cloud_overlay_tilemap, ; overlay
           4, 35 ; hard/soft blocks
 
     load_palettes speed_zone_palettes
@@ -51,7 +51,7 @@ stage_6_2:
 stage_6_3:
     level 0x63, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x37,
           speed_zone_graphic, bomb_and_explosions_graphic, speed_zone_level_structure, ; graphics
-          clouds_graphic, compressed_stage_1_6_overlay_tilemap, ; overlay
+          clouds_graphic, compressed_cloud_overlay_tilemap, ; overlay
           4, 34 ; hard/soft blocks
 
     load_palettes speed_zone_palettes

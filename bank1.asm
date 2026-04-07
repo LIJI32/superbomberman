@@ -53,7 +53,7 @@ asset tilemaps, compressed_introduction_tilemap
 asset tilemaps, compressed_title_tilemap_2
 asset tilemaps, compressed_continue_tilemap
 asset tilemaps, compressed_pattern_tilemap
-asset tilemaps, compressed_stage_1_6_overlay_tilemap
+asset tilemaps, compressed_cloud_overlay_tilemap
 asset tilemaps, compressed_spiderer_tilemap
 
 ; "Skipped" level structure
