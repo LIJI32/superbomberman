@@ -25,7 +25,7 @@ $(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout
 $(OUT)/tools/%: tools/%.c tools/fileio.h
 	@echo -e $(TITLE)Building tool $(notdir $@)...$(TITLE_END)
 	@mkdir -p $(dir $@)
-	$(CC) -O3 -Wall -Werror -Wno-char-subscripts -g -o $@ $<
+	$(CC) -O3 -Wall -Werror -g -o $@ $<  $$(pkg-config --cflags --libs libpng || echo -lpng)
 
 #### Graphic rules ####
 
@@ -83,16 +83,16 @@ $(OUT)/graphics/sprites/mecha_bomberman_graphic_%.bin: $(OUT)/graphics/sprites/w
 	ln -sf $(realpath $<) $@
 
 # Palettes
-$(OUT)/%_palette.bin $(shell echo $(OUT)/%_palette_{0..8}.bin): %.png
+$(OUT)/%_palette.bin $(shell echo $(OUT)/%_palette_{0..8}.bin): %.png $(OUT)/tools/extract_palettes
 	@mkdir -p $(dir $@)
 	$(EXTRACTING_PALETTES)
-	OUT=$(OUT) python tools/extract_palettes.py $<
+	$(OUT)/tools/extract_palettes $(OUT) $<
 
 # Japanese sprites
-$(OUT)/%_palette_j.bin $(shell echo $(OUT)/%_palette_{0..8}_j.bin) : %_j.png
+$(OUT)/%_palette_j.bin $(shell echo $(OUT)/%_palette_{0..8}_j.bin) : %_j.png $(OUT)/tools/extract_palettes
 	@mkdir -p $(dir $@)
 	$(EXTRACTING_PALETTES)
-	OUT=$(OUT) python tools/extract_palettes.py $<
+	$(OUT)/tools/extract_palettes $(OUT) $<
 
 
 #### DBoot (Sound engine) rules ####
