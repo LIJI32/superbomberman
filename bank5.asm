@@ -3804,7 +3804,7 @@ sub_C5421B:
     LDA #bank(sub_C54307)
     STA z:2, X
 .loc_C542E8:
-ifndef J
+if FORBID_INTRO_SKIP
     SEP #0x20
     LDA a:addr(word_7E0CAE)
     BEQ .locret_C54306
@@ -4706,7 +4706,7 @@ title_input_handler:
     JML title_text_object.locret_C54E49
 
 .loc_C54EE9:
-ifndef J
+if FORBID_INTRO_SKIP
     SEP #0x20
     LDA a:addr(word_7E0CAE)
     BNE .loc_C54F0D

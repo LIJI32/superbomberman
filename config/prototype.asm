@@ -19,6 +19,7 @@ FPS = 60
 FIX_JOYPAD_5_BUG = 0
 SHORT_GAMEOVER_BRANCH = 1
 JOYPAD_RELATED_BUGFIX = 1
+FORBID_INTRO_SKIP = 1
 
 ; Some addressing modes were changed in the localizations
 define az z
