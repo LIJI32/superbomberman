@@ -22,7 +22,7 @@ $(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout
 
 
 ### Tools ###
-$(OUT)/tools/%: tools/%.c tools/fileio.h
+$(OUT)/tools/%: tools/%.c tools/fileio.h tools/rle.h
 	@echo -e $(TITLE)Building tool $(notdir $@)...$(TITLE_END)
 	@mkdir -p $(dir $@)
 	$(CC) -O3 -Wall -Werror -g -o $@ $<  $$(pkg-config --cflags --libs libpng || echo -lpng)
@@ -163,10 +163,10 @@ $(OUT)/dboot/songs/%.bin: dboot/songs/%.py tools/compile_dboot_channel.py
 #### Misc data ####
 
 # Level structures (Tilemaps and Collision Data)
-$(OUT)/level_structures/%.bin: level_structures/%.def
+$(OUT)/level_structures/%.bin: level_structures/%.def $(OUT)/tools/level_structure
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Encoding $@...$(TITLE_END)
-	python tools/level_structure.py encode $< $@
+	$(OUT)/tools/level_structure encode $< $@
 
 # Tilemaps
 $(OUT)/tilemaps/%.bin: tilemaps/%.def $(OUT)/tools/tilemap

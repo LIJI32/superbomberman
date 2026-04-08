@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "fileio.h"
+#include "rle.h"
 
 /* Since we're using chars as indexes, we're explicitly specifying unsigned chars in this file
    and ignore pointer sign mismatch so we can use string.h functions */
@@ -97,42 +98,14 @@ int compress(FILE *in, FILE *out)
         return ret;
     }
     fseek(encoded, 0, SEEK_SET);
-    
-    bool done = false;
-    while (true) {
-        uint16_t mask = 0;
-        uint32_t last_dword = 0;
-        uint32_t dwords[16] = {0,};
-        unsigned dword_count = 0;
-        
-        for (unsigned i = 0; i < 16; i++) {
-            uint32_t dword;
-            if (!file_read(encoded, &dword, sizeof(dword))) {
-                done = true;
-                break;
-            }
-            mask <<= 1;
-            if (dword != last_dword) {
-                dwords[dword_count++] = dword;
-                last_dword = dword;
-                mask |= 1;
-            }
-        }
-        if (done) {
-            fclose(encoded);
-            return 0;
-        }
-#if  __BIG_ENDIAN__
-        mask = __builtin_bswap16(mask);
-#endif
-        file_write(out, &mask, sizeof(mask));
-        file_write(out, dwords, sizeof(dwords[0]) * dword_count);
-    }
+    ret = rle_compress(encoded, out);
+    fclose(encoded);
+    return ret;
 }
 
-static unsigned char tile_to_symbol(uint16_t tile, uint16_t *mapping, const unsigned char *symbols)
+static unsigned char tile_to_symbol(uint16_t tile, uint16_t *mapping)
 {
-    if (mapping[' '] == tile) return ' ';
+    const unsigned char *symbols = " ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-[];'\\,./`abcdefghijklmnopqrstuvwxyz!@#$%^&*()_{}:\"|<>?~";
 
     while (*symbols) {
         if (mapping[*symbols] == tile) return *symbols;
@@ -160,13 +133,13 @@ int decode(FILE *in, FILE *out, bool narrow, bool no_flip, bool no_plus)
         if (!file_read(in, &tile, sizeof(tile))) break;
         tile = ntohs(tile);
         
-        if (!no_plus && tile == prev + 0x200 && !tile_to_symbol(tile, mapping, effective_symbols)) {
+        if (!no_plus && tile == prev + 0x200 && !tile_to_symbol(tile, mapping)) {
             unsigned char c = '+';
             file_write(out, &c, sizeof(c));
             goto newline;
         }
         
-        unsigned char c = tile_to_symbol(tile, mapping, effective_symbols);
+        unsigned char c = tile_to_symbol(tile, mapping);
         if (c) {
             file_write(out, &c, sizeof(c));
             goto newline;
@@ -223,30 +196,13 @@ newline:
 int decompress(FILE *in, FILE *out, bool narrow, bool no_flip, bool no_plus)
 {
     FILE *decompressed = tmpfile();
-    
-    uint32_t repeat = 0;
-    
-    while (true) {
-        uint16_t mask = 0;
-        if (!file_read(in, &mask, sizeof(mask))) break;
-#if __BIG_ENDIAN__
-        mask = __builtin_bswap16(mask);
-#endif
-        for (unsigned i = 16; i--;) {
-            if (mask & 0x8000) {
-                if (!file_read(in, &repeat, sizeof(repeat))) {
-                    fprintf(stderr, "Truncated file\n");
-                    fclose(decompressed);
-                    return 1;
-                }
-            }
-            mask <<= 1;
-            file_write(decompressed, &repeat, sizeof(repeat));
-        }
+    int ret = rle_decompress(in, decompressed);
+    if (ret) {
+        fclose(decompressed);
+        return ret;
     }
-    
     fseek(decompressed, 0, SEEK_SET);
-    int ret = decode(decompressed, out, narrow, no_flip, no_plus);
+    ret = decode(decompressed, out, narrow, no_flip, no_plus);
     fclose(decompressed);
     return ret;
 }
