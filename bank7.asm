@@ -1334,27 +1334,7 @@ create_crane_hand:
     STY z:0x56
     SEP #0x20
     create_object crane_hand
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    init_enemy 0
     REP #0x20
     LDA #0
     STA a:addr(bg2_h_scroll)
@@ -3467,27 +3447,7 @@ create_bigaron:
     STY z:0x56
     SEP #0x20
     create_object bigaron_intro
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    init_enemy 0
     allocate_object_graphics bigaron_graphics, 9
     RTL
 
@@ -5365,27 +5325,7 @@ create_clown_mask:
     STY z:0x56
     SEP #0x20
     create_object clown_mask
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    init_enemy 0
     allocate_object_graphics clown_mask_graphics, 8
     REP #0x20
     LDA #0x380
@@ -6424,27 +6364,7 @@ create_mecha_onita:
     STY z:0x56
     SEP #0x20
     create_object mecha_onita
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    init_enemy 0
     allocate_object_graphics mecha_onita_graphics, 3
     RTL
 
@@ -7940,27 +7860,7 @@ create_spiderer:
     STY z:0x56
     SEP #0x20
     create_object sub_C75851
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    init_enemy 0
     allocate_object_graphics spiderer_graphics, 5
     RTL
 

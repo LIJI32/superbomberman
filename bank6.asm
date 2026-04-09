@@ -6587,7 +6587,7 @@ _kill_enemy:
 
 .loc_C63439:
     REP #0x20
-    LDA z:enemy.unknown_3a, X
+    LDA z:enemy.creation_functions_array_ptr, X
     STA z:0x50
     LDA z:0x3B, X
     STA z:0x51
@@ -10245,37 +10245,8 @@ create_metal_kuwagen:
     i16
     STY z:0x56
     SEP #0x20
-    create_object kuwagen
-    REP #0x20
-    BCC .loc_C658E6
-    JML create_enemy_ret
-
-.loc_C658E6:
-    LDA #1
-    STA a:addr(enemy.hitpoints_left), Y
-    LDA #2
-    STA a:addr(enemy.direction), Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:addr(enemy.x_position), Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:addr(enemy.y_position), Y
-    LDA z:0x5F
-    STA a:addr(enemy.unknown_3a), Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:addr(enemy.carried_bonus), Y
-    LDA #0x30
-    STA a:addr(enemy.palette), Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy kuwagen
+    init_enemy 2
     allocate_object_graphics kuwagen_graphic_pointers, 2
     allocate_object_palette METAL_KUWAGEN_PALETTE
     RTL
@@ -10383,37 +10354,8 @@ _kuwagen:
 create_senshiyan:
     STY z:0x56
     SEP #0x20
-    create_object senshiyan
-    REP #0x20
-    BCC .loc_C65A8F
-    JML create_enemy_ret
-
-.loc_C65A8F:
-    LDA #2
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy senshiyan
+    init_enemy 3
     allocate_object_graphics senshiyan_graphics, 3
     allocate_object_palette SENSHIYAN_PALETTE
     RTL
@@ -10986,37 +10928,8 @@ off_C65F01:
 create_metal_propene:
     STY z:0x56
     SEP #0x20
-    create_object metal_propene
-    REP #0x20
-    BCC .loc_C65F27
-    JML create_enemy_ret
-
-.loc_C65F27:
-    LDA #4
-    STA a:addr(enemy.hitpoints_left), Y
-    LDA #2
-    STA a:addr(enemy.direction), Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:addr(enemy.x_position), Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:addr(enemy.y_position), Y
-    LDA z:0x5F
-    STA a:addr(enemy.unknown_3a), Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:addr(enemy.carried_bonus), Y
-    LDA #0x30
-    STA a:addr(enemy.palette), Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy metal_propene
+    init_enemy 5
     allocate_object_graphics metal_propene_graphics, 2
     allocate_object_palette METAL_PROPENE_PALETTE
     RTL
@@ -11087,37 +11000,8 @@ metal_propene:
 create_propene:
     STY z:0x56
     SEP #0x20
-    create_object propene
-    REP #0x20
-    BCC .loc_C66039
-    JML create_enemy_ret
-
-.loc_C66039:
-    LDA #0
-    STA a:addr(enemy.hitpoints_left), Y
-    LDA #2
-    STA a:addr(enemy.direction), Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:addr(enemy.x_position), Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:addr(enemy.y_position), Y
-    LDA z:0x5F
-    STA a:addr(enemy.unknown_3a), Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:addr(enemy.carried_bonus), Y
-    LDA #0x30
-    STA a:addr(enemy.palette), Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy propene
+    init_enemy 1
     allocate_object_graphics propene_graphics, 2
     allocate_object_palette PROPENE_PALETTE
     RTL
@@ -11188,37 +11072,8 @@ _propene:
 create_denkyun:
     STY z:0x56
     SEP #0x20
-    create_object denkyun
-    REP #0x20
-    BCC .loc_C6614B
-    JML create_enemy_ret
-
-.loc_C6614B:
-    LDA #1
-    STA a:addr(enemy.hitpoints_left), Y
-    LDA #2
-    STA a:addr(enemy.direction), Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy denkyun
+    init_enemy 2
     allocate_object_graphics denkyun_graphics, 1
     allocate_object_palette DENKYUN_PALETTE
     RTL
@@ -11289,37 +11144,8 @@ denkyun:
 create_starnuts:
     STY z:0x56
     SEP #0x20
-    create_object starnuts
-    REP #0x20
-    BCC .loc_C6625D
-    JML create_enemy_ret
-
-.loc_C6625D:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy starnuts
+    init_enemy 1
     allocate_object_graphics starnuts_graphics, 3
     allocate_object_palette STARNUTS_PALETTE
     RTL
@@ -11390,37 +11216,8 @@ starnuts:
 create_banen:
     STY z:0x56
     SEP #0x20
-    create_object banen
-    REP #0x20
-    BCC .loc_C6636F
-    JML create_enemy_ret
-
-.loc_C6636F:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy banen
+    init_enemy 1
     allocate_object_graphics banen_graphics, 2
     allocate_object_palette BANEN_PALETTE
     RTL
@@ -11492,37 +11289,8 @@ banen:
 create_cuppen:
     STY z:0x56
     SEP #0x20
-    create_object cuppen
-    REP #0x20
-    BCC .loc_C66483
-    JML create_enemy_ret
-
-.loc_C66483:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy cuppen
+    init_enemy 1
     allocate_object_graphics cuppen_graphics, 2
     allocate_object_palette CUPPEN_PALETTE
     RTL
@@ -11593,37 +11361,8 @@ cuppen:
 create_keibin:
     STY z:0x56
     SEP #0x20
-    create_object keibin
-    REP #0x20
-    BCC .loc_C66595
-    JML create_enemy_ret
-
-.loc_C66595:
-    LDA #2
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy keibin
+    init_enemy 3
     allocate_object_graphics keibin_graphics, 2
     allocate_object_palette KEIBIN_PALETTE
     RTL
@@ -11694,37 +11433,8 @@ keibin:
 create_anzenda:
     STY z:0x56
     SEP #0x20
-    create_object anzenda
-    REP #0x20
-    BCC .loc_C666A7
-    JML create_enemy_ret
-
-.loc_C666A7:
-    LDA #1
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy anzenda
+    init_enemy 2
     allocate_object_graphics anzenda_graphics, 2
     allocate_object_palette ANZENDA_PALETTE
     RTL
@@ -11795,37 +11505,8 @@ anzenda:
 create_yoroisu:
     STY z:0x56
     SEP #0x20
-    create_object yoroisu
-    REP #0x20
-    BCC .loc_C667B9
-    JML create_enemy_ret
-
-.loc_C667B9:
-    LDA #7
-    STA a:enemy.hitpoints_left, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy yoroisu
+    init_enemy 8
     allocate_object_graphics yoroisu_graphics, 6
     allocate_object_palette YOROISO_PALETTE
     RTL
@@ -11941,37 +11622,8 @@ byte_C668F9:
 create_chameleoman:
     STY z:0x56
     SEP #0x20
-    create_object chameleoman
-    REP #0x20
-    BCC .loc_C6691D
-    JML create_enemy_ret
-
-.loc_C6691D:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy chameleoman
+    init_enemy 1
     allocate_object_graphics chameleoman_graphics, 1
     allocate_object_palette CHAMELEOMAN_PALETTE
     RTL
@@ -12324,12 +11976,7 @@ create_missle:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    create_object missle
-    REP #0x20
-    BCC .loc_C66C5E
-    JML create_enemy_ret
-
-.loc_C66C5E:
+    create_enemy missle
     LDA #0
     STA a:0x1A, Y
     LDA #2
@@ -12444,37 +12091,8 @@ missle:
     JMP a:.loc_C66DE1
     STY z:0x56
     SEP #0x20
-    create_object .loc_C66DE1
-    REP #0x20
-    BCC .loc_C66D63
-    JML create_enemy_ret
-
-.loc_C66D63:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy .loc_C66DE1
+    init_enemy 1
     allocate_object_graphics missle_graphics, 2
     allocate_object_palette MISSLE_PALETTE
     REP #0x20
@@ -12554,37 +12172,8 @@ missle:
 create_kouraru:
     STY z:0x56
     SEP #0x20
-    create_object kouraru
-    REP #0x20
-    BCC .loc_C66E86
-    JML create_enemy_ret
-
-.loc_C66E86:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy kouraru
+    init_enemy 1
     allocate_object_graphics kouraru_graphics, 3
     allocate_object_palette KOURARU_PALETTE
     RTL
@@ -12655,37 +12244,8 @@ kouraru:
 create_pakupa:
     STY z:0x56
     SEP #0x20
-    create_object pakupa
-    REP #0x20
-    BCC .loc_C66F98
-    JML create_enemy_ret
-
-.loc_C66F98:
-    LDA #2
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy pakupa
+    init_enemy 3
     allocate_object_graphics pakupa_graphics, 3
     allocate_object_palette PAKUPA_PALETTE
     RTL
@@ -12773,37 +12333,8 @@ replace_bomb_with_hard_block:
 create_douken:
     STY z:0x56
     SEP #0x20
-    create_object douken
-    REP #0x20
-    BCC .loc_C670C6
-    JML create_enemy_ret
-
-.loc_C670C6:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy douken
+    init_enemy 1
     allocate_object_graphics douken_graphics, 1
     allocate_object_palette DOUKEN_PALETTE
     RTL
@@ -12876,37 +12407,8 @@ douken:
 create_dengurin:
     STY z:0x56
     SEP #0x20
-    create_object dengurin
-    REP #0x20
-    BCC .loc_C671DC
-    JML create_enemy_ret
-
-.loc_C671DC:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy dengurin
+    init_enemy 1
     allocate_object_graphics dengurin_graphics, 3
     allocate_object_palette DENGURIN_PALETTE
     RTL
@@ -12977,37 +12479,8 @@ dengurin:
 create_robocom:
     STY z:0x56
     SEP #0x20
-    create_object robocom
-    REP #0x20
-    BCC .loc_C672EE
-    JML create_enemy_ret
-
-.loc_C672EE:
-    LDA #2
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy robocom
+    init_enemy 3
     allocate_object_graphics robocom_graphics, 3
     allocate_object_palette ROBOCOM_PALETTE
     RTL
@@ -13081,37 +12554,8 @@ robocom:
 create_metal_u:
     STY z:0x56
     SEP #0x20
-    create_object metal_u
-    REP #0x20
-    BCC .loc_C67407
-    JML create_enemy_ret
-
-.loc_C67407:
-    LDA #1
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy metal_u
+    init_enemy 2
     allocate_object_graphics metal_u_graphics, 1
     allocate_object_palette METAL_U_PALETTE
     RTL
@@ -13185,37 +12629,8 @@ metal_u:
 create_kinkaru:
     STY z:0x56
     SEP #0x20
-    create_object kinkaru
-    REP #0x20
-    BCC .loc_C67520
-    JML create_enemy_ret
-
-.loc_C67520:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy kinkaru
+    init_enemy 1
     allocate_object_graphics kinkaru_graphics, 2
     allocate_object_palette KINKARU_PALETTE
     RTL
@@ -13289,37 +12704,8 @@ kinkaru:
 create_moguchan:
     STY z:0x56
     SEP #0x20
-    create_object moguchan
-    REP #0x20
-    BCC .loc_C67639
-    JML create_enemy_ret
-
-.loc_C67639:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy moguchan
+    init_enemy 1
     allocate_object_graphics moguchan_graphics, 3
     allocate_object_palette MOGUCHAN_PALETTE
     RTL
@@ -13534,39 +12920,10 @@ sub_C67825:
 create_red_bakuda:
     STY z:0x56
     SEP #0x20
-    create_object bakuda
-    REP #0x20
-    BCC .loc_C67862
-    JML create_enemy_ret
-
-.loc_C67862:
+    create_enemy bakuda
     LDA #1
-    STA a:0x38, Y
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    STA a:bakuda.is_red_bomb, Y
+    init_enemy 1
     allocate_object_graphics bakuda_graphics, 2
     allocate_object_palette RED_BAKUDA_PALETTE
     RTL
@@ -13574,39 +12931,10 @@ create_red_bakuda:
 create_bakuda:
     STY z:0x56
     SEP #0x20
-    create_object bakuda
-    REP #0x20
-    BCC .loc_C67900
-    JML create_enemy_ret
-
-.loc_C67900:
+    create_enemy bakuda
     LDA #0
-    STA a:0x38, Y
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    STA a:bakuda.is_red_bomb, Y
+    init_enemy 1
     allocate_object_graphics bakuda_graphics, 2
     allocate_object_palette BAKUDA_PALETTE
     RTL
@@ -13821,37 +13149,8 @@ sub_C679C8:
 create_kierun:
     STY z:0x56
     SEP #0x20
-    create_object kierun
-    REP #0x20
-    BCC .loc_C67B31
-    JML create_enemy_ret
-
-.loc_C67B31:
-    LDA #0
-    STA a:0x1A, Y
-    LDA #2
-    STA a:0x20, Y
-    REP #0x20
-    LDA z:0x40
-    AND #0xF0
-    ORA #8
-    STA a:0x11, Y
-    LDA z:0x42
-    AND #0xF0
-    ORA #8
-    STA a:0x14, Y
-    LDA z:0x5F
-    STA a:0x3A, Y
-    LDA z:0x60
-    STA a:0x3B, Y
-    SEP #0x20
-    LDA z:0x48
-    STA a:0x3E, Y
-    LDA #0x30
-    STA a:0xE, Y
-    LDA a:3, Y
-    ORA #1
-    STA a:3, Y
+    create_enemy kierun
+    init_enemy 1
     allocate_object_graphics kierun_graphics, 2
     allocate_object_palette KIERUN_PALETTE
     RTL

@@ -36,6 +36,46 @@ macro create_object handler
     JSL create_object
 endmacro
 
+macro create_enemy handler
+    create_object $handler
+    REP #0x20
+    BCC +
+    JML create_enemy_ret
++
+endmacro
+
+macro init_enemy hitpoints
+if $hitpoints
+    LDA #($hitpoints) - 1
+    STA a:enemy.hitpoints_left, Y
+    LDA #DIR_LEFT
+    STA a:enemy.direction, Y
+endif
+    REP #0x20
+    LDA z:generate_random_position.X
+    ; Center in tile
+    AND #0xF0
+    ORA #8
+    STA a:enemy.x_position, Y
+    LDA z:generate_random_position.Y
+    ; Center in tile
+    AND #0xF0
+    ORA #8
+    STA a:enemy.y_position, Y
+    LDA z:create_enemies.RAM_ENEMY_FUNCTION_PTR
+    STA a:enemy.creation_functions_array_ptr, Y
+    LDA z:create_enemies.RAM_ENEMY_FUNCTION_PTR + 1
+    STA a:enemy.creation_functions_array_ptr + 1, Y
+    SEP #0x20
+    LDA z:create_enemies.ASSIGNED_BONUS
+    STA a:enemy.carried_bonus, Y
+    LDA #0x30
+    STA a:enemy.palette, Y
+    LDA a:enemy.execution_priority, Y
+    ORA #1
+    STA a:enemy.execution_priority, Y
+endmacro
+
 ; Converts the position of object at `register` to a map index
 macro lda_tile_id register
     LDA z:sprite.x_position,$register

@@ -354,7 +354,7 @@ struct enemy
     ds 1
     ds 1
     ds 1
-.unknown_3a:
+.creation_functions_array_ptr:
     ds 1
     ds 1
     ds 1
@@ -364,6 +364,14 @@ struct enemy
     ds 1
 .flags:
     ds 1
+endstruct
+
+struct bakuda
+    enemy
+    org 0x38
+.is_red_bomb:
+    ds 1
+    org 0x40
 endstruct
 
 struct score_popup_object
