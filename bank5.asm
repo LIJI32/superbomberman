@@ -2712,18 +2712,8 @@ sub_C53976:
 sub_C539B7:
     REP #0x20
     REP #0x20
-    LDA #addr(byte_C705CF)
-    STA z:0x50
-    SEP #0x20
-    LDA #bank(byte_C705CF)
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C539D7)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C539D7)
-    STA z:2, X
+    start_animation_far byte_C705CF
+    set_handler .loc_C539D7
 
 .loc_C539D7:
     JSL load_animation_frame
@@ -2753,19 +2743,8 @@ sub_C53A07:
     STA z:0xE, X
     LDA #0
     STA z:0x1E, X
-    LDA #addr(byte_C51DB9)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C53A2F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53A2F)
-    STA z:2, X
+    start_animation #addr(byte_C51DB9)
+    set_handler .loc_C53A2F
 
 .loc_C53A2F:
     JSL load_animation_frame
@@ -2857,12 +2836,7 @@ sub_C53B0B:
     LDA z:0x22, X
     STA z:0x50
     JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C53B28)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53B28)
-    STA z:2, X
+    set_handler .loc_C53B28
 
 .loc_C53B28:
     REP #0x20
@@ -2882,12 +2856,7 @@ sub_C53B0B:
     BMI .loc_C53B58
     CMP #0x28
     BCC .loc_C53B58
-    REP #0x20
-    LDA #addr(.loc_C53B58)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53B58)
-    STA z:2, X
+    set_handler .loc_C53B58
 
 .loc_C53B58:
     JSL load_animation_frame
@@ -2920,25 +2889,13 @@ i16
     STA z:sprite.y_position, X
     LDA #0
     STA z:sprite.direction, X ; Not sure why it's needed
-    LDA #addr(byte_C51D57)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C53BBA)
-    STA z:sprite.handler, X
-    SEP #0x20
-    LDA #bank(.loc_C53BBA)
-    STA z:sprite.handler + 2, X
+    start_animation #addr(byte_C51D57)
+    set_handler .loc_C53BBA
 
 .loc_C53BBA:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C53BCF
     JML .loc_C53BF2
 
@@ -2985,25 +2942,13 @@ sub_C53C16:
     STA z:0x14, X
     LDA #0
     STA z:0x20, X
-    LDA #addr(byte_C51D60)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C53C4D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53C4D)
-    STA z:2, X
+    start_animation #addr(byte_C51D60)
+    set_handler .loc_C53C4D
 
 .loc_C53C4D:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C53C62
     JML .loc_C53C85
 
@@ -3018,12 +2963,7 @@ sub_C53C16:
     BCC .loc_C53C85
     LDA #0x66
     STA z:0x14, X
-    REP #0x20
-    LDA #addr(.loc_C53C85)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53C85)
-    STA z:2, X
+    set_handler .loc_C53C85
 
 .loc_C53C85:
     JSL load_animation_frame
@@ -3043,16 +2983,11 @@ sub_C53CA9:
     REP #0x20
     LDA #0x40
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(.loc_C53CBD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53CBD)
-    STA z:2, X
+    set_handler .loc_C53CBD
 
 .loc_C53CBD:
     SEP #0x20
-    handler_return_if_paused
+    handler_return_if_paused_or_in_transition
     REP #0x20
     DEC z:0x20, X
     BEQ .loc_C53CDC
@@ -3069,12 +3004,7 @@ sub_C53CA9:
     STA z:0x14, X
     LDA #0
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(.loc_C53D9E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53D9E)
-    STA z:2, X
+    set_handler .loc_C53D9E
 .loc_C53D02:
     REP #0x20
     LDA #addr(sudden_death_related_data)
@@ -3143,25 +3073,13 @@ sub_C53CA9:
     REP #0x20
     LDA #0x10
     STA z:0x30, X
-    LDA #addr(byte_C51CB5)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C53D9E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53D9E)
-    STA z:2, X
+    start_animation #addr(byte_C51CB5)
+    set_handler .loc_C53D9E
 
 .loc_C53D9E:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C53DB3
     JML .loc_C53DD7
 
@@ -3175,12 +3093,7 @@ sub_C53CA9:
     STA a:addr(bg1_tilemap), Y
     DEC z:0x30, X
     BNE .loc_C53DD7
-    REP #0x20
-    LDA #addr(.loc_C53DDC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53DDC)
-    STA z:2, X
+    set_handler .loc_C53DDC
 
 .loc_C53DD7:
     JSL render_sprite_animated
@@ -3365,19 +3278,8 @@ sub_C53F01:
     CLC
     ADC #0x30
     STA z:0x18, X
-    LDA #addr(byte_C51C9D)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C53F5B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C53F5B)
-    STA z:2, X
+    start_animation #addr(byte_C51C9D)
+    set_handler .loc_C53F5B
 
 .loc_C53F5B:
     REP #0x20
@@ -3529,19 +3431,8 @@ moving_platform:
     LDA #0x30
     STA z:0xE, X
     REP #0x20
-    LDA z:0x20, X
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C540EE)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C540EE)
-    STA z:2, X
+    start_animation z:0x20, X
+    set_handler .loc_C540EE
 
 .loc_C540BE:
     SEP #0x20
@@ -3679,12 +3570,7 @@ overlay_scroller:
     STA a:addr(bg2_h_scroll)
     LDA z:0x22, X
     STA a:addr(bg2_v_scroll)
-    REP #0x20
-    LDA #addr(.loc_C541DB)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C541DB)
-    STA z:2, X
+    set_handler .loc_C541DB
 
 .loc_C541DB:
     REP #0x20
@@ -3736,12 +3622,7 @@ sub_C5421B:
     STA a:addr(bg2_v_scroll)
     LDA #0x100
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(.loc_C54268)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54268)
-    STA z:2, X
+    set_handler .loc_C54268
 
 .loc_C54268:
     REP #0x20
@@ -3750,12 +3631,7 @@ sub_C5421B:
     JML .loc_C542E8
 
 .loc_C54272:
-    REP #0x20
-    LDA #addr(.loc_C54295)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54295)
-    STA z:2, X
+    set_handler .loc_C54295
     REP #0x20
     LDA #addr(sub_C543CA)
     STA z:0x50
@@ -3797,12 +3673,7 @@ sub_C5421B:
     JSL set_palette
     LDA #9
     JSL set_palette
-    REP #0x20
-    LDA #addr(sub_C54307)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54307)
-    STA z:2, X
+    set_handler sub_C54307
 .loc_C542E8:
 if FORBID_INTRO_SKIP
     SEP #0x20
@@ -3813,12 +3684,7 @@ endif
     SEP #0x20
     BIT #0x10
     BEQ .locret_C54306
-    REP #0x20
-    LDA #addr(sub_C54307)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54307)
-    STA z:2, X
+    set_handler sub_C54307
 
 .locret_C54306:
     RTL
@@ -3829,12 +3695,7 @@ sub_C54307:
     STA a:addr(bg1_h_scroll)
     LDA #0
     STA a:addr(word_7E0C93)
-    REP #0x20
-    LDA #addr(sub_C54323)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54323)
-    STA z:2, X
+    set_handler sub_C54323
     RTL
 
 sub_C54323:
@@ -3876,12 +3737,7 @@ i16
     REP #0x20
     LDA #0x28
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(.loc_C5438C)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C5438C)
-    STA z:2, X
+    set_handler .loc_C5438C
 
 .loc_C5438C:
     REP #0x20
@@ -3898,12 +3754,7 @@ i16
     STA a:addr(add_substract_select_and_enable)
     LDA #0xE0
     STA a:COLDATA
-    REP #0x20
-    LDA #addr(.locret_C543BA)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.locret_C543BA)
-    STA z:2, X
+    set_handler .locret_C543BA
 
 .locret_C543BA:
     RTL
@@ -4447,19 +4298,8 @@ sub_C54CA2:
     STA z:0xE, X
     LDA #0
     STA z:0x1E, X
-    LDA #addr(intro_related_animation)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C54CD4)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54CD4)
-    STA z:2, X
+    start_animation #addr(intro_related_animation)
+    set_handler .loc_C54CD4
 
 .loc_C54CD4:
     REP #0x20
@@ -4495,19 +4335,8 @@ sub_C54D0E:
     STA z:0xE, X
     LDA #0
     STA z:0x1E, X
-    LDA #addr(intro_related_animation2)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C54D40)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54D40)
-    STA z:2, X
+    start_animation #addr(intro_related_animation2)
+    set_handler .loc_C54D40
 
 .loc_C54D40:
     REP #0x20
@@ -4543,19 +4372,8 @@ sub_C54D7A:
     STA z:0xE, X
     LDA #0
     STA z:0x1E, X
-    LDA #addr(byte_C54C86)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C54DAC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54DAC)
-    STA z:2, X
+    start_animation #addr(byte_C54C86)
+    set_handler .loc_C54DAC
 
 .loc_C54DAC:
     REP #0x20
@@ -4613,23 +4431,13 @@ title_text_object:
     PLA
     STA z:0x52
     JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C54E31)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54E31)
-    STA z:2, X
+    set_handler .loc_C54E31
 
 .loc_C54E31:
     REP #0x20
     LDA a:addr(bg1_h_scroll)
     BNE .locret_C54E49
-    REP #0x20
-    LDA #addr(.loc_C54E45)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54E45)
-    STA z:2, X
+    set_handler .loc_C54E45
 
 .loc_C54E45:
     JSL load_animation_frame
@@ -4684,19 +4492,8 @@ title_input_handler:
     SEC
     SBC #0x48
     STA z:0x11, X
-    LDA #addr(byte_C51749)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C54EDC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54EDC)
-    STA z:2, X
+    start_animation #addr(byte_C51749)
+    set_handler .loc_C54EDC
 
 .loc_C54EDC:
     REP #0x20
@@ -4711,12 +4508,7 @@ if FORBID_INTRO_SKIP
     LDA a:addr(word_7E0CAE)
     BNE .loc_C54F0D
     INC a:addr(word_7E0CAE)
-    REP #0x20
-    LDA #addr(.loc_C54F01)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54F01)
-    STA z:2, X
+    set_handler .loc_C54F01
     RTL
 
 .loc_C54F01:
@@ -4731,12 +4523,7 @@ endif
     REP #0x20
     LDA #0x460
     STA z:0x22, X
-    REP #0x20
-    LDA #addr(sub_C54F22)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54F22)
-    STA z:2, X
+    set_handler sub_C54F22
     RTL
 
 sub_C54F22:
@@ -4749,12 +4536,7 @@ i16
     CLC
     ADC #0x140
     STA z:0x22, X
-    REP #0x20
-    LDA #addr(.loc_C54F42)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C54F42)
-    STA z:2, X
+    set_handler .loc_C54F42
 
 .loc_C54F42:
     JSL render_sprite_animated
@@ -4881,12 +4663,7 @@ sub_C54FEA:
     STA a:addr(current_screen)
     LDY #SOUND_MENU_CONFIRM
     JSL play_sound
-    REP #0x20
-    LDA #addr(sub_C54FBD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54FBD)
-    STA z:2, X
+    set_handler sub_C54FBD
     RTL
     
 sub_C55006:
@@ -4906,24 +4683,14 @@ sub_C55006:
     STA a:addr(current_screen)
     JSL sub_C550AF
     JSL sub_C462BA
-    REP #0x20
-    LDA #addr(sub_C54FBD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54FBD)
-    STA z:2, X
+    set_handler sub_C54FBD
     RTL
 
 .loc_C5503C:
     SEP #0x20
     LDA #0x32
     STA a:addr(current_screen)
-    REP #0x20
-    LDA #addr(sub_C54FBD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54FBD)
-    STA z:2, X
+    set_handler sub_C54FBD
     RTL
     
 sub_C55051:
@@ -4955,24 +4722,14 @@ sub_C55051:
     BEQ .loc_C5507E
     STA a:addr(current_screen)
     PLX
-    REP #0x20
-    LDA #addr(sub_C54FBD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54FBD)
-    STA z:2, X
+    set_handler sub_C54FBD
     RTL
 
 sub_C5509A:
     SEP #0x20
     LDA #0x38
     STA a:addr(current_screen)
-    REP #0x20
-    LDA #addr(sub_C54FBD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C54FBD)
-    STA z:2, X
+    set_handler sub_C54FBD
     RTL
 
 sub_C550AF:
@@ -5277,19 +5034,8 @@ endif
     AND #0xFF
     ASL A
     TAY
-    LDA f:[z:0x53], Y
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C5530B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C5530B)
-    STA z:2, X
+    start_animation f:[z:0x53], Y
+    set_handler .loc_C5530B
     SEP #0x20
     LDA z:0x30, X
     CMP #6
@@ -5371,13 +5117,7 @@ endif
     TAY
     LDA #0xC3
     STA z:0x52
-    LDA f:[z:0x50], Y
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation f:[z:0x50], Y
 
 .loc_C5539A:
     JSL sub_C55710
@@ -5442,12 +5182,7 @@ sub_C553F3:
     STA z:0x11, X
     LDA #0x180
     STA z:0x14, X
-    REP #0x20
-    LDA #addr(.loc_C5541E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C5541E)
-    STA z:2, X
+    set_handler .loc_C5541E
 
 .loc_C5541E:
     SEP #0x20
@@ -5593,19 +5328,8 @@ battle_menu_handler:
     JSL schedule_vblank_function
     JSL sub_C5572F
     REP #0x20
-    LDA #addr(byte_C500A1)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C55580)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C55580)
-    STA z:2, X
+    start_animation #addr(byte_C500A1)
+    set_handler sub_C55580
     RTL
 
 sub_C55580:
@@ -5789,12 +5513,7 @@ sub_C55661:
     LDA #bank(sub_C55478)
     STA z:0x52
     JSL schedule_vblank_function
-    REP #0x20
-    LDA #addr(sub_C556F1)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C556F1)
-    STA z:2, X
+    set_handler sub_C556F1
     RTL
 
 sub_C556F1:
@@ -5807,12 +5526,7 @@ i16
     PLX
     CMP #0
     BNE .locret_C5570F
-    REP #0x20
-    LDA #addr(battle_stage_loader)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(battle_stage_loader)
-    STA z:2, X
+    set_handler battle_stage_loader
 
 .locret_C5570F:
     RTL
@@ -5895,19 +5609,19 @@ create_battle_menu_static_object:
     create_object battle_menu_static_object
     REP #0x20
     LDA f:[z:0x50]
-    STA a:addr(sprite.effective_palette), Y
+    STA a:sprite.effective_palette, Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:addr(sprite.palette), Y
+    STA a:sprite.palette, Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:addr(sprite.x_position), Y
+    STA a:sprite.x_position, Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:addr(sprite.y_position), Y
+    STA a:sprite.y_position, Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
@@ -5920,19 +5634,8 @@ create_battle_menu_static_object:
 
 battle_menu_static_object:
     REP #0x20
-    LDA z:0x16, X
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C557FD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C557FD)
-    STA z:2, X
+    start_animation z:0x16, X
+    set_handler sub_C557FD
     RTL
 
 sub_C557FD:
@@ -5965,19 +5668,8 @@ sub_C5582C:
     STA z:0x11, X
     LDA #0x1BC
     STA z:0x14, X
-    LDA #addr(byte_C514A4)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C5585F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C5585F)
-    STA z:2, X
+    start_animation #addr(byte_C514A4)
+    set_handler sub_C5585F
     RTL
 
 sub_C5585F:
@@ -6006,12 +5698,7 @@ flower_zone_handler:
     LDA #0x22
     STA a:addr(add_substract_select_and_enable)
     JSL sub_C53E80
-    REP #0x20
-    LDA #addr(_flower_zone_handler)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(_flower_zone_handler)
-    STA z:2, X
+    set_handler _flower_zone_handler
     RTL
 
 _flower_zone_handler:
@@ -6029,17 +5716,12 @@ i16
     STA z:0x40
     LDA #3
     JSL set_palette
-    REP #0x20
-    LDA #addr(.loc_C558DB)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C558DB)
-    STA z:2, X
+    set_handler .loc_C558DB
     RTL
 
 .loc_C558DB:
     SEP #0x20
-    handler_return_if_paused
+    handler_return_if_paused_or_in_transition
     REP #0x20
     DEC z:0x20, X
     BNE .ret
@@ -6188,16 +5870,11 @@ i16
 .loc_C55A66:
     STY z:0x12, X
     STZ z:0x10, X
-    REP #0x20
-    LDA #addr(.loc_C55A77)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C55A77)
-    STA z:2, X
+    set_handler .loc_C55A77
 
 .loc_C55A77:
     SEP #0x20
-    handler_return_if_paused
+    handler_return_if_paused_or_in_transition
     REP #0x20
     LDY z:0x12, X
     LDA a:addr(collision_map), Y
@@ -6263,12 +5940,7 @@ spotlight:
     TAX
     JSL sub_C55C34
     PLX
-    REP #0x20
-    LDA #addr(.loc_C55B2D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C55B2D)
-    STA z:2, X
+    set_handler .loc_C55B2D
 
 .loc_C55B2D:
     REP #0x20
@@ -6560,19 +6232,8 @@ alloc_failure:
 
 sub_C55D57:
     REP #0x20
-    LDA z:0x20, X
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C55D74)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C55D74)
-    STA z:2, X
+    start_animation z:0x20, X
+    set_handler .loc_C55D74
 
 .loc_C55D74:
     JSL sub_C55710
@@ -6593,12 +6254,7 @@ sub_C55D9A:
     BNE nullsub_C55DB2
     LDA #0x50
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(sub_C55DB3)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C55DB3)
-    STA z:2, X
+    set_handler sub_C55DB3
 
 nullsub_C55DB2:
     RTL
@@ -6607,21 +6263,11 @@ sub_C55DB3:
     REP #0x20
     DEC z:0x20, X
     BNE nullsub_C55DB2
-    REP #0x20
-    LDA #addr(sub_C55DC7)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C55DC7)
-    STA z:2, X
+    set_handler sub_C55DC7
     RTL
 
 sub_C55DC7:
-    REP #0x20
-    LDA #addr(nullsub_C55DB2)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(nullsub_C55DB2)
-    STA z:2, X
+    set_handler nullsub_C55DB2
     SEP #0x20
     LDA a:addr(level_manager_object+0x34)
     INC A
@@ -6714,23 +6360,13 @@ sub_C55E66:
 
 scoreboard_handler:
 i16
-    REP #0x20
-    LDA #addr(.loc_C55EF5)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C55EF5)
-    STA z:2, X
+    set_handler .loc_C55EF5
     REP #0x20
     LDY z:0x20, X
     LDA z:0x20, X
     CMP z:0x22, X
     BEQ .loc_C55ED5
-    REP #0x20
-    LDA #addr(.loc_C55EF1)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C55EF1)
-    STA z:2, X
+    set_handler .loc_C55EF1
     REP #0x20
     LDA a:6, Y
     AND #0xFF
@@ -6813,13 +6449,7 @@ i16
     STA z:0x1E, X
     LDA #0x200
     STA z:0x20, X
-    LDA #addr(byte_C51BCB)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C51BCB)
     REP #0x20
     LDA a:addr(level_manager_object.anonymous_1+1)
     AND #0xFF
@@ -6837,12 +6467,7 @@ i16
     LDA #9
     JSL set_palette
     PLX
-    REP #0x20
-    LDA #addr(.loc_C55FBC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C55FBC)
-    STA z:2, X
+    set_handler .loc_C55FBC
 
 .loc_C55FBC:
     REP #0x20
@@ -6877,12 +6502,7 @@ i16
     SEP #0x20
     LDA #0x32
     STA a:addr(current_screen)
-    REP #0x20
-    LDA #addr(.loc_C56005)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C56005)
-    STA z:2, X
+    set_handler .loc_C56005
 
 .loc_C56005:
     JSL load_animation_frame
@@ -6968,19 +6588,8 @@ sub_C560A3:
     STA z:0x22, X
     LDA #0
     STA z:0x18, X
-    LDA #addr(byte_C51BD0)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C560E4)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C560E4)
-    STA z:2, X
+    start_animation #addr(byte_C51BD0)
+    set_handler .loc_C560E4
 
 .loc_C560E4:
     REP #0x20
@@ -7024,12 +6633,7 @@ sub_C560A3:
     LDA z:0x20, X
     CMP #4
     BNE .loc_C5613F
-    REP #0x20
-    LDA #addr(.loc_C5613F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C5613F)
-    STA z:2, X
+    set_handler .loc_C5613F
 
 .loc_C5613F:
     JSL load_animation_frame
@@ -7237,12 +6841,7 @@ sub_C563C4:
     REP #0x20
     LDA #0x120
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(.loc_C563D8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C563D8)
-    STA z:2, X
+    set_handler .loc_C563D8
 
 .loc_C563D8:
     JSL sub_C5395A
@@ -7256,12 +6855,7 @@ sub_C563C4:
     SEP #0x20
     LDA a:addr(level_manager_object.anonymous_2)
     STA a:addr(current_screen)
-    REP #0x20
-    LDA #addr(nullsub_C563FC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(nullsub_C563FC)
-    STA z:2, X
+    set_handler nullsub_C563FC
     ; fallthrough
     
 nullsub_C563FC:
@@ -7333,12 +6927,7 @@ sub_C56487:
     JML nullsub_C563FC
 
 .loc_C56491:
-    REP #0x20
-    LDA #addr(.loc_C5649E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C5649E)
-    STA z:2, X
+    set_handler .loc_C5649E
 
 .loc_C5649E:
     REP #0x20
@@ -7366,12 +6955,7 @@ sub_C56487:
     BCC .loc_C564D6
     LDA z:0x1A, X
     STA z:0x14, X
-    REP #0x20
-    LDA #addr(.loc_C564D6)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C564D6)
-    STA z:2, X
+    set_handler .loc_C564D6
 
 .loc_C564D6:
     JSL load_animation_frame
@@ -7487,12 +7071,7 @@ i16
     REP #0x20
     LDY #SOUND_MENU_CONFIRM
     JSL play_sound
-    REP #0x20
-    LDA #addr(.loc_C565FB)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C565FB)
-    STA z:2, X
+    set_handler .loc_C565FB
 
 .loc_C565FB:
     JSL sub_C53964
@@ -7528,12 +7107,7 @@ sub_C56633:
     STA z:0x20, X
     LDA #0xFF
     STA z:0x21, X
-    REP #0x20
-    LDA #addr(sub_C5664B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C5664B)
-    STA z:2, X
+    set_handler sub_C5664B
     RTL
 
 sub_C5664B:
@@ -7980,12 +7554,7 @@ sub_C56C37:
     JML .locret_C56D63
 
 .loc_C56CA7:
-    REP #0x20
-    LDA #addr(.loc_C56CC6)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C56CC6)
-    STA z:2, X
+    set_handler .loc_C56CC6
     RTL
 
 .loc_C56CB5:
@@ -8055,12 +7624,7 @@ sub_C56C37:
     PLA
     STA z:0x52
     JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C56D41)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C56D41)
-    STA z:2, X
+    set_handler .loc_C56D41
 
 .loc_C56D41:
     REP #0x20
@@ -8279,13 +7843,7 @@ i16
     STA z:0x1E, X
     LDA #0
     STA z:0x20, X
-    LDA #addr(byte_C51749)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C51749)
     SEP #0x20
     LDA a:addr(level_manager_object.anonymous_2+1)
     AND #0xF
@@ -8295,12 +7853,7 @@ i16
     DEC a:addr(level_manager_object.anonymous_2)
 
 .loc_C56F32:
-    REP #0x20
-    LDA #addr(.loc_C56F72)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C56F72)
-    STA z:2, X
+    set_handler .loc_C56F72
     JSL generate_password
     JSL sub_C57038
     REP #0x20
@@ -8375,12 +7928,7 @@ i16
     STA a:addr(player_2+0x32)
 
 .loc_C56FED:
-    REP #0x20
-    LDA #addr(.loc_C56F9C)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C56F9C)
-    STA z:2, X
+    set_handler .loc_C56F9C
     BRA .loc_C56F9C
 
 .loc_C56FFC:
@@ -8389,12 +7937,7 @@ i16
     REP #0x20
     LDA #0x140
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(.loc_C57017)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57017)
-    STA z:2, X
+    set_handler .loc_C57017
 
 .loc_C57017:
     REP #0x20
@@ -8406,12 +7949,7 @@ i16
     SEP #0x20
     LDA #0x31
     STA a:addr(current_screen)
-    REP #0x20
-    LDA #addr(.loc_C56F9C)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C56F9C)
-    STA z:2, X
+    set_handler .loc_C56F9C
     JMP a:.loc_C56F9C
 
 sub_C57038:
@@ -8434,19 +7972,8 @@ sub_C57057:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    LDA #addr(byte_C5174E)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C57089)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57089)
-    STA z:2, X
+    start_animation #addr(byte_C5174E)
+    set_handler .loc_C57089
 
 .loc_C57089:
     JSL render_sprite_animated
@@ -8490,12 +8017,7 @@ sub_C570CD:
     PLA
     STA z:0x52
     JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C570F5)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C570F5)
-    STA z:2, X
+    set_handler .loc_C570F5
 
 .loc_C570F5:
     JSL render_sprite_animated
@@ -8531,13 +8053,7 @@ sub_C57129:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    LDA #addr(byte_C5173F)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C5173F)
     JSL render_sprite_animated
     RTL
 
@@ -8593,12 +8109,7 @@ i16
     PLA
     STA z:0x52
     JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C571F3)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C571F3)
-    STA z:2, X
+    set_handler .loc_C571F3
     REP #0x20
     LDA #0x58
     STA z:0x42
@@ -8682,12 +8193,7 @@ sub_C5726B:
     
 password_entry_check_mini:
 i16
-    REP #0x20
-    LDA #addr(password_entry_idle_handler)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(password_entry_idle_handler)
-    STA z:2, X
+    set_handler password_entry_idle_handler
     SEP #0x20
     LDA #SCREEN_TITLE
     STA a:addr(current_screen)
@@ -8815,12 +8321,7 @@ i16
     STA a:addr(player_2+0x32)
 
 .loc_C5736E:
-    REP #0x20
-    LDA #addr(sub_C5726B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C5726B)
-    STA z:2, X
+    set_handler sub_C5726B
     JMP a:sub_C5726B
 
 word_C5737E:
@@ -8893,23 +8394,12 @@ i16
     STA z:0x11, X
     LDA #0x59
     STA z:0x14, X
-    LDA #addr(byte_C519CC)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C519CC)
     SEP #0x20
     LDA a:addr(level_manager_object.anonymous_2+1)
     CMP #0x68
     BEQ .loc_C57449
-    REP #0x20
-    LDA #addr(.loc_C57444)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57444)
-    STA z:2, X
+    set_handler .loc_C57444
 
 .loc_C57444:
     JSL render_sprite_animated
@@ -8921,37 +8411,15 @@ i16
     REP #0x20
     LDA #0x180
     STA z:0x20, X
-    LDA #addr(byte_C51A17)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C57473)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57473)
-    STA z:2, X
+    start_animation #addr(byte_C51A17)
+    set_handler .loc_C57473
 
 .loc_C57473:
     REP #0x20
     DEC z:0x20, X
     BNE sub_C574A0
-    LDA #addr(byte_C519D1)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C574A5)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C574A5)
-    STA z:2, X
+    start_animation #addr(byte_C519D1)
+    set_handler sub_C574A5
     REP #0x20
     LDA #0x90
     STA z:0x40
@@ -8968,19 +8436,8 @@ sub_C574A5:
     REP #0x20
     LDA #0xF0
     STA z:0x20, X
-    LDA #addr(byte_C51A12)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C574CF)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C574CF)
-    STA z:2, X
+    start_animation #addr(byte_C51A12)
+    set_handler sub_C574CF
 
 .locret_C574CE:
     RTL
@@ -8993,12 +8450,7 @@ i16
     BNE .locret_C574ED
     LDY #0x11
     JSL play_music
-    REP #0x20
-    LDA #addr(sub_C574A0)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C574A0)
-    STA z:2, X
+    set_handler sub_C574A0
 
 .locret_C574ED:
     RTL
@@ -9088,12 +8540,7 @@ i16
     LDA f:[z:0x50], Y
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(sub_C575C1)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C575C1)
-    STA z:2, X
+    set_handler sub_C575C1
     RTL
 
 sub_C575C1:
@@ -9105,12 +8552,7 @@ sub_C575C1:
     LDA #0x1C
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(sub_C575FD)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C575FD)
-    STA z:2, X
+    set_handler sub_C575FD
 
 .loc_C575E2:
     REP #0x20
@@ -9146,12 +8588,7 @@ create_map_screen_handler:
 map_screen_handler:
     JSL sub_C573EA
     JSL sub_C576B5
-    REP #0x20
-    LDA #addr(.loc_C5767D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C5767D)
-    STA z:2, X
+    set_handler .loc_C5767D
     SEP #0x20
     LDA #0x17
     STA a:addr(main_screen_status)
@@ -9672,12 +9109,7 @@ i16
     STA z:0x40
     JSL sub_C57F9F
     JSL sub_C57ABF
-    REP #0x20
-    LDA #addr(.loc_C57BC2)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57BC2)
-    STA z:2, X
+    set_handler .loc_C57BC2
 
 .loc_C57BC2:
     REP #0x20
@@ -9686,12 +9118,7 @@ i16
     JML .locret_C57C52
 
 .loc_C57BCC:
-    REP #0x20
-    LDA #addr(.loc_C57BD9)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57BD9)
-    STA z:2, X
+    set_handler .loc_C57BD9
 
 .loc_C57BD9:
     REP #0x20
@@ -9711,12 +9138,7 @@ i16
     JSL sub_C57EF3
 
 .loc_C57BF9:
-    REP #0x20
-    LDA #addr(.loc_C57C06)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57C06)
-    STA z:2, X
+    set_handler .loc_C57C06
 
 .loc_C57C06:
     REP #0x20
@@ -9788,12 +9210,7 @@ i16
     LDA #4
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(.loc_C57C9C)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57C9C)
-    STA z:2, X
+    set_handler .loc_C57C9C
 
 .loc_C57C9C:
     REP #0x20
@@ -9821,22 +9238,12 @@ sub_C57CBE:
     RTL
 
 sub_C57CC3:
-    REP #0x20
-    LDA #addr(sub_C57D02)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57D02)
-    STA z:2, X
+    set_handler sub_C57D02
     REP #0x20
     LDA z:0xF, X
     AND #0xFF
     BEQ sub_C57D02.loc_C57D37
-    REP #0x20
-    LDA #addr(sub_C57DF7)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57DF7)
-    STA z:2, X
+    set_handler sub_C57DF7
     BRA sub_C57D02.loc_C57D37
     ; falltrough
 
@@ -9844,12 +9251,7 @@ sub_C57CE8:
     REP #0x20
     LDA #0xA9
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(.loc_C57CFC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57CFC)
-    STA z:2, X
+    set_handler .loc_C57CFC
 
 .loc_C57CFC:
     REP #0x20
@@ -9864,12 +9266,7 @@ sub_C57D02:
     LDA #8
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(.loc_C57D1F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57D1F)
-    STA z:2, X
+    set_handler .loc_C57D1F
 
 .loc_C57D1F:
     REP #0x20
@@ -9877,12 +9274,7 @@ sub_C57D02:
     BNE .loc_C57D37
     LDA #0x10
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(sub_C57D3C)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57D3C)
-    STA z:2, X
+    set_handler sub_C57D3C
 
 .loc_C57D37:
     JSL render_sprite
@@ -9895,12 +9287,7 @@ sub_C57D3C:
     LDA #0x14
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(sub_C57D5F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57D5F)
-    STA z:2, X
+    set_handler sub_C57D5F
 
 .loc_C57D5A:
     JSL render_sprite_animated
@@ -9915,12 +9302,7 @@ sub_C57D5F:
     LDA #8
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(sub_C57D83)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57D83)
-    STA z:2, X
+    set_handler sub_C57D83
 
 .locret_C57D82:
     RTL
@@ -9934,12 +9316,7 @@ sub_C57D83:
     LDA #4
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(sub_C57DA9)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57DA9)
-    STA z:2, X
+    set_handler sub_C57DA9
 
 .loc_C57DA4:
     JSL render_sprite
@@ -9955,12 +9332,7 @@ sub_C57DA9:
     LDA #8
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(sub_C57DD1)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57DD1)
-    STA z:2, X
+    set_handler sub_C57DD1
     ; fallthrough
     
 sub_C57DCC:
@@ -9976,12 +9348,7 @@ sub_C57DD1:
     LDA #0x1C
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(sub_C57DCC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57DCC)
-    STA z:2, X
+    set_handler sub_C57DCC
 
 .loc_C57DF2:
     JSL render_sprite
@@ -9995,12 +9362,7 @@ i16
     LDA #4
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(.loc_C57E14)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57E14)
-    STA z:2, X
+    set_handler .loc_C57E14
 
 .loc_C57E14:
     REP #0x20
@@ -10010,12 +9372,7 @@ i16
     STA z:0x20, X
     LDA #0xFA00
     STA z:0x34, X
-    REP #0x20
-    LDA #addr(sub_C57E3D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57E3D)
-    STA z:2, X
+    set_handler sub_C57E3D
     LDY #SOUND_ENEMY_DEATH
     JSL play_sound
 
@@ -10032,12 +9389,7 @@ sub_C57E3D:
     LDA f:word_C57EED, X
     PLX
     STA z:0x34, X
-    REP #0x20
-    LDA #addr(.loc_C57E58)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57E58)
-    STA z:2, X
+    set_handler .loc_C57E58
 
 .loc_C57E58:
     REP #0x20
@@ -10077,12 +9429,7 @@ sub_C57E3D:
     BCC .loc_C57EC7
     LDA #0x58
     STA z:0x14, X
-    REP #0x20
-    LDA #addr(sub_C57E3D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57E3D)
-    STA z:2, X
+    set_handler sub_C57E3D
     REP #0x20
     INC z:0x20, X
     LDA z:0x20, X
@@ -10090,12 +9437,7 @@ sub_C57E3D:
     BNE .loc_C57EC7
     LDA #0x20
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(sub_C57ECC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C57ECC)
-    STA z:2, X
+    set_handler sub_C57ECC
 
 .loc_C57EC7:
     JSL render_sprite_animated
@@ -10108,12 +9450,7 @@ sub_C57ECC:
     LDA #0xA
     STA z:0x40
     JSL sub_C57F9F
-    REP #0x20
-    LDA #addr(.loc_C57EE8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C57EE8)
-    STA z:2, X
+    set_handler .loc_C57EE8
 
 .loc_C57EE8:
     JSL render_sprite_animated

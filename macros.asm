@@ -36,6 +36,34 @@ macro create_object handler
     JSL create_object
 endmacro
 
+macro set_handler handler
+    REP #0x20
+    LDA #addr($handler)
+    STA z:object.handler, X
+    SEP #0x20
+    LDA #bank($handler)
+    STA z:object.handler + 2, X
+endmacro
+
+macro start_animation animation...
+    LDA $animation
+    STA z:start_animation.ANIMATION
+    SEP #0x20
+    PHK
+    PLA
+    STA z:start_animation.ANIMATION + 2
+    JSL start_animation
+endmacro
+
+macro start_animation_far animation
+    LDA #addr($animation)
+    STA z:start_animation.ANIMATION
+    SEP #0x20
+    LDA #bank($animation)
+    STA z:start_animation.ANIMATION + 2
+    JSL start_animation
+endmacro
+
 macro create_enemy handler
     create_object $handler
     REP #0x20
@@ -48,7 +76,7 @@ macro init_enemy hitpoints
 if $hitpoints
     LDA #($hitpoints) - 1
     STA a:enemy.hitpoints_left, Y
-    LDA #DIR_LEFT
+    LDA #DIR_MASK_LEFT
     STA a:enemy.direction, Y
 endif
     REP #0x20
@@ -76,16 +104,26 @@ endif
     STA a:enemy.execution_priority, Y
 endmacro
 
+macro add_to_score_if_allowed score
+    .TEMP_SCORE = (0x$score)
+    LDA #.TEMP_SCORE & 0xFFFF
+    STA z:add_to_score.SCORE
+    LDA #.TEMP_SCORE >> 16
+    STA z:add_to_score.SCORE + 2
+    JSL add_to_score_if_allowed
+    unset .TEMP_SCORE
+endmacro
+
 ; Converts the position of object at `register` to a map index
 macro lda_tile_id register
-    LDA z:sprite.x_position,$register
+    LDA z:sprite.x_position, $register
     AND #0xF0
     LSR A
     LSR A
     LSR A
     STA z:0x40
     
-    LDA z:sprite.y_position,$register
+    LDA z:sprite.y_position, $register
     AND #0xF0
     ASL A
     ASL A
@@ -119,7 +157,7 @@ macro handler_return_in_transition
 +
 endmacro
 
-macro handler_return_if_paused
+macro handler_return_if_paused_or_in_transition
     handler_return_in_transition
     
     BIT #GAME_FLAGS_PAUSED | GAME_FLAGS_DEBUG_MENU
@@ -194,7 +232,7 @@ macro allocate_object_graphics list, count
     allocate_graphics $list, $count
     SEP #0x20
     LDA z:allocate_graphics.INDEX_USED
-    STA a:addr(sprite.graphics_slot), Y
+    STA a:sprite.graphics_slot, Y
 endmacro
 
 macro allocate_object_palette palette_index
@@ -204,6 +242,6 @@ macro allocate_object_palette palette_index
     JSL allocate_sprite_palette
     SEP #0x20
     LDA z:allocate_sprite_palette.SLOT_INDEX
-    STA a:addr(sprite.effective_palette), Y
-    STA a:addr(sprite.real_palette), Y
+    STA a:sprite.effective_palette, Y
+    STA a:sprite.real_palette, Y
 endmacro

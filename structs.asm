@@ -366,14 +366,6 @@ struct enemy
     ds 1
 endstruct
 
-struct bakuda
-    enemy
-    org 0x38
-.is_red_bomb:
-    ds 1
-    org 0x40
-endstruct
-
 struct score_popup_object
     dynamic_object
     org 3

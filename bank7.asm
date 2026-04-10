@@ -450,18 +450,8 @@ sound_test_handler:
     LDA #0
     STA z:0x24, X
     REP #0x20
-    LDA #addr(byte_C51749)
-    STA z:0x50
-    SEP #0x20
-    LDA #bank(byte_C51749)
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C70667)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C70667)
-    STA z:2, X
+    start_animation_far byte_C51749
+    set_handler .loc_C70667
     JSL sub_C70751
     JSL sub_C707ED
     JSL sub_C70845
@@ -489,12 +479,7 @@ sound_test_handler:
     SEP #0x20
     LDA #0x31
     STA a:addr(current_screen)
-    REP #0x20
-    LDA #addr(.loc_C70735)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C70735)
-    STA z:2, X
+    set_handler .loc_C70735
     JMP a:.loc_C70735
 
 .loc_C706A3:
@@ -697,13 +682,7 @@ sub_C7085C:
     STA z:0x1E, X
     LDA #0
     STA z:0x20, X
-    LDA #addr(byte_C7040A)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C7040A)
     JSL render_sprite_animated
     RTL
 
@@ -722,13 +701,7 @@ sub_C708A2:
     STA z:0xE, X
     LDA #6
     STA z:0x1E, X
-    LDA #addr(byte_C7040F)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C7040F)
     JSL render_sprite_animated
     RTL
 
@@ -1398,18 +1371,12 @@ i16
     STA a:addr(player_1.palette)
     LDA #0x30
     STA a:addr(player_2.palette)
-    REP #0x20
-    LDA #addr(_crane_hand)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(_crane_hand)
-    STA z:2, X
+    set_handler _crane_hand
 
 _crane_hand:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C7113E
     JML .loc_C71255
 
@@ -1455,18 +1422,12 @@ _crane_hand:
     STA z:0x40
     LDA #0xD
     JSL set_palette
-    REP #0x20
-    LDA #addr(.loc_C711B2)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C711B2)
-    STA z:2, X
+    set_handler .loc_C711B2
 
 .loc_C711B2:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C711C7
     JML .loc_C71255
 
@@ -1481,18 +1442,12 @@ _crane_hand:
     LDA a:addr(game_flags)
     AND #~GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    REP #0x20
-    LDA #addr(.loc_C711E8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C711E8)
-    STA z:2, X
+    set_handler .loc_C711E8
 
 .loc_C711E8:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C711FD
     JML .loc_C71255
 
@@ -1561,7 +1516,7 @@ _crane_hand:
     STA z:0x42
     LDA #0x2020
     STA z:0x44
-    JSL sub_C6370B
+    JSL enemy_detect_blast_in_range
     REP #0x20
     PLA
     STA z:0x11, X
@@ -1571,12 +1526,7 @@ _crane_hand:
     STA z:0x16, X
     DEC z:0x3A, X
     BNE .locret_C7129B
-    REP #0x20
-    LDA #addr(sub_C71396)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71396)
-    STA z:2, X
+    set_handler sub_C71396
 
 .locret_C7129B:
     RTL
@@ -1584,8 +1534,7 @@ _crane_hand:
 .loc_C7129C:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ sub_C712B1
     JML sub_C712B1.locret_C712DA
     
@@ -1713,12 +1662,7 @@ sub_C71396:
     STA z:0x40
     JSL change_direction_and_start_animation
     PLX
-    REP #0x20
-    LDA #addr(.loc_C713CF)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C713CF)
-    STA z:2, X
+    set_handler .loc_C713CF
 
 .loc_C713CF:
     REP #0x20
@@ -1745,16 +1689,11 @@ sub_C71396:
     SEP #0x20
     LDA #bank(word_C7138E)
     STA z:0x52
-    JSL sub_C631D7
+    JSL create_boss_exploisions
     REP #0x20
     PLA
     STA z:0x11, X
-    REP #0x20
-    LDA #addr(.loc_C71414)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71414)
-    STA z:2, X
+    set_handler .loc_C71414
 
 .loc_C71414:
     REP #0x20
@@ -1786,20 +1725,10 @@ sub_C71396:
     PHX
     LDX #addr(player_1)
     REP #0x20
-    LDA #addr(up_walking_animation)
-    STA z:0x50
-    SEP #0x20
-    LDA #bank(up_walking_animation)
-    STA z:0x52
-    JSL start_animation
+    start_animation_far up_walking_animation
     LDX #addr(player_2)
     REP #0x20
-    LDA #addr(up_walking_animation)
-    STA z:0x50
-    SEP #0x20
-    LDA #bank(up_walking_animation)
-    STA z:0x52
-    JSL start_animation
+    start_animation_far up_walking_animation
     PLX
     SEP #0x20
     LDY #7
@@ -1866,12 +1795,7 @@ sub_C71396:
     REP #0x20
     LDA #0x80
     STA z:0x30, X
-    REP #0x20
-    LDA #addr(.loc_C7152B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C7152B)
-    STA z:2, X
+    set_handler .loc_C7152B
 
 .loc_C7152B:
     REP #0x20
@@ -1879,17 +1803,9 @@ sub_C71396:
     BNE .locret_C71559
     PHX
     LDX #addr(player_1)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     LDX #addr(player_2)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     PLX
     JSL delete_object
 
@@ -1928,19 +1844,8 @@ unknown_crane_object:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    LDA #addr(byte_C70C84)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C715BF)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C715BF)
-    STA z:2, X
+    start_animation #addr(byte_C70C84)
+    set_handler .loc_C715BF
     SEP #0x20
     LDA #0
     STA z:3, X
@@ -1958,19 +1863,8 @@ unknown_crane_object:
     JML .loc_C71677
 
 .loc_C715D5:
-    LDA #addr(byte_C70C73)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C715F1)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C715F1)
-    STA z:2, X
+    start_animation #addr(byte_C70C73)
+    set_handler .loc_C715F1
 
 .loc_C715F1:
     REP #0x20
@@ -1987,36 +1881,19 @@ unknown_crane_object:
     STA z:0x14, X
     LDA #0x20
     STA z:0x32, X
-    LDA #addr(byte_C70C9F)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C7162A)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C7162A)
-    STA z:2, X
+    start_animation #addr(byte_C70C9F)
+    set_handler .loc_C7162A
 
 .loc_C7162A:
     REP #0x20
     DEC z:0x32, X
     BNE .locret_C71676
-    REP #0x20
-    LDA #addr(.loc_C7163D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C7163D)
-    STA z:2, X
+    set_handler .loc_C7163D
 
 .loc_C7163D:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C71652
     JML .loc_C71672
 
@@ -2053,19 +1930,8 @@ unknown_crane_object:
     STA z:0x14, X
     LDA #0x80
     STA z:0x20, X
-    LDA #addr(byte_C70C9A)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C716A9)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C716A9)
-    STA z:2, X
+    start_animation #addr(byte_C70C9A)
+    set_handler .loc_C716A9
 
 .loc_C716A9:
     REP #0x20
@@ -2074,12 +1940,7 @@ unknown_crane_object:
     LDA #0x80
     STA z:0x20, X
     JSL sub_C71736
-    REP #0x20
-    LDA #addr(.loc_C716C5)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C716C5)
-    STA z:2, X
+    set_handler .loc_C716C5
 
 .loc_C716C5:
     REP #0x20
@@ -2087,19 +1948,8 @@ unknown_crane_object:
     BNE .loc_C716EC
     LDA #0x80
     STA z:0x20, X
-    LDA #addr(byte_C70C95)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C716F1)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C716F1)
-    STA z:2, X
+    start_animation #addr(byte_C70C95)
+    set_handler sub_C716F1
 .loc_C716EC:
     JSL load_animation_frame
     RTL
@@ -2108,19 +1958,8 @@ sub_C716F1:
     REP #0x20
     DEC z:0x20, X
     BNE unknown_crane_object.loc_C716EC
-    LDA #addr(byte_C70C73)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C71718)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71718)
-    STA z:2, X
+    start_animation #addr(byte_C70C73)
+    set_handler sub_C71718
     JSL load_animation_frame
     RTL
 
@@ -2280,12 +2119,7 @@ sub_C7184C:
     STA z:0x18, X
     LDA z:0x46
     STA z:0x26, X
-    REP #0x20
-    LDA #addr(.loc_C71893)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71893)
-    STA z:2, X
+    set_handler .loc_C71893
 
 .loc_C71893:
     REP #0x20
@@ -2324,12 +2158,7 @@ sub_C7184C:
     RTL
 
 .loc_C718CC:
-    REP #0x20
-    LDA #addr(sub_C7193A)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C7193A)
-    STA z:2, X
+    set_handler sub_C7193A
     REP #0x20
     LDA z:0x22, X
     CMP z:0x24, X
@@ -2338,12 +2167,7 @@ sub_C7184C:
     STA z:0x11, X
     LDA #0x20
     STA z:0x30, X
-    REP #0x20
-    LDA #addr(.loc_C718F7)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C718F7)
-    STA z:2, X
+    set_handler .loc_C718F7
 
 .loc_C718F7:
     REP #0x20
@@ -2386,12 +2210,7 @@ sub_C7193A:
     REP #0x20
     LDA #0x80
     STA z:0x30, X
-    REP #0x20
-    LDA #addr(.loc_C7194E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C7194E)
-    STA z:2, X
+    set_handler .loc_C7194E
 
 .loc_C7194E:
     REP #0x20
@@ -2406,12 +2225,7 @@ sub_C7193A:
     LDA #0x1C
     STA z:0x40
     JSL start_animation_by_direction
-    REP #0x20
-    LDA #addr(.loc_C71973)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71973)
-    STA z:2, X
+    set_handler .loc_C71973
 
 .loc_C71973:
     JSL load_animation_frame
@@ -2516,19 +2330,8 @@ i16
     STA z:0xE, X
     LDA #0xA
     STA z:0x1E, X
-    LDA #addr(byte_C70CC2)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C71A20)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71A20)
-    STA z:2, X
+    start_animation #addr(byte_C70CC2)
+    set_handler .loc_C71A20
 
 .loc_C71A20:
     REP #0x20
@@ -2544,19 +2347,8 @@ i16
 
 sub_C71A36:
     REP #0x20
-    LDA #addr(byte_C70D43)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C71A54)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71A54)
-    STA z:2, X
+    start_animation #addr(byte_C70D43)
+    set_handler .loc_C71A54
 
 .loc_C71A54:
     JSL sub_C71B1E
@@ -2568,21 +2360,10 @@ sub_C71A36:
     REP #0x20
     LDA #0x10
     STA z:0x32, X
-    LDA #addr(byte_C70CBD)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C70CBD)
     LDY #SOUND_CRANE_HAND_DOOR
     JSL play_sound
-    REP #0x20
-    LDA #addr(.loc_C71A8D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71A8D)
-    STA z:2, X
+    set_handler .loc_C71A8D
     RTL
 
 .loc_C71A8D:
@@ -2595,18 +2376,12 @@ sub_C71A36:
     LDY z:0x34, X
     LDA #0
     STA a:0x36, Y
-    REP #0x20
-    LDA #addr(.loc_C71AAC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71AAC)
-    STA z:2, X
+    set_handler .loc_C71AAC
 
 .loc_C71AAC:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C71AC1
     JML .loc_C71B1A
 
@@ -2623,7 +2398,7 @@ sub_C71A36:
     STA z:0x11, X
     DEC z:0x36, X
     BNE .loc_C71B1A
-    JSL is_object_aligned
+    JSL is_object_misaligned
     REP #0x20
     INC z:0x36, X
     BCS .loc_C71B1A
@@ -2643,12 +2418,7 @@ sub_C71A36:
     LDY z:0x34, X
     LDA #1
     STA a:0x36, Y
-    REP #0x20
-    LDA #addr(sub_C71B2C)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71B2C)
-    STA z:2, X
+    set_handler sub_C71B2C
 
 .loc_C71B1A:
     JSL render_sprite_animated
@@ -2666,21 +2436,10 @@ sub_C71B1E:
 sub_C71B2C:
 i16
     REP #0x20
-    LDA #addr(byte_C70CB0)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C70CB0)
     LDY #SOUND_CRANE_HAND_DOOR
     JSL play_sound
-    REP #0x20
-    LDA #addr(.loc_C71B51)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71B51)
-    STA z:2, X
+    set_handler .loc_C71B51
 
 .loc_C71B51:
     JSL sub_C71B1E
@@ -2689,19 +2448,8 @@ i16
     REP #0x20
     LDA #0x40
     STA z:0x32, X
-    LDA #addr(byte_C70CC2)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C71B7F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71B7F)
-    STA z:2, X
+    start_animation #addr(byte_C70CC2)
+    set_handler sub_C71B7F
     RTL
 
 sub_C71B7F:
@@ -2714,12 +2462,7 @@ sub_C71B7F:
 
 .loc_C71B91:
     JSL create_missle
-    REP #0x20
-    LDA #addr(sub_C71BA3)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71BA3)
-    STA z:2, X
+    set_handler sub_C71BA3
     RTL
 
 sub_C71BA3:
@@ -2733,12 +2476,7 @@ sub_C71BA3:
 .loc_C71BB5:
     LDA #0x20
     STA z:0x32, X
-    REP #0x20
-    LDA #addr(sub_C71BC8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71BC8)
-    STA z:2, X
+    set_handler sub_C71BC8
     RTL
 
 sub_C71BC8:
@@ -2797,19 +2535,8 @@ i16
     STA z:0xE, X
     LDA #0xA
     STA z:0x1E, X
-    LDA #addr(byte_C70D00)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C71C65)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71C65)
-    STA z:2, X
+    start_animation #addr(byte_C70D00)
+    set_handler sub_C71C65
     ; fallthrough
 
 sub_C71C65:
@@ -2822,8 +2549,7 @@ sub_C71C65:
 .loc_C71C72:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C71C87
     JML sub_C71CCE
 
@@ -2849,19 +2575,8 @@ sub_C71C65:
     BEQ sub_C71CCE
     LDA #2
     STA z:0x22, X
-    LDA #addr(byte_C70CC7)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C71D1B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71D1B)
-    STA z:2, X
+    start_animation #addr(byte_C70CC7)
+    set_handler sub_C71D1B
 
 sub_C71CCE:
     REP #0x20
@@ -2888,7 +2603,7 @@ sub_C71CCE:
     STA z:0x44
     LDA #0x505
     STA z:0x42
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     REP #0x20
     LDA z:0xB, X
     CMP #0x30E
@@ -2908,8 +2623,7 @@ j_delete_object:
 sub_C71D1B:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C71D30
     JML sub_C71CCE
 
@@ -2936,19 +2650,8 @@ sub_C71D1B:
 
 .loc_C71D57:
     REP #0x20
-    LDA #addr(byte_C70D00)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C71C65)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71C65)
-    STA z:2, X
+    start_animation #addr(byte_C70D00)
+    set_handler sub_C71C65
     SEP #0x20
     LDY z:0x34, X
     LDA #0
@@ -3036,12 +2739,7 @@ sub_C71E7A:
 i16
     LDY #8
     JSL sub_C71F0C
-    REP #0x20
-    LDA #addr(.loc_C71E8E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C71E8E)
-    STA z:2, X
+    set_handler .loc_C71E8E
 
 .loc_C71E8E:
     JSL render_sprite_animated
@@ -3055,12 +2753,7 @@ i16
     STA z:0x20, X
     LDY #8
     JSL sub_C71F0C
-    REP #0x20
-    LDA #addr(sub_C71EB8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71EB8)
-    STA z:2, X
+    set_handler sub_C71EB8
 
 nullsub_11:
     RTL
@@ -3072,12 +2765,7 @@ i16
     BNE nullsub_11
     LDY #0x10
     JSL sub_C71F0C
-    REP #0x20
-    LDA #addr(sub_C71ED7)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C71ED7)
-    STA z:2, X
+    set_handler sub_C71ED7
     RTL
 
 sub_C71ED7:
@@ -3111,13 +2799,7 @@ sub_C71F0C:
     STA z:0x50
     LDA z:0x19, X
     STA z:0x51
-    LDA f:[z:0x50], Y
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation f:[z:0x50], Y
     RTL
 
 off_C71F25:
@@ -3172,7 +2854,8 @@ off_C71F6D:
     da byte_C71020
     da byte_C71029
     da byte_C71032
-animation_frame_C71F85:
+
+bigaron_static_frame:
     db 0x17
     frame_oam_tile 0xE5, 0xB0, 0x2403, 0x20
     frame_oam_tile 0xD8, 0xF0, 5, 0x62
@@ -3197,7 +2880,8 @@ animation_frame_C71F85:
     frame_oam_tile 8, 0xF0, 0x604, 0x22
     frame_oam_tile 0xF8, 0xF0, 0x404, 0x22
     frame_oam_tile 0xF8, 0, 0x2404, 0x22
-animation_frame_C71FF9:
+
+bigaron_static_swing_mid_frame:
     db 0x19
     frame_oam_tile 0xD8, 0xF0, 5, 0x62
     frame_oam_tile 0xFD, 0x98, 0x2403, 0x20
@@ -3224,7 +2908,8 @@ animation_frame_C71FF9:
     frame_oam_tile 8, 0xF0, 0x604, 0x22
     frame_oam_tile 0xF8, 0xF0, 0x404, 0x22
     frame_oam_tile 0xF8, 0, 0x2404, 0x22
-animation_frame_C72077:
+
+bigaron_static_swing_up_frame:
     db 0x16
     frame_oam_tile 0xD8, 0xF0, 5, 0x62
     frame_oam_tile 8, 0xE0, 0x2602, 0x22
@@ -3248,7 +2933,7 @@ animation_frame_C72077:
     frame_oam_tile 8, 0xF0, 0x604, 0x22
     frame_oam_tile 0xF8, 0xF0, 0x404, 0x22
     frame_oam_tile 0xF8, 0, 0x2404, 0x22
-animation_frame_C720E6:
+bigaron_static_swing_down_frame:
     db 0x16
     frame_oam_tile 8, 0x10, 0x205, 0
     frame_oam_tile 0xE0, 0xF0, 0x2603, 0x20
@@ -3272,7 +2957,8 @@ animation_frame_C720E6:
     frame_oam_tile 0xE0, 0xE0, 0x2008, 0x20
     frame_oam_tile 0, 0xE0, 0x2408, 0x22
     frame_oam_tile 0xF0, 0xE0, 0x2208, 0x22
-animation_frame_C72155:
+
+bigaron_death_frame_1:
     db 0x14
     frame_oam_tile 0xE5, 0xB8, 0x2403, 0x20
     frame_oam_tile 0xD8, 0xF8, 5, 0x62
@@ -3294,7 +2980,8 @@ animation_frame_C72155:
     frame_oam_tile 0x18, 0xF8, 5, 0x22
     frame_oam_tile 8, 0xF8, 0x604, 0x22
     frame_oam_tile 0xF8, 0xF8, 0x404, 0x22
-animation_frame_C721BA:
+
+bigaron_death_frame_2:
     db 0x17
     frame_oam_tile 0xE5, 0xC0, 0x2403, 0x20
     frame_oam_tile 0xE0, 0, 5, 0x42
@@ -3319,7 +3006,8 @@ animation_frame_C721BA:
     frame_oam_tile 0x18, 0xF0, 0x2003, 0x20
     frame_oam_tile 8, 0xF0, 0x2602, 0x20
     frame_oam_tile 0xF8, 0xF0, 0x2402, 0x22
-animation_frame_C7222E:
+
+bigaron_death_frame_3:
     db 0xF
     frame_oam_tile 0xE5, 0xC8, 0x2403, 0x20
     frame_oam_tile 0xF8, 0xD8, 0x2400, 0x22
@@ -3336,7 +3024,8 @@ animation_frame_C7222E:
     frame_oam_tile 0x18, 0xF8, 0x2003, 0x20
     frame_oam_tile 8, 0xF8, 0x2602, 0x20
     frame_oam_tile 0xF8, 0xF8, 0x2402, 0x22
-animation_frame_C7227A:
+
+bigaron_death_frame_4:
     db 0x14
     frame_oam_tile 0xE5, 0xD0, 0x2403, 0x20
     frame_oam_tile 0x20, 0, 0x2103, 0
@@ -3358,7 +3047,8 @@ animation_frame_C7227A:
     frame_oam_tile 8, 0xE0, 0x2600, 0x20
     frame_oam_tile 8, 0xF0, 0x602, 0x20
     frame_oam_tile 0x18, 0xF0, 3, 0x20
-animation_frame_C722DF:
+
+bigaron_death_frame_5:
     db 0xA
     frame_oam_tile 0xE5, 0xD8, 0x2403, 0x20
     frame_oam_tile 0xF8, 0xE8, 0x2400, 0x22
@@ -3370,7 +3060,8 @@ animation_frame_C722DF:
     frame_oam_tile 8, 0xE8, 0x2600, 0x20
     frame_oam_tile 8, 0xF8, 0x602, 0x20
     frame_oam_tile 0x18, 0xF8, 3, 0x20
-animation_frame_C72312:
+
+bigaron_death_frame_6:
     db 0xD
     frame_oam_tile 0xE5, 0xE0, 0x2403, 0x20
     frame_oam_tile 0x18, 0, 3, 0
@@ -3385,14 +3076,16 @@ animation_frame_C72312:
     frame_oam_tile 0xE8, 0xF0, 0x2200, 0x20
     frame_oam_tile 0xD8, 0xF0, 0x2000, 0x20
     frame_oam_tile 8, 0xF0, 0x2600, 0x20
-animation_frame_C72354:
+
+bigaron_death_frame_7:
     db 5
     frame_oam_tile 0xE5, 0xE8, 0x2403, 0x20
     frame_oam_tile 0xF8, 0xF8, 0x2400, 0x22
     frame_oam_tile 0xE8, 0xF8, 0x2200, 0x20
     frame_oam_tile 0xD8, 0xF8, 0x2000, 0x20
     frame_oam_tile 8, 0xF8, 0x2600, 0x20
-animation_frame_C7236E:
+
+bigaron_death_frame_8:
     db 6
     frame_oam_tile 0xE5, 0xF0, 0x2403, 0x20
     frame_oam_tile 0, 0, 0x2500, 0
@@ -3400,302 +3093,354 @@ animation_frame_C7236E:
     frame_oam_tile 0xF0, 0, 0x2300, 2
     frame_oam_tile 0xE8, 0, 0x2200, 0
     frame_oam_tile 0xE0, 0, 0x2100, 2
-animation_frame_C7238D:
+
+bigaron_death_frame_9:
     db 1
     frame_oam_tile 0xE5, 0xF8, 0x2403, 0x20
-animation_frame_C72393:
+
+bigaron_death_frame_10:
     db 2
     frame_oam_tile 0xED, 0, 0x2503, 0
     frame_oam_tile 0xE5, 0, 0x2403, 0
-animation_frame_C7239E:
+
+large_rock_frame:
     db 1
     frame_oam_tile 0xF8, 0xF8, 0x2005, 0x20
+
 animation_frame_C723A4:
     db 1
     frame_oam_tile 0xFC, 0xFD, 0x1205, 0
+
 bigaron_static_animation:
     db 1
-    animation_frame animation_frame_C71F85, 0xFF
-byte_C723AF:
+    animation_frame bigaron_static_frame, 0xFF
+
+bigaron_swing_animation:
     db 5
-    animation_frame animation_frame_C71FF9, 4
-    animation_frame animation_frame_C72077, 0xE
-    animation_frame animation_frame_C71FF9, 4
-    animation_frame animation_frame_C720E6, 0x30
-    animation_frame animation_frame_C71FF9, 8
-byte_C723C4:
+    animation_frame bigaron_static_swing_mid_frame,  4
+    animation_frame bigaron_static_swing_up_frame,   14
+    animation_frame bigaron_static_swing_mid_frame,  4
+    animation_frame bigaron_static_swing_down_frame, 48
+    animation_frame bigaron_static_swing_mid_frame,  8
+
+bigaron_death_animation:
     db 0xB
-    animation_frame animation_frame_C71F85, 0xD
-    animation_frame animation_frame_C72155, 4
-    animation_frame animation_frame_C721BA, 4
-    animation_frame animation_frame_C7222E, 3
-    animation_frame animation_frame_C7227A, 3
-    animation_frame animation_frame_C722DF, 2
-    animation_frame animation_frame_C72312, 2
-    animation_frame animation_frame_C72354, 2
-    animation_frame animation_frame_C7236E, 2
-    animation_frame animation_frame_C7238D, 1
-    animation_frame animation_frame_C72393, 1
-byte_C723F1:
+    animation_frame bigaron_static_frame,   13
+    animation_frame bigaron_death_frame_1,  4
+    animation_frame bigaron_death_frame_2,  4
+    animation_frame bigaron_death_frame_3,  3
+    animation_frame bigaron_death_frame_4,  3
+    animation_frame bigaron_death_frame_5,  2
+    animation_frame bigaron_death_frame_6,  2
+    animation_frame bigaron_death_frame_7,  2
+    animation_frame bigaron_death_frame_8,  2
+    animation_frame bigaron_death_frame_9,  1
+    animation_frame bigaron_death_frame_10, 1
+    
+large_rock_animation:
     db 1
-    animation_frame animation_frame_C7239E, 0xFF
-byte_C723F6:
+    animation_frame large_rock_frame, 0xFF
+
+bigaron_small_rock_animation:
     db 1
     animation_frame animation_frame_C723A4, 0xFF
+    
+struct bigaron
+    enemy
+    org 0x26
+.direction_axis:
+    ds 1
+.during_attack:
+    ds 1 
+    org 0x30
+.scene_delay:
+    ds 2
+.hitpoints:
+    ds 1
+.direction_change_countdown
+    ds 1
+.hammer_countdown:
+    ds 2    
+.damage_flash:
+    ds 1
+    org 0x40
+endstruct
+    
 create_bigaron:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    create_object bigaron_intro
+    create_object bigaron_init
     init_enemy 0
     allocate_object_graphics bigaron_graphics, 9
     RTL
 
-bigaron_intro:
+bigaron_init:
 i16
+    ; Init PPU state
     SEP #0x20
-    LDA #0x17
+    LDA #BG1_EN | BG2_EN | BG3_EN | OBJ_EN
     STA a:addr(main_screen_status)
-    LDA #0x17
+    LDA #BG1_EN | BG2_EN | BG3_EN | OBJ_EN
     STA a:addr(subscreen_status)
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
     STA a:addr(add_substract_select_and_enable)
+    
+    ; Init position and animation
     REP #0x20
-    LDA #0x88
-    STA z:enemy.x_position, X
-    LDA #0x5E
-    STA z:enemy.y_position, X
+    LDA #136
+    STA z:bigaron.x_position, X
+    LDA #94
+    STA z:bigaron.y_position, X
     LDA #0x100
-    STA z:0x34, X
-    LDA #addr(off_C72B28)
-    STA z:enemy.animation, X
-    LDA #addr(bigaron_static_animation)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    STA z:bigaron.hammer_countdown, X
+    LDA #addr(bigaron_static_animation_array)
+    STA z:bigaron.animation, X
+    start_animation #addr(bigaron_static_animation)
+    
+    ; Init the rest of the boss-specific state
     SEP #0x20
     LDA #0xC7
     STA z:0x18, X
     LDA #0
     STA z:0x19, X
     LDA #0
-    STA z:0x36, X
+    STA z:bigaron.damage_flash, X
     LDA #0
-    STA z:0x30, X
+    STA z:bigaron.scene_delay, X
     LDA #0
-    STA z:0x31, X
+    STA z:bigaron.scene_delay + 1, X
     LDA #0xA
-    STA z:0x32, X
+    STA z:bigaron.hitpoints, X
     LDA #0
-    STA z:0x26, X
+    STA z:bigaron.direction_axis, X
     LDA #0
-    STA z:0x27, X
+    STA z:bigaron.during_attack, X
+    
+    ; Palettes
     LDA #8
-    STA z:0x1E, X
+    STA z:bigaron.effective_palette, X
     LDA #0x30
-    STA z:0xE, X
+    STA z:bigaron.palette, X
+    
     LDA #2
     STA z:0x20, X
     LDA #3
     STA z:0x21, X
-    LDA z:3, X
+    LDA z:bigaron.execution_priority, X
     ORA #1
-    STA z:3, X
+    STA z:bigaron.execution_priority, X
+    
+    ; Pause the game for the intro
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    REP #0x20
-    LDA #addr(_bigaron)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(_bigaron)
-    STA z:2, X
+    
+    ; Switch the handler
+    set_handler bigaron_init_palettes
+    ; fallthrough
 
-_bigaron:
+bigaron_init_palettes:
     SEP #0x20
-    handler_return_if_paused
+    
+    handler_return_if_paused_or_in_transition
+    ; Transition over
+
     SEP #0x20
-    LDY #7
-    LDA #0x10
-    STA z:0x40
+    LDY #7 ; Fade flags
+    
+    ; Fade background palettes
+    LDA #CASTLE_PALETTE_1
+    STA z:set_palette.PALETTE
     LDA #1
     JSL set_palette
-    LDA #0x11
-    STA z:0x40
+    
+    LDA #CASTLE_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #2
     JSL set_palette
-    LDA #0x12
-    STA z:0x40
+    
+    LDA #CASTLE_PALETTE_3
+    STA z:set_palette.PALETTE
     LDA #3
     JSL set_palette
-    LDA #0x13
-    STA z:0x40
+    
+    LDA #CASTLE_BOMB_PALETTE
+    STA z:set_palette.PALETTE
     LDA #6
     JSL set_palette
-    LDA #0x14
-    STA z:0x40
+    
+    LDA #CASTLE_FIRE_PALETTE
+    STA z:set_palette.PALETTE
     LDA #7
     JSL set_palette
-    LDA #6
-    STA z:0x40
+    
+    ; Fade sprite palettes
+    LDA #SHIRO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #8
     JSL set_palette
-    LDA #7
-    STA z:0x40
+    
+    LDA #KURO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #9
     JSL set_palette
-    LDA #addr(BIGARON_PALETTE_1)
-    STA z:0x40
-    LDA #0xC
+    
+    LDA #BIGARON_PALETTE_1
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
-    LDA #addr(BIGARON_PALETTE_2)
-    STA z:0x40
-    LDA #0xD
+    
+    LDA #BIGARON_PALETTE_2
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
-    LDA #addr(BIGARON_FIRE_PALETTE)
-    STA z:0x40
-    LDA #0xE
+    
+    LDA #BIGARON_FIRE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #14
     JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #0xF
+    
+    LDA #WHITE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #15
     JSL set_palette
-    REP #0x20
-    LDA #addr(.loc_C7258A)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C7258A)
-    STA z:2, X
+    
+    ; Switch to the intro handler
+    
+    set_handler bigaron_intro
 
-.loc_C7258A:
+    ; fallthrough
+
+bigaron_intro:
     REP #0x20
-    INC z:0x30, X
-    LDA z:0x30, X
+    INC z:bigaron.scene_delay, X
+    LDA z:bigaron.scene_delay, X
     CMP #0x80
-    BNE .loc_C725AE
-    STZ z:0x30, X
+    BNE +
+
+    ; Delay done, resume gameplay
+    STZ z:bigaron.scene_delay, X
     SEP #0x20
     LDA a:addr(game_flags)
     AND #~GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    REP #0x20
-    LDA #addr(bigaron_main)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(bigaron_main)
-    STA z:2, X
+    
+    ; switch to the main handler
+    set_handler bigaron_main
 
-.loc_C725AE:
++:
     JSL render_sprite_animated
 
 .ret:
+bigaron_init_palettes.ret = .ret ; For macro
     RTL
 
 bigaron_main:
 i16
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
-    BEQ .loc_C725C8
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
+    BEQ +
     JML bigaron_render_sprite_animated
++
 
-.loc_C725C8:
     SEP #0x20
-    LDA z:0x36, X
-    BEQ .loc_C725D2
+    LDA z:bigaron.damage_flash, X
+    BEQ +
     JML bigaron_hurt
++
 
-.loc_C725D2:
     REP #0x20
-    DEC z:0x34, X
-    BNE .loc_C725DC
-    JML sub_C726B9
+    DEC z:bigaron.hammer_countdown, X
+    BNE +
+    JML bigaron_hammer_attack
++
 
-.loc_C725DC:
+    ; Check if any of the players are directly under the hammer
     LDY #addr(player_1)
-    LDA a:4, Y
-    BIT #1
-    BEQ .loc_C725FB
+    LDA a:player.unknown_flags, Y
+    BIT #1 ; TODO: alive?
+    BEQ +
     LDA #0xB0B
-    STA z:0x42
+    STA z:is_player_in_enemy_range.RIGHT_LIMIT ; Sets both RIGHT_LIMIT and LEFT_LIMIT to 11
     LDA #0x130
-    STA z:0x44
-    JSL sub_C6359F
-    BCC .loc_C725FB
-    JML sub_C726C7
+    STA z:is_player_in_enemy_range.DOWN_LIMIT ; Sets DOWN_LIMIT to 48 and UP_LIMIT to 1
+    JSL is_player_in_enemy_range
+    BCC +
+    JML bigaron_hammer_attack.do_not_reset_timer
++
 
-.loc_C725FB:
     REP #0x20
     LDY #addr(player_2)
-    LDA a:4, Y
+    LDA a:player.unknown_flags, Y
     BIT #1
-    BEQ .loc_C7261C
+    BEQ +
     LDA #0xB0B
-    STA z:0x42
+    STA z:is_player_in_enemy_range.RIGHT_LIMIT ; Sets both RIGHT_LIMIT and LEFT_LIMIT to 11
     LDA #0x130
-    STA z:0x44
-    JSL sub_C6359F
-    BCC .loc_C7261C
-    JML sub_C726C7
+    STA z:is_player_in_enemy_range.DOWN_LIMIT ; Sets DOWN_LIMIT to 48 and UP_LIMIT to 1
+    JSL is_player_in_enemy_range
+    BCC +
+    JML bigaron_hammer_attack.do_not_reset_timer
++
 
-.loc_C7261C:
     SEP #0x20
-    STZ z:0x27, X
-    ; fallthrough
+    STZ z:bigaron.during_attack, X
 
-sub_C72620:
-    JSL bigaron_straighten
-    BCC .loc_C72634
+.loc_C72620:
+    JSL bigaron_move_straight
+    BCC + ; Not blocked
     SEP #0x20
-    BIT #0x20
-    BEQ .loc_C72640
-    LDA z:enemy.direction, X
+    BIT #BOMB 
+    BEQ .not_a_bomb
+    ; Flip direction
+    
+    ; Bug: Bigaron can be trapped with 2 opposing bombs
+    LDA z:bigaron.direction, X
     EOR #2
-    STA z:enemy.direction, X
-    BRA sub_C72644
+    STA z:bigaron.direction, X
+    BRA .keep_direction
++
 
-.loc_C72634:
-    JSL is_object_aligned
-    BCS sub_C72644
+    JSL is_object_misaligned
+    BCS .keep_direction
     SEP #0x20
-    DEC z:0x33, X
-    BPL sub_C72644
+    DEC z:bigaron.direction_change_countdown, X
+    BPL .keep_direction
 
-.loc_C72640:
-    JSL bigaron_movement
+.not_a_bomb:
+    JSL bigaron_change_direction
 
-sub_C72644:
+.keep_direction:
     REP #0x20
     LDA #0x808
-    STA z:0x42
+    STA z:enemy_hit_players_in_range.RIGHT_LIMIT ; Sets right and left limits to 8
     LDA #0x1002
-    STA z:0x44
-.loc_C72650:
-    JSL sub_C6353D
+    STA z:enemy_hit_players_in_range.DOWN_LIMIT; Sets down limit to 2 and up limit to 16
+.damage_players:
+    JSL enemy_hit_players_in_range
     REP #0x20
-    LDA #0x2020
-    STA z:0x42
-    LDA #0x1010
-    STA z:0x44
-    JSL sub_C6370B
-    BCS .loc_C7266A
+    LDA #0x2020 ; Set left and right limits to 32 pixels
+    STA z:enemy_detect_blast_in_range.RIGHT_LIMIT
+    LDA #0x1010  ; Set up and down limits to 16 pixels
+    STA z:enemy_detect_blast_in_range.DOWN_LIMIT
+    JSL enemy_detect_blast_in_range
+    BCS +
     JML bigaron_render_sprite_animated
-
-.loc_C7266A:
++
+    ; Hit
     SEP #0x20
-    LDA z:0x36, X
-    BNE bigaron_render_sprite_animated
+    LDA z:bigaron.damage_flash, X
+    BNE bigaron_render_sprite_animated ; Already being hit
+    
     LDA #0x40
-    STA z:0x36, X
-    DEC z:0x32, X
+    STA z:bigaron.damage_flash, X
+    DEC z:bigaron.hitpoints, X
     BNE bigaron_render_sprite_animated
-    JML sub_C72842
+    JML bigaron_defeat
 
 bigaron_render_sprite_animated:
     JSL render_sprite_animated
@@ -3703,28 +3448,31 @@ bigaron_render_sprite_animated:
 
 bigaron_hurt:
     SEP #0x20
-    LDA z:0x36, X
-    DEC z:0x36, X
+    LDA z:bigaron.damage_flash, X
+    DEC z:bigaron.damage_flash, X
 
-_bigaron_hurt:
+.flash
 i16
     SEP #0x20
     PHX
+
     LDX #0
     BIT #1
-    BNE .loc_C72694
+    BNE +
     LDX #2
++
 
-.loc_C72694:
     LDY #0
     LDA f:bigaron_palettes, X
-    STA z:0x40
-    LDA #0xC
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
+    
     LDA f:bigaron_palettes+1, X
-    STA z:0x40
-    LDA #0xD
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
+        
     PLX
     JSL render_sprite
     RTL
@@ -3732,620 +3480,583 @@ i16
 bigaron_palettes:
     db BIGARON_PALETTE_1, BIGARON_PALETTE_2
     db BIGARON_FIRE_PALETTE, BIGARON_FIRE_PALETTE
-sub_C726B9:
+
+bigaron_hammer_attack:
 i16
     JSL fast_random
     REP #0x20
     AND #0xFF
     ORA #0x100
-    STA z:0x34, X
+    STA z:bigaron.hammer_countdown, X
     ; fallthrough
 
-sub_C726C7:
+.do_not_reset_timer:
     SEP #0x20
-    LDA z:0x27, X
-    BEQ .loc_C726D1
-    JML sub_C72620
+    LDA z:bigaron.during_attack, X
+    BEQ +
+    JML bigaron_main.loc_C72620
++
 
-.loc_C726D1:
-    INC z:0x27, X
+    INC z:bigaron.during_attack, X
     REP #0x20
-    LDA #addr(byte_C723AF)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C726F1)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C726F1)
-    STA z:2, X
-
-.loc_C726F1:
+    start_animation #addr(bigaron_swing_animation)
+    set_handler .resume_attack
+    
+.resume_attack:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
-    BEQ .loc_C72706
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
+    BEQ +
     JML bigaron_render_sprite_animated
++
 
-.loc_C72706:
     SEP #0x20
-    LDA z:0x36, X
-    BEQ .loc_C72710
+    LDA z:bigaron.damage_flash, X
+    BEQ +
     JML bigaron_hurt
++
 
-.loc_C72710:
     REP #0x20
-    LDA z:0xC, X
-    CMP #0x3003
-    BNE .loc_C72735
+    LDA z:bigaron.current_frame, X ; also loads ticks_left_for_frames
+    CMP #0x3003 ; Frame 3, 48 ticks left. Just as it hits the gound.
+    BNE +
+    
     REP #0x20
-    LDA #addr(unk_C72B30)
-    STA z:0x50
+    LDA #addr(bigaron_shake_sequence)
+    STA z:create_bigaron_screen_shaker.SEQUENCE
     SEP #0x20
-    LDA #bank(unk_C72B30)
-    STA z:0x52
-    JSL sub_C72916
-    JSL sub_C729AD
+    LDA #bank(bigaron_shake_sequence)
+    STA z:create_bigaron_screen_shaker.SEQUENCE + 2
+    JSL create_bigaron_screen_shaker
+    
+    JSL bigaron_create_large_rocks
     LDY #SOUND_BIGARON_HAMMER_STRIKE
     JSL play_sound
++
 
-.loc_C72735:
     REP #0x20
-    LDA #0x808
-    STA z:0x42
-    LDA #0x1030
-    STA z:0x44
+    LDA #0x808 ; Right and left limits set to 8
+    STA z:enemy_detect_blast_in_range.RIGHT_LIMIT
+    LDA #0x1030 ; Down limit set to 48, up limit set to 16
+    STA z:enemy_detect_blast_in_range.DOWN_LIMIT
     SEP #0x20
-    LDA z:0xC, X
-    CMP #3
-    BNE .loc_C7274D
-    JML sub_C72644.loc_C72650
+    LDA z:bigaron.current_frame, X
+    CMP #3 ; Hammer down
+    BNE +
+    JML bigaron_main.damage_players
++
 
-.loc_C7274D:
-    JSL sub_C72644
-    BCC .locret_C72777
+    JSL bigaron_main.keep_direction ; Returns true if the animation finished
+    BCC .ret
     SEP #0x20
-    LDA z:0x32, X
-    BEQ .locret_C72777
+    ; Don't change the handler if hitpoints are at 0, keep_direction already changed it to the death handler
+    LDA z:bigaron.hitpoints, X
+    BEQ .ret
     REP #0x20
-    LDA #addr(bigaron_static_animation)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(bigaron_main)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(bigaron_main)
-    STA z:2, X
+    
+    ; Attack done, switch back to main handler
+    start_animation #addr(bigaron_static_animation)
+    set_handler bigaron_main
 
-.locret_C72777:
+.ret:
     RTL
 
-bigaron_movement:
+bigaron_change_direction:
+    .POTENTIAL_DIR = 0x44
+
     SEP #0x20
-    LDA z:0x26, X
-    BNE .loc_C72799
-    JSL follower_movement_2
+    LDA z:bigaron.direction_axis, X
+    BNE .moving_vertically
+    ; Moving horizontally
+    JSL enemy_find_closest_player
     REP #0x20
-    LDA #3
-    STA z:0x44
-    LDA z:enemy.x_position, X
-    CMP a:addr(player.x_position), Y
-    BEQ .loc_C727D6
-    BCS .loc_C727B2
-    LDA #1
-    STA z:0x44
-    BRA .loc_C727B2
+    LDA #DIR_LEFT ; Default is left
+    STA z:.POTENTIAL_DIR
+    LDA z:bigaron.x_position, X
+    CMP a:player.x_position, Y
+    BEQ .toggle_axis ; Same X as player, toggle axis
+    BCS .test_direction
+    LDA #DIR_RIGHT ; Bigaron on the left, go right
+    STA z:.POTENTIAL_DIR
+    BRA .test_direction
 
-.loc_C72799:
-    JSL follower_movement_2
+.moving_vertically:
+    JSL enemy_find_closest_player
     REP #0x20
-    LDA #0
-    STA z:0x44
-    LDA z:enemy.y_position, X
-    CMP a:addr(player.y_position), Y
-    BEQ .loc_C727D6
-    BCS .loc_C727B2
-    LDA #2
-    STA z:0x44
+    LDA #DIR_UP ; Default is up
+    STA z:.POTENTIAL_DIR
+    LDA z:bigaron.y_position, X
+    CMP a:player.y_position, Y
+    BEQ .toggle_axis ; Same Y as player, toggle axis
+    BCS .test_direction
+    LDA #DIR_DOWN ; Bigaron above, go down
+    STA z:.POTENTIAL_DIR
 
-.loc_C727B2:
+.test_direction:
     REP #0x20
-    LDA z:0x20, X
-    PHA
-    LDA z:0x44
-    STA z:0x20, X
-    LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
-    STA z:0x42
+    LDA z:bigaron.direction, X
+    PHA ; Save the original direction
+    LDA z:.POTENTIAL_DIR
+    STA z:bigaron.direction, X
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK
+    STA z:test_collision.MASK
     JSL test_collision_mask_for_enemy_next_square
     REP #0x20
-    BNE .loc_C727DF
+    BNE .blocked ; Blocked, revert change
     PLA
     JSL fast_random
-    SEP #enemy.direction
+    SEP #0x20
     AND #3
     CLC
     ADC #3
-    STA z:0x33, X
+    STA z:bigaron.direction_change_countdown, X
 
-.loc_C727D6:
-    SEP #enemy.direction
-    LDA z:0x26, X
+.toggle_axis:
+    SEP #0x20
+    LDA z:bigaron.direction_axis, X
     EOR #1
-    STA z:0x26, X
+    STA z:bigaron.direction_axis, X
     RTL
 
-.loc_C727DF:
+.blocked:
+    ; Restore direciton
     PLA
-    STA z:enemy.direction, X
+    STA z:bigaron.direction, X
     RTL
 
-bigaron_straighten:
+bigaron_move_straight:
+    .VECTOR = 0x53
     REP #0x20
-    LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
-    STA z:0x42
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK
+    STA z:test_collision.MASK
     JSL test_collision_mask_for_enemy_next_square
-    BNE .loc_C72840
+    BNE .ret_true
+    
+    ; Can move forward, get movement vector
     SEP #0x20
     LDA #bank(vectors_for_speed_and_direction)
-    STA z:0x53 + 2
+    STA z:.VECTOR + 2
     REP #0x20
-    LDA z:0x20, X
+    
+    LDA z:bigaron.direction, X
     AND #0xF
     ASL A
     ASL A
     CLC
     ADC #addr(vectors_for_speed_and_direction)
-    STA z:0x53
-    LDA z:0x20, X
+    STA z:.VECTOR
+    
+    LDA z:bigaron.direction, X
     BIT #1
-    BNE .loc_C72826
+    BNE +
+    ; Moving vertically, straighten X
     JSL straighten_x
     REP #0x20
-    LDA z:0x10, X
+    LDA z:bigaron.fractional_x, X
     CLC
-    ADC f:[z:0x53]
-    STA z:0x10, X
-    INC z:0x53
-    INC z:0x53
-    LDA z:0x13, X
+    ADC f:[z:.VECTOR]
+    STA z:bigaron.fractional_x, X
+    INC z:.VECTOR
+    INC z:.VECTOR
+    LDA z:bigaron.fractional_y, X
     CLC
-    ADC f:[z:0x53]
-    STA z:0x13, X
+    ADC f:[z:.VECTOR]
+    STA z:bigaron.fractional_y, X
     CLC
     RTL
++
 
-.loc_C72826:
+    ; Moving vertically, straighten Y
     JSL straighten_y
     REP #0x20
-    LDA z:0x10, X
+    LDA z:bigaron.fractional_x, X
     CLC
-    ADC f:[z:0x53]
-    STA z:0x10, X
-    INC z:0x53
-    INC z:0x53
-    LDA z:0x13, X
+    ADC f:[z:.VECTOR]
+    STA z:bigaron.fractional_x, X
+    INC z:.VECTOR
+    INC z:.VECTOR
+    LDA z:bigaron.fractional_y, X
     CLC
-    ADC f:[z:0x53]
-    STA z:0x13, X
+    ADC f:[z:.VECTOR]
+    STA z:bigaron.fractional_y, X
     CLC
     RTL
 
-.loc_C72840:
+.ret_true:
     SEC
     RTL
 
-sub_C72842:
+bigaron_defeat:
 i16
     SEP #0x20
     PHX
+    
     LDX #addr(player_1)
-    LDA z:0x1F, X
-    STA z:0x1E, X
-    LDA z:0x20, X
-    STA z:0x40
+    LDA z:player.real_palette, X
+    STA z:player.effective_palette, X
+    LDA z:player.direction, X
+    STA z:change_direction_and_start_animation.DIRECTION
     JSL change_direction_and_start_animation
+    
     SEP #0x20
     LDX #addr(player_2)
-    LDA z:0x1F, X
-    STA z:0x1E, X
-    LDA z:0x20, X
-    STA z:0x40
+    LDA z:player.real_palette, X
+    STA z:player.effective_palette, X
+    LDA z:player.direction, X
+    STA z:change_direction_and_start_animation.DIRECTION
     JSL change_direction_and_start_animation
+    
     PLX
     REP #0x20
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    LDA #0x181
-    STA z:0x30, X
+    LDA #385
+    STA z:bigaron.scene_delay, X
     REP #0x20
-    LDA #addr(unk_C72B50)
+    LDA #addr(bigaron_exploisions)
     STA z:0x50
     SEP #0x20
-    LDA #bank(unk_C72B50)
+    LDA #bank(bigaron_exploisions)
     STA z:0x52
-    JSL sub_C631D7
-    REP #0x20
-    LDA #addr(.loc_C72894)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C72894)
-    STA z:2, X
+    JSL create_boss_exploisions
+    set_handler .flash
 
-.loc_C72894:
+.flash:
     REP #0x20
-    DEC z:0x30, X
-    LDA z:0x30, X
-    BEQ .loc_C728A0
-    JML _bigaron_hurt
+    DEC z:bigaron.scene_delay, X
+    LDA z:bigaron.scene_delay, X
+    BEQ +
+    JML bigaron_hurt.flash
++
 
-.loc_C728A0:
-    LDA #addr(byte_C723C4)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C728C3)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C728C3)
-    STA z:2, X
+    start_animation #addr(bigaron_death_animation)
+    set_handler .death
     LDY #SOUND_BOSS_DEATH
     JSL play_sound
 
-.loc_C728C3:
+.death:
     JSL render_sprite_animated
-    BCC .locret_C72915
+    BCC .ret
     REP #0x20
     PHX
     LDX #addr(player_1)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     LDX #addr(player_2)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     PLX
-    REP #0x20
-    LDA #addr(.loc_C72902)
-    STA z:0, X
+    set_handler .transition_wait
     SEP #0x20
-    LDA #bank(.loc_C72902)
-    STA z:2, X
-    SEP #0x20
-    LDA #0x80
-    STA z:0x30, X
+    LDA #128
+    STA z:bigaron.scene_delay, X
 
-.loc_C72902:
+.transition_wait:
     SEP #0x20
-    DEC z:0x30, X
-    BNE .locret_C72915
-    LDA #0x39
+    DEC z:bigaron.scene_delay, X
+    BNE .ret
+    LDA #SCREEN_MAP
     STA a:addr(current_screen)
     JSL fade_out_music
     JSL delete_object
 
-.locret_C72915:
+.ret:
     RTL
+    
+struct bigaron_screen_shaker
+    dynamic_object
+    org 0x20
+.frames_left
+    ds 2
+    org 0x30
+.h_scroll
+    ds 2
+.y_scroll
+    ds 2
+.sequence_ptr
+    ds 3
+    org 0x40
+endstruct
 
-sub_C72916:
+create_bigaron_screen_shaker:
+    .SEQUENCE = 0x50 ; Argument
     SEP #0x20
-    create_object sub_C7294D
-    BCS .locret_C7294C
+    create_object bigaron_screen_shaker
+    BCS .ret
     REP #0x20
     LDA a:addr(bg1_h_scroll)
-    STA a:0x30, Y
+    STA a:bigaron_screen_shaker.h_scroll, Y
     LDA a:addr(bg1_v_scroll)
-    STA a:0x32, Y
+    STA a:bigaron_screen_shaker.y_scroll, Y
     LDA #1
-    STA a:0x20, Y
-    LDA z:0x50
-    STA a:0x34, Y
-    LDA z:0x51
-    STA a:0x35, Y
+    STA a:bigaron_screen_shaker.frames_left, Y
+    LDA z:.SEQUENCE
+    STA a:bigaron_screen_shaker.sequence_ptr, Y
+    LDA z:.SEQUENCE + 1
+    STA a:bigaron_screen_shaker.sequence_ptr + 1, Y
 
-.locret_C7294C:
+.ret:
     RTL
 
-sub_C7294D:
+bigaron_screen_shaker:
 i16
+    .SEQUENCE = 0x50
     SEP #0x20
-    handler_return_if_paused
+    handler_return_if_paused_or_in_transition
     REP #0x20
-    DEC z:0x20, X
+    DEC z:bigaron_screen_shaker.frames_left, X
     BNE .ret
-    LDA z:0x30, X
+    LDA z:bigaron_screen_shaker.h_scroll, X
     STA a:addr(bg1_h_scroll)
-    LDA z:0x32, X
+    LDA z:bigaron_screen_shaker.y_scroll, X
     STA a:addr(bg1_v_scroll)
-    LDA z:0x34, X
-    STA z:0x50
-    LDA z:0x35, X
-    STA z:0x51
-    INC z:0x34, X
-    INC z:0x34, X
-    INC z:0x34, X
-    INC z:0x34, X
-    INC z:0x34, X
-    INC z:0x34, X
-    INC z:0x34, X
-    INC z:0x34, X
-    LDY #2
-    LDA f:[z:0x50], Y
+    
+    LDA z:bigaron_screen_shaker.sequence_ptr, X
+    STA z:.SEQUENCE
+
+    LDA z:bigaron_screen_shaker.sequence_ptr + 1, X
+    STA z:.SEQUENCE + 1
+
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    INC z:bigaron_screen_shaker.sequence_ptr, X
+    
+    LDY #shake_item.h_scroll
+    LDA f:[z:.SEQUENCE], Y
     CLC
     ADC a:addr(bg1_h_scroll)
     STA a:addr(bg1_h_scroll)
-    LDY #4
-    LDA f:[z:0x50], Y
+    
+    LDY #shake_item.v_scroll
+    LDA f:[z:.SEQUENCE], Y
     CLC
     ADC a:addr(bg1_v_scroll)
     STA a:addr(bg1_v_scroll)
-    LDA f:[z:0x50]
-    STA z:0x20, X
+    
+    LDA f:[z:.SEQUENCE]
+    STA z:bigaron_screen_shaker.frames_left, X
     BNE .ret
     JSL delete_object
 .ret:
     RTL
 
-sub_C729AD:
+struct bigaron_rock
+    enemy ; not strictly an enemy but shares some fields
+    org 0x16
+.velocity_y:
+    ds 2
+.accel_y:
+    ds 2
+.velocity_x:
+    ds 2
+    
+    org 0x30
+.countdown
+    ds 2
+    
+    org 0x38
+.is_small
+    ds 2
+    
+endstruct
+
+bigaron_create_large_rocks:
+    ; Create 4 to 7 rocks
+    .ROCKS_LEFT = 0x40
     JSL fast_random
     REP #0x20
     AND #3
     CLC
     ADC #4
-    STA z:0x40
+    STA z:.ROCKS_LEFT
 
-.loc_C729BC:
-    JSL sub_C729C5
-    DEC z:0x40
-    BNE .loc_C729BC
+-
+    JSL bigaron_create_large_rock
+    DEC z:.ROCKS_LEFT
+    BNE -
     RTL
 
-sub_C729C5:
+bigaron_create_large_rock:
     SEP #0x20
-    create_object sub_C729EE
+    create_object bigaron_rock_init
     REP #0x20
-    BCS .locret_C729ED
-    LDA z:0x11, X
-    STA a:0x11, Y
-    LDA z:0x14, X
+    BCS .ret
+    LDA z:bigaron.x_position, X
+    STA a:bigaron_rock.x_position, Y
+    LDA z:bigaron.y_position, X
     CLC
-    ADC #0x40
-    STA a:0x14, Y
+    ADC #64
+    STA a:bigaron_rock.y_position, Y
 
-.locret_C729ED:
+.ret:
     RTL
 
-sub_C729EE:
+bigaron_rock_init:
     REP #0x20
+    
     LDA #0x430
-    STA z:0xE, X
-    LDA #0
-    STA z:0x1E, X
+    STA z:bigaron_rock.palette, X
+    
+    LDA #0 ; White Bomberman's palette slot
+    STA z:bigaron_rock.effective_palette, X
+    
     LDA #0x20
-    STA z:0x18, X
+    STA z:bigaron_rock.accel_y, X
+    
     LDA #0
-    STA z:0x38, X
+    STA z:bigaron_rock.is_small, X
+    
     JSL fast_random
     REP #0x20
     AND #0x1FF
     CLC
-    ADC #0xFC00
-    STA z:0x16, X
+    ADC #-0x400
+    STA z:bigaron_rock.velocity_y, X
+    
     JSL fast_random
     REP #0x20
     AND #0x1FF
     CLC
-    ADC #0xFF00
-    STA z:0x1A, X
+    ADC #-0x100
+    STA z:bigaron_rock.velocity_x, X
+    
     JSL fast_random
     REP #0x20
     AND #0xF
     CLC
     ADC #0x10
-    STA z:0x30, X
-    LDA #addr(byte_C723F1)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C72A4D)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C72A4D)
-    STA z:2, X
+    STA z:bigaron_rock.countdown, X
+    
+    start_animation #addr(large_rock_animation)
+    set_handler bigaron_rock
+    ; Fallthrough
 
-.loc_C72A4D:
+bigaron_rock:
+    .SIGN_EXT = 0x40
+
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
-    BEQ .loc_C72A62
-    JML .loc_C72AEA
-
-.loc_C72A62:
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
+    BEQ +
+    JML .still_alive
++
+    ; Add accel to Y
     REP #0x20
-    STZ z:0x40
-    LDA z:0x16, X
+    STZ z:.SIGN_EXT
+    LDA z:bigaron_rock.velocity_y, X
     CLC
-    ADC z:0x18, X
-    STA z:0x16, X
-    BPL .loc_C72A71
-    DEC z:0x40
-
-.loc_C72A71:
+    ADC z:bigaron_rock.accel_y, X
+    STA z:bigaron_rock.velocity_y, X
+    BPL +
+    DEC z:.SIGN_EXT ; Velocity is negative: propagate sign into high byte
++
+    ; Add Y velocity to Y
     CLC
-    ADC z:0x13, X
-    STA z:0x13, X
+    ADC z:bigaron_rock.fractional_y, X
+    STA z:bigaron_rock.fractional_y, X
     SEP #0x20
-    LDA z:0x15, X
-    ADC z:0x40
-    STA z:0x15, X
-    REP #0x20
-    STZ z:0x40
-    LDA z:0x1A, X
-    BPL .loc_C72A88
-    DEC z:0x40
+    LDA z:bigaron_rock.y_position + 1, X
+    ADC z:.SIGN_EXT
+    STA z:bigaron_rock.y_position + 1, X
 
-.loc_C72A88:
+    ; Add X velocity to X
+    REP #0x20
+    STZ z:.SIGN_EXT
+    LDA z:bigaron_rock.velocity_x, X
+    BPL +
+    DEC z:.SIGN_EXT ; Velocity is negative: propagate sign into high byte
++
     CLC
-    ADC z:0x10, X
-    STA z:0x10, X
+    ADC z:bigaron_rock.fractional_x, X
+    STA z:bigaron_rock.fractional_x, X
     SEP #0x20
-    LDA z:0x12, X
-    ADC z:0x40
-    STA z:0x12, X
-    REP #0x20
-    LDA z:0x16, X
-    BMI .loc_C72AEA
-    DEC z:0x30, X
-    BNE .loc_C72AEA
-    LDA z:0x38, X
-    BEQ .loc_C72AA7
-    JML delete_object
+    LDA z:bigaron_rock.x_position + 1, X
+    ADC z:.SIGN_EXT
+    STA z:bigaron_rock.x_position + 1, X
 
-.loc_C72AA7:
-    INC z:0x38, X
+    ; Lifetime/shrink logic
+    REP #0x20
+    LDA z:bigaron_rock.velocity_y, X
+    BMI .still_alive ; Still moving upward: don't count down yet
+    DEC z:bigaron_rock.countdown, X
+    BNE .still_alive ; Lifetime not expired yet
+
+    LDA z:bigaron_rock.is_small, X
+    BEQ .shrink
+    JML delete_object ; Already small, delete
+
+.shrink:
+    ; Transform into a small rock with a randomized new trajectory
+    INC z:bigaron_rock.is_small, X
+
     LDA #0x10
-    STA z:0x18, X
+    STA z:bigaron_rock.accel_y, X ; Smaller objects had a slower graviity pull in 1993
+
     JSL fast_random
     REP #0x20
     AND #0x7F
     CLC
-    ADC #0xFE80
-    STA z:0x16, X
+    ADC #-0x180
+    STA z:bigaron_rock.velocity_y, X
+
     JSL fast_random
     REP #0x20
     AND #0x7F
     CLC
-    ADC #0xFFC0
-    STA z:0x1A, X
+    ADC #-0x40
+    STA z:bigaron_rock.velocity_x, X
+
     JSL fast_random
     REP #0x20
     AND #0xF
     CLC
     ADC #8
-    STA z:0x30, X
-    LDA #addr(byte_C723F6)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    STA z:bigaron_rock.countdown, X
 
-.loc_C72AEA:
+    start_animation #addr(bigaron_small_rock_animation)
+
+.still_alive:
     REP #0x20
-    LDA #0x808
-    STA z:0x40
-    JSL sub_C634FC
+    LDA #0x808 ; Set .X_LIMIT and .Y_LIMIT to 8
+    STA z:enemy_hit_players_in_centered_range.Y_LIMIT
+    JSL enemy_hit_players_in_centered_range
     JSL load_animation_frame
     RTL
 
-    db 0
-    db 0xFF
-    db 0x50
-    db 0
-    db 0x20
-    db 0
-    db 0x80
-    db 0
-    db 0
-    db 0xFB
-    db 0
-    db 0xFC
-    db 0
-    db 0xFD
-    db 0
-    db 0xFE
-    db 4
-    db 0
-    db 8
-    db 0
-    db    0xC
-    db 0
-    db 0x10
-    db 0
-    db 0
-    db 0
-    db 0x80
-    db 0
-    db 0
-    db 1
-    db 0x80
-    db 1
-    db 0
-    db 0
-    db 0x80
-    db 0xFF
-    db 0
-    db 0xFF
-    db 0x80
-    db 0xFE
-    db 0
-    db 0xFF
-    db 8
-    db 0
-    db 0
-    db 0
-off_C72B28:
+; Unused garbage
+    db 0x00, 0xFF, 0x50, 0x00, 0x20, 0x00, 0x80, 0x00
+    db 0x00, 0xFB, 0x00, 0xFC, 0x00, 0xFD, 0x00, 0xFE
+    db 0x04, 0x00, 0x08, 0x00, 0x0C, 0x00, 0x10, 0x00
+    db 0x00, 0x00, 0x80, 0x00, 0x00, 0x01, 0x80, 0x01
+    db 0x00, 0x00, 0x80, 0xFF, 0x00, 0xFF, 0x80, 0xFE
+    db 0x00, 0xFF, 0x08, 0x00, 0x00, 0x00
+    
+bigaron_static_animation_array:
     da bigaron_static_animation, bigaron_static_animation
     da bigaron_static_animation, bigaron_static_animation
-unk_C72B30:
-    db 6
-    db 0
-    db 0
-    db 0
-    db 0xFD
-    db 0xFF
-    db 0
-    db 0
-    db 3
-    db 0
-    db 0
-    db 0
-    db 3
-    db 0
-    db 0
-    db 0
-    db 2
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_C72B50:
+    
+struct shake_item frames, h_scroll, v_scroll
+.frames:
+    dw $frames
+.h_scroll:
+    dw $h_scroll
+.v_scroll:
+    dw $v_scroll
+
+    dw 0
+endstruct
+
+bigaron_shake_sequence:
+    shake_item 6, 0, -3
+    shake_item 3, 0,  3
+    shake_item 2, 0,  1
+    shake_item 0, 0,  0
+    
+bigaron_exploisions:
     db 0x3F
     db 0
     db 0x3F
@@ -5371,12 +5082,7 @@ i16
     STA z:0xE, X
     LDA #3
     STA z:0x21, X
-    REP #0x20
-    LDA #addr(_clown_mask)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(_clown_mask)
-    STA z:2, X
+    set_handler _clown_mask
 
 _clown_mask:
     REP #0x20
@@ -5394,12 +5100,7 @@ _clown_mask:
     STA z:0x40
     LDA #1
     JSL set_palette
-    REP #0x20
-    LDA #addr(.loc_C73D4E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C73D4E)
-    STA z:2, X
+    set_handler .loc_C73D4E
 
 .loc_C73D4E:
     REP #0x20
@@ -5409,19 +5110,8 @@ _clown_mask:
     BNE .locret_C73DBB
     LDA #0x80
     STA a:addr(bg2_h_scroll)
-    LDA #addr(byte_C73A58)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C73D7B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C73D7B)
-    STA z:2, X
+    start_animation #addr(byte_C73A58)
+    set_handler .loc_C73D7B
 
 .loc_C73D7B:
     JSL render_sprite_animated
@@ -5429,13 +5119,7 @@ _clown_mask:
     REP #0x20
     LDA #0x2400
     STA z:0x30, X
-    LDA #addr(byte_C73BF0)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C73BF0)
     SEP #0x20
     LDA a:addr(game_flags)
     AND #~GAME_FLAGS_BATTLE_DELAY
@@ -5445,12 +5129,7 @@ _clown_mask:
     STA z:0x40
     LDA #1
     JSL set_palette
-    REP #0x20
-    LDA #addr(sub_C73DBC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C73DBC)
-    STA z:2, X
+    set_handler sub_C73DBC
 .locret_C73DBB:
     RTL
 
@@ -5458,14 +5137,13 @@ sub_C73DBC:
 i16
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C73DD1
     JML .loc_C73E95
 
 .loc_C73DD1:
     SEP #0x20
-    JSL follower_movement_2
+    JSL enemy_find_closest_player
     REP #0x20
     LDA #1
     STA z:0x40
@@ -5566,7 +5244,7 @@ i16
     SEC
     SBC #0x20
     STA z:0x14, X
-    JSL sub_C6370B
+    JSL enemy_detect_blast_in_range
     REP #0x20
     PLA
     STA z:0x14, X
@@ -5583,7 +5261,7 @@ i16
     SEC
     SBC #0x20
     STA z:0x14, X
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     PLA
     STA z:0x14, X
     JSL render_sprite_animated
@@ -5664,18 +5342,12 @@ sub_C73EF1:
     LDA #7
     STA z:0x40
     JSL sub_C7412A
-    REP #0x20
-    LDA #addr(.loc_C73F6B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C73F6B)
-    STA z:2, X
+    set_handler .loc_C73F6B
 
 .loc_C73F6B:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C73F80
     JML .loc_C73FCD
 
@@ -5706,12 +5378,7 @@ sub_C73EF1:
     BNE .loc_C73FCD
     STZ z:0x18, X
     JSL sub_C73EC9
-    REP #0x20
-    LDA #addr(sub_C73DBC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C73DBC)
-    STA z:2, X
+    set_handler sub_C73DBC
 
 .loc_C73FCD:
     REP #0x20
@@ -5725,7 +5392,7 @@ sub_C73EF1:
     SEC
     SBC #0x20
     STA z:0x14, X
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     PLA
     STA z:0x14, X
     JSL render_sprite
@@ -5771,23 +5438,12 @@ sub_C73FF8:
     SEP #0x20
     LDA #bank(unk_C740AA)
     STA z:0x52
-    JSL sub_C631D7
+    JSL create_boss_exploisions
     REP #0x20
     PLA
     STA z:0x14, X
-    LDA #addr(byte_C73B8F)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C74069)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C74069)
-    STA z:2, X
+    start_animation #addr(byte_C73B8F)
+    set_handler .loc_C74069
 
 .loc_C74069:
     REP #0x20
@@ -5831,19 +5487,8 @@ unk_C740AA:
     
 sub_C740B2:
     REP #0x20
-    LDA #addr(byte_C73BF9)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C740D7)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C740D7)
-    STA z:2, X
+    start_animation #addr(byte_C73BF9)
+    set_handler .loc_C740D7
     LDY #SOUND_BOSS_DEATH
     JSL play_sound
 
@@ -5853,24 +5498,11 @@ sub_C740B2:
     REP #0x20
     PHX
     LDX #addr(player_1)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     LDX #addr(player_2)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     PLX
-    REP #0x20
-    LDA #addr(.loc_C74116)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C74116)
-    STA z:2, X
+    set_handler .loc_C74116
     SEP #0x20
     LDA #0x80
     STA z:0x30, X
@@ -5936,25 +5568,13 @@ sub_C74158:
     CLC
     ADC z:0x46
     STA z:0x14, X
-    LDA #addr(byte_C73C2E)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C741B5)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C741B5)
-    STA z:2, X
+    start_animation #addr(byte_C73C2E)
+    set_handler .loc_C741B5
 
 .loc_C741B5:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C741CA
     JML .loc_C7420C
 
@@ -6000,9 +5620,9 @@ sub_C74158:
 
 .loc_C7420C:
     REP #0x20
-    LDA #0x808
-    STA z:0x40
-    JSL sub_C634FC
+    LDA #0x808 ; Set .X_LIMIT and .Y_LIMIT to 8
+    STA z:enemy_hit_players_in_centered_range.Y_LIMIT
+    JSL enemy_hit_players_in_centered_range
     JSL load_animation_frame
     RTL
 
@@ -6391,13 +6011,7 @@ i16
     LDY z:0x26, X
     LDA #0
     STA a:addr(collision_map), Y
-    LDA #addr(byte_C745F0)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C745F0)
     SEP #0x20
     LDA #0
     STA z:0x36, X
@@ -6430,16 +6044,11 @@ i16
     LDA #bank(word_C74680)
     STA z:0x52
     JSL sub_C769AE
-    REP #0x20
-    LDA #addr(.loc_C74796)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C74796)
-    STA z:2, X
+    set_handler .loc_C74796
 
 .loc_C74796:
     SEP #0x20
-    handler_return_if_paused
+    handler_return_if_paused_or_in_transition
     SEP #0x20
     LDY #7
     LDA #0x3B
@@ -6484,12 +6093,7 @@ i16
     JSL set_palette
     REP #0x20
     STZ z:0x30, X
-    REP #0x20
-    LDA #addr(.loc_C74825)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C74825)
-    STA z:2, X
+    set_handler .loc_C74825
 
 .loc_C74825:
     REP #0x20
@@ -6503,12 +6107,7 @@ i16
     AND #~GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
     JSL sub_C74CD2
-    REP #0x20
-    LDA #addr(sub_C74852)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C74852)
-    STA z:2, X
+    set_handler sub_C74852
 
 .loc_C7484D:
     JSL render_sprite_animated
@@ -6520,8 +6119,7 @@ sub_C74852:
 i16
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C74867
     JML .loc_C74887
 
@@ -6531,7 +6129,7 @@ i16
     STA z:0x42
     LDA #0x1010
     STA z:0x44
-    JSL sub_C6370B
+    JSL enemy_detect_blast_in_range
     BCC .loc_C7487D
     JML sub_C74A1C
 
@@ -6545,7 +6143,7 @@ i16
     STA z:0x42
     LDA #0x1010
     STA z:0x44
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     RTL
 
@@ -6553,12 +6151,7 @@ sub_C7489C:
     REP #0x20
     LDA #0x2E
     STA z:0x34, X
-    REP #0x20
-    LDA #addr(.loc_C748B0)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C748B0)
-    STA z:2, X
+    set_handler .loc_C748B0
 
 .loc_C748B0:
     REP #0x20
@@ -6566,10 +6159,10 @@ sub_C7489C:
     STA z:0x42
     LDA #0x1010
     STA z:0x44
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     SEP #0x20
-    handler_return_if_paused
+    handler_return_if_paused_or_in_transition
     REP #0x20
     DEC z:0x34, X
     LDA z:0x34, X
@@ -6596,20 +6189,9 @@ sub_C7489C:
     JML .loc_C74925
 
 .loc_C74904:
-    LDA #addr(byte_C745F0)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C745F0)
     JSL sub_C74CD2
-    REP #0x20
-    LDA #addr(sub_C74852)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C74852)
-    STA z:2, X
+    set_handler sub_C74852
 .locret_C74924:
     RTL
 
@@ -6648,16 +6230,11 @@ sub_C7489C:
     SEP #0x20
     LDA #bank(word_C74A0C)
     STA z:0x52
-    JSL sub_C631D7
+    JSL create_boss_exploisions
     REP #0x20
     PLA
     STA z:0x14, X
-    REP #0x20
-    LDA #addr(.loc_C74987)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C74987)
-    STA z:2, X
+    set_handler .loc_C74987
 
 .loc_C74987:
     JSL render_sprite_animated
@@ -6667,19 +6244,8 @@ sub_C7489C:
     JML .locret_C74924
 
 .loc_C74995:
-    LDA #addr(byte_C7465B)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C749B9)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C749B9)
-    STA z:2, X
+    start_animation #addr(byte_C7465B)
+    set_handler .loc_C749B9
     LDY #SOUND_BOSS_DEATH
     JSL play_sound
     RTL
@@ -6690,24 +6256,11 @@ sub_C7489C:
     REP #0x20
     PHX
     LDX #addr(player_1)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     LDX #addr(player_2)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     PLX
-    REP #0x20
-    LDA #addr(.loc_C749F8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C749F8)
-    STA z:2, X
+    set_handler .loc_C749F8
     SEP #0x20
     LDA #0x80
     STA z:0x30, X
@@ -6733,30 +6286,18 @@ mecha_onita_palettes:
     db MECHA_ONITA_SHOCK_PALETTE, UNKNOWN
     
 sub_C74A1C:
-    REP #0x20
-    LDA #addr(.loc_C74A46)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C74A46)
-    STA z:2, X
+    set_handler .loc_C74A46
     REP #0x20
     LDA #0
     STA z:0x34, X
-    LDA #addr(byte_C745F5)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C745F5)
     LDY #SOUND_MECHA_ONITA_HIT
     JSL play_sound
 
 .loc_C74A46:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C74A5B
     JML .loc_C74A98
 
@@ -6779,7 +6320,7 @@ sub_C74A1C:
     STA z:0x42
     LDA #0x1010
     STA z:0x44
-    JSL sub_C6370B
+    JSL enemy_detect_blast_in_range
     BCC .loc_C74AAD
     REP #0x20
     LDA a:addr(collision_map), Y
@@ -6794,17 +6335,12 @@ sub_C74A1C:
     STA z:0x42
     LDA #0x1010
     STA z:0x44
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     RTL
 
 .loc_C74AAD:
-    REP #0x20
-    LDA #addr(.loc_C74AC3)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C74AC3)
-    STA z:2, X
+    set_handler .loc_C74AC3
     REP #0x20
     LDA #0x80
     STA z:0x34, X
@@ -6813,8 +6349,7 @@ sub_C74A1C:
 .loc_C74AC3:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C74AD8
     JML .loc_C74B14
 
@@ -6824,7 +6359,7 @@ sub_C74A1C:
     STA z:0x42
     LDA #0x1010
     STA z:0x44
-    JSL sub_C6370B
+    JSL enemy_detect_blast_in_range
     BCC .loc_C74AEE
     JML sub_C74A1C
 
@@ -6832,20 +6367,9 @@ sub_C74A1C:
     REP #0x20
     DEC z:0x34, X
     BNE .loc_C74B14
-    LDA #addr(byte_C745F0)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C745F0)
     JSL sub_C74CD2
-    REP #0x20
-    LDA #addr(sub_C74852)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C74852)
-    STA z:2, X
+    set_handler sub_C74852
 
 .loc_C74B14:
     REP #0x20
@@ -6853,7 +6377,7 @@ sub_C74A1C:
     STA z:0x42
     LDA #0x1010
     STA z:0x44
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     RTL
 
@@ -7908,35 +7432,23 @@ i16
     JSL sub_C75E56
     JSL sub_C75C34
     JSL sub_C75BB2
-    REP #0x20
-    LDA #addr(.loc_C758CC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C758CC)
-    STA z:2, X
+    set_handler .loc_C758CC
 
 .loc_C758CC:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C758E1
     JML sub_C75967
 
 .loc_C758E1:
     JSL sub_C75FE0
-    REP #0x20
-    LDA #addr(.loc_C758F2)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C758F2)
-    STA z:2, X
+    set_handler .loc_C758F2
 
 .loc_C758F2:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C75907
     JML sub_C75967
 
@@ -7951,18 +7463,12 @@ i16
     LDA a:addr(game_flags)
     AND #~GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    REP #0x20
-    LDA #addr(.loc_C75928)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C75928)
-    STA z:2, X
+    set_handler .loc_C75928
 
 .loc_C75928:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C7593D
     JML sub_C75967
 
@@ -8004,8 +7510,7 @@ sub_C75967:
     LDY #0
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C7599F
     JML .loc_C759C1
 
@@ -8094,12 +7599,7 @@ i16
     LDA z:0x3E, X
     CMP #7
     BCC .locret_C75A67
-    REP #0x20
-    LDA #addr(sub_C75A70)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75A70)
-    STA z:2, X
+    set_handler sub_C75A70
 
 .locret_C75A67:
     RTL
@@ -8118,21 +7618,15 @@ sub_C75A70:
     SEP #0x20
     LDA #bank(word_C75A68)
     STA z:0x52
-    JSL sub_C631D7
-    REP #0x20
-    LDA #addr(.loc_C75A9A)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C75A9A)
-    STA z:2, X
+    JSL create_boss_exploisions
+    set_handler .loc_C75A9A
 
 .loc_C75A9A:
     REP #0x20
     STZ z:0x38, X
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C75AB3
     JML sub_C75967
 
@@ -8303,19 +7797,8 @@ sub_C75BCF:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    LDA #addr(byte_C756D9)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C75BF7)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C75BF7)
-    STA z:2, X
+    start_animation #addr(byte_C756D9)
+    set_handler .loc_C75BF7
 
 .loc_C75BF7:
     REP #0x20
@@ -8344,12 +7827,7 @@ sub_C75BCF:
     RTL
 
 .loc_C75C26:
-    REP #0x20
-    LDA #addr(sub_C75FA8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75FA8)
-    STA z:2, X
+    set_handler sub_C75FA8
     RTL
 
 sub_C75C34:
@@ -8366,19 +7844,8 @@ sub_C75C51:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    LDA #addr(byte_C7576E)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C75C79)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C75C79)
-    STA z:2, X
+    start_animation #addr(byte_C7576E)
+    set_handler .loc_C75C79
 
 .loc_C75C79:
     REP #0x20
@@ -8399,19 +7866,14 @@ sub_C75C51:
     STA z:0x42
     LDA #0x38
     STA z:0x44
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
     JSL render_sprite_animated
 
 .locret_C75CAC:
     RTL
 
 .loc_C75CAD:
-    REP #0x20
-    LDA #addr(sub_C75FA8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75FA8)
-    STA z:2, X
+    set_handler sub_C75FA8
     RTL
 
 sub_C75CBB:
@@ -8428,19 +7890,8 @@ sub_C75CBB:
 
 sub_C75CE4:
     REP #0x20
-    LDA #addr(byte_C75722)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C75D02)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75D02)
-    STA z:2, X
+    start_animation #addr(byte_C75722)
+    set_handler sub_C75D02
     ; fallthrough
 
 sub_C75D02:
@@ -8461,13 +7912,7 @@ sub_C75D02:
     STA a:0x30, Y
     LDA #0x10
     STA z:0x20, X
-    LDA #addr(byte_C75727)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C75727)
     JSL fast_random
     REP #0x20
     AND #3
@@ -8475,12 +7920,7 @@ sub_C75D02:
     ADC #8
     STA z:0x22, X
     STA z:0x24, X
-    REP #0x20
-    LDA #addr(sub_C75D75)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75D75)
-    STA z:2, X
+    set_handler sub_C75D75
 
 .loc_C75D5A:
     JSL load_animation_frame
@@ -8491,12 +7931,7 @@ sub_C75D5E:
     LDY z:0x38, X
     LDA a:0x3C, Y
     BEQ .locret_C75D74
-    REP #0x20
-    LDA #addr(sub_C75FA8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75FA8)
-    STA z:2, X
+    set_handler sub_C75FA8
 
 .locret_C75D74:
     RTL
@@ -8513,19 +7948,8 @@ sub_C75D75:
     JSL load_animation_frame
     BCC sub_C75D5E
     REP #0x20
-    LDA #addr(byte_C7574C)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(spiderer_launch_bomb)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(spiderer_launch_bomb)
-    STA z:2, X
+    start_animation #addr(byte_C7574C)
+    set_handler spiderer_launch_bomb
     RTL
 
 spiderer_launch_bomb:
@@ -8533,8 +7957,7 @@ i16
     JSL load_animation_frame
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C75DC5
     JML sub_C75D5E
 
@@ -8553,19 +7976,8 @@ i16
     JML sub_C75D5E
 
 .loc_C75DE5:
-    LDA #addr(byte_C75751)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C75E02)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75E02)
-    STA z:2, X
+    start_animation #addr(byte_C75751)
+    set_handler sub_C75E02
     RTL
 
 sub_C75E02:
@@ -8578,19 +7990,8 @@ sub_C75E02:
     LDY z:0x38, X
     LDA #1
     STA a:0x24, Y
-    LDA #addr(byte_C75722)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C75E32)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C75E32)
-    STA z:2, X
+    start_animation #addr(byte_C75722)
+    set_handler .loc_C75E32
 
 .loc_C75E32:
     JSL load_animation_frame
@@ -8603,12 +8004,7 @@ sub_C75E02:
     LDY z:0x38, X
     LDA #0
     STA a:0x24, Y
-    REP #0x20
-    LDA #addr(sub_C75D02)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75D02)
-    STA z:2, X
+    set_handler sub_C75D02
     RTL
 
 sub_C75E56:
@@ -8625,19 +8021,8 @@ sub_C75E73:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    LDA #addr(byte_C756EE)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C75E9B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75E9B)
-    STA z:2, X
+    start_animation #addr(byte_C756EE)
+    set_handler sub_C75E9B
 
 sub_C75E9B:
     REP #0x20
@@ -8650,19 +8035,8 @@ sub_C75E9B:
     STA z:0x14, X
     LDA a:0x24, Y
     BEQ .loc_C75ECE
-    LDA #addr(byte_C756F3)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C75EE9)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75EE9)
-    STA z:2, X
+    start_animation #addr(byte_C756F3)
+    set_handler sub_C75EE9
 
 .loc_C75ECE:
     JSL render_sprite_animated
@@ -8673,12 +8047,7 @@ sub_C75ED2:
     LDY z:0x38, X
     LDA a:0x3C, Y
     BEQ .locret_C75EE8
-    REP #0x20
-    LDA #addr(sub_C75FA8)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75FA8)
-    STA z:2, X
+    set_handler sub_C75FA8
 
 .locret_C75EE8:
     RTL
@@ -8687,19 +8056,8 @@ sub_C75EE9:
     JSL render_sprite_animated
     BCC .loc_C75F13
     REP #0x20
-    LDA #addr(byte_C75708)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(.loc_C75F0F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C75F0F)
-    STA z:2, X
+    start_animation #addr(byte_C75708)
+    set_handler .loc_C75F0F
     BRA .loc_C75F13
 
 .loc_C75F0F:
@@ -8714,12 +8072,7 @@ sub_C75EE9:
     STA a:0x24, Y
     LDA #0x40
     STA z:0x20, X
-    REP #0x20
-    LDA #addr(sub_C75F36)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75F36)
-    STA z:2, X
+    set_handler sub_C75F36
     ; fallthrough
 
 j_sub_C75ED2:
@@ -8729,8 +8082,7 @@ sub_C75F36:
     JSL render_sprite_animated
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C75F4F
     JML j_sub_C75ED2
 
@@ -8738,19 +8090,8 @@ sub_C75F36:
     REP #0x20
     DEC z:0x20, X
     BNE j_sub_C75ED2
-    LDA #addr(byte_C7570D)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C75F72)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75F72)
-    STA z:2, X
+    start_animation #addr(byte_C7570D)
+    set_handler sub_C75F72
     RTL
 
 sub_C75F72:
@@ -8763,37 +8104,20 @@ sub_C75F72:
     STA a:0x30, Y
     LDA #0
     STA a:0x24, Y
-    LDA #addr(byte_C756EE)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
-    REP #0x20
-    LDA #addr(sub_C75E9B)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C75E9B)
-    STA z:2, X
+    start_animation #addr(byte_C756EE)
+    set_handler sub_C75E9B
     RTL
 
 sub_C75FA8:
     REP #0x20
     LDA #0x100
     STA z:0x30, X
-    REP #0x20
-    LDA #addr(.loc_C75FBC)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C75FBC)
-    STA z:2, X
+    set_handler .loc_C75FBC
 
 .loc_C75FBC:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C75FD1
     JML .loc_C75FDB
 
@@ -9455,7 +8779,7 @@ sub_C769AE:
 
 sub_C769DD:
     SEP #0x20
-    handler_return_if_paused
+    handler_return_if_paused_or_in_transition
     REP #0x20
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_BATTLE_DELAY
@@ -9520,31 +8844,19 @@ i16
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    LDA #addr(byte_C757D6)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C757D6)
     SEP #0x20
     LDY #7
     LDA #addr(INTRO_BALOON_PALETTE)
     STA z:0x40
     LDA #0xC
     JSL set_palette
-    REP #0x20
-    LDA #addr(.loc_C76AB2)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C76AB2)
-    STA z:2, X
+    set_handler .loc_C76AB2
 
 .loc_C76AB2:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C76AC7
     JML .loc_C76ADD
 
@@ -9575,7 +8887,7 @@ i16
     STA z:0x42
     LDA #0x2002
     STA z:0x44
-    JSL sub_C6353D
+    JSL enemy_hit_players_in_range
 
 .loc_C76B01:
     REP #0x20
@@ -9626,12 +8938,7 @@ i16
     STA z:0x34, X
     LDA #5
     STA z:0x36, X
-    REP #0x20
-    LDA #addr(.loc_C76BD5)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C76BD5)
-    STA z:2, X
+    set_handler .loc_C76BD5
     SEP #0x20
     LDY #0
     LDA #0x75
@@ -9668,8 +8975,7 @@ i16
 .loc_C76BD5:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C76BEA
     JML sub_C76D6C
 
@@ -9686,18 +8992,12 @@ i16
 .loc_C76BFC:
     LDA #0x80
     STA z:0x30, X
-    REP #0x20
-    LDA #addr(.loc_C76C0E)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C76C0E)
-    STA z:2, X
+    set_handler .loc_C76C0E
 
 .loc_C76C0E:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C76C23
     JML sub_C76D6C
 
@@ -9708,19 +9008,13 @@ i16
     JML sub_C76D6C
 
 .loc_C76C2D:
-    REP #0x20
-    LDA #addr(sub_C76C3A)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C76C3A)
-    STA z:2, X
+    set_handler sub_C76C3A
     ; fallthrough
 
 sub_C76C3A:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C76C4F
     JML sub_C76D6C
 
@@ -9737,7 +9031,7 @@ sub_C76C3A:
     JML .loc_C76CF6
 
 .loc_C76C66:
-    JSL follower_movement_2
+    JSL enemy_find_closest_player
     REP #0x20
     LDA z:0x2A, X
     PHA
@@ -9859,12 +9153,7 @@ sub_C76C3A:
     BEQ .loc_C76D4C
     LDY #0x17
     JSL play_sound
-    REP #0x20
-    LDA #addr(sub_C76E11)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C76E11)
-    STA z:2, X
+    set_handler sub_C76E11
 
 .loc_C76D4C:
     REP #0x20
@@ -9953,18 +9242,12 @@ i16
     LDA #bank(word_C76EAE + 2)
     STA z:0x52
     JSL schedule_vblank_function
-    REP #0x20
-    LDA #addr(.loc_C76E43)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C76E43)
-    STA z:2, X
+    set_handler .loc_C76E43
 
 .loc_C76E43:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C76E58
     JML sub_C76D6C
 
@@ -10001,12 +9284,7 @@ i16
     LDA #bank(word_C76EAE + 2)
     STA z:0x52
     JSL schedule_vblank_function
-    REP #0x20
-    LDA #addr(sub_C76C3A)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C76C3A)
-    STA z:2, X
+    set_handler sub_C76C3A
 
 .loc_C76EAB:
     JMP a:sub_C76D6C
@@ -10173,27 +9451,15 @@ sub_C76F8F:
 sub_C76FD6:
 i16
     REP #0x20
-    LDA #addr(byte_C757C4)
-    STA z:0x50
-    SEP #0x20
-    PHK
-    PLA
-    STA z:0x52
-    JSL start_animation
+    start_animation #addr(byte_C757C4)
     LDY #7
     JSL play_sound
-    REP #0x20
-    LDA #addr(.loc_C76FFB)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C76FFB)
-    STA z:2, X
+    set_handler .loc_C76FFB
 
 .loc_C76FFB:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C77010
     JML .loc_C77072
 
@@ -10246,12 +9512,7 @@ i16
     PLX
     LDA z:0x40
     STA z:0x16, X
-    REP #0x20
-    LDA #addr(sub_C77077)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C77077)
-    STA z:2, X
+    set_handler sub_C77077
 
 .loc_C77072:
     JSL render_sprite_animated
@@ -10260,8 +9521,7 @@ i16
 sub_C77077:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C7708C
     JML .loc_C77121
 
@@ -10392,7 +9652,7 @@ i16
     SEP #0x20
     LDA #bank(word_C77159)
     STA z:0x52
-    JSL sub_C631D7
+    JSL create_boss_exploisions
     REP #0x20
     PLA
     STA z:0x14, X
@@ -10412,18 +9672,12 @@ i16
     STA z:0x40
     JSL change_direction_and_start_animation
     PLX
-    REP #0x20
-    LDA #addr(.loc_C771C3)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(.loc_C771C3)
-    STA z:2, X
+    set_handler .loc_C771C3
 
 .loc_C771C3:
     SEP #0x20
     handler_return_in_transition
-
-    BIT #0x41
+    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ .loc_C771D8
     JML .loc_C771F7
 
@@ -10521,24 +9775,14 @@ i16
     STA z:0x11, X
     LDA #0xB8
     STA z:0x14, X
-    REP #0x20
-    LDA #addr(sub_C4273F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C4273F)
-    STA z:2, X
+    set_handler sub_C4273F
     LDX #addr(player_2)
     REP #0x20
     LDA #0xA8
     STA z:0x11, X
     LDA #0xB8
     STA z:0x14, X
-    REP #0x20
-    LDA #addr(sub_C4273F)
-    STA z:0, X
-    SEP #0x20
-    LDA #bank(sub_C4273F)
-    STA z:2, X
+    set_handler sub_C4273F
     PLX
     JSL sub_C774F0
     REP #0x20
@@ -10628,17 +9872,9 @@ i16
     REP #0x20
     PHX
     LDX #addr(player_1)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     LDX #addr(player_2)
-    LDA #0
-    STA z:0x40
-    LDA #1
-    STA z:0x42
-    JSL add_to_score_if_allowed
+    add_to_score_if_allowed 10000
     PLX
     RTL
 
