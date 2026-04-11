@@ -492,17 +492,17 @@ byte_C30938:
     db 0x60, 0x20, 0x62, 0x2C, 0x64, 0x28, 0x66, 0x2C
 byte_C30940:
     db 0x68, 0x20, 0x6A, 0x2C, 0x6C, 0x28, 0x6E, 0x2C
-some_array_of_scores:
-    dw 0, 0x100     ; 0
-    dw 0, 0x200     ; 2
-    dw 0, 0x400     ; 4
-    dw 0, 0x800     ; 6
-    dw 0, 0x1600    ; 8
-    dw 0, 0x3200    ; 0xA
-    dw 0, 0x6400    ; 0xC
-    dw 0, 0         ; 0xE
-    dw 0, 0         ; 0x10
-    dw 0, 0         ; 0x12
+enemy_scores:
+    dl 0x100     << 16
+    dl 0x200     << 16
+    dl 0x400     << 16
+    dl 0x800     << 16
+    dl 0x1600    << 16
+    dl 0x3200    << 16
+    dl 0x6400    << 16
+    dl 0
+    dl 0
+    dl 0
 
 gpu_registers_init_table:
     registers_init_table_entry INIDISP, 0x8F
@@ -884,9 +884,9 @@ moving_platform_graphics:
     df carat_diamond_graphic_0
     df carat_diamond_graphic_1
     df carat_diamond_graphic_2
-missle_graphics:
-    df missle_graphic_0
-    df missle_graphic_1
+missile_graphics:
+    df missile_graphic_0
+    df missile_graphic_1
 metal_propene_graphics:
     df metal_propene_graphic_0
     df metal_propene_graphic_1

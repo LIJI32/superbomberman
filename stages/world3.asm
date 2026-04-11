@@ -193,8 +193,8 @@ level_3_8_graphics_array:
     df mook_graphic_1
     df crane_graphic
     df bomberman_extra_graphic_1
-    df missle_graphic_0
-    df missle_graphic_1
+    df missile_graphic_0
+    df missile_graphic_1
     df menu_graphic_0
     df big_explosion_graphic_0
     df big_explosion_graphic_1
@@ -221,4 +221,4 @@ crane_hand_boss_palettes:
     db BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
     db BONUS_PALETTE_2, BACKGROUND_BLACK_PALETTE, BACKGROUND_BLACK_PALETTE; a_palettes
     db BLACK_PALETTE, BLACK_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-    db BLACK_PALETTE, BLACK_PALETTE, MISSLE_PALETTE, WHITE_PALETTE; b_palettes
+    db BLACK_PALETTE, BLACK_PALETTE, MISSILE_PALETTE, WHITE_PALETTE; b_palettes

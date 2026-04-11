@@ -45,6 +45,28 @@ macro set_handler handler
     STA z:object.handler + 2, X
 endmacro
 
+macro set_enemy_animations animations
+    REP #0x20
+    LDA #addr($animations)
+    STA z:enemy.animations, X
+    SEP #0x20
+    LDA #bank($animations)
+    STA z:enemy.animations + 2, X
+endmacro
+
+ENEMY_SCORE_100  = 0
+ENEMY_SCORE_200  = 1
+ENEMY_SCORE_400  = 2
+ENEMY_SCORE_800  = 3
+ENEMY_SCORE_1600 = 4
+ENEMY_SCORE_3200 = 5
+ENEMY_SCORE_6400 = 6
+
+macro set_enemy_score score
+    LDA #(ENEMY_SCORE_$score)
+    STA z:enemy.score_index, X
+endmacro
+
 macro start_animation animation...
     LDA $animation
     STA z:start_animation.ANIMATION
@@ -244,4 +266,12 @@ macro allocate_object_palette palette_index
     LDA z:allocate_sprite_palette.SLOT_INDEX
     STA a:sprite.effective_palette, Y
     STA a:sprite.real_palette, Y
+endmacro
+
+macro animation_frame_tile_count
+    db (.end - . - 1) / frame_oam_tile.sizeof
+endmacro
+
+macro animation_frame_count
+    db (.end - . - 1) / animation_frame.sizeof
 endmacro

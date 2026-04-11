@@ -83,8 +83,8 @@ asset graphics/sprites, mecha_bomberman_graphic_3
 asset graphics/sprites, carat_diamond_graphic_0
 asset graphics/sprites, carat_diamond_graphic_1
 asset graphics/sprites, carat_diamond_graphic_2
-asset graphics/sprites, missle_graphic_0
-asset graphics/sprites, missle_graphic_1
+asset graphics/sprites, missile_graphic_0
+asset graphics/sprites, missile_graphic_1
 asset graphics/sprites, kouraru_graphic
 asset graphics/sprites, pakupa_graphic_0
 asset graphics/sprites, pakupa_graphic_1

@@ -306,17 +306,13 @@ struct enemy
 .fractional_x:
     ds 1
 .x_position:
-    ds 1
-    ds 1
+    ds 2
 .fractional_y:
     ds 1
 .y_position:
-    ds 1
-    ds 1
-.animation:
-    ds 1
-    ds 1
-    ds 1
+    ds 2
+.animations:
+    ds 3
 .speed:
     ds 1
 .hitpoints_left:
@@ -324,8 +320,7 @@ struct enemy
 .flashing_counter
     ds 1
 .collision_mask:
-    ds 1
-    ds 1
+    ds 2
 .effective_palette:
     ds 1
 .real_palette:
@@ -355,9 +350,7 @@ struct enemy
     ds 1
     ds 1
 .creation_functions_array_ptr:
-    ds 1
-    ds 1
-    ds 1
+    ds 3
 .score_index:
     ds 1
 .carried_bonus:
