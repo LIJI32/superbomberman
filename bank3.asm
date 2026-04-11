@@ -220,6 +220,7 @@ shield_palette_sequence:
     db PALETTE_STATIC_WHITE, 0, PALETTE_STATIC_WHITE, 0, PALETTE_STATIC_WHITE, 0, PALETTE_STATIC_WHITE, 0
     .end
 INVINCIBILITY_FRAMES = shield_palette_sequence.end - shield_palette_sequence
+SHORT_INVINCIBILITY_FRAMES = 60 * 5
 
 bomb_animation:
     db 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80

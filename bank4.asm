@@ -2016,7 +2016,7 @@ i16
     PLX
     JSL change_direction_and_start_animation
     REP #0x20
-    LDA #INVINCIBILITY_FRAMES
+    LDA #SHORT_INVINCIBILITY_FRAMES
     STA z:player.invincibility_countdown, X
     LDA z:player.player_index, X
     AND #0xFF
@@ -2180,9 +2180,9 @@ i16
     AND #0x7F
     STA z:0x39, X
     STZ z:0x2F, X
-    LDA #low(INVINCIBILITY_FRAMES)
+    LDA #low(SHORT_INVINCIBILITY_FRAMES)
     STA z:player.invincibility_countdown, X
-    LDA #high(INVINCIBILITY_FRAMES)
+    LDA #high(SHORT_INVINCIBILITY_FRAMES)
     STA z:player.invincibility_countdown + 1, X
 
 .loc_C4139D:
@@ -2235,9 +2235,9 @@ i16
     AND #0x7F
     STA z:0x39, X
     STZ z:0x2F, X
-    LDA #low(INVINCIBILITY_FRAMES)
+    LDA #low(SHORT_INVINCIBILITY_FRAMES)
     STA z:player.invincibility_countdown, X
-    LDA #high(INVINCIBILITY_FRAMES)
+    LDA #high(SHORT_INVINCIBILITY_FRAMES)
     STA z:player.invincibility_countdown + 1, X
 
 .loc_C41405:
