@@ -62,7 +62,8 @@ struct frame_oam_tile x_position, y_position, tile, flags_and_palette
 .y_position:
     db low($y_position)
 .tile:
-    dw $tile
+    db ($tile >> 5)
+    db (($tile) & 7) | (((($tile) >> 3) & 3) << 4)
 .flags_and_palette:
     db $flags_and_palette
 endstruct
