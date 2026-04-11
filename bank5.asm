@@ -157,473 +157,481 @@ endif
     animation_frame animation_frame_C50091, 0xFF
     .end
 if !USE_KATAKANA
+
+encode battle_mode_label, "ABCDEFGHPQRSTUVWIJKL", 0x80
+encode battle_mode_label, "XYZO", 0x98
+encode battle_mode_label, " MN", 0xB5
+encode battle_mode_label, "!", 0xBE
+
+encoding battle_mode_label
+
 normal_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   44,    5, 0x0b5, 0x02
-    frame_oam_tile   44,   -3, 0x0b5, 0x02
-    frame_oam_tile   44,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x084, 0x02
-    frame_oam_tile   28,   -3, 0x0b7, 0x02
-    frame_oam_tile   20,   -3, 0x09b, 0x02
-    frame_oam_tile   12,   -3, 0x09a, 0x02
-    frame_oam_tile    4,   -3, 0x0b5, 0x02
-    frame_oam_tile   -4,   -3, 0x093, 0x02
-    frame_oam_tile  -12,   -3, 0x080, 0x02
-    frame_oam_tile  -20,   -3, 0x0b6, 0x02
-    frame_oam_tile  -28,   -3, 0x08a, 0x02
-    frame_oam_tile  -36,   -3, 0x09b, 0x02
-    frame_oam_tile  -44,   -3, 0x0b7, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -52,    5, 0x0b5, 0x02
-    frame_oam_tile  -52,   -3, 0x0b5, 0x02
-    frame_oam_tile  -52,  -11, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
+    frame_oam_tile   44,    5, ' ', 0x02
+    frame_oam_tile   44,   -3, ' ', 0x02
+    frame_oam_tile   44,  -11, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   36,   -3, 'E', 0x02
+    frame_oam_tile   28,   -3, 'N', 0x02
+    frame_oam_tile   20,   -3, 'O', 0x02
+    frame_oam_tile   12,   -3, 'Z', 0x02
+    frame_oam_tile    4,   -3, ' ', 0x02
+    frame_oam_tile   -4,   -3, 'L', 0x02
+    frame_oam_tile  -12,   -3, 'A', 0x02
+    frame_oam_tile  -20,   -3, 'M', 0x02
+    frame_oam_tile  -28,   -3, 'R', 0x02
+    frame_oam_tile  -36,   -3, 'O', 0x02
+    frame_oam_tile  -44,   -3, 'N', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -52,    5, ' ', 0x02
+    frame_oam_tile  -52,   -3, ' ', 0x02
+    frame_oam_tile  -52,  -11, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
     .end
 western_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   48,    5, 0x0b5, 0x02
-    frame_oam_tile   48,   -3, 0x0b5, 0x02
-    frame_oam_tile   48,  -11, 0x0b5, 0x02
-    frame_oam_tile   40,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile   40,    5, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile   40,   -3, 0x084, 0x02
-    frame_oam_tile   32,   -3, 0x0b7, 0x02
-    frame_oam_tile   24,   -3, 0x09b, 0x02
-    frame_oam_tile   16,   -3, 0x09a, 0x02
-    frame_oam_tile    0,   -3, 0x0b7, 0x02
-    frame_oam_tile   -8,   -3, 0x08a, 0x02
-    frame_oam_tile  -16,   -3, 0x084, 0x02
-    frame_oam_tile  -32,   -3, 0x08b, 0x02
-    frame_oam_tile  -40,   -3, 0x084, 0x02
-    frame_oam_tile  -48,   -3, 0x08f, 0x02
-    frame_oam_tile  -24,   -3, 0x08c, 0x02
-    frame_oam_tile  -56,  -11, 0x0b5, 0x02
-    frame_oam_tile  -56,   -3, 0x0b5, 0x02
-    frame_oam_tile  -56,    5, 0x0b5, 0x02
-    frame_oam_tile  -48,    5, 0x0b5, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile    8,   -3, 0x0b5, 0x02
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
-    frame_oam_tile  -48,  -11, 0x0b5, 0x02
+    frame_oam_tile   48,    5, ' ', 0x02
+    frame_oam_tile   48,   -3, ' ', 0x02
+    frame_oam_tile   48,  -11, ' ', 0x02
+    frame_oam_tile   40,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   40,    5, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile   40,   -3, 'E', 0x02
+    frame_oam_tile   32,   -3, 'N', 0x02
+    frame_oam_tile   24,   -3, 'O', 0x02
+    frame_oam_tile   16,   -3, 'Z', 0x02
+    frame_oam_tile    0,   -3, 'N', 0x02
+    frame_oam_tile   -8,   -3, 'R', 0x02
+    frame_oam_tile  -16,   -3, 'E', 0x02
+    frame_oam_tile  -32,   -3, 'S', 0x02
+    frame_oam_tile  -40,   -3, 'E', 0x02
+    frame_oam_tile  -48,   -3, 'W', 0x02
+    frame_oam_tile  -24,   -3, 'T', 0x02
+    frame_oam_tile  -56,  -11, ' ', 0x02
+    frame_oam_tile  -56,   -3, ' ', 0x02
+    frame_oam_tile  -56,    5, ' ', 0x02
+    frame_oam_tile  -48,    5, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    8,   -3, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -48,  -11, ' ', 0x02
     .end
 bomb_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x0b5, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,   -3, 0x084, 0x02
-    frame_oam_tile   20,   -3, 0x0b7, 0x02
-    frame_oam_tile   12,   -3, 0x09b, 0x02
-    frame_oam_tile    4,   -3, 0x09a, 0x02
-    frame_oam_tile   -4,   -3, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,   -3, 0x09b, 0x02
-    frame_oam_tile  -20,   -3, 0x0b6, 0x02
-    frame_oam_tile  -12,   -3, 0x081, 0x02
-    frame_oam_tile  -36,   -3, 0x081, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -44,   -3, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   36,   -3, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   28,   -3, 'E', 0x02
+    frame_oam_tile   20,   -3, 'N', 0x02
+    frame_oam_tile   12,   -3, 'O', 0x02
+    frame_oam_tile    4,   -3, 'Z', 0x02
+    frame_oam_tile   -4,   -3, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile  -28,   -3, 'O', 0x02
+    frame_oam_tile  -20,   -3, 'M', 0x02
+    frame_oam_tile  -12,   -3, 'B', 0x02
+    frame_oam_tile  -36,   -3, 'B', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -44,   -3, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
     .end
 jump_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   28,   -3, 0x084, 0x02
-    frame_oam_tile   20,   -3, 0x0b7, 0x02
-    frame_oam_tile   12,   -3, 0x09b, 0x02
-    frame_oam_tile    4,   -3, 0x09a, 0x02
-    frame_oam_tile   -4,   -3, 0x0b5, 0x02
-    frame_oam_tile  -12,   -3, 0x088, 0x02
-    frame_oam_tile  -20,   -3, 0x0b6, 0x02
-    frame_oam_tile  -28,   -3, 0x08d, 0x02
-    frame_oam_tile  -36,   -3, 0x091, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x0b5, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,   -3, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
+    frame_oam_tile   28,   -3, 'E', 0x02
+    frame_oam_tile   20,   -3, 'N', 0x02
+    frame_oam_tile   12,   -3, 'O', 0x02
+    frame_oam_tile    4,   -3, 'Z', 0x02
+    frame_oam_tile   -4,   -3, ' ', 0x02
+    frame_oam_tile  -12,   -3, 'P', 0x02
+    frame_oam_tile  -20,   -3, 'M', 0x02
+    frame_oam_tile  -28,   -3, 'U', 0x02
+    frame_oam_tile  -36,   -3, 'J', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   36,   -3, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -44,   -3, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
     .end
 belt_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,   -3, 0x084, 0x02
-    frame_oam_tile   20,   -3, 0x0b7, 0x02
-    frame_oam_tile    4,   -3, 0x09a, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,   -3, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,   -3, 0x081, 0x02
-    frame_oam_tile  -28,   -3, 0x084, 0x02
-    frame_oam_tile  -20,   -3, 0x093, 0x02
-    frame_oam_tile  -12,   -3, 0x08c, 0x02
-    frame_oam_tile   -4,   -3, 0x0b5, 0x02
-    frame_oam_tile   12,   -3, 0x09b, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   36,   -3, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   28,   -3, 'E', 0x02
+    frame_oam_tile   20,   -3, 'N', 0x02
+    frame_oam_tile    4,   -3, 'Z', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -44,   -3, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile  -36,   -3, 'B', 0x02
+    frame_oam_tile  -28,   -3, 'E', 0x02
+    frame_oam_tile  -20,   -3, 'L', 0x02
+    frame_oam_tile  -12,   -3, 'T', 0x02
+    frame_oam_tile   -4,   -3, ' ', 0x02
+    frame_oam_tile   12,   -3, 'O', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
     .end
 tunnel_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   44,    5, 0x0b5, 0x02
-    frame_oam_tile   44,   -3, 0x0b5, 0x02
-    frame_oam_tile   44,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x084, 0x02
-    frame_oam_tile   28,   -3, 0x0b7, 0x02
-    frame_oam_tile   20,   -3, 0x09b, 0x02
-    frame_oam_tile   12,   -3, 0x09a, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,   -3, 0x093, 0x02
-    frame_oam_tile  -12,   -3, 0x084, 0x02
-    frame_oam_tile  -20,   -3, 0x0b7, 0x02
-    frame_oam_tile  -28,   -3, 0x0b7, 0x02
-    frame_oam_tile  -36,   -3, 0x08d, 0x02
-    frame_oam_tile  -44,   -3, 0x08c, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile    4,   -3, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -52,   -3, 0x0b5, 0x02
-    frame_oam_tile  -52,    5, 0x0b5, 0x02
-    frame_oam_tile  -52,  -11, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
+    frame_oam_tile   44,    5, ' ', 0x02
+    frame_oam_tile   44,   -3, ' ', 0x02
+    frame_oam_tile   44,  -11, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile   36,   -3, 'E', 0x02
+    frame_oam_tile   28,   -3, 'N', 0x02
+    frame_oam_tile   20,   -3, 'O', 0x02
+    frame_oam_tile   12,   -3, 'Z', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile   -4,   -3, 'L', 0x02
+    frame_oam_tile  -12,   -3, 'E', 0x02
+    frame_oam_tile  -20,   -3, 'N', 0x02
+    frame_oam_tile  -28,   -3, 'N', 0x02
+    frame_oam_tile  -36,   -3, 'U', 0x02
+    frame_oam_tile  -44,   -3, 'T', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile    4,   -3, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile  -52,   -3, ' ', 0x02
+    frame_oam_tile  -52,    5, ' ', 0x02
+    frame_oam_tile  -52,  -11, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
     .end
 duel_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile  -44,   -3, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x0b5, 0x02
-    frame_oam_tile   28,   -3, 0x084, 0x02
-    frame_oam_tile   20,   -3, 0x0b7, 0x02
-    frame_oam_tile   12,   -3, 0x09b, 0x02
-    frame_oam_tile    4,   -3, 0x09a, 0x02
-    frame_oam_tile   -4,   -3, 0x0b5, 0x02
-    frame_oam_tile  -12,   -3, 0x093, 0x02
-    frame_oam_tile  -20,   -3, 0x084, 0x02
-    frame_oam_tile  -28,   -3, 0x08d, 0x02
-    frame_oam_tile  -36,   -3, 0x083, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
+    frame_oam_tile  -44,   -3, ' ', 0x02
+    frame_oam_tile   36,   -3, ' ', 0x02
+    frame_oam_tile   28,   -3, 'E', 0x02
+    frame_oam_tile   20,   -3, 'N', 0x02
+    frame_oam_tile   12,   -3, 'O', 0x02
+    frame_oam_tile    4,   -3, 'Z', 0x02
+    frame_oam_tile   -4,   -3, ' ', 0x02
+    frame_oam_tile  -12,   -3, 'L', 0x02
+    frame_oam_tile  -20,   -3, 'E', 0x02
+    frame_oam_tile  -28,   -3, 'U', 0x02
+    frame_oam_tile  -36,   -3, 'D', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
     .end
 flower_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   44,   -3, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x084, 0x02
-    frame_oam_tile   28,   -3, 0x0b7, 0x02
-    frame_oam_tile   20,   -3, 0x09b, 0x02
-    frame_oam_tile   12,   -3, 0x09a, 0x02
-    frame_oam_tile    4,   -3, 0x0b5, 0x02
-    frame_oam_tile   -4,   -3, 0x08a, 0x02
-    frame_oam_tile  -12,   -3, 0x084, 0x02
-    frame_oam_tile  -20,   -3, 0x08f, 0x02
-    frame_oam_tile  -28,   -3, 0x09b, 0x02
-    frame_oam_tile  -36,   -3, 0x093, 0x02
-    frame_oam_tile  -44,   -3, 0x085, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile   44,  -11, 0x0b5, 0x02
-    frame_oam_tile   44,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile  -52,  -11, 0x0b5, 0x02
-    frame_oam_tile  -52,   -3, 0x0b5, 0x02
-    frame_oam_tile  -52,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
+    frame_oam_tile   44,   -3, ' ', 0x02
+    frame_oam_tile   36,   -3, 'E', 0x02
+    frame_oam_tile   28,   -3, 'N', 0x02
+    frame_oam_tile   20,   -3, 'O', 0x02
+    frame_oam_tile   12,   -3, 'Z', 0x02
+    frame_oam_tile    4,   -3, ' ', 0x02
+    frame_oam_tile   -4,   -3, 'R', 0x02
+    frame_oam_tile  -12,   -3, 'E', 0x02
+    frame_oam_tile  -20,   -3, 'W', 0x02
+    frame_oam_tile  -28,   -3, 'O', 0x02
+    frame_oam_tile  -36,   -3, 'L', 0x02
+    frame_oam_tile  -44,   -3, 'F', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile   44,  -11, ' ', 0x02
+    frame_oam_tile   44,    5, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile  -52,  -11, ' ', 0x02
+    frame_oam_tile  -52,   -3, ' ', 0x02
+    frame_oam_tile  -52,    5, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
     .end
 light_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   40,  -11, 0x0b5, 0x02
-    frame_oam_tile   40,   -3, 0x0b5, 0x02
-    frame_oam_tile   40,    5, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile   32,   -3, 0x084, 0x02
-    frame_oam_tile   24,   -3, 0x0b7, 0x02
-    frame_oam_tile   16,   -3, 0x09b, 0x02
-    frame_oam_tile    8,   -3, 0x09a, 0x02
-    frame_oam_tile  -48,   -3, 0x0b5, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,   -3, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile  -48,  -11, 0x0b5, 0x02
-    frame_oam_tile  -48,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,   -3, 0x08c, 0x02
-    frame_oam_tile  -16,   -3, 0x087, 0x02
-    frame_oam_tile  -24,   -3, 0x086, 0x02
-    frame_oam_tile  -32,   -3, 0x090, 0x02
-    frame_oam_tile  -40,   -3, 0x093, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   40,  -11, ' ', 0x02
+    frame_oam_tile   40,   -3, ' ', 0x02
+    frame_oam_tile   40,    5, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile   32,   -3, 'E', 0x02
+    frame_oam_tile   24,   -3, 'N', 0x02
+    frame_oam_tile   16,   -3, 'O', 0x02
+    frame_oam_tile    8,   -3, 'Z', 0x02
+    frame_oam_tile  -48,   -3, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    0,   -3, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile  -48,  -11, ' ', 0x02
+    frame_oam_tile  -48,    5, ' ', 0x02
+    frame_oam_tile   -8,   -3, 'T', 0x02
+    frame_oam_tile  -16,   -3, 'H', 0x02
+    frame_oam_tile  -24,   -3, 'G', 0x02
+    frame_oam_tile  -32,   -3, 'I', 0x02
+    frame_oam_tile  -40,   -3, 'L', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
     .end
 power_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   32,   -3, 0x084, 0x02
-    frame_oam_tile   24,   -3, 0x0b7, 0x02
-    frame_oam_tile   16,   -3, 0x09b, 0x02
-    frame_oam_tile    8,   -3, 0x09a, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,   -3, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile  -48,  -11, 0x0b5, 0x02
-    frame_oam_tile  -48,   -3, 0x0b5, 0x02
-    frame_oam_tile  -48,    5, 0x0b5, 0x02
-    frame_oam_tile   40,  -11, 0x0b5, 0x02
-    frame_oam_tile   40,   -3, 0x0b5, 0x02
-    frame_oam_tile   40,    5, 0x0b5, 0x02
-    frame_oam_tile  -40,   -3, 0x088, 0x02
-    frame_oam_tile  -32,   -3, 0x09b, 0x02
-    frame_oam_tile  -24,   -3, 0x08f, 0x02
-    frame_oam_tile  -16,   -3, 0x084, 0x02
-    frame_oam_tile   -8,   -3, 0x08a, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
+    frame_oam_tile   32,   -3, 'E', 0x02
+    frame_oam_tile   24,   -3, 'N', 0x02
+    frame_oam_tile   16,   -3, 'O', 0x02
+    frame_oam_tile    8,   -3, 'Z', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    0,   -3, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile  -48,  -11, ' ', 0x02
+    frame_oam_tile  -48,   -3, ' ', 0x02
+    frame_oam_tile  -48,    5, ' ', 0x02
+    frame_oam_tile   40,  -11, ' ', 0x02
+    frame_oam_tile   40,   -3, ' ', 0x02
+    frame_oam_tile   40,    5, ' ', 0x02
+    frame_oam_tile  -40,   -3, 'P', 0x02
+    frame_oam_tile  -32,   -3, 'O', 0x02
+    frame_oam_tile  -24,   -3, 'W', 0x02
+    frame_oam_tile  -16,   -3, 'E', 0x02
+    frame_oam_tile   -8,   -3, 'R', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
     .end
 warp_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   20,   -3, 0x0b7, 0x02
-    frame_oam_tile   12,   -3, 0x09b, 0x02
-    frame_oam_tile    4,   -3, 0x09a, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -44,   -3, 0x0b5, 0x02
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,   -3, 0x084, 0x02
-    frame_oam_tile  -36,   -3, 0x08f, 0x02
-    frame_oam_tile  -28,   -3, 0x080, 0x02
-    frame_oam_tile  -20,   -3, 0x08a, 0x02
-    frame_oam_tile  -12,   -3, 0x088, 0x02
-    frame_oam_tile   -4,   -3, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
+    frame_oam_tile   20,   -3, 'N', 0x02
+    frame_oam_tile   12,   -3, 'O', 0x02
+    frame_oam_tile    4,   -3, 'Z', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -44,   -3, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   36,   -3, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   28,   -3, 'E', 0x02
+    frame_oam_tile  -36,   -3, 'W', 0x02
+    frame_oam_tile  -28,   -3, 'A', 0x02
+    frame_oam_tile  -20,   -3, 'R', 0x02
+    frame_oam_tile  -12,   -3, 'P', 0x02
+    frame_oam_tile   -4,   -3, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
     .end
 speed_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   40,  -11, 0x0b5, 0x02
-    frame_oam_tile   40,   -3, 0x0b5, 0x02
-    frame_oam_tile   40,    5, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile   32,   -3, 0x084, 0x02
-    frame_oam_tile   24,   -3, 0x0b7, 0x02
-    frame_oam_tile   16,   -3, 0x09b, 0x02
-    frame_oam_tile    8,   -3, 0x09a, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,   -3, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,   -3, 0x083, 0x02
-    frame_oam_tile  -16,   -3, 0x084, 0x02
-    frame_oam_tile  -24,   -3, 0x084, 0x02
-    frame_oam_tile  -32,   -3, 0x088, 0x02
-    frame_oam_tile  -40,   -3, 0x08b, 0x02
-    frame_oam_tile  -48,   -3, 0x0b5, 0x02
-    frame_oam_tile  -48,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -48,    5, 0x0b5, 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   40,  -11, ' ', 0x02
+    frame_oam_tile   40,   -3, ' ', 0x02
+    frame_oam_tile   40,    5, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile   32,   -3, 'E', 0x02
+    frame_oam_tile   24,   -3, 'N', 0x02
+    frame_oam_tile   16,   -3, 'O', 0x02
+    frame_oam_tile    8,   -3, 'Z', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    0,   -3, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,   -3, 'D', 0x02
+    frame_oam_tile  -16,   -3, 'E', 0x02
+    frame_oam_tile  -24,   -3, 'E', 0x02
+    frame_oam_tile  -32,   -3, 'P', 0x02
+    frame_oam_tile  -40,   -3, 'S', 0x02
+    frame_oam_tile  -48,   -3, ' ', 0x02
+    frame_oam_tile  -48,  -11, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -48,    5, ' ', 0x02
     .end
 else
 normal_zone_label_frame:
@@ -1026,6 +1034,9 @@ speed_zone_label_frame:
     frame_oam_tile  -32,   -3, 0x0a8, 0x02
     .end
 endif
+
+encoding raw
+
 animation_frame_C5096D:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x0d2, 0x22
