@@ -1,4 +1,8 @@
-org 0x7E0074
+org 0x7E0070
+object_shift_x:
+    ds 2
+object_shift_y:
+    ds 2
 unused_fast_rng_seed: ; Written but never read
     ds 2
 fast_rng_seed:

@@ -376,7 +376,7 @@ i16
     STA z:bigaron.scene_delay, X
     LDA #0
     STA z:bigaron.scene_delay + 1, X
-    LDA #0xA
+    LDA #12
     STA z:bigaron.hitpoints, X
     LDA #0
     STA z:bigaron.direction_axis, X
@@ -508,15 +508,17 @@ i16
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ +
-    JML bigaron_render_sprite_animated
+    JML bigaron_render_sprite_animated.paused
 +
 
     SEP #0x20
     LDA z:bigaron.damage_flash, X
+    BIT #0x80
     BEQ +
     JML bigaron_hurt
 +
 
+.move_while_damaged
     REP #0x20
     DEC z:bigaron.hammer_countdown, X
     BNE +
@@ -600,15 +602,44 @@ i16
     LDA z:bigaron.damage_flash, X
     BNE bigaron_render_sprite_animated ; Already being hit
     
-    LDA #0x40
+    LDA #64 * 3
     STA z:bigaron.damage_flash, X
     DEC z:bigaron.hitpoints, X
     BNE bigaron_render_sprite_animated
     JML bigaron_defeat
 
 bigaron_render_sprite_animated:
+    SEP #0x20
+    LDA z:bigaron.damage_flash, X
+    BEQ .no_flash
+    DEC z:bigaron.damage_flash, X
+.paused_cont
+    PHX
+    LDX #0
+    BIT #1
+    BNE +
+    LDX #2
++
+
+    LDY #0
+    LDA f:bigaron_palettes, X
+    STA z:set_palette.PALETTE
+    LDA #12
+    JSL set_palette
+    
+    LDA f:bigaron_palettes+1, X
+    STA z:set_palette.PALETTE
+    LDA #13
+    JSL set_palette
+        
+    PLX
+.no_flash
     JSL render_sprite_animated
     RTL
+.paused
+    LDA z:bigaron.damage_flash, X
+    DEC A
+    BRA .paused_cont
 
 bigaron_hurt:
     SEP #0x20
@@ -671,11 +702,12 @@ i16
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
     BEQ +
-    JML bigaron_render_sprite_animated
+    JML bigaron_render_sprite_animated.paused
 +
 
     SEP #0x20
     LDA z:bigaron.damage_flash, X
+    BIT #0x80
     BEQ +
     JML bigaron_hurt
 +
@@ -696,6 +728,17 @@ i16
     JSL bigaron_create_large_rocks
     LDY #SOUND_BIGARON_HAMMER_STRIKE
     JSL play_sound
+    
+    ; Stun the players
+    SEP #0x20
+    
+    LDA a:addr(player_1.hit_flags)
+    ORA #HIT_FLAG_PUNCHED_BOMB
+    STA a:addr(player_1.hit_flags)
+    
+    LDA a:addr(player_2.hit_flags)
+    ORA #HIT_FLAG_PUNCHED_BOMB
+    STA a:addr(player_2.hit_flags)
 +
 
     REP #0x20
@@ -787,6 +830,19 @@ bigaron_change_direction:
     PLA
     STA z:bigaron.direction, X
     RTL
+    
+bigaron_vectors_for_speed_and_direction:
+    dw 0,  -0x80,  0x80, 0, 0,  0x80,  -0x80, 0
+    dw 0,  -0xa0,  0xa0, 0, 0,  0xa0,  -0xa0, 0
+    dw 0,  -0xc0,  0xc0, 0, 0,  0xc0,  -0xc0, 0
+    dw 0,  -0xe0,  0xe0, 0, 0,  0xe0,  -0xe0, 0
+    dw 0, -0x100, 0x100, 0, 0, 0x100, -0x100, 0
+    dw 0, -0x120, 0x120, 0, 0, 0x120, -0x120, 0
+    dw 0, -0x140, 0x140, 0, 0, 0x140, -0x140, 0
+    dw 0, -0x160, 0x160, 0, 0, 0x160, -0x160, 0
+    dw 0, -0x180, 0x180, 0, 0, 0x180, -0x180, 0
+    dw 0, -0x180, 0x180, 0, 0, 0x180, -0x180, 0
+    dw 0, -0x180, 0x180, 0, 0, 0x180, -0x180, 0
 
 bigaron_move_straight:
     .VECTOR = 0x53
@@ -798,7 +854,7 @@ bigaron_move_straight:
     
     ; Can move forward, get movement vector
     SEP #0x20
-    LDA #bank(vectors_for_speed_and_direction)
+    LDA #bank(bigaron_vectors_for_speed_and_direction)
     STA z:.VECTOR + 2
     REP #0x20
     
@@ -807,8 +863,27 @@ bigaron_move_straight:
     ASL A
     ASL A
     CLC
-    ADC #addr(vectors_for_speed_and_direction)
+    ADC #addr(bigaron_vectors_for_speed_and_direction)
     STA z:.VECTOR
+    
+    ; Speed up while damaged
+    LDA z:bigaron.damage_flash, X
+    AND #0xF0
+    CLC
+    ADC z:.VECTOR
+    STA z:.VECTOR
+    
+    ; Speed it up every 4 hitpoints
+    LDA #12
+    SEC
+    SBC z:bigaron.hitpoints, X
+    ASL A
+    ASL A
+    AND #0xF0
+    CLC
+    ADC z:.VECTOR
+    STA z:.VECTOR
++
     
     LDA z:bigaron.direction, X
     BIT #1
@@ -991,12 +1066,14 @@ i16
     
     LDY #shake_item.h_scroll
     LDA f:[z:.SEQUENCE], Y
+    STA z:addr(object_shift_x)
     CLC
     ADC a:addr(bg1_h_scroll)
     STA a:addr(bg1_h_scroll)
     
     LDY #shake_item.v_scroll
     LDA f:[z:.SEQUENCE], Y
+    STA z:addr(object_shift_y)
     CLC
     ADC a:addr(bg1_v_scroll)
     STA a:addr(bg1_v_scroll)
@@ -1190,14 +1267,6 @@ bigaron_rock:
     JSL enemy_hit_players_in_centered_range
     JSL load_animation_frame
     RTL
-
-; Unused garbage
-    db 0x00, 0xFF, 0x50, 0x00, 0x20, 0x00, 0x80, 0x00
-    db 0x00, 0xFB, 0x00, 0xFC, 0x00, 0xFD, 0x00, 0xFE
-    db 0x04, 0x00, 0x08, 0x00, 0x0C, 0x00, 0x10, 0x00
-    db 0x00, 0x00, 0x80, 0x00, 0x00, 0x01, 0x80, 0x01
-    db 0x00, 0x00, 0x80, 0xFF, 0x00, 0xFF, 0x80, 0xFE
-    db 0x00, 0xFF, 0x08, 0x00, 0x00, 0x00
     
 bigaron_static_animation_array:
     da bigaron_static_animation, bigaron_static_animation
@@ -1215,10 +1284,23 @@ struct shake_item frames, h_scroll, v_scroll
 endstruct
 
 bigaron_shake_sequence:
-    shake_item 6, 0, -3
-    shake_item 3, 0,  3
-    shake_item 2, 0,  1
-    shake_item 0, 0,  0
+    shake_item 2, 0,  16
+    shake_item 2, 0, -15
+    shake_item 2, 0,  14
+    shake_item 2, 0, -13
+    shake_item 2, 0,  12
+    shake_item 2, 0, -11
+    shake_item 2, 0,  10
+    shake_item 2, 0,  -9
+    shake_item 2, 0,   8
+    shake_item 2, 0,  -7
+    shake_item 2, 0,   6
+    shake_item 2, 0,  -5
+    shake_item 2, 0,   4
+    shake_item 2, 0,  -3
+    shake_item 2, 0,   2
+    shake_item 2, 0,  -1
+    shake_item 0, 0,   0
     
 bigaron_exploisions:
     db 0x3F

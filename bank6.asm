@@ -4900,10 +4900,14 @@ i16
     LDA z:0x11, X
     SEC
     SBC #8
+    SEC
+    SBC z:addr(object_shift_x)
     STA z:0x4A
     LDA z:0x14, X
     CLC
     ADC #0x18
+    SEC
+    SBC z:addr(object_shift_y)
     STA z:0xD3
     SEP #0x20
 
@@ -6620,8 +6624,7 @@ i16
 
     CMP z:.LIMIT
     BCS .next
-    LDA a:player.hit_flags, Y
-    ORA #1
+    LDA #1
     STA a:player.hit_flags, Y
 
 .next:
