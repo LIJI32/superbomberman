@@ -327,8 +327,106 @@ struct bigaron
     ds 2    
 .damage_flash:
     ds 1
+.is_regular_enemy
+    ds 1
     org 0x40
 endstruct
+
+level_bigaron_init:
+i16
+    JSL fast_random
+    REP #0x20
+    AND #0xFF
+    ORA #0x100
+    STA z:bigaron.hammer_countdown, X
+    LDA #addr(bigaron_static_animation_array)
+    STA z:bigaron.animations, X
+    start_animation #addr(bigaron_static_animation)
+    
+    ; Init the rest of the boss-specific state
+    SEP #0x20
+    LDA #0xC7
+    STA z:0x18, X
+    STZ z:0x19, X
+    STZ z:bigaron.damage_flash, X
+    STZ z:bigaron.scene_delay, X
+    STZ z:bigaron.scene_delay + 1, X
+    LDA #12
+    STA z:bigaron.hitpoints, X
+    STZ z:bigaron.direction_axis, X
+    STZ z:bigaron.during_attack, X
+    LDA #1
+    STA z:bigaron.is_regular_enemy, X
+    
+    ; Palettes
+    LDA #8
+    STA z:bigaron.effective_palette, X
+    STA z:bigaron.real_palette, X
+    LDA #0x30
+    STA z:bigaron.palette, X
+    
+    LDA #2
+    STA z:0x20, X
+    LDA #3
+    STA z:0x21, X
+    LDA z:bigaron.execution_priority, X
+    ORA #1
+    STA z:bigaron.execution_priority, X
+    
+    set_enemy_score 6400
+    
+    ; Switch the handler
+    set_handler level_bigaron_init_palettes
+    ; fallthrough
+
+level_bigaron_init_palettes:
+    SEP #0x20
+    
+    handler_return_if_paused_or_in_transition
+    ; Transition over
+
+    SEP #0x20
+    LDY #0 ; Fade flags
+    
+    ; Load palettes
+    
+    LDA #BIGARON_PALETTE_1
+    STA z:set_palette.PALETTE
+    LDA #12
+    JSL set_palette
+    
+    LDA #BIGARON_PALETTE_2
+    STA z:set_palette.PALETTE
+    LDA #13
+    JSL set_palette
+    
+    LDA #BIGARON_FIRE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #14
+    JSL set_palette
+    
+    LDA #WHITE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #15
+    JSL set_palette
+    
+    
+    ; Switch to the intro handler
+    
+    set_handler bigaron_main
+    JMP bigaron_main
+
+    ; fallthrough
+
+create_level_bigaron:
+    REP #0x20
+    STY z:0x56
+    SEP #0x20
+    create_object level_bigaron_init
+    init_enemy 0
+    allocate_object_graphics bigaron_graphics, 9
+    RTL
+
     
 create_bigaron:
     REP #0x20
@@ -382,6 +480,7 @@ i16
     STA z:bigaron.direction_axis, X
     LDA #0
     STA z:bigaron.during_attack, X
+    STZ z:bigaron.is_regular_enemy, X
     
     ; Palettes
     LDA #8
@@ -499,7 +598,8 @@ bigaron_intro:
     JSL render_sprite_animated
 
 .ret:
-bigaron_init_palettes.ret = .ret ; For macro
+bigaron_init_palettes.ret = bigaron_intro.ret ; For macro
+level_bigaron_init_palettes.ret = bigaron_intro.ret ; For macro
     RTL
 
 bigaron_main:
@@ -558,16 +658,19 @@ i16
 
 .loc_C72620:
     JSL bigaron_move_straight
-    BCC + ; Not blocked
+    BCC + ; Not blocked    
+    ; Randomize direction
+    JSL fast_random
     SEP #0x20
-    BIT #BOMB 
-    BEQ .not_a_bomb
-    ; Flip direction
-    
-    ; Bug: Bigaron can be trapped with 2 opposing bombs
-    LDA z:bigaron.direction, X
-    EOR #2
+    AND #3
+    PHA
+    EOR z:bigaron.direction, X
     STA z:bigaron.direction, X
+    PLA
+    AND #1
+    EOR z:bigaron.direction_axis, X
+    STA z:bigaron.direction_axis, X
+    REP #0x20
     BRA .keep_direction
 +
 
@@ -606,7 +709,11 @@ i16
     STA z:bigaron.damage_flash, X
     DEC z:bigaron.hitpoints, X
     BNE bigaron_render_sprite_animated
+    LDA z:bigaron.is_regular_enemy, X
+    BNE +
     JML bigaron_defeat
++
+    JML kill_enemy
 
 bigaron_render_sprite_animated:
     SEP #0x20
@@ -615,24 +722,16 @@ bigaron_render_sprite_animated:
     DEC z:bigaron.damage_flash, X
 .paused_cont
     PHX
-    LDX #0
+    LDX #8
     BIT #1
     BNE +
-    LDX #2
+    LDX #12 | 0x80
 +
-
-    LDY #0
-    LDA f:bigaron_palettes, X
-    STA z:set_palette.PALETTE
-    LDA #12
-    JSL set_palette
-    
-    LDA f:bigaron_palettes+1, X
-    STA z:set_palette.PALETTE
-    LDA #13
-    JSL set_palette
-        
+    TXA
     PLX
+
+    STA z:bigaron.effective_palette, X
+        
 .no_flash
     JSL render_sprite_animated
     RTL
@@ -650,31 +749,18 @@ bigaron_hurt:
 i16
     SEP #0x20
     PHX
-
-    LDX #0
+    
+    LDX #8
     BIT #1
     BNE +
-    LDX #2
+    LDX #12 | 0x80
 +
-
-    LDY #0
-    LDA f:bigaron_palettes, X
-    STA z:set_palette.PALETTE
-    LDA #12
-    JSL set_palette
-    
-    LDA f:bigaron_palettes+1, X
-    STA z:set_palette.PALETTE
-    LDA #13
-    JSL set_palette
-        
+    TXA
     PLX
+
+    STA z:bigaron.effective_palette, X    
     JSL render_sprite
     RTL
-
-bigaron_palettes:
-    db BIGARON_PALETTE_1, BIGARON_PALETTE_2
-    db BIGARON_FIRE_PALETTE, BIGARON_FIRE_PALETTE
 
 bigaron_hammer_attack:
 i16
@@ -805,7 +891,7 @@ bigaron_change_direction:
     PHA ; Save the original direction
     LDA z:.POTENTIAL_DIR
     STA z:bigaron.direction, X
-    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK | ENEMY
     STA z:test_collision.MASK
     JSL test_collision_mask_for_enemy_next_square
     REP #0x20
@@ -847,7 +933,7 @@ bigaron_vectors_for_speed_and_direction:
 bigaron_move_straight:
     .VECTOR = 0x53
     REP #0x20
-    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK | ENEMY
     STA z:test_collision.MASK
     JSL test_collision_mask_for_enemy_next_square
     BNE .ret_true
@@ -1007,9 +1093,9 @@ struct bigaron_screen_shaker
 .frames_left
     ds 2
     org 0x30
-.h_scroll
+.last_h_offset
     ds 2
-.y_scroll
+.last_v_offset
     ds 2
 .sequence_ptr
     ds 3
@@ -1022,10 +1108,9 @@ create_bigaron_screen_shaker:
     create_object bigaron_screen_shaker
     BCS .ret
     REP #0x20
-    LDA a:addr(bg1_h_scroll)
-    STA a:bigaron_screen_shaker.h_scroll, Y
-    LDA a:addr(bg1_v_scroll)
-    STA a:bigaron_screen_shaker.y_scroll, Y
+    LDA #0
+    STA a:bigaron_screen_shaker.last_h_offset, Y
+    STA a:bigaron_screen_shaker.last_v_offset, Y
     LDA #1
     STA a:bigaron_screen_shaker.frames_left, Y
     LDA z:.SEQUENCE
@@ -1044,10 +1129,6 @@ i16
     REP #0x20
     DEC z:bigaron_screen_shaker.frames_left, X
     BNE .ret
-    LDA z:bigaron_screen_shaker.h_scroll, X
-    STA a:addr(bg1_h_scroll)
-    LDA z:bigaron_screen_shaker.y_scroll, X
-    STA a:addr(bg1_v_scroll)
     
     LDA z:bigaron_screen_shaker.sequence_ptr, X
     STA z:.SEQUENCE
@@ -1067,16 +1148,24 @@ i16
     LDY #shake_item.h_scroll
     LDA f:[z:.SEQUENCE], Y
     STA z:addr(object_shift_x)
+    SEC
+    SBC z:bigaron_screen_shaker.last_h_offset, X
     CLC
     ADC a:addr(bg1_h_scroll)
     STA a:addr(bg1_h_scroll)
+    LDA f:[z:.SEQUENCE], Y
+    STA z:bigaron_screen_shaker.last_h_offset, X
     
     LDY #shake_item.v_scroll
     LDA f:[z:.SEQUENCE], Y
     STA z:addr(object_shift_y)
+    SEC
+    SBC z:bigaron_screen_shaker.last_v_offset, X
     CLC
     ADC a:addr(bg1_v_scroll)
     STA a:addr(bg1_v_scroll)
+    LDA f:[z:.SEQUENCE], Y
+    STA z:bigaron_screen_shaker.last_v_offset, X
     
     LDA f:[z:.SEQUENCE]
     STA z:bigaron_screen_shaker.frames_left, X

@@ -4984,8 +4984,27 @@ i16
     AND #0xCF
     ORA z:0xE, X
     ORA z:0x47
+    
+; Hack for letting multi-palette objects flash white
+    PHA
+    LDA z:0x1E, X
+    CMP #0xE
+    BEQ .single_palette
+    BIT #0x80
+    BNE .single_palette
+    PLA
     CLC
     ADC z:0x1E, X
+    BRA +
+.single_palette
+    PLA
+    AND #~0xE
+    STA f:[z:0x56]
+    LDA z:0x1E, X
+    AND #~0x80
+    ORA f:[z:0x56]
++
+    
     STA f:[z:0x56]
     LDA f:[z:0x53], Y
     AND #0x20

@@ -78,19 +78,19 @@ stage_6_4:
     level 0x64, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x30,
           diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
-          0, 23 ; hard/soft blocks
+          0, 31 ; hard/soft blocks
 
     load_palettes diamond_tower_palettes
     load_global_sprites standard_level_graphics
     tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
-    hidden_bonus_object BONUS_COND_SCORE_ENDS_WITH_20, APPLE
+    hidden_bonus_object BONUS_COND_SPAWN_ENEMY, ICE_CREAM
     init_functions_end
 
-    df create_yoroisu
-    df create_yoroisu
+    df create_level_bigaron
+    df create_level_bigaron
     dw 0
     
-    dw BOMB_UP, EXTRA_TIME, EXTRA_LIFE, 0
+    dw BOMB_UP, EXTRA_LIFE, EXTRA_TIME, FIRE_UP, VEST, 0
     
 stage_6_5:
     level 0x65, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x40,
