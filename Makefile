@@ -101,10 +101,10 @@ $(OUT)/%_palette_j.bin $(shell echo $(OUT)/%_palette_{0..8}_j.bin) : %_j.png $(O
 MAX_SONG = 41
 
 # Join all data together
-$(OUT)/dboot/data.bin: dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin dboot/sound_effects.bin $(OUT)/dboot/songs.bin
+$(OUT)/dboot/data.bin: dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin dboot/sound_effects.bin $(OUT)/dboot/songs.bin $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Joining DBoot data...$(TITLE_END)
-	python tools/dboot.py join $@ $^
+	$(OUT)/tools/dboot join $@ $(filter-out $(OUT)/tools/dboot,$^)
 
 # dboot/firmware.bin:
 #	Due to the lack of a decent SPC-700 disassembler, the DBoot firmware is only
@@ -115,15 +115,15 @@ $(OUT)/dboot/data.bin: dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/sample
 #   in a way that they are binary identical. (I.e. no data is lost in conversion).
 #	Feel free to contribute one. :)
 
-$(OUT)/dboot/samples.bin: dboot/samples.def $(shell ls dboot/samples/*.brr)
+$(OUT)/dboot/samples.bin: dboot/samples.def $(shell ls dboot/samples/*.brr) $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Packing samples...$(TITLE_END)
-	python tools/dboot.py pack-samples $< $@
+	$(OUT)/tools/dboot pack-samples $< $@
 
-$(OUT)/dboot/songs.bin: $(addprefix $(OUT)/,$(shell echo dboot/songs/song_{0..$(MAX_SONG)}.bin))
+$(OUT)/dboot/songs.bin: $(addprefix $(OUT)/,$(shell echo dboot/songs/song_{0..$(MAX_SONG)}.bin)) $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Joining songs...$(TITLE_END)
-	python tools/dboot.py join-songs $@ $^
+	$(OUT)/tools/dboot join-songs $@ $(filter-out $(OUT)/tools/dboot,$^)
 
 # Duplicated songs
 $(shell echo $(OUT)/dboot/songs/song_{30,32,34,36,38,40}.bin): $(OUT)/dboot/songs/song_13.bin
@@ -149,10 +149,10 @@ endef
 
 $(foreach song,$(shell find dboot/songs -type d -name "song_*"), $(eval $(song_rule)))
 
-$(OUT)/dboot/songs/song_%.bin: dboot/songs/song_%
+$(OUT)/dboot/songs/song_%.bin: dboot/songs/song_% $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Combining song $@...$(TITLE_END)
-	python tools/dboot.py join-channels $@ $(filter %.bin, $^)
+	$(OUT)/tools/dboot join-channels $@ $(filter %.bin, $^)
 
 $(OUT)/dboot/songs/%.bin: dboot/songs/%.py tools/compile_dboot_channel.py
 	@mkdir -p $(dir $@)
