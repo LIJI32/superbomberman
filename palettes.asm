@@ -256,7 +256,7 @@ palette sprites, bigaron_palette_0  ; 0x1f BIGARON_PALETTE_1
 palette sprites, bigaron_palette_1  ; 0x20 BIGARON_PALETTE_2
 palette sprites, bigaron_fire_palette  ; 0x21 BIGARON_FIRE_PALETTE
 dw 0x294A, 0x7FFF, 0x4A52, 0x4826, 0x51, 0xC9, 0x10E, 7, 0x61E0, 0x1FA, 0x1DF, 0x1991, 0x6CCF, 0x3257, 0x52FF, 0x3EBB ; [0x22]_palette
-palette sprites, MISSILE_PALETTE  ; 0x23 MISSILE_PALETTE
+palette sprites, missile_palette  ; 0x23 MISSILE_PALETTE
 palette sprites, mecha_onita_palette  ; 0x24 MECHA_ONITA_PALETTE
 palette sprites, mecha_onita_shock_palette  ; 0x25 MECHA_ONITA_SHOCK_PALETTE
 palette sprites, spiderer_palette_0  ; 0x26 SPIDERER_PALETTE_0
