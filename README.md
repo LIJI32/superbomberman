@@ -11,19 +11,19 @@ Super Bomberman 1 (US Prototype) : d67a1a2b0fac0564d950f8cd45fee3c2
 </pre>
 It can also build a bugfix version, based on the US version, that fixes some (mostly graphical) bugs, and can also restore access to the debug menu used during development with a debug version. The configuration files let you mix-and-match specific regional changes.
 
-The [randomizer branch](https://github.com/LIJI32/superbomberman/tree/randomizer) can also build ROMs with randomly generated levels.
+The old [randomizer branch](https://github.com/LIJI32/superbomberman/tree/randomizer) can also build ROMs with randomly generated levels, but uses the old build tools.
 
 # Requirements
 The following are required to build a ROM:
 * A UNIX-like system to build the ROM on. I generally use OS X to build, but I also correctly built a ROM on a Linux system. I did not test on other UNIX-like systems or Windows.
 * sfcasm (tbd)
 * md5 or md5sum, for verifying the ROM after compilation
-* python, required to run many of the game- and SNES-specific tools in this repository, such as graphic and audio conversion tools
+* Clang and libpng, required to build many of the game- and SNES-specific tools in this repository, such as graphic and audio conversion tools
 
 Build by running <code>make</code> or <code>make CONFIG=x</code>, where x is us, j, e, bugfix, debug or any other configuration file in the config folder. Using the -s and -j flags is recommended
 
 # What is done
-* Naming many of the subroutines (285 out of 817!)
+* Naming many of the subroutines
 * Conversion of all graphics/palettes to PNGs
 * Conversion of all level structures and tilemaps
 * Unpacking and repacking of the DBoot (SPC engine used in the game) data
@@ -36,7 +36,7 @@ Build by running <code>make</code> or <code>make CONFIG=x</code>, where x is us,
 * Naming all subroutines
 * Conversion of all DBoot files:
  * banks sub-file: Documented, conversion tools not written yet.
- * sound_effcts sub-file: Probably the same or very similar to songs sub-file
+ * sound_effects sub-file: Probably the same or very similar to the songs sub-file
  * instruments sub-file: Format only partially documented
  * firmware subfile: This is the code that runs on the SPC. Due to the lack of an SPC700 IDA processor module, I only have a partial, uncommitted disassembly of the code, with only code related to the music format. Due to not being able to re-assemble such code, it is provided in binary form
  * Conversion of WAVs to BRR. I couldn't find or create an algorithm to compress WAVs back to BRR files without losing more information (Assuming the WAV files themselves were converted from BRR files). Both WAV and BRR files are provided, and the build system ignores the WAV files.

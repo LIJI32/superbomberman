@@ -33,45 +33,60 @@ CONVERTING_GRAPHIC = @echo -e $(TITLE)Converting graphic $<...$(TITLE_END)
 EXTRACTING_PALETTES = @echo -e $(TITLE)Extracting palettes from $<...$(TITLE_END)
 
 # Sprites
-$(OUT)/graphics/sprites/%_graphic.bin $(shell echo build/graphics/sprites/%_graphic_{0..8}.bin): graphics/sprites/%.png
+$(OUT)/graphics/sprites/%_graphic.bin: graphics/sprites/%.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py $< 
+	$(OUT)/tools/png_to_bin sprite $< $@
 
 # Japanese sprites
-$(OUT)/graphics/sprites/%_graphic_j.bin $(shell echo build/graphics/sprites/%_graphic_{0..8}_j.bin): graphics/sprites/%_j.png
+$(OUT)/graphics/sprites/%_graphic_j.bin: graphics/sprites/%_j.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py $<
+	$(OUT)/tools/png_to_bin sprite $< $@
+	
+# Divided sprites
+define divided_sprite
+$(OUT)/graphics/sprites/%_graphic_$(part).bin: graphics/sprites/%.png $(OUT)/tools/png_to_bin
+	@mkdir -p $(dir $$@)
+	$(CONVERTING_GRAPHIC)
+	$(OUT)/tools/png_to_bin sprite $$<:$(part) $$@
+
+$(OUT)/graphics/sprites/%_graphic_$(part)_j.bin: graphics/sprites/%_j.png $(OUT)/tools/png_to_bin
+	@mkdir -p $(dir $$@)
+	$(CONVERTING_GRAPHIC)
+	$(OUT)/tools/png_to_bin sprite $$<:$(part) $$@
+endef
+
+$(foreach part,$(shell echo {0..8}),$(eval $(call divided_sprite)))
 
 # Backgrounds
-$(OUT)/graphics/backgrounds/%_graphic.bin: graphics/backgrounds/%.png
+$(OUT)/graphics/backgrounds/%_graphic.bin: graphics/backgrounds/%.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py bg $<
-
+	$(OUT)/tools/png_to_bin bg $< $@
+	
 # Japanese backgrounds
-$(OUT)/graphics/backgrounds/%_graphic_j.bin: graphics/backgrounds/%_j.png
+$(OUT)/graphics/backgrounds/%_graphic_j.bin: graphics/backgrounds/%_j.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py bg $<
+	$(OUT)/tools/png_to_bin bg $< $@
 
 # Overlays
-$(OUT)/graphics/overlays/%_graphic.bin: graphics/overlays/%.png
+$(OUT)/graphics/overlays/%_graphic.bin: graphics/overlays/%.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py overlay $<
+	$(OUT)/tools/png_to_bin overlay $< $@
 
 # Specific files
-$(OUT)/graphics/animated_tiles_graphic.bin: graphics/animated_tiles.png
+$(OUT)/graphics/animated_tiles_graphic.bin: graphics/animated_tiles.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py raw $<
+	$(OUT)/tools/png_to_bin raw $< $@
 
-$(OUT)/graphics/bg3_tileset_graphic.bin: graphics/bg3_tileset.png
+$(OUT)/graphics/bg3_tileset_graphic.bin: graphics/bg3_tileset.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py raw2 $<
+	$(OUT)/tools/png_to_bin raw2 $< $@
 
 # Multi-color graphics aliases.
 $(OUT)/graphics/sprites/victory_pose_graphic_%.bin: $(OUT)/graphics/sprites/shiro_victory_pose_graphic_%.bin
