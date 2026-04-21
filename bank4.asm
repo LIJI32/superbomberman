@@ -2799,15 +2799,15 @@ randomize_landing:
     RTL
 
 trampoline_deltas:
-    dw 0, 0xFFF0     ; 0
-    dw 0x10, 0    ; 2
-    dw 0, 0x10    ; 4
-    dw 0xFFF0, 0    ; 6
+    dw 0,    -0x10
+    dw 0x10,     0
+    dw 0,     0x10
+    dw -0x10,    0
 level_end_musics:
-    db 0, 0xE     ; 0
-    db 0x1F, 0x21    ; 2
-    db 0x23, 0x25    ; 4
-    db 0x27    ; 6
+    db 0, 0xE
+    db 0x1F, 0x21
+    db 0x23, 0x25
+    db 0x27
 enter_level_exit:
 a16
     JSL clear_playerquare_in_collision_map

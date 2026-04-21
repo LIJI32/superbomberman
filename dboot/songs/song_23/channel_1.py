@@ -1,5 +1,0 @@
-nop()
-c6(0x6)
-song	(10)
-halt	()
-halt	()

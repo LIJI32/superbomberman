@@ -144,7 +144,7 @@ $(shell echo $(OUT)/dboot/songs/song_{28,29}.bin): $(OUT)/dboot/songs/song_27.bi
 
 # Create songs from channels
 define song_rule
-$(OUT)/$(song).bin: $(addprefix $(OUT)/,$(shell find $(song) -name "*.py" | sort | sed s/\\.py/.bin/))
+$(OUT)/$(song).bin: $(addprefix $(OUT)/,$(shell find $(song) -name "*.txt" | sort | sed s/\\.txt/.bin/))
 endef
 
 $(foreach song,$(shell find dboot/songs -type d -name "song_*"), $(eval $(song_rule)))
@@ -154,10 +154,10 @@ $(OUT)/dboot/songs/song_%.bin: dboot/songs/song_% $(OUT)/tools/dboot
 	@echo -e $(TITLE)Combining song $@...$(TITLE_END)
 	$(OUT)/tools/dboot join-channels $@ $(filter %.bin, $^)
 
-$(OUT)/dboot/songs/%.bin: dboot/songs/%.py tools/compile_dboot_channel.py
+$(OUT)/dboot/songs/%.bin: dboot/songs/%.txt $(OUT)/tools/compile_dboot_channel
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Compiling song channel $@...$(TITLE_END)
-	python tools/compile_dboot_channel.py $< $@
+	$(OUT)/tools/compile_dboot_channel encode $< $@
 
 
 #### Misc data ####

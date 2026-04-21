@@ -1,0 +1,6 @@
+..
+#join
+#unkc
+#tempo 150
+#halt
+#halt
