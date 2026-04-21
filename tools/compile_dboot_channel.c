@@ -652,6 +652,7 @@ if (!mpt_format && memcmp(&last->native, empty, sizeof(last->native)) != 0) { \
                     case 0x1a:
                     case 0x1b: { // vol range
                         vol_range = command & 3;
+                        mpt_effective_volume = (mpt_volume + 1) * vol_range / 6;
                         break;
                     }
                     default:
