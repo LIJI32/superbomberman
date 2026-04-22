@@ -6,12 +6,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #include "fileio.h"
 #include "rle.h"
 
 /* Since we're using chars as indexes, we're explicitly specifying unsigned chars in this file
    and ignore pointer sign mismatch so we can use string.h functions */
-#pragma clang diagnostic ignored "-Wpointer-sign"
+#pragma GCC diagnostic ignored "-Wpointer-sign"
 
 #define TILEMAP_ROWS 13
 #define TILEMAP_COLS 17

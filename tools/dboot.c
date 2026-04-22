@@ -1,5 +1,6 @@
 #include "fileio.h"
 #include <unistd.h>
+#include <stdint.h>
 #include <libgen.h>
 
 static uint8_t *file_contents(const char *path, size_t *size)

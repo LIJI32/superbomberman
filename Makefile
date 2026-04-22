@@ -7,7 +7,9 @@ SHELL := $(shell which bash)
 all: $(OUT)/superbomberman.sfc compare
 .PHONY: all compare clean
 
+ifneq ($(MAKECMDGOALS),clean)
 -include $(OUT)/superbomberman.dep
+endif
 
 TITLE = "\033[1m\033[36m"
 TITLE_END = "\033[0m"
@@ -25,7 +27,7 @@ $(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout
 $(OUT)/tools/%: tools/%.c tools/fileio.h tools/rle.h
 	@echo -e $(TITLE)Building tool $(notdir $@)...$(TITLE_END)
 	@mkdir -p $(dir $@)
-	$(CC) -O3 -Wall -Werror -g -o $@ $<  $$(pkg-config --cflags --libs libpng || echo -lpng)
+	$(CC) -std=gnu11 -O3 -Wall -Werror -g -o $@ $<  $$(pkg-config --cflags --libs libpng || echo -lpng)
 
 #### Graphic rules ####
 
@@ -47,13 +49,13 @@ $(OUT)/graphics/sprites/%_graphic_j.bin: graphics/sprites/%_j.png $(OUT)/tools/p
 # Divided sprites
 define divided_sprite
 $(OUT)/graphics/sprites/%_graphic_$(part).bin: graphics/sprites/%.png $(OUT)/tools/png_to_bin
-	@mkdir -p $(dir $$@)
-	$(CONVERTING_GRAPHIC)
+	@mkdir -p $$(dir $$@)
+	$$(CONVERTING_GRAPHIC)
 	$(OUT)/tools/png_to_bin sprite $$<:$(part) $$@
 
 $(OUT)/graphics/sprites/%_graphic_$(part)_j.bin: graphics/sprites/%_j.png $(OUT)/tools/png_to_bin
-	@mkdir -p $(dir $$@)
-	$(CONVERTING_GRAPHIC)
+	@mkdir -p $$(dir $$@)
+	$$(CONVERTING_GRAPHIC)
 	$(OUT)/tools/png_to_bin sprite $$<:$(part) $$@
 endef
 
@@ -96,18 +98,33 @@ $(OUT)/graphics/sprites/victory_pose_graphic_%.bin: $(OUT)/graphics/sprites/shir
 $(OUT)/graphics/sprites/mecha_bomberman_graphic_%.bin: $(OUT)/graphics/sprites/white_mecha_bomberman_graphic_%.bin
 	@mkdir -p $(dir $@)
 	ln -sf $(realpath $<) $@
-
-# Palettes
-$(OUT)/%_palette.bin $(shell echo $(OUT)/%_palette_{0..8}.bin): %.png $(OUT)/tools/extract_palettes
+	
+# Sprites
+$(OUT)/%_palette.bin: %.png $(OUT)/tools/extract_palettes
 	@mkdir -p $(dir $@)
 	$(EXTRACTING_PALETTES)
-	$(OUT)/tools/extract_palettes $(OUT) $<
+	$(OUT)/tools/extract_palettes $< $@
 
 # Japanese sprites
-$(OUT)/%_palette_j.bin $(shell echo $(OUT)/%_palette_{0..8}_j.bin) : %_j.png $(OUT)/tools/extract_palettes
+$(OUT)/%_palette_j.bin: %_j.png $(OUT)/tools/extract_palettes
 	@mkdir -p $(dir $@)
 	$(EXTRACTING_PALETTES)
-	$(OUT)/tools/extract_palettes $(OUT) $<
+	$(OUT)/tools/extract_palettes $< $@
+	
+# Divided palettes
+define divided_palettes
+$(OUT)/%_palette_$(part).bin: %.png $(OUT)/tools/extract_palettes
+	@mkdir -p $$(dir $$@)
+	$$(EXTRACTING_PALETTES)
+	$(OUT)/tools/extract_palettes $$<:$(part) $$@
+
+$(OUT)/%_palette_$(part)_j.bin: %_j.png $(OUT)/tools/extract_palettes
+	@mkdir -p $$(dir $$@)
+	$$(EXTRACTING_PALETTES)
+	$(OUT)/tools/extract_palettes $$<:$(part) $$@
+endef
+
+$(foreach part,$(shell echo {0..8}),$(eval $(call divided_palettes)))
 
 
 #### DBoot (Sound engine) rules ####
@@ -201,9 +218,9 @@ clean:
 compare: $(OUT)/superbomberman.sfc
 	$(eval MD5 := $(shell $(MD5SUM) $< | sed "s/.*\([0-9a-f]\{32\}\).*/\\1/"))
 	@echo -e "\033[1msuperbomberman.sfc               :" $(MD5) "\033[0m"
-	@echo "Super Bomberman 1 (US)           : d83699a009a62480a7e7e9f1bb5bff6e" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (J)            : cbef5f02304a2b821a0e1642a6307564" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (E)            : ddee4ddff2f3b6e31b8f73d0cb597ef1" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (US Prototype) : d67a1a2b0fac0564d950f8cd45fee3c2" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
+	@echo "Super Bomberman 1 (US)           : d83699a009a62480a7e7e9f1bb5bff6e" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
+	@echo "Super Bomberman 1 (J)            : cbef5f02304a2b821a0e1642a6307564" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
+	@echo "Super Bomberman 1 (E)            : ddee4ddff2f3b6e31b8f73d0cb597ef1" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
+	@echo "Super Bomberman 1 (US Prototype) : d67a1a2b0fac0564d950f8cd45fee3c2" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
 
 

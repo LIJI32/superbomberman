@@ -1,6 +1,7 @@
 #include "fileio.h"
 #include <unistd.h>
 #include <ctype.h>
+#include <arpa/inet.h>
 
 static uint8_t *decompress(FILE *f, size_t *size, bool *compressed)
 {
