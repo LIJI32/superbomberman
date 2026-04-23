@@ -7,7 +7,9 @@ SHELL := $(shell which bash)
 all: $(OUT)/superbomberman.sfc compare
 .PHONY: all compare clean
 
+ifneq ($(MAKECMDGOALS),clean)
 -include $(OUT)/superbomberman.dep
+endif
 
 TITLE = "\033[1m\033[36m"
 TITLE_END = "\033[0m"
@@ -25,7 +27,7 @@ $(OUT)/superbomberman.sfc: superbomberman.asm superbomberman.layout
 $(OUT)/tools/%: tools/%.c tools/fileio.h tools/rle.h
 	@echo -e $(TITLE)Building tool $(notdir $@)...$(TITLE_END)
 	@mkdir -p $(dir $@)
-	$(CC) -O3 -Wall -Werror -g -o $@ $<  $$(pkg-config --cflags --libs libpng || echo -lpng)
+	$(CC) -std=gnu11 -O3 -Wall -Werror -g -o $@ $<  $$(pkg-config --cflags --libs libpng || echo -lpng)
 
 #### Graphic rules ####
 
@@ -33,45 +35,60 @@ CONVERTING_GRAPHIC = @echo -e $(TITLE)Converting graphic $<...$(TITLE_END)
 EXTRACTING_PALETTES = @echo -e $(TITLE)Extracting palettes from $<...$(TITLE_END)
 
 # Sprites
-$(OUT)/graphics/sprites/%_graphic.bin $(shell echo build/graphics/sprites/%_graphic_{0..8}.bin): graphics/sprites/%.png
+$(OUT)/graphics/sprites/%_graphic.bin: graphics/sprites/%.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py $< 
+	$(OUT)/tools/png_to_bin sprite $< $@
 
 # Japanese sprites
-$(OUT)/graphics/sprites/%_graphic_j.bin $(shell echo build/graphics/sprites/%_graphic_{0..8}_j.bin): graphics/sprites/%_j.png
+$(OUT)/graphics/sprites/%_graphic_j.bin: graphics/sprites/%_j.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py $<
+	$(OUT)/tools/png_to_bin sprite $< $@
+	
+# Divided sprites
+define divided_sprite
+$(OUT)/graphics/sprites/%_graphic_$(part).bin: graphics/sprites/%.png $(OUT)/tools/png_to_bin
+	@mkdir -p $$(dir $$@)
+	$$(CONVERTING_GRAPHIC)
+	$(OUT)/tools/png_to_bin sprite $$<:$(part) $$@
+
+$(OUT)/graphics/sprites/%_graphic_$(part)_j.bin: graphics/sprites/%_j.png $(OUT)/tools/png_to_bin
+	@mkdir -p $$(dir $$@)
+	$$(CONVERTING_GRAPHIC)
+	$(OUT)/tools/png_to_bin sprite $$<:$(part) $$@
+endef
+
+$(foreach part,$(shell echo {0..8}),$(eval $(call divided_sprite)))
 
 # Backgrounds
-$(OUT)/graphics/backgrounds/%_graphic.bin: graphics/backgrounds/%.png
+$(OUT)/graphics/backgrounds/%_graphic.bin: graphics/backgrounds/%.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py bg $<
-
+	$(OUT)/tools/png_to_bin bg $< $@
+	
 # Japanese backgrounds
-$(OUT)/graphics/backgrounds/%_graphic_j.bin: graphics/backgrounds/%_j.png
+$(OUT)/graphics/backgrounds/%_graphic_j.bin: graphics/backgrounds/%_j.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py bg $<
+	$(OUT)/tools/png_to_bin bg $< $@
 
 # Overlays
-$(OUT)/graphics/overlays/%_graphic.bin: graphics/overlays/%.png
+$(OUT)/graphics/overlays/%_graphic.bin: graphics/overlays/%.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py overlay $<
+	$(OUT)/tools/png_to_bin overlay $< $@
 
 # Specific files
-$(OUT)/graphics/animated_tiles_graphic.bin: graphics/animated_tiles.png
+$(OUT)/graphics/animated_tiles_graphic.bin: graphics/animated_tiles.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py raw $<
+	$(OUT)/tools/png_to_bin raw $< $@
 
-$(OUT)/graphics/bg3_tileset_graphic.bin: graphics/bg3_tileset.png
+$(OUT)/graphics/bg3_tileset_graphic.bin: graphics/bg3_tileset.png $(OUT)/tools/png_to_bin
 	@mkdir -p $(dir $@)
 	$(CONVERTING_GRAPHIC)
-	OUT=$(OUT) python tools/png_to_bin.py raw2 $<
+	$(OUT)/tools/png_to_bin raw2 $< $@
 
 # Multi-color graphics aliases.
 $(OUT)/graphics/sprites/victory_pose_graphic_%.bin: $(OUT)/graphics/sprites/shiro_victory_pose_graphic_%.bin
@@ -81,18 +98,33 @@ $(OUT)/graphics/sprites/victory_pose_graphic_%.bin: $(OUT)/graphics/sprites/shir
 $(OUT)/graphics/sprites/mecha_bomberman_graphic_%.bin: $(OUT)/graphics/sprites/white_mecha_bomberman_graphic_%.bin
 	@mkdir -p $(dir $@)
 	ln -sf $(realpath $<) $@
-
-# Palettes
-$(OUT)/%_palette.bin $(shell echo $(OUT)/%_palette_{0..8}.bin): %.png $(OUT)/tools/extract_palettes
+	
+# Sprites
+$(OUT)/%_palette.bin: %.png $(OUT)/tools/extract_palettes
 	@mkdir -p $(dir $@)
 	$(EXTRACTING_PALETTES)
-	$(OUT)/tools/extract_palettes $(OUT) $<
+	$(OUT)/tools/extract_palettes $< $@
 
 # Japanese sprites
-$(OUT)/%_palette_j.bin $(shell echo $(OUT)/%_palette_{0..8}_j.bin) : %_j.png $(OUT)/tools/extract_palettes
+$(OUT)/%_palette_j.bin: %_j.png $(OUT)/tools/extract_palettes
 	@mkdir -p $(dir $@)
 	$(EXTRACTING_PALETTES)
-	$(OUT)/tools/extract_palettes $(OUT) $<
+	$(OUT)/tools/extract_palettes $< $@
+	
+# Divided palettes
+define divided_palettes
+$(OUT)/%_palette_$(part).bin: %.png $(OUT)/tools/extract_palettes
+	@mkdir -p $$(dir $$@)
+	$$(EXTRACTING_PALETTES)
+	$(OUT)/tools/extract_palettes $$<:$(part) $$@
+
+$(OUT)/%_palette_$(part)_j.bin: %_j.png $(OUT)/tools/extract_palettes
+	@mkdir -p $$(dir $$@)
+	$$(EXTRACTING_PALETTES)
+	$(OUT)/tools/extract_palettes $$<:$(part) $$@
+endef
+
+$(foreach part,$(shell echo {0..8}),$(eval $(call divided_palettes)))
 
 
 #### DBoot (Sound engine) rules ####
@@ -101,10 +133,10 @@ $(OUT)/%_palette_j.bin $(shell echo $(OUT)/%_palette_{0..8}_j.bin) : %_j.png $(O
 MAX_SONG = 41
 
 # Join all data together
-$(OUT)/dboot/data.bin: dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin dboot/sound_effects.bin $(OUT)/dboot/songs.bin
+$(OUT)/dboot/data.bin: dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin dboot/sound_effects.bin $(OUT)/dboot/songs.bin $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Joining DBoot data...$(TITLE_END)
-	python tools/dboot.py join $@ $^
+	$(OUT)/tools/dboot join $@ $(filter-out $(OUT)/tools/dboot,$^)
 
 # dboot/firmware.bin:
 #	Due to the lack of a decent SPC-700 disassembler, the DBoot firmware is only
@@ -115,15 +147,15 @@ $(OUT)/dboot/data.bin: dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/sample
 #   in a way that they are binary identical. (I.e. no data is lost in conversion).
 #	Feel free to contribute one. :)
 
-$(OUT)/dboot/samples.bin: dboot/samples.def $(shell ls dboot/samples/*.brr)
+$(OUT)/dboot/samples.bin: dboot/samples.def $(shell ls dboot/samples/*.brr) $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Packing samples...$(TITLE_END)
-	python tools/dboot.py pack-samples $< $@
+	$(OUT)/tools/dboot pack-samples $< $@
 
-$(OUT)/dboot/songs.bin: $(addprefix $(OUT)/,$(shell echo dboot/songs/song_{0..$(MAX_SONG)}.bin))
+$(OUT)/dboot/songs.bin: $(addprefix $(OUT)/,$(shell echo dboot/songs/song_{0..$(MAX_SONG)}.bin)) $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Joining songs...$(TITLE_END)
-	python tools/dboot.py join-songs $@ $^
+	$(OUT)/tools/dboot join-songs $@ $(filter-out $(OUT)/tools/dboot,$^)
 
 # Duplicated songs
 $(shell echo $(OUT)/dboot/songs/song_{30,32,34,36,38,40}.bin): $(OUT)/dboot/songs/song_13.bin
@@ -144,20 +176,20 @@ $(shell echo $(OUT)/dboot/songs/song_{28,29}.bin): $(OUT)/dboot/songs/song_27.bi
 
 # Create songs from channels
 define song_rule
-$(OUT)/$(song).bin: $(addprefix $(OUT)/,$(shell find $(song) -name "*.py" | sort | sed s/\\.py/.bin/))
+$(OUT)/$(song).bin: $(addprefix $(OUT)/,$(shell find $(song) -name "*.txt" | sort | sed s/\\.txt/.bin/))
 endef
 
 $(foreach song,$(shell find dboot/songs -type d -name "song_*"), $(eval $(song_rule)))
 
-$(OUT)/dboot/songs/song_%.bin: dboot/songs/song_%
+$(OUT)/dboot/songs/song_%.bin: dboot/songs/song_% $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Combining song $@...$(TITLE_END)
-	python tools/dboot.py join-channels $@ $(filter %.bin, $^)
+	$(OUT)/tools/dboot join-channels $@ $(filter %.bin, $^)
 
-$(OUT)/dboot/songs/%.bin: dboot/songs/%.py tools/compile_dboot_channel.py
+$(OUT)/dboot/songs/%.bin: dboot/songs/%.txt $(OUT)/tools/compile_dboot_channel
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Compiling song channel $@...$(TITLE_END)
-	python tools/compile_dboot_channel.py $< $@
+	$(OUT)/tools/compile_dboot_channel encode $< $@
 
 
 #### Misc data ####
@@ -186,9 +218,9 @@ clean:
 compare: $(OUT)/superbomberman.sfc
 	$(eval MD5 := $(shell $(MD5SUM) $< | sed "s/.*\([0-9a-f]\{32\}\).*/\\1/"))
 	@echo -e "\033[1msuperbomberman.sfc               :" $(MD5) "\033[0m"
-	@echo "Super Bomberman 1 (US)           : d83699a009a62480a7e7e9f1bb5bff6e" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (J)            : cbef5f02304a2b821a0e1642a6307564" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (E)            : ddee4ddff2f3b6e31b8f73d0cb597ef1" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
-	@echo "Super Bomberman 1 (US Prototype) : d67a1a2b0fac0564d950f8cd45fee3c2" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E
+	@echo "Super Bomberman 1 (US)           : d83699a009a62480a7e7e9f1bb5bff6e" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
+	@echo "Super Bomberman 1 (J)            : cbef5f02304a2b821a0e1642a6307564" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
+	@echo "Super Bomberman 1 (E)            : ddee4ddff2f3b6e31b8f73d0cb597ef1" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
+	@echo "Super Bomberman 1 (US Prototype) : d67a1a2b0fac0564d950f8cd45fee3c2" | GREP_COLOR=32 grep ".+$(MD5)|^" --color -E 2> /dev/null
 
 

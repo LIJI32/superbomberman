@@ -48,15 +48,16 @@ static bool photoshop_fix(png_colorp palette, unsigned *palette_size)
     return true;
 }
 
-static int extract_palettes(const char *filename, const char *outdir)
+static int extract_palettes(char *input_file, const char *output_file)
 {
-    FILE *f = file_open(filename, "rb");
-    
-    if (chdir(outdir)) {
-        perror("Can't access output dir");
-        fclose(f);
-        return 1;
+    unsigned part = 0;
+    char *colon = strrchr(input_file, ':');
+    if (colon) {
+        *colon = 0;
+        part = atoi(colon + 1);
     }
+    
+    FILE *f = file_open(input_file, "rb");
 
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     png_infop info = png_create_info_struct(png);
@@ -72,56 +73,29 @@ static int extract_palettes(const char *filename, const char *outdir)
         fprintf(stderr, "PNG has no palette\n");
         return 1;
     }
+    
+    if (palette_size < part * 16 + 16) {
+        fprintf(stderr, "PNG doesn't have enough colors to extract SNES palette %u\n", part);
+        return 1;
+    }
 
     photoshop_fix(palette, &palette_size);
 
-    /* Determine if Japanese version and prepare base filename */
-    bool is_japanese = false;
-    static char out_name[PATH_MAX + 1];
-    strcpy(out_name, filename);
+    uint16_t palette_data[16];
     
-    size_t out_length = strlen(out_name);
-
-    if (out_length > 6 && strcmp(&out_name[out_length - 6], "_j.png") == 0) {
-        is_japanese = true;
-        /* Drop the _j, we'll add it back later */
-        out_name[out_length - 6] = '\0';
-        strcpy(out_name + out_length - 6, ".png");
+    for (unsigned i = 0; i < 16; i++) {
+        unsigned index = part * 16 + i;
+        palette_data[i] = encode_rgb(
+            palette[index].red,
+            palette[index].green,
+            palette[index].blue
+        );
     }
-
-    /* Remove the extension */
-    char *ext = strrchr(out_name, '.');
-    if (ext) {
-        *ext = '\0';
-    }
-
-    /* Extract palettes in 16-color chunks */
-    for (unsigned i = 0; i < palette_size; i += 16) {
-        uint16_t palette_data[16];
-        
-        unsigned chunk_size = (palette_size - i < 16) ? (palette_size - i) : 16;
-        for (unsigned j = 0; j < chunk_size; j++) {
-            unsigned index = i + j;
-            palette_data[j] = encode_rgb(
-                palette[index].red,
-                palette[index].green,
-                palette[index].blue
-            );
-        }
-        
-        static char out_path[PATH_MAX + 1];
-        if (palette_size == 16) {
-            snprintf(out_path, sizeof(out_path), "./%s_palette%s.bin", out_name, is_japanese? "_j" :"");
-        }
-        else {
-            snprintf(out_path, sizeof(out_path), "./%s_palette_%d%s.bin", out_name, i / 16, is_japanese? "_j" :"");
-        }
-
-        /* Write palette data */
-        FILE *out = file_open(out_path, "wb");
-        file_write(out, palette_data, sizeof(palette_data));
-        fclose(out);
-    }
+    
+    /* Write palette data */
+    FILE *out = file_open(output_file, "wb");
+    file_write(out, palette_data, sizeof(palette_data));
+    fclose(out);
 
     png_destroy_read_struct(&png, &info, NULL);
     fclose(f);
@@ -131,9 +105,9 @@ static int extract_palettes(const char *filename, const char *outdir)
 int main(int argc, char **argv)
 {
     if (argc != 3) {
-        fprintf(stderr, "Usage: %s <output_directory> <png file>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <png file>[:part] <palette.bin>\n", argv[0]);
         return 1;
     }
 
-    return extract_palettes(argv[2], argv[1]);
+    return extract_palettes(argv[1], argv[2]);
 }

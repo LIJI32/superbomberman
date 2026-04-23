@@ -1,0 +1,7 @@
+..
+#join
+#unkc
+#unk6 6
+#song 10
+#halt
+#halt

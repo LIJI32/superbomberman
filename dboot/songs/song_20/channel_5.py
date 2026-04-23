@@ -1,5 +1,0 @@
-nop()
-track	(0x3)
-inst	(0x5)
-halt	()
-halt	()

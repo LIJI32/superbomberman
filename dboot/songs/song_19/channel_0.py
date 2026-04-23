@@ -1,8 +1,0 @@
-nop()
-tempo	(209)
-pause	(12)
-pause	(255, set=False)
-pause	(32)
-pause	(1)
-halt	()
-halt	()

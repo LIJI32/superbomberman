@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
 
 static inline FILE *file_open(const char *arg, const char *mode)
 {
