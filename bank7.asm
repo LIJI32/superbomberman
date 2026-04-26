@@ -317,14 +317,6 @@ animation_frame_C703D7:
     frame_oam_tile   -8,   -8, 0x050, 0x20
     frame_oam_tile  -18,   -8, 0x022, 0x20
     .end
-unused_animation_frame_9:
-    animation_frame_count
-    animation_frame animation_frame_C70290, 0xFF
-    .end
-unused_animation_frame_10:
-    animation_frame_count
-    animation_frame animation_frame_C702DC, 0xFF
-    .end
 byte_C703F6:
     animation_frame_count
     animation_frame animation_frame_C7032D, 0xFF
@@ -437,22 +429,6 @@ animation_frame_C7052A:
     frame_oam_tile   24,  -32, 0x094, 0x20
     frame_oam_tile    8,  -32, 0x092, 0x20
     frame_oam_tile   -8,  -32, 0x090, 0x20
-    .end
-unused_animation_frame_11:
-    animation_frame_count
-    animation_frame animation_frame_C70414, 0xFF
-    .end
-unused_animation_frame_12:
-    animation_frame_count
-    animation_frame animation_frame_C7046A, 0xFF
-    .end
-unused_animation_frame_13:
-    animation_frame_count
-    animation_frame animation_frame_C704CA, 0xFF
-    .end
-unused_animation_frame_14:
-    animation_frame_count
-    animation_frame animation_frame_C7052A, 0xFF
     .end
 animation_frame_C705AD:
     animation_frame_tile_count
@@ -4945,33 +4921,6 @@ byte_C745F5:
     animation_frame_count
     animation_frame animation_frame_C7432A, 0xFF
     .end
-unused_animation_frame_15:
-    animation_frame_count
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    .end
 byte_C7465B:
     animation_frame_count
     animation_frame animation_frame_C7432A, 0xD
@@ -6431,19 +6380,10 @@ byte_C7576E:
     animation_frame animation_frame_C7563B, 3
     animation_frame animation_frame_C75678, 3
     .end
-unused_animation_frame_17:
-    animation_frame_count
-    animation_frame animation_frame_C74D3F, 0xFF
-    .end
 byte_C757C4:
     animation_frame_count
     animation_frame animation_frame_C756B5, 2
     animation_frame animation_frame_C756BB, 2
-    .end
-unused_animation_frame_18:
-    animation_frame_count
-    animation_frame animation_frame_C756C1, 2
-    animation_frame animation_frame_C756C7, 2
     .end
 byte_C757D6:
     animation_frame_count
@@ -7855,10 +7795,6 @@ byte_C7699F:
 byte_C769A4:
     animation_frame_count
     animation_frame animation_frame_C76902, 0xFF
-    .end
-unused_animation_frame_19:
-    animation_frame_count
-    animation_frame animation_frame_C7693F, 0xFF
     .end
 sub_C769AE:
     SEP #0x20
@@ -9620,4 +9556,7 @@ i16
 off_C778E3:
     da byte_C7695E, byte_C76963, byte_C76968, byte_C7696D, byte_C76972, byte_C76977, byte_C7697C, byte_C76981
     da byte_C76986, byte_C7698B, byte_C76990, byte_C76995, byte_C7699A, byte_C7699F, byte_C769A4
+    
+asset tilemaps, compressed_clown_spotlight_tilemap
+asset tilemaps, compressed_story_spotlight_tilemap
 data_end

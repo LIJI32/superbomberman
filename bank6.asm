@@ -2998,6 +2998,15 @@ allocate_sprite_palette:
     .TABLE_PTR = 0x62
     .PALETTE = 0x40 ; Argument
     .SLOT_INDEX = 0x42 ; Return value
+    SEP #0x20
+    LDA a:addr(level_manager_object.spawn_and_flags + 1)
+    AND #high(LEVEL_FLAGS_LIGHT_ZONE)
+    BEQ +
+    LDA z:.PALETTE
+    ORA #PALETTE_INVERT_FLAG
+    STA z:.PALETTE
+    +
+
     REP #0x20
     STZ z:.SLOT_INDEX
     REP #0x20
@@ -4055,123 +4064,12 @@ rept 8
 endr
     RTL
 
-; Dead code start
-
-sub_C6207D:
-    REP #0x20
-    LDA #0
-    STA z:0x40
-    JSL sub_C620A4
-    LDA #1
-    STA z:0x40
-    JSL sub_C620A4
-    LDA #2
-    STA z:0x40
-    JSL sub_C620A4
-    LDA #3
-    STA z:0x40
-    JSL sub_C620A4
-    RTL
-
-sub_C620A4:
-    SEP #0x20
-    create_object sub_C620C4
-    REP #0x20
-    BCS .locret_C620C3
-    LDA z:0x40
-    STA a:0x20, Y
-
-.locret_C620C3:
-    RTL
-
-sub_C620C4:
-i16
-    REP #0x20
-    LDY #addr(player_1)
-
-.loc_C620C9:
-    SEP #0x20
-    LDA a:4, Y
-    BEQ .loc_C620FA
-    LDA a:0x11, Y
-    SEC
-    SBC z:0x11, X
-    BEQ .loc_C620F2
-    BCS .loc_C620DD
-    EOR #0xFF
-    INC A
-
-.loc_C620DD:
-    CMP #0x10
-    BCS .loc_C620FA
-    LDA a:0x14, Y
-    SEC
-    SBC z:0x14, X
-
-.loc_C620E7:
-    BCS .loc_C620EC
-    EOR #0xFF
-    INC A
-
-.loc_C620EC:
-    CMP #0x10
-    BCS .loc_C620FA
-    SEC
-    RTL
-
-.loc_C620F2:
-    LDA a:0x14, Y
-    SEC
-    SBC z:0x14, X
-    BNE .loc_C620E7
-
-.loc_C620FA:
-    REP #0x20
-    LDA a:6, Y
-    TAY
-    CMP #0xFFFF
-    BNE .loc_C620C9
-    CLC
-    RTL
-
-sub_C62107:
-i16
-    SEP #0x20
-    STZ z:0x4E
-
-.loc_C6210B:
-    REP #0x20
-    LDA z:0x40
-    PHA
-    LDA z:0x50
-    PHA
-    SEP #0x20
-    LDA f:[z:0x50]
-    STA z:0x40
-    LDA z:0x4E
-    LDY #0
-    JSL set_palette
-    REP #0x20
-    PLA
-    STA z:0x50
-    PLA
-    STA z:0x40
-    INC z:0x50
-    SEP #0x20
-    INC z:0x4E
-    LDA z:0x4E
-    CMP #0x10
-    BNE .loc_C6210B
-    RTL
-
-; Dead code end
-
 update_palettes:
 i16
     SEP #0x20
     LDX #addr(palette_slots)
 
--
+-  
     LDA z:palette_slot.flags, X
     BIT #PALETTE_SLOT_FLAG_NEEDS_UPDATE
     BEQ .next
@@ -4261,7 +4159,11 @@ load_palette:
     .BASE = 0x53 ; Argument
     .PALETTE = 0x50
     .ROM_OFFSET = 0x42
+    .XOR = 0x6E
+    
     SEP #0x20
+    STZ z:.XOR
+    STZ z:.XOR + 1
     STZ z:palette_slot.fade_counter, X
     LDA z:palette_slot.flags, X
     AND #~PALETTE_SLOT_FLAG_NEEDS_UPDATE
@@ -4278,7 +4180,11 @@ load_palette:
     
     REP #0x20
     LDA z:palette_slot.palette_index, X
-    AND #0xFF
+    BIT #PALETTE_INVERT_FLAG
+    BEQ +
+    DEC z:.XOR
++
+    AND #0x7F
     ASL A
     ASL A
     ASL A
@@ -4292,6 +4198,7 @@ load_palette:
     ; Copy
 rept 16
     LDA f:[z:.BASE]
+    EOR z:.XOR
     STA f:[z:.PALETTE]
     INC z:.BASE
     INC z:.BASE
@@ -4331,9 +4238,11 @@ fade_b_palette:
 fade_palette:
     .BASE = 0x53 ; Argument
     .LOOP_COUNTER = 0x4A
+    .XOR = 0x6E
     
     ; Calculate the step size. TODO: figure what it does
     REP #0x20
+    STZ z:.XOR
     LDA z:palette_slot.fade_flags, X
     PHX
     AND #0xF
@@ -4375,7 +4284,11 @@ fade_palette:
     STA z:copy_color.DEST + 2
     REP #0x20
     LDA z:palette_slot.palette_index, X
-    AND #0xFF
+    BIT #PALETTE_INVERT_FLAG
+    BEQ +
+    DEC z:.XOR
++
+    AND #0x7F
     ASL A
     ASL A
     ASL A
@@ -4400,8 +4313,10 @@ fade_palette:
 copy_color:
     .SRC = 0x53 ; Argument
     .DEST = 0x50 ; Argument
+    .XOR = 0x6E
     REP #0x20
     LDA f:[z:.SRC]
+    EOR z:.XOR
     STA f:[z:.DEST]
     INC z:.SRC
     INC z:.SRC
@@ -4420,6 +4335,7 @@ step_color:
     .DEST_COLOR = 0x48
     .SRC_COLOR = 0x42
     .OUT_COLOR = 0x46
+    .XOR = 0x6E
     
     REP #0x20
     LDA z:palette_slot.flags, X
@@ -4428,7 +4344,8 @@ step_color:
     
     LDA f:[z:.SRC_PTR]
     STA z:.SRC_COLOR
-    LDA f:[z:0x53]
+    LDA f:[z:.DEST_PTR]
+    EOR z:.XOR
     STA z:.DEST_COLOR
     
     ; Red
@@ -4683,29 +4600,61 @@ transfer_palettes:
     STA a:MDMAEN
     RTL
 
-; Unused
-transfer_palette_from_address:
-    .ADDRESS = 0x53
+reset_graphics_state:
+    a16
+    ; A = flags
+    BIT #LEVEL_FLAGS_LIGHT_ZONE
+    BNE .invert
+    LDA #0xE0
+    STA COLDATA
+    BRA +
+    .invert
+    LDA #0xFF
+    STA COLDATA
+    PHX
+    PHY
+    LDX #1
+    LDY #0
+    LDA #BLACK_PALETTE | PALETTE_INVERT_FLAG
+    STA z:0x40
+    
+-
+    TXA
+    JSL set_palette
+    INX
+    CPX #0x10
+    BNE -
+    
+    PLY
+    PLX
++
     SEP #0x20
-    LDA #0
-    STA a:CGADD
+    LDA #PALETTE_SLOT_FLAG_NEEDS_UPDATE | PALETTE_SLOT_FLAG_FADING
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 0)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 1)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 2)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 3)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 4)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 5)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 6)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 7)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 8)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 9)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 10)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 11)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 12)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 13)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 14)
+    STA a:addr(palette_slots.flags + palette_slot.sizeof * 15)
     SEP #0x20
+    LDA #BG1_EN | BG2_EN | BG3_EN | OBJ_EN
+    STA a:addr(main_screen_status)
+    LDA #BG1_EN | BG2_EN | BG3_EN | OBJ_EN
+    STA a:addr(subscreen_status)
     LDA #0
-    STA a:DMAP5
-    LDA #0x22
-    STA a:BBAD5
-    LDA a:.ADDRESS
-    STA a:A1TL5
-    LDA a:.ADDRESS + 1
-    STA a:A1TH5
-    LDA a:.ADDRESS + 2
-    STA a:A1B5
-    LDA #0x20 ; One palette
-    STA a:DASL5
+    STA a:addr(color_addition_settings)
     LDA #0
-    STA a:DASH5
-    LDA #0x20
-    STA a:MDMAEN
+    STA a:addr(add_substract_select_and_enable)
     RTL
 
 schedule_vblank_function:
@@ -6952,10 +6901,21 @@ enemy_detect_blast_in_range:
 .ret_true:
     SEC
     RTL
+    
+smarter_wanderer_movement:
+    REP #0x20
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK | BLAST | POTENTIAL_BLAST
+    BRA wanderer_movement.body
+    
+smart_wanderer_movement:
+    REP #0x20
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK | BLAST
+    BRA wanderer_movement.body
 
 wanderer_movement:
     REP #0x20
-    LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK
+.body
     STA z:0x42
     JSL test_collision_mask_for_enemy_next_square
     BEQ .loc_C63785

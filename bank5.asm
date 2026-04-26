@@ -3783,6 +3783,10 @@ create_overlay_scroller:
     SEP #0x20
     create_object overlay_scroller
     BCS .locret_C541C1
+    SEP #0x20
+    LDA f:[z:0x50]
+    STA a:0x39, Y
+    INC z:0x50
     REP #0x20
     LDA f:[z:0x50]
     STA a:0x20, Y
@@ -3813,13 +3817,22 @@ overlay_scroller:
     STA a:addr(bg2_h_scroll)
     LDA z:0x22, X
     STA a:addr(bg2_v_scroll)
+    SEP #0x20
+    STZ z:0x38, X
     set_handler .loc_C541DB
 
 .loc_C541DB:
     REP #0x20
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
-    BNE .locret_C541F7
+    BNE .ret
+    SEP #0x20
+    INC z:0x38, X
+    LDA z:0x39, X
+    AND z:0x38, X
+    REP #0x20
+    BNE .ret
+
     LDA z:0x24, X
     CLC
     ADC a:addr(bg2_h_scroll)
@@ -3829,7 +3842,7 @@ overlay_scroller:
     ADC a:addr(bg2_v_scroll)
     STA a:addr(bg2_v_scroll)
 
-.locret_C541F7:
+.ret:
     RTL
 
 title_screen_init:
@@ -6176,8 +6189,28 @@ create_spotlight:
 .locret_C55ADA:
     RTL
 
+spotlight_splash:
+    LDA #0x12
+    STA a:addr(main_screen_status)
+    LDA #0x1D
+    STA a:addr(subscreen_status)
+    LDA #2
+    STA a:addr(color_addition_settings)
+    LDA #0x83
+    STA a:addr(add_substract_select_and_enable)
+    LDA #0xFF
+    STA a:addr(COLDATA)
+    REP #0x20
+    LDA #0x80
+    STA a:addr(bg2_h_scroll)
+    STA a:addr(bg2_v_scroll)
+    RTL
+
 spotlight:
     SEP #0x20
+    LDA game_flags
+    AND #GAME_FLAGS_SCREEN_TRANSITION
+    BNE spotlight_splash
     LDA #6
     STA a:addr(main_screen_status)
     LDA #0x11

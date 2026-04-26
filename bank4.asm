@@ -3,7 +3,6 @@ segment "BANK4"
 score_popup_s = 0
 
 if USE_MULTI5_BIOS
-    db "START OF MULTI5 BIOS"
     
 multi5_read_input:
     PHP
@@ -2642,6 +2641,8 @@ i16
     set_handler _do_trampoline
 
 _do_trampoline:
+    SEP #0x20
+    STZ z:player.hit_flags, X
     REP #0x20
     STZ z:0x42
     LDA z:player.trampoline_state, X
@@ -2678,6 +2679,8 @@ trampoline_delay:
     set_handler _trampoline_delay
 
 _trampoline_delay:
+    SEP #0x20
+    STZ z:player.hit_flags, X
     REP #0x20
     DEC z:player.trampoline_state, X
     BNE .locret_C41776
@@ -2708,6 +2711,8 @@ trampoline_land:
     set_handler _trampoline_land
 
 _trampoline_land:
+    SEP #0x20
+    STZ z:player.hit_flags, X
     REP #0x20
     STZ z:0x42
     LDA z:player.trampoline_state, X
@@ -13316,6 +13321,8 @@ i16
     LDX #0xD00
     LDA f:[z:0x50]
     STA a:addr(level_manager_object.spawn_and_flags)
+    JSL reset_graphics_state
+    REP #0x20
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
@@ -13545,12 +13552,19 @@ i16
     LDA #0x20
     STA a:addr(level_manager_object.anonymous_6)
     LDY #4
-    LDA #0
+    LDA f:palette_table
     STA z:0x40
     LDA #0
     JSL set_palette
     LDY #0
-    LDA #addr(SPLASH_PALETTE)
+    LDA a:addr(level_manager_object.spawn_and_flags + 1)
+    AND #high(LEVEL_FLAGS_LIGHT_ZONE)
+    BEQ +
+    LDA #SPLASH_PALETTE | PALETTE_INVERT_FLAG
+    BRA .inverted
+    +
+    LDA #SPLASH_PALETTE
+.inverted
     STA z:0x40
     LDA #8
     JSL set_palette

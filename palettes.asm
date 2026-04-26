@@ -181,13 +181,13 @@ palette backgrounds, battle_win_palette_0  ; 0x65 VICTORY_GRASS_PALETTE
 palette backgrounds, battle_win_palette_6  ; 0x66 VICTORY_PURPLE_BOMBERMAN_PALETTE
 palette overlays, title_palette_0  ; 0x67 LOGO_PALETTE_1
 palette overlays, title_palette_1  ; 0x68 LOGO_PALETTE_2
-palette backgrounds, dome_invert_palette_3  ; 0x69 DOME_PALETTE_1_INVERT
-palette backgrounds, dome_invert_palette_1  ; 0x6a DOME_PALETTE_2_INVERT
-palette backgrounds, dome_invert_palette_0  ; 0x6b DOME_PALETTE_3_INVERT
-dw 0x6000, 0x5297, 0x4278, 0x8AD, 0x7D40, 0x1DB4, 0x356E, 0, 0x56FA, 0x631B, 0x77FF, 0x3A58, 0x42FE, 0x1B7, 0x6B5D, 0x7BE0 ; 0x6c DOME_BOMB_PALETTE_INVERT
-palette backgrounds, dome_invert_palette_2  ; 0x6d DOME_FIRE_PALETTE_INVERT
-palette backgrounds, bonuses_invert_palette_1  ; 0x6e BONUS_1_INVERT_PALETTE
-palette backgrounds, bonuses_invert_palette_0  ; 0x6f BONUS_2_INVERT_PALETTE
+empty_palette  ; 0x69
+dw 0x29CD, 0, 0, 0x3DEF, 0x2529, 0x18C6, 0x180, 0x80, 0x240, 0x320, 0x155, 0x1DE, 0x3DF, 0x120, 0x1C, 0x7FFF ; 0x6a GARDEN_PALETTE_3_COPY
+palette overlays, credit_image_1_palette_1  ; 0x6b CREDITS_SEPIA_PALETTE_1
+palette overlays, credit_image_2_palette_0  ; 0x6c CREDITS_SEPIA_PALETTE_2
+palette overlays, credit_image_1_palette_0  ; 0x6d CREDITS_SEPIA_PALETTE_3
+empty_palette  ; 0x6e
+empty_palette  ; 0x6f
 dw 0x4631, 0x52, 0x7FFF, 0x21E, 0, 0x4FFF, 0x52, 0x21E, 0, 0x1C, 0x5C00, 0x21E, 0, 0x52, 0x7FFF, 0x21E ; [0x70]_palette
 palette backgrounds, continue_background_palette  ; 0x71 CONTINUE_PALETTE_1
 palette backgrounds, title_background_palette  ; 0x72 CONTINUE_PALETTE_2
@@ -198,28 +198,13 @@ palette backgrounds, spiderer_fire_bg_palette_0  ; 0x76 SPIDERER_FIRE_BG_PALETTE
 dw 0x31E6, 0xC87, 0x4AD9, 0x318C, 0xD, 0x18C6, 0x6F7B, 0x214C, 0x11F, 0xAE, 0x1A, 0x1FF, 0x3DEF, 0x13E, 0x7FFF, 0x73A ; [0x77]_palette
 palette backgrounds, spiderer_fire_bg_palette_1  ; 0x78 SPIDERER_FIRE_BG_PALETTE_2
 palette backgrounds, spiderer_bg_palette_2 ; 0x79 SPIDERER_BG_PALETTE_3
-dw 0x29CD, 0, 0, 0x3DEF, 0x2529, 0x18C6, 0x180, 0x80, 0x240, 0x320, 0x155, 0x1DE, 0x3DF, 0x120, 0x1C, 0x7FFF ; 0x7a GARDEN_PALETTE_3_COPY
+empty_palette  ; 0x7a
 empty_palette ; [0x7B]_palette
 empty_palette ; [0x7C]_palette
-palette overlays, credit_image_1_palette_1  ; 0x7d CREDITS_SEPIA_PALETTE_1
-dw 0, 0x2616, 0x1992, 0xD2E, 0x2EDD, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F ; [0x7E]_palette
-palette overlays, credit_image_2_palette_0  ; 0x7f CREDITS_SEPIA_PALETTE_2
-palette overlays, credit_image_1_palette_0  ; 0x80 CREDITS_SEPIA_PALETTE_3
-dw 0, 0x19F5, 0xD91, 0x110D, 0x2258, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F ; [0x81]_palette
-dw 0, 0x1A17, 0xD92, 0x110D, 0x267A, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F, 0x7C1F ; [0x82]_palette
-empty_palette ; [0x83]_palette
-empty_palette ; [0x84]_palette
-empty_palette ; [0x85]_palette
-empty_palette ; [0x86]_palette
-empty_palette ; [0x87]_palette
-empty_palette ; [0x88]_palette
-empty_palette ; [0x89]_palette
-empty_palette ; [0x8A]_palette
-empty_palette ; [0x8B]_palette
-empty_palette ; [0x8C]_palette
-empty_palette ; [0x8D]_palette
-empty_palette ; [0x8E]_palette
-empty_palette ; [0x8F]_palette
+empty_palette ; [0x7D]_palette
+empty_palette ; [0x7E]_palette
+empty_palette ; [0x7F]_palette
+
 b_palettes:
 dw 0x11C3, 0, 0xC6, 0x108, 0x16B, 0x1EF, 0x2B5, 0x75A, 0x3BFD, 0x7FFF, 0x2108, 0x14A5, 0x2D8C, 0x24B2, 0x4EEB, 0x2E09 ; [0]_palette
 palette sprites, splash_palette  ; 0x1 SPLASH_PALETTE
@@ -385,20 +370,4 @@ empty_palette ; [0x7C]_palette
 empty_palette ; [0x7D]_palette
 empty_palette ; [0x7E]_palette
 empty_palette ; [0x7F]_palette
-empty_palette ; [0x80]_palette
-empty_palette ; [0x81]_palette
-empty_palette ; [0x82]_palette
-empty_palette ; [0x83]_palette
-empty_palette ; [0x84]_palette
-empty_palette ; [0x85]_palette
-empty_palette ; [0x86]_palette
-empty_palette ; [0x87]_palette
-empty_palette ; [0x88]_palette
-empty_palette ; [0x89]_palette
-empty_palette ; [0x8A]_palette
-empty_palette ; [0x8B]_palette
-empty_palette ; [0x8C]_palette
-empty_palette ; [0x8D]_palette
-empty_palette ; [0x8E]_palette
-empty_palette ; [0x8F]_palette
 data_end

@@ -24,4 +24,4 @@ starnuts_init:
     ; Fallthrough
 
 starnuts:
-    basic_enemy wanderer_movement
+    basic_enemy smart_wanderer_movement

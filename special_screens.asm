@@ -383,7 +383,7 @@ continue_screen:
     load_palettes continue_screen_palettes
     load_global_sprites continue_graphics
     df create_continue_screen_handler
-    create_overlay_scroller 0, 0, 1, 1
+    create_overlay_scroller 0, 0, 0, 1, 1
     init_functions_end
 
 continue_graphics:
@@ -428,7 +428,7 @@ password_screen:
     load_palettes continue_screen_palettes
     load_global_sprites continue_graphics
     df create_password_screen_handler
-    create_overlay_scroller 0, 0, -1, -1
+    create_overlay_scroller 0, 0, 0, -1, -1
     init_functions_end
 
 title_screen_palettes:

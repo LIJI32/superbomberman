@@ -222,8 +222,9 @@ macro set_overlay_blending main_flags, subscreen_flags, color_math
     dw $color_math
 endmacro
 
-macro create_overlay_scroller start_x, start_y, speed_x, speed_y
+macro create_overlay_scroller speed, start_x, start_y, speed_x, speed_y
     df create_overlay_scroller
+    db (1 << ($speed)) - 1
     dw $start_x, $start_y, $speed_x, $speed_y
 endmacro
 

@@ -9,7 +9,7 @@ stage_6_1:
     tile_animation TILE_SOFTBLOCK_SHADED, speed_zone_soft_animation
     tile_animation TILE_SOFTBLOCK, speed_zone_soft_animation
     set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP
-    create_overlay_scroller 0, 0, -1, 0
+    create_overlay_scroller 0, 0, 0, -1, 0
     init_functions_end
 
     df create_propene
@@ -33,7 +33,7 @@ stage_6_2:
     tile_animation TILE_SOFTBLOCK_SHADED, speed_zone_soft_animation
     tile_animation TILE_SOFTBLOCK, speed_zone_soft_animation
     set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP
-    create_overlay_scroller 0, 0, 1, 0
+    create_overlay_scroller 0, 0, 0, 1, 0
     hidden_bonus_object BONUS_COND_PUNCHED_BOMB_HIT, CAKE
     init_functions_end
 
@@ -59,7 +59,7 @@ stage_6_3:
     tile_animation TILE_SOFTBLOCK_SHADED, speed_zone_soft_animation
     tile_animation TILE_SOFTBLOCK, speed_zone_soft_animation
     set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP
-    create_overlay_scroller 0, 0x100, -1, 0
+    create_overlay_scroller 0, 0, 0x100, -1, 0
     init_functions_end
 
     df create_kuwagen
