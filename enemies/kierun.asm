@@ -66,6 +66,9 @@ sub_C67C1A:
     RTL
 
 sub_C67C34:
+    SEP #0x20
+    LDA #0xFF
+    STA z:enemy.hitpoints_left, X
     REP #0x20
     start_animation #addr(kierun_disappearing_animation)
     set_handler .loc_C67C52
@@ -117,6 +120,7 @@ sub_C67C94:
 .loc_C67CB1:
     JSL sub_C67C1A
     BCC sub_C67C34.locret_C67C93
+    STZ z:enemy.hitpoints_left, X
     REP #0x20
     start_animation #addr(kierun_appearing_animation)
     set_handler sub_C67CD6

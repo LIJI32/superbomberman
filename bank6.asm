@@ -6809,11 +6809,12 @@ straighten_y:
     RTL
 
 vectors_for_speed_and_direction:
-    dw 0, 0xFF80, 0x80,  0, 0, 0x80,  0xFF80, 0; 0
-    dw 0, 0xFF00, 0x100, 0, 0, 0x100, 0xFF00, 0; 8
-    dw 0, 0xFF00, 0x100, 0, 0, 0x100, 0xFF00, 0; 0x10
-    dw 0, 0xFF20, 0xE0,  0, 0, 0xE0,  0xFF20, 0; 0x18
-    dw 0, 0xFE80, 0x180, 0, 0, 0x180, 0xFE80, 0; 0x20
+    dw 0, 0xFF80, 0x80,  0, 0, 0x80,  0xFF80, 0
+    dw 0, 0xFF00, 0x100, 0, 0, 0x100, 0xFF00, 0
+    dw 0, 0xFF00, 0x100, 0, 0, 0x100, 0xFF00, 0
+    dw 0, 0xFF20, 0xE0,  0, 0, 0xE0,  0xFF20, 0
+    dw 0, 0xFE80, 0x180, 0, 0, 0x180, 0xFE80, 0
+    dw 0, 0xFF40, 0xC0,  0, 0, 0xC0,  0xFF40, 0
 
 enemy_detect_blast_in_range:
     .LEFT_LIMIT = 0x43 ; Argument
@@ -7024,6 +7025,22 @@ sub_C6382F:
     AND #3
     STA z:0x20, X
     RTL
+
+smart_follower_movement:
+    REP #0x20
+    LDA #POTENTIAL_BLAST
+    STA test_collision.MASK
+    JSL test_collision
+    BNE .on_potential_blast
+    LDA z:enemy.collision_mask, X
+    ORA #POTENTIAL_BLAST 
+    BRA +
+.on_potential_blast
+    LDA z:enemy.collision_mask, X
+    AND #~POTENTIAL_BLAST 
++
+    STA z:enemy.collision_mask, X
+    ; Fallthrough
 
 follower_movement:
     REP #0x20

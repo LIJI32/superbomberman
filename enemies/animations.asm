@@ -2279,10 +2279,10 @@ kierun_animation:
     .end
 kierun_disappearing_animation:
     animation_frame_count
-    animation_frame kierun_disappearing_frame_1, 32
-    animation_frame kierun_disappearing_frame_2, 32
-    animation_frame kierun_disappearing_frame_3, 32
-    animation_frame kierun_disappearing_frame_4, 48
+    animation_frame kierun_disappearing_frame_1, 16
+    animation_frame kierun_disappearing_frame_2, 16
+    animation_frame kierun_disappearing_frame_3, 16
+    animation_frame kierun_disappearing_frame_4, 24
     animation_frame kierun_disappearing_frame_5, 5
     animation_frame kierun_disappearing_frame_6, 5
     animation_frame kierun_disappearing_frame_7, 5
@@ -2294,15 +2294,15 @@ kierun_disappearing_animation:
     .end
 kierun_hidden_animation:
     animation_frame_count
-    animation_frame kierun_hidden_frame_1, 48
+    animation_frame kierun_hidden_frame_1, 40
     animation_frame kierun_hidden_frame_2, 4
-    animation_frame kierun_hidden_frame_3, 32
+    animation_frame kierun_hidden_frame_3, 28
     animation_frame kierun_hidden_frame_2, 4
     animation_frame kierun_hidden_frame_1, 4
     animation_frame kierun_hidden_frame_4, 4
-    animation_frame kierun_hidden_frame_5, 32
+    animation_frame kierun_hidden_frame_5, 28
     animation_frame kierun_hidden_frame_4, 4
-    animation_frame kierun_hidden_frame_1, 32
+    animation_frame kierun_hidden_frame_1, 28
     animation_frame kierun_hidden_frame_6, 4
     animation_frame kierun_hidden_frame_7, 4
     animation_frame kierun_hidden_frame_8, 4
@@ -2322,10 +2322,10 @@ kierun_appearing_animation:
     animation_frame kierun_disappearing_frame_7, 5
     animation_frame kierun_disappearing_frame_6, 5
     animation_frame kierun_disappearing_frame_5, 5
-    animation_frame kierun_disappearing_frame_4, 48
-    animation_frame kierun_disappearing_frame_3, 32
-    animation_frame kierun_disappearing_frame_2, 32
-    animation_frame kierun_disappearing_frame_1, 32
+    animation_frame kierun_disappearing_frame_4, 24
+    animation_frame kierun_disappearing_frame_3, 16
+    animation_frame kierun_disappearing_frame_2, 16
+    animation_frame kierun_disappearing_frame_1, 16
     .end
 keibin_frame_1:
     animation_frame_tile_count

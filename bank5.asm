@@ -2688,35 +2688,24 @@ removed_shaded_tile_animation:
     tile_animation_frame 41, 48
     tile_animation_frame 40, 9
     .end
-circus_wall_shaded_soft_animation: ; Not used
-    tile_animation_frame_count
-    tile_animation_frame 42, 80
-    tile_animation_frame 43, 5
-    tile_animation_frame 44, 2
-    tile_animation_frame 45, 2
-    tile_animation_frame 46, 32
-    tile_animation_frame 45, 2
-    tile_animation_frame 44, 2
-    tile_animation_frame 43, 5
-    .end
 circus_soft_animation:
     tile_animation_frame_count
-    tile_animation_frame 47, 80
+    tile_animation_frame 47, 40
     tile_animation_frame 48, 5
     tile_animation_frame 49, 2
     tile_animation_frame 50, 2
-    tile_animation_frame 51, 32
+    tile_animation_frame 51, 120
     tile_animation_frame 50, 2
     tile_animation_frame 49, 2
     tile_animation_frame 48, 5
     .end
 circus_shaded_soft_animation:
     tile_animation_frame_count
-    tile_animation_frame 52, 80
+    tile_animation_frame 52, 40
     tile_animation_frame 53, 5
     tile_animation_frame 54, 2
     tile_animation_frame 55, 2
-    tile_animation_frame 56, 32
+    tile_animation_frame 56, 120
     tile_animation_frame 55, 2
     tile_animation_frame 54, 2
     tile_animation_frame 53, 5
@@ -6204,12 +6193,16 @@ spotlight_splash:
     LDA #0x80
     STA a:addr(bg2_h_scroll)
     STA a:addr(bg2_v_scroll)
-    RTL
+    LDY #0
+    LDA #SPLASH_PALETTE
+    STA z:0x40
+    LDA #8
+    JML set_palette
 
 spotlight:
     SEP #0x20
-    LDA game_flags
-    AND #GAME_FLAGS_SCREEN_TRANSITION
+    LDA palette_slots.palette_index + palette_slot.sizeof * 8
+    CMP #SHIRO_PALETTE | PALETTE_INVERT_FLAG
     BNE spotlight_splash
     LDA #6
     STA a:addr(main_screen_status)

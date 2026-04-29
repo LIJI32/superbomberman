@@ -26,4 +26,4 @@ douken_init:
     ; Fallthrough
 
 douken:
-    basic_enemy wanderer_movement
+    basic_enemy smart_wanderer_movement

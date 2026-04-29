@@ -12150,7 +12150,10 @@ sub_C45F1E:
     JML create_random_bomb_drop.locret_C45F1D
 
 .loc_C45F33:
+    LDA a:addr(current_mode)
+    CMP #GAME_MODE_STORY
     REP #0x20
+    BEQ .loc_C45F41
     LDA a:addr(level_manager_object.anonymous_10)
     CMP #0x100
     BCS .loc_C45F41
