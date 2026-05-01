@@ -4728,7 +4728,7 @@ create_title_input_handler:
 title_input_handler:
     SEP #0x20
     STZ a:addr(level_manager_object.level_representation)
-    LDA a:addr(level_manager_object.anonymous_2)
+    LDA a:addr(level_manager_object.previous_screen)
     CMP #0x33
     BEQ .loc_C54E97
     CMP #0x34
@@ -5552,7 +5552,7 @@ nullsub_8:
     RTL
 battle_menu_handler:
     SEP #0x20
-    LDA a:addr(level_manager_object.anonymous_2)
+    LDA a:addr(level_manager_object.previous_screen)
     CMP #0x31
     BNE .loc_C55528
     LDA #0
@@ -7129,7 +7129,7 @@ sub_C563C4:
 
 .loc_C563E7:
     SEP #0x20
-    LDA a:addr(level_manager_object.anonymous_2)
+    LDA a:addr(level_manager_object.previous_screen)
     STA a:addr(current_screen)
     set_handler nullsub_C563FC
     ; fallthrough
@@ -8130,12 +8130,12 @@ i16
     STA z:0x20, X
     start_animation #addr(byte_C51749)
     SEP #0x20
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    LDA a:addr(level_manager_object.previous_level_representation)
     AND #0xF
     CMP #8
     BNE .loc_C56F32
-    DEC a:addr(level_manager_object.anonymous_2+1)
-    DEC a:addr(level_manager_object.anonymous_2)
+    DEC a:addr(level_manager_object.previous_level_representation)
+    DEC a:addr(level_manager_object.previous_screen)
 
 .loc_C56F32:
     set_handler .loc_C56F72
@@ -8144,16 +8144,16 @@ i16
     REP #0x20
     LDA #0x58
     STA z:0x42
-    LDA a:addr(word_7E0C7F)
+    LDA a:addr(password)
     STA z:0x40
     JSL sub_C5708E
-    LDA a:addr(word_7E0C7F+1)
+    LDA a:addr(password+1)
     STA z:0x40
     JSL sub_C5708E
-    LDA a:addr(word_7E0C81)
+    LDA a:addr(password + 2)
     STA z:0x40
     JSL sub_C5708E
-    LDA a:addr(word_7E0C81+1)
+    LDA a:addr(password + 2+1)
     STA z:0x40
     JSL sub_C5708E
 
@@ -8187,7 +8187,7 @@ i16
     SEP #0x20
     LDA z:0x20, X
     BNE .loc_C56FFC
-    LDA a:addr(level_manager_object.anonymous_2)
+    LDA a:addr(level_manager_object.previous_screen)
     STA a:addr(current_screen)
     JSL sub_C550AF
     JSL sub_C462BA
@@ -8380,9 +8380,9 @@ sub_C57176:
     STA z:0x1E, X
     LDA #0
     STA z:0x20, X
-    LDA a:addr(word_7E0C7F)
+    LDA a:addr(password)
     STA z:0x30, X
-    LDA a:addr(word_7E0C81)
+    LDA a:addr(password + 2)
     STA z:0x32, X
     LDA #addr(byte_C51749)
     STA z:0x50
@@ -8681,7 +8681,7 @@ i16
     STA z:0x14, X
     start_animation #addr(byte_C519CC)
     SEP #0x20
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    LDA a:addr(level_manager_object.previous_level_representation)
     CMP #0x68
     BEQ .loc_C57449
     set_handler .loc_C57444
@@ -8895,7 +8895,7 @@ map_screen_handler:
     STZ z:0x10, X
     LDA #0x180
     STA z:0x12, X
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    LDA a:addr(level_manager_object.previous_level_representation)
     AND #0xFF
     CMP #0x68
     BNE .loc_C5767D
@@ -8920,7 +8920,7 @@ map_screen_handler:
 
 .loc_C5769D:
     SEP #0x20
-    LDA a:addr(level_manager_object.anonymous_2)
+    LDA a:addr(level_manager_object.previous_screen)
     CMP #0x31
     BNE .loc_C576A8
     LDA #0xFF
@@ -8941,7 +8941,7 @@ sub_C576B5:
     LDA #bank(byte_C576E3)
     STA z:0x53 + 2
     REP #0x20
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    LDA a:addr(level_manager_object.previous_level_representation)
     AND #0xF0
     LSR A
     LSR A
@@ -9309,7 +9309,7 @@ sub_C57ABF:
     AND #0xFF
     CMP #1
     BEQ .locret_C57B10
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    LDA a:addr(level_manager_object.previous_level_representation)
     AND #0xFF
     CMP #0x68
     BEQ .locret_C57B10
@@ -9484,7 +9484,7 @@ i16
     STA z:0x14, X
     JSL sub_C57ABF
     REP #0x20
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    LDA a:addr(level_manager_object.previous_level_representation)
     AND #0xFF
     CMP #0x68
     BEQ sub_C57CC3
@@ -9862,7 +9862,9 @@ generate_password:
 i16
     SEP #0x20
     PHX
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    
+    ; World goes in the second digit
+    LDA a:addr(level_manager_object.previous_level_representation)
     SEC
     SBC #0x10
     AND #0x70
@@ -9870,62 +9872,52 @@ i16
     LSR A
     LSR A
     LSR A
-    STA a:addr(word_7E0C7F+1)
-    LDA a:addr(level_manager_object.anonymous_2+1)
+    STA a:addr(password + 1)
+    
+    ; Level goes in the third digit
+    LDA a:addr(level_manager_object.previous_level_representation)
     DEC A
     AND #7
-    STA a:addr(word_7E0C81)
+    STA a:addr(password + 2)
     LDX #8
+    
+    ; A random even number goes in the fourth digit
     JSL random
     SEP #0x20
     AND #6
-    STA a:addr(word_7E0C81+1)
+    STA a:addr(password + 3)
+    
+    ; A checksum goes in the first digit
     CLC
-    ADC a:addr(word_7E0C81)
+    ADC a:addr(password + 2)
     CLC
-    ADC a:addr(word_7E0C7F+1)
+    ADC a:addr(password + 1)
     AND #7
-    STA a:addr(word_7E0C7F)
+    STA a:addr(password)
+    
+    
+    ; "Encrypt"  the password
+.DIGIT = 0
+rept 4    
     REP #0x20
-    LDA a:addr(word_7E0C7F)
+    LDA a:addr(password + .DIGIT)
     AND #0xFF
     ASL A
     TAX
     LDA f:password_encryption_key, X
     SEP #0x20
-    STA a:addr(word_7E0C7F)
-    REP #0x20
-    LDA a:addr(word_7E0C7F+1)
-    AND #0xFF
-    ASL A
-    TAX
-    LDA f:password_encryption_key, X
-    SEP #0x20
-    STA a:addr(word_7E0C7F+1)
-    REP #0x20
-    LDA a:addr(word_7E0C81)
-    AND #0xFF
-    ASL A
-    TAX
-    LDA f:password_encryption_key, X
-    SEP #0x20
-    STA a:addr(word_7E0C81)
-    REP #0x20
-    LDA a:addr(word_7E0C81+1)
-    AND #0xFF
-    ASL A
-    TAX
-    LDA f:password_encryption_key, X
-    SEP #0x20
-    STA a:addr(word_7E0C81+1)
+    STA a:addr(password + .DIGIT)
+    .DIGIT = .DIGIT + 1
+endr
+    
     PLX
     REP #0x20
-    LDA a:addr(word_7E0C7F)
-    STA a:addr(word_7E0C83)
-    STA a:addr(word_7E0C87)
-    LDA a:addr(word_7E0C81)
-    STA a:addr(word_7E0C85)
-    STA a:addr(word_7E0C89)
+    LDA a:addr(password)
+    STA a:addr(password_copy_1)
+    STA a:addr(password_copy_2)
+    LDA a:addr(password + 2)
+    STA a:addr(password_copy_1+2)
+    STA a:addr(password_copy_2+2)
     RTL
 
 off_C58051:

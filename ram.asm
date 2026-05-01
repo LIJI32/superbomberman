@@ -240,18 +240,12 @@ word_7E0C63:
 word_7E0C65:
 
 org 0x7E0C7F
-word_7E0C7F:
-    ds 2
-word_7E0C81:
-    ds 2
-word_7E0C83:
-    ds 2
-word_7E0C85:
-    ds 2
-word_7E0C87:
-    ds 2
-word_7E0C89:
-    ds 2
+password:
+    ds 4
+password_copy_1:
+    ds 4
+password_copy_2:
+    ds 4
 word_7E0C8B:
     ds 2
 word_7E0C8D:
@@ -377,8 +371,10 @@ level_manager_object:
     ds 2
     ds 1
     ds 1
-.anonymous_2:
-    ds 2
+.previous_screen:
+    ds 1
+.previous_level_representation:
+    ds 1
 .pointer_to_enemy_list:
     ds 2
 .pointer_to_bonus_list:

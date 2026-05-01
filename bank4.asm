@@ -185,17 +185,17 @@ endif
     INX
     INX
     BNE .loc_C401C9
-    LDA a:addr(word_7E0C7F)
+    LDA a:addr(password)
     STA f:temp_uncompressed_graphics
-    LDA a:addr(word_7E0C81)
+    LDA a:addr(password + 2)
     STA f:temp_uncompressed_graphics+2
-    LDA a:addr(word_7E0C83)
+    LDA a:addr(password_copy_1)
     STA f:byte3_7E2804
-    LDA a:addr(word_7E0C85)
+    LDA a:addr(password_copy_1+2)
     STA f:byte3_7E2804+2
-    LDA a:addr(word_7E0C87)
+    LDA a:addr(password_copy_2)
     STA f:byte3_7E2808
-    LDA a:addr(word_7E0C89)
+    LDA a:addr(password_copy_2+2)
     STA f:byte3_7E2808+2
     LDA a:addr(word_7E0C8B)
     STA f:byte3_7E280C
@@ -231,17 +231,17 @@ endif
     CMP f:byte3_7E2808+2
     BNE .loc_C40280
     LDA f:temp_uncompressed_graphics
-    STA a:addr(word_7E0C7F)
+    STA a:addr(password)
     LDA f:temp_uncompressed_graphics+2
-    STA a:addr(word_7E0C81)
+    STA a:addr(password + 2)
     LDA f:byte3_7E2804
-    STA a:addr(word_7E0C83)
+    STA a:addr(password_copy_1)
     LDA f:byte3_7E2804+2
-    STA a:addr(word_7E0C85)
+    STA a:addr(password_copy_1+2)
     LDA f:byte3_7E2808
-    STA a:addr(word_7E0C87)
+    STA a:addr(password_copy_2)
     LDA f:byte3_7E2808+2
-    STA a:addr(word_7E0C89)
+    STA a:addr(password_copy_2+2)
 
 .loc_C40280:
     LDA #0x6D61
@@ -12619,9 +12619,9 @@ sub_C463A5:
     CMP z:0x10,X
     BEQ null_versus_initializer
     LDA a:addr(level_manager_object.fade_related_)
-    STA a:addr(level_manager_object.anonymous_2)
+    STA a:addr(level_manager_object.previous_screen)
     LDA a:addr(level_manager_object.level_representation)
-    STA a:addr(level_manager_object.anonymous_2+1)
+    STA a:addr(level_manager_object.previous_level_representation)
     LDA a:addr(current_screen)
     STA z:0x10,X
     LDA #0x80
@@ -13900,7 +13900,7 @@ i16
     LDA #bank(sub_C46EBD)
     STA a:addr(level_manager_object+object.handler+2)
     SEP #0x20
-    LDA a:addr(level_manager_object.anonymous_2)
+    LDA a:addr(level_manager_object.previous_screen)
     INC A
     CMP a:addr(level_manager_object.fade_related_)
     BEQ .locret_C46EBC
