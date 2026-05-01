@@ -10,8 +10,8 @@ create_moguchan:
 moguchan_init:
     set_enemy_animations moguchan_animations
     REP #0x20
-    LDA #0xE0
-    STA z:0x1C, X
+    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
+    STA z:enemy.collision_mask, X
     start_animation #addr(moguchan_animation_down)
     SEP #0x20
     LDA #0x30

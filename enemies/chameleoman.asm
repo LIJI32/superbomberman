@@ -10,8 +10,8 @@ create_chameleoman:
 chameleoman_init:
     set_enemy_animations player_animation_list+0x42
     REP #0x20
-    LDA #0xE0
-    STA z:0x1C, X
+    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
+    STA z:enemy.collision_mask, X
     REP #0x20
     start_animation_far warpping_animation
     SEP #0x20
