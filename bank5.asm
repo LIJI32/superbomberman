@@ -9884,68 +9884,6 @@ sub_C57F9F:
     JSL start_animation
     RTL
 
-generate_password:
-i16
-    SEP #0x20
-    PHX
-    
-    ; World goes in the second digit
-    LDA a:addr(level_manager_object.previous_level_representation)
-    SEC
-    SBC #0x10
-    AND #0x70
-    LSR A
-    LSR A
-    LSR A
-    LSR A
-    STA a:addr(password + 1)
-    
-    ; Level goes in the third digit
-    LDA a:addr(level_manager_object.previous_level_representation)
-    DEC A
-    AND #7
-    STA a:addr(password + 2)
-    LDX #8
-    
-    ; A random even number goes in the fourth digit
-    JSL random
-    SEP #0x20
-    AND #6
-    STA a:addr(password + 3)
-    
-    ; A checksum goes in the first digit
-    CLC
-    ADC a:addr(password + 2)
-    CLC
-    ADC a:addr(password + 1)
-    AND #7
-    STA a:addr(password)
-    
-    
-    ; "Encrypt"  the password
-.DIGIT = 0
-rept 4    
-    REP #0x20
-    LDA a:addr(password + .DIGIT)
-    AND #0xFF
-    ASL A
-    TAX
-    LDA f:password_encryption_key, X
-    SEP #0x20
-    STA a:addr(password + .DIGIT)
-    .DIGIT = .DIGIT + 1
-endr
-    
-    PLX
-    REP #0x20
-    LDA a:addr(password)
-    STA a:addr(password_copy_1)
-    STA a:addr(password_copy_2)
-    LDA a:addr(password + 2)
-    STA a:addr(password_copy_1+2)
-    STA a:addr(password_copy_2+2)
-    RTL
-
 off_C58051:
     dw 0
     dw 0
