@@ -6592,8 +6592,10 @@ i16
 
     CMP z:.LIMIT
     BCS .next
+    SEP #0x20
     LDA #1
     STA a:player.hit_flags, Y
+    REP #0x20
 
 .next:
     TYA
