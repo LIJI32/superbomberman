@@ -70,7 +70,7 @@ chameleoman:
 .loc_C66A22:
     LDA z:0x31, X
     BEQ .loc_C66A2C
-    JSL wanderer_movement2
+    JSL turner_movement
     BRA .loc_C66A30
 
 .loc_C66A2C:
