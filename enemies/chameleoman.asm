@@ -10,8 +10,8 @@ create_chameleoman:
 chameleoman_init:
     set_enemy_animations player_animation_list+0x42
     REP #0x20
-    LDA #0xE0
-    STA z:0x1C, X
+    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
+    STA z:enemy.collision_mask, X
     REP #0x20
     start_animation_far warpping_animation
     SEP #0x20
@@ -70,7 +70,7 @@ chameleoman:
 .loc_C66A22:
     LDA z:0x31, X
     BEQ .loc_C66A2C
-    JSL wanderer_movement2
+    JSL turner_movement
     BRA .loc_C66A30
 
 .loc_C66A2C:

@@ -25,4 +25,4 @@ banen_init:
     ; Fallthrough
 
 banen:
-    basic_enemy wanderer_movement2
+    basic_enemy turner_movement

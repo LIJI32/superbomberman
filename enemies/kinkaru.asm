@@ -10,8 +10,8 @@ create_kinkaru:
 kinkaru_init:
     set_enemy_animations kinkaru_animations
     REP #0x20
-    LDA #0xA0
-    STA z:0x1C, X
+    LDA #HARD_BLOCK | BOMB
+    STA z:enemy.collision_mask, X
     start_animation #addr(kinkaru_animation)
     SEP #0x20
     LDA #0x30

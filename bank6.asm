@@ -6905,6 +6905,7 @@ enemy_detect_blast_in_range:
     SEC
     RTL
     
+; Walks back and forth, eventually turns 90 degrees clockwise
 smarter_wanderer_movement:
     REP #0x20
     LDA #BOMB | SOFT_BLOCK | HARD_BLOCK | BLAST | POTENTIAL_BLAST
@@ -6949,6 +6950,7 @@ wanderer_movement:
 .locret_C637AF:
     RTL
 
+; Walks randomly
 random_wanderer_movement:
     SEP #0x20
     DEC z:0x21, X
@@ -7028,6 +7030,7 @@ sub_C6382F:
     STA z:0x20, X
     RTL
 
+; Follows the nearest player
 smart_follower_movement:
     REP #0x20
     LDA #POTENTIAL_BLAST
@@ -7140,6 +7143,7 @@ follower_movement:
     PLA
     JMP a:.loc_C63852
 
+; Turner movement, but can punch bombs
 missile_movement:
     REP #0x20
     LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
@@ -7194,7 +7198,8 @@ missile_movement:
 byte_C63943:
     db 8, 1, 4, 2
 
-wanderer_movement2:
+; Turns clockwise when hitting a wall. Switches to turning counter-clockwise when reaching a dead end, and so on.
+turner_movement:
     REP #0x20
     LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
     STA z:0x42
