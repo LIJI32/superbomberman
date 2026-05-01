@@ -76,49 +76,6 @@ clown_mask_still_eyebrows_frame:
     frame_oam_tile   16,  -51, 0x046, 0x22
     frame_oam_tile    0,  -51, 0x044, 0x22
     .end
-animation_frame_C72CC2: ; Unused, dupe of clown_mask_flare_frame_3
-    animation_frame_tile_count
-    frame_oam_tile   -8,   -8, 0x0e4, 0x20
-    .end
-animation_frame_C72CC8: ; Unused, dupe of clown_mask_open_smile_frame with a 2 pixel Y offset
-    animation_frame_tile_count
-    frame_oam_tile   16,  -83, 0x024, 0x64
-    frame_oam_tile    0,  -83, 0x026, 0x64
-    frame_oam_tile  -16,  -83, 0x026, 0x24
-    frame_oam_tile  -32,  -83, 0x024, 0x24
-    frame_oam_tile    0,  -67, 0x036, 0x64
-    frame_oam_tile  -16,  -67, 0x036, 0x24
-    frame_oam_tile   16,  -67, 0x034, 0x64
-    frame_oam_tile  -32,  -67, 0x034, 0x24
-    frame_oam_tile   16,   -3, 0x0ef, 0x44
-    frame_oam_tile  -24,   -3, 0x0ef, 0x04
-    frame_oam_tile    0,   -3, 0x0f6, 0x64
-    frame_oam_tile  -16,   -3, 0x0f6, 0x24
-    frame_oam_tile   16,  -19, 0x064, 0x64
-    frame_oam_tile  -32,  -19, 0x064, 0x24
-    frame_oam_tile    0,  -19, 0x066, 0x64
-    frame_oam_tile  -16,  -19, 0x066, 0x24
-    frame_oam_tile   48,  -19, 0x0d9, 0x00
-    frame_oam_tile   48,  -43, 0x0d0, 0x00
-    frame_oam_tile   48,  -35, 0x060, 0x20
-    frame_oam_tile  -56,  -19, 0x0d9, 0x40
-    frame_oam_tile  -56,  -43, 0x0d0, 0x40
-    frame_oam_tile  -64,  -35, 0x060, 0x60
-    frame_oam_tile  -16,  -35, 0x054, 0x62
-    frame_oam_tile  -16,  -51, 0x044, 0x62
-    frame_oam_tile  -32,  -35, 0x056, 0x62
-    frame_oam_tile  -32,  -51, 0x046, 0x62
-    frame_oam_tile  -48,  -19, 0x0b0, 0x60
-    frame_oam_tile  -48,  -35, 0x0a0, 0x60
-    frame_oam_tile  -48,  -51, 0x070, 0x60
-    frame_oam_tile   32,  -19, 0x0b0, 0x20
-    frame_oam_tile   32,  -35, 0x0a0, 0x20
-    frame_oam_tile   32,  -51, 0x070, 0x20
-    frame_oam_tile   16,  -35, 0x056, 0x22
-    frame_oam_tile    0,  -35, 0x054, 0x22
-    frame_oam_tile   16,  -51, 0x046, 0x22
-    frame_oam_tile    0,  -51, 0x044, 0x22
-    .end
 clown_mask_start_cry_frame_1:
     animation_frame_tile_count
     frame_oam_tile  -56,  -23, 0x0d9, 0x40
@@ -286,213 +243,6 @@ clown_mask_death_frame:
     frame_oam_tile   32,  -32, 0x0b0, 0x20
     frame_oam_tile   32,  -48, 0x0a0, 0x20
     frame_oam_tile   32,  -64, 0x070, 0x20
-    .end
-clown_mask_still_alt_frame:
-    animation_frame_tile_count
-    frame_oam_tile   48,  -19, 0x0d9, 0x06
-    frame_oam_tile   48,  -43, 0x0d0, 0x06
-    frame_oam_tile   48,  -35, 0x060, 0x26
-    frame_oam_tile  -56,  -19, 0x0d9, 0x46
-    frame_oam_tile  -56,  -43, 0x0d0, 0x46
-    frame_oam_tile  -64,  -35, 0x060, 0x66
-    frame_oam_tile  -16,   -3, 0x094, 0x66
-    frame_oam_tile  -16,  -19, 0x084, 0x66
-    frame_oam_tile  -16,  -35, 0x054, 0x66
-    frame_oam_tile  -16,  -51, 0x044, 0x66
-    frame_oam_tile  -16,  -67, 0x014, 0x66
-    frame_oam_tile  -16,  -83, 0x004, 0x66
-    frame_oam_tile  -32,   -3, 0x096, 0x66
-    frame_oam_tile  -32,  -19, 0x086, 0x66
-    frame_oam_tile  -32,  -35, 0x056, 0x66
-    frame_oam_tile  -32,  -51, 0x046, 0x66
-    frame_oam_tile  -32,  -67, 0x016, 0x66
-    frame_oam_tile  -32,  -83, 0x006, 0x66
-    frame_oam_tile  -48,  -19, 0x0b0, 0x66
-    frame_oam_tile  -48,  -35, 0x0a0, 0x66
-    frame_oam_tile  -48,  -51, 0x070, 0x66
-    frame_oam_tile   32,  -19, 0x0b0, 0x26
-    frame_oam_tile   32,  -35, 0x0a0, 0x26
-    frame_oam_tile   32,  -51, 0x070, 0x26
-    frame_oam_tile   16,   -3, 0x096, 0x26
-    frame_oam_tile    0,   -3, 0x094, 0x26
-    frame_oam_tile   16,  -19, 0x086, 0x26
-    frame_oam_tile    0,  -19, 0x084, 0x26
-    frame_oam_tile   16,  -35, 0x056, 0x26
-    frame_oam_tile    0,  -35, 0x054, 0x26
-    frame_oam_tile   16,  -51, 0x046, 0x26
-    frame_oam_tile    0,  -51, 0x044, 0x26
-    frame_oam_tile   16,  -67, 0x016, 0x26
-    frame_oam_tile    0,  -67, 0x014, 0x26
-    frame_oam_tile   16,  -83, 0x006, 0x26
-    frame_oam_tile    0,  -83, 0x004, 0x26
-    .end
-clown_mask_start_cry_alt_frame_1:
-    animation_frame_tile_count
-    frame_oam_tile  -56,  -23, 0x0d9, 0x46
-    frame_oam_tile  -56,  -47, 0x0d0, 0x46
-    frame_oam_tile  -64,  -39, 0x060, 0x66
-    frame_oam_tile   48,  -23, 0x0d9, 0x06
-    frame_oam_tile   48,  -47, 0x0d0, 0x06
-    frame_oam_tile   48,  -39, 0x060, 0x26
-    frame_oam_tile  -48,  -23, 0x0b0, 0x66
-    frame_oam_tile  -48,  -39, 0x0a0, 0x66
-    frame_oam_tile  -48,  -55, 0x070, 0x66
-    frame_oam_tile   32,  -23, 0x0b0, 0x26
-    frame_oam_tile   32,  -39, 0x0a0, 0x26
-    frame_oam_tile   32,  -55, 0x070, 0x26
-    frame_oam_tile   16,   -7, 0x090, 0x66
-    frame_oam_tile   16,  -23, 0x080, 0x66
-    frame_oam_tile   16,  -39, 0x050, 0x66
-    frame_oam_tile   16,  -55, 0x040, 0x66
-    frame_oam_tile   16,  -71, 0x010, 0x66
-    frame_oam_tile   16,  -87, 0x000, 0x66
-    frame_oam_tile    0,   -7, 0x092, 0x66
-    frame_oam_tile    0,  -23, 0x082, 0x66
-    frame_oam_tile    0,  -39, 0x052, 0x66
-    frame_oam_tile    0,  -55, 0x042, 0x66
-    frame_oam_tile    0,  -71, 0x012, 0x66
-    frame_oam_tile    0,  -87, 0x002, 0x66
-    frame_oam_tile  -16,   -7, 0x092, 0x26
-    frame_oam_tile  -32,   -7, 0x090, 0x26
-    frame_oam_tile  -16,  -23, 0x082, 0x26
-    frame_oam_tile  -32,  -23, 0x080, 0x26
-    frame_oam_tile  -16,  -39, 0x052, 0x26
-    frame_oam_tile  -32,  -39, 0x050, 0x26
-    frame_oam_tile  -16,  -55, 0x042, 0x26
-    frame_oam_tile  -32,  -55, 0x040, 0x26
-    frame_oam_tile  -16,  -71, 0x012, 0x26
-    frame_oam_tile  -32,  -71, 0x010, 0x26
-    frame_oam_tile  -16,  -87, 0x002, 0x26
-    frame_oam_tile  -32,  -87, 0x000, 0x26
-    .end
-clown_mask_start_cry_alt_frame_2:
-    animation_frame_tile_count
-    frame_oam_tile   16,    0, 0x0d1, 0x46
-    frame_oam_tile  -24,    0, 0x0d1, 0x06
-    frame_oam_tile   48,  -31, 0x0d9, 0x06
-    frame_oam_tile   48,  -56, 0x0d0, 0x06
-    frame_oam_tile   48,  -48, 0x060, 0x26
-    frame_oam_tile  -56,  -31, 0x0d9, 0x46
-    frame_oam_tile  -56,  -56, 0x0d0, 0x46
-    frame_oam_tile  -64,  -48, 0x060, 0x66
-    frame_oam_tile   16,  -16, 0x0c0, 0x66
-    frame_oam_tile    0,    0, 0x0d2, 0x66
-    frame_oam_tile    0,  -16, 0x0c2, 0x66
-    frame_oam_tile  -16,    0, 0x0d2, 0x26
-    frame_oam_tile  -16,  -16, 0x0c2, 0x26
-    frame_oam_tile  -32,  -16, 0x0c0, 0x26
-    frame_oam_tile  -48,  -32, 0x0b0, 0x66
-    frame_oam_tile  -48,  -48, 0x0a0, 0x66
-    frame_oam_tile  -48,  -64, 0x070, 0x66
-    frame_oam_tile   32,  -32, 0x0b0, 0x26
-    frame_oam_tile   32,  -48, 0x0a0, 0x26
-    frame_oam_tile   32,  -64, 0x070, 0x26
-    frame_oam_tile   16,  -32, 0x080, 0x66
-    frame_oam_tile   16,  -48, 0x050, 0x66
-    frame_oam_tile   16,  -64, 0x040, 0x66
-    frame_oam_tile   16,  -80, 0x010, 0x66
-    frame_oam_tile   16,  -96, 0x000, 0x66
-    frame_oam_tile    0,  -32, 0x082, 0x66
-    frame_oam_tile    0,  -48, 0x052, 0x66
-    frame_oam_tile    0,  -64, 0x042, 0x66
-    frame_oam_tile    0,  -80, 0x012, 0x66
-    frame_oam_tile    0,  -96, 0x002, 0x66
-    frame_oam_tile  -16,  -32, 0x082, 0x26
-    frame_oam_tile  -32,  -32, 0x080, 0x26
-    frame_oam_tile  -16,  -48, 0x052, 0x26
-    frame_oam_tile  -32,  -48, 0x050, 0x26
-    frame_oam_tile  -16,  -64, 0x042, 0x26
-    frame_oam_tile  -32,  -64, 0x040, 0x26
-    frame_oam_tile  -16,  -80, 0x012, 0x26
-    frame_oam_tile  -32,  -80, 0x010, 0x26
-    frame_oam_tile  -16,  -96, 0x002, 0x26
-    frame_oam_tile  -32,  -96, 0x000, 0x26
-    .end
-animation_frame_C732C0: ; Unused, dupe of clown_mask_cry_open_mouth_frame with a white palette
-    animation_frame_tile_count
-    frame_oam_tile   16,   -3, 0x0d8, 0x46
-    frame_oam_tile   16,  -19, 0x030, 0x66
-    frame_oam_tile   16,  -35, 0x020, 0x66
-    frame_oam_tile    0,   -3, 0x062, 0x66
-    frame_oam_tile    0,  -19, 0x032, 0x66
-    frame_oam_tile    0,  -35, 0x022, 0x66
-    frame_oam_tile  -24,   -3, 0x0d8, 0x06
-    frame_oam_tile    0,  -51, 0x052, 0x66
-    frame_oam_tile  -16,  -51, 0x052, 0x26
-    frame_oam_tile   48,  -35, 0x0d9, 0x06
-    frame_oam_tile   48,  -59, 0x0d0, 0x06
-    frame_oam_tile   48,  -51, 0x060, 0x26
-    frame_oam_tile  -56,  -35, 0x0d9, 0x46
-    frame_oam_tile  -56,  -59, 0x0d0, 0x46
-    frame_oam_tile  -64,  -51, 0x060, 0x66
-    frame_oam_tile   16,  -51, 0x0a4, 0x66
-    frame_oam_tile   16,  -67, 0x074, 0x66
-    frame_oam_tile    0,  -67, 0x076, 0x66
-    frame_oam_tile  -16,   -3, 0x062, 0x26
-    frame_oam_tile  -16,  -19, 0x032, 0x26
-    frame_oam_tile  -32,  -19, 0x030, 0x26
-    frame_oam_tile  -16,  -35, 0x022, 0x26
-    frame_oam_tile  -32,  -35, 0x020, 0x26
-    frame_oam_tile  -32,  -51, 0x0a4, 0x26
-    frame_oam_tile  -16,  -67, 0x076, 0x26
-    frame_oam_tile  -32,  -67, 0x074, 0x26
-    frame_oam_tile  -48,  -35, 0x0b0, 0x66
-    frame_oam_tile  -48,  -51, 0x0a0, 0x66
-    frame_oam_tile  -48,  -67, 0x070, 0x66
-    frame_oam_tile   32,  -35, 0x0b0, 0x26
-    frame_oam_tile   32,  -51, 0x0a0, 0x26
-    frame_oam_tile   32,  -67, 0x070, 0x26
-    frame_oam_tile   16,  -83, 0x010, 0x66
-    frame_oam_tile   16,  -99, 0x000, 0x66
-    frame_oam_tile    0,  -83, 0x012, 0x66
-    frame_oam_tile    0,  -99, 0x002, 0x66
-    frame_oam_tile  -16,  -83, 0x012, 0x26
-    frame_oam_tile  -32,  -83, 0x010, 0x26
-    frame_oam_tile  -16,  -99, 0x002, 0x26
-    frame_oam_tile  -32,  -99, 0x000, 0x26
-    .end
-clown_mask_death_alt_frame:
-    animation_frame_tile_count
-    frame_oam_tile    0,  -16, 0x032, 0x66
-    frame_oam_tile    0,  -32, 0x022, 0x66
-    frame_oam_tile    0,  -48, 0x0f2, 0x66
-    frame_oam_tile   16,    0, 0x0d8, 0x46
-    frame_oam_tile  -24,    0, 0x0d8, 0x06
-    frame_oam_tile   48,  -32, 0x0d9, 0x06
-    frame_oam_tile   48,  -56, 0x0d0, 0x06
-    frame_oam_tile   48,  -48, 0x060, 0x26
-    frame_oam_tile  -56,  -32, 0x0d9, 0x46
-    frame_oam_tile  -56,  -56, 0x0d0, 0x46
-    frame_oam_tile  -64,  -48, 0x060, 0x66
-    frame_oam_tile  -16,  -32, 0x0b4, 0x26
-    frame_oam_tile   16,  -80, 0x0d4, 0x66
-    frame_oam_tile   16,  -96, 0x0c4, 0x66
-    frame_oam_tile    0,  -80, 0x0d6, 0x66
-    frame_oam_tile    0,  -96, 0x0c6, 0x66
-    frame_oam_tile  -16,  -80, 0x0d6, 0x26
-    frame_oam_tile  -32,  -80, 0x0d4, 0x26
-    frame_oam_tile  -16,  -96, 0x0c6, 0x26
-    frame_oam_tile  -32,  -96, 0x0c4, 0x26
-    frame_oam_tile   16,  -48, 0x0f0, 0x66
-    frame_oam_tile   16,  -64, 0x0e0, 0x66
-    frame_oam_tile    0,  -64, 0x0e2, 0x66
-    frame_oam_tile  -16,  -48, 0x0f2, 0x26
-    frame_oam_tile  -32,  -48, 0x0f0, 0x26
-    frame_oam_tile  -16,  -64, 0x0e2, 0x26
-    frame_oam_tile  -32,  -64, 0x0e0, 0x26
-    frame_oam_tile   16,  -16, 0x030, 0x66
-    frame_oam_tile   16,  -32, 0x020, 0x66
-    frame_oam_tile    0,    0, 0x062, 0x66
-    frame_oam_tile  -16,    0, 0x062, 0x26
-    frame_oam_tile  -16,  -16, 0x032, 0x26
-    frame_oam_tile  -32,  -16, 0x030, 0x26
-    frame_oam_tile  -32,  -32, 0x020, 0x26
-    frame_oam_tile  -48,  -32, 0x0b0, 0x66
-    frame_oam_tile  -48,  -48, 0x0a0, 0x66
-    frame_oam_tile  -48,  -64, 0x070, 0x66
-    frame_oam_tile   32,  -32, 0x0b0, 0x26
-    frame_oam_tile   32,  -48, 0x0a0, 0x26
-    frame_oam_tile   32,  -64, 0x070, 0x26
     .end
 clown_mask_open_smile_frame:
     animation_frame_tile_count
@@ -869,13 +619,15 @@ clown_mask_intro_animation:
     .end
 clown_mask_start_cry_animation:
     animation_frame_count
-    animation_frame clown_mask_start_cry_frame_1, 0xA
+    animation_frame clown_mask_start_cry_frame_1, 10
     animation_frame clown_mask_start_cry_frame_2, 7
-    animation_frame clown_mask_cry_open_mouth_frame, 0xD
+    animation_frame clown_mask_cry_open_mouth_frame, 13
     .end
 clown_mask_cry_open_mouth_animation:
     animation_frame_count
-    animation_frame clown_mask_cry_open_mouth_frame, 0x80
+    animation_frame clown_mask_cry_open_mouth_frame, 73
+    animation_frame clown_mask_start_cry_frame_2, 7
+    animation_frame clown_mask_start_cry_frame_1, 10
     .end
 clown_mask_death_animation:
     animation_frame_count
@@ -883,99 +635,15 @@ clown_mask_death_animation:
     .end
 clown_mask_still_hit_animation:
     animation_frame_count
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
-    animation_frame clown_mask_still_frame,     3
-    animation_frame clown_mask_still_alt_frame, 3
+    animation_frame clown_mask_still_frame, 60
     .end
 clown_mask_start_cry_hit_animation_1:
     animation_frame_count
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    animation_frame clown_mask_start_cry_frame_1,     3
-    animation_frame clown_mask_start_cry_alt_frame_1, 3
-    .end
-clown_mask_start_cry_hit_animation_2:
-    animation_frame_count
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
-    animation_frame clown_mask_start_cry_frame_2,     3
-    animation_frame clown_mask_start_cry_alt_frame_2, 3
+    animation_frame clown_mask_start_cry_frame_1, 60
     .end
 clown_mask_death_hit_animation:
     animation_frame_count
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
-    animation_frame clown_mask_death_frame,     3
-    animation_frame clown_mask_death_alt_frame, 3
+    animation_frame clown_mask_death_frame, 60
     .end
 clown_mask_default_animation:
     animation_frame_count
@@ -1009,12 +677,12 @@ clown_mask_flare_animation:
 struct clown_mask
     enemy
     org 0x16
-.flashing_counter ; While flashing
-.x_velocity ; While active
+.x_velocity
     ds 2
 .y_velocity
     ds 2
     org 0x26
+.flashing_counter
 .some_tile_index
     ds 2
     
@@ -1065,6 +733,7 @@ clown_mask_init:
 i16
     REP #0x20
     LDY z:clown_mask.some_tile_index, X
+    STZ z:clown_mask.flashing_counter, X
     LDA #0
     STA a:addr(collision_map), Y
     ; Initialize position
@@ -1116,9 +785,9 @@ clown_mask_intro:
     REP #0x20
     INC z:clown_mask.animation_counter, X
     LDA z:clown_mask.animation_counter, X
-    CMP #128
+    CMP #130
     BNE .ret
-    LDA #128
+    LDA #130
     STA a:addr(bg2_h_scroll)
     ; Make Clown Mask appear
     start_animation #addr(clown_mask_intro_animation)
@@ -1165,24 +834,24 @@ i16
     REP #0x20
 
     ; Horizontal Movement
-    LDA #1
+    LDA #5
     STA z:.ACCELERATION
-    LDA #0x40
+    LDA #130
     STA z:.VELOCITY_LIMIT
     LDA a:player.x_position, Y
     CMP z:clown_mask.x_position, X
     BCS +
-    LDA #-1
+    LDA #-5
     STA z:.ACCELERATION
-    LDA #-0x40
+    LDA #-130
     STA z:.VELOCITY_LIMIT
 +
 
     ; Faster while crying
     LDA z:clown_mask.state, X
     AND #0xFF
-    CMP #clown_mask_states.crying
-    BNE +
+    CMP #clown_mask_states.default
+    BEQ +
     ASL z:.ACCELERATION
     ASL z:.VELOCITY_LIMIT
 +
@@ -1197,32 +866,34 @@ i16
 
     CLC
     ADC z:clown_mask.fractional_x, X
-    CMP #0x3F00
+    CMP #0x2F00
     BCS +
-    LDA #0x3F00
+    LDA #0x2F00
+    STZ z:clown_mask.x_velocity, X
     BRA .cap_x
 +
 
-    CMP #0xD000
+    CMP #0xE000
     BCC .cap_x
-    LDA #0xD000
-
+    LDA #0xE000
+    STZ z:clown_mask.x_velocity, X
+    
 .cap_x:
     STA z:clown_mask.fractional_x, X
     
     ; Vertical Movement
-    LDA #1
+    LDA #5
     STA z:.ACCELERATION
-    LDA #0x40
+    LDA #145
     STA z:.VELOCITY_LIMIT
     LDA z:clown_mask.y_position, X
     SEC
     SBC #32 ; Offset the Y position by 32 pixels
     CMP a:player.y_position, Y
     BCC +
-    LDA #-1
+    LDA #-5
     STA z:.ACCELERATION
-    LDA #-0x40
+    LDA #-145
     STA z:.VELOCITY_LIMIT
 +
 
@@ -1245,18 +916,47 @@ i16
 
     CLC
     ADC z:clown_mask.fractional_y, X
-    CMP #0x5000
+    CMP #0x4000
     BCS +
-    LDA #0x5000
+    LDA #0x4000
+    STZ z:clown_mask.y_velocity, X
     BRA .cap_y
 +
 
-    CMP #0xC000
+    CMP #0xD000
     BCC .cap_y
-    LDA #0xC000
+    LDA #0xD000
+    STZ z:clown_mask.y_velocity, X
 
 .cap_y:
     STA z:clown_mask.fractional_y, X
+    
+    LDA z:clown_mask.flashing_counter, X
+    BEQ +
+    AND #2
+    ASL A
+    PHX
+    TAX
+    SEP #0x20
+    LDY #0
+    LDA f:clown_mask_palettes, X
+    STA z:set_palette.PALETTE
+    LDA #12
+    JSL set_palette
+    LDA f:clown_mask_palettes+1, X
+    STA z:set_palette.PALETTE
+    LDA #13
+    JSL set_palette
+    LDA f:clown_mask_palettes+2, X
+    STA z:set_palette.PALETTE
+    LDA #14
+    JSL set_palette
+    PLX
+    
+    REP #0x20
+    DEC z:clown_mask.flashing_counter, X
+    BRA .paused ; No damage while flashing
++
     
     REP #0x20
     LDA #0x2020 ; Set left and right limits to 32 pixels
@@ -1279,7 +979,7 @@ i16
     PLA
     STA z:clown_mask.y_position, X
     BCS clown_mask_hit
-    
+
 .paused:
     REP #0x20
     LDA #0x1010
@@ -1351,16 +1051,14 @@ clown_mask_hit:
 
     LDA #0x60
     STA z:clown_mask.flashing_counter, X
-    LDA z:clown_mask.state, X
-    AND #0xFF
-    PHX
-    TAX
     SEP #0x20
-    LDA f:clown_mask_damage_transitions + 2, X
-    PLX
+    LDA #clown_mask_states.to_flash
     STA z:clown_mask.state, X
     JSL clown_mask_advance_state
-    REP #0x20
+    JSL fast_random
+a16
+    AND #8
+    STA z:clown_mask_create_flare.SET
     LDA #0
     STA z:clown_mask_create_flare.POSITION
     JSL clown_mask_create_flare
@@ -1420,8 +1118,11 @@ clown_mask_hit:
     REP #0x20
     DEC z:clown_mask.flashing_counter, X
     BNE .render
+    STZ z:clown_mask.x_velocity, X
     STZ z:clown_mask.y_velocity, X
     JSL clown_mask_advance_state
+    LDA #120
+    STA z:clown_mask.flashing_counter, X
     set_handler clown_mask
 
 .render:
@@ -1590,6 +1291,7 @@ endstruct
 
 clown_mask_create_flare:
     .POSITION = 0x40
+    .SET = 0x42
     SEP #0x20
     create_object clown_mask_flare
     REP #0x20
@@ -1601,6 +1303,7 @@ clown_mask_create_flare:
     SBC #0x20
     STA a:clown_mask_flare.y_position, Y
     LDA z:clown_mask_create_flare.POSITION
+    ORA z:clown_mask_create_flare.SET
     STA a:clown_mask_flare.position_index, Y
 
 .ret:
@@ -1710,6 +1413,7 @@ clown_mask_flare:
     RTL
     
 clown_mask_flare_velocities:
+; Set 1
     dw    0, -240
     dw  160, -160
     dw  240,    0
@@ -1718,16 +1422,35 @@ clown_mask_flare_velocities:
     dw -160,  160
     dw -240,    0
     dw -160, -160
+; Set 2
+    dw   222,  -92
+    dw    92, -222
+    dw   -92, -222
+    dw  -222,  -92
+    dw  -222,   92
+    dw   -92,  222
+    dw    92,  222
+    dw   222,   92
     
 clown_mask_flare_positions:
-    dw   0, -48
-    dw  29, -35
-    dw  40,  -8
-    dw  29,  19
-    dw   0,  32
-    dw -29,  19
-    dw -40,  -8
-    dw -29, -35
+; Set 1
+    dw   0, -40 - 8
+    dw  29, -29 - 8
+    dw  40,   0 - 8
+    dw  29,  29 - 8
+    dw   0,  40 - 8
+    dw -29,  29 - 8
+    dw -40,   0 - 8
+    dw -29, -29 - 8
+; Set 2
+    dw   37, -15 - 8
+    dw   15, -37 - 8
+    dw  -15, -37 - 8
+    dw  -37, -15 - 8
+    dw  -37,  15 - 8
+    dw  -15,  37 - 8
+    dw   15,  37 - 8
+    dw   37,  15 - 8
     
 macro clown_mask_state name,  animation, next_state
     .$name = . - clown_mask_states
@@ -1743,29 +1466,8 @@ clown_mask_states:
     clown_mask_state death,             clown_mask_death_animation,           still             ; Not used
     clown_mask_state default_flash,     clown_mask_still_hit_animation,       start_cry
     clown_mask_state start_cry_flash_1, clown_mask_start_cry_hit_animation_1, start_cry
-    clown_mask_state start_cry_flash_2, clown_mask_start_cry_hit_animation_2, start_cry         ; Not used
+    clown_mask_state start_cry_flash_2, clown_mask_start_cry_hit_animation_1, start_cry         ; Not used
     clown_mask_state death_flash,       clown_mask_death_hit_animation,       death             ; Not used
     clown_mask_state default,           clown_mask_default_animation,         default
     clown_mask_state to_flash,          clown_mask_still_animation,           default_flash     ; Only used to transition to flashing
     clown_mask_state to_cry_flash,      clown_mask_still_animation,           start_cry_flash_1 ; Only used to transition to flashing
-    
-macro clown_mask_damage_transition animation, next_state
-    da $animation ; Not used
-    dw clown_mask_states.$next_state
-endmacro
-    
-clown_mask_damage_transitions:
-    clown_mask_damage_transition clown_mask_still_animation,           still
-    clown_mask_damage_transition clown_mask_intro_animation,           intro
-    clown_mask_damage_transition clown_mask_start_cry_animation,       to_cry_flash  ; Only these 3 are used
-    clown_mask_damage_transition clown_mask_cry_open_mouth_animation,  to_cry_flash  ; Only these 3 are used
-    clown_mask_damage_transition clown_mask_death_animation,           still
-    clown_mask_damage_transition clown_mask_still_hit_animation,       start_cry
-    clown_mask_damage_transition clown_mask_start_cry_hit_animation_1, start_cry
-    clown_mask_damage_transition clown_mask_start_cry_hit_animation_2, start_cry
-    clown_mask_damage_transition clown_mask_death_hit_animation,       death
-    clown_mask_damage_transition clown_mask_default_animation,         to_flash      ; Only these 3 are used
-    clown_mask_damage_transition clown_mask_still_animation,           default_flash
-    
-    ; Unused garbage?
-    db 0xD, 0x10, 0x11, 0, 0x12, 0x12, 0x12, 0
