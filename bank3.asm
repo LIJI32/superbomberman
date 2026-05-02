@@ -821,6 +821,51 @@ endr
     STA a:addr(password_copy_2+2)
     RTL
 
+dma_animated_tile:
+    .VRAM_DEST = 0x40 ; schedule_vblank_function.WORD_ARG_1
+    .ROM_SRC = 0x42 ; schedule_vblank_function.WORD_ARG_2
+    REP #0x20
+
+    LDA z:.VRAM_DEST
+    STA a:VMADDL
+    
+    LDA #0x40
+    STA a:DASL4
+    
+    LDA z:.ROM_SRC
+    STA a:A1TL4
+
+    SEP #0x20
+
+    LDA #0x80
+    STA a:VMAIN
+    LDA #1
+    STA a:DMAP4
+    LDA #low(VMDATAL)
+    STA a:BBAD4
+    LDA #0xC1
+    STA a:A1B4
+    LDA #0x10
+    STA a:MDMAEN
+
+    REP #0x20
+
+    LDA z:.VRAM_DEST
+    ORA #0x100
+    STA a:VMADDL
+    LDA z:.ROM_SRC
+    ORA #0x200
+    STA a:A1TL4
+    LDA #0x40
+    STA a:DASL4
+
+    SEP #0x20
+
+    LDA #0x10
+    STA a:MDMAEN
+
+    RTL
+
 empty_tile_after_explosion_related:
     dw 8, 0xA, 0xC
 ifndef J

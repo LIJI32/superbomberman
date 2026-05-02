@@ -6692,6 +6692,30 @@ sub_C635FD:
 .locret_C6360D:
     RTL
 
+mark_enemy_squares:
+    REP #0x20
+    LDA #~ENEMY
+    JSL apply_mask_to_collision_map
+    LDX #addr(gameover_related_object)
+
+.loop:
+    LDA z:3, X
+    BIT #1
+    BEQ .next
+    lda_tile_id_offset X, 0, 0
+    TAY
+    LDA a:addr(collision_map), Y
+    ORA #ENEMY
+    STA a:addr(collision_map), Y
+
+.next:
+    LDA a:enemy.next, X
+    TAX
+    CMP #0xFFFF
+    BNE .loop
+    CLC
+    RTL
+
 straight_movement:
     SEP #0x20
     LDA #bank(vectors_for_speed_and_direction)
@@ -6908,7 +6932,11 @@ enemy_detect_blast_in_range:
 ; Walks back and forth, eventually turns 90 degrees clockwise
 smarter_wanderer_movement:
     REP #0x20
-    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK | BLAST | POTENTIAL_BLAST
+    LDA #POTENTIAL_BLAST
+    STA test_collision.MASK
+    JSL test_collision
+    BNE smart_wanderer_movement
+    LDA #BOMB | SOFT_BLOCK | HARD_BLOCK | BLAST |  POTENTIAL_BLAST
     BRA wanderer_movement.body
     
 smart_wanderer_movement:
@@ -7146,41 +7174,12 @@ follower_movement:
 ; Turner movement, but can punch bombs
 missile_movement:
     REP #0x20
-    LDA #BOMB|SOFT_BLOCK|HARD_BLOCK
+    LDA #BOMB
     STA z:0x42
     JSL test_collision_mask_for_enemy_next_square
-    BEQ .loc_C638F5
-    JML .loc_C63920
-
-.loc_C638F5:
-    JSL straight_movement
-    BCC .loc_C638FF
-    JML nullsub_C63ADE
-
-.loc_C638FF:
-    SEP #0x20
-    LDA z:0x18, X
-    STA z:0x52
-    LDA z:0x20, X
-    CMP z:0x22, X
-    BEQ .locret_C6391F
-    STA z:0x22, X
-    REP #0x20
-    AND #0xFF
-    ASL A
-    ADC z:0x16, X
-    STA z:0x50
-    LDA f:[z:0x50]
-    STA z:0x50
-    JSL start_animation
-
-.locret_C6391F:
-    RTL
-
-.loc_C63920:
-    REP #0x20
-    BIT #0x20
-    BEQ sub_C63983
+    BNE +
+    JMP follower_movement
+    +
     LDA z:0x20, X
     PHA
     AND #0xFF
@@ -7194,9 +7193,10 @@ missile_movement:
     REP #0x20
     PLA
     STA z:0x20, X
-    BRA .loc_C638F5
+    JMP follower_movement
 byte_C63943:
     db 8, 1, 4, 2
+
 
 ; Turns clockwise when hitting a wall. Switches to turning counter-clockwise when reaching a dead end, and so on.
 turner_movement:

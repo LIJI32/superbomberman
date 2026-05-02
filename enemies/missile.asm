@@ -45,6 +45,8 @@ create_missile:
     STA a:enemy.carried_bonus, Y
     LDA #0
     STA a:enemy.flags, Y
+    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
+    STA a:enemy.collision_mask, Y
     RTL
 
 missile_init:
@@ -56,7 +58,7 @@ missile_init:
     SEP #0x20
     LDA #0x10
     STA z:0x30, X
-    LDA #0
+    LDA #1
     STA z:enemy.speed, X
     LDA #DIR_DOWN
     STA z:enemy.direction, X
@@ -120,7 +122,7 @@ missile:
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF
     STA z:enemy.animation_direction, X
-    LDA #0
+    LDA #5
     STA z:enemy.speed, X
     set_enemy_score 400
     set_handler .loc_C66E1E

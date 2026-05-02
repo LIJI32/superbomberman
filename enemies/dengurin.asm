@@ -25,4 +25,4 @@ dengurin_init:
     ; Fallthrough
 
 dengurin:
-    basic_enemy random_wanderer_movement
+    basic_enemy turner_movement

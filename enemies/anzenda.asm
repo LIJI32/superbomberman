@@ -24,4 +24,4 @@ anzenda_init:
     ; Fallthrough
 
 anzenda:
-    basic_enemy wanderer_movement
+    basic_enemy smarter_wanderer_movement

@@ -3448,9 +3448,14 @@ sub_C53EAB:
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_PAUSED | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_BATTLE_DELAY | GAME_FLAGS_LEVEL_END | GAME_FLAGS_DEBUG_MENU
     BNE .locret_C53EDD
+    LDA a:addr(current_mode)
+    CMP #GAME_MODE_STORY
+    REP #0x20
+    BEQ +
     LDA a:addr(level_manager_object.anonymous_10)
     CMP #0x100
     BCC .locret_C53EDD
++
     DEC z:0x20, X
     BNE .locret_C53EDD
     JSL fast_random
@@ -3482,7 +3487,15 @@ sub_C53EDE:
 
 sub_C53F01:
     REP #0x20
+    LDA a:addr(current_mode)
+    AND #0xFF
+    CMP #GAME_MODE_STORY
+    BEQ .story_mode
     LDA #0x830
+    BRA .set_graphics
+.story_mode
+    LDA #0x430
+.set_graphics
     STA z:0xE, X
     LDA #0
     STA z:0x1E, X
@@ -4519,8 +4532,7 @@ animation_frame_C54C14:
     frame_oam_tile  -16,   -8, 0x056, 0x22
     .end
 intro_related_animation:
-    db 8
-stru_C54C25:
+    animation_frame_count
     animation_frame animation_frame_C54402, 0x10; 0
     animation_frame animation_frame_C54476, 0x10; 1
     animation_frame animation_frame_C544EA, 0x10; 2
@@ -4529,6 +4541,7 @@ stru_C54C25:
     animation_frame animation_frame_C5455E, 0x10; 5
     animation_frame animation_frame_C545D2, 0x10; 6
     animation_frame animation_frame_C5455E, 0x10; 7
+    .end
 intro_related_animation2:
     animation_frame_count
     animation_frame animation_frame_C54646, 1; 0
@@ -5166,51 +5179,6 @@ a16
     JSL schedule_vblank_function
 
 .ret:
-    RTL
-
-dma_animated_tile:
-    .VRAM_DEST = 0x40 ; schedule_vblank_function.WORD_ARG_1
-    .ROM_SRC = 0x42 ; schedule_vblank_function.WORD_ARG_2
-    REP #0x20
-
-    LDA z:.VRAM_DEST
-    STA a:VMADDL
-    
-    LDA #0x40
-    STA a:DASL4
-    
-    LDA z:.ROM_SRC
-    STA a:A1TL4
-
-    SEP #0x20
-
-    LDA #0x80
-    STA a:VMAIN
-    LDA #1
-    STA a:DMAP4
-    LDA #low(VMDATAL)
-    STA a:BBAD4
-    LDA #0xC1
-    STA a:A1B4
-    LDA #0x10
-    STA a:MDMAEN
-
-    REP #0x20
-
-    LDA z:.VRAM_DEST
-    ORA #0x100
-    STA a:VMADDL
-    LDA z:.ROM_SRC
-    ORA #0x200
-    STA a:A1TL4
-    LDA #0x40
-    STA a:DASL4
-
-    SEP #0x20
-
-    LDA #0x10
-    STA a:MDMAEN
-
     RTL
 
 create_battle_menu_setting_handler:
@@ -5945,6 +5913,18 @@ sub_C5585F:
     JSL sub_C55710
     RTL
 
+create_flower_and_tractor_generators:
+    JSL sub_C53E80
+    ; fallthrough
+
+create_flower_generator:
+    SEP #0x20
+    create_object _flower_zone_handler.loc_C558DB
+    REP #0x20
+    LDA #5
+    STA a:0x20, Y
+    RTL
+
 create_flower_zone_handler:
     SEP #0x20
     create_object flower_zone_handler
@@ -5994,6 +5974,9 @@ i16
     REP #0x20
     DEC z:0x20, X
     BNE .ret
+    PHX
+    JSL mark_enemy_squares
+    PLX
     JSL create_flower_creator
     JSL fast_random
     REP #0x20
@@ -6132,7 +6115,7 @@ i16
 
 .loc_C55A5A:
     LDA a:addr(collision_map), Y
-    AND #BONUS_MASK|BOMB|SOFT_BLOCK|HARD_BLOCK
+    AND #BONUS_MASK|BOMB|SOFT_BLOCK|HARD_BLOCK|ENEMY|PLAYER
     BEQ .loc_C55A66
     JML delete_object
 

@@ -12,6 +12,8 @@ kouraru_init:
     REP #0x20
     start_animation #addr(kouraru_animation)
     SEP #0x20
+    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
+    STA z:enemy.collision_mask, X
     LDA #3
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF
@@ -24,4 +26,4 @@ kouraru_init:
     ; Fallthrough
 
 kouraru:
-    basic_enemy wanderer_movement
+    basic_enemy follower_movement

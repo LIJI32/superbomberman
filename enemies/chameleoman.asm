@@ -70,10 +70,16 @@ chameleoman:
 .loc_C66A22:
     LDA z:0x31, X
     BEQ .loc_C66A2C
-    JSL turner_movement
+    SEP #0x20
+    LDA #0
+    STA z:enemy.speed, X
+    JSL random_wanderer_movement
     BRA .loc_C66A30
 
 .loc_C66A2C:
+    SEP #0x20
+    LDA #5
+    STA z:enemy.speed, X
     JSL follower_movement
 
 .loc_C66A30:
