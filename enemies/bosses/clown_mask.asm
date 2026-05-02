@@ -1585,7 +1585,7 @@ struct clown_mask_flare
 .y_velocity
     ds 2
     
-    org sprite.sizeof
+    org enemy.sizeof
 endstruct
 
 clown_mask_create_flare:
