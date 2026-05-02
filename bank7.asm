@@ -494,7 +494,7 @@ sound_test_handler:
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     REP #0x20
     LDA #0x3F8
     STA a:addr(bg1_h_scroll)
@@ -1480,7 +1480,7 @@ create_crane_hand:
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     RTL
 
 crane_hand:
@@ -3280,7 +3280,7 @@ i16
     LDA #2
     STA a:addr(color_addition_settings)
     LDA #1
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     LDA #8
     STA z:0x1E, X
     REP #0x20
@@ -4743,7 +4743,7 @@ i16
     LDA #2
     STA a:addr(color_addition_settings)
     LDA #0x81
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     REP #0x20
     LDA #0x88
     STA z:0x11, X
@@ -7512,7 +7512,7 @@ credits_screen_handler:
     LDA #2
     STA a:addr(color_addition_settings)
     LDA #1
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     REP #0x20
     LDA #addr(sub_C77638)
     STA z:0,X

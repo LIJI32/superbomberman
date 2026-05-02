@@ -16,7 +16,7 @@ normal_zone:
        PUNCH, POISON, POISON, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 5,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 5,
                           0, 0
 
 western_zone_graphics:
@@ -54,7 +54,7 @@ western_zone:
        KICK, KICK, PUNCH, PUNCH, PUNCH, POISON, POISON, FULL_FIRE, FULL_FIRE, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 7,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 7,
                           0, 0
 bomb_zone:
     level 0x14, GAME_MODE_BATTLE, 0, 0, 0x200,
@@ -75,7 +75,7 @@ bomb_zone:
     dw SPEED_UP, KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, POISON, POISON, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 
 bomb_zone_graphics:
@@ -115,7 +115,7 @@ jump_zone:
        SPEED_UP, POISON, POISON, KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 
 belt_zone:
@@ -141,7 +141,7 @@ belt_zone:
        SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 belt_zone_graphics:
     df bomberman_graphic_0
@@ -178,7 +178,7 @@ tunnel_zone:
        FIRE_UP, FIRE_UP, SPEED_UP, SPEED_UP, SPEED_UP, POISON, POISON, KICK, KICK, KICK, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | BG4_EN | OBJ_EN, 0,
-                          COLMAT_SUBSTRACT | COLMAT_BACKDROP | COLMAT_BG1 | COLMAT_BG2 | COLMAT_USE_SUBSCREEN, 8,
+                          COLMAT_SUBTRACT | COLMAT_BACKDROP | COLMAT_BG1 | COLMAT_BG2 | COLMAT_USE_SUBSCREEN, 8,
                           8, -25
 
 duel_zone:
@@ -197,7 +197,7 @@ duel_zone:
     dw 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 flower_zone:
     level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_FLOWER_ZONE, 0, 0x200,
@@ -220,7 +220,7 @@ flower_zone:
        PUNCH, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, 0,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 4,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 4,
                           0, 0
 
 light_zone:
@@ -243,7 +243,7 @@ light_zone:
        POISON, POISON, POISON, POISON, POISON, 0
        
     battle_stage_ppu_regs OBJ_EN | BG2_EN, OBJ_EN | BG1_EN | BG3_EN | BG4_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 0,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 0,
                           128, 128
 
 power_zone:
@@ -271,7 +271,7 @@ power_zone:
        REMOTE_CONTROL, 0
        
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 
 warp_zone:
@@ -293,7 +293,7 @@ warp_zone:
        PUNCH, FULL_FIRE, FULL_FIRE, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 warp_zone_graphics:
     df bomberman_graphic_0
@@ -340,7 +340,7 @@ speed_zone:
        POISON, POISON, KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, FULL_FIRE, FULL_FIRE,
        REMOTE_CONTROL, REMOTE_CONTROL, 0
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 normal_zone_palettes:
     db HUD_PALETTE, PEACE_TOWN_PALETTE_1, NORMAL_ZONE_PALETTE; a_palettes

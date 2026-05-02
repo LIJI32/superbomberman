@@ -350,7 +350,7 @@ i16
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     
     ; Init position and animation
     REP #0x20

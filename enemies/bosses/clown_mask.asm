@@ -1057,8 +1057,8 @@ create_clown_mask:
     STA a:addr(subscreen_status)
     LDA #COLMAT_USE_SUBSCREEN
     STA a:addr(color_addition_settings)
-    LDA #high(COLMAT_SUBSTRACT | COLMAT_OBJ | COLMAT_BG4 | COLMAT_BG3 | COLMAT_BG2 | COLMAT_BG1)
-    STA a:addr(add_substract_select_and_enable)
+    LDA #high(COLMAT_SUBTRACT | COLMAT_OBJ | COLMAT_BG4 | COLMAT_BG3 | COLMAT_BG2 | COLMAT_BG1)
+    STA a:addr(add_subtract_select_and_enable)
     RTL
 
 clown_mask_init:

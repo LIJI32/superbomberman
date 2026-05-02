@@ -593,7 +593,7 @@ irq:
     STA a:TS
     LDA a:addr(color_addition_settings)
     STA a:CGWSEL
-    LDA a:addr(add_substract_select_and_enable)
+    LDA a:addr(add_subtract_select_and_enable)
     STA a:CGADSUB
     JSL call_function_at_00d0
     LDA #0x81
