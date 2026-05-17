@@ -945,11 +945,11 @@ off_C71F25:
     da byte_C70D61
     da byte_C70D50
     dw 0
-    da byte_C70C84
+    da mook_walk_down_animation
     dw 0
     dw 0
     dw 0
-    da byte_C70C73
+    da mook_walk_up_animation
     dw 0
     dw 0
     dw 0
@@ -962,10 +962,10 @@ off_C71F3D:
     dw 0
     dw 0
     dw 0
-    da byte_C70C73
+    da mook_walk_up_animation
     da byte_C70DC9
     da byte_C70D72
-    da byte_C70C9A
+    da mook_lying_down_animation
 off_C71F55:
     dw 0
     da byte_C70FA9

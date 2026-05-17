@@ -1,78 +1,78 @@
-animation_frame_C7092C:
+mook_walk_up_frame_1:
     animation_frame_tile_count
     frame_oam_tile    0,  -16, 0x001, 0x00
     frame_oam_tile   -8,  -16, 0x000, 0x00
     frame_oam_tile   -8,   -8, 0x008, 0x20
     .end
-animation_frame_C7093C:
+mook_walk_up_frame_2:
     animation_frame_tile_count
     frame_oam_tile    0,  -17, 0x001, 0x00
     frame_oam_tile   -8,  -17, 0x000, 0x00
     frame_oam_tile   -8,   -9, 0x00a, 0x20
     .end
-animation_frame_C7094C:
+mook_walk_up_frame_3:
     animation_frame_tile_count
     frame_oam_tile   -8,   -9, 0x00c, 0x20
     frame_oam_tile    0,  -17, 0x001, 0x00
     frame_oam_tile   -8,  -17, 0x000, 0x00
     .end
-animation_frame_C7095C:
+mook_walk_down_frame_1:
     animation_frame_tile_count
     frame_oam_tile    0,    0, 0x017, 0x00
     frame_oam_tile   -8,    0, 0x016, 0x00
     frame_oam_tile   -8,  -16, 0x006, 0x20
     .end
-animation_frame_C7096C:
+mook_walk_down_frame_2:
     animation_frame_tile_count
     frame_oam_tile    0,  -17, 0x023, 0x00
     frame_oam_tile   -8,  -17, 0x022, 0x00
     frame_oam_tile   -8,   -9, 0x028, 0x20
     .end
-animation_frame_C7097C:
+mook_walk_down_frame_3:
     animation_frame_tile_count
     frame_oam_tile    0,   -1, 0x033, 0x00
     frame_oam_tile   -8,   -1, 0x032, 0x00
     frame_oam_tile   -8,  -17, 0x022, 0x20
     .end
-animation_frame_C7098C:
+mook_stand_up_defeated_frame:
     animation_frame_tile_count
     frame_oam_tile    0,    0, 0x017, 0x00
     frame_oam_tile   -8,    0, 0x016, 0x00
     frame_oam_tile   -8,  -16, 0x024, 0x20
     .end
-animation_frame_C7099C:
+mook_lying_down_frame:
     animation_frame_tile_count
     frame_oam_tile  -11,    0, 0x03f, 0x00
     frame_oam_tile  -11,   -8, 0x037, 0x00
     frame_oam_tile   -3,   -8, 0x026, 0x20
     .end
-animation_frame_C709AC:
+crane_hand_mook_intro_frame_1:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x02b, 0x00
     frame_oam_tile   -8,   -8, 0x028, 0x00
     frame_oam_tile    0,  -16, 0x007, 0x00
     frame_oam_tile   -8,  -16, 0x006, 0x00
     .end
-animation_frame_C709C1:
+crane_hand_mook_intro_frame_2:
     animation_frame_tile_count
     frame_oam_tile    0,  -16, 0x023, 0x00
     frame_oam_tile   -8,  -16, 0x022, 0x00
     frame_oam_tile    0,   -8, 0x02b, 0x00
     frame_oam_tile   -8,   -8, 0x028, 0x00
     .end
-animation_frame_C709D6:
+crane_hand_door_closed_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x040, 0x20
     .end
-animation_frame_C709DC:
+crane_hand_door_frame_1:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x042, 0x20
     .end
-animation_frame_C709E2:
+crane_hand_door_frame_2:
     animation_frame_tile_count
     frame_oam_tile   -8,   -3, 0x044, 0x20
     .end
-animation_frame_C709E8:
+crane_hand_door_frame_3:
     animation_frame_tile_count
     frame_oam_tile   -8,   -3, 0x046, 0x20
     .end
@@ -83,51 +83,51 @@ crane_hand_door_static_frame:
     frame_oam_tile   -8,   13, 0x058, 0x00
     frame_oam_tile   -8,    5, 0x050, 0x00
     .end
-animation_frame_C70A03:
+crane_hand_arm_closed_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x052, 0x20
     .end
-animation_frame_C70A09:
+crane_hand_arm_open_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x054, 0x20
     .end
-animation_frame_C70A0F:
+crane_hand_arm_descend_frame_1:
     animation_frame_tile_count
     frame_oam_tile   -8,    0, 0x054, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x00
     .end
-animation_frame_C70A1A:
+crane_hand_arm_descend_frame_2:
     animation_frame_tile_count
     frame_oam_tile   -8,    8, 0x054, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70A25:
+crane_hand_arm_descend_frame_3:
     animation_frame_tile_count
     frame_oam_tile   -8,   16, 0x054, 0x20
     frame_oam_tile   -4,    0, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70A35:
+crane_hand_arm_descend_frame_4:
     animation_frame_tile_count
     frame_oam_tile   -8,   24, 0x054, 0x20
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70A45:
+crane_hand_arm_descend_frame_5:
     animation_frame_tile_count
     frame_oam_tile   -8,   32, 0x054, 0x20
     frame_oam_tile   -4,   16, 0x056, 0x20
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70A5A:
+crane_hand_arm_descend_frame_6:
     animation_frame_tile_count
     frame_oam_tile   -8,   40, 0x054, 0x20
     frame_oam_tile   -4,   24, 0x056, 0x20
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70A6F:
+crane_hand_arm_descend_frame_7:
     animation_frame_tile_count
     frame_oam_tile   -8,   48, 0x054, 0x20
     frame_oam_tile   -4,   32, 0x056, 0x20
@@ -135,7 +135,7 @@ animation_frame_C70A6F:
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70A89:
+crane_hand_arm_descend_frame_8:
     animation_frame_tile_count
     frame_oam_tile   -8,   56, 0x054, 0x20
     frame_oam_tile   -4,   40, 0x056, 0x20
@@ -143,7 +143,7 @@ animation_frame_C70A89:
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70AA3:
+crane_hand_arm_descend_frame_9:
     animation_frame_tile_count
     frame_oam_tile   -8,   64, 0x054, 0x20
     frame_oam_tile   -4,   48, 0x056, 0x20
@@ -152,7 +152,7 @@ animation_frame_C70AA3:
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70AC2:
+crane_hand_arm_descend_frame_10:
     animation_frame_tile_count
     frame_oam_tile   -8,   72, 0x054, 0x20
     frame_oam_tile   -4,   56, 0x056, 0x20
@@ -161,7 +161,7 @@ animation_frame_C70AC2:
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70AE1:
+crane_hand_arm_descend_frame_11:
     animation_frame_tile_count
     frame_oam_tile   -8,   80, 0x054, 0x20
     frame_oam_tile   -4,   64, 0x056, 0x20
@@ -171,7 +171,7 @@ animation_frame_C70AE1:
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70B05:
+crane_hand_arm_descend_frame_12:
     animation_frame_tile_count
     frame_oam_tile   -8,   88, 0x054, 0x20
     frame_oam_tile   -4,   72, 0x056, 0x20
@@ -181,7 +181,7 @@ animation_frame_C70B05:
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70B29:
+crane_hand_arm_descend_frame_13:
     animation_frame_tile_count
     frame_oam_tile   -4,   80, 0x056, 0x20
     frame_oam_tile   -8,   96, 0x054, 0x20
@@ -192,7 +192,7 @@ animation_frame_C70B29:
     frame_oam_tile   -4,    8, 0x056, 0x20
     frame_oam_tile   -4,   -8, 0x056, 0x20
     .end
-animation_frame_C70B52:
+crane_hand_arm_extended_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,  104, 0x054, 0x20
     frame_oam_tile   -4,   88, 0x056, 0x20
@@ -275,96 +275,96 @@ animation_frame_C70C54:
     frame_oam_tile    0,    0, 0x01b, 0x00
     frame_oam_tile   -8,    0, 0x01a, 0x00
     .end
-byte_C70C73:
+mook_walk_up_animation:
     animation_frame_count
-    animation_frame animation_frame_C7092C, 8
-    animation_frame animation_frame_C7093C, 8
-    animation_frame animation_frame_C7092C, 8
-    animation_frame animation_frame_C7094C, 8
+    animation_frame mook_walk_up_frame_1, 8
+    animation_frame mook_walk_up_frame_2, 8
+    animation_frame mook_walk_up_frame_1, 8
+    animation_frame mook_walk_up_frame_3, 8
     .end
-byte_C70C84:
+mook_walk_down_animation:
     animation_frame_count
-    animation_frame animation_frame_C7095C, 8
-    animation_frame animation_frame_C7096C, 8
-    animation_frame animation_frame_C7095C, 8
-    animation_frame animation_frame_C7097C, 8
+    animation_frame mook_walk_down_frame_1, 8
+    animation_frame mook_walk_down_frame_2, 8
+    animation_frame mook_walk_down_frame_1, 8
+    animation_frame mook_walk_down_frame_3, 8
     .end
-byte_C70C95:
+mook_stand_up_defeated_animation:
     animation_frame_count
-    animation_frame animation_frame_C7098C, 0xFF
+    animation_frame mook_stand_up_defeated_frame, 0xFF
     .end
-byte_C70C9A:
+mook_lying_down_animation:
     animation_frame_count
-    animation_frame animation_frame_C7099C, 0xFF
+    animation_frame mook_lying_down_frame, 0xFF
     .end
-byte_C70C9F:
+crane_hand_mook_intro_animation:
     animation_frame_count
-    animation_frame animation_frame_C709AC, 0x30
-    animation_frame animation_frame_C709C1, 8
-    animation_frame animation_frame_C709AC, 8
-    animation_frame animation_frame_C709C1, 8
+    animation_frame crane_hand_mook_intro_frame_1, 0x30
+    animation_frame crane_hand_mook_intro_frame_2, 8
+    animation_frame crane_hand_mook_intro_frame_1, 8
+    animation_frame crane_hand_mook_intro_frame_2, 8
     .end
-byte_C70CB0:
+crane_hand_door_opening_animation:
     animation_frame_count
-    animation_frame animation_frame_C709DC, 4
-    animation_frame animation_frame_C709E2, 4
-    animation_frame animation_frame_C709E8, 4
+    animation_frame crane_hand_door_frame_1, 4
+    animation_frame crane_hand_door_frame_2, 4
+    animation_frame crane_hand_door_frame_3, 4
     .end
-byte_C70CBD:
+crane_hand_door_closed_animation:
     animation_frame_count
-    animation_frame animation_frame_C709D6, 0xFF
+    animation_frame crane_hand_door_closed_frame, 0xFF
     .end
 crane_hand_door_static_animation:
     animation_frame_count
     animation_frame crane_hand_door_static_frame, 0xFF
     .end
-byte_C70CC7:
+crane_hand_arm_descend_animation:
     animation_frame_count
-    animation_frame animation_frame_C70A09, 0x30
-    animation_frame animation_frame_C70A0F, 1
-    animation_frame animation_frame_C70A1A, 1
-    animation_frame animation_frame_C70A25, 1
-    animation_frame animation_frame_C70A35, 1
-    animation_frame animation_frame_C70A45, 1
-    animation_frame animation_frame_C70A5A, 1
-    animation_frame animation_frame_C70A6F, 1
-    animation_frame animation_frame_C70A89, 1
-    animation_frame animation_frame_C70AA3, 1
-    animation_frame animation_frame_C70AC2, 1
-    animation_frame animation_frame_C70AE1, 1
-    animation_frame animation_frame_C70B05, 1
-    animation_frame animation_frame_C70B29, 1
+    animation_frame crane_hand_arm_open_frame, 0x30
+    animation_frame crane_hand_arm_descend_frame_1, 1
+    animation_frame crane_hand_arm_descend_frame_2, 1
+    animation_frame crane_hand_arm_descend_frame_3, 1
+    animation_frame crane_hand_arm_descend_frame_4, 1
+    animation_frame crane_hand_arm_descend_frame_5, 1
+    animation_frame crane_hand_arm_descend_frame_6, 1
+    animation_frame crane_hand_arm_descend_frame_7, 1
+    animation_frame crane_hand_arm_descend_frame_8, 1
+    animation_frame crane_hand_arm_descend_frame_9, 1
+    animation_frame crane_hand_arm_descend_frame_10, 1
+    animation_frame crane_hand_arm_descend_frame_11, 1
+    animation_frame crane_hand_arm_descend_frame_12, 1
+    animation_frame crane_hand_arm_descend_frame_13, 1
     .end
-byte_C70D00:
+crane_hand_arm_closed_animation:
     animation_frame_count
-    animation_frame animation_frame_C70A03, 0xFF
+    animation_frame crane_hand_arm_closed_frame, 0xFF
     .end
-byte_C70D05:
+crane_hand_arm_extended_animation:
     animation_frame_count
-    animation_frame animation_frame_C70B52, 0x15
+    animation_frame crane_hand_arm_extended_frame, 0x15
     .end
-byte_C70D0A:
+crane_hand_arm_ascend_animation:
     animation_frame_count
-    animation_frame animation_frame_C70B29, 1
-    animation_frame animation_frame_C70B05, 1
-    animation_frame animation_frame_C70AE1, 1
-    animation_frame animation_frame_C70AC2, 1
-    animation_frame animation_frame_C70AA3, 1
-    animation_frame animation_frame_C70A89, 1
-    animation_frame animation_frame_C70A6F, 1
-    animation_frame animation_frame_C70A5A, 1
-    animation_frame animation_frame_C70A45, 1
-    animation_frame animation_frame_C70A35, 1
-    animation_frame animation_frame_C70A25, 1
-    animation_frame animation_frame_C70A1A, 1
-    animation_frame animation_frame_C70A0F, 1
-    animation_frame animation_frame_C70A09, 8
+    animation_frame crane_hand_arm_descend_frame_13, 1
+    animation_frame crane_hand_arm_descend_frame_12, 1
+    animation_frame crane_hand_arm_descend_frame_11, 1
+    animation_frame crane_hand_arm_descend_frame_10, 1
+    animation_frame crane_hand_arm_descend_frame_9, 1
+    animation_frame crane_hand_arm_descend_frame_8, 1
+    animation_frame crane_hand_arm_descend_frame_7, 1
+    animation_frame crane_hand_arm_descend_frame_6, 1
+    animation_frame crane_hand_arm_descend_frame_5, 1
+    animation_frame crane_hand_arm_descend_frame_4, 1
+    animation_frame crane_hand_arm_descend_frame_3, 1
+    animation_frame crane_hand_arm_descend_frame_2, 1
+    animation_frame crane_hand_arm_descend_frame_1, 1
+    animation_frame crane_hand_arm_open_frame, 8
     .end
-byte_C70D43:
+crane_hand_door_closing_animation:
     animation_frame_count
-    animation_frame animation_frame_C709E8, 4
-    animation_frame animation_frame_C709E2, 4
-    animation_frame animation_frame_C709DC, 4
+    animation_frame crane_hand_door_frame_3, 4
+    animation_frame crane_hand_door_frame_2, 4
+    animation_frame crane_hand_door_frame_1, 4
     .end
 byte_C70D50:
     animation_frame_count
@@ -651,11 +651,29 @@ byte_C71032:
     
 struct crane_hand
     enemy
+    org 0x16
+.flashing_counter ; During battle
+.defeat_animation_counter ; During defeat animation
+    ds 2
+    org 0x20
+.attacking_hands
+    ds 2
     org 0x26
 .some_tile_index
     ds 2
     
-    org 0x3A
+    org 0x30
+.movement_direction ; During battle
+.fade_back_countdown ; During defeat animation
+    ds 2
+.movement_countdown
+    ds 2
+.animation_countdown
+    ds 2
+.movement_paused
+    ds 2
+.dance_animation_flag
+    ds 2
 .hitpoints
     ds 2
     org enemy.sizeof
@@ -665,7 +683,7 @@ create_crane_hand:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    create_object crane_hand_init
+    create_object crane_hand
     init_enemy 0
     
     ; Reset BG 2 locaition (includes the main body)
@@ -687,7 +705,7 @@ create_crane_hand:
     STA a:addr(add_subtract_select_and_enable)
     RTL
 
-crane_hand_init:
+crane_hand:
 i16
     REP #0x20
     ; TODO: Not sure what it does or why, Clown Mask has it too
@@ -697,19 +715,19 @@ i16
     
     ; Reset position
     LDA #136
-    STA z:enemy.x_position, X
+    STA z:crane_hand.x_position, X
     LDA #40
-    STA z:enemy.y_position, X
+    STA z:crane_hand.y_position, X
     
     ; Set other attributes
     LDA #0
-    STA z:enemy.animations, X
-    LDA #0x200
-    STA z:0x34, X
+    STA z:crane_hand.flashing_counter, X
+    LDA #512
+    STA z:crane_hand.animation_countdown, X
     LDA #1
-    STA z:0x36, X
+    STA z:crane_hand.movement_paused, X
     LDA #0
-    STA z:0x38, X
+    STA z:crane_hand.dance_animation_flag, X
     LDA #13
     STA z:crane_hand.hitpoints, X
     JSL fast_random
@@ -717,24 +735,24 @@ i16
     AND #0x7F
     CLC
     ADC #0x20
-    STA z:0x32, X
+    STA z:crane_hand.movement_countdown, X
     LDA #0x30
-    STA z:enemy.palette, X
+    STA z:crane_hand.palette, X
     LDA #0
-    STA z:enemy.direction, X
+    STA z:crane_hand.attacking_hands, X
     
     ; Create the two hands
     JSL crane_hand_create_mook
     JSL crane_hand_create_door
     
     REP #0x20
-    STZ z:0x46
+    STZ z:crane_hand_create_hand.IS_LEFT
     JSL crane_hand_create_hand
-    INC z:0x46
+    INC z:crane_hand_create_hand.IS_LEFT
     JSL crane_hand_create_hand
     SEP #0x20
     LDA #0
-    STA z:3, X
+    STA z:crane_hand.execution_priority, X
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
@@ -742,357 +760,338 @@ i16
     STA a:addr(player_1.palette)
     LDA #0x30
     STA a:addr(player_2.palette)
-    set_handler _crane_hand
+    set_handler .wait_start
 
-_crane_hand:
+.wait_start
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C7113E
-    JML .loc_C71255
+    BEQ +
+    JML .render
++
 
-.loc_C7113E:
     LDY #7
-    LDA #0x29
-    STA z:0x40
+    LDA #FACTORY_PALETTE_1
+    STA z:set_palette.PALETTE
     LDA #1
     JSL set_palette
-    LDA #0x2A
-    STA z:0x40
+    
+    LDA #FACTORY_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #2
     JSL set_palette
-    LDA #0x2B
-    STA z:0x40
+    
+    LDA #FACTORY_PALETTE_3
+    STA z:set_palette.PALETTE
     LDA #3
     JSL set_palette
-    LDA #0x35
-    STA z:0x40
+    
+    LDA #CRANE_BG_PALETTE
+    STA z:set_palette.PALETTE
     LDA #4
     JSL set_palette
-    LDA #0x2C
-    STA z:0x40
+    
+    LDA #FACTORY_BOMB_PALETTE
+    STA z:set_palette.PALETTE
     LDA #6
     JSL set_palette
-    LDA #0x2D
-    STA z:0x40
+    
+    LDA #FACTORY_FIRE_PALETTE
+    STA z:set_palette.PALETTE
     LDA #7
     JSL set_palette
-    LDA #addr(SHIRO_PALETTE)
-    STA z:0x40
+    
+    LDA #SHIRO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #8
     JSL set_palette
-    LDA #addr(KURO_PALETTE)
-    STA z:0x40
+    
+    LDA #KURO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #9
     JSL set_palette
-    LDA #addr(MOOK_PALETTE)
-    STA z:0x40
-    LDA #0xC
+    
+    LDA #MOOK_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
-    LDA #addr(CRANE_PALETTE)
-    STA z:0x40
-    LDA #0xD
+    
+    LDA #CRANE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
-    set_handler .loc_C711B2
+    set_handler .wait
 
-.loc_C711B2:
+.wait:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C711C7
-    JML .loc_C71255
+    BEQ +
+    JML .render
++
 
-.loc_C711C7:
     REP #0x20
-    DEC z:0x34, X
-    BEQ .loc_C711D1
-    JML .loc_C71255
+    DEC z:crane_hand.animation_countdown, X
+    BEQ +
+    JML .render
++
 
-.loc_C711D1:
     SEP #0x20
     LDA a:addr(game_flags)
     AND #~GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    set_handler .loc_C711E8
+    set_handler .main
 
-.loc_C711E8:
+.main:
+    .VELOCITY = 0x40
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C711FD
-    JML .loc_C71255
+    BEQ +
+    JML .render
++
 
-.loc_C711FD:
     REP #0x20
-    LDA z:0x36, X
-    BNE .loc_C71255
+    LDA z:crane_hand.movement_paused, X
+    BNE .render
     SEP #0x20
     LDA z:0x20, X
-    BNE .loc_C71255
-    DEC z:0x32, X
-    BPL .loc_C7121F
+    BNE .render
+    DEC z:crane_hand.movement_countdown, X
+    BPL +
     JSL fast_random
     SEP #0x20
     AND #0x7F
-    STA z:0x32, X
+    STA z:crane_hand.movement_countdown, X
     AND #3
-    STA z:0x20, X
+    STA z:crane_hand.attacking_hands, X
     AND #1
-    STA z:0x30, X
+    STA z:crane_hand.movement_direction, X
++
 
-.loc_C7121F:
     REP #0x20
     LDA #2
-    STA z:0x40
-    LDA z:0x30, X
+    STA z:.VELOCITY
+    LDA z:crane_hand.movement_direction, X
     BIT #1
-    BNE .loc_C71232
-    LDA #0xFFFE
-    STA z:0x40
+    BNE +
+    LDA #-2
+    STA z:.VELOCITY
++
 
-.loc_C71232:
-    LDA z:0x11, X
+    LDA z:crane_hand.x_position, X
     CLC
-    ADC z:0x40
-    CMP #0x42
-    BCS .loc_C71240
-    JML sub_C7155E
+    ADC z:.VELOCITY
+    CMP #66
+    BCS +
+    JML crane_hand_switch_direction
++
 
-.loc_C71240:
-    CMP #0xCE
-    BCC .loc_C71249
-    JML sub_C7155E
+    CMP #206
+    BCC +
+    JML crane_hand_switch_direction
++
 
-.loc_C71249:
-    STA z:0x11, X
+    STA z:crane_hand.x_position, X
     SEC
-    SBC #0x88
+    SBC #136
     AND #0x3FF
     STA a:addr(bg2_h_scroll)
-.loc_C71255:
+    
+.render:
     REP #0x20
-    LDA z:0x16, X
-    BNE .loc_C7129C
-    LDA z:0x11, X
+    LDA z:crane_hand.flashing_counter, X
+    BNE crane_hand_flash
+    LDA z:crane_hand.x_position, X
     PHA
-    LDA z:0x11, X
+    LDA z:crane_hand.x_position, X
     SEC
-    SBC #0x88
+    SBC #136
     EOR #0xFFFF
     INC A
     CLC
-    ADC #0x88
-    STA z:0x11, X
-    LDA #0x2030
-    STA z:0x42
-    LDA #0x2020
-    STA z:0x44
+    ADC #136
+    STA z:crane_hand.x_position, X
+    
+    LDA #0x2030 ; Set left limit to 32 pixels and the right limit to 48 pixels
+    STA z:enemy_detect_blast_in_range.RIGHT_LIMIT
+    LDA #0x2020 ; Set up and down limits to 32 pixels
+    STA z:enemy_detect_blast_in_range.DOWN_LIMIT
     JSL enemy_detect_blast_in_range
+
     REP #0x20
     PLA
-    STA z:0x11, X
-    BCC .locret_C7129B
+    STA z:crane_hand.x_position, X
+    BCC .ret
     REP #0x20
-    LDA #0x80
-    STA z:0x16, X
-    DEC z:0x3A, X
-    BNE .locret_C7129B
-    set_handler sub_C71396
+    LDA #128
+    STA z:crane_hand.flashing_counter, X
+    DEC z:crane_hand.hitpoints, X
+    BNE .ret
+    set_handler crane_hand_defeat
 
-.locret_C7129B:
+.ret:
     RTL
 
-.loc_C7129C:
+crane_hand_flash:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ sub_C712B1
-    JML sub_C712B1.locret_C712DA
-    
-sub_C712B1:
+    BEQ +
+    JML .ret
++
+
+.post_check
     REP #0x20
-    LDA z:0x16, X
-    DEC z:0x16, X
+    LDA z:crane_hand.flashing_counter, X
+    DEC z:crane_hand.flashing_counter, X
     AND #1
     PHX
     TAX
     SEP #0x20
     LDA f:crane_fire_bg_palettes, X
-    STA z:0x40
-    LDY #0
+    STA z:set_palette.PALETTE
+    LDY #0 ; Fade flags
     LDA #4
     JSL set_palette
     LDA f:crane_fire_palettes, X
-    STA z:0x40
-    LDA #0xD
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
     PLX
 
-.locret_C712DA:
+.ret:
     RTL
     
 ; Dead code
+crane_hand_unused_functcion:
     JSL fast_random
     REP #0x20
     AND #0x3F
     BIT #1
-    BNE .locret_C712ED
+    BNE .ret
     EOR #0xFFFF
     INC A
 
-.locret_C712ED:
+.ret:
     RTL
 
-sub_C712EE:
+crane_hand_fade_to_white:
     SEP #0x20
-    LDY #4
-    LDA #0x2E
-    STA z:0x40
-    LDA #1
+    LDY #4 ; Fade flags
+    
+    .SLOT = 1
+rept 7
+    LDA #BACKGROUND_WHITE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #.SLOT
     JSL set_palette
-    LDA #0x2E
-    STA z:0x40
-    LDA #2
+    .SLOT = .SLOT + 1
+endr
+rept 8
+    LDA #WHITE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #.SLOT
     JSL set_palette
-    LDA #0x2E
-    STA z:0x40
-    LDA #3
-    JSL set_palette
-    LDA #0x2E
-    STA z:0x40
-    LDA #4
-    JSL set_palette
-    LDA #0x2E
-    STA z:0x40
-    LDA #5
-    JSL set_palette
-    LDA #0x2E
-    STA z:0x40
-    LDA #6
-    JSL set_palette
-    LDA #0x2E
-    STA z:0x40
-    LDA #7
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #8
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #9
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #0xA
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #0xB
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #0xC
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #0xD
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #0xE
-    JSL set_palette
-    LDA #addr(WHITE_PALETTE)
-    STA z:0x40
-    LDA #0xF
-    JSL set_palette
+    .SLOT = .SLOT + 1
+endr
     REP #0x20
-    DEC z:0x16, X
+    DEC z:crane_hand.defeat_animation_counter, X
     RTL
     
-word_C7138E:
+crane_hand_exploisions:
     dw 0x3F, 0x3F, 0x80, 0x800F
 
-sub_C71396:
+crane_hand_defeat:
     SEP #0x20
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
+    
     PHX
     LDX #addr(player_1)
-    LDA z:0x1F, X
-    STA z:0x1E, X
-    LDA z:0x20, X
+    LDA z:player.real_palette, X
+    STA z:player.effective_palette, X
+    LDA z:player.direction, X
     STA z:0x40
     JSL change_direction_and_start_animation
+    
     SEP #0x20
     LDX #addr(player_2)
-    LDA z:0x1F, X
-    STA z:0x1E, X
-    LDA z:0x20, X
+    LDA z:player.real_palette, X
+    STA z:player.effective_palette, X
+    LDA z:player.direction, X
     STA z:0x40
     JSL change_direction_and_start_animation
     PLX
-    set_handler .loc_C713CF
+    
+    set_handler .wait_for_flashing_to_end
 
-.loc_C713CF:
+.wait_for_flashing_to_end:
     REP #0x20
-    LDA z:0x16, X
-    BEQ .loc_C713D9
-    JML sub_C712B1
+    LDA z:crane_hand.flashing_counter, X
+    BEQ +
+    JML crane_hand_flash.post_check
++
 
-.loc_C713D9:
-    LDA #0x180
-    STA z:0x16, X
-    LDA z:0x11, X
+    LDA #384
+    STA z:crane_hand.defeat_animation_counter, X
+    LDA z:crane_hand.x_position, X
     PHA
-    LDA z:0x11, X
+    ; The X position is inverted, invert it back for positioning sprites
+    LDA z:crane_hand.x_position, X
     SEC
-    SBC #0x88
+    SBC #136
     EOR #0xFFFF
     INC A
     CLC
-    ADC #0x88
-    STA z:0x11, X
+    ADC #136
+    STA z:crane_hand.x_position, X
     REP #0x20
-    LDA #addr(word_C7138E)
+    LDA #addr(crane_hand_exploisions)
     STA z:0x50
     SEP #0x20
-    LDA #bank(word_C7138E)
+    LDA #bank(crane_hand_exploisions)
     STA z:0x52
     JSL create_boss_exploisions
+    
+    ; Restore the original x_position
     REP #0x20
     PLA
-    STA z:0x11, X
-    set_handler .loc_C71414
+    STA z:crane_hand.x_position, X
+    set_handler .fade_to_white
 
-.loc_C71414:
+.fade_to_white:
     REP #0x20
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_KILL_ENEMIES
     STA a:addr(game_flags)
-    LDA z:0x16, X
-    CMP #0x141
-    BNE .loc_C7142A
-    JML sub_C712EE
+    LDA z:crane_hand.defeat_animation_counter, X
+    CMP #321
+    BNE +
+    JML crane_hand_fade_to_white
++
 
-.loc_C7142A:
-    DEC z:0x16, X
-    BEQ .loc_C71432
-    JML .locret_C71559
+    DEC z:crane_hand.defeat_animation_counter, X
+    BEQ +
+    JML .ret
++
 
-.loc_C71432:
-    INC z:0x38, X
-    LDA #0x100
+    INC z:crane_hand.dance_animation_flag, X
+    
+    LDA #256
     STA a:addr(bg2_h_scroll)
-    LDA #0x68
+    
+    ; Move players and face them up
+    LDA #104
     STA a:addr(player_1.x_position)
-    LDA #0xB8
+    LDA #184
     STA a:addr(player_1.y_position)
-    LDA #0xA8
+    LDA #168
     STA a:addr(player_2.x_position)
-    LDA #0xB8
+    LDA #184
     STA a:addr(player_2.y_position)
+    
     PHX
     LDX #addr(player_1)
     REP #0x20
@@ -1101,77 +1100,95 @@ sub_C71396:
     REP #0x20
     start_animation_far up_walking_animation
     PLX
+    
+    ; Fade back
     SEP #0x20
-    LDY #7
-    LDA #0x29
-    STA z:0x40
+    LDY #7 ; Fade flags
+    
+    LDA #FACTORY_PALETTE_1
+    STA z:set_palette.PALETTE
     LDA #1
     JSL set_palette
-    LDA #0x2A
-    STA z:0x40
+    
+    LDA #FACTORY_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #2
     JSL set_palette
-    LDA #0x2B
-    STA z:0x40
+    
+    LDA #FACTORY_PALETTE_3
+    STA z:set_palette.PALETTE
     LDA #3
     JSL set_palette
-    LDA #0x35
-    STA z:0x40
+    
+    LDA #CRANE_BG_PALETTE
+    STA z:set_palette.PALETTE
     LDA #4
     JSL set_palette
-    LDA #5
-    STA z:0x40
+    
+    LDA #BONUS_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #5
     JSL set_palette
-    LDA #0x2C
-    STA z:0x40
+    
+    LDA #FACTORY_BOMB_PALETTE
+    STA z:set_palette.PALETTE
     LDA #6
     JSL set_palette
-    LDA #0x2D
-    STA z:0x40
+    
+    LDA #FACTORY_FIRE_PALETTE
+    STA z:set_palette.PALETTE
     LDA #7
     JSL set_palette
-    LDA #addr(SHIRO_PALETTE)
-    STA z:0x40
+    
+    LDA #SHIRO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #8
     JSL set_palette
-    LDA #addr(KURO_PALETTE)
-    STA z:0x40
-    LDA #addr(AO_PALETTE)
+    
+    LDA #KURO_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #9
     JSL set_palette
-    LDA #addr(BOMB_PALETTE)
-    STA z:0x40
-    LDA #0xA
+    
+    LDA #BOMB_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #10
     JSL set_palette
-    LDA #addr(RED_BOMB_PALETTE)
-    STA z:0x40
-    LDA #0xB
+    
+    LDA #RED_BOMB_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #11
     JSL set_palette
-    LDA #addr(MOOK_PALETTE)
-    STA z:0x40
-    LDA #0xC
+    
+    LDA #MOOK_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
-    LDA #addr(CRANE_PALETTE)
-    STA z:0x40
-    LDA #0xD
+    
+    LDA #CRANE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
-    LDA #addr(MISSILE_PALETTE)
-    STA z:0x40
-    LDA #0xE
+    
+    LDA #MISSILE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #14
     JSL set_palette
-    LDA #0xE
-    STA z:0x40
-    LDA #0xF
+    
+    LDA #WHITE_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #15
     JSL set_palette
+    
     REP #0x20
-    LDA #0x80
-    STA z:0x30, X
-    set_handler .loc_C7152B
+    LDA #128
+    STA z:crane_hand.fade_back_countdown, X
+    set_handler .wait_fade_back
 
-.loc_C7152B:
+.wait_fade_back:
     REP #0x20
-    DEC z:0x30, X
-    BNE .locret_C71559
+    DEC z:crane_hand.fade_back_countdown, X
+    BNE .ret
     PHX
     LDX #addr(player_1)
     add_to_score_if_allowed 10000
@@ -1180,870 +1197,949 @@ sub_C71396:
     PLX
     JSL delete_object
 
-.locret_C71559:
+.ret:
     RTL
+
 crane_fire_bg_palettes:
-    db 0x34
-    db 0x35
+    db CRANE_FIRE_BG_PALETTE
+    db CRANE_BG_PALETTE
 crane_fire_palettes:
     db GENERIC_BOSS_FIRE_PALETTE
     db CRANE_PALETTE
 
-sub_C7155E:
+crane_hand_switch_direction:
     SEP #0x20
-    LDA z:0x30, X
+    LDA z:crane_hand.movement_direction, X
     EOR #1
-    STA z:0x30, X
+    STA z:crane_hand.movement_direction, X
     RTL
+
+struct crane_hand_mook
+    enemy
+    org 0x20
+.lying_countdown
+    ds 2
+    org 0x32
+.animation_countdown
+    ds 2
+.crane_hand ; Pointer to the main object
+    ds 2
+    org enemy.sizeof
+endstruct
 
 crane_hand_create_mook:
     SEP #0x20
     create_object crane_hand_mook
     TXA
-    STA a:0x34, Y
+    STA a:crane_hand_mook.crane_hand, Y
     RTL
 
 crane_hand_mook:
     REP #0x20
-    LDA #0x88
-    STA z:0x11, X
-    LDA #0x78
-    STA z:0x14, X
+    LDA #136
+    STA z:crane_hand_mook.x_position, X
+    LDA #120
+    STA z:crane_hand_mook.y_position, X
+    
     LDA #0xFF
-    STA z:0x32, X
+    STA z:crane_hand_mook.animation_countdown, X
     LDA #0x430
-    STA z:0xE, X
+    STA z:crane_hand_mook.palette, X
+    
     LDA #8
-    STA z:0x1E, X
-    start_animation #addr(byte_C70C84)
-    set_handler .loc_C715BF
+    STA z:crane_hand_mook.effective_palette, X
+    start_animation #addr(mook_walk_down_animation)
+    set_handler .wait_outside
     SEP #0x20
     LDA #0
-    STA z:3, X
+    STA z:crane_hand_mook.execution_priority, X
 
-.loc_C715BF:
+.wait_outside:
     REP #0x20
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION
-    BEQ .loc_C715CD
-    JML .locret_C71676
+    BEQ +
+    JML .ret
++
 
-.loc_C715CD:
-    DEC z:0x32, X
-    BEQ .loc_C715D5
-    JML .loc_C71677
+    DEC z:crane_hand_mook.animation_countdown, X
+    BEQ +
+    JML .render
++
 
-.loc_C715D5:
-    start_animation #addr(byte_C70C73)
-    set_handler .loc_C715F1
+    start_animation #addr(mook_walk_up_animation)
+    set_handler .walk_up
 
-.loc_C715F1:
+.walk_up:
     REP #0x20
-    LDA z:0x13, X
+    LDA z:crane_hand_mook.fractional_y, X
     CLC
-    ADC #0xFF40
-    STA z:0x13, X
-    CMP #0x3B00
-    BCC .loc_C71604
-    JML .loc_C71672
+    ADC #-0xc0
+    STA z:crane_hand_mook.fractional_y, X
+    CMP #59 << 8
+    BCC +
+    JML .render_animated
++
 
-.loc_C71604:
-    LDA #0x19
-    STA z:0x14, X
-    LDA #0x20
-    STA z:0x32, X
-    start_animation #addr(byte_C70C9F)
-    set_handler .loc_C7162A
+    LDA #25
+    STA z:crane_hand_mook.y_position, X
+    LDA #32
+    STA z:crane_hand_mook.animation_countdown, X
+    start_animation #addr(crane_hand_mook_intro_animation)
+    set_handler .wait_inside
 
-.loc_C7162A:
+.wait_inside:
     REP #0x20
-    DEC z:0x32, X
-    BNE .locret_C71676
-    set_handler .loc_C7163D
+    DEC z:crane_hand_mook.animation_countdown, X
+    BNE .ret
+    set_handler .main
 
-.loc_C7163D:
+.main:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C71652
-    JML .loc_C71672
+    BEQ +
+    JML .render_animated
++
 
-.loc_C71652:
     SEP #0x20
-    LDY z:0x34, X
-    LDA a:0x38, Y
-    BEQ .loc_C7165F
-    JML .loc_C7167C
+    LDY z:crane_hand_mook.crane_hand, X
+    LDA a:crane_hand.dance_animation_flag, Y
+    BEQ +
+    JML .dance_sequence_init
++
 
-.loc_C7165F:
+    ; Move with the main object, invert the x position as needed
     REP #0x20
-    LDA a:0x11, Y
+    LDA a:crane_hand.x_position, Y
     SEC
-    SBC #0x88
+    SBC #136
     EOR #0xFFFF
     INC A
     CLC
-    ADC #0x88
-    STA z:0x11, X
-.loc_C71672:
+    ADC #136
+    STA z:crane_hand_mook.x_position, X
+.render_animated:
     JSL render_sprite_animated
-.locret_C71676:
+.ret:
     RTL
 
-.loc_C71677:
+.render:
     JSL render_sprite
     RTL
-.loc_C7167C:
+    
+.dance_sequence_init:
     REP #0x20
-    LDA #0x88
-    STA z:0x11, X
-    LDA #0x68
-    STA z:0x14, X
-    LDA #0x80
-    STA z:0x20, X
-    start_animation #addr(byte_C70C9A)
-    set_handler .loc_C716A9
+    LDA #136
+    STA z:crane_hand_mook.x_position, X
+    LDA #104
+    STA z:crane_hand_mook.y_position, X
+    LDA #128
+    STA z:crane_hand_mook.lying_countdown, X
+    start_animation #addr(mook_lying_down_animation)
+    set_handler .dance_sequence
 
-.loc_C716A9:
+.dance_sequence:
     REP #0x20
-    DEC z:0x20, X
-    BNE .loc_C716EC
-    LDA #0x80
-    STA z:0x20, X
-    JSL sub_C71736
-    set_handler .loc_C716C5
+    DEC z:crane_hand_mook.lying_countdown, X
+    BNE .load_animation_frame
+    LDA #128
+    STA z:crane_hand_mook.lying_countdown, X
+    JSL crane_hand_load_victory_bombermen
+    set_handler .stand_up
 
-.loc_C716C5:
+.stand_up:
     REP #0x20
-    DEC z:0x20, X
-    BNE .loc_C716EC
-    LDA #0x80
-    STA z:0x20, X
-    start_animation #addr(byte_C70C95)
-    set_handler sub_C716F1
-.loc_C716EC:
+    DEC z:crane_hand_mook.lying_countdown, X
+    BNE .load_animation_frame
+    LDA #128
+    STA z:crane_hand_mook.lying_countdown, X
+    start_animation #addr(mook_stand_up_defeated_animation)
+    set_handler .start_walk_up_defeated
+.load_animation_frame:
     JSL load_animation_frame
     RTL
 
-sub_C716F1:
+.start_walk_up_defeated:
     REP #0x20
     DEC z:0x20, X
-    BNE crane_hand_mook.loc_C716EC
-    start_animation #addr(byte_C70C73)
-    set_handler sub_C71718
+    BNE .load_animation_frame
+    start_animation #addr(mook_walk_up_animation)
+    set_handler .walk_up_defeated
     JSL load_animation_frame
     RTL
-
-sub_C71718:
+.walk_up_defeated:
     REP #0x20
-    DEC z:0x14, X
-    LDA z:0x14, X
-    CMP #0xFFE0
-    BEQ .loc_C71727
-    JML crane_hand_mook.loc_C716EC
+    DEC z:crane_hand_mook.y_position, X
+    LDA z:crane_hand_mook.y_position, X
+    CMP #-32
+    BEQ +
+    JML .load_animation_frame
 
-.loc_C71727:
-    LDA #0x39
++
+    LDA #SCREEN_MAP
     STA a:addr(current_screen)
     JSL fade_out_music
     JSL delete_object
     RTL
 
-sub_C71736:
+crane_hand_load_victory_bombermen:
 i16
     REP #0x20
     LDA #0
-    STA z:0x40
-    LDA #0x58
-    STA z:0x42
-    LDA #0xA
-    STA z:0x44
-    LDA #1
-    STA z:0x46
+    STA z:crane_hand_create_victory_bomberman.X
+    LDA #88
+    STA z:crane_hand_create_victory_bomberman.Y
+    LDA #10
+    STA z:crane_hand_create_victory_bomberman.PALETTE
+    LDA #DIR_MASK_RIGHT
+    STA z:crane_hand_create_victory_bomberman.DIRECTION
     LDA #8
-    STA z:0x48
-    JSL sub_C7180C
+    STA z:crane_hand_create_victory_bomberman.FINAL_STEP
+    JSL crane_hand_create_victory_bomberman
+    
     LDA #0
-    STA z:0x40
-    LDA #0x78
-    STA z:0x42
-    LDA #0xA
-    STA z:0x44
-    LDA #1
-    STA z:0x46
+    STA z:crane_hand_create_victory_bomberman.X
+    LDA #120
+    STA z:crane_hand_create_victory_bomberman.Y
+    LDA #10
+    STA z:crane_hand_create_victory_bomberman.PALETTE
+    LDA #DIR_MASK_RIGHT
+    STA z:crane_hand_create_victory_bomberman.DIRECTION
     LDA #8
-    STA z:0x48
-    JSL sub_C7180C
+    STA z:crane_hand_create_victory_bomberman.FINAL_STEP
+    JSL crane_hand_create_victory_bomberman
+    
     LDA #0
-    STA z:0x40
-    LDA #0x98
-    STA z:0x42
-    LDA #0xA
-    STA z:0x44
-    LDA #1
-    STA z:0x46
+    STA z:crane_hand_create_victory_bomberman.X
+    LDA #152
+    STA z:crane_hand_create_victory_bomberman.Y
+    LDA #10
+    STA z:crane_hand_create_victory_bomberman.PALETTE
+    LDA #DIR_MASK_RIGHT
+    STA z:crane_hand_create_victory_bomberman.DIRECTION
     LDA #8
-    STA z:0x48
-    JSL sub_C7180C
+    STA z:crane_hand_create_victory_bomberman.FINAL_STEP
+    JSL crane_hand_create_victory_bomberman
+    
     REP #0x20
-    LDA #0x110
-    STA z:0x40
-    LDA #0x58
-    STA z:0x42
-    LDA #0xA
-    STA z:0x44
-    LDA #2
-    STA z:0x46
+    LDA #272
+    STA z:crane_hand_create_victory_bomberman.X
+    LDA #88
+    STA z:crane_hand_create_victory_bomberman.Y
+    LDA #10
+    STA z:crane_hand_create_victory_bomberman.PALETTE
+    LDA #DIR_MASK_LEFT
+    STA z:crane_hand_create_victory_bomberman.DIRECTION
     LDA #8
-    STA z:0x48
-    JSL sub_C7180C
-    LDA #0x110
-    STA z:0x40
-    LDA #0x78
-    STA z:0x42
-    LDA #0xA
-    STA z:0x44
-    LDA #2
-    STA z:0x46
+    STA z:crane_hand_create_victory_bomberman.FINAL_STEP
+    JSL crane_hand_create_victory_bomberman
+    
+    LDA #272
+    STA z:crane_hand_create_victory_bomberman.X
+    LDA #120
+    STA z:crane_hand_create_victory_bomberman.Y
+    LDA #10
+    STA z:crane_hand_create_victory_bomberman.PALETTE
+    LDA #DIR_MASK_LEFT
+    STA z:crane_hand_create_victory_bomberman.DIRECTION
     LDA #8
-    STA z:0x48
-    JSL sub_C7180C
-    LDA #0x110
-    STA z:0x40
-    LDA #0x98
-    STA z:0x42
-    LDA #0xA
-    STA z:0x44
-    LDA #2
-    STA z:0x46
+    STA z:crane_hand_create_victory_bomberman.FINAL_STEP
+    JSL crane_hand_create_victory_bomberman
+    
+    LDA #272
+    STA z:crane_hand_create_victory_bomberman.X
+    LDA #152
+    STA z:crane_hand_create_victory_bomberman.Y
+    LDA #10
+    STA z:crane_hand_create_victory_bomberman.PALETTE
+    LDA #DIR_MASK_LEFT
+    STA z:crane_hand_create_victory_bomberman.DIRECTION
     LDA #8
-    STA z:0x48
-    JSL sub_C7180C
+    STA z:crane_hand_create_victory_bomberman.FINAL_STEP
+    JSL crane_hand_create_victory_bomberman
+    
     SEP #0x20
-    LDY #0
+    LDY #0 ; Fade flags
     LDA #addr(MECHA_BOMBER_BLUE_PALETTE)
-    STA z:0x40
-    LDA #0xD
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
+    
     LDA #addr(MECHA_BOMBER_RED_PALETTE)
-    STA z:0x40
-    LDA #0xE
+    STA z:set_palette.PALETTE
+    LDA #14
     JSL set_palette
+    
     LDA #addr(MECHA_BOMBER_MAGENTA_PALETTE)
-    STA z:0x40
-    LDA #0xF
+    STA z:set_palette.PALETTE
+    LDA #15
     JSL set_palette
     RTL
 
-sub_C7180C:
-    SEP #0x20
-    create_object sub_C7184C
-    REP #0x20
-    BCS .locret_C7184B
-    LDA #0x30
-    STA a:0xE, Y
-    LDA z:0x40
-    STA a:0x11, Y
-    LDA z:0x42
-    STA a:0x14, Y
-    LDA z:0x44
-    STA a:0x1E, Y
-    LDA z:0x46
-    STA a:0x20, Y
-    LDA z:0x48
-    STA a:0x24, Y
-    LDA #0
-    STA a:0x22, Y
+struct crane_hand_victory_bomberman
+    enemy ; Mostly behaves like an enemy
+    org 0x16
+.x_velocity
+    ds 2
+.x_acceleration
+    ds 2
+    org 0x22
+.movement_step ; Index into movement tables, advances by 1 entry (4 bytes) after each target is reached
+    ds 2
+.final_step ; movement_step value at which this bomberman stops moving
+    ds 2
+.target_x ; X position this bomberman is currently walking toward
+    ds 2
+    org 0x30
+.countdown
+    ds 2
+    org enemy.sizeof
+endstruct
 
-.locret_C7184B:
+crane_hand_create_victory_bomberman:
+    .X = 0x40
+    .Y = 0x42
+    .PALETTE = 0x44
+    .DIRECTION = 0x46
+    .FINAL_STEP = 0x48
+    SEP #0x20
+    create_object crane_hand_victory_bomberman
+    REP #0x20
+    BCS .ret
+    LDA #0x30
+    STA a:crane_hand_victory_bomberman.palette, Y
+    LDA z:.X
+    STA a:crane_hand_victory_bomberman.x_position, Y
+    LDA z:.Y
+    STA a:crane_hand_victory_bomberman.y_position, Y
+    LDA z:.PALETTE
+    STA a:crane_hand_victory_bomberman.effective_palette, Y
+    LDA z:.DIRECTION
+    STA a:crane_hand_victory_bomberman.direction, Y
+    LDA z:.FINAL_STEP
+    STA a:crane_hand_victory_bomberman.final_step, Y
+    LDA #0
+    STA a:crane_hand_victory_bomberman.movement_step, Y
+
+.ret:
     RTL
 
-sub_C7184C:
+crane_hand_victory_bomberman:
+    .VELOCITY = 0x42
+    .ACCELERATION = 0x44
+    .TARGET = 0x46
     REP #0x20
-    LDA z:0x20, X
+    LDA z:crane_hand_victory_bomberman.direction, X
     STA z:0x40
     JSL start_animation_by_direction
 
-.loc_C71856:
+    ; Load movement parameters for the current step from the lookup tables,
+    ; indexed by (direction - 1) * 16 + movement_step.
+.init_movement_step:
     SEP #0x20
-    STZ z:0x10, X
+    STZ z:crane_hand_victory_bomberman.fractional_x, X
     REP #0x20
-    LDA z:0x20, X
+    LDA z:crane_hand_victory_bomberman.direction, X
     DEC A
     ASL A
     ASL A
     ASL A
     ASL A
-    ORA z:0x22, X
+    ORA z:crane_hand_victory_bomberman.movement_step, X
     PHX
     TAX
-    LDA f:unk_C71978, X
-    STA z:0x42
-    LDA f:unk_C7197A, X
-    STA z:0x44
-    LDA f:unk_C71998, X
-    STA z:0x46
+    LDA f:victory_bomberman_velocity_table, X
+    STA z:.VELOCITY
+    LDA f:victory_bomberman_velocity_table + 2, X
+    STA z:.ACCELERATION
+    LDA f:victory_bomberman_target_x_table, X
+    STA z:.TARGET
     PLX
-    LDA z:0x42
-    STA z:0x16, X
-    LDA z:0x44
-    STA z:0x18, X
-    LDA z:0x46
-    STA z:0x26, X
-    set_handler .loc_C71893
+    LDA z:.VELOCITY
+    STA z:crane_hand_victory_bomberman.x_velocity, X
+    LDA z:.ACCELERATION
+    STA z:crane_hand_victory_bomberman.x_acceleration, X
+    LDA z:.TARGET
+    STA z:crane_hand_victory_bomberman.target_x, X
+    set_handler .moving
 
-.loc_C71893:
+.moving:
+    .SIGN_EXTEND = 0x40
     REP #0x20
-    STZ z:0x40
-    LDA z:0x18, X
+    STZ z:.SIGN_EXTEND
+    LDA z:crane_hand_victory_bomberman.x_acceleration, X
     CLC
-    ADC z:0x16, X
-    STA z:0x16, X
-    BPL .loc_C718A2
-    DEC z:0x40
+    ADC z:crane_hand_victory_bomberman.x_velocity, X
+    STA z:crane_hand_victory_bomberman.x_velocity, X
+    BPL +
+    DEC z:.SIGN_EXTEND
++
 
-.loc_C718A2:
     CLC
-    ADC z:0x10, X
-    STA z:0x10, X
-    LDA z:0x40
-    ADC z:0x12, X
-    STA z:0x12, X
-    LDA z:0x20, X
+    ADC z:crane_hand_victory_bomberman.fractional_x, X
+    STA z:crane_hand_victory_bomberman.fractional_x, X
+    LDA z:.SIGN_EXTEND
+    ADC z:crane_hand_victory_bomberman.x_position + 1, X
+    STA z:crane_hand_victory_bomberman.x_position + 1, X
+    LDA z:crane_hand_victory_bomberman.direction, X
     AND #0xF
-    CMP #1
-    BNE .loc_C718C1
-    LDA z:0x11, X
-    BMI .loc_C718C7
-    CMP z:0x26, X
-    BCS .loc_C718CC
-    BRA .loc_C718C7
+    CMP #DIR_MASK_RIGHT
+    BNE .moving_left
+    LDA z:crane_hand_victory_bomberman.x_position, X
+    BMI .render  ; still off the left edge
+    CMP z:crane_hand_victory_bomberman.target_x, X
+    BCS .reached_target
+    BRA .render
 
-.loc_C718C1:
-    LDA z:0x11, X
-    CMP z:0x26, X
-    BCC .loc_C718CC
+.moving_left:
+    LDA z:crane_hand_victory_bomberman.x_position, X
+    CMP z:crane_hand_victory_bomberman.target_x, X
+    BCC .reached_target
 
-.loc_C718C7:
+.render:
     JSL render_sprite
     RTL
 
-.loc_C718CC:
-    set_handler sub_C7193A
+    ; Bomberman reached target_x. If movement_step == final_step, stop entirely.
+    ; Otherwise, snap to target_x and wait briefly before the next step.
+.reached_target:
+    set_handler .stopped
     REP #0x20
-    LDA z:0x22, X
-    CMP z:0x24, X
-    BEQ .loc_C718C7
-    LDA z:0x26, X
-    STA z:0x11, X
-    LDA #0x20
-    STA z:0x30, X
-    set_handler .loc_C718F7
+    LDA z:crane_hand_victory_bomberman.movement_step, X
+    CMP z:crane_hand_victory_bomberman.final_step, X
+    BEQ .render
+    LDA z:crane_hand_victory_bomberman.target_x, X
+    STA z:crane_hand_victory_bomberman.x_position, X
+    LDA #32
+    STA z:crane_hand_victory_bomberman.countdown, X
+    set_handler .wait_at_target
 
-.loc_C718F7:
+.wait_at_target:
     REP #0x20
-    DEC z:0x30, X
-    BNE .loc_C718C7
-    LDA z:0x22, X
+    DEC z:crane_hand_victory_bomberman.countdown, X
+    BNE .render
+    LDA z:crane_hand_victory_bomberman.movement_step, X
     CLC
     ADC #4
-    STA z:0x22, X
+    STA z:crane_hand_victory_bomberman.movement_step, X
     CMP #4
-    BNE .loc_C71937
-    LDA z:0x24, X
-    BEQ .loc_C71937
+    BNE .restart_movement
+    LDA z:crane_hand_victory_bomberman.final_step, X
+    BEQ .restart_movement
     SEC
     SBC #4
-    STA z:0x48
+    STA z:crane_hand_create_victory_bomberman.FINAL_STEP ; One less step
     LDA #0
     STA z:0x40
-    LDA z:0x20, X
-    CMP #1
-    BEQ .loc_C71925
-    LDA #0x110
-    STA z:0x40
+    LDA z:crane_hand_victory_bomberman.direction, X
+    CMP #DIR_MASK_RIGHT
+    BEQ +
+    LDA #272
+    STA z:crane_hand_create_victory_bomberman.X
++
 
-.loc_C71925:
-    LDA z:0x14, X
-    STA z:0x42
-    LDA z:0x1E, X
+    ; Same Y position
+    LDA z:crane_hand_victory_bomberman.y_position, X
+    STA z:crane_hand_create_victory_bomberman.Y
+    ; Palette + 2
+    LDA z:crane_hand_victory_bomberman.effective_palette, X
     INC A
     INC A
-    STA z:0x44
-    LDA z:0x20, X
-    STA z:0x46
-    JSL sub_C7180C
+    STA z:crane_hand_create_victory_bomberman.PALETTE
+    ; Same direction
+    LDA z:crane_hand_victory_bomberman.direction, X
+    STA z:crane_hand_create_victory_bomberman.DIRECTION
+    JSL crane_hand_create_victory_bomberman
 
-.loc_C71937:
-    JMP a:.loc_C71856
+.restart_movement:
+    JMP a:.init_movement_step
 
-sub_C7193A:
+    ; Bomberman reached its final position; wait 128 frames then switch to
+    ; the jumping (victory) animation.
+.stopped:
     REP #0x20
     LDA #0x80
-    STA z:0x30, X
-    set_handler .loc_C7194E
+    STA z:crane_hand_victory_bomberman.countdown, X
+    set_handler .wait_before_jumping
 
-.loc_C7194E:
+.wait_before_jumping:
     REP #0x20
-    DEC z:0x30, X
-    BEQ .loc_C71958
-    JML sub_C7184C.loc_C718C7
+    DEC z:crane_hand_victory_bomberman.countdown, X
+    BEQ +
+    JML .render
++
 
-.loc_C71958:
     SEP #0x20
     LDA #7
-    STA z:0xF, X
-    LDA #0x1C
+    STA z:crane_hand_victory_bomberman.graphics_slot, X
+    LDA #0x1C ; jumping_animation
     STA z:0x40
     JSL start_animation_by_direction
-    set_handler .loc_C71973
+    set_handler .animate_in_place
 
-.loc_C71973:
+.animate_in_place:
     JSL load_animation_frame
     RTL
     
-unk_C71978:
-    db 0
-    db 4
-unk_C7197A:
-    db 0xE0
-    db 0xFF
-    db 0
-    db 4
-    db 0xE0
-    db 0xFF
-    db 0
-    db 4
-    db 0xE0
-    db 0xFF
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0xFC
-    db 0x20
-    db 0
-    db 0
-    db 0xFC
-    db 0x20
-    db 0
-    db 0
-    db 0xFC
-    db 0x20
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_C71998:
-    db 0x28
-    db 0
-    db 0
-    db 0
-    db 0x48
-    db 0
-    db 0
-    db 0
-    db 0x68
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0xE8
-    db 0
-    db 0
-    db 0
-    db 0xC8
-    db 0
-    db 0
-    db 0
-    db 0xA8
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    ; Indexed by (direction - 1) * 16 + movement_step.
+    ; Each entry gives the initial x_velocity and x_acceleration for a hop.
+victory_bomberman_velocity_table:
+    ; Right
+    dw  0x400, -0x20
+    dw  0x400, -0x20
+    dw  0x400, -0x20
+    dw     0,      0
+    ; Left
+    dw -0x400,  0x20
+    dw -0x400,  0x20
+    dw -0x400,  0x20
+    dw     0,      0
+
+    ; Target x positions, indexed by (direction - 1) * 16 + movement_step.
+    ; Right bombermen stop at x=40, 72, 104; left bombermen at x=232, 200, 168.
+    ; Each slot is 4 bytes wide to match the 4-byte stride of the index.
+victory_bomberman_target_x_table:
+    ; Right
+    dw 40,  0
+    dw 72,  0
+    dw 104, 0
+    dw 0,   0
+    ; Left
+    dw 232, 0
+    dw 200, 0
+    dw 168, 0
+    dw 0,   0
+
+struct crane_hand_door
+    enemy
+    org 0x30
+.missile_count
+    ds 2
+.countdown
+    ds 2
+.crane_hand
+    ds 2
+.missile_countdown
+    ds 2
+    org enemy.sizeof
+endstruct
 
 crane_hand_create_door:
 i16
     SEP #0x20
-    create_object .loc_C719D9
-    BCC .loc_C719D4
-    JML sub_C71B1E
+    create_object crane_hand_door
+    BCC +
+    JML crane_hand_door.delete_if_boss_defeated
++
 
-.loc_C719D4:
     TXA
-    STA a:0x34, Y
+    STA a:crane_hand_door.crane_hand, Y
     RTL
 
-.loc_C719D9:
+crane_hand_door:
     SEP #0x20
     LDA #0
-    STA z:3, X
+    STA z:crane_hand_door.execution_priority, X
     REP #0x20
-    LDA #0x88
-    STA z:0x11, X
-    LDA #0x38
-    STA z:0x14, X
+    LDA #136
+    STA z:crane_hand_door.x_position, X
+    LDA #56
+    STA z:crane_hand_door.y_position, X
     LDA #0
-    STA z:0x30, X
-    LDA #0x180
-    STA z:0x32, X
-    LDA #0x200
-    STA z:0x36, X
+    STA z:crane_hand_door.missile_count, X
+    LDA #384
+    STA z:crane_hand_door.countdown, X
+    LDA #512
+    STA z:crane_hand_door.missile_countdown, X
     LDA #0x430
-    STA z:0xE, X
+    STA z:crane_hand_door.palette, X
     LDA #0xA
-    STA z:0x1E, X
+    STA z:crane_hand_door.effective_palette, X
     start_animation #addr(crane_hand_door_static_animation)
-    set_handler .loc_C71A20
+    set_handler .wait_for_intro
 
-.loc_C71A20:
+.wait_for_intro:
     REP #0x20
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION
-    BEQ .loc_C71A2E
-    JML sub_C71B1E
+    BEQ +
+    JML .delete_if_boss_defeated
++
+    DEC z:crane_hand_door.countdown, X
+    BEQ +
+    JML .render
++
 
-.loc_C71A2E:
-    DEC z:0x32, X
-    BEQ sub_C71A36
-    JML sub_C71A36.loc_C71B1A
-
-sub_C71A36:
+.close_door
     REP #0x20
-    start_animation #addr(byte_C70D43)
-    set_handler .loc_C71A54
+    start_animation #addr(crane_hand_door_closing_animation)
+    set_handler .wait_intro_closing_animation
 
-.loc_C71A54:
-    JSL sub_C71B1E
+.wait_intro_closing_animation:
+    JSL .delete_if_boss_defeated ; How do you even defeat the boss during the intro?
     JSL render_sprite_animated
-    BCS .loc_C71A62
-    JML sub_C71B1E.locret_C71B2B
+    BCS +
+    JML .ret
++
 
-.loc_C71A62:
     REP #0x20
     LDA #0x10
-    STA z:0x32, X
-    start_animation #addr(byte_C70CBD)
+    STA z:crane_hand_door.countdown, X
+    start_animation #addr(crane_hand_door_closed_animation)
     LDY #SOUND_CRANE_HAND_DOOR
     JSL play_sound
-    set_handler .loc_C71A8D
+    set_handler .wait_intro_countdown
     RTL
 
-.loc_C71A8D:
+.wait_intro_countdown:
     REP #0x20
-    DEC z:0x32, X
-    BEQ .loc_C71A97
-    JML .loc_C71B1A
+    DEC z:crane_hand_door.countdown, X
+    BEQ +
+    JML .render
++
 
-.loc_C71A97:
-    LDY z:0x34, X
+    LDY z:crane_hand_door.crane_hand, X
     LDA #0
-    STA a:0x36, Y
-    set_handler .loc_C71AAC
+    STA a:crane_hand.movement_paused, Y
+    set_handler .main
 
-.loc_C71AAC:
+.main:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C71AC1
-    JML .loc_C71B1A
+    BEQ +
+    JML .render
++
 
-.loc_C71AC1:
+    ; Sync x position with the main object
     REP #0x20
-    LDY z:0x34, X
-    LDA a:0x11, Y
+    LDY z:crane_hand_door.crane_hand, X
+    LDA a:crane_hand.x_position, Y
     SEC
-    SBC #0x88
+    SBC #136
     EOR #0xFFFF
     INC A
     CLC
-    ADC #0x88
-    STA z:0x11, X
-    DEC z:0x36, X
-    BNE .loc_C71B1A
+    ADC #136
+    STA z:crane_hand_door.x_position, X
+    
+    DEC z:crane_hand_door.missile_countdown, X
+    BNE .render
+    
+    ; If not aligned to a tile, increase the count down so we keep moving
     JSL is_object_misaligned
     REP #0x20
-    INC z:0x36, X
-    BCS .loc_C71B1A
-    LDA #0xE0
-    STA z:0x42
+    INC z:crane_hand_door.missile_countdown, X
+    BCS .render
+    
+    ; Don't launch into a wall or a bomb (or soft blocks but they don't exist)
+    LDA #BOMB | HARD_BLOCK | SOFT_BLOCK
+    STA z:test_collision.MASK
     JSL test_collision_below
-    BNE .loc_C71B1A
+    BNE .render
+    
     JSL fast_random
+    ; Randomize a new countdown
     REP #0x20
     AND #0x7F
     CLC
     ADC #0x40
-    STA z:0x36, X
-    LDA z:0x30, X
+    STA z:crane_hand_door.missile_countdown, X
+    
+    ; Cap at 3 missiles
+    LDA z:crane_hand_door.missile_count, X
     CMP #3
-    BCS .loc_C71B1A
-    LDY z:0x34, X
+    BCS .render
+    
+    ; Pause movement of the main object
+    LDY z:crane_hand_door.crane_hand, X
     LDA #1
-    STA a:0x36, Y
-    set_handler sub_C71B2C
+    STA a:crane_hand.movement_paused, Y
+    set_handler .launch_missile
 
-.loc_C71B1A:
+.render:
     JSL render_sprite_animated
     ; fallthrough
     
-sub_C71B1E:
+.delete_if_boss_defeated:
     SEP #0x20
-    LDY z:0x34, X
-    LDA a:0x38, Y
-    BEQ .locret_C71B2B
+    LDY z:crane_hand_door.crane_hand, X
+    LDA a:crane_hand.dance_animation_flag, Y
+    BEQ .ret
     JSL delete_object
-.locret_C71B2B:
+.ret:
     RTL
 
-sub_C71B2C:
+.launch_missile:
 i16
     REP #0x20
-    start_animation #addr(byte_C70CB0)
+    start_animation #addr(crane_hand_door_opening_animation)
     LDY #SOUND_CRANE_HAND_DOOR
     JSL play_sound
-    set_handler .loc_C71B51
+    set_handler .wait_for_opening_animation
 
-.loc_C71B51:
-    JSL sub_C71B1E
+.wait_for_opening_animation:
+    JSL .delete_if_boss_defeated
     JSL render_sprite_animated
-    BCC sub_C71B1E.locret_C71B2B
+    BCC .ret
     REP #0x20
     LDA #0x40
-    STA z:0x32, X
+    STA z:crane_hand_door.countdown, X
     start_animation #addr(crane_hand_door_static_animation)
-    set_handler sub_C71B7F
+    set_handler .wait_before_missile
     RTL
 
-sub_C71B7F:
-    JSL sub_C71B1E
+.wait_before_missile:
+    JSL .delete_if_boss_defeated
     JSL render_sprite_animated
     REP #0x20
-    DEC z:0x32, X
-    BEQ .loc_C71B91
-    JML sub_C71B1E.locret_C71B2B
+    DEC z:crane_hand_door.countdown, X
+    BEQ +
+    JML .ret
++
 
-.loc_C71B91:
     JSL create_missile
-    set_handler sub_C71BA3
+    set_handler .post_missile_wait
     RTL
 
-sub_C71BA3:
-    JSL sub_C71B1E
+.post_missile_wait:
+    JSL .delete_if_boss_defeated
     JSL render_sprite_animated
     REP #0x20
-    LDA z:0x32, X
-    BNE .loc_C71BB5
-    JML sub_C71B1E.locret_C71B2B
+    LDA z:crane_hand_door.countdown, X
+    BNE +
+    JML .ret
++
 
-.loc_C71BB5:
     LDA #0x20
-    STA z:0x32, X
-    set_handler sub_C71BC8
+    STA z:crane_hand_door.countdown, X
+    set_handler .post_missile_wait_2
     RTL
 
-sub_C71BC8:
+.post_missile_wait_2:
     REP #0x20
-    DEC z:0x32, X
-    BNE .loc_C71BD2
-    JML sub_C71A36
+    DEC z:crane_hand_door.countdown, X
+    BNE +
+    JML .close_door
++
 
-.loc_C71BD2:
-    JSL sub_C71B1E
+    JSL .delete_if_boss_defeated
     JSL render_sprite_animated
     RTL
+
+CRANE_HAND_ARM_STATE_IDLE       = 0
+CRANE_HAND_ARM_STATE_DESCENDING = 2
+CRANE_HAND_ARM_STATE_EXTENDED   = 4
+CRANE_HAND_ARM_STATE_ASCENDING  = 6
+CRANE_HAND_ARM_STATE_DONE       = 8
+
+struct crane_hand_arm
+    enemy
+    org 0x16
+.x_offset
+    ds 2
+    org 0x20
+.attack_mask
+    ds 2
+.animation_state
+    ds 2
+    org enemy.sizeof
+endstruct
 
 crane_hand_create_hand:
+    .IS_LEFT = 0x46
     SEP #0x20
-    create_object sub_C71C28
-    BCC .loc_C71BF7
-    JML sub_C71B1E
+    create_object crane_hand_arm
+    BCC +
+    JML crane_hand_door.delete_if_boss_defeated
++
 
-.loc_C71BF7:
     TXA
-    STA a:0x34, Y
+    STA a:crane_hand_door.crane_hand, Y
+    
     REP #0x20
-    LDA #0x74
-    STA a:0x16, Y
-    LDA #0x74
-    STA a:0x11, Y
+    ; Right
+    LDA #116
+    STA a:crane_hand_arm.x_offset, Y
+    LDA #116
+    STA a:crane_hand_arm.x_position, Y
     LDA #1
-    STA a:0x20, Y
-    LDA z:0x46
-    BNE .loc_C71C25
-    LDA #0x9C
-    STA a:0x16, Y
-    LDA #0x9C
-    STA a:0x11, Y
+    STA a:crane_hand_arm.attack_mask, Y
+    
+    LDA z:.IS_LEFT
+    BNE +
+    ; Left
+    LDA #156
+    STA a:crane_hand_arm.x_offset, Y
+    LDA #156
+    STA a:crane_hand_arm.x_position, Y
     LDA #2
-    STA a:0x20, Y
+    STA a:crane_hand_arm.attack_mask, Y
++
 
-.loc_C71C25:
     REP #0x20
     RTL
 
-sub_C71C28:
+crane_hand_arm:
 i16
     SEP #0x20
     LDA #0
-    STA z:3, X
+    STA z:crane_hand_arm.execution_priority, X
     REP #0x20
-    LDA #0
-    STA z:0x22, X
-    LDA #0x4A
-    STA z:0x14, X
+    LDA #CRANE_HAND_ARM_STATE_IDLE
+    STA z:crane_hand_arm.animation_state, X
+    LDA #74
+    STA z:crane_hand_arm.y_position, X
     LDA #0xFF
-    STA z:0x32, X
+    STA z:0x32, X ; Saved but never read?
     LDA #0x430
-    STA z:0xE, X
-    LDA #0xA
-    STA z:0x1E, X
-    start_animation #addr(byte_C70D00)
-    set_handler sub_C71C65
-    ; fallthrough
+    STA z:crane_hand_arm.palette, X
+    LDA #10
+    STA z:crane_hand_arm.effective_palette, X
+    start_animation #addr(crane_hand_arm_closed_animation)
+    set_handler .main
 
-sub_C71C65:
+.main:
     SEP #0x20
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION
-    BEQ .loc_C71C72
-    JML sub_C71CCE.locret_C71D15
+    BEQ +
+    JML .ret
++
 
-.loc_C71C72:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C71C87
-    JML sub_C71CCE
+    BEQ +
+    JML .render
++
 
-.loc_C71C87:
     SEP #0x20
-    LDY z:0x34, X
-    LDA a:0x38, Y
-    BEQ .loc_C71C94
-    JML j_delete_object
+    LDY z:crane_hand_door.crane_hand, X
+    LDA a:crane_hand.dance_animation_flag, Y
+    BEQ +
+    JML .delete
++
 
-.loc_C71C94:
+    ; Sync x position with the main body
     REP #0x20
-    LDA a:0x11, Y
+    LDA a:crane_hand.x_position, Y
     SEC
-    SBC #0x88
+    SBC #136
     EOR #0xFFFF
     INC A
     CLC
-    ADC z:0x16, X
-    STA z:0x11, X
-    LDA a:0x20, Y
-    BIT z:0x20, X
-    BEQ sub_C71CCE
-    LDA #2
-    STA z:0x22, X
-    start_animation #addr(byte_C70CC7)
-    set_handler sub_C71D1B
+    ADC z:crane_hand_arm.x_offset, X
+    STA z:crane_hand_arm.x_position, X
+    
+    LDA a:crane_hand.attacking_hands, Y
+    BIT z:crane_hand_arm.attack_mask, X
+    BEQ .render
+    LDA #CRANE_HAND_ARM_STATE_DESCENDING
+    STA z:crane_hand_arm.animation_state, X
+    start_animation #addr(crane_hand_arm_descend_animation)
+    set_handler .attacking
+    ; fallthrough
 
-sub_C71CCE:
+.render:
+    .HITBOX_Y_PTR = 0x50
     REP #0x20
-    LDA #addr(off_C71D8B)
-    STA z:0x50
+    LDA #addr(crane_hand_arm_hitbox_y_table)
+    STA z:.HITBOX_Y_PTR
     SEP #0x20
-    LDA #bank(off_C71D8B)
-    STA z:0x52
+    LDA #bank(crane_hand_arm_hitbox_y_table)
+    STA z:.HITBOX_Y_PTR + 2
+    
     REP #0x20
-    LDA z:0x50
+    LDA z:.HITBOX_Y_PTR
     CLC
-    ADC z:0x22, X
-    STA z:0x50
-    LDA f:[z:0x50]
+    ADC z:crane_hand_arm.animation_state, X
+    STA z:.HITBOX_Y_PTR
+    LDA f:[z:.HITBOX_Y_PTR]
     CLC
-    STA z:0x50
-    LDA z:0xC, X
+    STA z:.HITBOX_Y_PTR
+    LDA z:crane_hand_arm.current_frame, X
     AND #0xFF
     ASL A
     CLC
-    ADC z:0x50
-    STA z:0x50
-    LDA f:[z:0x50]
-    STA z:0x44
+    ADC z:.HITBOX_Y_PTR
+    STA z:.HITBOX_Y_PTR
+    LDA f:[z:.HITBOX_Y_PTR]
+    STA z:enemy_hit_players_in_range.DOWN_LIMIT  ; Sets vertical limits according to the table
     LDA #0x505
-    STA z:0x42
+    STA z:enemy_hit_players_in_range.RIGHT_LIMIT ; Sets right and left limits to 5
     JSL enemy_hit_players_in_range
     REP #0x20
-    LDA z:0xB, X
-    CMP #0x30E
-    BNE .loc_C71D11
+    LDA z:crane_hand_arm.max_frame, X  ; low = max_frame, high = current_frame
+    CMP #0x030E                        ; play sound on frame 3 of the 14-frame descend animation
+    BNE +
     LDY #SOUND_CRANE
     JSL play_sound
++
 
-.loc_C71D11:
     JSL render_sprite_animated
-.locret_C71D15:
+.ret:
     RTL
 
-j_delete_object:
+.delete:
     JSL delete_object
     RTL
 
-sub_C71D1B:
+.attacking:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C71D30
-    JML sub_C71CCE
+    BEQ +
+    JML .render
++
 
-.loc_C71D30:
-    JSL sub_C71CCE
-    BCC sub_C71CCE.locret_C71D15
+    JSL .render
+    BCC .ret
+    ; Animiation finished
     REP #0x20
-    INC z:0x22, X
-    INC z:0x22, X
-    LDA z:0x22, X
-    CMP #8
-    BEQ .loc_C71D57
+    INC z:crane_hand_arm.animation_state, X
+    INC z:crane_hand_arm.animation_state, X
+    LDA z:crane_hand_arm.animation_state, X
+    CMP #CRANE_HAND_ARM_STATE_DONE
+    BEQ +
     PHX
     TAX
-    LDA f:off_C71D83, X
+    LDA f:crane_hand_arm_animation_table, X
     PLX
-    STA z:0x50
+    STA z:.HITBOX_Y_PTR
     SEP #0x20
     PHK
     PLA
-    STA z:0x52
+    STA z:.HITBOX_Y_PTR + 2
     JSL start_animation
     RTL
++
 
-.loc_C71D57:
     REP #0x20
-    start_animation #addr(byte_C70D00)
-    set_handler sub_C71C65
+    start_animation #addr(crane_hand_arm_closed_animation)
+    set_handler .main
     SEP #0x20
-    LDY z:0x34, X
+    LDY z:crane_hand_door.crane_hand, X
     LDA #0
-    STA a:0x20, Y
-    LDA #0
-    STA z:0x22, X
+    STA a:crane_hand.attacking_hands, Y
+    LDA #CRANE_HAND_ARM_STATE_IDLE
+    STA z:crane_hand_arm.animation_state, X
     RTL
     
-off_C71D83:
-    da 0, byte_C70CC7, byte_C70D05, byte_C70D0A
-off_C71D8B:
-    da word_C71D93, word_C71D95, word_C71DB1, word_C71DB3
-word_C71D93:
-    dw 8
-word_C71D95:
-    dw 8, 0x10, 0x18, 0x20, 0x28
+crane_hand_arm_animation_table:
+    da 0, crane_hand_arm_descend_animation, crane_hand_arm_extended_animation, crane_hand_arm_ascend_animation
+crane_hand_arm_hitbox_y_table:
+    da crane_hand_arm_hitbox_y_idle, crane_hand_arm_hitbox_y_descend, crane_hand_arm_hitbox_y_extended, crane_hand_arm_hitbox_y_ascend
+crane_hand_arm_hitbox_y_idle:
+    dw 0x08
+crane_hand_arm_hitbox_y_descend:
+    dw 0x08, 0x10, 0x18, 0x20, 0x28
     dw 0x30, 0x38, 0x40, 0x48, 0x50
     dw 0x58, 0x60, 0x68, 0x70
-word_C71DB1:
+crane_hand_arm_hitbox_y_extended:
     dw 0x70
-word_C71DB3:
+crane_hand_arm_hitbox_y_ascend:
     dw 0x70, 0x68, 0x60, 0x58, 0x50
     dw 0x48, 0x40, 0x38, 0x30, 0x28
     dw 0x20, 0x18, 0x10, 8
