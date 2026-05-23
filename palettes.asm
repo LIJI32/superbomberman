@@ -111,7 +111,7 @@ dw 0x7C1F
 endif
 fire_palette arena_palette_1 ; 0x33 ARENA_FIRE_PALETTE
 
-dw 0x21C8, 0xDF, 0x7FFF, 0x35F, 0x7FFF, 0x1FF, 0x1C, 0x18, 0x14, 0x1D, 0x2400, 0x3F, 0x15, 0x1F, 0x1A, 0x4C ; [0x34]_palette
+palette backgrounds, trampoline_and_crane_fire_palette_1 ; 0x34 CRANE_FIRE_BG_PALETTE
 palette backgrounds, trampoline_and_crane_palette_1 ; 0x35 CRANE_BG_PALETTE
 palette backgrounds, garden_palette_1  ; 0x36 GARDEN_PALETTE_1
 palette backgrounds, garden_palette_0  ; 0x37 GARDEN_PALETTE_2

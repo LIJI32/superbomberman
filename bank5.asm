@@ -3030,7 +3030,7 @@ sub_C53A9F:
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     LDA #0xE0
     STA a:COLDATA
     REP #0x20
@@ -3864,7 +3864,7 @@ sub_C5421B:
     LDA #2
     STA a:addr(color_addition_settings)
     LDA #0x10
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     LDA #0xE0
     STA a:COLDATA
     REP #0x20
@@ -4009,7 +4009,7 @@ i16
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     LDA #0xE0
     STA a:COLDATA
     set_handler .locret_C543BA
@@ -5945,7 +5945,7 @@ flower_zone_handler:
     LDA #2
     STA a:addr(color_addition_settings)
     LDA #0x22
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     JSL sub_C53E80
     set_handler _flower_zone_handler
     RTL
@@ -6194,7 +6194,7 @@ spotlight:
     LDA #2
     STA a:addr(color_addition_settings)
     LDA #0x83
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     REP #0x20
     LDA a:addr(bg2_h_scroll)
     STA z:0x11, X
@@ -6705,7 +6705,7 @@ init_victory_screen:
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     LDA #0xE0
     STA a:COLDATA
     JSL sub_C56084
@@ -7060,7 +7060,7 @@ i16
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     LDA #0xE0
     STA a:COLDATA
     LDA #bank(byte_C5617E)
@@ -8121,7 +8121,7 @@ i16
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     REP #0x20
     LDA #0x3F8
     STA a:addr(bg1_h_scroll)
@@ -8373,7 +8373,7 @@ sub_C57176:
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     REP #0x20
     LDA #0x3F8
     STA a:addr(bg1_h_scroll)
@@ -8891,7 +8891,7 @@ map_screen_handler:
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     REP #0x20
     LDA #0
     STA a:addr(bg2_h_scroll)

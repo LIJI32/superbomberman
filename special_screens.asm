@@ -325,7 +325,7 @@ light_zone_demo:
        POISON, POISON, POISON, POISON, POISON, 0
        
     battle_stage_ppu_regs OBJ_EN | BG2_EN, OBJ_EN | BG1_EN | BG3_EN | BG4_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 0,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 0,
                           128, 128
 
 warp_zone_demo:
@@ -347,7 +347,7 @@ warp_zone_demo:
        PUNCH, FULL_FIRE, FULL_FIRE, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 
 jump_zone_demo:
@@ -369,7 +369,7 @@ jump_zone_demo:
        SPEED_UP, POISON, POISON, KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, 0
 
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBSTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
 
 continue_screen:

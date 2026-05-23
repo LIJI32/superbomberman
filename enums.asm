@@ -100,6 +100,7 @@ ARENA_PALETTE_2                   = 0x30
 ARENA_PALETTE_3                   = 0x31
 ARENA_BOMB_PALETTE                = 0x32
 ARENA_FIRE_PALETTE                = 0x33
+CRANE_FIRE_BG_PALETTE             = 0x34
 CRANE_BG_PALETTE                  = 0x35
 GARDEN_PALETTE_1                  = 0x36
 GARDEN_PALETTE_2                  = 0x37
@@ -480,7 +481,7 @@ COLMAT_BG4           = 0x0800
 COLMAT_OBJ           = 0x1000
 COLMAT_BACKDROP      = 0x2000
 COLMAT_HALF_MODE     = 0x4000
-COLMAT_SUBSTRACT     = 0x8000
+COLMAT_SUBTRACT     = 0x8000
 
 ; Misc. constants
 STORY_MODE_TIMER_TICKS = 15

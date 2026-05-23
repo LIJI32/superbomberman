@@ -270,7 +270,7 @@ subscreen_status:
     ds 1
 color_addition_settings:
     ds 1
-add_substract_select_and_enable:
+add_subtract_select_and_enable:
     ds 1
     
 org 0x7E0C9D
