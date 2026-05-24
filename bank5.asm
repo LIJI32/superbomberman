@@ -6169,7 +6169,7 @@ spotlight_splash:
     LDA #2
     STA a:addr(color_addition_settings)
     LDA #0x83
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     LDA #0xFF
     STA a:addr(COLDATA)
     REP #0x20

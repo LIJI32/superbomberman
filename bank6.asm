@@ -4654,7 +4654,7 @@ reset_graphics_state:
     LDA #0
     STA a:addr(color_addition_settings)
     LDA #0
-    STA a:addr(add_substract_select_and_enable)
+    STA a:addr(add_subtract_select_and_enable)
     RTL
 
 schedule_vblank_function:

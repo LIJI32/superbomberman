@@ -63,7 +63,7 @@ stage_3_3:
     tile_animation TILE_SOFTBLOCK, garden_soft_animation
     tile_animation TILE_SOFTBLOCK_SHADED, garden_shaded_soft_animation
     hidden_bonus_object BONUS_COND_SCORE_ENDS_WITH_20, RANDOM
-    set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP | COLMAT_SUBSTRACT
+    set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP | COLMAT_SUBTRACT
     create_overlay_scroller 2, 0, 0, 1, 0
     df create_flower_and_tractor_generators
     init_functions_end

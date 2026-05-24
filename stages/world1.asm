@@ -117,7 +117,7 @@ stage_1_6:
     load_global_sprites standard_level_graphics
     tile_animation TILE_SOFTBLOCK, castle_soft_animation
     tile_animation TILE_SOFTBLOCK_SHADED, castle_soft_animation
-    set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP | COLMAT_SUBSTRACT
+    set_overlay_blending BG2_EN, BG1_EN | BG3_EN | OBJ_EN, COLMAT_USE_SUBSCREEN | COLMAT_BG2 | COLMAT_BACKDROP | COLMAT_SUBTRACT
     create_overlay_scroller 2, 0, 0, -1, 0
     init_functions_end
 

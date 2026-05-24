@@ -320,7 +320,7 @@ crane_hand_door_static_animation:
     .end
 crane_hand_arm_descend_animation:
     animation_frame_count
-    animation_frame crane_hand_arm_open_frame, 0x30
+    animation_frame crane_hand_arm_open_frame, 30
     animation_frame crane_hand_arm_descend_frame_1, 1
     animation_frame crane_hand_arm_descend_frame_2, 1
     animation_frame crane_hand_arm_descend_frame_3, 1
@@ -660,6 +660,7 @@ struct crane_hand
     ds 2
     org 0x26
 .some_tile_index
+.speed
     ds 2
     
     org 0x30
@@ -705,6 +706,12 @@ create_crane_hand:
     STA a:addr(add_subtract_select_and_enable)
     RTL
 
+crane_hand_velocities:
+    dw 2, -2
+    dw 2, -2
+    dw 3, -1 ; fast right, slow left
+    dw 1, -3 ; fast left, slow right
+
 crane_hand:
 i16
     REP #0x20
@@ -712,6 +719,7 @@ i16
     LDY z:crane_hand.some_tile_index, X
     LDA #0
     STA a:addr(collision_map), Y
+    STA z:crane_hand.speed
     
     ; Reset position
     LDA #136
@@ -728,7 +736,7 @@ i16
     STA z:crane_hand.movement_paused, X
     LDA #0
     STA z:crane_hand.dance_animation_flag, X
-    LDA #13
+    LDA #15
     STA z:crane_hand.hitpoints, X
     JSL fast_random
     SEP #0x20
@@ -863,19 +871,26 @@ i16
     SEP #0x20
     AND #0x7F
     STA z:crane_hand.movement_countdown, X
+    PHA
+    AND #0xC
+    STA z:crane_hand.speed, X
+    PLA
     AND #3
     STA z:crane_hand.attacking_hands, X
     AND #1
     STA z:crane_hand.movement_direction, X
 +
 
+    LDA z:crane_hand.speed, X
+    CLC
+    ADC z:crane_hand.movement_direction, X
+    ADC z:crane_hand.movement_direction, X
     REP #0x20
-    LDA #2
-    STA z:.VELOCITY
-    LDA z:crane_hand.movement_direction, X
-    BIT #1
-    BNE +
-    LDA #-2
+    AND #0xFF
+    PHX
+    TAX
+    LDA f:crane_hand_velocities, X
+    PLX
     STA z:.VELOCITY
 +
 
@@ -924,7 +939,7 @@ i16
     STA z:crane_hand.x_position, X
     BCC .ret
     REP #0x20
-    LDA #128
+    LDA #180
     STA z:crane_hand.flashing_counter, X
     DEC z:crane_hand.hitpoints, X
     BNE .ret
@@ -1847,9 +1862,9 @@ crane_hand_door:
     ADC #0x40
     STA z:crane_hand_door.missile_countdown, X
     
-    ; Cap at 3 missiles
+    ; Cap at 4 missiles
     LDA z:crane_hand_door.missile_count, X
-    CMP #3
+    CMP #4
     BCS .render
     
     ; Pause movement of the main object
