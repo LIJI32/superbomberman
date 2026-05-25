@@ -3,9 +3,9 @@ object_shift_x:
     ds 2
 object_shift_y:
     ds 2
-unused_fast_rng_seed: ; Written but never read
-    ds 2
 fast_rng_seed:
+    ds 2
+fast_rng_seed_copy:
     ds 2
 small_allocator_cyclic_buffer_read_pointer:
     ds 2

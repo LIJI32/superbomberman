@@ -2569,42 +2569,17 @@ test_collision_on_the_right:
 fast_random:
     REP #0x20
     LDA z:addr(fast_rng_seed)
-    SEC
-    SBC #0x18
-    BCS +
+    AND #0x3FFF
     CLC
-    ADC #random_data.end - random_data
-+
-
-    STA z:addr(unused_fast_rng_seed)
-    PHX
-    TAX
-    LDA f:random_data, X
-    LDX z:addr(fast_rng_seed)
-    EOR f:random_data, X
-    PLX
-    PHA
-    INC z:addr(fast_rng_seed)
-    LDA z:addr(fast_rng_seed)
-    CMP #random_data.end - random_data
-    BCC +
-    STZ z:addr(fast_rng_seed)
-+
-
-    PLA
+    ASL A
+    ASL A
+    ADC #0x459
+    CLC
+    ADC z:addr(fast_rng_seed)
+    STA z:addr(fast_rng_seed)
+    STA z:addr(fast_rng_seed_copy)
+    LDA z:addr(fast_rng_seed + 1) ; Byteswap
     RTL
-
-random_data:
-    db 0x6B, 0x7A, 0x32, 0x74, 0x02, 0xFE, 0x6A, 0x27
-    db 0xF6, 0xFA, 0x91, 0x36, 0x39, 0x1D, 0x43, 0x6D
-    db 0x3D, 0xB4, 0xB5, 0x01, 0x16, 0x7F, 0x16, 0x7C
-    db 0xB4, 0x20, 0x80, 0x78, 0x88, 0x12, 0x1E, 0xF0
-    db 0x2E, 0x1B, 0xDA, 0xEB, 0xB0, 0x6B, 0xBD, 0xA9
-    db 0xFC, 0xD9, 0xB3, 0xEB, 0x43, 0x5D, 0x3A, 0xBD
-    db 0xA7, 0x99, 0x58, 0x7C, 0x80, 0x44, 0x8C
-.end
-    
-ds 9
 
 call_screen_init_functions:
     SEP #0x20
@@ -3915,9 +3890,9 @@ collision_map_direction_offsets:
 random:
     REP #0x20
     LDA z:addr(rng_seed)
-    ORA #1 ; This makes the PRNG 15-bit instead of 16-bit for absolutely no reason. Should have been INC A.
+    INC A
     STA z:multiply.FIRST
-    LDA #899
+    LDA #897
     STA z:multiply.SECOND
     JSL multiply
     LDA z:multiply.RESULT

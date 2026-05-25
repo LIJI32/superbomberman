@@ -4823,7 +4823,8 @@ i16
 .loc_C54F42:
     JSL render_sprite_animated
     REP #0x20
-    INC z:0x7C
+    INC z:addr(rng_seed)
+    INC z:addr(fast_rng_seed)
     DEC z:0x22, X
     BNE .loc_C54F52
     JML sub_C55051
