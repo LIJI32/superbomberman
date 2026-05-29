@@ -30,7 +30,6 @@ asset level_structures, village_level_structure
 asset level_structures, castle_level_structure
 asset level_structures, dome_level_structure
 asset level_structures, park_level_structure
-asset level_structures, unused_level_structure_2
 asset level_structures, circus_level_structure
 asset level_structures, factory_level_structure
 asset level_structures, crane_boss_level_structure
@@ -41,8 +40,8 @@ asset level_structures, diamond_tower_level_structure
 asset level_structures, speed_zone_level_structure
 asset level_structures, normal_zone_level_structure
 asset level_structures, warp_zone_level_structure
+asset level_structures, warpless_warp_zone_level_structure
 asset level_structures, tunnel_zone_level_structure
-asset level_structures, unused_level_structure
 
 ; Misc. Tilemaps
 asset tilemaps, compressed_tunnel_zone_overlay_tilemap

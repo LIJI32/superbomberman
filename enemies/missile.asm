@@ -45,6 +45,20 @@ create_missile:
     STA a:enemy.carried_bonus, Y
     LDA #0
     STA a:enemy.flags, Y
+    REP #0x20
+    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
+    STA a:enemy.collision_mask, Y
+    RTL
+
+create_level_missile:
+    REP #0x20
+    STY z:0x56
+    SEP #0x20
+    create_enemy missile.loc_C66DE1
+    init_enemy 1
+    allocate_object_graphics missile_graphics, 2
+    allocate_object_palette MISSILE_PALETTE
+    REP #0x20
     LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
     STA a:enemy.collision_mask, Y
     RTL

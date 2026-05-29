@@ -198,7 +198,11 @@ palette backgrounds, spiderer_fire_bg_palette_0  ; 0x76 SPIDERER_FIRE_BG_PALETTE
 dw 0x31E6, 0xC87, 0x4AD9, 0x318C, 0xD, 0x18C6, 0x6F7B, 0x214C, 0x11F, 0xAE, 0x1A, 0x1FF, 0x3DEF, 0x13E, 0x7FFF, 0x73A ; [0x77]_palette
 palette backgrounds, spiderer_fire_bg_palette_1  ; 0x78 SPIDERER_FIRE_BG_PALETTE_2
 palette backgrounds, spiderer_bg_palette_2 ; 0x79 SPIDERER_BG_PALETTE_3
-empty_palette  ; 0x7a
+
+; 0x7a WARP_ZONE_FOG_PALETTE_2
+dw 0x0000, 0x0000, 0x0c63, 0x14a5
+partial_palette backgrounds, warp_zone_palette_2, 4, 16
+
 empty_palette ; [0x7B]_palette
 empty_palette ; [0x7C]_palette
 empty_palette ; [0x7D]_palette

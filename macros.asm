@@ -119,7 +119,7 @@ endif
     SEP #0x20
     LDA z:create_enemies.ASSIGNED_BONUS
     STA a:enemy.carried_bonus, Y
-    LDA #0x30
+    LDA #0x20
     STA a:enemy.palette, Y
     LDA a:enemy.execution_priority, Y
     ORA #1

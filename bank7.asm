@@ -5812,4 +5812,17 @@ off_C778E3:
     
 asset tilemaps, compressed_clown_spotlight_tilemap
 asset tilemaps, compressed_story_spotlight_tilemap
+
+create_tunnel_zone_scroller:
+    SEP #0x20
+    create_object tunnel_zone_scroller
+    RTL
+
+tunnel_zone_scroller:
+    REP #0x20
+    LDA a:addr(bg1_h_scroll)
+    STA a:addr(bg2_h_scroll)
+    LDA a:addr(bg1_v_scroll)
+    STA a:addr(bg2_v_scroll)
+    RTL
 data_end

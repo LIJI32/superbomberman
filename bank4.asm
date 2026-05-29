@@ -2579,7 +2579,9 @@ _play_exit_warp_animation:
     STA z:0x40
     JSL change_direction_and_start_animation
     set_handler handle_player_movement
-
+    SEP #0x20
+    STZ z:player.hit_flags, X
+    
 .locret_C4168A:
     RTL
 

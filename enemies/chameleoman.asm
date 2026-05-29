@@ -19,7 +19,7 @@ chameleoman_init:
     STA z:0x33, X
     LDA z:0xF, X
     STA z:0x34, X
-    LDA #0x30
+    LDA #0x20
     STA z:enemy.palette, X
     LDA #3
     STA z:enemy.hits_left_for_direction_switch, X
