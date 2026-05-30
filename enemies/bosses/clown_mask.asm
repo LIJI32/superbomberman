@@ -727,7 +727,18 @@ create_clown_mask:
     STA a:addr(color_addition_settings)
     LDA #high(COLMAT_SUBTRACT | COLMAT_OBJ | COLMAT_BG4 | COLMAT_BG3 | COLMAT_BG2 | COLMAT_BG1)
     STA a:addr(add_subtract_select_and_enable)
+    
+    SEP #0x20
+    LDA #bank(clown_mask_random_bonuses)
+    STA z:0x52
+    REP #0x20
+    LDA #addr(clown_mask_random_bonuses)
+    STA z:0x50
+    JSL sub_C769AE
     RTL
+    
+clown_mask_random_bonuses:
+    dw SPEED_UP, SPEED_UP, SPEED_UP, SPEED_UP, EXTRA_TIME, BOMB_UP, BOMB_UP, FIRE_UP
 
 clown_mask_init:
 i16

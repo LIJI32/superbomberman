@@ -195,7 +195,7 @@ stage_3_7:
     df create_chameleoman
     dw 0
     
-    dw KICK, SPEED_UP, PUNCH, RANDOM, 0
+    dw KICK, SPEED_UP, BOMB_UP, RANDOM, 0
     
 stage_3_8:
     level 0x38, GAME_MODE_STORY, LEVEL_FLAGS_HARDCODED_HARDBLOCKS | LEVEL_FLAGS_SPAWN_BOSS, 0, 0x80,

@@ -342,9 +342,10 @@ struct enemy
     ds 1
 .field_30:
     ds 1
+.smart_follower_idle_frames
     ds 1
-    ds 1
-    ds 1
+.smart_follower_last_location
+    ds 2
     ds 2
     ds 1
     ds 1

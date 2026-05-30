@@ -10,10 +10,10 @@ create_kouraru:
 kouraru_init:
     set_enemy_animations kouraru_animations
     REP #0x20
-    start_animation #addr(kouraru_animation)
-    SEP #0x20
     LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
     STA z:enemy.collision_mask, X
+    start_animation #addr(kouraru_animation)
+    SEP #0x20
     LDA #3
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF

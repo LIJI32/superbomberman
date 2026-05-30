@@ -61,6 +61,7 @@ stage_4_3:
     load_global_sprites standard_level_graphics
     tile_animation TILE_SOFTBLOCK, dome_soft_animation
     tile_animation TILE_SOFTBLOCK_SHADED, dome_shaded_soft_animation
+    hidden_bonus_object BONUS_COND_COMBO_OF_3, FIRE_EXT
     init_functions_end
 
     df create_moguchan
@@ -84,7 +85,6 @@ stage_4_4:
 
     load_palettes tunnel_zone_story_palettes
     load_global_sprites standard_level_graphics
-    hidden_bonus_object BONUS_COND_COMBO_OF_3, ONIGIRI
     init_functions_end
 
     df create_senshiyan
@@ -96,7 +96,7 @@ stage_4_4:
     df create_metal_propene
     dw 0
     
-    dw BOMB_PASS, FULL_FIRE, PUNCH, EXTRA_TIME, 0
+    dw BOMB_PASS, FULL_FIRE, PUNCH, KICK, EXTRA_TIME, 0
     
 stage_4_5:
     level 0x45, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_TUNNEL_ZONE, 0xE, 0x33,
@@ -123,7 +123,7 @@ stage_4_5:
     df create_chameleoman
     dw 0
     
-    dw VEST, EXTRA_TIME, WALL_PASS, 0
+    dw VEST, EXTRA_TIME, WALL_PASS, KENDAMA, 0
     
 stage_4_6:
     level 0x46, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x48,
@@ -151,7 +151,7 @@ stage_4_6:
     df create_bakuda
     dw 0
     
-    dw RED_BOMBS, BOMB_UP, EXTRA_LIFE, 0
+    dw RED_BOMBS, BOMB_UP, EXTRA_LIFE, APPLE, 0
     
 stage_4_7:
     level 0x47, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_WARP_ZONE, 0xE, 0x49,

@@ -7036,6 +7036,21 @@ sub_C6382F:
 ; Follows the nearest player
 smart_follower_movement:
     REP #0x20
+    lda_tile_id_offset X, 0, 0
+    CMP z:enemy.smart_follower_last_location, X
+    STA z:enemy.smart_follower_last_location, X
+    BNE .zero_counter
+    SEP #0x20
+    LDA z:enemy.smart_follower_idle_frames, X
+    CMP #30
+    BEQ .on_potential_blast
+    INC z:enemy.smart_follower_idle_frames, X
+    BRA +
+.zero_counter
+    SEP #0x20
+    STZ z:enemy.smart_follower_idle_frames, X
++
+    REP #0x20
     LDA #POTENTIAL_BLAST
     STA test_collision.MASK
     JSL test_collision
@@ -7044,6 +7059,7 @@ smart_follower_movement:
     ORA #POTENTIAL_BLAST 
     BRA +
 .on_potential_blast
+    REP #0x20
     LDA z:enemy.collision_mask, X
     AND #~POTENTIAL_BLAST 
 +

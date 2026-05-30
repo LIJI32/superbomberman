@@ -107,13 +107,13 @@ stage_2_5:
     df create_kinkaru
     dw 0
     
-    dw BOMB_UP, SPEED_UP, KICK, POISON, POISON, 0
+    dw BOMB_UP, SPEED_UP, KICK, POISON, POISON, POISON, 0
     
 stage_2_6:
     level 0x26, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT, 0xE, 0x43,
           circus_graphic, bomb_and_explosions_graphic, circus_level_structure, ; graphics
           empty_tilemap, empty_tilemap, ; overlay
-          5, 40 ; hard/soft blocks
+          10, 40 ; hard/soft blocks
 
     load_palettes circus_palettes
     load_global_sprites standard_level_graphics
@@ -130,7 +130,7 @@ stage_2_6:
     df create_bakuda
     dw 0
     
-    dw EXTRA_TIME, KICK, BOMB_UP, POISON, POISON, POISON, 0
+    dw EXTRA_TIME, KICK, BOMB_UP, FIRE_UP, POISON, POISON, POISON, POISON, 0
     
 stage_2_7:
     level 0x27, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_DEFAULT | LEVEL_FLAGS_LIGHT_ZONE, 0xE, 0x42,
