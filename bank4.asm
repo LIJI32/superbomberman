@@ -4931,9 +4931,9 @@ score_popup:
     LDA #bank(score_popup_related)
     STA z:0x52
     LDA #0xE
-    STA z:player.palette+1, X
+    STA z:player.object_priority+1, X
     LDA #0x30
-    STA z:player.palette, X
+    STA z:player.object_priority, X
     REP #0x20
     LDA z:score_popup_object.score_index, X
     CMP #6
@@ -15055,17 +15055,17 @@ i16
     STZ a:addr(player_3.is_ai)
     STZ a:addr(player_4.is_ai)
     LDA #0x20
-    STA a:addr(player_1.palette)
+    STA a:addr(player_1.object_priority)
     LDA #0x20
-    STA a:addr(player_2.palette)
+    STA a:addr(player_2.object_priority)
     LDA #0x20
-    STA a:addr(player_3.palette)
+    STA a:addr(player_3.object_priority)
     LDA #0x20
-    STA a:addr(player_4.palette)
-    STZ a:addr(player_1.palette+1)
-    STZ a:addr(player_2.palette+1)
-    STZ a:addr(player_3.palette+1)
-    STZ a:addr(player_4.palette+1)
+    STA a:addr(player_4.object_priority)
+    STZ a:addr(player_1.object_priority+1)
+    STZ a:addr(player_2.object_priority+1)
+    STZ a:addr(player_3.object_priority+1)
+    STZ a:addr(player_4.object_priority+1)
     LDA #0
     STA a:addr(player_1.real_palette)
     LDA #2

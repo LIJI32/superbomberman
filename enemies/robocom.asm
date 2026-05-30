@@ -15,7 +15,7 @@ robocom_init:
     start_animation #addr(robocom_animation_down)
     SEP #0x20
     LDA #0x30
-    STA z:enemy.palette, X
+    STA z:enemy.object_priority, X
     LDA #1
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF

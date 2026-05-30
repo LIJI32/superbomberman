@@ -6319,9 +6319,9 @@ i16
     LDA #6
     STA z:enemy.effective_palette, X
     LDA #0xE
-    STA z:enemy.palette+1, X
+    STA z:enemy.object_priority+1, X
     LDA #0x30
-    STA z:enemy.palette, X
+    STA z:enemy.object_priority, X
     REP #0x20
     start_animation #addr(byte_C62E99)
     set_handler _enemy_explosion

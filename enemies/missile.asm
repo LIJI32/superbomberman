@@ -34,7 +34,7 @@ create_missile:
     LDA #1
     STA a:3, Y
     LDA #0x30
-    STA a:enemy.palette, Y
+    STA a:enemy.object_priority, Y
     LDA #8
     STA a:enemy.graphics_slot, Y
     LDA #0xC

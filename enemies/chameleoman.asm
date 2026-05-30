@@ -20,7 +20,7 @@ chameleoman_init:
     LDA z:0xF, X
     STA z:0x34, X
     LDA #0x30
-    STA z:enemy.palette, X
+    STA z:enemy.object_priority, X
     LDA #3
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF

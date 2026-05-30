@@ -133,8 +133,8 @@ create_senshiyan_part:
 
 .loc_C65C20:
     REP #0x20
-    LDA z:enemy.palette, X
-    STA a:enemy.palette, Y
+    LDA z:enemy.object_priority, X
+    STA a:enemy.object_priority, Y
     LDA z:enemy.effective_palette, X
     STA a:enemy.effective_palette, Y
     LDA z:enemy.x_position, X
@@ -298,8 +298,8 @@ sub_C65D5E:
     REP #0x20
     LDA z:0x34, X
     STA a:0x34, Y
-    LDA z:enemy.palette, X
-    STA a:enemy.palette, Y
+    LDA z:enemy.object_priority, X
+    STA a:enemy.object_priority, Y
     LDA z:enemy.x_position, X
     STA a:enemy.x_position, Y
     LDA z:enemy.y_position, X

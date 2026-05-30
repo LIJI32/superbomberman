@@ -387,7 +387,7 @@ i16
     LDA #8
     STA z:bigaron.effective_palette, X
     LDA #0x30
-    STA z:bigaron.palette, X
+    STA z:bigaron.object_priority, X
     
     LDA #2
     STA z:0x20, X
@@ -1063,7 +1063,7 @@ bigaron_rock_init:
     REP #0x20
     
     LDA #0x430
-    STA z:bigaron_rock.palette, X
+    STA z:bigaron_rock.object_priority, X
     
     LDA #0 ; White Bomberman's palette slot
     STA z:bigaron_rock.effective_palette, X

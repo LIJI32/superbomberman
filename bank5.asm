@@ -5880,7 +5880,7 @@ create_battle_menu_static_object:
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]
-    STA a:sprite.palette, Y
+    STA a:sprite.object_priority, Y
     INC z:0x50
     INC z:0x50
     LDA f:[z:0x50]

@@ -157,7 +157,7 @@ struct sprite
     ds 1
 .ticks_left_for_frames:
     ds 1
-.palette:
+.object_priority:
     ds 1
 .graphics_slot:
     ds 1
@@ -195,7 +195,7 @@ struct player
     ds 1
 .ticks_left_for_frames:
     ds 1
-.palette:
+.object_priority:
     ds 1
 .graphics_slot:
     ds 1
@@ -300,7 +300,7 @@ struct enemy
     ds 1
 .ticks_left_for_frames:
     ds 1
-.palette:
+.object_priority:
     ds 1
 .graphics_slot:
     ds 1
@@ -372,7 +372,7 @@ struct score_popup_object
     ds 1
     ds 1
     ds 1
-.palette:
+.object_priority:
     ds 2
     ds 1
 .x_position:

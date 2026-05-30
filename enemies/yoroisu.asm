@@ -13,7 +13,7 @@ yoroisu_init:
     set_enemy_animations yoroisu_animations
     SEP #0x20
     LDA #0x30
-    STA z:enemy.palette, X
+    STA z:enemy.object_priority, X
     LDA #3
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF

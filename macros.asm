@@ -120,7 +120,7 @@ endif
     LDA z:create_enemies.ASSIGNED_BONUS
     STA a:enemy.carried_bonus, Y
     LDA #0x30
-    STA a:enemy.palette, Y
+    STA a:enemy.object_priority, Y
     LDA a:enemy.execution_priority, Y
     ORA #1
     STA a:enemy.execution_priority, Y

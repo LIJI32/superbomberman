@@ -737,7 +737,7 @@ i16
     ADC #0x20
     STA z:crane_hand.movement_countdown, X
     LDA #0x30
-    STA z:crane_hand.palette, X
+    STA z:crane_hand.object_priority, X
     LDA #0
     STA z:crane_hand.attacking_hands, X
     
@@ -757,9 +757,9 @@ i16
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
     LDA #0x30
-    STA a:addr(player_1.palette)
+    STA a:addr(player_1.object_priority)
     LDA #0x30
-    STA a:addr(player_2.palette)
+    STA a:addr(player_2.object_priority)
     set_handler .wait_start
 
 .wait_start
@@ -1244,7 +1244,7 @@ crane_hand_mook:
     LDA #0xFF
     STA z:crane_hand_mook.animation_countdown, X
     LDA #0x430
-    STA z:crane_hand_mook.palette, X
+    STA z:crane_hand_mook.object_priority, X
     
     LDA #8
     STA z:crane_hand_mook.effective_palette, X
@@ -1508,7 +1508,7 @@ crane_hand_create_victory_bomberman:
     REP #0x20
     BCS .ret
     LDA #0x30
-    STA a:crane_hand_victory_bomberman.palette, Y
+    STA a:crane_hand_victory_bomberman.object_priority, Y
     LDA z:.X
     STA a:crane_hand_victory_bomberman.x_position, Y
     LDA z:.Y
@@ -1753,7 +1753,7 @@ crane_hand_door:
     LDA #512
     STA z:crane_hand_door.missile_countdown, X
     LDA #0x430
-    STA z:crane_hand_door.palette, X
+    STA z:crane_hand_door.object_priority, X
     LDA #0xA
     STA z:crane_hand_door.effective_palette, X
     start_animation #addr(crane_hand_door_static_animation)
@@ -1994,7 +1994,7 @@ i16
     LDA #0xFF
     STA z:0x32, X ; Saved but never read?
     LDA #0x430
-    STA z:crane_hand_arm.palette, X
+    STA z:crane_hand_arm.object_priority, X
     LDA #10
     STA z:crane_hand_arm.effective_palette, X
     start_animation #addr(crane_hand_arm_closed_animation)
