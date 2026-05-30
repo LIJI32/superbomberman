@@ -1237,9 +1237,8 @@ byte_C7465B:
     animation_frame animation_frame_C745C6, 1
     animation_frame animation_frame_C745DB, 1
     .end
-word_C74680:
-    dw 1, 2, 2, 2, 2
-    dw 2, 4, 9
+mecha_onita_random_bonuses:
+    dw BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, EXTRA_TIME
 create_mecha_onita:
     REP #0x20
     STY z:0x56
@@ -1299,12 +1298,12 @@ i16
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
     REP #0x20
-    LDA #addr(word_C74680)
-    STA z:0x50
+    LDA #addr(mecha_onita_random_bonuses)
+    STA z:create_bonus_spawner.BONUSES
     SEP #0x20
-    LDA #bank(word_C74680)
-    STA z:0x52
-    JSL sub_C769AE
+    LDA #bank(mecha_onita_random_bonuses)
+    STA z:create_bonus_spawner.BONUSES + 2
+    JSL create_bonus_spawner
     set_handler .loc_C74796
 
 .loc_C74796:
@@ -4113,25 +4112,39 @@ unused_animation_frame_19:
     animation_frame_count
     animation_frame animation_frame_C7693F, 0xFF
     .end
-sub_C769AE:
+
+struct bonus_spawner
+    dynamic_object
+    org 0x20
+.countdown
+    ds 2
+    org 0x30
+.bonus_list
+    ds 3
+    org dynamic_object.sizeof
+endstruct
+
+create_bonus_spawner:
+    .BONUSES = 0x50 ; Argument
     SEP #0x20
-    create_object sub_C769DD
+    create_object bonus_spawner
     REP #0x20
-    BCC .loc_C769CC
-    JML .locret_C769DC
+    BCC +
+    JML .ret
++
 
-.loc_C769CC:
     LDA #0x500
-    STA a:0x20, Y
-    LDA z:0x50
-    STA a:0x30, Y
-    LDA z:0x51
-    STA a:0x31, Y
+    STA a:bonus_spawner.countdown, Y
+    LDA z:.BONUSES
+    STA a:bonus_spawner.bonus_list, Y
+    LDA z:.BONUSES + 1
+    STA a:bonus_spawner.bonus_list + 1, Y
 
-.locret_C769DC:
+.ret:
     RTL
 
-sub_C769DD:
+bonus_spawner:
+    .BONUSES = 0x50
     SEP #0x20
     handler_return_if_paused_or_in_transition
     REP #0x20
@@ -4140,43 +4153,40 @@ sub_C769DD:
     BNE .ret
     LDA a:addr(number_of_visible_bonuses)
     CMP #0x20
-    BCS .ret
-    DEC z:0x20, X
+    BCS .ret ; Too many bonuses, halt the timer
+    DEC z:bonus_spawner.countdown, X
     BNE .ret
-    LDA #1
-    STA z:0x20, X
-    JSL sub_C43B6E
+    LDA #1 ; Increase to 1 in case spawning the bonus fails, so we try next time
+    STA z:bonus_spawner.countdown, X
+    JSL generate_random_bonus_location ; Generation failed
     BCS .ret
     REP #0x20
     LDA #0x800
-    STA z:0x20, X
-    LDA z:0x30, X
-    STA z:0x50
-    LDA z:0x31, X
-    STA z:0x51
+    STA z:bonus_spawner.countdown, X
+    LDA z:bonus_spawner.bonus_list, X
+    STA z:.BONUSES
+    LDA z:bonus_spawner.bonus_list + 1, X
+    STA z:.BONUSES + 1
     JSL fast_random
     REP #0x20
     AND #0xE
     PHY
     TAY
-    LDA f:[z:0x50], Y
+    LDA f:[z:.BONUSES], Y
     PLY
     JSL create_bonus_object
 .ret:
     RTL
 
-word_C76A35:
-    dw 2, 2
-    dw 9, 0x11
-    dw 0x11, 0xD
-    dw 0xD, 0xD
+uiteru_v_random_bonuses:
+    dw FIRE_UP, FIRE_UP, EXTRA_TIME, HEART, HEART, PUNCH, PUNCH, PUNCH
 
 sub_C76A45:
     SEP #0x20
     create_object sub_C76A7B
     REP #0x20
     BCC .loc_C76A63
-    JML sub_C769AE.locret_C769DC
+    JML create_bonus_spawner.ret
 
 .loc_C76A63:
     TXA
@@ -4276,12 +4286,12 @@ create_uiteru_v:
 uiteru_v:
 i16
     REP #0x20
-    LDA #addr(word_C76A35)
-    STA z:0x50
+    LDA #addr(uiteru_v_random_bonuses)
+    STA z:create_bonus_spawner.BONUSES
     SEP #0x20
-    LDA #bank(word_C76A35)
-    STA z:0x52
-    JSL sub_C769AE
+    LDA #bank(uiteru_v_random_bonuses)
+    STA z:create_bonus_spawner.BONUSES + 2
+    JSL create_bonus_spawner
     JSL sub_C76A45
     REP #0x20
     LDA #0

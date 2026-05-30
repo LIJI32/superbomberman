@@ -5514,7 +5514,7 @@ i16
     set_handler .loc_C62B42
 
 .loc_C62B42:
-    JSL sub_C43B6E
+    JSL generate_random_bonus_location
     BCS hidden_bonus_object.locret_C62B02
     REP #0x20
     LDA z:0x18, X
