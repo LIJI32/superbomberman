@@ -1,4 +1,4 @@
-animation_frame_C742C0:
+mecha_onita_frame:
     animation_frame_tile_count
     frame_oam_tile    8,    0, 0x050, 0x20
     frame_oam_tile   16,  -64, 0x006, 0x20
@@ -22,7 +22,7 @@ animation_frame_C742C0:
     frame_oam_tile  -24,    0, 0x044, 0x20
     frame_oam_tile   -8,    0, 0x046, 0x20
     .end
-animation_frame_C7432A:
+mecha_onita_shocked_frame:
     animation_frame_tile_count
     frame_oam_tile    8,    0, 0x050, 0x20
     frame_oam_tile    0,  -48, 0x054, 0x20
@@ -46,7 +46,8 @@ animation_frame_C7432A:
     frame_oam_tile  -24,    0, 0x044, 0x20
     frame_oam_tile   -8,    0, 0x046, 0x20
     .end
-animation_frame_C74394:
+    
+mecha_onita_shocked_frame_alt: ; Unused; same as mecha_onita_shocked_frame, different palettes
     animation_frame_tile_count
     frame_oam_tile    8,    0, 0x050, 0x22
     frame_oam_tile    0,  -48, 0x054, 0x22
@@ -70,7 +71,7 @@ animation_frame_C74394:
     frame_oam_tile  -24,    0, 0x044, 0x22
     frame_oam_tile   -8,    0, 0x046, 0x22
     .end
-animation_frame_C743FE:
+mecha_onita_death_frame_1:
     animation_frame_tile_count
     frame_oam_tile    0,  -40, 0x054, 0x20
     frame_oam_tile  -16,  -40, 0x052, 0x20
@@ -91,7 +92,7 @@ animation_frame_C743FE:
     frame_oam_tile  -24,   -8, 0x034, 0x20
     frame_oam_tile   -8,   -8, 0x036, 0x20
     .end
-animation_frame_C74459:
+mecha_onita_death_frame_2:
     animation_frame_tile_count
     frame_oam_tile   32,    0, 0x043, 0x00
     frame_oam_tile   24,    0, 0x042, 0x00
@@ -117,7 +118,7 @@ animation_frame_C74459:
     frame_oam_tile    8,  -16, 0x016, 0x20
     frame_oam_tile   -8,  -16, 0x014, 0x20
     .end
-animation_frame_C744CD:
+mecha_onita_death_frame_3:
     animation_frame_tile_count
     frame_oam_tile    0,  -24, 0x054, 0x20
     frame_oam_tile  -16,  -24, 0x052, 0x20
@@ -133,7 +134,7 @@ animation_frame_C744CD:
     frame_oam_tile    8,   -8, 0x016, 0x20
     frame_oam_tile   -8,   -8, 0x014, 0x20
     .end
-animation_frame_C7450F:
+mecha_onita_death_frame_4:
     animation_frame_tile_count
     frame_oam_tile  -40,    0, 0x010, 0x00
     frame_oam_tile  -32,    0, 0x011, 0x00
@@ -154,7 +155,7 @@ animation_frame_C7450F:
     frame_oam_tile   16,  -16, 0x026, 0x20
     frame_oam_tile  -32,  -16, 0x020, 0x20
     .end
-animation_frame_C7456A:
+mecha_onita_death_frame_5:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x054, 0x20
     frame_oam_tile  -16,   -8, 0x052, 0x20
@@ -165,7 +166,7 @@ animation_frame_C7456A:
     frame_oam_tile   16,   -8, 0x026, 0x20
     frame_oam_tile  -32,   -8, 0x020, 0x20
     .end
-animation_frame_C74593:
+mecha_onita_death_frame_6:
     animation_frame_tile_count
     frame_oam_tile  -24,    0, 0x021, 0x00
     frame_oam_tile   16,    0, 0x026, 0x00
@@ -178,70 +179,101 @@ animation_frame_C74593:
     frame_oam_tile  -16,  -16, 0x002, 0x20
     frame_oam_tile  -32,  -16, 0x000, 0x20
     .end
-animation_frame_C745C6:
+mecha_onita_death_frame_7:
     animation_frame_tile_count
     frame_oam_tile   16,   -8, 0x006, 0x20
     frame_oam_tile    0,   -8, 0x004, 0x20
     frame_oam_tile  -16,   -8, 0x002, 0x20
     frame_oam_tile  -32,   -8, 0x000, 0x20
     .end
-animation_frame_C745DB:
+mecha_onita_death_frame_8:
     animation_frame_tile_count
     frame_oam_tile   -8,    0, 0x003, 0x00
     frame_oam_tile    0,    0, 0x004, 0x00
     frame_oam_tile   16,    0, 0x006, 0x20
     frame_oam_tile  -32,    0, 0x000, 0x20
     .end
-byte_C745F0:
+mecha_onita_animation:
     animation_frame_count
-    animation_frame animation_frame_C742C0, 0xFF
+    animation_frame mecha_onita_frame, 0xFF
     .end
-byte_C745F5:
+mecha_onita_shocked_animation:
     animation_frame_count
-    animation_frame animation_frame_C7432A, 0xFF
+    animation_frame mecha_onita_shocked_frame, 0xFF
     .end
 unused_animation_frame_15:
     animation_frame_count
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
-    animation_frame animation_frame_C7432A, 2
-    animation_frame animation_frame_C74394, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
+    animation_frame mecha_onita_shocked_frame, 2
+    animation_frame mecha_onita_shocked_frame_alt, 2
     .end
-byte_C7465B:
+mecha_onita_death_animation:
     animation_frame_count
-    animation_frame animation_frame_C7432A, 0xD
-    animation_frame animation_frame_C743FE, 4
-    animation_frame animation_frame_C74459, 4
-    animation_frame animation_frame_C744CD, 3
-    animation_frame animation_frame_C7450F, 3
-    animation_frame animation_frame_C7456A, 2
-    animation_frame animation_frame_C74593, 2
-    animation_frame animation_frame_C745C6, 1
-    animation_frame animation_frame_C745DB, 1
+    animation_frame mecha_onita_shocked_frame, 0xD
+    animation_frame mecha_onita_death_frame_1, 4
+    animation_frame mecha_onita_death_frame_2, 4
+    animation_frame mecha_onita_death_frame_3, 3
+    animation_frame mecha_onita_death_frame_4, 3
+    animation_frame mecha_onita_death_frame_5, 2
+    animation_frame mecha_onita_death_frame_6, 2
+    animation_frame mecha_onita_death_frame_7, 1
+    animation_frame mecha_onita_death_frame_8, 1
     .end
     
 mecha_onita_random_bonuses:
     dw BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, EXTRA_TIME
+
+struct mecha_onita
+    enemy
+    org 0x16
+.x_velocity
+    ds 2
+.y_velocity
+    ds 2
+.x_direction
+    ds 1
+.y_direction
+    ds 1
+    org 0x26
+.some_tile_index
+    ds 2
+    org 0x30
+.countdown
+    ds 2
+.hitpoints
+    ds 2
+    org 0x34
+.hit_counter ; Counts up while overlapping with a blast tile, counts down otherwise
+    ds 2
+    org 0x36
+.damage_flash
+    ds 1
+    org 0x3E
+.ghost_count
+    ds 1
+    org enemy.sizeof
+endstruct
 
 create_mecha_onita:
     REP #0x20
@@ -264,40 +296,40 @@ i16
     LDA #high(COLMAT_BG1)
     STA a:addr(add_subtract_select_and_enable)
     LDA #8
-    STA z:0x1E, X
+    STA z:mecha_onita.effective_palette, X
     REP #0x20
-    LDA #0x88
-    STA z:0x11, X
-    LDA #0x5E
-    STA z:0x14, X
-    LDA #0x11
-    STA z:0x32, X
-    LDY z:0x26, X
+    LDA #136
+    STA z:mecha_onita.x_position, X
+    LDA #94
+    STA z:mecha_onita.y_position, X
+    LDA #17
+    STA z:mecha_onita.hitpoints, X
+    LDY z:mecha_onita.some_tile_index, X
     LDA #0
     STA a:addr(collision_map), Y
-    start_animation #addr(byte_C745F0)
+    start_animation #addr(mecha_onita_animation)
     SEP #0x20
     LDA #0
-    STA z:0x36, X
+    STA z:mecha_onita.damage_flash, X
     LDA #0
-    STA z:0x30, X
+    STA z:mecha_onita.countdown, X
     LDA #5
     STA z:0x31, X
     LDA #0x30
-    STA z:0xE, X
+    STA z:mecha_onita.object_priority, X
     LDA #2
-    STA z:0x20, X
+    STA z:mecha_onita.direction, X
     LDA #3
-    STA z:0x21, X
+    STA z:mecha_onita.hits_left_for_direction_switch, X
     LDA #1
-    STA z:0x1A, X
+    STA z:mecha_onita.x_direction, X
     LDA #1
-    STA z:0x1B, X
+    STA z:mecha_onita.y_direction, X
     LDA #0
-    STA z:0x3E, X
-    LDA z:3, X
+    STA z:mecha_onita.ghost_count, X
+    LDA z:mecha_onita.execution_priority, X
     ORA #1
-    STA z:3, X
+    STA z:mecha_onita.execution_priority, X
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
@@ -308,215 +340,236 @@ i16
     LDA #bank(mecha_onita_random_bonuses)
     STA z:create_bonus_spawner.BONUSES + 2
     JSL create_bonus_spawner
-    set_handler .loc_C74796
+    set_handler .wait_load_palettes
 
-.loc_C74796:
+.wait_load_palettes:
     SEP #0x20
     handler_return_if_paused_or_in_transition
     SEP #0x20
-    LDY #7
-    LDA #0x3B
-    STA z:0x40
+    LDY #7 ; Fade flags
+    
+    LDA #POWER_ZONE_PALETTE_1
+    STA z:set_palette.PALETTE
     LDA #1
     JSL set_palette
-    LDA #0
-    STA z:0x40
+    
+    LDA #HUD_PALETTE ; For no reason at all
+    STA z:set_palette.PALETTE
     LDA #2
     JSL set_palette
-    LDA #0x3C
-    STA z:0x40
+    
+    LDA #POWER_ZONE_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #3
     JSL set_palette
-    LDA #4
-    STA z:0x40
+    
+    LDA #BONUS_PALETTE_1
+    STA z:set_palette.PALETTE
     LDA #4
     JSL set_palette
-    LDA #5
-    STA z:0x40
+    
+    LDA #BONUS_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #5
     JSL set_palette
-    LDA #0x3D
-    STA z:0x40
+    
+    LDA #POWER_ZONE_BOMB_PALETTE
+    STA z:set_palette.PALETTE
     LDA #6
     JSL set_palette
-    LDA #0x3E
-    STA z:0x40
+    
+    LDA #POWER_ZONE_FIRE_PALETTE
+    STA z:set_palette.PALETTE
     LDA #7
     JSL set_palette
-    LDA #addr(SHIRO_PALETTE)
-    STA z:0x40
+    
+    LDA #SHIRO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #8
     JSL set_palette
-    LDA #addr(KURO_PALETTE)
-    STA z:0x40
+    
+    LDA #KURO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #9
     JSL set_palette
-    LDA #addr(MECHA_ONITA_PALETTE)
-    STA z:0x40
-    LDA #0xC
+    
+    LDA #MECHA_ONITA_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
+    
     REP #0x20
-    STZ z:0x30, X
-    set_handler .loc_C74825
+    STZ z:mecha_onita.countdown, X
+    set_handler .intro_wait
 
-.loc_C74825:
+.intro_wait:
     REP #0x20
-    INC z:0x30, X
-    LDA z:0x30, X
+    INC z:mecha_onita.countdown, X
+    LDA z:mecha_onita.countdown, X
     CMP #0x80
-    BNE .loc_C7484D
-    STZ z:0x30, X
+    BNE +
+    STZ z:mecha_onita.countdown, X
     SEP #0x20
     LDA a:addr(game_flags)
     AND #~GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    JSL sub_C74CD2
-    set_handler sub_C74852
+    JSL mecha_onita_reset_velocity
+    set_handler mecha_onita_main
++
 
-.loc_C7484D:
     JSL render_sprite_animated
 
 .ret:
     RTL
 
-sub_C74852:
+mecha_onita_main:
 i16
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C74867
-    JML .loc_C74887
+    BEQ +
+    JML .render
++
 
-.loc_C74867:
     REP #0x20
-    LDA #0x1010
-    STA z:0x42
-    LDA #0x1010
-    STA z:0x44
+    LDA #0x1010 ; 16 pixels left and right limits
+    STA z:enemy_detect_blast_in_range.RIGHT_LIMIT
+    LDA #0x1010 ; 16 pixels up and down limits
+    STA z:enemy_detect_blast_in_range.DOWN_LIMIT
     JSL enemy_detect_blast_in_range
-    BCC .loc_C7487D
-    JML sub_C74A1C
+    BCC +
+    JML mecha_onita_hit
++
 
-.loc_C7487D:
-    JSL sub_C74C32
-    BCC .loc_C74887
-    JSL sub_C74CD2
-.loc_C74887:
+    JSL mecha_onita_move
+    BCC +
+    ; Hit a wall
+    JSL mecha_onita_reset_velocity 
++
+
+.render:
     REP #0x20
-    LDA #0x1010
-    STA z:0x42
-    LDA #0x1010
-    STA z:0x44
+    LDA #0x1010 ; 16 pixels left and right limits
+    STA z:enemy_hit_players_in_range.RIGHT_LIMIT
+    LDA #0x1010 ; 16 pixels up and down limits
+    STA z:enemy_hit_players_in_range.DOWN_LIMIT
     JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     RTL
 
-sub_C7489C:
+mecha_onita_hurt:
     REP #0x20
     LDA #0x2E
-    STA z:0x34, X
-    set_handler .loc_C748B0
+    STA z:mecha_onita.hit_counter, X
+    set_handler .main
 
-.loc_C748B0:
+.main:
     REP #0x20
-    LDA #0x1010
-    STA z:0x42
-    LDA #0x1010
-    STA z:0x44
+    LDA #0x1010 ; 16 pixels left and right limits
+    STA z:enemy_hit_players_in_range.RIGHT_LIMIT
+    LDA #0x1010 ; 16 pixels up and down limits
+    STA z:enemy_hit_players_in_range.DOWN_LIMIT
     JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     SEP #0x20
     handler_return_if_paused_or_in_transition
     REP #0x20
-    DEC z:0x34, X
-    LDA z:0x34, X
-    BEQ .loc_C748FA
+    DEC z:mecha_onita.hit_counter, X
+    LDA z:mecha_onita.hit_counter, X
+    BEQ .done
+    ; Flash palettes
     AND #2
     ASL A
     PHX
     TAX
     SEP #0x20
-    LDY #0
+    LDY #0 ; No fade
     LDA f:mecha_onita_palettes, X
-    STA z:0x40
-    LDA #0xC
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
     PLX
 
 .ret:
     RTL
 
-.loc_C748FA:
+.done:
     REP #0x20
-    DEC z:0x32, X
-    BNE .loc_C74904
-    JML .loc_C74925
+    DEC z:mecha_onita.hitpoints, X
+    BNE +
+    JML mecha_onite_death
++
 
-.loc_C74904:
-    start_animation #addr(byte_C745F0)
-    JSL sub_C74CD2
-    set_handler sub_C74852
-.locret_C74924:
+    start_animation #addr(mecha_onita_animation)
+    JSL mecha_onita_reset_velocity
+    set_handler mecha_onita_main
+.ret2:
     RTL
 
-.loc_C74925:
+mecha_onite_death:
     SEP #0x20
     PHX
     LDX #addr(player_1)
-    LDA z:0x1F, X
-    STA z:0x1E, X
-    LDA z:0x20, X
-    STA z:0x40
+    LDA z:player.real_palette, X
+    STA z:player.effective_palette, X
+    LDA z:player.direction, X
+    STA z:change_direction_and_start_animation.DIRECTION
     JSL change_direction_and_start_animation
+    
     SEP #0x20
     LDX #addr(player_2)
-    LDA z:0x1F, X
-    STA z:0x1E, X
-    LDA z:0x20, X
-    STA z:0x40
+    LDA z:player.real_palette, X
+    STA z:player.effective_palette, X
+    LDA z:player.direction, X
+    STA z:change_direction_and_start_animation.DIRECTION
     JSL change_direction_and_start_animation
     PLX
+    
     REP #0x20
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
     LDA #0x100
-    STA z:0x30, X
-    LDA z:0x14, X
+    STA z:mecha_onita.countdown, X
+    
+    ; Adjust the Y position for the exploision
+    LDA z:mecha_onita.y_position, X
     PHA
-    LDA z:0x14, X
+    LDA z:mecha_onita.y_position, X
     SEC
     SBC #0x20
-    STA z:0x14, X
+    STA z:mecha_onita.y_position, X
     REP #0x20
-    LDA #addr(word_C74A0C)
+    LDA #addr(mecha_onita_explosions)
     STA z:0x50
     SEP #0x20
-    LDA #bank(word_C74A0C)
+    LDA #bank(mecha_onita_explosions)
     STA z:0x52
     JSL create_boss_exploisions
+    
+    ; Restore Y
     REP #0x20
     PLA
-    STA z:0x14, X
-    set_handler .loc_C74987
+    STA z:mecha_onita.y_position, X
+    set_handler .wait_exploisions
 
-.loc_C74987:
+.wait_exploisions:
     JSL render_sprite_animated
     REP #0x20
-    DEC z:0x30, X
-    BEQ .loc_C74995
-    JML .locret_C74924
+    DEC z:mecha_onita.countdown, X
+    BEQ +
+    JML mecha_onita_hurt.ret2
++
 
-.loc_C74995:
-    start_animation #addr(byte_C7465B)
-    set_handler .loc_C749B9
+    start_animation #addr(mecha_onita_death_animation)
+    set_handler .wait_animation
     LDY #SOUND_BOSS_DEATH
     JSL play_sound
     RTL
 
-.loc_C749B9:
+.wait_animation:
     JSL render_sprite_animated
-    BCC .locret_C74A0B
+    BCC .ret
     REP #0x20
     PHX
     LDX #addr(player_1)
@@ -524,299 +577,322 @@ sub_C7489C:
     LDX #addr(player_2)
     add_to_score_if_allowed 10000
     PLX
-    set_handler .loc_C749F8
+    set_handler .wait_transition
     SEP #0x20
     LDA #0x80
-    STA z:0x30, X
+    STA z:mecha_onita.countdown, X
 
-.loc_C749F8:
+.wait_transition:
     SEP #0x20
-    DEC z:0x30, X
-    BNE .locret_C74A0B
-    LDA #0x39
+    DEC z:mecha_onita.countdown, X
+    BNE .ret
+    LDA #SCREEN_MAP
     STA a:addr(current_screen)
     JSL fade_out_music
     JSL delete_object
 
-.locret_C74A0B:
+.ret:
     RTL
-word_C74A0C:
+
+mecha_onita_explosions:
     dw 0x3F, 0x3F, 0x100, 3
     
 mecha_onita_palettes:
     db MECHA_ONITA_PALETTE, ONITA_FADE_PALETTE_1
-    db ONITA_FADE_PALETTE_2, UNKNOWN
+    db ONITA_FADE_PALETTE_2, 0
     db MECHA_ONITA_SHOCK_PALETTE, MECHA_ONITA_SHOCK_PALETTE
-    db MECHA_ONITA_SHOCK_PALETTE, UNKNOWN
+    db MECHA_ONITA_SHOCK_PALETTE, 0
     
-sub_C74A1C:
-    set_handler .loc_C74A46
+mecha_onita_hit:
+    set_handler .main
     REP #0x20
     LDA #0
-    STA z:0x34, X
-    start_animation #addr(byte_C745F5)
-    LDY #SOUND_MECHA_ONITA_HIT
+    STA z:mecha_onita.hit_counter, X
+    start_animation #addr(mecha_onita_shocked_animation)
+    LDY #SOUND_MECHA_ONITA_HIT ; A removed silent sound
     JSL play_sound
 
-.loc_C74A46:
+.main:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C74A5B
-    JML .loc_C74A98
+    BEQ +
+    JML .render
++
 
-.loc_C74A5B:
     REP #0x20
-    LDA z:0x34, X
-    INC z:0x34, X
+    LDA z:mecha_onita.hit_counter, X
+    INC z:mecha_onita.hit_counter, X
     BIT #7
-    BNE .loc_C74A74
+    BNE +
     SEP #0x20
-    LDA z:0x3E, X
-    CMP #2
-    BCS .loc_C74A74
-    INC z:0x3E, X
-    JSL sub_C74B29
+    LDA z:mecha_onita.ghost_count, X
+    CMP #2 ; Limit to two ghosts
+    BCS +
+    INC z:mecha_onita.ghost_count, X
+    JSL mecha_onita_create_ghost
++
 
-.loc_C74A74:
     REP #0x20
-    LDA #0x1010
-    STA z:0x42
-    LDA #0x1010
-    STA z:0x44
+    LDA #0x1010 ; Set the left and right limits to 16 pixels
+    STA z:enemy_detect_blast_in_range.RIGHT_LIMIT
+    LDA #0x1010 ; Set the up and down limits to 16 pixels
+    STA z:enemy_detect_blast_in_range.DOWN_LIMIT
     JSL enemy_detect_blast_in_range
-    BCC .loc_C74AAD
+    
+    BCC +
     REP #0x20
-    LDA a:addr(collision_map), Y
+    LDA a:addr(collision_map), Y ; Read the blast tile
     AND #0x1F
     SEC
-    SBC #0x1B
+    SBC #BLAST_CENTER
     STA z:0x40
-    JSL sub_C74BB0
-.loc_C74A98:
+    JSL mecha_onita_apply_blast_knockback
+    
+.render:
     REP #0x20
-    LDA #0x1010
-    STA z:0x42
-    LDA #0x1010
-    STA z:0x44
+    LDA #0x1010 ; Set the left and right limits to 16 pixels
+    STA z:enemy_hit_players_in_range.RIGHT_LIMIT
+    LDA #0x1010 ; Set the up and down limits to 16 pixels
+    STA z:enemy_hit_players_in_range.DOWN_LIMIT
     JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     RTL
++
 
-.loc_C74AAD:
-    set_handler .loc_C74AC3
+    set_handler .out_of_blast_range
     REP #0x20
     LDA #0x80
-    STA z:0x34, X
-    BRA .loc_C74B14
+    STA z:mecha_onita.hit_counter, X
+    BRA .render2
 
-.loc_C74AC3:
+.out_of_blast_range:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C74AD8
-    JML .loc_C74B14
+    BEQ +
+    JML .render2
++
 
-.loc_C74AD8:
     REP #0x20
     LDA #0x1010
-    STA z:0x42
+    STA z:enemy_detect_blast_in_range.RIGHT_LIMIT
     LDA #0x1010
-    STA z:0x44
+    STA z:enemy_detect_blast_in_range.DOWN_LIMIT
     JSL enemy_detect_blast_in_range
-    BCC .loc_C74AEE
-    JML sub_C74A1C
+    BCC +
+    JML mecha_onita_hit ; Hit a second time
++
 
-.loc_C74AEE:
     REP #0x20
-    DEC z:0x34, X
-    BNE .loc_C74B14
-    start_animation #addr(byte_C745F0)
-    JSL sub_C74CD2
-    set_handler sub_C74852
+    DEC z:mecha_onita.hit_counter, X
+    BNE .render2
+    start_animation #addr(mecha_onita_animation)
+    JSL mecha_onita_reset_velocity
+    set_handler mecha_onita_main
 
-.loc_C74B14:
+.render2:
     REP #0x20
-    LDA #0x1010
-    STA z:0x42
-    LDA #0x1010
-    STA z:0x44
+    LDA #0x1010 ; Set the left and right limits to 16 pixels
+    STA z:enemy_hit_players_in_range.RIGHT_LIMIT
+    LDA #0x1010 ; Set the up and down limits to 16 pixels
+    STA z:enemy_hit_players_in_range.DOWN_LIMIT
     JSL enemy_hit_players_in_range
     JSL render_sprite_animated
     RTL
 
-sub_C74B29:
-    SEP #0x20
-    create_object sub_C74B73
-    REP #0x20
-    BCS .locret_C74B72
-    TXA
-    STA a:0x3E, Y
-    LDA z:8, X
-    STA a:8, Y
-    LDA z:0xA, X
-    STA a:0xA, Y
-    LDA z:0xC, X
-    STA a:0xC, Y
-    LDA z:0x11, X
-    STA a:0x11, Y
-    LDA z:0x14, X
-    STA a:0x14, Y
-    LDA #0x400
-    STA a:0xE, Y
-    LDA #8
-    STA a:0x1E, Y
-    LDA #0
-    STA a:0x20, Y
+struct mecha_onita_ghost
+    sprite
+    org 0x20
+.counter
+    ds 2
+    org 0x3e
+.mecha_onita
+    ds 2
+    org sprite.sizeof
+endstruct
 
-.locret_C74B72:
+mecha_onita_create_ghost:
+    SEP #0x20
+    create_object mecha_onita_ghost
+    REP #0x20
+    BCS +
+    TXA
+    STA a:mecha_onita_ghost.mecha_onita, Y
+    LDA z:mecha_onita.current_animation, X
+    STA a:mecha_onita_ghost.current_animation, Y
+    LDA z:mecha_onita.current_animation + 2, X
+    STA a:mecha_onita_ghost.current_animation + 2, Y
+    LDA z:mecha_onita.current_frame, X
+    STA a:mecha_onita_ghost.current_frame, Y
+    LDA z:mecha_onita.x_position, X
+    STA a:mecha_onita_ghost.x_position, Y
+    LDA z:mecha_onita.y_position, X
+    STA a:mecha_onita_ghost.y_position, Y
+    LDA #0x400
+    STA a:mecha_onita_ghost.object_priority, Y
+    LDA #8
+    STA a:mecha_onita_ghost.effective_palette, Y
+    LDA #0
+    STA a:mecha_onita_ghost.counter, Y
++
+
     RTL
 
-sub_C74B73:
+mecha_onita_ghost:
     REP #0x20
-    INC z:0x20, X
-    LDA z:0x20, X
+    INC z:mecha_onita_ghost.counter, X
+    LDA z:mecha_onita_ghost.counter, X
     CMP #0x20
-    BNE .loc_C74B8E
-    STZ z:0x20, X
-    INC z:0x1E, X
-    INC z:0x1E, X
-    LDA z:0x1E, X
+    BNE +
+    STZ z:mecha_onita_ghost.counter, X
+    INC z:mecha_onita_ghost.effective_palette, X
+    INC z:mecha_onita_ghost.effective_palette, X
+    LDA z:mecha_onita_ghost.effective_palette, X
     AND #0xFF
     CMP #0xE
-    BEQ .loc_C74B9E
+    BEQ .delete
++
 
-.loc_C74B8E:
-    LDA z:0x14, X
+    ; Render with Y=1? This is weird
+    LDA z:mecha_onita_ghost.y_position, X
     PHA
     LDA #1
-    STA z:0x14, X
+    STA z:mecha_onita_ghost.y_position, X
     JSL render_sprite_animated
     PLA
-    STA z:0x14, X
+    STA z:mecha_onita_ghost.y_position, X
     RTL
 
-.loc_C74B9E:
+.delete
+    ; Faded away, delete
     REP #0x20
-    LDY z:0x3E, X
+    LDY z:mecha_onita_ghost.mecha_onita, X
     SEP #0x20
-    LDA a:0x3E, Y
+    LDA a:mecha_onita.ghost_count, Y
     DEC A
-    STA a:0x3E, Y
+    STA a:mecha_onita.ghost_count, Y
     JSL delete_object
     RTL
 
-sub_C74BB0:
+mecha_onita_apply_blast_knockback:
+    .TILE = 0x40 ; Argument
+    .X_DELTA = 0x40
+    .Y_DELTA = 0x42
+    .DIR = 0x44
     REP #0x20
-    LDA z:0x40
+    LDA z:.TILE
     ASL A
     ASL A
     ASL A
     PHX
     TAX
-    LDA f:unk_C74D17, X
-    STA z:0x40
-    LDA f:unk_C74D19, X
-    STA z:0x42
-    LDA f:unk_C74D1B, X
-    STA z:0x44
+    LDA f:mecha_onita_knockback_table.x, X
+    STA z:.X_DELTA
+    LDA f:mecha_onita_knockback_table.y, X
+    STA z:.Y_DELTA
+    LDA f:mecha_onita_knockback_table.dir, X
+    STA z:.DIR
     PLX
     SEP #0x20
-    LDA z:0x45
-    BMI .loc_C74BD4
-    STA z:0x1A, X
+    LDA z:.DIR + 1
+    BMI + ; 0xFF, X direction unchanged
+    STA z:mecha_onita.x_direction, X
++
 
-.loc_C74BD4:
-    LDA z:0x44
-    BMI .loc_C74BDA
-    STA z:0x1B, X
+    LDA z:.DIR
+    BMI + ; 0xFF, Y direction unchanged
+    STA z:mecha_onita.y_direction, X
++
 
-.loc_C74BDA:
     REP #0x20
-    LDA z:0x40
-    BMI .loc_C74BF4
+    LDA z:.X_DELTA
+    BMI ++
     CLC
-    ADC z:0x11, X
-    CMP #0xDC
-    BCS .loc_C74BEC
-    STA z:0x11, X
-    BRA .loc_C74C08
+    ADC z:mecha_onita.x_position, X
+    CMP #220
+    BCS +
+    STA z:mecha_onita.x_position, X
+    BRA .adjust_y
++
 
-.loc_C74BEC:
-    LDA #0xDC
-    STA z:0x11, X
-    JMP a:sub_C7489C
+    LDA #220
+    STA z:mecha_onita.x_position, X
+    JMP a:mecha_onita_hurt ; Reached right edge, zap
+++
 
-.loc_C74BF4:
     CLC
-    ADC z:0x11, X
-    CMP #0x34
-    BCC .loc_C74C00
-    STA z:0x11, X
-    BRA .loc_C74C08
+    ADC z:mecha_onita.x_position, X
+    CMP #52
+    BCC +
+    STA z:mecha_onita.x_position, X
+    BRA .adjust_y
++
 
-.loc_C74C00:
-    LDA #0x34
-    STA z:0x11, X
-    JMP a:sub_C7489C
+    LDA #52
+    STA z:mecha_onita.x_position, X
+    JMP a:mecha_onita_hurt ; Reached left edge, zap
 
-.loc_C74C08:
-    LDA z:0x42
-    BMI .loc_C74C1F
+.adjust_y:
+    LDA z:.Y_DELTA
+    BMI ++
     CLC
-    ADC z:0x14, X
-    CMP #0xC9
-    BCS .loc_C74C17
-    STA z:0x14, X
+    ADC z:mecha_onita.y_position, X
+    CMP #201
+    BCS +
+    STA z:mecha_onita.y_position, X
     RTL
++
 
-.loc_C74C17:
-    LDA #0xC9
-    STA z:0x14, X
-    JMP a:sub_C7489C
+    LDA #201
+    STA z:mecha_onita.y_position, X
+    JMP a:mecha_onita_hurt ; Reached bottom edge, zap
+++
 
-.loc_C74C1F:
     CLC
-    ADC z:0x14, X
-    CMP #0x38
-    BCC .loc_C74C2A
-    STA z:0x14, X
+    ADC z:mecha_onita.y_position, X
+    CMP #56
+    BCC +
+    STA z:mecha_onita.y_position, X
     RTL
++
 
-.loc_C74C2A:
-    LDA #0x38
-    STA z:0x14, X
-    JMP a:sub_C7489C
+    LDA #56
+    STA z:mecha_onita.y_position, X
+    JMP a:mecha_onita_hurt ; Reached top edge, zap
 
-sub_C74C32:
+mecha_onita_move:
     REP #0x20
-    LDA z:0x16, X
-    BMI .loc_C74C5C
+    LDA z:mecha_onita.x_velocity, X
+    BMI .move_left
+    ; x_velocity *= 33/32
     LSR A
     LSR A
     LSR A
     LSR A
     LSR A
     CLC
-    ADC z:0x16, X
-    STA z:0x16, X
+    ADC z:mecha_onita.x_velocity, X
+    STA z:mecha_onita.x_velocity, X
+    
     CLC
-    ADC z:0x10, X
-    CMP #0xCC00
-    BCS .loc_C74C4E
-    STA z:0x10, X
-    BRA .loc_C74C83
-
-.loc_C74C4E:
-    LDA #0xCC00
-    STA z:0x10, X
-    LDA z:0x1A, X
+    ADC z:mecha_onita.fractional_x, X
+    CMP #204 << 8
+    BCS +
+    STA z:mecha_onita.fractional_x, X
+    BRA .move_y
++
+    ; Swap direction
+    LDA #204 << 8
+    STA z:mecha_onita.fractional_x, X
+    LDA z:mecha_onita.x_direction, X
     EOR #1
-    STA z:0x1A, X
-    SEC
+    STA z:mecha_onita.x_direction, X
+    SEC ; Return true
     RTL
 
-.loc_C74C5C:
+.move_left:
+    ; x_velocity *= 33/32
     LSR A
     LSR A
     LSR A
@@ -824,53 +900,58 @@ sub_C74C32:
     LSR A
     ORA #0xF800
     CLC
-    ADC z:0x16, X
-    STA z:0x16, X
+    ADC z:mecha_onita.x_velocity, X
+    STA z:mecha_onita.x_velocity, X
+    
     CLC
-    ADC z:0x10, X
-    CMP #0x4400
-    BCC .loc_C74C75
-    STA z:0x10, X
-    BRA .loc_C74C83
+    ADC z:mecha_onita.fractional_x, X
+    CMP #68 << 8
+    BCC +
+    STA z:mecha_onita.fractional_x, X
+    BRA .move_y
++
 
-.loc_C74C75:
-    LDA #0x4400
-    STA z:0x10, X
-    LDA z:0x1A, X
+    ; Swap direction
+    LDA #68 << 8
+    STA z:mecha_onita.fractional_x, X
+    LDA z:mecha_onita.x_direction, X
     EOR #1
-    STA z:0x1A, X
-    SEC
+    STA z:mecha_onita.x_direction, X
+    SEC ; Return true
     RTL
 
-.loc_C74C83:
-    LDA z:0x18, X
-    BMI .loc_C74CAB
+.move_y:
+    LDA z:mecha_onita.y_velocity, X
+    BMI .move_up
+    ; y_velocity *= 33/32
     LSR A
     LSR A
     LSR A
     LSR A
     LSR A
     CLC
-    ADC z:0x18, X
-    STA z:0x18, X
+    ADC z:mecha_onita.y_velocity, X
+    STA z:mecha_onita.y_velocity, X
+    
     CLC
-    ADC z:0x13, X
-    CMP #0xB900
-    BCS .loc_C74C9D
-    STA z:0x13, X
-    CLC
+    ADC z:mecha_onita.fractional_y, X
+    CMP #185 << 8
+    BCS +
+    STA z:mecha_onita.fractional_y, X
+    CLC ; Return false
     RTL
++
 
-.loc_C74C9D:
-    LDA #0xB900
-    STA z:0x13, X
-    LDA z:0x1B, X
+    LDA #185 << 8
+    STA z:mecha_onita.fractional_y, X
+    LDA z:mecha_onita.y_direction, X
     EOR #1
-    STA z:0x1B, X
-    SEC
+    STA z:mecha_onita.y_direction, X
+    SEC ; Return true
     RTL
 
-.loc_C74CAB:
+.move_up:
+     ; y_velocity *= 33/32
     LSR A
     LSR A
     LSR A
@@ -878,102 +959,88 @@ sub_C74C32:
     LSR A
     ORA #0xF800
     CLC
-    ADC z:0x18, X
-    STA z:0x18, X
+    ADC z:mecha_onita.y_velocity, X
+    STA z:mecha_onita.y_velocity, X
+    
     CLC
-    ADC z:0x13, X
-    CMP #0x4800
-    BCC .loc_C74CC4
-    STA z:0x13, X
-    CLC
+    ADC z:mecha_onita.fractional_y, X
+    CMP #72 << 8
+    BCC +
+    STA z:mecha_onita.fractional_y, X
+    CLC ; Return false
     RTL
++
 
-.loc_C74CC4:
-    LDA #0x4800
-    STA z:0x13, X
-    LDA z:0x1B, X
+    LDA #72 << 8
+    STA z:mecha_onita.fractional_y, X
+    LDA z:mecha_onita.y_direction, X
     EOR #1
-    STA z:0x1B, X
-    SEC
+    STA z:mecha_onita.y_direction, X
+    SEC ; Return true
     RTL
 
-sub_C74CD2:
+mecha_onita_reset_velocity:
+    .TEMP = 0x40
+    
+    ; Randomize X velocity
     JSL fast_random
     REP #0x20
     AND #0x3F
     CLC
     ADC #0x20
-    STA z:0x40
-    LDA z:0x1A, X
+    STA z:.TEMP
+    
+    ; Flip by direction
+    LDA z:mecha_onita.x_direction, X
     AND #0xFF
-    BNE .loc_C74CF0
-    LDA z:0x40
+    BNE +
+    LDA z:.TEMP
     EOR #0xFFFF
     INC A
-    STA z:0x40
+    STA z:.TEMP
++
 
-.loc_C74CF0:
-    LDA z:0x40
-    STA z:0x16, X
+    LDA z:.TEMP
+    STA z:mecha_onita.x_velocity, X
+    
+    ; Randomize Y velocity
     JSL fast_random
     REP #0x20
     AND #0x3F
     CLC
     ADC #0x20
-    STA z:0x40
-    LDA z:0x1B, X
+    STA z:.TEMP
+    
+    ; Flip by direction
+    LDA z:mecha_onita.y_direction, X
     AND #0xFF
-    BNE .loc_C74D12
-    LDA z:0x40
+    BNE +
+    LDA z:.TEMP
     EOR #0xFFFF
     INC A
-    STA z:0x40
+    STA z:.TEMP
++
 
-.loc_C74D12:
-    LDA z:0x40
-    STA z:0x18, X
+    LDA z:.TEMP
+    STA z:mecha_onita.y_velocity, X
     RTL
 
-unk_C74D17:
-    db 0
-    db 0
-unk_C74D19:
-    db 0xF7
-    db 0xFF
-unk_C74D1B:
-    db 1
-    db 0xFF
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0xF7
-    db 0xFF
-    db 1
-    db 0xFF
-    db 0
-    db 0
-    db 0
-    db 0
-    db 9
-    db 0
-    db 0
-    db 0xFF
-    db 0
-    db 0
-    db 9
-    db 0
-    db 0
-    db 0
-    db 0xFF
-    db 0
-    db 0
-    db 0
-    db 0xF7
-    db 0xFF
-    db 0
-    db 0
-    db 0xFF
-    db 1
-    db 0
-    db 0
+struct mecha_onita_knockback_entry x, y, dir
+.x
+    dw $x
+.y
+    dw $y
+.dir
+    dw $dir ; Holds X and Y directions. ff = unchanged, 00 = Down/Right, 01 = Up/Left
+    ds 2 ; Padding
+endstruct
+
+mecha_onita_knockback_table:
+    .x = . + mecha_onita_knockback_entry.x
+    .y = . + mecha_onita_knockback_entry.y
+    .dir = . + mecha_onita_knockback_entry.dir
+    mecha_onita_knockback_entry  0, -9, 0xFF01 ; Center
+    mecha_onita_knockback_entry  0, -9, 0xFF01 ; Up
+    mecha_onita_knockback_entry  0,  9, 0xFF00 ; Down
+    mecha_onita_knockback_entry  9,  0, 0x00FF ; Right
+    mecha_onita_knockback_entry -9,  0, 0x01FF ; Left
