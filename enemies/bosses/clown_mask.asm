@@ -730,10 +730,12 @@ create_clown_mask:
     
     SEP #0x20
     LDA #bank(clown_mask_random_bonuses)
-    STA z:0x52
+    STA z:create_bonus_spawner.BONUSES + 2
     REP #0x20
     LDA #addr(clown_mask_random_bonuses)
-    STA z:0x50
+    STA z:create_bonus_spawner.BONUSES
+    LDA #0x500
+    STA z:create_bonus_spawner.FREQ
     JSL create_bonus_spawner
     RTL
     

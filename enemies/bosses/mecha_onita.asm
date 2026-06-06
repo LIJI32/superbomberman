@@ -242,7 +242,7 @@ mecha_onita_death_animation:
     .end
     
 mecha_onita_random_bonuses:
-    dw BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, EXTRA_TIME
+    dw POISON, POISON, POISON, POISON, FIRE_UP, POISON, POISON, EXTRA_TIME
 
 struct mecha_onita
     enemy
@@ -257,6 +257,7 @@ struct mecha_onita
     ds 1
     org 0x26
 .some_tile_index
+.should_bounce
     ds 2
     org 0x30
 .countdown
@@ -302,7 +303,7 @@ i16
     STA z:mecha_onita.x_position, X
     LDA #94
     STA z:mecha_onita.y_position, X
-    LDA #17
+    LDA #20
     STA z:mecha_onita.hitpoints, X
     LDY z:mecha_onita.some_tile_index, X
     LDA #0
@@ -334,6 +335,8 @@ i16
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
     REP #0x20
+    LDA #240
+    STA z:create_bonus_spawner.FREQ
     LDA #addr(mecha_onita_random_bonuses)
     STA z:create_bonus_spawner.BONUSES
     SEP #0x20
@@ -444,7 +447,7 @@ i16
     JSL mecha_onita_move
     BCC +
     ; Hit a wall
-    JSL mecha_onita_reset_velocity 
+    JSL mecha_onita_reset_velocity_or_bounce
 +
 
 .render:
@@ -735,6 +738,12 @@ mecha_onita_create_ghost:
     STA a:mecha_onita_ghost.effective_palette, Y
     LDA #0
     STA a:mecha_onita_ghost.counter, Y
+    
+    LDY #0 ; No fade
+    LDA #MECHA_ONITA_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #13
+    JSL set_palette
 +
 
     RTL
@@ -743,12 +752,23 @@ mecha_onita_ghost:
     REP #0x20
     INC z:mecha_onita_ghost.counter, X
     LDA z:mecha_onita_ghost.counter, X
-    CMP #0x20
+    CMP #0x30
     BNE +
+    
+    PHX
+    LDY #7 ; Fade to black
+    LDA #BLACK_PALETTE
+    STA z:set_palette.PALETTE
+    LDA #13
+    JSL set_palette
+    REP #0x20
+    PLX
+    
     STZ z:mecha_onita_ghost.counter, X
     INC z:mecha_onita_ghost.effective_palette, X
     INC z:mecha_onita_ghost.effective_palette, X
     LDA z:mecha_onita_ghost.effective_palette, X
+    
     AND #0xFF
     CMP #0xE
     BEQ .delete
@@ -851,13 +871,13 @@ mecha_onita_apply_blast_knockback:
 
     CLC
     ADC z:mecha_onita.y_position, X
-    CMP #56
+    CMP #28
     BCC +
     STA z:mecha_onita.y_position, X
     RTL
 +
 
-    LDA #56
+    LDA #28
     STA z:mecha_onita.y_position, X
     JMP a:mecha_onita_hurt ; Reached top edge, zap
 
@@ -964,23 +984,58 @@ mecha_onita_move:
     
     CLC
     ADC z:mecha_onita.fractional_y, X
-    CMP #72 << 8
+    CMP #32 << 8
     BCC +
     STA z:mecha_onita.fractional_y, X
     CLC ; Return false
     RTL
 +
 
-    LDA #72 << 8
+    LDA #32 << 8
     STA z:mecha_onita.fractional_y, X
     LDA z:mecha_onita.y_direction, X
     EOR #1
     STA z:mecha_onita.y_direction, X
     SEC ; Return true
     RTL
+    
+mecha_onita_reset_velocity_or_bounce:
+    LDA z:mecha_onita.should_bounce, X
+    STZ z:mecha_onita.should_bounce, X
+    BEQ mecha_onita_reset_velocity
+    
+    LDA z:mecha_onita.x_direction, X 
+    ROR A
+    ROR A
+    EOR z:mecha_onita.x_velocity, X
+    BIT #0x8000
+    BNE +
+    LDA z:mecha_onita.x_velocity, X
+    EOR #0xFFFF
+    INC A
+    STA z:mecha_onita.x_velocity, X
++
+
+    LDA z:mecha_onita.y_direction, X 
+    ROR A
+    ROR A
+    EOR z:mecha_onita.y_velocity, X
+    BIT #0x8000
+    BNE +
+    LDA z:mecha_onita.y_velocity, X
+    EOR #0xFFFF
+    INC A
+    STA z:mecha_onita.y_velocity, X
++
+    
+    RTL
 
 mecha_onita_reset_velocity:
     .TEMP = 0x40
+    
+    JSL fast_random
+    AND #1
+    STA z:mecha_onita.should_bounce, X
     
     ; Randomize X velocity
     JSL fast_random

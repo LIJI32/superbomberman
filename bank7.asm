@@ -3107,11 +3107,14 @@ struct bonus_spawner
     org 0x30
 .bonus_list
     ds 3
+.frequency
+    ds 2
     org dynamic_object.sizeof
 endstruct
 
 create_bonus_spawner:
     .BONUSES = 0x50 ; Argument
+    .FREQ = 0x53 ; Argument
     SEP #0x20
     create_object bonus_spawner
     REP #0x20
@@ -3119,12 +3122,13 @@ create_bonus_spawner:
     JML .ret
 +
 
-    LDA #0x500
-    STA a:bonus_spawner.countdown, Y
     LDA z:.BONUSES
     STA a:bonus_spawner.bonus_list, Y
     LDA z:.BONUSES + 1
     STA a:bonus_spawner.bonus_list + 1, Y
+    LDA z:.FREQ
+    STA a:bonus_spawner.frequency, Y
+    STA a:bonus_spawner.countdown, Y
 
 .ret:
     RTL
@@ -3147,7 +3151,7 @@ bonus_spawner:
     JSL generate_random_bonus_location ; Generation failed
     BCS .ret
     REP #0x20
-    LDA #0x800
+    LDA z:bonus_spawner.frequency, X
     STA z:bonus_spawner.countdown, X
     LDA z:bonus_spawner.bonus_list, X
     STA z:.BONUSES
@@ -3272,6 +3276,8 @@ create_uiteru_v:
 uiteru_v:
 i16
     REP #0x20
+    LDA #0x500
+    STA z:create_bonus_spawner.FREQ
     LDA #addr(uiteru_v_random_bonuses)
     STA z:create_bonus_spawner.BONUSES
     SEP #0x20
