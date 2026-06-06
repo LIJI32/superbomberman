@@ -5344,9 +5344,17 @@ sub_C42C4B:
     REP #0x20
     LDA a:addr(level_manager_object.level_representation)
     AND #0xF
-    CMP #8
+    DEC A
+    STA z:player.bombups, X
+    STA z:player.fireups, X
+    PHA
+    LSR A
+    STA z:player.speedups, X
+    STA z:player.powerups + 1, X
+    PLA
+    CMP #7
     BNE .loc_C42C72
-    LDA #0x8003
+    LDA #0x8008
     STA z:0x30, X
     LDA #0x300
     STA z:0x38, X
@@ -5865,33 +5873,9 @@ i16
     db 8, 0xE
 
 .loc_C43150:
-    set_handler .loc_C43163
     SEP #0x20
-    LDA #0x40
-    STA z:0x10, X
-
-.loc_C43163:
-    SEP #0x20
-    handler_return_in_transition
-    BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C43178
-    JML .loc_C4319B
-
-.loc_C43178:
-    REP #0x20
-    LDA z:0x10, X
-    AND #1
-    PHX
-    TAX
-    SEP #0x20
-    LDA f:.byte_C4314E, X
-    PLX
-    STA z:0x1E, X
-    DEC z:0x10, X
-    BNE .loc_C4319B
-    set_handler handle_player_movement_1
-
-.loc_C4319B:
+    LDA #120
+    STA z:player.invincibility_countdown, X
     JSL render_sprite_animated
     RTL
 
@@ -6356,7 +6340,7 @@ i16
     JML arena_level_initializer.locret_C436FC
 
 .loc_C434F5:
-    LDA #0x500
+    LDA #480
     STA a:0x20, Y
     RTL
 
@@ -6377,7 +6361,7 @@ i16
     JSL generate_random_bonus_location
     BCS .ret
     REP #0x20
-    LDA #0x280
+    LDA #480
     STA z:0x20, X
     PHX
     PHY
@@ -6394,21 +6378,21 @@ i16
     RTL
 unknown_random_bonus_list:
     dw BOMB_UP
-    dw BOMB_UP
     dw FIRE_UP
-    dw FIRE_UP
-    dw REMOTE_CONTROL
     dw SPEED_UP
-    dw VEST
-    dw FULL_FIRE
-    dw RED_BOMBS
+    dw REMOTE_CONTROL
     dw KICK
     dw PUNCH
+    dw VEST
+    dw FULL_FIRE
     dw EXTRA_TIME
     dw EXTRA_TIME
     dw EXTRA_TIME
     dw POISON
     dw POISON
+    dw POISON
+    dw BOMB_UP
+    dw FIRE_UP
 sub_C43573:
     STY z:0x40
     SEP #0x20
@@ -7246,9 +7230,9 @@ sub_C43BE9:
     RTL
 
 byte_C43D2C:
-    db 0, 1, 1, 2, 2, 3, 3, 4
+    db 0, 1, 3, 4, 5, 7, 8, 9
 hits_per_mecha_bomber:
-    db 0, 0, 0, 0, 1, 1, 1, 4
+    db 0, 0, 1, 2, 3, 3, 3, 5
 palette_per_mecha_bomber:
     db MECHA_BOMBER_WHITE_PALETTE, MECHA_BOMBER_BLACK_PALETTE, MECHA_BOMBER_RED_PALETTE, MECHA_BOMBER_BLUE_PALETTE, MECHA_BOMBER_GREEN_PALETTE, MECHA_BOMBER_MAGENTA_PALETTE, MECHA_BOMBER_PURPLE_PALETTE, MECHA_BOMBER_GOLD_PALETTE
     db 1, 4, 1, 0xC, 2
