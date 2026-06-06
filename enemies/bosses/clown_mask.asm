@@ -734,7 +734,7 @@ create_clown_mask:
     REP #0x20
     LDA #addr(clown_mask_random_bonuses)
     STA z:0x50
-    JSL sub_C769AE
+    JSL create_bonus_spawner
     RTL
     
 clown_mask_random_bonuses:
@@ -768,7 +768,7 @@ i16
     STA a:addr(game_flags)
     
     LDA #0x30
-    STA z:clown_mask.palette, X
+    STA z:clown_mask.object_priority, X
     LDA #3
     STA z:0x21, X
     set_handler clown_mask_intro
@@ -1328,7 +1328,7 @@ clown_mask_flare:
     .SIGN_EXT = 0x40
     REP #0x20
     LDA #0x430
-    STA z:clown_mask_flare.palette, X
+    STA z:clown_mask_flare.object_priority, X
     LDA #0
     STA z:clown_mask_flare.effective_palette, X
     

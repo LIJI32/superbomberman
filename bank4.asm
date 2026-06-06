@@ -4938,9 +4938,9 @@ score_popup:
     LDA #bank(score_popup_related)
     STA z:0x52
     LDA #0xE
-    STA z:player.palette+1, X
+    STA z:player.object_priority+1, X
     LDA #0x30
-    STA z:player.palette, X
+    STA z:player.object_priority, X
     REP #0x20
     LDA z:score_popup_object.score_index, X
     CMP #6
@@ -6374,7 +6374,7 @@ i16
     BNE .ret
     LDA #1
     STA z:0x20, X
-    JSL sub_C43B6E
+    JSL generate_random_bonus_location
     BCS .ret
     REP #0x20
     LDA #0x280
@@ -6393,22 +6393,22 @@ i16
 .ret:
     RTL
 unknown_random_bonus_list:
-    dw 1     ; 0
-    dw 1     ; 1
-    dw 2     ; 2
-    dw 2     ; 3
-    dw 3     ; 4
-    dw 4     ; 5
-    dw 5     ; 6
-    dw 0xA    ; 7
-    dw 0xB    ; 8
-    dw 0xC    ; 9
-    dw 0xD    ; 0xA
-    dw 9     ; 0xB
-    dw 9     ; 0xC
-    dw 9     ; 0xD
-    dw 0xF    ; 0xE
-    dw 0xF    ; 0xF
+    dw BOMB_UP
+    dw BOMB_UP
+    dw FIRE_UP
+    dw FIRE_UP
+    dw REMOTE_CONTROL
+    dw SPEED_UP
+    dw VEST
+    dw FULL_FIRE
+    dw RED_BOMBS
+    dw KICK
+    dw PUNCH
+    dw EXTRA_TIME
+    dw EXTRA_TIME
+    dw EXTRA_TIME
+    dw POISON
+    dw POISON
 sub_C43573:
     STY z:0x40
     SEP #0x20
@@ -6985,7 +6985,7 @@ i16
     PLX
     RTL
 
-sub_C43B6E:
+generate_random_bonus_location:
     PHX
     JSL generate_random_position
     PLX
@@ -9140,7 +9140,7 @@ sub_C44998:
     BNE .ret
     LDA #1
     STA z:0x20,X
-    JSL sub_C43B6E
+    JSL generate_random_bonus_location
     BCS .ret
     REP #0x20
     STY z:0x50
@@ -15074,17 +15074,17 @@ i16
     STZ a:addr(player_3.is_ai)
     STZ a:addr(player_4.is_ai)
     LDA #0x20
-    STA a:addr(player_1.palette)
+    STA a:addr(player_1.object_priority)
     LDA #0x20
-    STA a:addr(player_2.palette)
+    STA a:addr(player_2.object_priority)
     LDA #0x20
-    STA a:addr(player_3.palette)
+    STA a:addr(player_3.object_priority)
     LDA #0x20
-    STA a:addr(player_4.palette)
-    STZ a:addr(player_1.palette+1)
-    STZ a:addr(player_2.palette+1)
-    STZ a:addr(player_3.palette+1)
-    STZ a:addr(player_4.palette+1)
+    STA a:addr(player_4.object_priority)
+    STZ a:addr(player_1.object_priority+1)
+    STZ a:addr(player_2.object_priority+1)
+    STZ a:addr(player_3.object_priority+1)
+    STZ a:addr(player_4.object_priority+1)
     LDA #0
     STA a:addr(player_1.real_palette)
     LDA #2
