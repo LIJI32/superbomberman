@@ -345,6 +345,7 @@ struct enemy
 .smart_follower_idle_frames
     ds 1
 .smart_follower_last_location
+.kuwagen_idle_frames
     ds 2
     ds 2
     ds 1

@@ -10,7 +10,7 @@ create_robocom:
 robocom_init:
     set_enemy_animations robocom_animations
     REP #0x20
-    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
+    LDA #HARD_BLOCK | SOFT_BLOCK | BOMB | BLAST
     STA z:enemy.collision_mask, X
     start_animation #addr(robocom_animation_down)
     SEP #0x20
@@ -27,4 +27,4 @@ robocom_init:
     ; Fallthrough
 
 robocom:
-    basic_enemy follower_movement
+    basic_enemy smart_follower_movement

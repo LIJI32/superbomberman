@@ -4891,4 +4891,47 @@ tunnel_zone_scroller:
     LDA a:addr(bg1_v_scroll)
     STA a:addr(bg2_v_scroll)
     RTL
+    
+struct fog_animator
+    dynamic_object
+    org 0x20
+.current_palette
+    ds 2
+.countdown
+    ds 2
+    org dynamic_object.sizeof
+endstruct
+    
+create_fog_animator:
+    SEP #0x20
+    create_object fog_animator
+    REP #0x20
+    LDA #CASTLE_PALETTE_2  | PALETTE_INVERT_FLAG
+    STA fog_animator.current_palette, Y
+    LDA #1
+    STA fog_animator.countdown, Y
+    JML create_random_bomb_drop ; Reached the maximum number of init functions in 6-7, so let's shove it here
+
+fog_animator:
+    REP #0x20
+    LDA a:addr(game_flags)
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
+    BNE .ret
+    DEC z:fog_animator.countdown, X
+    LDA z:fog_animator.countdown, X
+    BNE .ret
+    
+    LDA #60 * 2
+    STA fog_animator.countdown, X
+    
+    LDA #CASTLE_PALETTE_2 ^ SPEED_ZONE_PALETTE_2
+    EOR fog_animator.current_palette, X
+    STA fog_animator.current_palette, X
+    STA z:set_palette.PALETTE    
+    LDY #7 ; Fade flags
+    LDA #3
+    JSL set_palette
+
+.ret:
+    RTL
 data_end

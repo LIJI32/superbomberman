@@ -38,6 +38,7 @@ asset level_structures, garden_level_structure
 asset level_structures, power_zone_level_structure
 asset level_structures, diamond_tower_level_structure
 asset level_structures, speed_zone_level_structure
+asset level_structures, speed_zone_ring_level_structure
 asset level_structures, normal_zone_level_structure
 asset level_structures, warp_zone_level_structure
 asset level_structures, warpless_warp_zone_level_structure

@@ -47,7 +47,7 @@ stage_4_2:
     df create_kinkaru
     dw 0
     
-    dw RANDOM, KICK, PUNCH, 0
+    dw BOMB_PASS, KICK, PUNCH, 0
     
 
 stage_4_3:
@@ -61,7 +61,7 @@ stage_4_3:
     load_global_sprites standard_level_graphics
     tile_animation TILE_SOFTBLOCK, dome_soft_animation
     tile_animation TILE_SOFTBLOCK_SHADED, dome_shaded_soft_animation
-    hidden_bonus_object BONUS_COND_COMBO_OF_3, FIRE_EXT
+    hidden_bonus_object BONUS_COND_COMBO_OF_3, RANDOM
     init_functions_end
 
     df create_moguchan

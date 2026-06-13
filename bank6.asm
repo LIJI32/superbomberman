@@ -3754,6 +3754,10 @@ is_map_non_continuous:
     .STACK_OFFSET = 0x5C
     .REACHED_TILES = 0x4C
 i16
+    SEP #0x20
+    LDA a:addr(level_manager_object.level_representation)
+    CMP #0x62
+    BEQ .ret_true
     REP #0x20
     LDA #bank(temp_uncompressed_graphics)
     STA z:.STACK + 2
@@ -3772,6 +3776,7 @@ i16
     ; Reached the target, we're continuous
     LDA #addr(~(PLAYER))
     JSL apply_mask_to_collision_map ; Clean up
+.ret_true
     CLC
     RTL
 
@@ -7508,7 +7513,7 @@ i16
     REP #0x20
     INC z:enemy.field_30, X
     LDA z:enemy.field_30, X
-    CMP #0x20
+    CMP z:enemy.kuwagen_idle_frames, X
     BNE .loc_C63B13
     DEC z:enemy.field_30, X
     INC z:enemy.speed, X

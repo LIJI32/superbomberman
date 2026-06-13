@@ -37,3 +37,5 @@ incbin "$OUT/dboot/data.bin", FIRST_DBOOT_BANK_SIZE + 0x8000, 0x8000
 include "bank7.asm"
 fill 0xC78000
 incbin "$OUT/dboot/data.bin", FIRST_DBOOT_BANK_SIZE + 0x10000
+
+asset tilemaps, compressed_cloud_pal3_overlay_tilemap

@@ -5,6 +5,9 @@ create_yoroisu:
     init_enemy 8
     allocate_object_graphics yoroisu_graphics, 6
     allocate_object_palette YOROISU_PALETTE
+    REP #0x20
+    LDA #0x20
+    STA a:enemy.kuwagen_idle_frames, Y
     RTL
 
 yoroisu_init:

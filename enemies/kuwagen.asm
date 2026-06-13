@@ -1,3 +1,16 @@
+create_gold_kuwagen:
+    i16
+    STY z:0x56
+    SEP #0x20
+    create_enemy kuwagen_init
+    init_enemy 3
+    allocate_object_graphics kuwagen_graphic_pointers, 2
+    allocate_object_palette GOLD_KUWAGEN_PALETTE
+    REP #0x20
+    LDA #0x8
+    STA a:enemy.kuwagen_idle_frames, Y
+    RTL
+
 create_metal_kuwagen:
     i16
     STY z:0x56
@@ -6,6 +19,9 @@ create_metal_kuwagen:
     init_enemy 2
     allocate_object_graphics kuwagen_graphic_pointers, 2
     allocate_object_palette METAL_KUWAGEN_PALETTE
+    REP #0x20
+    LDA #0x20
+    STA a:enemy.kuwagen_idle_frames, Y
     RTL
 
 create_kuwagen:
@@ -17,6 +33,9 @@ create_kuwagen:
     init_enemy 1
     allocate_object_graphics kuwagen_graphic_pointers, 2
     allocate_object_palette KUWAGEN_PALETTE
+    REP #0x20
+    LDA #0x20
+    STA a:enemy.kuwagen_idle_frames, Y
 create_enemy_ret:
     RTL
 
