@@ -12007,15 +12007,15 @@ sub_C45DB3:
     SEC
     RTL
 
-sub_C45E15:
+spiderer_create_launch_bomb:
     REP #0x20
     LDA #addr(sub_C45E5B)
     STA z:0x40
     JSL create_small_object
-    BCC .loc_C45E26
-    JML .loc_C45E56
+    BCC +
+    JML .alloc_failed
++
 
-.loc_C45E26:
     SEP #0x20
     LDA #0x81
     STA a:2, Y
@@ -12037,7 +12037,7 @@ sub_C45E15:
     JSL sub_C45DB3
     RTL
 
-.loc_C45E56:
+.alloc_failed:
     SEP #0x20
     DEC z:0x24,X
     RTL

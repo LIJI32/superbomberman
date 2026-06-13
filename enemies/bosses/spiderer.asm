@@ -624,7 +624,7 @@ animation_frame_C756CD:
     .end
 animation_frame_C756D8:
     db 0
-byte_C756D9:
+spiderer_legs_animation:
     animation_frame_count
     animation_frame animation_frame_C74DD6, 8
     animation_frame animation_frame_C74E6D, 8
@@ -632,11 +632,11 @@ byte_C756D9:
     animation_frame animation_frame_C74FAF, 8
     animation_frame animation_frame_C75050, 8
     .end
-byte_C756EE:
+spiderer_eye_open_animation:
     animation_frame_count
     animation_frame animation_frame_C750E7, 0xFF
     .end
-byte_C756F3:
+spiderer_eye_close_lid_animation:
     animation_frame_count
     animation_frame animation_frame_C750F2, 3
     animation_frame animation_frame_C750FD, 3
@@ -644,11 +644,11 @@ byte_C756F3:
     animation_frame animation_frame_C75113, 3
     animation_frame animation_frame_C7511E, 3
     .end
-byte_C75708:
+spiderer_eye_closed_animation:
     animation_frame_count
     animation_frame animation_frame_C75129, 0xFF
     .end
-byte_C7570D:
+spiderer_eye_open_lid_animation:
     animation_frame_count
     animation_frame animation_frame_C7511E, 3
     animation_frame animation_frame_C75113, 3
@@ -656,11 +656,11 @@ byte_C7570D:
     animation_frame animation_frame_C750FD, 3
     animation_frame animation_frame_C750F2, 3
     .end
-byte_C75722:
+spiderer_bomb_hatch_idle_animation:
     animation_frame_count
     animation_frame animation_frame_C75134, 0xFF
     .end
-byte_C75727:
+spiderer_bomb_hatch_open_animation:
     animation_frame_count
     animation_frame animation_frame_C75149, 3
     animation_frame animation_frame_C7515E, 3
@@ -672,11 +672,11 @@ byte_C75727:
     animation_frame animation_frame_C751DC, 3
     animation_frame animation_frame_C751C7, 3
     .end
-byte_C7574C:
+spiderer_bomb_hatch_opened_animation:
     animation_frame_count
     animation_frame animation_frame_C751DC, 0xFF
     .end
-byte_C75751:
+spiderer_bomb_hatch_close_animation:
     animation_frame_count
     animation_frame animation_frame_C751C7, 3
     animation_frame animation_frame_C751B2, 3
@@ -686,7 +686,7 @@ byte_C75751:
     animation_frame animation_frame_C7515E, 3
     animation_frame animation_frame_C75149, 3
     .end
-byte_C7576E:
+spiderer_stingers_animation:
     animation_frame_count
     animation_frame animation_frame_C751F1, 0xD
     animation_frame animation_frame_C7522E, 0xA
@@ -728,808 +728,952 @@ byte_C757D6:
     animation_frame animation_frame_C756CD, 1
     animation_frame animation_frame_C756D8, 1
     .end
+
+struct spiderer
+    enemy
+    org 0x16
+.target_x
+    ds 2
+    org 0x19
+.target_y
+    ds 2
+    org 0x1B
+.move_axis
+    ds 2
+    org 0x22
+.bomb_hatch_signal
+    ds 2
+.eye_closed
+    ds 2
+.some_tile_index
+    ds 2
+    org 0x30
+.countdown
+    ds 2
+    org 0x38
+.step_counter
+    ds 2
+.visual_y
+    ds 2
+.is_dying
+    ds 2
+.hit_count ; While alive
+.death_countdown ; While dying
+    ds 2
+    org enemy.sizeof
+endstruct
+
 create_spiderer:
     REP #0x20
     STY z:0x56
     SEP #0x20
-    create_object sub_C75851
+    create_object spiderer
     init_enemy 0
     allocate_object_graphics spiderer_graphics, 5
     RTL
 
-sub_C75851:
+spiderer:
 i16
+    .Y_OFFSET_TABLE = 0xDB
     SEP #0x20
-    LDA #0x17
+    LDA #OBJ_EN | BG3_EN | BG2_EN | BG1_EN
     STA a:addr(main_screen_status)
-    LDA #0x10
+    LDA #OBJ_EN
     STA a:addr(subscreen_status)
-    LDA #2
+    LDA #COLMAT_USE_SUBSCREEN
     STA a:addr(color_addition_settings)
-    LDA #0x81
+    LDA #high(COLMAT_SUBTRACT | COLMAT_BG1)
     STA a:addr(add_subtract_select_and_enable)
+    
     REP #0x20
-    LDA #0x88
-    STA z:0x11, X
-    LDA #0x88
-    STA z:0x16, X
-    LDA #0x58
-    STA z:0x14, X
-    LDA #0x58
-    STA z:0x19, X
-    LDA #0x58
-    STA z:0x3A, X
+    LDA #136
+    STA z:spiderer.x_position, X
+    LDA #136
+    STA z:spiderer.target_x, X
+    
+    LDA #88
+    STA z:spiderer.y_position, X
+    LDA #88
+    STA z:spiderer.target_y, X
+    LDA #88
+    STA z:spiderer.visual_y, X
+    
     LDA #0x100
-    STA z:0x30, X
+    STA z:spiderer.countdown, X
     LDA #0
-    STA z:0x22, X
+    STA z:spiderer.bomb_hatch_signal, X
     LDA #0
-    STA z:0x24, X
+    STA z:spiderer.eye_closed, X
     LDA #0
-    STA z:0x26, X
+    STA z:spiderer.some_tile_index, X ; Not used or read afterwards
     LDA #0
-    STA z:0x38, X
+    STA z:spiderer.step_counter, X
     LDA #0
-    STA z:0x3E, X
+    STA z:spiderer.hit_count, X
     LDA #0
-    STA z:0x3C, X
+    STA z:spiderer.is_dying, X
+    
     SEP #0x20
     LDA a:addr(game_flags)
     ORA #GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    JSL sub_C75CBB
-    JSL sub_C75E56
-    JSL sub_C75C34
-    JSL sub_C75BB2
-    set_handler .loc_C758CC
+    JSL spiderer_create_bomb_hatch
+    JSL spiderer_create_eye
+    JSL spiderer_create_stingers
+    JSL spiderer_create_legs
+    set_handler .init_palette
 
-.loc_C758CC:
+.init_palette:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C758E1
-    JML sub_C75967
+    BEQ +
+    JML .render
++
 
-.loc_C758E1:
-    JSL sub_C75FE0
-    set_handler .loc_C758F2
+    JSL spiderer_init_palette
+    set_handler .intro_delay
 
-.loc_C758F2:
+.intro_delay:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C75907
-    JML sub_C75967
+    BEQ +
+    JML .render
++
 
-.loc_C75907:
     REP #0x20
-    DEC z:0x30, X
-    BEQ .loc_C75911
-    JML sub_C75967
+    DEC z:spiderer.countdown, X
+    BEQ +
+    JML .render
++
 
-.loc_C75911:
     SEP #0x20
     LDA a:addr(game_flags)
     AND #~GAME_FLAGS_BATTLE_DELAY
     STA a:addr(game_flags)
-    set_handler .loc_C75928
+    set_handler .main
 
-.loc_C75928:
+.main:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C7593D
-    JML sub_C75967
+    BEQ +
+    JML .render
++
 
-.loc_C7593D:
-    JSL sub_C759FC
-    JSL sub_C75AD6
+    JSL spiderer_handle_damage_flash
+    JSL spiderer_move
     JSL test_collision
     REP #0x20
     AND #0x1FF
-    CMP #0x11C
-    BNE sub_C75967
-    LDA z:0x30, X
+    CMP #BLAST | BLAST_UP
+    BNE .render
+    ; Hit by a blast up
+    LDA z:spiderer.countdown, X
     BIT #0x7FFF
-    BNE sub_C75967
-    LDA z:0x24, X
-    BNE sub_C75967
-    LDA z:0x30, X
+    BNE .render ; Already flashing?
+    LDA z:spiderer.eye_closed, X
+    BNE .render ; Eye closed?
+    LDA z:spiderer.countdown, X
     ORA #0x80
-    STA z:0x30, X
-    INC z:0x3E, X
-    ; fallthrough
+    STA z:spiderer.countdown, X
+    INC z:spiderer.hit_count, X
 
-sub_C75967:
+.render:
     REP #0x20
-    LDA #addr(byte_C759DA)
-    STA z:0xDB
+    LDA #addr(spiderer_y_offset_table)
+    STA z:.Y_OFFSET_TABLE
     SEP #0x20
-    LDA #bank(byte_C759DA)
-    STA z:0xDD
+    LDA #bank(spiderer_y_offset_table)
+    STA z:.Y_OFFSET_TABLE + 2
+    
+    ; Update the main body position (background layer)
     REP #0x20
-    LDA z:0x11, X
+    LDA z:spiderer.x_position, X
     SEC
-    SBC #0x80
+    SBC #128
     EOR #0xFFFF
     INC A
     CLC
-    ADC #0x88
+    ADC #136
     STA a:addr(bg2_h_scroll)
+    
     LDY #0
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C7599F
-    JML .loc_C759C1
+    BEQ +
+    JML .update_bg_y
++
 
-.loc_C7599F:
+    ; There's a bug here: it seems like the intended logic is that spiderer_y_offset_table[Y]
+    ; dictates the Y offset, and spiderer_y_offset_table[Y] && spiderer_y_offset_table[Y + 1]
+    ; triggers the sound playback. However, both are dictated by the && result in practice.
     REP #0x20
-    LDA z:0x30, X
-    BNE .loc_C759C1
-    LDA z:0x38, X
-    DEC z:0x38, X
+    LDA z:spiderer.countdown, X
+    BNE .update_bg_y
+    LDA z:spiderer.step_counter, X
+    DEC z:spiderer.step_counter, X
     AND #0xF
     ASL A
     TAY
-    LDA f:[z:0xDB], Y
-    BEQ .loc_C759C1
+    LDA f:[z:.Y_OFFSET_TABLE], Y
+    BEQ .update_bg_y
     INY
     INY
-    LDA f:[z:0xDB], Y
-    BEQ .loc_C759C1
+    LDA f:[z:.Y_OFFSET_TABLE], Y
+    BEQ .update_bg_y
     PHY
     LDY #SOUND_SPIDERER_STEP
     JSL play_sound
     PLY
-.loc_C759C1:
+    
+.update_bg_y:
     REP #0x20
-    LDA z:0x14, X
+    LDA z:spiderer.y_position, X
     CLC
-    ADC f:[z:0xDB], Y
-    STA z:0x3A, X
+    ADC f:[z:.Y_OFFSET_TABLE], Y
+    STA z:spiderer.visual_y, X
     SEC
-    SBC #0x70
+    SBC #112
     EOR #0xFFFF
     INC A
     CLC
-    ADC #0x88
+    ADC #136
     STA a:addr(bg2_v_scroll)
     RTL
 
-byte_C759DA:
-    db 0, 0, 0, 0
-    db 0, 0, 0, 0
-    db 0, 0, 1, 0
-    db 1, 0, 0, 0
-    db 0, 0, 0, 0
-    db 0, 0, 0, 0
-    db 0, 0, 0, 0
-    db 0, 0, 0, 0
-    db 0, 0
-sub_C759FC:
+spiderer_y_offset_table:
+    dw 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    dw 0 ; One extra value to compensate for spiderer_y_offset_table[Y + 1]
+
+spiderer_handle_damage_flash:
 i16
     REP #0x20
-    LDA z:0x30, X
+    LDA z:spiderer.countdown, X
     BIT #0x7FFF
-    BEQ .locret_C75A67
+    BEQ .ret
     DEC A
-    STA z:0x30, X
+    STA z:spiderer.countdown, X
     PHX
     LDX #0
     BIT #1
-    BEQ .loc_C75A14
+    BEQ +
     LDX #4
++
 
-.loc_C75A14:
     SEP #0x20
     LDY #0
-    LDA f:unk_C7604A, X
-    STA z:0x40
+    
+    LDA f:spiderer_palettes, X
+    STA z:set_palette.PALETTE
     LDA #3
     JSL set_palette
-    LDA f:unk_C7604B, X
-    STA z:0x40
+    
+    LDA f:spiderer_palettes + 1, X
+    STA z:set_palette.PALETTE
     LDA #4
     JSL set_palette
-    LDA f:spiderer_palettes, X
-    STA z:0x40
-    LDA #0xC
+    
+    LDA f:spiderer_palettes + 2, X
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
-    LDA f:spiderer_palettes+1, X
-    STA z:0x40
-    LDA #0xD
+    
+    LDA f:spiderer_palettes + 3, X
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
+    
     PLX
     REP #0x20
-    LDA z:0x30, X
+    LDA z:spiderer.countdown, X
     BIT #0x7FFF
-    BNE .locret_C75A67
-    LDA z:0x3E, X
+    BNE .ret
+    LDA z:spiderer.hit_count, X
     CMP #7
-    BCC .locret_C75A67
-    set_handler sub_C75A70
+    BCC .ret
+    set_handler spiderer_death
 
-.locret_C75A67:
+.ret:
     RTL
 
-word_C75A68:
+spiderer_explosion_params:
     dw 0x3F, 0x3F, 0x180, 3
-sub_C75A70:
+
+spiderer_death:
     REP #0x20
     LDA #0x180
-    STA z:0x3E, X
+    STA z:spiderer.death_countdown, X
     LDA #0xFFFF
-    STA z:0x3C, X
+    STA z:spiderer.is_dying, X
+
     REP #0x20
-    LDA #addr(word_C75A68)
+    LDA #addr(spiderer_explosion_params)
     STA z:0x50
     SEP #0x20
-    LDA #bank(word_C75A68)
+    LDA #bank(spiderer_explosion_params)
     STA z:0x52
     JSL create_boss_exploisions
-    set_handler .loc_C75A9A
+    
+    set_handler .main
 
-.loc_C75A9A:
+.main:
     REP #0x20
-    STZ z:0x38, X
+    STZ z:spiderer.step_counter, X
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C75AB3
-    JML sub_C75967
+    BEQ +
+    JML spiderer.render
++
 
-.loc_C75AB3:
     REP #0x20
-    LDA z:0x3E, X
-    DEC z:0x3E, X
-    BNE .loc_C75ABF
+    LDA z:spiderer.death_countdown, X
+    DEC z:spiderer.death_countdown, X
+    BNE +
     JML delete_object
++
 
-.loc_C75ABF:
     CMP #0x80
-    BEQ .loc_C75AC8
-    JML sub_C75967
+    BEQ +
+    JML spiderer.render
++
 
-.loc_C75AC8:
     JSL create_uiteru_v
     REP #0x20
     LDA #0x100
-    STA z:0x11, X
-    JMP a:sub_C75967
+    STA z:spiderer.x_position, X
+    JMP a:spiderer.render ; Move the main body off-screen
 
-sub_C75AD6:
+spiderer_move:
     REP #0x20
-    LDA z:0x30, X
-    BEQ .loc_C75AE0
-    JML .locret_C75B44
+    LDA z:spiderer.countdown, X
+    BEQ +
+    JML .ret
++
 
-.loc_C75AE0:
-    LDA z:0x1B, X
-    BEQ .loc_C75B12
-    LDA #0xFFFF
-    STA z:0x40
-    LDA z:0x11, X
-    CMP z:0x16, X
-    BCS .loc_C75AF4
+    LDA z:spiderer.move_axis, X
+    BEQ .move_vertically
+    
+    ; Move horizontally
+    LDA #-1
+    STA z:spiderer_move_in_axis.VELOCITY
+    LDA z:spiderer.x_position, X
+    CMP z:spiderer.target_x, X
+    BCS +
     LDA #1
-    STA z:0x40
+    STA z:spiderer_move_in_axis.VELOCITY
++
 
-.loc_C75AF4:
-    JSL sub_C75B4F
-    LDA z:0x11, X
-    CMP z:0x16, X
-    BNE .locret_C75B44
-    JSL sub_C75B45
+    JSL spiderer_move_in_axis
+    LDA z:spiderer.x_position, X
+    CMP z:spiderer.target_x, X
+    BNE .ret
+
+    ; Reached target, switch axes and signal the bomb hatch
+    JSL spiderer_toggle_axis
     LDA #1
-    STA z:0x22, X
-    LDA z:0x14, X
-    CMP z:0x19, X
-    BNE .locret_C75B44
-    JSL sub_C75B71
+    STA z:spiderer.bomb_hatch_signal, X
+    LDA z:spiderer.y_position, X
+    CMP z:spiderer.target_y, X
+    BNE .ret
+    JSL spiderer_set_target
     RTL
 
-.loc_C75B12:
-    LDA #0xFFFF
-    STA z:0x40
-    LDA z:0x14, X
-    CMP z:0x19, X
-    BCS .loc_C75B22
+.move_vertically:
+    LDA #-1
+    STA z:spiderer_move_in_axis.VELOCITY
+    LDA z:spiderer.y_position, X
+    CMP z:spiderer.target_y, X
+    BCS +
     LDA #1
-    STA z:0x40
+    STA z:spiderer_move_in_axis.VELOCITY
++
 
-.loc_C75B22:
+    ; Offset the X index register so spiderer_step_toward_target uses Y values instead of X values
     PHX
+rept spiderer.y_position - spiderer.x_position
     INX
-    INX
-    INX
-    JSL sub_C75B4F
+endr
+    JSL spiderer_move_in_axis
     PLX
-    LDA z:0x14, X
-    CMP z:0x19, X
-    BNE .locret_C75B44
-    JSL sub_C75B45
+    
+    LDA z:spiderer.y_position, X
+    CMP z:spiderer.target_y, X
+    BNE .ret
+    
+    ; Reached target, switch axes and signal the bomb hatch
+    JSL spiderer_toggle_axis
     LDA #1
-    STA z:0x22, X
-    LDA z:0x11, X
-    CMP z:0x16, X
-    BNE .locret_C75B44
-    JSL sub_C75B71
+    STA z:spiderer.bomb_hatch_signal, X
+    LDA z:spiderer.x_position, X
+    CMP z:spiderer.target_x, X
+    BNE .ret
+    JSL spiderer_set_target
 
-.locret_C75B44:
+.ret:
     RTL
 
-sub_C75B45:
+spiderer_toggle_axis:
     REP #0x20
-    LDA z:0x1B, X
+    LDA z:spiderer.move_axis, X
     EOR #0x20
-    STA z:0x1B, X
+    STA z:spiderer.move_axis, X
     RTL
 
-sub_C75B4F:
+spiderer_move_in_axis:
+    .VELOCITY = 0x40
     REP #0x20
-    LDA z:0x40
-    BMI .loc_C75B63
+    LDA z:.VELOCITY
+    BMI .negative
     CLC
-    ADC z:0x11, X
-    STA z:0x11, X
-    CMP z:0x16, X
-    BCC .locret_C75B62
-    LDA z:0x16, X
-    STA z:0x11, X
+    ADC z:spiderer.x_position, X
+    STA z:spiderer.x_position, X
+    CMP z:spiderer.target_x, X
+    BCC .ret
+    LDA z:spiderer.target_x, X
+    STA z:spiderer.x_position, X
 
-.locret_C75B62:
+.ret:
     RTL
 
-.loc_C75B63:
+.negative:
     CLC
-    ADC z:0x11, X
-    STA z:0x11, X
-    CMP z:0x16, X
-    BCS .locret_C75B62
-    LDA z:0x16, X
-    STA z:0x11, X
+    ADC z:spiderer.x_position, X
+    STA z:spiderer.x_position, X
+    CMP z:spiderer.target_x, X
+    BCS .ret
+    LDA z:spiderer.target_x, X
+    STA z:spiderer.x_position, X
     RTL
 
-sub_C75B71:
-    JSL sub_C75B83
-    LDA z:0x40
-    STA z:0x16, X
-    LDA z:0x42
-    STA z:0x19, X
+spiderer_set_target:
+    JSL spiderer_random_target
+    LDA z:spiderer_random_target.X
+    STA z:spiderer.target_x, X
+    LDA z:spiderer_random_target.Y
+    STA z:spiderer.target_y, X
     AND #0x20
-    STA z:0x1B, X
+    STA z:spiderer.move_axis, X
     RTL
 
-sub_C75B83:
+spiderer_random_target:
 i16
+    .X = 0x40 ; out
+    .Y = 0x42 ; out
+
     REP #0x20
     PHX
-    LDX #7
+    
+    ; Randomize X
+    LDX #7 ; 7 options
     JSL random
     INC A
+    ; Multiply by 32
     ASL A
     ASL A
     ASL A
     ASL A
     ASL A
+    ; Add 8 (tile center)
     ORA #8
-    STA z:0x40
-    LDA z:0x40
+    STA z:.X
+    ; The result: X is one of the 7 columns that are free of hardblocks
+
+    ; Save and back X up since the random call with overwrite it
+    LDA z:.X
     PHA
-    LDX #4
+    
+    ; Randomize Y
+    LDX #4 ; 4 options (top row is not allowed)
     JSL random
-    INC A
+    INC A ; Add one (skip the top row)
+    ; Multiply by 32
     ASL A
     ASL A
     ASL A
     ASL A
     ASL A
+    ; Add 24 (tile center + one row)
     ORA #0x18
-    STA z:0x42
+    STA z:.Y
+    ; The result: Y one of the top 4 rows that contain hardblocks
+    
+    ; Restore X
     PLA
-    STA z:0x40
+    STA z:.X
+    
     PLX
     RTL
 
-sub_C75BB2:
+struct spiderer_legs
+    enemy
+    org 0x30
+.death_countdown
+    ds 2
+    org 0x38
+.spiderer
+    ds 2
+    org enemy.sizeof
+endstruct
+
+struct spiderer_stingers
+    enemy
+    org 0x30
+.death_countdown
+    ds 2
+    org 0x38
+.spiderer
+    ds 2
+    org enemy.sizeof
+endstruct
+
+struct spiderer_bomb_hatch
+    enemy
+    org 0x20
+.countdown
+    ds 2
+.bombs_to_launch
+    ds 2
+.launched_bombs_remaining
+    ds 2
+    org 0x30
+.death_countdown
+    ds 2
+    org 0x38
+.spiderer
+    ds 2
+    org enemy.sizeof
+endstruct
+
+struct spiderer_eye
+    enemy
+    org 0x20
+.countdown
+    ds 2
+    org 0x30
+.death_countdown
+    ds 2
+    org 0x38
+.spiderer
+    ds 2
+    org enemy.sizeof
+endstruct
+
+spiderer_create_legs:
     SEP #0x20
-    create_object sub_C75BCF
+    create_object spiderer_legs
     REP #0x20
     TXA
-    STA a:0x38, Y
+    STA a:spiderer_legs.spiderer, Y
     RTL
 
-sub_C75BCF:
+spiderer_legs:
     REP #0x20
     LDA #0x420
-    STA z:0xE, X
+    STA z:spiderer_legs.object_priority, X
     LDA #8
-    STA z:0x1E, X
-    start_animation #addr(byte_C756D9)
-    set_handler .loc_C75BF7
+    STA z:spiderer_legs.effective_palette, X
+    start_animation #addr(spiderer_legs_animation)
+    set_handler .main
 
-.loc_C75BF7:
+.main:
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x3C, Y
-    BNE .loc_C75C26
-    LDA a:0x11, Y
-    STA z:0x11, X
-    LDA a:0x14, Y
+    LDY z:spiderer_legs.spiderer, X
+    LDA a:spiderer.is_dying, Y
+    BNE .dying
+    LDA a:spiderer.x_position, Y
+    STA z:spiderer_legs.x_position, X
+    LDA a:spiderer.y_position, Y
     CLC
-    ADC #0xFFF0
-    STA z:0x14, X
-    LDA a:0x30, Y
-    BNE .loc_C75C18
+    ADC #-16
+    STA z:spiderer_legs.y_position, X
+    LDA a:spiderer.countdown, Y
+    BNE .render_static
     JSL render_sprite_animated
     RTL
 
-.loc_C75C18:
+.render_static:
     SEP #0x20
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION
-    BNE .locret_C75C25
+    BNE +
     JSL render_sprite
-
-.locret_C75C25:
++
     RTL
 
-.loc_C75C26:
-    set_handler sub_C75FA8
+.dying:
+    set_handler spiderer_subobject_death
     RTL
 
-sub_C75C34:
+spiderer_create_stingers:
     SEP #0x20
-    create_object sub_C75C51
+    create_object spiderer_stingers
     REP #0x20
     TXA
-    STA a:0x38, Y
+    STA a:spiderer_stingers.spiderer, Y
     RTL
 
-sub_C75C51:
+spiderer_stingers:
     REP #0x20
     LDA #0x420
-    STA z:0xE, X
+    STA z:spiderer_stingers.object_priority, X
     LDA #8
-    STA z:0x1E, X
-    start_animation #addr(byte_C7576E)
-    set_handler .loc_C75C79
+    STA z:spiderer_stingers.effective_palette, X
+    start_animation #addr(spiderer_stingers_animation)
+    set_handler .main
 
-.loc_C75C79:
+.main:
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x3C, Y
-    BNE .loc_C75CAD
-    LDA a:0x11, Y
-    STA z:0x11, X
-    LDA a:0x14, Y
+    LDY z:spiderer_stingers.spiderer, X
+    LDA a:spiderer.is_dying, Y
+    BNE .dying
+    LDA a:spiderer.x_position, Y
+    STA z:spiderer_stingers.x_position, X
+    LDA a:spiderer.y_position, Y
     CLC
-    ADC #0xFFD0
-    STA z:0x14, X
+    ADC #-48
+    STA z:spiderer_stingers.y_position, X
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION
-    BNE .locret_C75CAC
+    BNE +
     REP #0x20
-    LDA #0x2020
-    STA z:0x42
-    LDA #0x38
-    STA z:0x44
+    LDA #0x2020 ; Set the left and right limit to 32 pixels
+    STA z:enemy_hit_players_in_range.RIGHT_LIMIT
+    LDA #0x38 ; The the bottom limit to 56 pixels
+    STA z:enemy_hit_players_in_range.DOWN_LIMIT
     JSL enemy_hit_players_in_range
     JSL render_sprite_animated
-
-.locret_C75CAC:
++
     RTL
 
-.loc_C75CAD:
-    set_handler sub_C75FA8
+.dying:
+    set_handler spiderer_subobject_death
     RTL
 
-sub_C75CBB:
+spiderer_create_bomb_hatch:
     SEP #0x20
-    create_object sub_C75CE4
+    create_object spiderer_bomb_hatch
     REP #0x20
     TXA
-    STA a:0x38, Y
+    STA a:spiderer_bomb_hatch.spiderer, Y
     LDA #0x430
-    STA a:0xE, Y
+    STA a:spiderer_bomb_hatch.object_priority, Y
     LDA #8
-    STA a:0x1E, Y
+    STA a:spiderer_bomb_hatch.effective_palette, Y
     RTL
 
-sub_C75CE4:
+spiderer_bomb_hatch:
     REP #0x20
-    start_animation #addr(byte_C75722)
-    set_handler sub_C75D02
-    ; fallthrough
+    start_animation #addr(spiderer_bomb_hatch_idle_animation)
+    set_handler .main
 
-sub_C75D02:
+.main
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x11, Y
-    STA z:0x11, X
-    LDA a:0x3A, Y
+    LDY z:spiderer_bomb_hatch.spiderer, X
+    LDA a:spiderer.x_position, Y
+    STA z:spiderer_bomb_hatch.x_position, X
+    LDA a:spiderer.visual_y, Y
     CLC
-    ADC #0xFFDE
-    STA z:0x14, X
-    LDA a:0x22, Y
-    BEQ .loc_C75D5A
+    ADC #-34
+    STA z:spiderer_bomb_hatch.y_position, X
+    LDA a:spiderer.bomb_hatch_signal, Y
+    BEQ .render_idle
+    
+    ; Start attack sequence
     LDA #0
-    STA a:0x22, Y
-    LDA a:0x30, Y
-    ORA #0x8000
-    STA a:0x30, Y
+    STA a:spiderer.bomb_hatch_signal, Y
+    LDA a:spiderer.countdown, Y
+    ORA #0x8000 ; Don't let the main object resume movement until we're done
+    STA a:spiderer.countdown, Y
     LDA #0x10
-    STA z:0x20, X
-    start_animation #addr(byte_C75727)
+    STA z:spiderer_bomb_hatch.countdown, X
+    start_animation #addr(spiderer_bomb_hatch_open_animation)
+    ; Launch 8-11 bombs
     JSL fast_random
     REP #0x20
     AND #3
     CLC
     ADC #8
-    STA z:0x22, X
-    STA z:0x24, X
-    set_handler sub_C75D75
+    STA z:spiderer_bomb_hatch.bombs_to_launch, X
+    STA z:spiderer_bomb_hatch.launched_bombs_remaining, X
+    set_handler .open_hatch
 
-.loc_C75D5A:
+.render_idle:
     JSL load_animation_frame
-    ; fallthrough
     
-sub_C75D5E:
+.check_death:
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x3C, Y
-    BEQ .locret_C75D74
-    set_handler sub_C75FA8
-
-.locret_C75D74:
+    LDY z:spiderer_bomb_hatch.spiderer, X
+    LDA a:spiderer.is_dying, Y
+    BEQ +
+    set_handler spiderer_subobject_death
++
     RTL
 
-sub_C75D75:
+.open_hatch:
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x11, Y
-    STA z:0x11, X
-    LDA a:0x3A, Y
+    LDY z:spiderer_bomb_hatch.spiderer, X
+    LDA a:spiderer.x_position, Y
+    STA z:spiderer_bomb_hatch.x_position, X
+    LDA a:spiderer.visual_y, Y
     CLC
-    ADC #0xFFDE
-    STA z:0x14, X
+    ADC #-34
+    STA z:spiderer_bomb_hatch.y_position, X
     JSL load_animation_frame
-    BCC sub_C75D5E
+    BCC .check_death
+    ; Animation done
     REP #0x20
-    start_animation #addr(byte_C7574C)
-    set_handler spiderer_launch_bomb
+    start_animation #addr(spiderer_bomb_hatch_opened_animation)
+    set_handler .launch_bomb
     RTL
 
-spiderer_launch_bomb:
+.launch_bomb:
 i16
     JSL load_animation_frame
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C75DC5
-    JML sub_C75D5E
+    BEQ +
+    JML .check_death
++
 
-.loc_C75DC5:
     REP #0x20
-    DEC z:0x20, X
-    BNE sub_C75D5E
+    DEC z:spiderer_bomb_hatch.countdown, X
+    BNE .check_death
     LDA #0x10
-    STA z:0x20, X
+    STA z:spiderer_bomb_hatch.countdown, X
     LDY #SOUND_PUNCH_BOMB
     JSL play_sound
-    JSL sub_C45E15
+    JSL spiderer_create_launch_bomb
     REP #0x20
-    DEC z:0x22, X
-    BEQ .loc_C75DE5
-    JML sub_C75D5E
+    DEC z:spiderer_bomb_hatch.bombs_to_launch, X
+    BEQ +
+    JML .check_death
++
 
-.loc_C75DE5:
-    start_animation #addr(byte_C75751)
-    set_handler sub_C75E02
+    ; Launched all bombs
+    start_animation #addr(spiderer_bomb_hatch_close_animation)
+    set_handler .close_hatch
     RTL
 
-sub_C75E02:
+.close_hatch
     JSL load_animation_frame
-    BCS .loc_C75E0C
-    JML sub_C75D5E
+    BCS +
+    JML .check_death
++
 
-.loc_C75E0C:
     REP #0x20
-    LDY z:0x38, X
+    LDY z:spiderer_bomb_hatch.spiderer, X
     LDA #1
-    STA a:0x24, Y
-    start_animation #addr(byte_C75722)
-    set_handler .loc_C75E32
+    STA a:spiderer.eye_closed, Y ; Done launching, signal the eye to close
+    start_animation #addr(spiderer_bomb_hatch_idle_animation)
+    set_handler .wait_for_explosions
 
-.loc_C75E32:
+.wait_for_explosions:
+    ; Wait for all the bombs to explode before ending the sequence
     JSL load_animation_frame
     REP #0x20
-    LDA z:0x24, X
-    BEQ .loc_C75E40
-    JML sub_C75D5E
+    LDA z:spiderer_bomb_hatch.launched_bombs_remaining, X
+    BEQ +
+    JML .check_death
++
 
-.loc_C75E40:
-    LDY z:0x38, X
+    LDY z:spiderer_bomb_hatch.spiderer, X
     LDA #0
-    STA a:0x24, Y
-    set_handler sub_C75D02
+    STA a:spiderer.eye_closed, Y ; Signal the eye to open
+    set_handler .main
     RTL
 
-sub_C75E56:
+spiderer_create_eye:
     SEP #0x20
-    create_object sub_C75E73
+    create_object spiderer_eye
     REP #0x20
     TXA
-    STA a:0x38, Y
+    STA a:spiderer_eye.spiderer, Y
     RTL
 
-sub_C75E73:
+spiderer_eye:
     REP #0x20
     LDA #0x420
-    STA z:0xE, X
+    STA z:spiderer_eye.object_priority, X
     LDA #8
-    STA z:0x1E, X
-    start_animation #addr(byte_C756EE)
-    set_handler sub_C75E9B
+    STA z:spiderer_eye.effective_palette, X
+    start_animation #addr(spiderer_eye_open_animation)
+    set_handler .main
 
-sub_C75E9B:
+.main:
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x11, Y
-    STA z:0x11, X
-    LDA a:0x3A, Y
+    LDY z:spiderer_eye.spiderer, X
+    LDA a:spiderer.x_position, Y
+    STA z:spiderer_eye.x_position, X
+    LDA a:spiderer.visual_y, Y
     CLC
     ADC #5
-    STA z:0x14, X
-    LDA a:0x24, Y
-    BEQ .loc_C75ECE
-    start_animation #addr(byte_C756F3)
-    set_handler sub_C75EE9
+    STA z:spiderer_eye.y_position, X
+    
+    LDA a:spiderer.eye_closed, Y
+    BEQ .render
 
-.loc_C75ECE:
+    ; Signalled to close
+    start_animation #addr(spiderer_eye_close_lid_animation)
+    set_handler .close
+
+.render:
     JSL render_sprite_animated
     ; fallthrough
 
-sub_C75ED2:
+.check_death:
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x3C, Y
-    BEQ .locret_C75EE8
-    set_handler sub_C75FA8
-
-.locret_C75EE8:
+    LDY z:spiderer_eye.spiderer, X
+    LDA a:spiderer.is_dying, Y
+    BEQ +
+    set_handler spiderer_subobject_death
++
     RTL
 
-sub_C75EE9:
+.close:
     JSL render_sprite_animated
-    BCC .loc_C75F13
+    BCC .check_signal
     REP #0x20
-    start_animation #addr(byte_C75708)
-    set_handler .loc_C75F0F
-    BRA .loc_C75F13
+    start_animation #addr(spiderer_eye_closed_animation)
+    set_handler .closed
+    BRA .check_signal
 
-.loc_C75F0F:
+.closed:
     JSL render_sprite_animated
 
-.loc_C75F13:
+.check_signal:
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x24, Y
-    BNE j_sub_C75ED2
+    LDY z:spiderer_eye.spiderer, X
+    LDA a:spiderer.eye_closed, Y
+    BNE +
     LDA #1
-    STA a:0x24, Y
-    LDA #0x40
-    STA z:0x20, X
-    set_handler sub_C75F36
-    ; fallthrough
+    STA a:spiderer.eye_closed, Y
+    LDA #64
+    STA z:spiderer_eye.countdown, X
+    set_handler .wait_open
++
 
-j_sub_C75ED2:
-    BRA sub_C75ED2
+.j_check_death
+    BRA .check_death
 
-sub_C75F36:
+.wait_open:
     JSL render_sprite_animated
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C75F4F
-    JML j_sub_C75ED2
-
-.loc_C75F4F:
+    BEQ +
+    JML .j_check_death
++
     REP #0x20
-    DEC z:0x20, X
-    BNE j_sub_C75ED2
-    start_animation #addr(byte_C7570D)
-    set_handler sub_C75F72
+    DEC z:spiderer_eye.countdown, X
+    BNE .j_check_death
+    ; Done waiting, time to open the eye back
+    start_animation #addr(spiderer_eye_open_lid_animation)
+    set_handler .opening
     RTL
 
-sub_C75F72:
+.opening:
     JSL render_sprite_animated
-    BCC j_sub_C75ED2
+    BCC .j_check_death
+    
+    ; Animation done, allow the main object to resume
     REP #0x20
-    LDY z:0x38, X
-    LDA a:0x30, Y
-    AND #0x7FFF
-    STA a:0x30, Y
+    LDY z:spiderer_eye.spiderer, X
+    LDA a:spiderer.countdown, Y
+    AND #~0x8000 ; Clear the hit-suppression flag
+    STA a:spiderer.countdown, Y
     LDA #0
-    STA a:0x24, Y
-    start_animation #addr(byte_C756EE)
-    set_handler sub_C75E9B
+    STA a:spiderer.eye_closed, Y
+    start_animation #addr(spiderer_eye_open_animation)
+    set_handler spiderer_eye.main
     RTL
 
-sub_C75FA8:
+spiderer_subobject_death:
     REP #0x20
     LDA #0x100
-    STA z:0x30, X
-    set_handler .loc_C75FBC
+    STA z:spiderer_legs.death_countdown, X ; Same offset for all sub-objects
+    set_handler .main
 
-.loc_C75FBC:
+.main:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C75FD1
-    JML .loc_C75FDB
+    BEQ +
+    JML .render
++
 
-.loc_C75FD1:
     REP #0x20
-    DEC z:0x30, X
-    BNE .loc_C75FDB
+    DEC z:spiderer_legs.death_countdown, X
+    BNE .render
     JSL delete_object
-.loc_C75FDB:
+
+.render:
     JSL render_sprite
     RTL
 
-sub_C75FE0:
+spiderer_init_palette:
 i16
     SEP #0x20
-    LDY #7
-    LDA #0x40
-    STA z:0x40
+    LDY #7 ; Fade flags
+    
+    LDA #DIAMOND_TOWER_PALETTE_1
+    STA z:set_palette.PALETTE
     LDA #1
     JSL set_palette
-    LDA #0x41
-    STA z:0x40
+    
+    LDA #DIAMOND_TOWER_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #2
     JSL set_palette
-    LDA #0x73
-    STA z:0x40
+    
+    LDA #SPIDERER_BG_PALETTE_1
+    STA z:set_palette.PALETTE
     LDA #3
     JSL set_palette
-    LDA #5
-    STA z:0x40
+    
+    LDA #BONUS_PALETTE_2
+    STA z:set_palette.PALETTE
     LDA #5
     JSL set_palette
-    LDA #0x42
-    STA z:0x40
+    
+    LDA #DIAMOND_TOWER_BOMB_PALETTE
+    STA z:set_palette.PALETTE
     LDA #6
     JSL set_palette
-    LDA #0x43
-    STA z:0x40
+    
+    LDA #DIAMOND_TOWER_FIRE_PALETTE
+    STA z:set_palette.PALETTE
     LDA #7
     JSL set_palette
-    LDA #addr(SHIRO_PALETTE)
-    STA z:0x40
+    
+    LDA #SHIRO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #8
     JSL set_palette
-    LDA #addr(KURO_PALETTE)
-    STA z:0x40
+    
+    LDA #KURO_PALETTE
+    STA z:set_palette.PALETTE
     LDA #9
     JSL set_palette
-    LDA #addr(SPIDERER_PALETTE_0)
-    STA z:0x40
-    LDA #0xC
+    
+    LDA #SPIDERER_PALETTE_0
+    STA z:set_palette.PALETTE
+    LDA #12
     JSL set_palette
-    LDA #addr(SPIDERER_PALETTE_1)
-    STA z:0x40
-    LDA #0xD
+    
+    LDA #SPIDERER_PALETTE_1
+    STA z:set_palette.PALETTE
+    LDA #13
     JSL set_palette
     RTL
 
-unk_C7604A:
-    db SPIDERER_BG_PALETTE_1
-unk_C7604B:
-    db 0x74
 spiderer_palettes:
+    db SPIDERER_BG_PALETTE_1, CREDITS_END_PALETTE
     db SPIDERER_PALETTE_0, SPIDERER_PALETTE_1
-    db SCOREBOARD_PALETTE_1, SCOREBOARD_PALETTE_2
+    
+    db SPIDERER_FIRE_BG_PALETTE_1, SPIDERER_FIRE_BG_PALETTE_3
     db SPIDERER_FIRE_PALETTE, SPIDERER_FIRE_PALETTE
