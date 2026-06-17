@@ -1698,7 +1698,7 @@ i16
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    start_animation #addr(byte_C757D6)
+    start_animation #addr(uiteru_v_shadow_animation)
     SEP #0x20
     LDY #7
     LDA #INTRO_BALOON_PALETTE
@@ -2294,7 +2294,7 @@ sub_C76F8F:
     STA a:0x20, Y
     LDA #0xFFFF
     STA z:0x48
-    JSL sub_C45DB3
+    JSL randomize_bomb_trajectory
     BCC .locret_C76FD5
     JSL delete_object
     SEC
@@ -2305,8 +2305,8 @@ sub_C76F8F:
 sub_C76FD6:
 i16
     REP #0x20
-    start_animation #addr(byte_C757C4)
-    LDY #7
+    start_animation #addr(uiteru_v_poison_bonus_animation)
+    LDY #SOUND_SUDDEN_DEATH_BLOCK
     JSL play_sound
     set_handler .loc_C76FFB
 

@@ -1,5 +1,5 @@
 
-animation_frame_C74D3F:
+spiderer_legs_unused_frame:
     animation_frame_tile_count
     frame_oam_tile  -52,   36, 0x066, 0x60
     frame_oam_tile  -52,   20, 0x082, 0x60
@@ -32,7 +32,7 @@ animation_frame_C74D3F:
     frame_oam_tile   32,  -29, 0x054, 0x20
     frame_oam_tile   16,  -29, 0x052, 0x20
     .end
-animation_frame_C74DD6:
+spiderer_legs_frame_1:
     animation_frame_tile_count
     frame_oam_tile  -52,   27, 0x066, 0x60
     frame_oam_tile  -52,   11, 0x082, 0x60
@@ -65,7 +65,7 @@ animation_frame_C74DD6:
     frame_oam_tile   32,  -29, 0x054, 0x20
     frame_oam_tile   16,  -29, 0x052, 0x20
     .end
-animation_frame_C74E6D:
+spiderer_legs_frame_2:
     animation_frame_tile_count
     frame_oam_tile  -50,   19, 0x066, 0x60
     frame_oam_tile  -50,    3, 0x082, 0x60
@@ -100,7 +100,7 @@ animation_frame_C74E6D:
     frame_oam_tile   32,  -29, 0x054, 0x20
     frame_oam_tile   16,  -29, 0x052, 0x20
     .end
-animation_frame_C74F0E:
+spiderer_legs_frame_3:
     animation_frame_tile_count
     frame_oam_tile  -52,   27, 0x066, 0x60
     frame_oam_tile  -52,   11, 0x082, 0x60
@@ -135,7 +135,7 @@ animation_frame_C74F0E:
     frame_oam_tile   32,  -30, 0x086, 0x20
     frame_oam_tile   16,  -30, 0x084, 0x20
     .end
-animation_frame_C74FAF:
+spiderer_legs_frame_4:
     animation_frame_tile_count
     frame_oam_tile  -52,   36, 0x066, 0x60
     frame_oam_tile  -52,   20, 0x082, 0x60
@@ -170,7 +170,7 @@ animation_frame_C74FAF:
     frame_oam_tile   16,  -22, 0x050, 0x20
     frame_oam_tile   16,  -38, 0x034, 0x20
     .end
-animation_frame_C75050:
+spiderer_legs_frame_5:
     animation_frame_tile_count
     frame_oam_tile  -52,   36, 0x066, 0x60
     frame_oam_tile  -52,   20, 0x082, 0x60
@@ -203,105 +203,105 @@ animation_frame_C75050:
     frame_oam_tile   32,  -30, 0x086, 0x20
     frame_oam_tile   16,  -30, 0x084, 0x20
     .end
-animation_frame_C750E7:
+spiderer_eye_open_frame:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x000, 0x60
     frame_oam_tile  -16,   -8, 0x000, 0x20
     .end
-animation_frame_C750F2:
+spiderer_eye_opening_frame_1:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x002, 0x60
     frame_oam_tile  -16,   -8, 0x002, 0x20
     .end
-animation_frame_C750FD:
+spiderer_eye_opening_frame_2:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x004, 0x60
     frame_oam_tile  -16,   -8, 0x004, 0x20
     .end
-animation_frame_C75108:
+spiderer_eye_opening_frame_3:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x006, 0x60
     frame_oam_tile  -16,   -8, 0x006, 0x20
     .end
-animation_frame_C75113:
+spiderer_eye_opening_frame_4:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x020, 0x60
     frame_oam_tile  -16,   -8, 0x020, 0x20
     .end
-animation_frame_C7511E:
+spiderer_eye_opening_frame_5:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x022, 0x60
     frame_oam_tile  -16,   -8, 0x022, 0x20
     .end
-animation_frame_C75129:
+spiderer_eye_closed_frame:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x024, 0x60
     frame_oam_tile  -16,   -8, 0x024, 0x20
     .end
-animation_frame_C75134:
+spiderer_bomb_hatch_closed_frame:
     animation_frame_tile_count
     frame_oam_tile    0,  -16, 0x010, 0x60
     frame_oam_tile    0,    0, 0x040, 0x60
     frame_oam_tile  -16,    0, 0x040, 0x20
     frame_oam_tile  -16,  -16, 0x010, 0x20
     .end
-animation_frame_C75149:
+spiderer_bomb_hatch_opening_frame_1:
     animation_frame_tile_count
     frame_oam_tile    1,  -16, 0x010, 0x60
     frame_oam_tile    1,    0, 0x040, 0x60
     frame_oam_tile  -17,    0, 0x040, 0x20
     frame_oam_tile  -17,  -16, 0x010, 0x20
     .end
-animation_frame_C7515E:
+spiderer_bomb_hatch_opening_frame_2:
     animation_frame_tile_count
     frame_oam_tile    2,  -16, 0x010, 0x60
     frame_oam_tile    2,    0, 0x040, 0x60
     frame_oam_tile  -18,    0, 0x040, 0x20
     frame_oam_tile  -18,  -16, 0x010, 0x20
     .end
-animation_frame_C75173:
+spiderer_bomb_hatch_opening_frame_3:
     animation_frame_tile_count
     frame_oam_tile    3,  -16, 0x010, 0x60
     frame_oam_tile    3,    0, 0x040, 0x60
     frame_oam_tile  -19,    0, 0x040, 0x20
     frame_oam_tile  -19,  -16, 0x010, 0x20
     .end
-animation_frame_C75188:
+spiderer_bomb_hatch_opening_frame_4:
     animation_frame_tile_count
     frame_oam_tile    4,  -16, 0x010, 0x60
     frame_oam_tile    4,    0, 0x040, 0x60
     frame_oam_tile  -20,    0, 0x040, 0x20
     frame_oam_tile  -20,  -16, 0x010, 0x20
     .end
-animation_frame_C7519D:
+spiderer_bomb_hatch_opening_frame_5:
     animation_frame_tile_count
     frame_oam_tile    5,  -16, 0x010, 0x60
     frame_oam_tile    5,    0, 0x040, 0x60
     frame_oam_tile  -21,    0, 0x040, 0x20
     frame_oam_tile  -21,  -16, 0x010, 0x20
     .end
-animation_frame_C751B2:
+spiderer_bomb_hatch_opening_frame_6:
     animation_frame_tile_count
     frame_oam_tile    6,  -16, 0x010, 0x60
     frame_oam_tile    6,    0, 0x040, 0x60
     frame_oam_tile  -22,    0, 0x040, 0x20
     frame_oam_tile  -22,  -16, 0x010, 0x20
     .end
-animation_frame_C751C7:
+spiderer_bomb_hatch_opening_frame_7:
     animation_frame_tile_count
     frame_oam_tile    7,  -16, 0x010, 0x60
     frame_oam_tile    7,    0, 0x040, 0x60
     frame_oam_tile  -23,    0, 0x040, 0x20
     frame_oam_tile  -23,  -16, 0x010, 0x20
     .end
-animation_frame_C751DC:
+spiderer_bomb_hatch_opening_frame_8:
     animation_frame_tile_count
     frame_oam_tile    8,  -16, 0x010, 0x60
     frame_oam_tile    8,    0, 0x040, 0x60
     frame_oam_tile  -24,    0, 0x040, 0x20
     frame_oam_tile  -24,  -16, 0x010, 0x20
     .end
-animation_frame_C751F1:
+spiderer_stingers_frame_1:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x22
@@ -316,7 +316,7 @@ animation_frame_C751F1:
     frame_oam_tile  -33,  -32, 0x044, 0x22
     frame_oam_tile  -27,  -41, 0x026, 0x22
     .end
-animation_frame_C7522E:
+spiderer_stingers_frame_2:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x22
@@ -331,7 +331,7 @@ animation_frame_C7522E:
     frame_oam_tile  -33,  -32, 0x044, 0x22
     frame_oam_tile  -28,  -41, 0x026, 0x22
     .end
-animation_frame_C7526B:
+spiderer_stingers_frame_3:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x22
@@ -346,7 +346,7 @@ animation_frame_C7526B:
     frame_oam_tile  -34,  -32, 0x044, 0x22
     frame_oam_tile  -29,  -41, 0x026, 0x22
     .end
-animation_frame_C752A8:
+spiderer_stingers_frame_4:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x22
@@ -361,7 +361,7 @@ animation_frame_C752A8:
     frame_oam_tile  -36,  -32, 0x044, 0x22
     frame_oam_tile  -32,  -41, 0x026, 0x22
     .end
-animation_frame_C752E5:
+spiderer_stingers_frame_5:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x22
@@ -376,7 +376,7 @@ animation_frame_C752E5:
     frame_oam_tile  -39,  -32, 0x044, 0x22
     frame_oam_tile  -36,  -41, 0x026, 0x22
     .end
-animation_frame_C75322:
+spiderer_stingers_frame_6:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   13,  -10, 0x014, 0x22
@@ -391,7 +391,7 @@ animation_frame_C75322:
     frame_oam_tile  -40,  -32, 0x044, 0x22
     frame_oam_tile  -37,  -41, 0x026, 0x22
     .end
-animation_frame_C7535F:
+spiderer_stingers_frame_7:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   13,  -10, 0x014, 0x22
@@ -406,7 +406,7 @@ animation_frame_C7535F:
     frame_oam_tile  -40,  -33, 0x014, 0x22
     frame_oam_tile  -36,  -43, 0x026, 0x22
     .end
-animation_frame_C7539C:
+spiderer_stingers_frame_8:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   13,  -10, 0x014, 0x22
@@ -421,7 +421,7 @@ animation_frame_C7539C:
     frame_oam_tile  -38,  -33, 0x044, 0x62
     frame_oam_tile  -38,  -44, 0x062, 0x22
     .end
-animation_frame_C753D9:
+spiderer_stingers_frame_9:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   13,  -10, 0x014, 0x62
@@ -436,7 +436,7 @@ animation_frame_C753D9:
     frame_oam_tile  -41,  -33, 0x046, 0x62
     frame_oam_tile  -45,  -41, 0x032, 0x22
     .end
-animation_frame_C75416:
+spiderer_stingers_frame_10:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x62
@@ -451,7 +451,7 @@ animation_frame_C75416:
     frame_oam_tile  -45,  -30, 0x012, 0x62
     frame_oam_tile  -50,  -40, 0x062, 0x62
     .end
-animation_frame_C75453:
+spiderer_stingers_frame_11:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x62
@@ -466,7 +466,7 @@ animation_frame_C75453:
     frame_oam_tile  -45,  -30, 0x012, 0x62
     frame_oam_tile  -53,  -40, 0x026, 0x62
     .end
-animation_frame_C75490:
+spiderer_stingers_frame_12:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x62
@@ -481,7 +481,7 @@ animation_frame_C75490:
     frame_oam_tile  -45,  -30, 0x012, 0x62
     frame_oam_tile  -53,  -38, 0x030, 0x62
     .end
-animation_frame_C754CD:
+spiderer_stingers_frame_13:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   12,  -10, 0x014, 0x62
@@ -496,7 +496,7 @@ animation_frame_C754CD:
     frame_oam_tile  -45,  -30, 0x012, 0x62
     frame_oam_tile  -53,  -38, 0x030, 0x62
     .end
-animation_frame_C7550A:
+spiderer_stingers_frame_14:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile   11,  -10, 0x014, 0x62
@@ -511,7 +511,7 @@ animation_frame_C7550A:
     frame_oam_tile  -45,  -30, 0x012, 0x62
     frame_oam_tile  -53,  -38, 0x030, 0x62
     .end
-animation_frame_C75547:
+spiderer_stingers_frame_15:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile    9,  -10, 0x014, 0x62
@@ -526,7 +526,7 @@ animation_frame_C75547:
     frame_oam_tile  -44,  -30, 0x012, 0x62
     frame_oam_tile  -53,  -38, 0x030, 0x62
     .end
-animation_frame_C75584:
+spiderer_stingers_frame_16:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile    9,  -10, 0x014, 0x62
@@ -541,7 +541,7 @@ animation_frame_C75584:
     frame_oam_tile  -43,  -29, 0x012, 0x62
     frame_oam_tile  -53,  -33, 0x060, 0x62
     .end
-animation_frame_C755C1:
+spiderer_stingers_frame_17:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile    9,  -10, 0x014, 0x62
@@ -556,7 +556,7 @@ animation_frame_C755C1:
     frame_oam_tile  -41,  -29, 0x012, 0x62
     frame_oam_tile  -51,  -33, 0x060, 0x62
     .end
-animation_frame_C755FE:
+spiderer_stingers_frame_18:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile    9,  -10, 0x014, 0x62
@@ -571,7 +571,7 @@ animation_frame_C755FE:
     frame_oam_tile  -39,  -29, 0x012, 0x62
     frame_oam_tile  -49,  -33, 0x060, 0x62
     .end
-animation_frame_C7563B:
+spiderer_stingers_frame_19:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile    9,  -10, 0x014, 0x62
@@ -586,7 +586,7 @@ animation_frame_C7563B:
     frame_oam_tile  -39,  -30, 0x012, 0x62
     frame_oam_tile  -48,  -39, 0x030, 0x62
     .end
-animation_frame_C75678:
+spiderer_stingers_frame_20:
     animation_frame_tile_count
     frame_oam_tile   10,   -1, 0x016, 0x62
     frame_oam_tile    9,  -10, 0x014, 0x62
@@ -601,132 +601,133 @@ animation_frame_C75678:
     frame_oam_tile  -36,  -31, 0x046, 0x62
     frame_oam_tile  -46,  -41, 0x026, 0x62
     .end
-animation_frame_C756B5:
+uiteru_v_poison_bonus_frame_1:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x090, 0x20
     .end
-animation_frame_C756BB:
+uiteru_v_poison_bonus_frame_2:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x092, 0x20
     .end
-animation_frame_C756C1:
+uiteru_v_punch_bonus_frame_1:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x094, 0x20
     .end
-animation_frame_C756C7:
+uiteru_v_punch_bonus_frame_2:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x096, 0x20
     .end
-animation_frame_C756CD:
+uiteru_v_shadow_frame:
     animation_frame_tile_count
     frame_oam_tile    0,   -8, 0x056, 0x60
     frame_oam_tile  -16,   -8, 0x056, 0x20
     .end
-animation_frame_C756D8:
-    db 0
+uiteru_v_shadow_blank_frame:
+   animation_frame_tile_count
+   .end
 spiderer_legs_animation:
     animation_frame_count
-    animation_frame animation_frame_C74DD6, 8
-    animation_frame animation_frame_C74E6D, 8
-    animation_frame animation_frame_C74F0E, 8
-    animation_frame animation_frame_C74FAF, 8
-    animation_frame animation_frame_C75050, 8
+    animation_frame spiderer_legs_frame_1, 8
+    animation_frame spiderer_legs_frame_2, 8
+    animation_frame spiderer_legs_frame_3, 8
+    animation_frame spiderer_legs_frame_4, 8
+    animation_frame spiderer_legs_frame_5, 8
     .end
 spiderer_eye_open_animation:
     animation_frame_count
-    animation_frame animation_frame_C750E7, 0xFF
+    animation_frame spiderer_eye_open_frame, 0xFF
     .end
 spiderer_eye_close_lid_animation:
     animation_frame_count
-    animation_frame animation_frame_C750F2, 3
-    animation_frame animation_frame_C750FD, 3
-    animation_frame animation_frame_C75108, 3
-    animation_frame animation_frame_C75113, 3
-    animation_frame animation_frame_C7511E, 3
+    animation_frame spiderer_eye_opening_frame_1, 3
+    animation_frame spiderer_eye_opening_frame_2, 3
+    animation_frame spiderer_eye_opening_frame_3, 3
+    animation_frame spiderer_eye_opening_frame_4, 3
+    animation_frame spiderer_eye_opening_frame_5, 3
     .end
 spiderer_eye_closed_animation:
     animation_frame_count
-    animation_frame animation_frame_C75129, 0xFF
+    animation_frame spiderer_eye_closed_frame, 0xFF
     .end
 spiderer_eye_open_lid_animation:
     animation_frame_count
-    animation_frame animation_frame_C7511E, 3
-    animation_frame animation_frame_C75113, 3
-    animation_frame animation_frame_C75108, 3
-    animation_frame animation_frame_C750FD, 3
-    animation_frame animation_frame_C750F2, 3
+    animation_frame spiderer_eye_opening_frame_5, 3
+    animation_frame spiderer_eye_opening_frame_4, 3
+    animation_frame spiderer_eye_opening_frame_3, 3
+    animation_frame spiderer_eye_opening_frame_2, 3
+    animation_frame spiderer_eye_opening_frame_1, 3
     .end
-spiderer_bomb_hatch_idle_animation:
+spiderer_bomb_hatch_closed_animation:
     animation_frame_count
-    animation_frame animation_frame_C75134, 0xFF
+    animation_frame spiderer_bomb_hatch_closed_frame, 0xFF
     .end
 spiderer_bomb_hatch_open_animation:
     animation_frame_count
-    animation_frame animation_frame_C75149, 3
-    animation_frame animation_frame_C7515E, 3
-    animation_frame animation_frame_C75173, 3
-    animation_frame animation_frame_C75188, 3
-    animation_frame animation_frame_C7519D, 3
-    animation_frame animation_frame_C751B2, 3
-    animation_frame animation_frame_C751C7, 3
-    animation_frame animation_frame_C751DC, 3
-    animation_frame animation_frame_C751C7, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_1, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_2, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_3, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_4, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_5, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_6, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_7, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_8, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_7, 3
     .end
 spiderer_bomb_hatch_opened_animation:
     animation_frame_count
-    animation_frame animation_frame_C751DC, 0xFF
+    animation_frame spiderer_bomb_hatch_opening_frame_8, 0xFF
     .end
 spiderer_bomb_hatch_close_animation:
     animation_frame_count
-    animation_frame animation_frame_C751C7, 3
-    animation_frame animation_frame_C751B2, 3
-    animation_frame animation_frame_C7519D, 3
-    animation_frame animation_frame_C75188, 3
-    animation_frame animation_frame_C75173, 3
-    animation_frame animation_frame_C7515E, 3
-    animation_frame animation_frame_C75149, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_7, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_6, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_5, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_4, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_3, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_2, 3
+    animation_frame spiderer_bomb_hatch_opening_frame_1, 3
     .end
 spiderer_stingers_animation:
     animation_frame_count
-    animation_frame animation_frame_C751F1, 0xD
-    animation_frame animation_frame_C7522E, 0xA
-    animation_frame animation_frame_C7526B, 8
-    animation_frame animation_frame_C752A8, 7
-    animation_frame animation_frame_C752E5, 5
-    animation_frame animation_frame_C75322, 3
-    animation_frame animation_frame_C7535F, 3
-    animation_frame animation_frame_C7539C, 3
-    animation_frame animation_frame_C753D9, 3
-    animation_frame animation_frame_C75416, 3
-    animation_frame animation_frame_C75453, 5
-    animation_frame animation_frame_C75490, 8
-    animation_frame animation_frame_C754CD, 0xA
-    animation_frame animation_frame_C7550A, 0xB
-    animation_frame animation_frame_C75547, 8
-    animation_frame animation_frame_C75584, 7
-    animation_frame animation_frame_C755C1, 6
-    animation_frame animation_frame_C755FE, 5
-    animation_frame animation_frame_C7563B, 3
-    animation_frame animation_frame_C75678, 3
+    animation_frame spiderer_stingers_frame_1,  13
+    animation_frame spiderer_stingers_frame_2,  10
+    animation_frame spiderer_stingers_frame_3,  8
+    animation_frame spiderer_stingers_frame_4,  7
+    animation_frame spiderer_stingers_frame_5,  5
+    animation_frame spiderer_stingers_frame_6,  3
+    animation_frame spiderer_stingers_frame_7,  3
+    animation_frame spiderer_stingers_frame_8,  3
+    animation_frame spiderer_stingers_frame_9,  3
+    animation_frame spiderer_stingers_frame_10, 3
+    animation_frame spiderer_stingers_frame_11, 5
+    animation_frame spiderer_stingers_frame_12, 8
+    animation_frame spiderer_stingers_frame_13, 10
+    animation_frame spiderer_stingers_frame_14, 11
+    animation_frame spiderer_stingers_frame_15, 8
+    animation_frame spiderer_stingers_frame_16, 7
+    animation_frame spiderer_stingers_frame_17, 6
+    animation_frame spiderer_stingers_frame_18, 5
+    animation_frame spiderer_stingers_frame_19, 3
+    animation_frame spiderer_stingers_frame_20, 3
     .end
-unused_animation_frame_17:
+spiderer_legs_unused_idle_animation:
     animation_frame_count
-    animation_frame animation_frame_C74D3F, 0xFF
+    animation_frame spiderer_legs_unused_frame, 0xFF
     .end
-byte_C757C4:
+uiteru_v_poison_bonus_animation:
     animation_frame_count
-    animation_frame animation_frame_C756B5, 2
-    animation_frame animation_frame_C756BB, 2
+    animation_frame uiteru_v_poison_bonus_frame_1, 2
+    animation_frame uiteru_v_poison_bonus_frame_2, 2
     .end
-unused_animation_frame_18:
+uiteru_v_punch_bonus_animation:
     animation_frame_count
-    animation_frame animation_frame_C756C1, 2
-    animation_frame animation_frame_C756C7, 2
+    animation_frame uiteru_v_punch_bonus_frame_1, 2
+    animation_frame uiteru_v_punch_bonus_frame_2, 2
     .end
-byte_C757D6:
+uiteru_v_shadow_animation:
     animation_frame_count
-    animation_frame animation_frame_C756CD, 1
-    animation_frame animation_frame_C756D8, 1
+    animation_frame uiteru_v_shadow_frame, 1
+    animation_frame uiteru_v_shadow_blank_frame, 1
     .end
 
 struct spiderer
@@ -1237,7 +1238,7 @@ struct spiderer_bomb_hatch
     ds 2
 .bombs_to_launch
     ds 2
-.launched_bombs_remaining
+.launched_bombs_remaining ; Same offset as player.current_bomb_count so it's decreased when a bomb explodes
     ds 2
     org 0x30
 .death_countdown
@@ -1367,7 +1368,7 @@ spiderer_create_bomb_hatch:
 
 spiderer_bomb_hatch:
     REP #0x20
-    start_animation #addr(spiderer_bomb_hatch_idle_animation)
+    start_animation #addr(spiderer_bomb_hatch_closed_animation)
     set_handler .main
 
 .main
@@ -1447,7 +1448,7 @@ i16
     STA z:spiderer_bomb_hatch.countdown, X
     LDY #SOUND_PUNCH_BOMB
     JSL play_sound
-    JSL spiderer_create_launch_bomb
+    JSL spiderer_create_launch_bomb ; In bank 4
     REP #0x20
     DEC z:spiderer_bomb_hatch.bombs_to_launch, X
     BEQ +
@@ -1469,7 +1470,7 @@ i16
     LDY z:spiderer_bomb_hatch.spiderer, X
     LDA #1
     STA a:spiderer.eye_closed, Y ; Done launching, signal the eye to close
-    start_animation #addr(spiderer_bomb_hatch_idle_animation)
+    start_animation #addr(spiderer_bomb_hatch_closed_animation)
     set_handler .wait_for_explosions
 
 .wait_for_explosions:

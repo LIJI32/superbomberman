@@ -3608,7 +3608,7 @@ i16
 
 .loc_C53FE7:
     LDA a:0, Y
-    CMP #addr(sub_C44DA9)
+    CMP #addr(bomb_handler)
     BNE .loc_C54013
     LDA a:0xA, Y
     CMP z:0x50

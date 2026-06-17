@@ -269,82 +269,68 @@ explosion_animation:
     da explosion_tiles
     dw 1
     da explosion_tiles+0x5A
-byte_C3047E:
-    db 0xF0, 0x20, 3, 0x24, 0x24
-byte_C30483:
-    db 0xF0, 0x20, 3, 0x26, 0x24
-byte_C30488:
-    db 0xF0, 0x20, 0xE, 0x22, 0x24
-byte_C3048D:
-    db 0xF0, 0x20, 0xE, 0x24, 0x24
-byte_C30492:
-    db 0xF0, 0x20, 0xE, 0x26, 0x24
-byte_C30497:
-    db 0xF0, 0x20, 0xE, 0x22, 0x26
-byte_C3049C:
-    db 0xF0, 0x20, 0xE, 0x24, 0x26
-byte_C304A1:
-    db 0xF0, 0x20, 0xE, 0x26, 0x26
-byte_C304A6:
-    db 0xF0, 0x20, 3, 0x24, 0x26
-byte_C304AB:
-    db 0xF0, 0x20, 3, 0x26, 0x26
-byte_C304B0:
-    db 0xF0, 0x20, 0xE, 0x22, 0x34
-byte_C304B5:
-    db 0xF0, 0x20, 0xE, 0x24, 0x34
-byte_C304BA:
-    db 0xF0, 0x20, 0xE, 0x26, 0x34
-off_C304BF:
-    da byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488
-    da byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488, byte_C30488
-    da byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D
-    da byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D
-    da byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492
-    da byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492, byte_C30492
-    da byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D
-    da byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D, byte_C3048D
-    da byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E
-    da byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E
-    da byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483
-    da byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483
-    da byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E
-    da byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E, byte_C3047E
-    da byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483
-    da byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483, byte_C30483
-    da byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497
-    da byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497, byte_C30497
-    da byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C
-    da byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C
-    da byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1
-    da byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1, byte_C304A1
-    da byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C
-    da byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C, byte_C3049C
-    da byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6
-    da byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6
-    da byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB
-    da byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB
-    da byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6
-    da byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6, byte_C304A6
-    da byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB
-    da byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB, byte_C304AB
-    da byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0
-    da byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0, byte_C304B0
-    da byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5
-    da byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5
-    da byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA
-    da byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA, byte_C304BA
-    da byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5
-    da byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5, byte_C304B5
-word_C3073F:
-    dw 0xF900, 0x6E
-    dw 0xF900, 0x76
-    dw 0xF900, 0x7E
-    dw 0xF900, 0x87
-    dw 0xF900, 0x6E
-    dw 0xF900, 0x66
-    dw 0xF900, 0x5E
-    dw 0xF900, 0x56
+remocon_oam_object_1:
+    frame_oam_tile -16, 32, 0x74, 0x24
+remocon_oam_object_2:
+    frame_oam_tile -16, 32, 0x76, 0x24
+bomb_oam_object_1:
+    frame_oam_tile -16, 32, 0x1d2, 0x24
+bomb_oam_object_2:
+    frame_oam_tile -16, 32, 0x1d4, 0x24
+bomb_oam_object_3:
+    frame_oam_tile -16, 32, 0x1d6, 0x24
+red_bomb_oam_object_1:
+    frame_oam_tile -16, 32, 0x1d2, 0x26
+red_bomb_oam_object_2:
+    frame_oam_tile -16, 32, 0x1d4, 0x26
+red_bomb_oam_object_3:
+    frame_oam_tile -16, 32, 0x1d6, 0x26
+red_remocon_oam_object_1:
+    frame_oam_tile -16, 32, 0x74, 0x26
+red_remocon_oam_object_2:
+    frame_oam_tile -16, 32, 0x76, 0x26
+bomb_priority_oam_object_1:
+    frame_oam_tile -16, 32, 0x1d2, 0x34
+bomb_priority_oam_object_2:
+    frame_oam_tile -16, 32, 0x1d4, 0x34
+bomb_priority_oam_object_3:
+    frame_oam_tile -16, 32, 0x1d6, 0x34
+    
+macro bomb_frame object
+rept 16
+    da $object
+endr
+endmacro
+
+macro bomb_animation a, b, c
+    bomb_frame $a
+    bomb_frame $b
+    bomb_frame $c
+    bomb_frame $b
+endmacro
+
+bomb_oam_animation:
+    bomb_animation bomb_oam_object_1, bomb_oam_object_2, bomb_oam_object_3
+    bomb_animation remocon_oam_object_1, remocon_oam_object_2, remocon_oam_object_1
+    bomb_animation red_bomb_oam_object_1, red_bomb_oam_object_2, red_bomb_oam_object_3
+    bomb_animation red_remocon_oam_object_1, red_remocon_oam_object_2, red_remocon_oam_object_1
+bomb_priority_oam_animation:
+    bomb_animation bomb_priority_oam_object_1, bomb_priority_oam_object_2, bomb_priority_oam_object_3
+    
+launched_bomb_arc_arguments:
+    ; Pairs of initial velocities and acceleration needed to reach the target delta
+    ; The values actually used are quite off by the correct values, which should be
+    ; determined by this formula. Maybe they were guesstimated?
+    ; a = (delta * 0x1000 + 0x700 * 32) / (16 * 33)
+    dw -0x700, 0x6E ; + 0
+    dw -0x700, 0x76 ; + 1
+    dw -0x700, 0x7E ; + 2
+    dw -0x700, 0x87 ; + 3
+    dw -0x700, 0x6E ; - 0
+    dw -0x700, 0x66 ; - 1
+    dw -0x700, 0x5E ; - 2
+    dw -0x700, 0x56 ; - 3
+
 byte_C3075F:
     db 0x00, 0xFA, 0x50, 0x00, 0x00, 0x00, 0x18, 0x00
     db 0x00, 0xFC, 0x70, 0x00, 0x00, 0x03, 0x11, 0x00

@@ -36,6 +36,13 @@ macro create_object handler
     JSL create_object
 endmacro
 
+macro create_small_object handler
+    REP #0x20
+    LDA #addr($handler)
+    STA z:0x40
+    JSL create_small_object
+endmacro
+
 macro set_handler handler
     REP #0x20
     LDA #addr($handler)

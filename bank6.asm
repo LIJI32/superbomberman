@@ -2221,7 +2221,7 @@ i16
 
 .loc_C6130F:
     LDA z:0, X
-    CMP #addr(sub_C44DA9)
+    CMP #addr(bomb_handler)
     BNE .loc_C61324
     SEP #0x20
     LDA #8
@@ -5089,17 +5089,21 @@ sub_C62781:
     DEC z:0x56
     JML load_animation_frame.loc_C626FF
 
-sub_C6278B:
+render_bomb_sprite:
+    .X = 0x42
+    .Y = 0x45
+    .FLAGS = 0x48
+    .OAM_DATA = 0x50
 i16
     SEP #0x20
     LDA a:addr(byte_7E0309)
     BIT #0xC0
     BEQ .loc_C627A2
     BIT #0x80
-    BEQ .loc_C6279C
+    BEQ +
     JML .loc_C6280B
++
 
-.loc_C6279C:
     EOR #1
     STA a:addr(byte_7E0309)
     RTL
@@ -5107,25 +5111,25 @@ i16
 .loc_C627A2:
     LDA a:addr(ptr_7E0306)
     STA z:0x56
-    LDA a:addr(ptr_7E0306+1)
+    LDA a:addr(ptr_7E0306 + 1)
     STA z:0x57
     LDA a:addr(ptr_7E0306 + 2)
     STA z:0x58
     LDA #0xF0
     CLC
-    ADC z:0x42
+    ADC z:.X
     STA f:[z:0x56]
     INC z:0x56
     LDA #0x10
     CLC
-    ADC z:0x45
+    ADC z:.Y
     STA f:[z:0x56]
     INC z:0x56
     LDY #2
     LDA #0
     STA z:0x47
     XBA
-    LDA f:[z:0x50], Y
+    LDA f:[z:.OAM_DATA], Y
     PHX
     TAX
     BIT #8
@@ -5136,13 +5140,13 @@ i16
     LDA f:byte_C307D7+0x58, X
     PLX
     LDY #3
-    ORA f:[z:0x50], Y
+    ORA f:[z:.OAM_DATA], Y
     STA f:[z:0x56]
     INC z:0x56
     INY
-    LDA f:[z:0x50], Y
+    LDA f:[z:.OAM_DATA], Y
     AND #0xF
-    ORA z:0x48
+    ORA z:.FLAGS
     ORA z:0x47
     STA f:[z:0x56]
     LDA #2
@@ -5152,13 +5156,13 @@ i16
     CLC
     ADC #4
     STA a:addr(ptr_7E0306)
-    BNE .locret_C6280A
+    BNE .ret
     LDA a:addr(ptr_7E0306+1)
     BIT #1
     BNE .loc_C6280B
     INC a:addr(ptr_7E0306+1)
 
-.locret_C6280A:
+.ret:
     RTL
 
 .loc_C6280B:

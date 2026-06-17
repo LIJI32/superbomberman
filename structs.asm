@@ -480,3 +480,62 @@ org 0x30
     ds 4
 org 0x40
 endstruct
+
+; These live on their own heap and are only 0x20 bytes long rather than 0x64
+struct bomb_object
+.handler
+    ds 2 ; Bank is assumed to be C4
+.association ; bits 1-2: player index, bits 4-6: running index, other bits unknown
+    ds 1
+.countdown
+    ds 1
+.prev
+    ds 2
+.next
+    ds 2
+.player
+    ds 2 ; Pointer to the player struct
+.tile_index
+    ds 2
+.range_and_flags
+    ds 1
+    ds 1 ; padding?
+.punch_direction
+    ds 1
+.punch_arc_counter
+    ds 1
+.fractional_x
+    ds 1
+.x_position
+    ds 2
+.fractional_y
+    ds 1
+.y_position
+    ds 2
+.target_x ; Launched bombs
+; Todo: different use normally
+    ds 1
+.target_y
+    ds 1
+.y_accel
+    ds 2
+.x_velocity
+    ds 1
+    ds 1 ; padding
+.running_index ; Normally
+.y_velocity ; Launched bombs
+    ds 2
+.flight_countdown ; Launched bombs
+; Todo: different use normally
+    ds 2
+org 0x20
+endstruct
+
+BOMB_FLAGS_UNKNOWN = 0x10
+BOMB_FLAGS_UNKNOWN_2 = 0x20
+BOMB_FLAGS_REMOCON = 0x40
+BOMB_FLAGS_RED = 0x80
+
+; TODO: Up and down?
+BOMB_PUNCH_DIRECTION_RIGHT = 0x08
+BOMB_PUNCH_DIRECTION_LEFT = 0x18
