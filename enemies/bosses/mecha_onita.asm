@@ -754,7 +754,7 @@ mecha_onita_ghost:
     BEQ .delete
 +
 
-    ; Render with Y=1? This is weird
+    ; Render with Y=1 to force lower priority
     LDA z:mecha_onita_ghost.y_position, X
     PHA
     LDA #1

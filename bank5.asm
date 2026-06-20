@@ -8708,7 +8708,7 @@ i16
     REP #0x20
     LDA #0x90
     STA z:0x40
-    JSL sub_C7724D
+    JSL create_crumble_sound_loop
     ; fallthrough
 
 sub_C574A0:
@@ -9241,7 +9241,7 @@ off_C579E9:
     db 0x30, 0, 0, 0
     db 0, 0, 0, 0
     db 0, 0
-    da off_C71F6D
+    da caret_diamond_animations
     db 0xC7
     db 0
     da sub_C57B11
@@ -9252,7 +9252,7 @@ off_C579E9:
     db 0x30, 0, 0, 0
     db 0, 0, 0, 0
     db 0, 0
-    da off_C71F3D
+    da mook_animations
     db 0xC7
     db 0
     da sub_C57B11

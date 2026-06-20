@@ -4474,7 +4474,7 @@ try_drop_bomb:
     JSL drop_bomb
     JMP a:handle_player_movement.loc_C412EE
 
-sub_C4245D:
+delete_all_bombs:
 i16
     REP #0x20
     LDX #addr(gameover_related_object)
@@ -4491,7 +4491,7 @@ i16
 
 .loc_C42473:
     set_handler sub_C42506
-    BRA sub_C4245D
+    BRA delete_all_bombs
 
 .locret_C42482:
     RTL
@@ -4839,7 +4839,7 @@ i16
 .locret_C4273E:
     RTL
 
-sub_C4273F:
+player_uiteru_v_victory_scene_handler:
     REP #0x20
     LDA #0x80
     STA z:0x32, X
@@ -11624,41 +11624,48 @@ sub_C45ADB:
     SEP #0x20
     RTL
 
-sub_C45B9A:
+; Finds the bomb at tile index Y in the bomb object linked list, and force-detonates it
+; by setting its countdown to 8 and marking it with BOMB_FLAGS_UNKNOWN.
+; Also copies the association byte from the caller's object (X) to the bomb,
+; unless the two objects differ in bit 2 of their association bytes.
+; Input: Y = tile_index to find
+;        X = caller object (offset 2 read as association)
+force_detonate_bomb_at_tile:
+    .TILE_INDEX = 0x56
 i16
     REP #0x20
-    STY z:0x56
-    LDY #0x1C80
+    STY z:.TILE_INDEX
+    LDY #0x1C80                 ; start of bomb object linked list (unknown_static_small_object)
 
-.loc_C45BA1:
-    LDA a:0xC, Y
-    BIT #0x10
-    BNE .loc_C45BD0
-    LDA a:0xA, Y
-    CMP z:0x56
-    BNE .loc_C45BD0
+.search:
+    LDA a:bomb_object.range_and_flags, Y
+    BIT #BOMB_FLAGS_UNKNOWN     ; already being detonated?
+    BNE .next
+    LDA a:bomb_object.tile_index, Y
+    CMP z:.TILE_INDEX           ; is this the bomb at our tile?
+    BNE .next
     SEP #0x20
     LDA #8
-    STA a:3, Y
-    LDA a:0xC, Y
-    ORA #0x10
-    STA a:0xC, Y
-    LDA z:2,X
-    EOR a:2, Y
-    AND #4
-    BNE .loc_C45BCD
-    LDA z:2,X
-    STA a:2, Y
+    STA a:bomb_object.countdown, Y
+    LDA a:bomb_object.range_and_flags, Y
+    ORA #BOMB_FLAGS_UNKNOWN     ; mark as being detonated
+    STA a:bomb_object.range_and_flags, Y
+    LDA z:2, X                  ; caller's association byte
+    EOR a:bomb_object.association, Y
+    AND #4                      ; check if bit 2 differs
+    BNE .done                   ; if so, don't overwrite association
+    LDA z:2, X
+    STA a:bomb_object.association, Y
 
-.loc_C45BCD:
+.done:
     REP #0x20
     RTL
 
-.loc_C45BD0:
-    LDA a:6, Y
+.next:
+    LDA a:bomb_object.next, Y
     TAY
     INC A
-    BNE .loc_C45BA1
+    BNE .search
     RTL
 
     REP #0x20
@@ -11739,7 +11746,7 @@ sub_C45BDA:
     RTS
 
 .loc_C45C5C:
-    JSL sub_C45B9A
+    JSL force_detonate_bomb_at_tile
     CLC
     RTS
 
@@ -12749,7 +12756,7 @@ sub_C463DE:
     JML null_versus_initializer
 
 .loc_C464B2:
-    JSL sub_C4245D
+    JSL delete_all_bombs
     REP #0x20
     LDA #addr(.loc_C464C6)
     STA a:addr(level_manager_object+object.handler)
@@ -15314,6 +15321,7 @@ sub_C47A8D:
     RTL
 
 tilemap_decompression:
+    .SOURCE = 0x53 ; Argument: far pointer to source data
 i16
     SEP #0x20
     LDA z:0x53 + 2

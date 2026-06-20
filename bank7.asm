@@ -953,7 +953,7 @@ off_C71F25:
     dw 0
     dw 0
     dw 0
-off_C71F3D:
+mook_animations:
     dw 0
     da byte_C70D61
     da byte_C70D50
@@ -979,7 +979,7 @@ off_C71F55:
     dw 0
     dw 0
     dw 0
-off_C71F6D:
+caret_diamond_animations:
     dw 0
     da byte_C70FED
     da byte_C7100F
