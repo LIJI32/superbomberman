@@ -2221,7 +2221,7 @@ i16
 
 .loc_C6130F:
     LDA z:0, X
-    CMP #addr(sub_C44DA9)
+    CMP #addr(bomb_handler)
     BNE .loc_C61324
     SEP #0x20
     LDA #8
@@ -5041,17 +5041,21 @@ sub_C62781:
     DEC z:0x56
     JML load_animation_frame.loc_C626FF
 
-sub_C6278B:
+render_bomb_sprite:
+    .X = 0x42
+    .Y = 0x45
+    .FLAGS = 0x48
+    .OAM_DATA = 0x50
 i16
     SEP #0x20
     LDA a:addr(byte_7E0309)
     BIT #0xC0
     BEQ .loc_C627A2
     BIT #0x80
-    BEQ .loc_C6279C
+    BEQ +
     JML .loc_C6280B
++
 
-.loc_C6279C:
     EOR #1
     STA a:addr(byte_7E0309)
     RTL
@@ -5059,25 +5063,25 @@ i16
 .loc_C627A2:
     LDA a:addr(ptr_7E0306)
     STA z:0x56
-    LDA a:addr(ptr_7E0306+1)
+    LDA a:addr(ptr_7E0306 + 1)
     STA z:0x57
     LDA a:addr(ptr_7E0306 + 2)
     STA z:0x58
     LDA #0xF0
     CLC
-    ADC z:0x42
+    ADC z:.X
     STA f:[z:0x56]
     INC z:0x56
     LDA #0x10
     CLC
-    ADC z:0x45
+    ADC z:.Y
     STA f:[z:0x56]
     INC z:0x56
     LDY #2
     LDA #0
     STA z:0x47
     XBA
-    LDA f:[z:0x50], Y
+    LDA f:[z:.OAM_DATA], Y
     PHX
     TAX
     BIT #8
@@ -5088,13 +5092,13 @@ i16
     LDA f:byte_C307D7+0x58, X
     PLX
     LDY #3
-    ORA f:[z:0x50], Y
+    ORA f:[z:.OAM_DATA], Y
     STA f:[z:0x56]
     INC z:0x56
     INY
-    LDA f:[z:0x50], Y
+    LDA f:[z:.OAM_DATA], Y
     AND #0xF
-    ORA z:0x48
+    ORA z:.FLAGS
     ORA z:0x47
     STA f:[z:0x56]
     LDA #2
@@ -5104,13 +5108,13 @@ i16
     CLC
     ADC #4
     STA a:addr(ptr_7E0306)
-    BNE .locret_C6280A
+    BNE .ret
     LDA a:addr(ptr_7E0306+1)
     BIT #1
     BNE .loc_C6280B
     INC a:addr(ptr_7E0306+1)
 
-.locret_C6280A:
+.ret:
     RTL
 
 .loc_C6280B:
@@ -6094,6 +6098,7 @@ sub_C631C1:
     RTL
     
 create_boss_exploisions:
+    .ARGS_PTR = 0x50 ; Argument: far pointer to explosion args array
     SEP #0x20
     create_object boss_exploisions
     BCC .loc_C631F3
@@ -7602,179 +7607,194 @@ is_in_line_of_sight:
     CLC
     RTL
 
-sub_C63BF9:
+; Returns a 16-sector compass direction (0=N, 4=E, 8=S, 0xC=W, clockwise) from boss to player.
+; X = boss object index, Y = player object index
+uiteru_v_calc_player_angle:
+    .ADJUSTED_BOSS_X = 0x48
+    .ADJUSTED_BOSS_Y = 0x4A
+    .ADJUSTED_PLAYER_X = 0x4C
+    .ADJUSTED_PLAYER_Y = 0x4E
+    .DELTA = 0x46 ; |dx| or |dy| for diagonal sector classification
     REP #0x20
-    LDA z:0x11, X
+    LDA z:uiteru_v.x_position, X
     CLC
     ADC #0x200
-    STA z:0x48
-    LDA z:0x14, X
+    STA z:.ADJUSTED_BOSS_X
+    LDA z:uiteru_v.y_position, X
     CLC
     ADC #0x200
-    STA z:0x4A
-    LDA a:0x11, Y
+    STA z:.ADJUSTED_BOSS_Y
+    LDA a:player.x_position, Y
     AND #0xFF
     CLC
     ADC #0x200
-    STA z:0x4C
-    LDA a:0x14, Y
+    STA z:.ADJUSTED_PLAYER_X
+    LDA a:player.y_position, Y
     CLC
     ADC #0x200
-    STA z:0x4E
-    LDA z:0x4A
+    STA z:.ADJUSTED_PLAYER_Y
+    
+    ; Check vertical position: is player above, ~same row, or below?
+    LDA z:.ADJUSTED_BOSS_Y
     SEC
     SBC #6
-    CMP z:0x4E
-    BCS .loc_C63C44
+    CMP z:.ADJUSTED_PLAYER_Y
+    BCS .player_above
     CLC
-    ADC #0xC
-    CMP z:0x4E
-    BCS .loc_C63C36
-    JML .loc_C63CAA
+    ADC #12
+    CMP z:.ADJUSTED_PLAYER_Y
+    BCS .same_row
+    JML .player_below
 
-.loc_C63C36:
-    LDA z:0x48
-    CMP z:0x4C
-    BCC .loc_C63C40
-    LDA #0xC
+.same_row:
+    LDA z:.ADJUSTED_BOSS_X
+    CMP z:.ADJUSTED_PLAYER_X
+    BCC +
+    LDA #UITERU_V_ANGLE_W
+    RTL
++
+    LDA #UITERU_V_ANGLE_E
     RTL
 
-.loc_C63C40:
-    LDA #4
-    RTL
-
-.loc_C63C44:
-    LDA z:0x48
-    CLC
-    ADC #6
-    CMP z:0x4C
-    BCC .loc_C63C5A
-    SEC
-    SBC #0xC
-    CMP z:0x4C
-    BCS .loc_C63C82
-    LDA #0
-    RTL
-
-.loc_C63C5A:
-    LDA z:0x4C
-    SEC
-    SBC z:0x48
-    STA z:0x46
-    LDA z:0x4A
-    SEC
-    SBC z:0x4E
-    SEC
-    SBC z:0x46
-    BCC .loc_C63C74
-    CMP #0x18
-    BCC .loc_C63C7E
-    LDA #1
-    RTL
-
-.loc_C63C74:
-    CLC
-    ADC #0x20
-    BCS .loc_C63C7E
-    LDA #3
-    RTL
-
-.loc_C63C7E:
-    LDA #2
-    RTL
-
-.loc_C63C82:
-    LDA z:0x48
-    SEC
-    SBC z:0x4C
-    STA z:0x46
-    LDA z:0x4A
-    SEC
-    SBC z:0x4E
-    SEC
-    SBC z:0x46
-    BCC .loc_C63C9C
-    CMP #0x18
-    BCC .loc_C63CA6
-    LDA #0xF
-    RTL
-
-.loc_C63C9C:
-    CLC
-    ADC #0x20
-    BCS .loc_C63CA6
-    LDA #0xD
-    RTL
-
-.loc_C63CA6:
-    LDA #0xE
-    RTL
-
-.loc_C63CAA:
-    LDA z:0x48
+.player_above:
+    ; Check if player is left, ~same column, or right of boss
+    LDA z:.ADJUSTED_BOSS_X
     CLC
     ADC #6
-    CMP z:0x4C
-    BCC .loc_C63CC0
+    CMP z:.ADJUSTED_PLAYER_X
+    BCC .above_right
     SEC
-    SBC #0xC
-    CMP z:0x4C
-    BCS .loc_C63CDA
-    LDA #8
+    SBC #12
+    CMP z:.ADJUSTED_PLAYER_X
+    BCS .above_left
+    LDA #UITERU_V_ANGLE_N
     RTL
 
-.loc_C63CC0:
-    LDA z:0x4C
+.above_right:
+
+    ; Classify diagonal: compare |dy| vs |dx|
+    LDA z:.ADJUSTED_PLAYER_X
     SEC
-    SBC z:0x48
-    STA z:0x46
-    LDA z:0x4E
+    SBC z:.ADJUSTED_BOSS_X
+    STA z:.DELTA
+    LDA z:.ADJUSTED_BOSS_Y
     SEC
-    SBC z:0x4A
+    SBC z:.ADJUSTED_PLAYER_Y
     SEC
-    SBC z:0x46
-    BCC .loc_C63D02
-    CMP #0x18
-    BCC .loc_C63D0C
-    LDA #7
+    SBC z:.DELTA
+    BCC .above_right_shallow ; |dy| < |dx|: more east than north
+    CMP #24
+    BCC .above_right_diagonal
+    LDA #UITERU_V_ANGLE_NNE
     RTL
 
-.loc_C63CDA:
-    LDA z:0x48
-    SEC
-    SBC z:0x4C
-    STA z:0x46
-    LDA z:0x4E
-    SEC
-    SBC z:0x4A
-    SEC
-    SBC z:0x46
-    BCC .loc_C63CF4
-    CMP #0x18
-    BCC .loc_C63CFE
-    LDA #9
-    RTL
-
-.loc_C63CF4:
+.above_right_shallow:
     CLC
-    ADC #0x20
-    BCS .loc_C63CFE
-    LDA #0xB
+    ADC #32
+    BCS .above_right_diagonal
+    LDA #UITERU_V_ANGLE_ENE
     RTL
 
-.loc_C63CFE:
-    LDA #0xA
+.above_right_diagonal:
+    LDA #UITERU_V_ANGLE_NE
     RTL
 
-.loc_C63D02:
+.above_left:
+    ; Classify diagonal: compare |dy| vs |dx|
+    LDA z:.ADJUSTED_BOSS_X
+    SEC
+    SBC z:.ADJUSTED_PLAYER_X
+    STA z:.DELTA
+    LDA z:.ADJUSTED_BOSS_Y
+    SEC
+    SBC z:.ADJUSTED_PLAYER_Y
+    SEC
+    SBC z:.DELTA
+    BCC .above_left_shallow ; |dy| < |dx|: more west than north
+    CMP #24
+    BCC .above_left_diagonal
+    LDA #UITERU_V_ANGLE_NNW
+    RTL
+
+.above_left_shallow:
     CLC
-    ADC #0x20
-    BCS .loc_C63D0C
-    LDA #5
+    ADC #32
+    BCS .above_left_diagonal
+    LDA #UITERU_V_ANGLE_WNW
     RTL
 
-.loc_C63D0C:
-    LDA #6
+.above_left_diagonal:
+    LDA #UITERU_V_ANGLE_NW
+    RTL
+
+.player_below:
+    ; Check if player is left, center, or right of boss
+    LDA z:.ADJUSTED_BOSS_X
+    CLC
+    ADC #6
+    CMP z:.ADJUSTED_PLAYER_X
+    BCC .below_right
+    SEC
+    SBC #12
+    CMP z:.ADJUSTED_PLAYER_X
+    BCS .below_left
+    LDA #UITERU_V_ANGLE_S
+    RTL
+
+.below_right:
+    ; Classify diagonal: compare |dy| vs |dx|
+    LDA z:.ADJUSTED_PLAYER_X
+    SEC
+    SBC z:.ADJUSTED_BOSS_X
+    STA z:.DELTA
+    LDA z:.ADJUSTED_PLAYER_Y
+    SEC
+    SBC z:.ADJUSTED_BOSS_Y
+    SEC
+    SBC z:.DELTA
+    BCC .below_right_shallow ; |dy| < |dx|: more east than south
+    CMP #24
+    BCC .below_right_diagonal
+    LDA #UITERU_V_ANGLE_SSE
+    RTL
+
+.below_left:
+    ; Classify diagonal: compare |dy| vs |dx|
+    LDA z:.ADJUSTED_BOSS_X
+    SEC
+    SBC z:.ADJUSTED_PLAYER_X
+    STA z:.DELTA
+    LDA z:.ADJUSTED_PLAYER_Y
+    SEC
+    SBC z:.ADJUSTED_BOSS_Y
+    SEC
+    SBC z:.DELTA
+    BCC .below_left_shallow ; |dy| < |dx|: more west than south
+    CMP #24
+    BCC .below_left_diagonal
+    LDA #UITERU_V_ANGLE_SSW
+    RTL
+
+.below_left_shallow:
+    CLC
+    ADC #32
+    BCS .below_left_diagonal
+    LDA #UITERU_V_ANGLE_WSW
+    RTL
+
+.below_left_diagonal:
+    LDA #UITERU_V_ANGLE_SW
+    RTL
+
+.below_right_shallow:
+    CLC
+    ADC #32
+    BCS .below_right_diagonal
+    LDA #UITERU_V_ANGLE_ESE
+    RTL
+
+.below_right_diagonal:
+    LDA #UITERU_V_ANGLE_SE
     RTL
 
 ; Enemy animations and frames

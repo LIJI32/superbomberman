@@ -4481,7 +4481,7 @@ try_drop_bomb:
     JSL drop_bomb
     JMP a:handle_player_movement.loc_C412EE
 
-sub_C4245D:
+delete_all_bombs:
 i16
     REP #0x20
     LDX #addr(gameover_related_object)
@@ -4498,7 +4498,7 @@ i16
 
 .loc_C42473:
     set_handler sub_C42506
-    BRA sub_C4245D
+    BRA delete_all_bombs
 
 .locret_C42482:
     RTL
@@ -4846,7 +4846,7 @@ i16
 .locret_C4273E:
     RTL
 
-sub_C4273F:
+player_uiteru_v_victory_scene_handler:
     REP #0x20
     LDA #0x80
     STA z:0x32, X
@@ -9386,10 +9386,7 @@ sub_C44B99:
 
 sub_C44BA4:
     REP #0x20
-    REP #0x20
-    LDA #addr(explode_bomb)
-    STA z:0x40
-    JSL create_small_object
+    create_small_object explode_bomb
     BCC .loc_C44BB7
     JML .locret_C44BBA
 
@@ -9413,10 +9410,7 @@ i16
     REP #0x20
     TYA
     STA z:0x50
-    REP #0x20
-    LDA #addr(sub_C44DA9)
-    STA z:0x40
-    JSL create_small_object
+    create_small_object bomb_handler
     BCC .loc_C44BE5
     JML sub_C44B99
 
@@ -9570,7 +9564,7 @@ i16
     JML .loc_C44D5F
 
 .loc_C44D02:
-    JMP a:sub_C44DA9.loc_C44DE6
+    JMP a:bomb_handler.loc_C44DE6
 
 .loc_C44D05:
     LDA #0x820
@@ -9654,11 +9648,11 @@ i16
     LDA #BOMB|POTENTIAL_BLAST
     STA a:addr(collision_map), Y
     REP #0x20
-    LDA #addr(sub_C44DA9)
+    LDA #addr(bomb_handler)
     STA z:0,X
     ; fallthrough
 
-sub_C44DA9:
+bomb_handler:
     SEP #0x20
     handler_return_if_paused_or_in_transition
     REP #0x20
@@ -9955,20 +9949,20 @@ sub_C44DA9:
     RTL
 sub_C44FCB:
     REP #0x20
-    LDA z:0xC,X
+    LDA z:bomb_object.range_and_flags, X
     AND #0xF
-    STA z:0x42
+    STA z:render_bomb_sprite.X
     LDA #0x2E0
     STA z:0x44
-    LDA z:0xC,X
+    LDA z:bomb_object.range_and_flags, X
     BIT #0x80
     BEQ .loc_C44FE5
     LDA #0xA0
     STA z:0x44
 
 .loc_C44FE5:
-    LDY z:0xA,X
-    LDA z:0x42
+    LDY z:bomb_object.tile_index, X
+    LDA z:render_bomb_sprite.X
     STA z:0x40
 
 .loc_C44FEB:
@@ -9995,8 +9989,8 @@ sub_C44FCB:
     BNE .loc_C44FEB
 
 .loc_C45016:
-    LDY z:0xA,X
-    LDA z:0x42
+    LDY z:bomb_object.tile_index, X
+    LDA z:render_bomb_sprite.X
     STA z:0x40
 
 .loc_C4501C:
@@ -10023,8 +10017,8 @@ sub_C44FCB:
     BNE .loc_C4501C
 
 .loc_C45047:
-    LDY z:0xA,X
-    LDA z:0x42
+    LDY z:bomb_object.tile_index, X
+    LDA z:render_bomb_sprite.X
     STA z:0x40
 
 .loc_C4504D:
@@ -10051,8 +10045,8 @@ sub_C44FCB:
     BNE .loc_C4504D
 
 .loc_C45078:
-    LDY z:0xA,X
-    LDA z:0x42
+    LDY z:bomb_object.tile_index, X
+    LDA z:render_bomb_sprite.X
     STA z:0x40
 
 .loc_C4507E:
@@ -10080,26 +10074,26 @@ sub_C44FCB:
 
 .loc_C450A9:
     REP #0x20
-    LDY z:0xA,X
+    LDY z:bomb_object.tile_index, X
     LDA a:addr(bg1_tilemap+0x20), Y
     STA a:addr(bg1_tilemap), Y
     LDA #0
     STA a:addr(collision_map), Y
     JSL sub_C45110
     SEP #0x20
-    LDA z:0x42
-    STA z:0x11,X
+    LDA z:render_bomb_sprite.X
+    STA z:bomb_object.x_position, X
     REP #0x20
     LDA #addr(.loc_C450CA)
     STA z:0,X
 
 .loc_C450CA:
     SEP #0x20
-    LDA z:0x11,X
-    STA z:0x42
+    LDA z:bomb_object.x_position, X
+    STA z:render_bomb_sprite.X
     LDA #0x20
-    STA z:0x48
-    LDA #bank(byte_C30488)
+    STA z:render_bomb_sprite.FLAGS
+    LDA #bank(bomb_oam_object_1)
     STA z:0x52
     REP #0x20
     LDY z:8,X
@@ -10108,7 +10102,7 @@ sub_C44FCB:
     ADC z:0x18,X
     CLC
     ADC #8
-    STA z:0x45
+    STA z:render_bomb_sprite.Y
     CMP #0x100
     BCC .loc_C450F1
     JML free_small_object
@@ -10118,16 +10112,16 @@ sub_C44FCB:
     LDA z:3,X
     AND #0x3F
     STA z:0x40
-    LDA z:0xC,X
+    LDA z:bomb_object.range_and_flags, X
     AND #0xC0
     ORA z:0x40
     ASL A
     PHX
     TAX
-    LDA f:off_C304BF,X
-    STA z:0x50
+    LDA f:bomb_oam_animation,X
+    STA z:render_bomb_sprite.OAM_DATA
     PLX
-    JSL sub_C6278B
+    JSL render_bomb_sprite
     RTL
 
 sub_C45110:
@@ -10155,7 +10149,7 @@ i16
     BNE .loc_C45139
     LDA #0x20
     STA a:addr(collision_map), Y
-    JMP a:sub_C44DA9.loc_C44DE6
+    JMP a:bomb_handler.loc_C44DE6
 
 .loc_C45139:
     CMP #0x32
@@ -10168,52 +10162,52 @@ i16
     STA a:addr(collision_map), Y
     JSL sub_C45110
     SEP #0x20
-    LDA z:0x42
-    STA z:0x11,X
-    LDA z:0x45
-    STA z:0x14,X
-    STZ z:0x13,X
-    STZ z:0x12,X
-    LDA z:0x11,X
+    LDA z:render_bomb_sprite.X
+    STA z:bomb_object.x_position, X
+    LDA z:render_bomb_sprite.Y
+    STA z:bomb_object.y_position, X
+    STZ z:bomb_object.fractional_y, X
+    STZ z:bomb_object.x_position + 1, X
+    LDA z:bomb_object.x_position, X
     AND #0xF0
     ORA #8
-    STA z:0x11,X
-    LDA z:0x14,X
+    STA z:bomb_object.x_position, X
+    LDA z:bomb_object.y_position, X
     AND #0xF0
     ORA #8
-    STA z:0x14,X
-    LDA #bank(byte_C30488)
+    STA z:bomb_object.y_position, X
+    LDA #bank(bomb_oam_object_1)
     STA z:0x52
     LDA #0x20
-    STA z:0x48
-    LDA z:3,X
+    STA z:render_bomb_sprite.FLAGS
+    LDA z:bomb_object.countdown, X
     BIT #1
-    BNE .loc_C45184
-    INC z:0x42
+    BNE +
+    INC z:render_bomb_sprite.X
     LDA a:addr(collision_map + 1), Y
-    AND #0x10
-    BNE .loc_C45184
-    DEC z:0x42
-    INC z:0x45
+    AND #high(COLMASK_UNKNOWN)
+    BNE +
+    DEC z:render_bomb_sprite.X
+    INC z:render_bomb_sprite.Y
++
 
-.loc_C45184:
     REP #0x20
     LDA a:addr(bg1_tilemap+0x20), Y
     STA a:addr(bg1_tilemap), Y
-    LDA z:3,X
+    LDA z:bomb_object.countdown, X
     AND #0x3F
     STA z:0x40
-    LDA z:0xC,X
-    AND #0xC0
+    LDA z:bomb_object.range_and_flags, X
+    AND #BOMB_FLAGS_REMOCON | BOMB_FLAGS_RED
     ORA z:0x40
     ASL A
     PHX
     TAX
-    LDA f:off_C304BF,X
-    STA z:0x50
+    LDA f:bomb_oam_animation, X
+    STA z:render_bomb_sprite.OAM_DATA
     PLX
-    JSL sub_C6278B
-    JMP a:sub_C44DA9.loc_C44E11
+    JSL render_bomb_sprite
+    JMP a:bomb_handler.loc_C44E11
 .loc_C451AB:
     PHY
     LDY #SOUND_SUDDEN_DEATH_BLOCK
@@ -10223,20 +10217,20 @@ i16
     LDA #0x3F
     STA a:addr(collision_map), Y
     REP #0x20
-    LDA z:8,X
+    LDA z:bomb_object.player, X
     PHX
     TAX
     SEP #0x20
     LDA z:0x26,X
     BIT #0x50
-    BEQ .loc_C451D5
+    BEQ +
     AND #0xBF
     STA z:0x26,X
     LDA a:addr(collision_map + 1), Y
-    ORA #0x70
+    ORA #high(RESERVED_FREE | ENEMY | COLMASK_UNKNOWN)
     STA a:addr(collision_map + 1), Y
++
 
-.loc_C451D5:
     PLX
     REP #0x20
     LDA #addr(explosion_related+0x10)
@@ -10251,7 +10245,7 @@ i16
     LDA #bank(explosion_related2)
     STA z:0xE0
     REP #0x20
-    LDY z:0xA,X
+    LDY z:bomb_object.tile_index, X
     LDA a:addr(collision_map), Y
     STA z:0x46
     LDA a:addr(collision_map), Y
@@ -10261,18 +10255,18 @@ i16
 
 sub_C45202:
     REP #0x20
-    LDA z:0xC,X
-    BIT #0x10
-    BEQ .loc_C4520F
+    LDA z:bomb_object.range_and_flags, X
+    BIT #BOMB_FLAGS_UNKNOWN
+    BEQ +
     JML sub_C45394
++
 
-.loc_C4520F:
     AND #0xF
     STA z:0x42
     LDA #0x2E0
     STA z:0x44
-    LDA z:0xC,X
-    BIT #0x80
+    LDA z:bomb_object.range_and_flags, X
+    BIT #BOMB_FLAGS_RED
     BNE .loc_C45224
     JML .loc_C45229
 
@@ -10281,7 +10275,7 @@ sub_C45202:
     STA z:0x44
 
 .loc_C45229:
-    LDY z:0xA,X
+    LDY z:bomb_object.tile_index, X
     LDA z:0x42
     STA z:0x40
 
@@ -10309,7 +10303,7 @@ sub_C45202:
     BNE .loc_C4522F
 
 .loc_C4525A:
-    LDY z:0xA,X
+    LDY z:bomb_object.tile_index, X
     LDA z:0x42
     STA z:0x40
 
@@ -10337,7 +10331,7 @@ sub_C45202:
     BNE .loc_C45260
 
 .loc_C4528B:
-    LDY z:0xA,X
+    LDY z:bomb_object.tile_index, X
     LDA z:0x42
     STA z:0x40
 
@@ -10365,7 +10359,7 @@ sub_C45202:
     BNE .loc_C45291
 
 .loc_C452BC:
-    LDY z:0xA,X
+    LDY z:bomb_object.tile_index, X
     LDA z:0x42
     STA z:0x40
 
@@ -10418,10 +10412,10 @@ sub_C45202:
     STA z:0x10,X
     INY
     INY
-    LDA z:0x13,X
+    LDA z:bomb_object.fractional_y, X
     CLC
     ADC f:[z:0xDB], Y
-    STA z:0x13,X
+    STA z:bomb_object.fractional_y, X
     DEY
     DEY
     LDA f:[z:0xDE], Y
@@ -10439,51 +10433,50 @@ sub_C45202:
     LDA #0x820
     STA z:0x48
     SEP #0x20
-    LDA z:0x11,X
+    LDA z:bomb_object.x_position, X
     AND #0xF0
     ORA #8
-    STA z:0x11,X
-    LDA z:0x14,X
+    STA z:bomb_object.x_position, X
+    LDA z:bomb_object.y_position, X
     AND #0xF0
     ORA #8
-    STA z:0x14,X
+    STA z:bomb_object.y_position, X
     REP #0x20
     ; fallthrough
 
 sub_C45354:
     STZ z:0x42
     JSL sub_C453AB
-    STY z:0xA,X
+    STY z:bomb_object.tile_index, X
     LDA z:0x48
     STA a:addr(collision_map), Y
     ; fallthrough
 
 sub_C45361:
     SEP #0x20
-    LDA #bank(byte_C30488)
+    LDA #bank(bomb_oam_object_1)
     STA z:0x52
     LDA #0x20
-    STA z:0x48
-    LDA z:0x11,X
-    STA z:0x42
-    LDA z:0x14,X
-    STA z:0x45
+    STA z:render_bomb_sprite.FLAGS
+    LDA z:bomb_object.x_position, X
+    STA z:render_bomb_sprite.X
+    LDA z:bomb_object.y_position, X
+    STA z:render_bomb_sprite.Y
     REP #0x20
-    LDA z:3,X
+    LDA z:bomb_object.countdown, X
     AND #0x3F
     STA z:0x40
-    LDA z:0xC,X
+    LDA z:bomb_object.range_and_flags, X
     AND #0xC0
     ORA z:0x40
     ASL A
     PHX
     TAX
-    LDA f:off_C304BF,X
-    STA z:0x50
+    LDA f:bomb_oam_animation,X
+    STA z:render_bomb_sprite.OAM_DATA
     PLX
-    JSL sub_C6278B
-    JMP a:sub_C44DA9.loc_C44E11
-    ;falltrhough
+    JSL render_bomb_sprite
+    JMP a:bomb_handler.loc_C44E11
 
 sub_C45394:
     REP #0x20
@@ -10803,21 +10796,21 @@ i16
     STZ z:0x13,X
     STZ z:0x12,X
     REP #0x20
-    LDA #addr(sub_C455EA)
+    LDA #addr(punched_bomb_handler)
     STA z:0,X
     LDY #SOUND_PUNCH_BOMB
     JSL play_sound
     SEP #0x20
     LDY z:8,X
     CPY #addr(player_4 + player.sizeof)
-    BCS sub_C455EA
+    BCS punched_bomb_handler
     LDA a:7, Y
-    BEQ sub_C455EA
+    BEQ punched_bomb_handler
     ORA #0x80
     STA a:7, Y
     ; fallthrough
     
-sub_C455EA:
+punched_bomb_handler:
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
@@ -10908,7 +10901,7 @@ sub_C455EA:
     STA z:0x10,X
 .loc_C4569E:
     SEP #0x20
-    LDA #bank(byte_C30488)
+    LDA #bank(bomb_oam_object_1)
     STA z:0x52
     LDA #0x30
     STA z:0x48
@@ -10940,10 +10933,10 @@ sub_C455EA:
     ASL A
     PHX
     TAX
-    LDA f:off_C304BF,X
-    STA z:0x50
+    LDA f:bomb_oam_animation,X
+    STA z:render_bomb_sprite.OAM_DATA
     PLX
-    JSL sub_C6278B
+    JSL render_bomb_sprite
 
 .locret_C456ED:
     RTL
@@ -10978,7 +10971,7 @@ sub_C455EA:
     REP #0x20
     LDA #addr(sub_C44D98)
     STA z:0,X
-    JMP a:sub_C44DA9.loc_C44DE6
+    JMP a:bomb_handler.loc_C44DE6
 
 sub_C4572E:
     REP #0x20
@@ -11622,41 +11615,48 @@ sub_C45ADB:
     SEP #0x20
     RTL
 
-sub_C45B9A:
+; Finds the bomb at tile index Y in the bomb object linked list, and force-detonates it
+; by setting its countdown to 8 and marking it with BOMB_FLAGS_UNKNOWN.
+; Also copies the association byte from the caller's object (X) to the bomb,
+; unless the two objects differ in bit 2 of their association bytes.
+; Input: Y = tile_index to find
+;        X = caller object (offset 2 read as association)
+force_detonate_bomb_at_tile:
+    .TILE_INDEX = 0x56
 i16
     REP #0x20
-    STY z:0x56
-    LDY #0x1C80
+    STY z:.TILE_INDEX
+    LDY #0x1C80                 ; start of bomb object linked list (unknown_static_small_object)
 
-.loc_C45BA1:
-    LDA a:0xC, Y
-    BIT #0x10
-    BNE .loc_C45BD0
-    LDA a:0xA, Y
-    CMP z:0x56
-    BNE .loc_C45BD0
+.search:
+    LDA a:bomb_object.range_and_flags, Y
+    BIT #BOMB_FLAGS_UNKNOWN     ; already being detonated?
+    BNE .next
+    LDA a:bomb_object.tile_index, Y
+    CMP z:.TILE_INDEX           ; is this the bomb at our tile?
+    BNE .next
     SEP #0x20
     LDA #8
-    STA a:3, Y
-    LDA a:0xC, Y
-    ORA #0x10
-    STA a:0xC, Y
-    LDA z:2,X
-    EOR a:2, Y
-    AND #4
-    BNE .loc_C45BCD
-    LDA z:2,X
-    STA a:2, Y
+    STA a:bomb_object.countdown, Y
+    LDA a:bomb_object.range_and_flags, Y
+    ORA #BOMB_FLAGS_UNKNOWN     ; mark as being detonated
+    STA a:bomb_object.range_and_flags, Y
+    LDA z:2, X                  ; caller's association byte
+    EOR a:bomb_object.association, Y
+    AND #4                      ; check if bit 2 differs
+    BNE .done                   ; if so, don't overwrite association
+    LDA z:2, X
+    STA a:bomb_object.association, Y
 
-.loc_C45BCD:
+.done:
     REP #0x20
     RTL
 
-.loc_C45BD0:
-    LDA a:6, Y
+.next:
+    LDA a:bomb_object.next, Y
     TAY
     INC A
-    BNE .loc_C45BA1
+    BNE .search
     RTL
 
     REP #0x20
@@ -11737,7 +11737,7 @@ sub_C45BDA:
     RTS
 
 .loc_C45C5C:
-    JSL sub_C45B9A
+    JSL force_detonate_bomb_at_tile
     CLC
     RTS
 
@@ -11905,217 +11905,239 @@ i16
 
     REP #0x20
 
-sub_C45D74:
+apply_random_tile_offset:
+    .ORIGIN = 0x44 ; Argument
+    .OFFSET = 0x42 ; Output
+    .RANDOM = 0x40 ; Output
     LDX #8
     REP #0x20
-    LDA z:0x44
+    LDA z:.ORIGIN
     PHA
     LDA z:0x46
-    PHA
+    PHA ; Backup 0x46
     LDA z:0x48
-    PHA
+    PHA ; Backup 0x48
     PHY
     JSL random
     PLY
     REP #0x20
     AND #0xFF
-    STA z:0x40
+    STA z:.RANDOM
     PLA
-    STA z:0x48
+    STA z:0x48 ; Restore 0x48
     PLA
-    STA z:0x46
+    STA z:0x46 ; Restore 0x46
     PLA
-    STA z:0x44
-    LDA z:0x40
+    STA z:.ORIGIN ; Restore origin
+    LDA z:.RANDOM
+    
+    ; Make negative if bit 4 is set
     BIT #4
-    BEQ .loc_C45DA3
-    EOR #0xFFFB
+    BEQ +
+    EOR #~4
     INC A
-
-.loc_C45DA3:
++
+    ; Multiply by 16 (tile width)
     ASL A
     ASL A
     ASL A
     ASL A
-    STA z:0x42
+    
+    STA z:.OFFSET
+    
+    ; Add to origin, clamp, and center
     CLC
-    ADC z:0x44
+    ADC z:.ORIGIN
     AND #0xF0
     ORA #8
     RTL
 
-sub_C45DB3:
+randomize_bomb_trajectory:
+    .RETRY_LIMIT = 0x48 ; Argument
+    .RETRY_COUNT = 0x46
+    .ARC_ARG_PTR = 0x50
     REP #0x20
     PHX
     LDA #0
-    STA z:0x46
-    LDA a:0x11, Y
-    STA z:0x44
-    JSL sub_C45D74
-    STA a:0x16, Y
-    LDA z:0x42
+    STA z:.RETRY_COUNT
+    LDA a:bomb_object.x_position, Y
+    STA z:apply_random_tile_offset.ORIGIN
+    JSL apply_random_tile_offset
+    STA a:bomb_object.target_x, Y
+    LDA z:apply_random_tile_offset.OFFSET
+    ; Multiply by 8
     ASL A
     ASL A
     ASL A
-    STA a:0x1A, Y
+    STA a:bomb_object.x_velocity, Y
 
-.loc_C45DCF:
-    LDA z:0x46
-    INC z:0x46
-    CMP z:0x48
-    BEQ .loc_C45E12
-    LDA a:0x14, Y
-    STA z:0x44
-    JSL sub_C45D74
-    BMI .loc_C45DCF
+.retry:
+    LDA z:.RETRY_COUNT
+    INC z:.RETRY_COUNT
+    CMP z:.RETRY_LIMIT
+    BEQ .fail
+    LDA a:bomb_object.y_position, Y
+    STA z:apply_random_tile_offset.ORIGIN
+    JSL apply_random_tile_offset
+    BMI .retry
     CMP #0x10
-    BCC .loc_C45DCF
-    CMP #0xB9
-    BCS .loc_C45DCF
+    BCC .retry
+    CMP #0x10 * 11 + 9
+    BCS .retry
     SEP #0x20
-    STA a:0x17, Y
-    LDA #bank(byte_C30488)
-    STA z:0x52
+    STA a:bomb_object.target_y, Y
+    LDA #bank(launched_bomb_arc_arguments)
+    STA z:.ARC_ARG_PTR + 2
     REP #0x20
-    LDA z:0x40
+    LDA z:apply_random_tile_offset.RANDOM ; Offset, but unsigned
     ASL A
     ASL A
     CLC
-    ADC #addr(word_C3073F)
-    STA z:0x50
-    LDA f:[z:0x50]
-    STA a:0x1C, Y
-    INC z:0x50
-    INC z:0x50
-    LDA f:[z:0x50]
-    STA a:0x18, Y
+    ADC #addr(launched_bomb_arc_arguments)
+    STA z:.ARC_ARG_PTR
+    LDA f:[z:.ARC_ARG_PTR]
+    STA a:bomb_object.y_velocity, Y
+    INC z:.ARC_ARG_PTR
+    INC z:.ARC_ARG_PTR
+    LDA f:[z:.ARC_ARG_PTR]
+    STA a:bomb_object.y_accel, Y
     PLX
     CLC
     RTL
 
-.loc_C45E12:
+.fail:
     PLX
     SEC
     RTL
 
-sub_C45E15:
-    REP #0x20
-    LDA #addr(sub_C45E5B)
-    STA z:0x40
-    JSL create_small_object
-    BCC .loc_C45E26
-    JML .loc_C45E56
+spiderer_create_launch_bomb:
+    create_small_object spiderer_launched_bomb
+    BCC +
+    JML .alloc_failed
++
 
-.loc_C45E26:
     SEP #0x20
     LDA #0x81
-    STA a:2, Y
-    LDA #0x78
-    STA a:3, Y
-    LDA #0xA
-    STA a:0xC, Y
+    STA a:bomb_object.association, Y
+    LDA #120
+    STA a:bomb_object.countdown, Y
+    LDA #10 ; Max range
+    STA a:bomb_object.range_and_flags, Y
     LDA #0x20
-    STA a:0x1E, Y
+    STA a:bomb_object.flight_countdown, Y
     REP #0x20
     TXA
-    STA a:8, Y
-    LDA z:0x11,X
-    STA a:0x11, Y
-    LDA z:0x14,X
-    STA a:0x14, Y
+    STA a:bomb_object.player, Y ; The spiderer_bomb_hatch object
+    LDA z:sprite.x_position, X
+    STA a:bomb_object.x_position, Y
+    LDA z:sprite.y_position, X
+    STA a:bomb_object.y_position, Y
     LDA #0xFFFF
-    STA z:0x48
-    JSL sub_C45DB3
+    STA z:randomize_bomb_trajectory.RETRY_LIMIT
+    JSL randomize_bomb_trajectory
     RTL
 
-.loc_C45E56:
+.alloc_failed:
     SEP #0x20
-    DEC z:0x24,X
+    ; Decrease the number of remaining bombs since we failed to allocate one
+    DEC z:spiderer_bomb_hatch.launched_bombs_remaining, X
     RTL
 
-sub_C45E5B:
+spiderer_launched_bomb:
+    .SIGN_EXT = 0x42
+    .TEMP = 0x40
     SEP #0x20
     handler_return_in_transition
     BIT #GAME_FLAGS_DEBUG_MENU | GAME_FLAGS_PAUSED
-    BEQ .loc_C45E70
-    JML .loc_C45ECC
+    BEQ +
+    JML .render
++
 
-.loc_C45E70:
+    ; Update x position
     REP #0x20
-    LDA z:0x10,X
+    LDA z:bomb_object.fractional_x, X
     CLC
-    ADC z:0x1A,X
-    STA z:0x10,X
-    STZ z:0x42
-    LDA z:0x1C,X
-    CLC
-    ADC z:0x18,X
-    STA z:0x1C,X
-    BPL .loc_C45E86
-    DEC z:0x42
+    ADC z:bomb_object.x_velocity, X
+    STA z:bomb_object.fractional_x, X
 
-.loc_C45E86:
+    ; Update y velocity
+    STZ z:.SIGN_EXT
+    LDA z:bomb_object.y_velocity, X
     CLC
-    ADC z:0x13,X
-    STA z:0x13,X
+    ADC z:bomb_object.y_accel, X
+    STA z:bomb_object.y_velocity, X
+    BPL +
+    DEC z:.SIGN_EXT
++
+
+    ; Update y position
+    CLC
+    ADC z:bomb_object.fractional_y, X
+    STA z:bomb_object.fractional_y, X
     SEP #0x20
-    LDA z:0x42
-    ADC z:0x15,X
-    STA z:0x15,X
-    DEC z:0x1E,X
-    BNE .loc_C45ECC
-    LDA z:0x16,X
-    STA z:0x11,X
-    LDA z:0x17,X
-    STA z:0x14,X
-    STZ z:0x12,X
-    STZ z:0x15,X
-    LDA #8
-    STA z:0xE,X
-    LDA z:0x1B,X
-    BPL .loc_C45EAF
-    LDA #0x18
-    STA z:0xE,X
+    LDA z:.SIGN_EXT
+    ADC z:bomb_object.y_position + 1, X
+    STA z:bomb_object.y_position + 1, X
 
-.loc_C45EAF:
-    LDA z:0xE,X
-    STZ z:0xF,X
+    DEC z:bomb_object.flight_countdown, X
+    BNE .render
+
+    ; Bomb landed: snap position to target
+    LDA z:bomb_object.target_x, X
+    STA z:bomb_object.x_position, X
+    LDA z:bomb_object.target_y, X
+    STA z:bomb_object.y_position, X
+    STZ z:bomb_object.x_position + 1, X
+    STZ z:bomb_object.y_position + 1, X
+
+    ; Set direction bits based on sign of x velocity
+    LDA #BOMB_PUNCH_DIRECTION_RIGHT
+    STA z:bomb_object.punch_direction, X
+    LDA z:bomb_object.x_velocity + 1, X
+    BPL +
+    LDA #BOMB_PUNCH_DIRECTION_LEFT
+    STA z:bomb_object.punch_direction, X
++
+
+    ; Reset state to match punched_bomb_handler
+    LDA z:bomb_object.punch_direction, X
+    STZ z:bomb_object.punch_arc_counter, X
     REP #0x20
     AND #0x18
     PHX
     TAX
-    LDA f:byte_C3075F,X
+    LDA f:byte_C3075F, X
     STA z:0xDB
     PLX
     LDA z:0xDB
-    STA z:0x16,X
+    STA z:bomb_object.target_x, X ; TODO: not really target_x, update when reversing punched_bomb_handler
     REP #0x20
-    LDA #addr(sub_C455EA)
-    STA z:0,X
-.loc_C45ECC:
+    LDA #addr(punched_bomb_handler)
+    STA z:bomb_object.handler, X ; switch to punched_bomb_handler
+.render:
     SEP #0x20
-    LDA #bank(byte_C30488)
-    STA z:0x52
+    LDA #bank(bomb_oam_object_1)
+    STA z:render_bomb_sprite.OAM_DATA + 2
     LDA #0x30
-    STA z:0x48
-    LDA z:0x11,X
-    STA z:0x42
-    LDA z:0x14,X
-    STA z:0x45
+    STA z:render_bomb_sprite.FLAGS
+    LDA z:bomb_object.x_position, X
+    STA z:render_bomb_sprite.X
+    LDA z:bomb_object.y_position, X
+    STA z:render_bomb_sprite.Y
     REP #0x20
-    LDA z:3,X
+    LDA z:bomb_object.countdown, X
     AND #0x3F
-    STA z:0x40
-    LDA z:0xC,X
-    AND #0xC0
-    ORA z:0x40
+    STA z:.TEMP
+    LDA z:bomb_object.range_and_flags, X
+    AND #BOMB_FLAGS_REMOCON | BOMB_FLAGS_RED
+    ORA z:.TEMP ; Or with the flags despite bomb_priority_oam_animation not containing data for launched remocon and red bombs
     ASL A
     PHX
     TAX
-    LDA f:off_C304BF+0x200,X
-    STA z:0x50
+    LDA f:bomb_priority_oam_animation, X
+    STA z:render_bomb_sprite.OAM_DATA
     PLX
-    JSL sub_C6278B
+    JSL render_bomb_sprite
     RTL
 
 create_random_bomb_drop:
@@ -12160,10 +12182,7 @@ sub_C45F1E:
     CLC
     ADC #0x40
     STA z:0x20,X
-    REP #0x20
-    LDA #addr(sub_C45F89)
-    STA z:0x40
-    JSL create_small_object
+    create_small_object sub_C45F89
     BCC .loc_C45F71
     JML drop_bomb.locret_C44CAF
 
@@ -12291,12 +12310,12 @@ i16
     LDA z:0xDB
     STA z:0x16,X
     REP #0x20
-    LDA #addr(sub_C455EA)
+    LDA #addr(punched_bomb_handler)
     STA z:0,X
 
 .loc_C46059:
     SEP #0x20
-    LDA #bank(byte_C30488)
+    LDA #bank(bomb_oam_object_1)
     STA z:0x52
     LDA #0x30
     STA z:0x48
@@ -12314,10 +12333,10 @@ i16
     ASL A
     PHX
     TAX
-    LDA f:off_C304BF,X
-    STA z:0x50
+    LDA f:bomb_oam_animation,X
+    STA z:render_bomb_sprite.OAM_DATA
     PLX
-    JSL sub_C6278B
+    JSL render_bomb_sprite
     RTL
 
 animation_frame_C4608A:
@@ -12731,7 +12750,7 @@ sub_C463DE:
     JML null_versus_initializer
 
 .loc_C464B2:
-    JSL sub_C4245D
+    JSL delete_all_bombs
     REP #0x20
     LDA #addr(.loc_C464C6)
     STA a:addr(level_manager_object+object.handler)
@@ -15305,6 +15324,7 @@ sub_C47A8D:
     RTL
 
 tilemap_decompression:
+    .SOURCE = 0x53 ; Argument: far pointer to source data
 i16
     SEP #0x20
     LDA z:0x53 + 2

@@ -193,7 +193,7 @@ palette backgrounds, continue_background_palette  ; 0x71 CONTINUE_PALETTE_1
 palette backgrounds, title_background_palette  ; 0x72 CONTINUE_PALETTE_2
 palette backgrounds, spiderer_bg_palette_0  ; 0x73 SPIDERER_BG_PALETTE_1
 palette overlays, credit_image_2_palette_1  ; 0x74 CREDITS_END_PALETTE
-palette backgrounds, spiderer_bg_palette_1  ; 0x75 SPIDERER_BG_PALETTE_2
+palette backgrounds, spiderer_bg_palette_1  ; 0x75 UITERU_V_PALETTE
 palette backgrounds, spiderer_fire_bg_palette_0  ; 0x76 SPIDERER_FIRE_BG_PALETTE_1
 dw 0x31E6, 0xC87, 0x4AD9, 0x318C, 0xD, 0x18C6, 0x6F7B, 0x214C, 0x11F, 0xAE, 0x1A, 0x1FF, 0x3DEF, 0x13E, 0x7FFF, 0x73A ; [0x77]_palette
 palette backgrounds, spiderer_fire_bg_palette_1  ; 0x78 SPIDERER_FIRE_BG_PALETTE_2
