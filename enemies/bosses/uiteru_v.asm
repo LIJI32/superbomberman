@@ -35,7 +35,7 @@ struct uiteru_v_shadow
 endstruct
 
 uiteru_v_random_bonuses:
-    dw FIRE_UP, FIRE_UP, EXTRA_TIME, HEART, HEART, PUNCH, PUNCH, PUNCH
+    dw FULL_FIRE, RED_BOMBS, EXTRA_TIME, EXTRA_TIME, HEART, PUNCH, PUNCH, PUNCH
 
 uiteru_v_create_shadow:
     SEP #0x20
@@ -163,7 +163,7 @@ i16
     STA z:uiteru_v.movement_countdown, X
     LDA #256
     STA z:uiteru_v.poison_throw_countdown, X
-    LDA #5
+    LDA #8
     STA z:uiteru_v.hitpoints, X
     set_handler .intro_raise
     
@@ -256,6 +256,13 @@ i16
 +
 
     REP #0x20
+    LDA z:uiteru_v.countdown, X
+    BEQ +
+    JSL uiteru_v_flash
+    REP #0x20
+    DEC z:uiteru_v.countdown, X
++
+
     LDA #addr(uiteru_v_orbit_table)
     STA z:.ORBIT_TABLE
     SEP #0x20
@@ -412,6 +419,11 @@ i16
     BNE .update_scroll
     LDA #0x100
     STA z:uiteru_v.poison_throw_countdown, X
+    LDA z:uiteru_v.countdown, X
+    BEQ +
+    LDA #0x18
+    STA z:uiteru_v.poison_throw_countdown, X
++
     LDA a:addr(number_of_visible_bonuses)
     CMP #32
     BCS .update_scroll
@@ -419,8 +431,7 @@ i16
     REP #0x20
     BCC .update_scroll
     ; uiteru_v_create_poison_bonus failed, try again after half the time
-    LDA #0x80
-    STA z:uiteru_v.poison_throw_countdown, X
+    LSR z:uiteru_v.poison_throw_countdown, X
     
 .update_scroll:
     REP #0x20
@@ -477,6 +488,19 @@ uiteru_v_orbit_table:
     dw  -0x40,  -0xC0
     dw  -0x20,  -0xE0
     
+uiteru_v_flash:
+    REP #0x20
+    LDA z:uiteru_v.countdown, X
+    AND #1
+    PHX
+    TAX
+    LDA f:uiteru_v_bg_palettes, X
+    STA z:set_palette.PALETTE
+    PLX
+    LDY #0
+    LDA #3
+    JML set_palette
+    
 uiteru_v_hit:
 i16
     REP #0x20
@@ -505,21 +529,14 @@ i16
     JML uiteru_v.update_scroll
 +
 
-    REP #0x20
-    LDA z:uiteru_v.countdown, X
-    AND #1
-    PHX
-    TAX
-    LDA f:uiteru_v_bg_palettes, X
-    STA z:set_palette.PALETTE
-    PLX
-    LDY #0
-    LDA #3
-    JSL set_palette
-    
+    JSL uiteru_v_flash
     REP #0x20
     DEC z:uiteru_v.countdown, X
     BNE .render
+    LDA #0x18
+    STA z:uiteru_v.poison_throw_countdown, X
+    LDA #150
+    STA z:uiteru_v.countdown, X
     DEC z:uiteru_v.hitpoints, X
     BNE +
     JML uiteru_v_die
@@ -632,6 +649,8 @@ uiteru_v_handle_bombs:
     RTL
 
 .hit_by_punched_bomb:
+    LDA z:uiteru_v.countdown, X
+    BNE .advance
     LDA #1
     STA z:.WAS_HIT
     BRA .advance

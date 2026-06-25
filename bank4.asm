@@ -12090,12 +12090,23 @@ spiderer_launched_bomb:
     STZ z:bomb_object.x_position + 1, X
     STZ z:bomb_object.y_position + 1, X
 
+    LDA z:bomb_object.target_x, X
+    SEC
+    SBC #2 * 16 + 8
+    CMP #12 * 16 + 1
+    BCS .bounce_sideways
+    JSL fast_random
+    SEP #0x20
+    AND #BOMB_PUNCH_DIRECTION_DOWN
+    BNE .bounce_down
+.bounce_sideways
     ; Set direction bits based on sign of x velocity
     LDA #BOMB_PUNCH_DIRECTION_RIGHT
     STA z:bomb_object.punch_direction, X
     LDA z:bomb_object.x_velocity + 1, X
     BPL +
     LDA #BOMB_PUNCH_DIRECTION_LEFT
+.bounce_down
     STA z:bomb_object.punch_direction, X
 +
 

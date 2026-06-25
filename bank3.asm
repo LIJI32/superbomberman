@@ -319,18 +319,17 @@ bomb_priority_oam_animation:
     bomb_animation bomb_priority_oam_object_1, bomb_priority_oam_object_2, bomb_priority_oam_object_3
     
 launched_bomb_arc_arguments:
-    ; Pairs of initial velocities and acceleration needed to reach the target delta
-    ; The values actually used are quite off by the correct values, which should be
-    ; determined by this formula. Maybe they were guesstimated?
-    ; a = (delta * 0x1000 + 0x700 * 32) / (16 * 33)
-    dw -0x700, 0x6E ; + 0
-    dw -0x700, 0x76 ; + 1
-    dw -0x700, 0x7E ; + 2
-    dw -0x700, 0x87 ; + 3
-    dw -0x700, 0x6E ; - 0
-    dw -0x700, 0x66 ; - 1
-    dw -0x700, 0x5E ; - 2
-    dw -0x700, 0x56 ; - 3
+macro arc_arg offset
+    dw -0x700, (\1 * 0x1000 + 0x700 * 32) / (16 * 33)
+endmacro
+    dw -0x700, (+0 * 0x1000 + 0x700 * 32) / (16 * 33) ; + 0
+    dw -0x700, (+1 * 0x1000 + 0x700 * 32) / (16 * 33) ; + 1
+    dw -0x700, (+2 * 0x1000 + 0x700 * 32) / (16 * 33) ; + 2
+    dw -0x700, (+3 * 0x1000 + 0x700 * 32) / (16 * 33) ; + 3
+    dw -0x700, (-0 * 0x1000 + 0x700 * 32) / (16 * 33) ; - 0
+    dw -0x700, (-1 * 0x1000 + 0x700 * 32) / (16 * 33) ; - 1
+    dw -0x700, (-2 * 0x1000 + 0x700 * 32) / (16 * 33) ; - 2
+    dw -0x700, (-3 * 0x1000 + 0x700 * 32) / (16 * 33) ; - 3
 
 byte_C3075F:
     db 0x00, 0xFA, 0x50, 0x00, 0x00, 0x00, 0x18, 0x00

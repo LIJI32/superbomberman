@@ -751,7 +751,9 @@ struct spiderer
     org 0x30
 .countdown
     ds 2
-    org 0x38
+    org 0x36
+.launch_on_stop
+    ds 2
 .step_counter
     ds 2
 .visual_y
@@ -813,6 +815,8 @@ i16
     STA z:spiderer.hit_count, X
     LDA #0
     STA z:spiderer.is_dying, X
+    LDA #1
+    STA z:spiderer.launch_on_stop, X
     
     SEP #0x20
     LDA a:addr(game_flags)
@@ -993,7 +997,7 @@ i16
     BIT #0x7FFF
     BNE .ret
     LDA z:spiderer.hit_count, X
-    CMP #7
+    CMP #11
     BCC .ret
     set_handler spiderer_death
 
@@ -1051,6 +1055,7 @@ spiderer_death:
 spiderer_move:
     REP #0x20
     LDA z:spiderer.countdown, X
+    AND #0x8000
     BEQ +
     JML .ret
 +
@@ -1075,8 +1080,12 @@ spiderer_move:
 
     ; Reached target, switch axes and signal the bomb hatch
     JSL spiderer_toggle_axis
-    LDA #1
+    LDA z:spiderer.launch_on_stop, X
     STA z:spiderer.bomb_hatch_signal, X
+    
+    LDA z:spiderer.countdown, X
+    ORA #0x8000 ; Don't let the main object resume movement until we're done
+    STA z:spiderer.countdown, X
     LDA z:spiderer.y_position, X
     CMP z:spiderer.target_y, X
     BNE .ret
@@ -1107,8 +1116,12 @@ endr
     
     ; Reached target, switch axes and signal the bomb hatch
     JSL spiderer_toggle_axis
-    LDA #1
+    LDA z:spiderer.launch_on_stop, X
     STA z:spiderer.bomb_hatch_signal, X
+    
+    LDA z:spiderer.countdown, X
+    ORA #0x8000 ; Don't let the main object resume movement until we're done
+    STA z:spiderer.countdown, X
     LDA z:spiderer.x_position, X
     CMP z:spiderer.target_x, X
     BNE .ret
@@ -1172,6 +1185,7 @@ i16
     LDX #7 ; 7 options
     JSL random
     INC A
+
     ; Multiply by 32
     ASL A
     ASL A
@@ -1292,6 +1306,10 @@ spiderer_legs:
     ADC #-16
     STA z:spiderer_legs.y_position, X
     LDA a:spiderer.countdown, Y
+    AND #0x8000
+    BNE .render_static
+    LDA a:addr(game_flags)
+    BIT #GAME_FLAGS_BATTLE_DELAY
     BNE .render_static
     JSL render_sprite_animated
     RTL
@@ -1366,13 +1384,7 @@ spiderer_create_bomb_hatch:
     STA a:spiderer_bomb_hatch.effective_palette, Y
     RTL
 
-spiderer_bomb_hatch:
-    REP #0x20
-    start_animation #addr(spiderer_bomb_hatch_closed_animation)
-    set_handler .main
-
-.main
-    REP #0x20
+spiderer_sync_hatch:
     LDY z:spiderer_bomb_hatch.spiderer, X
     LDA a:spiderer.x_position, Y
     STA z:spiderer_bomb_hatch.x_position, X
@@ -1380,6 +1392,16 @@ spiderer_bomb_hatch:
     CLC
     ADC #-34
     STA z:spiderer_bomb_hatch.y_position, X
+    RTL
+
+spiderer_bomb_hatch:
+    REP #0x20
+    start_animation #addr(spiderer_bomb_hatch_closed_animation)
+    set_handler .main
+
+.main
+    REP #0x20
+    JSL spiderer_sync_hatch
     LDA a:spiderer.bomb_hatch_signal, Y
     BEQ .render_idle
     
@@ -1416,13 +1438,7 @@ spiderer_bomb_hatch:
 
 .open_hatch:
     REP #0x20
-    LDY z:spiderer_bomb_hatch.spiderer, X
-    LDA a:spiderer.x_position, Y
-    STA z:spiderer_bomb_hatch.x_position, X
-    LDA a:spiderer.visual_y, Y
-    CLC
-    ADC #-34
-    STA z:spiderer_bomb_hatch.y_position, X
+    JSL spiderer_sync_hatch
     JSL load_animation_frame
     BCC .check_death
     ; Animation done
@@ -1433,6 +1449,7 @@ spiderer_bomb_hatch:
 
 .launch_bomb:
 i16
+    JSL spiderer_sync_hatch
     JSL load_animation_frame
     SEP #0x20
     handler_return_in_transition
@@ -1461,6 +1478,8 @@ i16
     RTL
 
 .close_hatch
+    REP #0x20
+    JSL spiderer_sync_hatch
     JSL load_animation_frame
     BCS +
     JML .check_death
@@ -1474,6 +1493,8 @@ i16
     set_handler .wait_for_explosions
 
 .wait_for_explosions:
+    REP #0x20
+    JSL spiderer_sync_hatch
     ; Wait for all the bombs to explode before ending the sequence
     JSL load_animation_frame
     REP #0x20
@@ -1495,6 +1516,7 @@ spiderer_create_eye:
     TXA
     STA a:spiderer_eye.spiderer, Y
     RTL
+
 
 spiderer_eye:
     REP #0x20
@@ -1524,7 +1546,6 @@ spiderer_eye:
 
 .render:
     JSL render_sprite_animated
-    ; fallthrough
 
 .check_death:
     REP #0x20
@@ -1536,6 +1557,14 @@ spiderer_eye:
     RTL
 
 .close:
+    REP #0x20
+    LDY z:spiderer_eye.spiderer, X
+    LDA a:spiderer.x_position, Y
+    STA z:spiderer_eye.x_position, X
+    LDA a:spiderer.visual_y, Y
+    CLC
+    ADC #5
+    STA z:spiderer_eye.y_position, X
     JSL render_sprite_animated
     BCC .check_signal
     REP #0x20
@@ -1544,6 +1573,14 @@ spiderer_eye:
     BRA .check_signal
 
 .closed:
+    REP #0x20
+    LDY z:spiderer_eye.spiderer, X
+    LDA a:spiderer.x_position, Y
+    STA z:spiderer_eye.x_position, X
+    LDA a:spiderer.visual_y, Y
+    CLC
+    ADC #5
+    STA z:spiderer_eye.y_position, X
     JSL render_sprite_animated
 
 .check_signal:
@@ -1557,9 +1594,6 @@ spiderer_eye:
     STA z:spiderer_eye.countdown, X
     set_handler .wait_open
 +
-
-.j_check_death
-    BRA .check_death
 
 .wait_open:
     JSL render_sprite_animated
@@ -1575,7 +1609,22 @@ spiderer_eye:
     ; Done waiting, time to open the eye back
     start_animation #addr(spiderer_eye_open_lid_animation)
     set_handler .opening
+        
+    LDY z:spiderer_eye.spiderer, X
+    LDA a:spiderer.hit_count, Y
+    CMP #6
+    BCC +
+    LDA #1
+    STA a:spiderer.bomb_hatch_signal, Y
+    +
+    LDA a:spiderer.bomb_hatch_signal, Y
+    EOR #1
+    STA a:spiderer.launch_on_stop, Y
+    
     RTL
+    
+.j_check_death
+    JMP .check_death
 
 .opening:
     JSL render_sprite_animated
