@@ -2804,10 +2804,14 @@ trampoline_deltas:
     dw 0,     0x10
     dw -0x10,    0
 level_end_musics:
-    db 0, 0xE
-    db 0x1F, 0x21
-    db 0x23, 0x25
-    db 0x27
+    db 0 ; "World 0"
+    db MUSIC_ENDING_1
+    db MUSIC_ENDING_2
+    db MUSIC_ENDING_3
+    db MUSIC_ENDING_4
+    db MUSIC_ENDING_5
+    db MUSIC_ENDING_6
+
 enter_level_exit:
 a16
     JSL clear_playerquare_in_collision_map
@@ -2821,7 +2825,7 @@ a16
     LSR A
     LSR A
     CLC
-    ADC #addr(level_end_musics) ; It seems like the plan was to give each world its own intro and ending sequences
+    ADC #addr(level_end_musics)
     STA z:0x50
     LDA f:[z:0x50]
     AND #0xFF
@@ -13606,7 +13610,14 @@ i16
     RTL
 
 stage_intro_music_list:
-    db 0, 0xD, 0x1E, 0x20, 0x22, 0x24, 0x26
+    db 0 ; "World 0"
+    db MUSIC_INTRO_1
+    db MUSIC_INTRO_2
+    db MUSIC_INTRO_3
+    db MUSIC_INTRO_4
+    db MUSIC_INTRO_5
+    db MUSIC_INTRO_6
+    
 sub_C46C0B:
     SEP #0x20
     DEC z:0x20,X

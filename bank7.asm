@@ -552,7 +552,7 @@ sound_test_handler:
     ASL A
     PHX
     TAX
-    LDA f:word_C707C9, X
+    LDA f:sound_test_songs, X
     TAY
     PLX
     JSL play_music
@@ -686,11 +686,27 @@ off_C707A5:
     da byte_C70259, byte_C7025E, byte_C70263, byte_C70268, byte_C7026D
     da byte_C70272, byte_C70277, byte_C7027C, byte_C70281, byte_C70286
     da byte_C7028B, byte_C703F6, byte_C703FB
-word_C707C9:
-    dw 0, 1, 7, 2, 4
-    dw 6, 0xB, 0x14, 8, 0xA
-    dw 0x12, 0x16, 0xD, 0xE, 0xC
-    dw 0xF, 0x10, 0x11
+    
+sound_test_songs:
+    dw MUSIC_TITLE
+    dw MUSIC_CREDITS
+    dw MUSIC_MAP
+    dw MUSIC_WORLD_1
+    dw MUSIC_WORLD_2
+    dw MUSIC_WORLD_3
+    dw MUSIC_WORLD_4
+    dw MUSIC_WORLD_5
+    dw MUSIC_WORLD_6
+    dw MUSIC_BOSS_1
+    dw MUSIC_BATTLE_MENU
+    dw MUSIC_BATTLE_MODE
+    dw MUSIC_INTRO_1
+    dw MUSIC_ENDING_1
+    dw MUSIC_CONTINUE
+    dw MUSIC_GAME_OVER
+    dw MUSIC_DRAW
+    dw MUSIC_VICTORY
+    
 sub_C707ED:
     SEP #0x20
     create_object sub_C7080A

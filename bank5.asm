@@ -8217,7 +8217,7 @@ i16
     BRA .loc_C56F9C
 
 .loc_C56FFC:
-    LDY #0xF
+    LDY #MUSIC_GAME_OVER
     JSL play_music
     REP #0x20
     LDA #0x140
@@ -8691,7 +8691,7 @@ i16
     RTL
 
 .loc_C57449:
-    LDY #0x1B
+    LDY #27
     JSL play_music
     REP #0x20
     LDA #0x180
@@ -8733,7 +8733,7 @@ i16
     REP #0x20
     DEC z:0x20, X
     BNE .locret_C574ED
-    LDY #0x11
+    LDY #MUSIC_VICTORY
     JSL play_music
     set_handler sub_C574A0
 

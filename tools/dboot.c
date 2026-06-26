@@ -102,6 +102,157 @@ static int dboot_join_channels(FILE *out, unsigned count, const char **channels)
     return 0;
 }
 
+static int compile_banks(FILE *out, const char *definition)
+{
+    FILE *f = file_open(definition, "r");
+
+    uint8_t *instruments = NULL, *sounds = NULL, *songs = NULL;
+    size_t n_instruments = 0, n_sounds = 0, n_songs = 0;
+    unsigned n_banks = 0;
+
+    write_u16_be(out, 0);
+
+    while (!feof(f)) {
+        char *line = (char *)file_read_line(f);
+        char *comment = strchr(line, '#');
+        if (comment) *comment = 0;
+
+        char *keyword = strtok(line, " \t\r\n");
+        if (!keyword) continue;
+
+        uint8_t **list = NULL;
+        size_t *count = NULL;
+
+        if (strcmp(keyword, "instruments") == 0) {
+            if (n_banks) {
+                write_u16_le(out, (uint16_t)(3 + n_instruments + n_sounds + n_songs));
+                fputc((uint8_t)n_instruments, out);
+                if (n_instruments) file_write(out, instruments, n_instruments);
+                fputc((uint8_t)n_sounds, out);
+                if (n_sounds) file_write(out, sounds, n_sounds);
+                fputc((uint8_t)n_songs, out);
+                if (n_songs) file_write(out, songs, n_songs);
+                if (instruments) free(instruments);
+                if (sounds) free(sounds);
+                if (songs) free(songs);
+                songs = instruments = sounds = NULL;
+                n_songs = n_instruments = n_sounds = 0;
+            }
+            n_banks++;
+            list = &instruments;
+            count = &n_instruments;
+        }
+        else if (strcmp(keyword, "sounds") == 0) {
+            if (!n_banks) {
+                fprintf(stderr, "'sounds' before 'instruments'\n");
+                exit(1);
+            }
+            if (n_sounds) {
+                fprintf(stderr, "Multiple 'sounds' commands in a bank\n");
+                exit(1);
+            }
+            list = &sounds;
+            count = &n_sounds;
+        }
+        else if (strcmp(keyword, "songs") == 0) {
+            if (!n_banks) {
+                fprintf(stderr, "'songs' before 'instruments'\n");
+                exit(1);
+            }
+            if (n_songs) {
+                fprintf(stderr, "Multiple 'songs' commands in a bank\n");
+                exit(1);
+            }
+            list = &songs;
+            count = &n_songs;
+        }
+        else {
+            fprintf(stderr, "Unknown keyword '%s'\n", keyword);
+            exit(1);
+        }
+
+
+        char *token;
+        while ((token = strtok(NULL, ", \t\r\n"))) {
+            *list = realloc(*list, *count + 1);
+            if (*count == 0xFF) {
+                fprintf(stderr, "Too many iterms in '%s'\n", keyword);
+                exit(1);
+            }
+            (*list)[(*count)++] = (uint8_t)atoi(token);
+        }
+    }
+
+    fclose(f);
+
+    if (n_banks) {
+        write_u16_le(out, (uint16_t)(3 + n_instruments + n_sounds + n_songs));
+        fputc((uint8_t)n_instruments, out);
+        if (n_instruments) file_write(out, instruments, n_instruments);
+        fputc((uint8_t)n_sounds, out);
+        if (n_sounds) file_write(out, sounds, n_sounds);
+        fputc((uint8_t)n_songs, out);
+        if (n_songs) file_write(out, songs, n_songs);
+    }
+
+    if (instruments) free(instruments);
+    if (sounds) free(sounds);
+    if (songs) free(songs);
+
+    if (ftell(out) & 1) {
+        fputc(0, out);
+    }
+
+    fseek(out, 0, SEEK_SET);
+    write_u16_be(out, (uint16_t)n_banks);
+    return 0;
+}
+
+static void write_bank_list(FILE *out, const char *keyword, uint8_t *ids, unsigned count)
+{
+    fprintf(out, "%s", keyword);
+    for (unsigned i = 0; i < count; i++) {
+        fprintf(out, i ? ", %u" : "%u", ids[i]);
+    }
+    fputc('\n', out);
+}
+
+static int decompile_banks(FILE *in, FILE *out)
+{
+    uint8_t header[2];
+    if (!file_read(in, header, 2)) {
+        fprintf(stderr, "Unexpected end of file\n");
+        return 1;
+    }
+    unsigned n_banks = (header[0] << 8) | header[1];
+
+    for (unsigned i = 0; i < n_banks; i++) {
+        uint8_t size_buf[2];
+        file_read(in, size_buf, 2); /* content_size (little-endian) */
+
+        static uint8_t list[256];
+        
+        uint8_t count = 0;
+        
+        if (i) fputc('\n', out);
+        fprintf(out, "# Bank %u\n", i);
+
+        file_read(in, &count, sizeof(count));
+        file_read(in, list, count);
+        write_bank_list(out, "instruments  ", list, count);
+
+        file_read(in, &count, sizeof(count));
+        file_read(in, list, count);
+        write_bank_list(out, "sounds       ", list, count);
+        
+        file_read(in, &count, sizeof(count));
+        file_read(in, list, count);
+        write_bank_list(out, "songs        ", list, count);
+    }
+
+    return 0;
+}
+
 static int pack_dboot_samples(FILE *out, const char *definition)
 {
     FILE *f = file_open(definition, "r");
@@ -166,7 +317,7 @@ static int pack_dboot_samples(FILE *out, const char *definition)
 int main(int argc, const char **argv)
 {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s join|join-songs|join-channels|pack-samples ...\n", argv[0]);
+        fprintf(stderr, "Usage: %s join|join-songs|join-channels|pack-samples|compile-banks|decompile-banks ...\n", argv[0]);
         return 1;
     }
     
@@ -201,6 +352,30 @@ int main(int argc, const char **argv)
         int ret = dboot_join_channels(out, argc - 3, &argv[3]);
         fclose(out);
         if (ret) unlink(argv[2]);
+        return ret;
+    }
+    if (strcmp(argv[1], "compile-banks") == 0) {
+        if (argc != 4) {
+            fprintf(stderr, "Usage: %s compile-banks definition out\n", argv[0]);
+            return 1;
+        }
+        FILE *out = file_open(argv[3], "wb");
+        int ret = compile_banks(out, argv[2]);
+        fclose(out);
+        if (ret) unlink(argv[3]);
+        return ret;
+    }
+    if (strcmp(argv[1], "decompile-banks") == 0) {
+        if (argc != 4) {
+            fprintf(stderr, "Usage: %s decompile-banks in out\n", argv[0]);
+            return 1;
+        }
+        FILE *in  = file_open(argv[2], "rb");
+        FILE *out = file_open(argv[3], "w");
+        int ret = decompile_banks(in, out);
+        fclose(in);
+        fclose(out);
+        if (ret) unlink(argv[3]);
         return ret;
     }
     if (strcmp(argv[1], "pack-samples") == 0) {
