@@ -462,6 +462,9 @@ i16
 
 mecha_onita_hurt:
     REP #0x20
+    LDY #SOUND_MECHA_ONITA_HIT
+    JSL play_sound
+    REP #0x20
     LDA #0x2E
     STA z:mecha_onita.hit_counter, X
     set_handler .main
@@ -612,8 +615,6 @@ mecha_onita_hit:
     LDA #0
     STA z:mecha_onita.hit_counter, X
     start_animation #addr(mecha_onita_shocked_animation)
-    LDY #SOUND_MECHA_ONITA_HIT ; A removed silent sound
-    JSL play_sound
 
 .main:
     SEP #0x20
