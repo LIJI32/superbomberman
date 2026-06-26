@@ -133,7 +133,7 @@ $(foreach part,$(shell echo {0..8}),$(eval $(call divided_palettes)))
 MAX_SONG = 41
 
 # Join all data together
-$(OUT)/dboot/data.bin: dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin dboot/sound_effects.bin $(OUT)/dboot/songs.bin $(OUT)/tools/dboot
+$(OUT)/dboot/data.bin: $(OUT)/dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin dboot/sound_effects.bin $(OUT)/dboot/songs.bin $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Joining DBoot data...$(TITLE_END)
 	$(OUT)/tools/dboot join $@ $(filter-out $(OUT)/tools/dboot,$^)
@@ -151,6 +151,11 @@ $(OUT)/dboot/samples.bin: dboot/samples.def $(shell ls dboot/samples/*.brr) $(OU
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Packing samples...$(TITLE_END)
 	$(OUT)/tools/dboot pack-samples $< $@
+	
+$(OUT)/dboot/banks.bin: dboot/banks.def $(OUT)/tools/dboot
+	@mkdir -p $(dir $@)
+	@echo -e $(TITLE)Compiling bank definitions...$(TITLE_END)
+	$(OUT)/tools/dboot compile-banks $< $@
 
 $(OUT)/dboot/songs.bin: $(addprefix $(OUT)/,$(shell echo dboot/songs/song_{0..$(MAX_SONG)}.bin)) $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)

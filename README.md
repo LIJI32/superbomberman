@@ -36,7 +36,6 @@ Build by running <code>make</code> or <code>make CONFIG=x</code>, where x is us,
 # What's not done
 * Naming all subroutines
 * Conversion of all DBoot files:
- * banks sub-file: Documented, conversion tools not written yet.
  * sound_effects sub-file: Probably the same or very similar to the songs sub-file
  * instruments sub-file: Format only partially documented
  * firmware subfile: This is the code that runs on the SPC. Due to the lack of an SPC700 IDA processor module, I only have a partial, uncommitted disassembly of the code, with only code related to the music format. Due to not being able to re-assemble such code, it is provided in binary form
