@@ -1775,7 +1775,7 @@ full_fire_bonus:
 i16
     REP #0x20
 
-    add_to_score_if_allowed 1000
+    add_to_score_if_allowed 500
 
     JSL clear_bonus_tile
     
@@ -1793,7 +1793,7 @@ red_bombs_bonus:
 i16
     REP #0x20
 
-    add_to_score_if_allowed 2000
+    add_to_score_if_allowed 500
 
     JSL clear_bonus_tile
     
@@ -1810,7 +1810,7 @@ kick_bonus:
 i16
     REP #0x20
 
-    add_to_score_if_allowed 3000
+    add_to_score_if_allowed 500
 
     JSL clear_bonus_tile
     
@@ -1830,7 +1830,7 @@ punch_bonus:
 i16
     REP #0x20
 
-    add_to_score_if_allowed 4000
+    add_to_score_if_allowed 500
 
     JSL clear_bonus_tile
     
@@ -1861,7 +1861,7 @@ poison_bonus:
 i16
     REP #0x20
 
-    add_to_score_if_allowed 6000
+    add_to_score_if_allowed 1000
 
     JSL clear_bonus_tile
     JSL apply_poison
@@ -1954,7 +1954,7 @@ kendama_bonus:
 i16
     REP #0x20
 
-    add_to_score_if_allowed 100
+    add_to_score_if_allowed 2000
 
     JSL clear_bonus_tile
     
@@ -1992,7 +1992,7 @@ i16
     STA z:player.lives, X
     
     REP #0x20
-    add_to_score_if_allowed 9000
+    add_to_score_if_allowed 500
 
     JSL draw_number_of_lives
     JSL clear_bonus_tile
@@ -2004,7 +2004,7 @@ popsicle_bonus:
 i16
     REP #0x20
 
-    add_to_score_if_allowed 500
+    add_to_score_if_allowed 1000
 
     JSL clear_bonus_tile
     
@@ -2016,7 +2016,7 @@ ice_cream_bonus:
 i16
     REP #0x20
     
-    add_to_score_if_allowed 50000    
+    add_to_score_if_allowed 10000    
     JSL clear_bonus_tile
     LDY #SOUND_BONUS
     JSL play_sound
