@@ -1,0 +1,19 @@
+header ff 07
+inst 8
+volume 80, 80
+adsr 5, 13, 4, 20
+pitch 0xa24
+play
+wait 3
+pitch 0x95c
+wait 3
+adsr 5, 13, 4, 20
+pitch 0x7d6
+play
+wait 3
+adsr 5, 13, 4, 20
+pitch 0x13e8
+wait 50
+stop
+wait 2
+end

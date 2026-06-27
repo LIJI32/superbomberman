@@ -1,0 +1,13 @@
+header ff 05
+inst 9
+volume 85, 95
+adsr 5, 13, 4, 20
+pitch 0x3e8
+repeat 40 {
+    play
+    wait 4
+    adsr 5, 13, 4, 20
+}
+stop
+wait 2
+end

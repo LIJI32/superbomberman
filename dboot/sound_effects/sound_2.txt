@@ -1,0 +1,19 @@
+header eb 05
+inst 4
+volume 107, 107
+adsr 5, 13, 4, 20
+pitch 0x11f4
+play
+wait 1
+pitch 0x112c
+wait 1
+adsr 5, 13, 4, 20
+pitch 0xfa6
+play
+wait 1
+adsr 5, 13, 4, 20
+pitch 0x1bb8
+wait 50
+stop
+wait 2
+end

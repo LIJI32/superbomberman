@@ -1,0 +1,10 @@
+header f5 05
+inst 14
+volume 127, 127
+adsr 6, 15, 7, 0
+pitch 0x4b0
+play
+wait 200
+stop
+wait 2
+end

@@ -1,0 +1,26 @@
+header ff 06
+inst 21
+volume 127, 117
+repeat 7 {
+    adsr 5, 15, 4, 2
+    pitch 0x258
+    play
+    wait 3
+    adsr 5, 15, 4, 2
+    volume 80, 80
+    pitch 0x320
+    play
+    wait 3
+}
+adsr 5, 15, 4, 2
+pitch 0x190
+play
+wait 3
+volume 127, 127
+adsr 5, 15, 4, 25
+pitch 0x2bc
+play
+wait 200
+stop
+wait 2
+end

@@ -1,0 +1,15 @@
+header f5 07
+inst 0
+volume 127, 127
+repeat 3 {
+    adsr 5, 15, 4, 20
+    pitch 0x9c4
+    play
+    wait 3
+    play
+    pitch 0x5dc
+    wait 3
+}
+stop
+wait 2
+end

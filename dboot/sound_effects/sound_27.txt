@@ -1,0 +1,10 @@
+header ff 05
+inst 21
+volume 107, 127
+adsr 6, 15, 3, 8
+pitch 0x258
+play
+wait 200
+stop
+wait 2
+end

@@ -1,0 +1,12 @@
+header ff 07
+inst 11
+volume 65, 65
+repeat 20 {
+    adsr 5, 15, 4, 20
+    pitch 0x7d0
+    play
+    wait 2
+}
+stop
+wait 2
+end
