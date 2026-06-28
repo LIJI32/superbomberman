@@ -1,0 +1,28 @@
+header f5 06
+inst 2
+volume 120, 120
+adsr 5, 15, 4, 20
+pitch 0x6a4
+play
+wait 4
+pitch 0x3e8
+play
+wait 1
+volume 100, 100
+adsr 5, 15, 4, 20
+pitch 0x7d0
+play
+wait 1
+volume 120, 120
+adsr 5, 15, 4, 10
+pitch 0x6a4
+play
+wait 20
+volume 20, 20
+adsr 5, 15, 4, 20
+pitch 0x6a4
+play
+wait 2
+stop
+wait 2
+end

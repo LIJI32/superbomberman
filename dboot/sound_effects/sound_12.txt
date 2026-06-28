@@ -1,0 +1,14 @@
+header eb 05
+inst 4
+volume 50, 50
+adsr 5, 13, 4, 20
+pitch 0xa24
+play
+wait 1
+adsr 5, 13, 4, 20
+pitch 0xe0c
+play
+wait 2
+stop
+wait 2
+end

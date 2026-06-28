@@ -1,0 +1,40 @@
+header f5 06
+inst 15
+volume 127, 127
+adsr 5, 15, 4, 20
+pitch 0x190
+play
+wait 5
+volume 107, 107
+adsr 5, 15, 4, 20
+pitch 0x190
+play
+wait 5
+volume 85, 85
+adsr 5, 15, 4, 20
+pitch 0x190
+play
+wait 5
+volume 65, 65
+adsr 5, 15, 4, 20
+pitch 0x190
+play
+wait 5
+volume 40, 40
+adsr 5, 15, 4, 20
+pitch 0x190
+play
+wait 5
+volume 20, 20
+adsr 5, 15, 4, 20
+pitch 0x190
+play
+wait 5
+volume 10, 10
+adsr 5, 15, 4, 20
+pitch 0x190
+play
+wait 5
+stop
+wait 2
+end

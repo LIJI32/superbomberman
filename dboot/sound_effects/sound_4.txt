@@ -1,0 +1,14 @@
+header ff 06
+inst 21
+volume 125, 125
+adsr 6, 15, 2, 5
+pitch 0x73a
+play
+wait 2
+adsr 6, 15, 3, 13
+pitch 0x6d6
+play
+wait 3
+stop
+wait 2
+end

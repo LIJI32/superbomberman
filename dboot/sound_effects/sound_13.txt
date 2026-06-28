@@ -1,0 +1,11 @@
+header f5 07
+inst 10
+volume 80, 80
+adsr 4, 12, 7, 12
+pitch 0x674
+play
+wait 100
+wait 100
+stop
+wait 2
+end

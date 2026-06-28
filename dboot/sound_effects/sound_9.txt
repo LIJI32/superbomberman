@@ -1,0 +1,59 @@
+header ff 07
+inst 0
+volume 100, 100
+adsr 5, 15, 4, 20
+pitch 0x1964
+play
+wait 2
+adsr 5, 15, 4, 20
+pitch 0x1b58
+play
+wait 2
+volume 95, 95
+adsr 5, 11, 4, 20
+pitch 0x1edc
+play
+wait 3
+volume 90, 90
+adsr 5, 11, 4, 20
+pitch 0x1d4c
+play
+wait 3
+volume 85, 85
+adsr 5, 11, 4, 20
+pitch 0x1edc
+play
+wait 3
+volume 80, 80
+adsr 5, 11, 4, 20
+pitch 0x1d4c
+play
+wait 3
+volume 70, 70
+adsr 5, 11, 4, 20
+pitch 0x1edc
+play
+wait 3
+volume 60, 60
+adsr 5, 11, 4, 20
+pitch 0x1d4c
+play
+wait 3
+volume 40, 40
+adsr 5, 11, 4, 20
+pitch 0x1edc
+play
+wait 3
+volume 30, 30
+adsr 5, 11, 4, 20
+pitch 0x1d4c
+play
+wait 3
+volume 20, 20
+adsr 5, 11, 4, 20
+pitch 0x1edc
+play
+wait 3
+stop
+wait 2
+end

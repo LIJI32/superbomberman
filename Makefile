@@ -131,9 +131,10 @@ $(foreach part,$(shell echo {0..8}),$(eval $(call divided_palettes)))
 
 # DBoot (Sound engine) configuration
 MAX_SONG = 41
+MAX_SAMPLES = 31
 
 # Join all data together
-$(OUT)/dboot/data.bin: $(OUT)/dboot/banks.bin dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin dboot/sound_effects.bin $(OUT)/dboot/songs.bin $(OUT)/tools/dboot
+$(OUT)/dboot/data.bin: $(OUT)/dboot/banks.bin $(OUT)/dboot/instruments.bin $(OUT)/dboot/samples.bin dboot/firmware.bin $(OUT)/dboot/sound_effects.bin $(OUT)/dboot/songs.bin $(OUT)/tools/dboot
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Joining DBoot data...$(TITLE_END)
 	$(OUT)/tools/dboot join $@ $(filter-out $(OUT)/tools/dboot,$^)
@@ -161,6 +162,21 @@ $(OUT)/dboot/songs.bin: $(addprefix $(OUT)/,$(shell echo dboot/songs/song_{0..$(
 	@mkdir -p $(dir $@)
 	@echo -e $(TITLE)Joining songs...$(TITLE_END)
 	$(OUT)/tools/dboot join-songs $@ $(filter-out $(OUT)/tools/dboot,$^)
+	
+$(OUT)/dboot/instruments.bin: $(shell ls dboot/instruments/*.bin | sort -V) | $(OUT)/tools/dboot
+	@mkdir -p $(dir $@)
+	@echo -e $(TITLE)Packing instruments...$(TITLE_END)
+	$(OUT)/tools/dboot join-instruments $@ $^
+	
+$(OUT)/dboot/sound_effects.bin: $(addprefix $(OUT)/,$(shell echo dboot/sound_effects/sound_{0..$(MAX_SAMPLES)}.bin))
+	@mkdir -p $(dir $@)
+	@echo -e $(TITLE)Packing sound effects...$(TITLE_END)
+	$(OUT)/tools/dboot join-songs $@ $^
+	
+$(OUT)/dboot/sound_effects/%.bin: dboot/sound_effects/%.txt $(OUT)/tools/compile_sound_effect
+	@mkdir -p $(dir $@)
+	@echo -e $(TITLE)Compiling sound effect...$(TITLE_END)
+	$(OUT)/tools/compile_sound_effect compile $< $@
 
 # Duplicated songs
 $(shell echo $(OUT)/dboot/songs/song_{30,32,34,36,38,40}.bin): $(OUT)/dboot/songs/song_13.bin

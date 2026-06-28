@@ -1,0 +1,61 @@
+header f5 07
+inst 4
+volume 127, 127
+adsr 5, 13, 4, 20
+pitch 0x1000
+play
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x11f4
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1388
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1964
+wait 3
+volume 80, 80
+adsr 5, 13, 4, 20
+pitch 0x1000
+play
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x11f4
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1388
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1964
+wait 3
+volume 45, 45
+adsr 5, 13, 4, 20
+pitch 0x1000
+play
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x11f4
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1388
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1964
+wait 3
+volume 25, 25
+adsr 5, 13, 4, 20
+pitch 0x1000
+play
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x11f4
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1388
+wait 2
+adsr 5, 13, 4, 20
+pitch 0x1964
+wait 3
+stop
+wait 2
+end

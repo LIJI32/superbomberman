@@ -1,0 +1,12 @@
+header ff 07
+inst 4
+volume 127, 127
+adsr 5, 15, 4, 20
+pitch 0xf38
+play
+wait 3
+pitch 0x1000
+wait 20
+stop
+wait 2
+end

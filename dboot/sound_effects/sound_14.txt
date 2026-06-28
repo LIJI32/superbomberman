@@ -1,0 +1,23 @@
+header ff 07
+inst 4
+volume 127, 127
+repeat 2 {
+    adsr 5, 13, 4, 20
+    pitch 0x11f4
+    play
+    wait 3
+    adsr 5, 13, 4, 20
+    pitch 0x1000
+    play
+    wait 2
+}
+adsr 5, 13, 4, 20
+pitch 0x10c8
+play
+adsr 5, 13, 4, 20
+pitch 0x1000
+play
+wait 10
+stop
+wait 2
+end

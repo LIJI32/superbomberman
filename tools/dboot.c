@@ -17,13 +17,13 @@ static uint8_t *file_contents(const char *path, size_t *size)
     return buf;
 }
 
-static void write_u16_be(FILE *f, uint16_t v)
+static void write_u16_be(FILE *f, uint32_t v)
 {
     uint8_t bytes[2] = { v >> 8, v };
     file_write(f, bytes, sizeof(bytes));
 }
 
-static void write_u16_le(FILE *f, uint16_t v)
+static void write_u16_le(FILE *f, uint32_t v)
 {
     uint8_t bytes[2] = { v, v >> 8 };
     file_write(f, bytes, sizeof(bytes));
@@ -35,13 +35,46 @@ static void write_u32_be(FILE *f, uint32_t v)
     file_write(f, bytes, sizeof(bytes));
 }
 
-static int dboot_join(FILE *out, unsigned count, const char *files[], bool prepend_sizes, bool prepend_count)
+static uint16_t read_u16_be(FILE *f)
+{
+    uint8_t bytes[2];
+    file_read(f, bytes, sizeof(bytes));
+    return (bytes[0] << 8) | bytes[1];
+}
+
+static uint16_t read_u16_le(FILE *f)
+{
+    uint8_t bytes[2];
+    file_read(f, bytes, sizeof(bytes));
+    return bytes[0] | (bytes[1] << 8);
+}
+
+static uint32_t read_u32_be(FILE *f)
+{
+    uint8_t bytes[4];
+    file_read(f, bytes, sizeof(bytes));
+    return ((uint32_t)bytes[0] << 24) | ((uint32_t)bytes[1] << 16) | ((uint32_t)bytes[2] << 8) | bytes[3];
+}
+
+static void copy_bytes(FILE *in, FILE *out, size_t size)
+{
+    while (size) {
+        static uint8_t buffer[0x1000];
+        size_t chunk = sizeof(buffer) < size ? sizeof(buffer) : size;
+        file_read(in, buffer, chunk);
+        file_write(out, buffer, chunk);
+        size -= chunk;
+    }
+}
+
+static int dboot_join(FILE *out, unsigned count, const char *files[], bool prepend_sizes, bool prepend_count, bool uses_16_bits)
 {
     if (prepend_count) {
         write_u16_be(out, count);
     }
     
-    fseek(out, count * (prepend_sizes? 8 : 4), SEEK_CUR);
+    size_t entry_size = (prepend_sizes? 8 : 4) / (uses_16_bits? 2 : 1);
+    fseek(out, count * entry_size, SEEK_CUR);
         
     for (unsigned i = 0; i < count; i++) {
         FILE *in = file_open(files[i], "rb");
@@ -61,10 +94,10 @@ static int dboot_join(FILE *out, unsigned count, const char *files[], bool prepe
             file_write(out, buffer, read);
             size -= read;
         }
-        fseek(out, i * (prepend_sizes? 8 : 4) + (prepend_count? 2 : 0), SEEK_SET);
-        write_u32_be(out, offset);
+        fseek(out, i * entry_size + (prepend_count? 2 : 0), SEEK_SET);
+        (uses_16_bits? write_u16_be : write_u32_be)(out, offset);
         if (prepend_sizes) {
-            write_u32_be(out, ftell(in));
+            (uses_16_bits? write_u16_be : write_u32_be)(out, ftell(in));
         }
         fclose(in);
         fseek(out, 0, SEEK_END);
@@ -99,6 +132,70 @@ static int dboot_join_channels(FILE *out, unsigned count, const char **channels)
     if (ftell(out) & 1) {
         fputc(0xFF, out);
     }
+    return 0;
+}
+
+static int dboot_split(FILE *in, const char *prefix, bool has_sizes, bool has_count, bool uses_16_bits)
+{
+    unsigned count;
+    size_t header_base;
+
+    if (has_count) {
+        count = read_u16_be(in);
+        header_base = 2;
+    }
+    else {
+        uint32_t first_offset = read_u32_be(in);
+        count = first_offset / (has_sizes ? 8 : 4) / (uses_16_bits? 2 : 1);
+        header_base = 0;
+    }
+
+
+    char *path = malloc(strlen(prefix) + 32);
+    unsigned entry_size = (has_sizes ? 8 : 4) / (uses_16_bits? 2 : 1);
+
+    for (unsigned i = 0; i < count; i++) {
+        fseek(in, header_base + i * entry_size, SEEK_SET);
+        uint32_t offset = (uses_16_bits? read_u16_be(in) : read_u32_be(in));
+        size_t size;
+
+        if (has_sizes) {
+            size = (uses_16_bits? read_u16_be(in) : read_u32_be(in));
+        }
+        else if (i + 1 < count) {
+            size = (uses_16_bits? read_u16_be(in) : read_u32_be(in)) - offset;
+        }
+        else {
+            fseek(in, 0, SEEK_END);
+            size = ftell(in) - offset;
+        }
+
+        sprintf(path, "%s%u.bin", prefix, i);
+        FILE *out = file_open(path, "wb");
+        fseek(in, offset, SEEK_SET);
+        copy_bytes(in, out, size);
+        fclose(out);
+    }
+
+    free(path);
+    return 0;
+}
+
+static int dboot_split_channels(FILE *in, const char *prefix)
+{
+    char *path = malloc(strlen(prefix) + 32);
+
+    for (unsigned i = 0; ; i++) {
+        uint16_t size = read_u16_le(in);
+        if (size == 0xFFFF) break;
+
+        sprintf(path, "%s%u.bin", prefix, i);
+        FILE *out = file_open(path, "wb");
+        copy_bytes(in, out, size);
+        fclose(out);
+    }
+
+    free(path);
     return 0;
 }
 
@@ -317,7 +414,7 @@ static int pack_dboot_samples(FILE *out, const char *definition)
 int main(int argc, const char **argv)
 {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s join|join-songs|join-channels|pack-samples|compile-banks|decompile-banks ...\n", argv[0]);
+        fprintf(stderr, "Usage: %s join|split|join-songs|join-instruments|split-songs|split-instruments|join-channels|split-channels|pack-samples|compile-banks|decompile-banks ...\n", argv[0]);
         return 1;
     }
     
@@ -327,9 +424,19 @@ int main(int argc, const char **argv)
             return 1;
         }
         FILE *out = file_open(argv[2], "wb");
-        int ret = dboot_join(out, argc - 3, &argv[3], false, false);
+        int ret = dboot_join(out, argc - 3, &argv[3], false, false, false);
         fclose(out);
         if (ret) unlink(argv[2]);
+        return ret;
+    }
+    if (strcmp(argv[1], "split") == 0) {
+        if (argc != 4) {
+            fprintf(stderr, "Usage: %s split in prefix\n", argv[0]);
+            return 1;
+        }
+        FILE *in = file_open(argv[2], "rb");
+        int ret = dboot_split(in, argv[3], false, false, false);
+        fclose(in);
         return ret;
     }
     if (strcmp(argv[1], "join-songs") == 0) {
@@ -338,9 +445,40 @@ int main(int argc, const char **argv)
             return 1;
         }
         FILE *out = file_open(argv[2], "wb");
-        int ret = dboot_join(out, argc - 3, &argv[3], true, true);
+        int ret = dboot_join(out, argc - 3, &argv[3], true, true, false);
         fclose(out);
         if (ret) unlink(argv[2]);
+        return ret;
+    }
+    if (strcmp(argv[1], "join-instruments") == 0) {
+        if (argc < 4) {
+            fprintf(stderr, "Usage: %s join-songs out files...\n", argv[0]);
+            return 1;
+        }
+        FILE *out = file_open(argv[2], "wb");
+        int ret = dboot_join(out, argc - 3, &argv[3], true, true, true);
+        fclose(out);
+        if (ret) unlink(argv[2]);
+        return ret;
+    }
+    if (strcmp(argv[1], "split-songs") == 0) { // Applies to sound effects as well
+        if (argc != 4) {
+            fprintf(stderr, "Usage: %s split-songs in prefix\n", argv[0]);
+            return 1;
+        }
+        FILE *in = file_open(argv[2], "rb");
+        int ret = dboot_split(in, argv[3], true, true, false);
+        fclose(in);
+        return ret;
+    }
+    if (strcmp(argv[1], "split-instruments") == 0) {
+        if (argc != 4) {
+            fprintf(stderr, "Usage: %s split-instruments in prefix\n", argv[0]);
+            return 1;
+        }
+        FILE *in = file_open(argv[2], "rb");
+        int ret = dboot_split(in, argv[3], true, true, true);
+        fclose(in);
         return ret;
     }
     if (strcmp(argv[1], "join-channels") == 0) {
@@ -352,6 +490,16 @@ int main(int argc, const char **argv)
         int ret = dboot_join_channels(out, argc - 3, &argv[3]);
         fclose(out);
         if (ret) unlink(argv[2]);
+        return ret;
+    }
+    if (strcmp(argv[1], "split-channels") == 0) {
+        if (argc != 4) {
+            fprintf(stderr, "Usage: %s split-channels in prefix\n", argv[0]);
+            return 1;
+        }
+        FILE *in = file_open(argv[2], "rb");
+        int ret = dboot_split_channels(in, argv[3]);
+        fclose(in);
         return ret;
     }
     if (strcmp(argv[1], "compile-banks") == 0) {
