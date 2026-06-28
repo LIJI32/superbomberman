@@ -12206,8 +12206,8 @@ sub_C45F1E:
     TXA
     STA a:8, Y
     SEP #0x20
-    LDA #0x81
-    STA a:2, Y
+    LDA #0x85 ; bit 2 prevents the bomb from scoring
+    STA a:bomb_object.association, Y
     LDA #0x78
     STA a:3, Y
     LDA #1
