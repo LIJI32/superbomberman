@@ -10269,7 +10269,7 @@ i16
 sub_C45202:
     REP #0x20
     LDA z:bomb_object.range_and_flags, X
-    BIT #BOMB_FLAGS_UNKNOWN
+    BIT #BOMB_FLAGS_FORCE_DETONATION
     BEQ +
     JML sub_C45394
 +
@@ -11629,39 +11629,39 @@ sub_C45ADB:
     RTL
 
 ; Finds the bomb at tile index Y in the bomb object linked list, and force-detonates it
-; by setting its countdown to 8 and marking it with BOMB_FLAGS_UNKNOWN.
+; by setting its countdown to 8 and marking it with BOMB_FLAGS_FORCE_DETONATION.
 ; Also copies the association byte from the caller's object (X) to the bomb,
 ; unless the two objects differ in bit 2 of their association bytes.
 ; Input: Y = tile_index to find
-;        X = caller object (offset 2 read as association)
+;        X = caller object
 force_detonate_bomb_at_tile:
     .TILE_INDEX = 0x56
 i16
     REP #0x20
     STY z:.TILE_INDEX
-    LDY #0x1C80                 ; start of bomb object linked list (unknown_static_small_object)
+    LDY #addr(unknown_static_small_object)
 
-.search:
+.loop:
     LDA a:bomb_object.range_and_flags, Y
-    BIT #BOMB_FLAGS_UNKNOWN     ; already being detonated?
+    BIT #BOMB_FLAGS_FORCE_DETONATION
     BNE .next
     LDA a:bomb_object.tile_index, Y
-    CMP z:.TILE_INDEX           ; is this the bomb at our tile?
+    CMP z:.TILE_INDEX
     BNE .next
     SEP #0x20
     LDA #8
     STA a:bomb_object.countdown, Y
     LDA a:bomb_object.range_and_flags, Y
-    ORA #BOMB_FLAGS_UNKNOWN     ; mark as being detonated
+    ORA #BOMB_FLAGS_FORCE_DETONATION ; mark as being detonated
     STA a:bomb_object.range_and_flags, Y
-    LDA z:2, X                  ; caller's association byte
+    LDA z:bomb_object.association, X ; caller's association byte
     EOR a:bomb_object.association, Y
-    AND #4                      ; check if bit 2 differs
-    BNE .done                   ; if so, don't overwrite association
-    LDA z:2, X
+    AND #4 ; check if bit 2 differs, a bit weird since that's the upper bit of the player index?
+    BNE .ret
+    LDA z:bomb_object.association, X
     STA a:bomb_object.association, Y
 
-.done:
+.ret:
     REP #0x20
     RTL
 
@@ -11669,7 +11669,7 @@ i16
     LDA a:bomb_object.next, Y
     TAY
     INC A
-    BNE .search
+    BNE .loop
     RTL
 
     REP #0x20

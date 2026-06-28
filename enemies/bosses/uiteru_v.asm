@@ -607,7 +607,7 @@ uiteru_v_handle_bombs:
     ; then temporarily set association to 1
     LDA z:bomb_object.association, X 
     PHA
-    LDA #1 ; Player 1
+    LDA #1
     STA z:bomb_object.association, X
     JSL force_detonate_bomb_at_tile
     SEP #0x20
