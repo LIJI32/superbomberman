@@ -1,47 +1,47 @@
 segment "BANK5"
 
-animation_frame_C50000:
+battle_menu_arrow_frame:
     animation_frame_tile_count
     frame_oam_tile   -4,    0, 0x0bc, 0x02
     frame_oam_tile   -4,   -8, 0x0b4, 0x02
     .end
-animation_frame_C5000B:
+battle_menu_number_1_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x060, 0x24
     .end
-animation_frame_C50011:
+battle_menu_number_2_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x062, 0x24
     .end
-animation_frame_C50017:
+battle_menu_number_3_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x064, 0x24
     .end
-animation_frame_C5001D:
+battle_menu_number_4_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x066, 0x24
     .end
-animation_frame_C50023:
+battle_menu_number_5_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x070, 0x24
     .end
-animation_frame_C50029:
+battle_menu_number_6_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x072, 0x24
     .end
-animation_frame_C5002F:
+battle_menu_number_7_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x074, 0x24
     .end
-animation_frame_C50035:
+battle_menu_number_8_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x076, 0x24
     .end
-animation_frame_C5003B:
+battle_menu_number_9_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x094, 0x24
     .end
-animation_frame_C50041:
+battle_menu_number_10_frame:
     animation_frame_tile_count
     frame_oam_tile   -2,   -8, 0x09e, 0x84
     frame_oam_tile    6,   -8, 0x095, 0x04
@@ -49,29 +49,29 @@ animation_frame_C50041:
     frame_oam_tile   -2,    0, 0x09e, 0x04
     frame_oam_tile  -12,   -8, 0x060, 0x24
     .end
-animation_frame_C5005B:
+battle_menu_number_11_frame:
     animation_frame_tile_count
     frame_oam_tile   -3,   -8, 0x060, 0x24
     frame_oam_tile  -12,   -8, 0x060, 0x24
     .end
-animation_frame_C50066:
+battle_menu_number_12_frame:
     animation_frame_tile_count
     frame_oam_tile   -2,   -8, 0x062, 0x24
     frame_oam_tile  -12,   -8, 0x060, 0x24
     .end
-animation_frame_C50071:
+battle_menu_man_frame:
     animation_frame_tile_count
     frame_oam_tile    8,   -8, 0x030, 0x24
     frame_oam_tile   -8,   -8, 0x034, 0x24
     frame_oam_tile  -24,   -8, 0x006, 0x24
     .end
-animation_frame_C50081:
+battle_menu_com_frame:
     animation_frame_tile_count
     frame_oam_tile    8,   -8, 0x006, 0x26
     frame_oam_tile   -8,   -8, 0x004, 0x26
     frame_oam_tile  -24,   -8, 0x016, 0x26
     .end
-animation_frame_C50091:
+battle_menu_off_frame:
 ifndef J
     animation_frame_tile_count
     frame_oam_tile    8,   -8, 0x002, 0x28
@@ -92,69 +92,69 @@ else
     frame_oam_tile  -24,   -8, 0x004, 0x28
     .end
 endif
- byte_C500A1:
+ battle_menu_arrow:
     animation_frame_count
-    animation_frame animation_frame_C50000, 0xFF
+    animation_frame battle_menu_arrow_frame, 0xFF
     .end
- byte_C500A6:
+ battle_menu_number_1:
     animation_frame_count
-    animation_frame animation_frame_C5000B, 0xFF
+    animation_frame battle_menu_number_1_frame, 0xFF
     .end
- byte_C500AB:
+ battle_menu_number_2:
     animation_frame_count
-    animation_frame animation_frame_C50011, 0xFF
+    animation_frame battle_menu_number_2_frame, 0xFF
     .end
- byte_C500B0:
+ battle_menu_number_3:
     animation_frame_count
-    animation_frame animation_frame_C50017, 0xFF
+    animation_frame battle_menu_number_3_frame, 0xFF
     .end
- byte_C500B5:
+ battle_menu_number_4:
     animation_frame_count
-    animation_frame animation_frame_C5001D, 0xFF
+    animation_frame battle_menu_number_4_frame, 0xFF
     .end
- byte_C500BA:
+ battle_menu_number_5:
     animation_frame_count
-    animation_frame animation_frame_C50023, 0xFF
+    animation_frame battle_menu_number_5_frame, 0xFF
     .end
- byte_C500BF:
+ battle_menu_number_6:
     animation_frame_count
-    animation_frame animation_frame_C50029, 0xFF
+    animation_frame battle_menu_number_6_frame, 0xFF
     .end
- byte_C500C4:
+ battle_menu_number_7:
     animation_frame_count
-    animation_frame animation_frame_C5002F, 0xFF
+    animation_frame battle_menu_number_7_frame, 0xFF
     .end
- byte_C500C9:
+ battle_menu_number_8:
     animation_frame_count
-    animation_frame animation_frame_C50035, 0xFF
+    animation_frame battle_menu_number_8_frame, 0xFF
     .end
- byte_C500CE:
+ battle_menu_number_9:
     animation_frame_count
-    animation_frame animation_frame_C5003B, 0xFF
+    animation_frame battle_menu_number_9_frame, 0xFF
     .end
- byte_C500D3:
+ battle_menu_number_10:
     animation_frame_count
-    animation_frame animation_frame_C50041, 0xFF
+    animation_frame battle_menu_number_10_frame, 0xFF
     .end
- byte_C500D8:
+ battle_menu_number_11:
     animation_frame_count
-    animation_frame animation_frame_C5005B, 0xFF
+    animation_frame battle_menu_number_11_frame, 0xFF
     .end
- byte_C500DD:
+ battle_menu_number_12:
     animation_frame_count
-    animation_frame animation_frame_C50066, 0xFF
+    animation_frame battle_menu_number_12_frame, 0xFF
     .end
- byte_C500E2:
+ battle_menu_man:
     animation_frame_count
-    animation_frame animation_frame_C50071, 0xFF
+    animation_frame battle_menu_man_frame, 0xFF
     .end
- byte_C500E7:
+ battle_menu_com:
     animation_frame_count
-    animation_frame animation_frame_C50081, 0xFF
+    animation_frame battle_menu_com_frame, 0xFF
     .end
- byte_C500EC:
+ battle_menu_off:
     animation_frame_count
-    animation_frame animation_frame_C50091, 0xFF
+    animation_frame battle_menu_off_frame, 0xFF
     .end
 if !USE_KATAKANA
 
@@ -634,404 +634,416 @@ speed_zone_label_frame:
     frame_oam_tile  -48,    5, ' ', 0x02
     .end
 else
+encode battle_mode_label, "フツウカステキシロノョメンコハクタホヨャ", 0x80
+encode battle_mode_label, "ルソヘアトモ", 0x96
+encode battle_mode_label, "イ", 0xa8
+encode battle_mode_label, "ヒ", 0xaa
+encode battle_mode_label, "ワ", 0xac
+encode battle_mode_label, "ー", 0xae
+encode battle_mode_label, "リラ", 0xb2
+encode battle_mode_label, " ッケ", 0xb5
+encode battle_mode_label, "゜", 0xbb
+encode battle_mode_label, "゛ム", 0xbd
+
+encoding battle_mode_label
 normal_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   28,   -3, 0x0b5, 0x02
-    frame_oam_tile   -1,  -10, 0x0bd, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,   -3, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,   -3, 0x086, 0x02
-    frame_oam_tile   12,   -3, 0x085, 0x02
-    frame_oam_tile    4,   -3, 0x084, 0x02
-    frame_oam_tile   -4,   -3, 0x083, 0x02
-    frame_oam_tile  -12,   -3, 0x082, 0x02
-    frame_oam_tile  -20,   -3, 0x081, 0x02
-    frame_oam_tile  -28,   -3, 0x080, 0x02
+    frame_oam_tile   28,   -3, ' ', 0x02
+    frame_oam_tile   -1,  -10, '゛', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -36,   -3, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile   20,   -3, 'キ', 0x02
+    frame_oam_tile   12,   -3, 'テ', 0x02
+    frame_oam_tile    4,   -3, 'ス', 0x02
+    frame_oam_tile   -4,   -3, 'カ', 0x02
+    frame_oam_tile  -12,   -3, 'ウ', 0x02
+    frame_oam_tile  -20,   -3, 'ツ', 0x02
+    frame_oam_tile  -28,   -3, 'フ', 0x02
     .end
 western_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile  -44,  -11, 0x0b5, 0x02
-    frame_oam_tile  -44,   -3, 0x0b5, 0x02
-    frame_oam_tile  -44,    5, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   36,    5, 0x0b5, 0x02
-    frame_oam_tile   36,   -3, 0x0b5, 0x02
-    frame_oam_tile   36,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,   -3, 0x08c, 0x02
-    frame_oam_tile   20,   -3, 0x08b, 0x02
-    frame_oam_tile   12,   -3, 0x082, 0x02
-    frame_oam_tile    4,   -3, 0x08a, 0x02
-    frame_oam_tile   -4,   -3, 0x087, 0x02
-    frame_oam_tile  -12,   -3, 0x089, 0x02
-    frame_oam_tile  -20,   -3, 0x088, 0x02
-    frame_oam_tile  -28,   -3, 0x087, 0x02
-    frame_oam_tile  -36,   -3, 0x082, 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile  -44,   -3, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   36,   -3, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile   28,   -3, 'ン', 0x02
+    frame_oam_tile   20,   -3, 'メ', 0x02
+    frame_oam_tile   12,   -3, 'ウ', 0x02
+    frame_oam_tile    4,   -3, 'ョ', 0x02
+    frame_oam_tile   -4,   -3, 'シ', 0x02
+    frame_oam_tile  -12,   -3, 'ノ', 0x02
+    frame_oam_tile  -20,   -3, 'ロ', 0x02
+    frame_oam_tile  -28,   -3, 'シ', 0x02
+    frame_oam_tile  -36,   -3, 'ウ', 0x02
     .end
 bomb_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   20,  -10, 0x0bd, 0x02
-    frame_oam_tile    4,  -10, 0x0bd, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,   -3, 0x0b5, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile   32,   -3, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,   -3, 0x08c, 0x02
-    frame_oam_tile   16,   -3, 0x090, 0x02
-    frame_oam_tile    8,   -3, 0x08f, 0x02
-    frame_oam_tile    0,   -3, 0x08e, 0x02
-    frame_oam_tile  -16,   -3, 0x08d, 0x02
-    frame_oam_tile   -8,   -3, 0x088, 0x02
-    frame_oam_tile  -24,   -3, 0x088, 0x02
-    frame_oam_tile  -32,   -3, 0x08d, 0x02
+    frame_oam_tile   20,  -10, '゛', 0x02
+    frame_oam_tile    4,  -10, '゛', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -40,   -3, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   32,   -3, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile   24,   -3, 'ン', 0x02
+    frame_oam_tile   16,   -3, 'タ', 0x02
+    frame_oam_tile    8,   -3, 'ク', 0x02
+    frame_oam_tile    0,   -3, 'ハ', 0x02
+    frame_oam_tile  -16,   -3, 'コ', 0x02
+    frame_oam_tile   -8,   -3, 'ロ', 0x02
+    frame_oam_tile  -24,   -3, 'ロ', 0x02
+    frame_oam_tile  -32,   -3, 'コ', 0x02
     .end
 jump_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   30,  -10, 0x0bb, 0x02
-    frame_oam_tile    6,  -10, 0x0bd, 0x02
-    frame_oam_tile  -28,  -10, 0x0bd, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,   -3, 0x0b5, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile   32,   -3, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,   -3, 0x080, 0x02
-    frame_oam_tile   16,   -3, 0x08c, 0x02
-    frame_oam_tile    8,   -3, 0x093, 0x02
-    frame_oam_tile    0,   -3, 0x087, 0x02
-    frame_oam_tile   -8,   -3, 0x08c, 0x02
-    frame_oam_tile  -16,   -3, 0x092, 0x02
-    frame_oam_tile  -24,   -3, 0x092, 0x02
-    frame_oam_tile  -32,   -3, 0x091, 0x02
+    frame_oam_tile   30,  -10, '゜', 0x02
+    frame_oam_tile    6,  -10, '゛', 0x02
+    frame_oam_tile  -28,  -10, '゛', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -40,   -3, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   32,   -3, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile   24,   -3, 'フ', 0x02
+    frame_oam_tile   16,   -3, 'ン', 0x02
+    frame_oam_tile    8,   -3, 'ャ', 0x02
+    frame_oam_tile    0,   -3, 'シ', 0x02
+    frame_oam_tile   -8,   -3, 'ン', 0x02
+    frame_oam_tile  -16,   -3, 'ヨ', 0x02
+    frame_oam_tile  -24,   -3, 'ヨ', 0x02
+    frame_oam_tile  -32,   -3, 'ホ', 0x02
     .end
 belt_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   16,  -10, 0x0bd, 0x02
-    frame_oam_tile  -24,  -10, 0x0bd, 0x02
-    frame_oam_tile   29,  -11, 0x0b5, 0x02
-    frame_oam_tile   29,   -3, 0x0b5, 0x02
-    frame_oam_tile   29,    5, 0x0b5, 0x02
-    frame_oam_tile   21,    5, 0x0b5, 0x02
-    frame_oam_tile   13,    5, 0x0b5, 0x02
-    frame_oam_tile    5,    5, 0x0b5, 0x02
-    frame_oam_tile   -3,    5, 0x0b5, 0x02
-    frame_oam_tile  -11,    5, 0x0b5, 0x02
-    frame_oam_tile  -19,    5, 0x0b5, 0x02
-    frame_oam_tile  -27,    5, 0x0b5, 0x02
-    frame_oam_tile  -35,    5, 0x0b5, 0x02
-    frame_oam_tile  -35,   -3, 0x0b5, 0x02
-    frame_oam_tile  -35,  -11, 0x0b5, 0x02
-    frame_oam_tile   21,  -11, 0x0b5, 0x02
-    frame_oam_tile   13,  -11, 0x0b5, 0x02
-    frame_oam_tile    5,  -11, 0x0b5, 0x02
-    frame_oam_tile   -3,  -11, 0x0b5, 0x02
-    frame_oam_tile  -11,  -11, 0x0b5, 0x02
-    frame_oam_tile  -19,  -11, 0x0b5, 0x02
-    frame_oam_tile  -27,  -11, 0x0b5, 0x02
-    frame_oam_tile  -19,   -3, 0x096, 0x02
-    frame_oam_tile   21,   -3, 0x099, 0x02
-    frame_oam_tile   13,   -3, 0x098, 0x02
-    frame_oam_tile    5,   -3, 0x08c, 0x02
-    frame_oam_tile   -3,   -3, 0x08d, 0x02
-    frame_oam_tile  -11,   -3, 0x09a, 0x02
-    frame_oam_tile  -27,   -3, 0x098, 0x02
+    frame_oam_tile   16,  -10, '゛', 0x02
+    frame_oam_tile  -24,  -10, '゛', 0x02
+    frame_oam_tile   29,  -11, ' ', 0x02
+    frame_oam_tile   29,   -3, ' ', 0x02
+    frame_oam_tile   29,    5, ' ', 0x02
+    frame_oam_tile   21,    5, ' ', 0x02
+    frame_oam_tile   13,    5, ' ', 0x02
+    frame_oam_tile    5,    5, ' ', 0x02
+    frame_oam_tile   -3,    5, ' ', 0x02
+    frame_oam_tile  -11,    5, ' ', 0x02
+    frame_oam_tile  -19,    5, ' ', 0x02
+    frame_oam_tile  -27,    5, ' ', 0x02
+    frame_oam_tile  -35,    5, ' ', 0x02
+    frame_oam_tile  -35,   -3, ' ', 0x02
+    frame_oam_tile  -35,  -11, ' ', 0x02
+    frame_oam_tile   21,  -11, ' ', 0x02
+    frame_oam_tile   13,  -11, ' ', 0x02
+    frame_oam_tile    5,  -11, ' ', 0x02
+    frame_oam_tile   -3,  -11, ' ', 0x02
+    frame_oam_tile  -11,  -11, ' ', 0x02
+    frame_oam_tile  -19,  -11, ' ', 0x02
+    frame_oam_tile  -27,  -11, ' ', 0x02
+    frame_oam_tile  -19,   -3, 'ル', 0x02
+    frame_oam_tile   21,   -3, 'ア', 0x02
+    frame_oam_tile   13,   -3, 'ヘ', 0x02
+    frame_oam_tile    5,   -3, 'ン', 0x02
+    frame_oam_tile   -3,   -3, 'コ', 0x02
+    frame_oam_tile  -11,   -3, 'ト', 0x02
+    frame_oam_tile  -27,   -3, 'ヘ', 0x02
     .end
 tunnel_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile    9,  -10, 0x0bd, 0x02
-    frame_oam_tile    1,  -10, 0x0bd, 0x02
-    frame_oam_tile  -24,   -9, 0x0bd, 0x02
-    frame_oam_tile   29,    5, 0x0b5, 0x02
-    frame_oam_tile   29,   -3, 0x0b5, 0x02
-    frame_oam_tile   29,  -11, 0x0b5, 0x02
-    frame_oam_tile  -35,   -3, 0x0b5, 0x02
-    frame_oam_tile  -35,    5, 0x0b5, 0x02
-    frame_oam_tile  -35,  -11, 0x0b5, 0x02
-    frame_oam_tile  -27,  -11, 0x0b5, 0x02
-    frame_oam_tile  -19,  -11, 0x0b5, 0x02
-    frame_oam_tile  -11,  -11, 0x0b5, 0x02
-    frame_oam_tile   -3,  -11, 0x0b5, 0x02
-    frame_oam_tile    5,  -11, 0x0b5, 0x02
-    frame_oam_tile   13,  -11, 0x0b5, 0x02
-    frame_oam_tile   21,  -11, 0x0b5, 0x02
-    frame_oam_tile   21,    5, 0x0b5, 0x02
-    frame_oam_tile   13,    5, 0x0b5, 0x02
-    frame_oam_tile    5,    5, 0x0b5, 0x02
-    frame_oam_tile   -3,    5, 0x0b5, 0x02
-    frame_oam_tile  -11,    5, 0x0b5, 0x02
-    frame_oam_tile  -19,    5, 0x0b5, 0x02
-    frame_oam_tile  -27,    5, 0x0b5, 0x02
-    frame_oam_tile   21,   -3, 0x08c, 0x02
-    frame_oam_tile   13,   -3, 0x083, 0x02
-    frame_oam_tile    5,   -3, 0x091, 0x02
-    frame_oam_tile   -3,   -3, 0x085, 0x02
-    frame_oam_tile  -11,   -3, 0x08c, 0x02
-    frame_oam_tile  -19,   -3, 0x083, 0x02
-    frame_oam_tile  -27,   -3, 0x09a, 0x02
+    frame_oam_tile    9,  -10, '゛', 0x02
+    frame_oam_tile    1,  -10, '゛', 0x02
+    frame_oam_tile  -24,   -9, '゛', 0x02
+    frame_oam_tile   29,    5, ' ', 0x02
+    frame_oam_tile   29,   -3, ' ', 0x02
+    frame_oam_tile   29,  -11, ' ', 0x02
+    frame_oam_tile  -35,   -3, ' ', 0x02
+    frame_oam_tile  -35,    5, ' ', 0x02
+    frame_oam_tile  -35,  -11, ' ', 0x02
+    frame_oam_tile  -27,  -11, ' ', 0x02
+    frame_oam_tile  -19,  -11, ' ', 0x02
+    frame_oam_tile  -11,  -11, ' ', 0x02
+    frame_oam_tile   -3,  -11, ' ', 0x02
+    frame_oam_tile    5,  -11, ' ', 0x02
+    frame_oam_tile   13,  -11, ' ', 0x02
+    frame_oam_tile   21,  -11, ' ', 0x02
+    frame_oam_tile   21,    5, ' ', 0x02
+    frame_oam_tile   13,    5, ' ', 0x02
+    frame_oam_tile    5,    5, ' ', 0x02
+    frame_oam_tile   -3,    5, ' ', 0x02
+    frame_oam_tile  -11,    5, ' ', 0x02
+    frame_oam_tile  -19,    5, ' ', 0x02
+    frame_oam_tile  -27,    5, ' ', 0x02
+    frame_oam_tile   21,   -3, 'ン', 0x02
+    frame_oam_tile   13,   -3, 'カ', 0x02
+    frame_oam_tile    5,   -3, 'ホ', 0x02
+    frame_oam_tile   -3,   -3, 'テ', 0x02
+    frame_oam_tile  -11,   -3, 'ン', 0x02
+    frame_oam_tile  -19,   -3, 'カ', 0x02
+    frame_oam_tile  -27,   -3, 'ト', 0x02
     .end
 duel_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile   32,   -3, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -40,   -3, 0x0b5, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,   -3, 0x0be, 0x02
-    frame_oam_tile   16,   -3, 0x085, 0x02
-    frame_oam_tile    8,   -3, 0x0a8, 0x02
-    frame_oam_tile    0,   -3, 0x099, 0x02
-    frame_oam_tile   -8,   -3, 0x0b7, 0x02
-    frame_oam_tile  -16,   -3, 0x085, 0x02
-    frame_oam_tile  -24,   -3, 0x0b6, 0x02
-    frame_oam_tile  -32,   -3, 0x09b, 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   32,   -3, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -40,   -3, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile   24,   -3, 'ム', 0x02
+    frame_oam_tile   16,   -3, 'テ', 0x02
+    frame_oam_tile    8,   -3, 'イ', 0x02
+    frame_oam_tile    0,   -3, 'ア', 0x02
+    frame_oam_tile   -8,   -3, 'ケ', 0x02
+    frame_oam_tile  -16,   -3, 'テ', 0x02
+    frame_oam_tile  -24,   -3, 'ッ', 0x02
+    frame_oam_tile  -32,   -3, 'モ', 0x02
     .end
 flower_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   -8,  -10, 0x0bd, 0x02
-    frame_oam_tile  -23,  -11, 0x0bd, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,   -3, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,   -3, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,   -3, 0x0ae, 0x02
-    frame_oam_tile   12,   -3, 0x0ac, 0x02
-    frame_oam_tile    4,   -3, 0x0b3, 0x02
-    frame_oam_tile   -4,   -3, 0x080, 0x02
-    frame_oam_tile  -12,   -3, 0x0aa, 0x02
-    frame_oam_tile  -20,   -3, 0x08c, 0x02
-    frame_oam_tile  -28,   -3, 0x097, 0x02
+    frame_oam_tile   -8,  -10, '゛', 0x02
+    frame_oam_tile  -23,  -11, '゛', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -36,   -3, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   28,   -3, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile   20,   -3, 'ー', 0x02
+    frame_oam_tile   12,   -3, 'ワ', 0x02
+    frame_oam_tile    4,   -3, 'ラ', 0x02
+    frame_oam_tile   -4,   -3, 'フ', 0x02
+    frame_oam_tile  -12,   -3, 'ヒ', 0x02
+    frame_oam_tile  -20,   -3, 'ン', 0x02
+    frame_oam_tile  -28,   -3, 'ソ', 0x02
     .end
 light_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile  -22,  -10, 0x0bb, 0x02
-    frame_oam_tile  -35,  -11, 0x0b5, 0x02
-    frame_oam_tile  -35,   -3, 0x0b5, 0x02
-    frame_oam_tile  -35,    5, 0x0b5, 0x02
-    frame_oam_tile   29,    5, 0x0b5, 0x02
-    frame_oam_tile   29,   -3, 0x0b5, 0x02
-    frame_oam_tile   29,  -11, 0x0b5, 0x02
-    frame_oam_tile   21,    5, 0x0b5, 0x02
-    frame_oam_tile   13,    5, 0x0b5, 0x02
-    frame_oam_tile    5,    5, 0x0b5, 0x02
-    frame_oam_tile   -3,    5, 0x0b5, 0x02
-    frame_oam_tile  -11,    5, 0x0b5, 0x02
-    frame_oam_tile  -19,    5, 0x0b5, 0x02
-    frame_oam_tile  -27,    5, 0x0b5, 0x02
-    frame_oam_tile   21,  -11, 0x0b5, 0x02
-    frame_oam_tile   13,  -11, 0x0b5, 0x02
-    frame_oam_tile    5,  -11, 0x0b5, 0x02
-    frame_oam_tile   -3,  -11, 0x0b5, 0x02
-    frame_oam_tile  -11,  -11, 0x0b5, 0x02
-    frame_oam_tile  -19,  -11, 0x0b5, 0x02
-    frame_oam_tile  -27,  -11, 0x0b5, 0x02
-    frame_oam_tile   21,   -3, 0x09a, 0x02
-    frame_oam_tile   13,   -3, 0x0a8, 0x02
-    frame_oam_tile    5,   -3, 0x0b3, 0x02
-    frame_oam_tile   -3,   -3, 0x0b2, 0x02
-    frame_oam_tile  -11,   -3, 0x083, 0x02
-    frame_oam_tile  -19,   -3, 0x0b6, 0x02
-    frame_oam_tile  -27,   -3, 0x091, 0x02
+    frame_oam_tile  -22,  -10, '゜', 0x02
+    frame_oam_tile  -35,  -11, ' ', 0x02
+    frame_oam_tile  -35,   -3, ' ', 0x02
+    frame_oam_tile  -35,    5, ' ', 0x02
+    frame_oam_tile   29,    5, ' ', 0x02
+    frame_oam_tile   29,   -3, ' ', 0x02
+    frame_oam_tile   29,  -11, ' ', 0x02
+    frame_oam_tile   21,    5, ' ', 0x02
+    frame_oam_tile   13,    5, ' ', 0x02
+    frame_oam_tile    5,    5, ' ', 0x02
+    frame_oam_tile   -3,    5, ' ', 0x02
+    frame_oam_tile  -11,    5, ' ', 0x02
+    frame_oam_tile  -19,    5, ' ', 0x02
+    frame_oam_tile  -27,    5, ' ', 0x02
+    frame_oam_tile   21,  -11, ' ', 0x02
+    frame_oam_tile   13,  -11, ' ', 0x02
+    frame_oam_tile    5,  -11, ' ', 0x02
+    frame_oam_tile   -3,  -11, ' ', 0x02
+    frame_oam_tile  -11,  -11, ' ', 0x02
+    frame_oam_tile  -19,  -11, ' ', 0x02
+    frame_oam_tile  -27,  -11, ' ', 0x02
+    frame_oam_tile   21,   -3, 'ト', 0x02
+    frame_oam_tile   13,   -3, 'イ', 0x02
+    frame_oam_tile    5,   -3, 'ラ', 0x02
+    frame_oam_tile   -3,   -3, 'リ', 0x02
+    frame_oam_tile  -11,   -3, 'カ', 0x02
+    frame_oam_tile  -19,   -3, 'ッ', 0x02
+    frame_oam_tile  -27,   -3, 'ホ', 0x02
     .end
 power_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   13,  -10, 0x0bb, 0x02
-    frame_oam_tile   -4,  -10, 0x0bd, 0x02
-    frame_oam_tile  -20,  -10, 0x0bd, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,   -3, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,   -3, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile   24,   -3, 0x0ae, 0x02
-    frame_oam_tile   16,   -3, 0x0ac, 0x02
-    frame_oam_tile    8,   -3, 0x08e, 0x02
-    frame_oam_tile    0,   -3, 0x08c, 0x02
-    frame_oam_tile   -8,   -3, 0x086, 0x02
-    frame_oam_tile  -16,   -3, 0x08c, 0x02
-    frame_oam_tile  -24,   -3, 0x086, 0x02
+    frame_oam_tile   13,  -10, '゜', 0x02
+    frame_oam_tile   -4,  -10, '゛', 0x02
+    frame_oam_tile  -20,  -10, '゛', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   32,   -3, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -32,   -3, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   24,   -3, 'ー', 0x02
+    frame_oam_tile   16,   -3, 'ワ', 0x02
+    frame_oam_tile    8,   -3, 'ハ', 0x02
+    frame_oam_tile    0,   -3, 'ン', 0x02
+    frame_oam_tile   -8,   -3, 'キ', 0x02
+    frame_oam_tile  -16,   -3, 'ン', 0x02
+    frame_oam_tile  -24,   -3, 'キ', 0x02
     .end
 warp_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   27,   -9, 0x0bb, 0x02
-    frame_oam_tile  -24,  -10, 0x0bd, 0x02
-    frame_oam_tile  -36,  -11, 0x0b5, 0x02
-    frame_oam_tile  -36,   -3, 0x0b5, 0x02
-    frame_oam_tile  -36,    5, 0x0b5, 0x02
-    frame_oam_tile   28,    5, 0x0b5, 0x02
-    frame_oam_tile   28,  -11, 0x0b5, 0x02
-    frame_oam_tile   28,   -3, 0x0b5, 0x02
-    frame_oam_tile   20,    5, 0x0b5, 0x02
-    frame_oam_tile   12,    5, 0x0b5, 0x02
-    frame_oam_tile    4,    5, 0x0b5, 0x02
-    frame_oam_tile   -4,    5, 0x0b5, 0x02
-    frame_oam_tile  -12,    5, 0x0b5, 0x02
-    frame_oam_tile  -20,    5, 0x0b5, 0x02
-    frame_oam_tile  -28,    5, 0x0b5, 0x02
-    frame_oam_tile   20,  -11, 0x0b5, 0x02
-    frame_oam_tile   12,  -11, 0x0b5, 0x02
-    frame_oam_tile    4,  -11, 0x0b5, 0x02
-    frame_oam_tile   -4,  -11, 0x0b5, 0x02
-    frame_oam_tile  -12,  -11, 0x0b5, 0x02
-    frame_oam_tile  -20,  -11, 0x0b5, 0x02
-    frame_oam_tile  -28,  -11, 0x0b5, 0x02
-    frame_oam_tile   20,   -3, 0x080, 0x02
-    frame_oam_tile   12,   -3, 0x0ae, 0x02
-    frame_oam_tile    4,   -3, 0x0ac, 0x02
-    frame_oam_tile   -4,   -3, 0x08c, 0x02
-    frame_oam_tile  -12,   -3, 0x08b, 0x02
-    frame_oam_tile  -20,   -3, 0x081, 0x02
-    frame_oam_tile  -28,   -3, 0x0b7, 0x02
+    frame_oam_tile   27,   -9, '゜', 0x02
+    frame_oam_tile  -24,  -10, '゛', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -36,   -3, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   28,   -3, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile   20,   -3, 'フ', 0x02
+    frame_oam_tile   12,   -3, 'ー', 0x02
+    frame_oam_tile    4,   -3, 'ワ', 0x02
+    frame_oam_tile   -4,   -3, 'ン', 0x02
+    frame_oam_tile  -12,   -3, 'メ', 0x02
+    frame_oam_tile  -20,   -3, 'ツ', 0x02
+    frame_oam_tile  -28,   -3, 'ケ', 0x02
     .end
 speed_zone_label_frame:
     animation_frame_tile_count
-    frame_oam_tile   27,   -8, 0x0bd, 0x02
-    frame_oam_tile  -19,  -11, 0x0bd, 0x02
-    frame_oam_tile  -40,    5, 0x0b5, 0x02
-    frame_oam_tile  -40,   -3, 0x0b5, 0x02
-    frame_oam_tile  -40,  -11, 0x0b5, 0x02
-    frame_oam_tile  -32,  -11, 0x0b5, 0x02
-    frame_oam_tile  -24,  -11, 0x0b5, 0x02
-    frame_oam_tile  -16,  -11, 0x0b5, 0x02
-    frame_oam_tile   -8,  -11, 0x0b5, 0x02
-    frame_oam_tile    0,  -11, 0x0b5, 0x02
-    frame_oam_tile    8,  -11, 0x0b5, 0x02
-    frame_oam_tile   16,  -11, 0x0b5, 0x02
-    frame_oam_tile   24,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,  -11, 0x0b5, 0x02
-    frame_oam_tile   32,   -3, 0x0b5, 0x02
-    frame_oam_tile   32,    5, 0x0b5, 0x02
-    frame_oam_tile   24,    5, 0x0b5, 0x02
-    frame_oam_tile   16,    5, 0x0b5, 0x02
-    frame_oam_tile    8,    5, 0x0b5, 0x02
-    frame_oam_tile    0,    5, 0x0b5, 0x02
-    frame_oam_tile   -8,    5, 0x0b5, 0x02
-    frame_oam_tile  -16,    5, 0x0b5, 0x02
-    frame_oam_tile  -24,    5, 0x0b5, 0x02
-    frame_oam_tile  -32,    5, 0x0b5, 0x02
-    frame_oam_tile   16,   -3, 0x096, 0x02
-    frame_oam_tile   24,   -3, 0x09a, 0x02
-    frame_oam_tile    8,   -3, 0x0ae, 0x02
-    frame_oam_tile    0,   -3, 0x0ac, 0x02
-    frame_oam_tile   -8,   -3, 0x08c, 0x02
-    frame_oam_tile  -16,   -3, 0x085, 0x02
-    frame_oam_tile  -24,   -3, 0x090, 0x02
-    frame_oam_tile  -32,   -3, 0x0a8, 0x02
+    frame_oam_tile   27,   -8, '゛', 0x02
+    frame_oam_tile  -19,  -11, '゛', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -40,   -3, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   32,   -3, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile   16,   -3, 'ル', 0x02
+    frame_oam_tile   24,   -3, 'ト', 0x02
+    frame_oam_tile    8,   -3, 'ー', 0x02
+    frame_oam_tile    0,   -3, 'ワ', 0x02
+    frame_oam_tile   -8,   -3, 'ン', 0x02
+    frame_oam_tile  -16,   -3, 'テ', 0x02
+    frame_oam_tile  -24,   -3, 'タ', 0x02
+    frame_oam_tile  -32,   -3, 'イ', 0x02
     .end
 endif
 
@@ -5595,7 +5607,7 @@ battle_menu_handler:
     JSL schedule_vblank_function
     JSL sub_C5572F
     REP #0x20
-    start_animation #addr(byte_C500A1)
+    start_animation #addr(battle_menu_arrow)
     set_handler sub_C55580
     RTL
 

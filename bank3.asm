@@ -573,23 +573,23 @@ interrupt_registers_init_table:
     ; Terminator
     db 0xFF
 battle_menu_items:
-    battle_menu_item 0xD0, 0x18, 3, player_type
-    battle_menu_item 0xD0, 0x38, 3, player_type
-    battle_menu_item 0xD0, 0x58, 3, player_type
-    battle_menu_item 0xD0, 0x78, 3, player_type
-    battle_menu_item 0xE0, 0x98, 0xA, cpu_level
-    battle_menu_item 0x48, 0x118, 5, match_count
-    battle_menu_item 0xC4, 0x138, 0xC, stage_numbers
+    battle_menu_item 0xD0, 0x18,  3,  player_type
+    battle_menu_item 0xD0, 0x38,  3,  player_type
+    battle_menu_item 0xD0, 0x58,  3,  player_type
+    battle_menu_item 0xD0, 0x78,  3,  player_type
+    battle_menu_item 0xE0, 0x98,  10, cpu_level
+    battle_menu_item 0x48, 0x118, 5,  match_count
+    battle_menu_item 0xC4, 0x138, 12, stage_numbers
 cpu_level:
-    da byte_C500A6, byte_C500AB, byte_C500B0, byte_C500B5, byte_C500BA, byte_C500BF, byte_C500C4, byte_C500C9
-    da byte_C500CE, byte_C500D3
+    da battle_menu_number_1, battle_menu_number_2, battle_menu_number_3, battle_menu_number_4, battle_menu_number_5, battle_menu_number_6, battle_menu_number_7, battle_menu_number_8
+    da battle_menu_number_9, battle_menu_number_10
 match_count:
-    da byte_C500A6, byte_C500AB, byte_C500B0, byte_C500B5, byte_C500BA
+    da battle_menu_number_1, battle_menu_number_2, battle_menu_number_3, battle_menu_number_4, battle_menu_number_5
 stage_numbers:
-    da byte_C500A6, byte_C500AB, byte_C500B0, byte_C500B5, byte_C500BA, byte_C500BF, byte_C500C4, byte_C500C9
-    da byte_C500CE, byte_C500D3, byte_C500D8, byte_C500DD
+    da battle_menu_number_1, battle_menu_number_2, battle_menu_number_3, battle_menu_number_4, battle_menu_number_5, battle_menu_number_6, battle_menu_number_7, battle_menu_number_8
+    da battle_menu_number_9, battle_menu_number_10, battle_menu_number_11, battle_menu_number_12
 player_type:
-    da byte_C500E2, byte_C500E7, byte_C500EC
+    da battle_menu_man, battle_menu_com, battle_menu_off
 battle_stages_labels:
     da normal_zone_label  ; 0
     da western_zone_label ; 1
