@@ -481,7 +481,7 @@ org 0x30
 org 0x40
 endstruct
 
-; These live on their own heap and are only 0x20 bytes long rather than 0x64
+; These live on their own heap and are only 0x20 bytes long rather than 0x40
 struct bomb_object
 .handler
     ds 2 ; Bank is assumed to be C4
