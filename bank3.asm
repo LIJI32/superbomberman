@@ -579,7 +579,7 @@ battle_menu_items:
     battle_menu_item 0xD0, 0x78,  3,  player_type
     battle_menu_item 0xE0, 0x98,  10, cpu_level
     battle_menu_item 0x48, 0x118, 5,  match_count
-    battle_menu_item 0xC4, 0x138, 12, stage_numbers
+    battle_menu_item 0xC4, 0x138, 15, stage_numbers
 cpu_level:
     da battle_menu_number_1, battle_menu_number_2, battle_menu_number_3, battle_menu_number_4, battle_menu_number_5, battle_menu_number_6, battle_menu_number_7, battle_menu_number_8
     da battle_menu_number_9, battle_menu_number_10
@@ -587,22 +587,25 @@ match_count:
     da battle_menu_number_1, battle_menu_number_2, battle_menu_number_3, battle_menu_number_4, battle_menu_number_5
 stage_numbers:
     da battle_menu_number_1, battle_menu_number_2, battle_menu_number_3, battle_menu_number_4, battle_menu_number_5, battle_menu_number_6, battle_menu_number_7, battle_menu_number_8
-    da battle_menu_number_9, battle_menu_number_10, battle_menu_number_11, battle_menu_number_12
+    da battle_menu_number_9, battle_menu_number_10, battle_menu_number_11, battle_menu_number_12, battle_menu_number_13, battle_menu_number_14, battle_menu_number_15
 player_type:
     da battle_menu_man, battle_menu_com, battle_menu_off
 battle_stages_labels:
-    da normal_zone_label  ; 0
-    da western_zone_label ; 1
-    da bomb_zone_label    ; 2
-    da jump_zone_label    ; 3
-    da belt_zone_label    ; 4
-    da tunnel_zone_label  ; 5
-    da duel_zone_label    ; 6
-    da flower_zone_label  ; 7
-    da light_zone_label   ; 8
-    da power_zone_label   ; 9
-    da warp_zone_label    ; 10
-    da speed_zone_label   ; 11
+    da normal_zone_label
+    da western_zone_label
+    da bomb_zone_label
+    da jump_zone_label
+    da belt_zone_label
+    da tunnel_zone_label
+    da duel_zone_label
+    da flower_zone_label
+    da light_zone_label
+    da power_zone_label
+    da warp_zone_label
+    da speed_zone_label
+    da illusion_zone_label
+    da arena_zone_label
+    da smoking_zone_label
 explosion_related:
     dw 0, 0xFFC0, 0x40, 0
     dw 0, 0x40, 0xFFC0, 0
@@ -926,7 +929,7 @@ screens_table:
     da credits_screen, title_screen, battle_screen, introduction_screen, light_zone_demo, warp_zone_demo, jump_zone_demo, continue_screen; 0x30
     da password_screen, map_screen, draw_screen, victory_screen, sound_test, normal_zone, western_zone, bomb_zone; 0x38
     da jump_zone, belt_zone, tunnel_zone, duel_zone, flower_zone, light_zone, power_zone, warp_zone; 0x40
-    da speed_zone ; 0x48
+    da speed_zone, illusion_zone, arena_zone, smoking_zone ; 0x48
 word_C32F81:
     dw 0x3D
 screen_music_table:
@@ -949,7 +952,7 @@ endmacro
     ; More special screens
     dw MUSIC_CONTINUE, MUSIC_CONTINUE, MUSIC_MAP, MUSIC_DRAW, MUSIC_VICTORY, MUSIC_BATTLE_MENU
     ; Battle stages
-rept 12
+rept 15
     dw MUSIC_BATTLE_MODE
 endr 
 

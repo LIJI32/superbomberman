@@ -4751,10 +4751,10 @@ i16
 .loc_C4269E:
     LDX #0
     LDA a:addr(collision_map - 0x40), Y
-    BIT #0xC0
+    BIT #SOFT_BLOCK | HARD_BLOCK
     BEQ .loc_C426B9
     LDX #2
-    BIT #0x40
+    BIT #SOFT_BLOCK
     BNE .loc_C426D2
     CPY #0x5D
     BCC .loc_C426C9
@@ -4813,17 +4813,20 @@ i16
 sub_C42702:
 i16
     REP #0x20
+    LDA a:addr(level_manager_object.spawn_and_flags)
+    BIT #LEVEL_FLAGS_ARENA_ZONE
+    BNE .ret
     LDA a:addr(level_manager_object.game_mode)
     CMP #GAME_MODE_BATTLE
     BEQ .loc_C42714
     LDA a:addr(level_manager_object.spawn_and_flags)
-    BIT #0x8000
-    BNE .locret_C4273E
+    BIT #LEVEL_FLAGS_HARDCODED_HARDBLOCKS
+    BNE .ret
 
 .loc_C42714:
     LDA a:addr(level_manager_object.spawn_and_flags)
-    BIT #0x200
-    BNE .locret_C4273E
+    BIT #LEVEL_FLAGS_DUEL_ZONE
+    BNE .ret
     LDY #0x44
 
 .loc_C4271F:
@@ -4847,7 +4850,7 @@ i16
     CPY #0x304
     BNE .loc_C4271F
 
-.locret_C4273E:
+.ret:
     RTL
 
 player_uiteru_v_victory_scene_handler:
@@ -14618,6 +14621,7 @@ i16
     LDA f:[z:0x50], Y
     STA a:COLDATA
     JSL process_vblank_queue
+    
     REP #0x20
     LDA #0
     STA a:VMADDL
@@ -14630,18 +14634,20 @@ i16
     LDA #bank(temp_uncompressed_graphics)
     STA a:A1B4
     JSL start_dma
+    
     REP #0x20
-    LDA #0x2400
+    LDA #0x2000
     STA a:VMADDL
-    LDA #0x400
+    LDA #0x1000
     STA a:DASL4
     REP #0x20
-    LDA #addr(unk_7E4000)
+    LDA #addr(0x7E3800)
     STA a:A1TL4
     SEP #0x20
-    LDA #bank(unk_7E4000)
+    LDA #bank(0x7E3800)
     STA a:A1B4
     JSL start_dma
+    
     REP #0x20
     LDA #0x5000
     STA a:VMADDL
@@ -14654,6 +14660,7 @@ i16
     LDA #0
     STA a:A1B4
     JSL start_dma
+    
     REP #0x20
     LDA #0x5400
     STA a:VMADDL
@@ -14666,6 +14673,7 @@ i16
     LDA #bank(unexpanded_collision_map)
     STA a:A1B4
     JSL start_dma
+    
     SEP #0x20
     LDA #0x60
     STA z:0x40
@@ -15534,7 +15542,7 @@ i16
     BNE .loc_C47BD9
     PLX
     LDA a:addr(level_manager_object.spawn_and_flags)
-    BIT #0x8000
+    BIT #LEVEL_FLAGS_HARDCODED_HARDBLOCKS
     BNE .loc_C47C25
     SEP #0x20
     LDA a:addr(level_manager_object.fade_related_)

@@ -342,6 +342,76 @@ speed_zone:
     battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
                           COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
                           0, 0
+
+illusion_zone:
+    level 0x14, GAME_MODE_BATTLE, 0, 0, 0x200,
+          circus_graphic, bomb_and_explosions_graphic, circus_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          0, 65 ; hard/soft blocks
+
+    df null_versus_initializer
+    load_palettes illusion_zone_palettes
+    load_global_sprites western_zone_graphics
+    tile_animation TILE_SOFTBLOCK, circus_soft_animation
+    tile_animation TILE_SOFTBLOCK_SHADED, circus_shaded_soft_animation
+    init_functions_end
+
+    dw 0
+
+    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, POISON, POISON, FIRE_UP, FIRE_UP, FIRE_UP,
+       FIRE_UP, FIRE_UP, SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, KICK, PUNCH, PUNCH,
+       PUNCH, POISON, POISON, RED_BOMBS, WALL_PASS, 0
+
+    battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 5,
+                          0, 0
+
+arena_zone:
+    level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_ARENA_ZONE, 0, 0x200,
+          arena_graphic, bomb_and_explosions_graphic, arena_zone_level_structure, ; graphics
+          empty_tilemap, empty_tilemap, ; overlay
+          0, 0 ; hard/soft blocks
+
+    df null_versus_initializer
+    load_palettes arena_zone_palettes
+    load_global_sprites western_zone_graphics
+    tile_animation 0x24, arena_crowd_side_purple_animation
+    tile_animation 0x26, arena_crowd_side_red_animation
+    df create_arena_zone_handler
+    init_functions_end
+
+    dw 0
+
+    dw 0
+
+    battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 5,
+                          0, 0
+                          
+smoking_zone:
+    level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_LIGHT_ZONE, 0, 0x200,
+          diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
+          clouds_graphic, compressed_cloud_pal3_overlay_tilemap, ; overlay
+          0, 70 ; hard/soft blocks
+
+    df null_versus_initializer
+    load_palettes smoking_zone_palettes
+    load_global_sprites western_zone_graphics
+    df create_fog_animator
+    create_overlay_scroller 2, 0, 0x100, -1, 0
+    tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
+    init_functions_end
+
+    dw 0
+
+    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP,
+       FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, KICK, PUNCH, PUNCH,
+       PUNCH, POISON, POISON, POISON, POISON, 0
+
+    battle_stage_ppu_regs OBJ_EN | BG2_EN, OBJ_EN | BG1_EN | BG3_EN | BG4_EN,
+                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 0,
+                          0, 0x100
+                          
 normal_zone_palettes:
     db HUD_PALETTE, PEACE_TOWN_PALETTE_1, NORMAL_ZONE_PALETTE; a_palettes
     db PEACE_TOWN_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
@@ -384,19 +454,19 @@ belt_zone_palettes:
     db SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
     db AKA_PALETTE, AO_PALETTE, BLACK_PALETTE, WHITE_PALETTE; b_palettes
 
-unknown_palettes:
-    db HUD_PALETTE, DIAMOND_TOWER_PALETTE_1, DIAMOND_TOWER_PALETTE_2; a_palettes
-    db DIAMOND_TOWER_BOMB_PALETTE, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
-    db DIAMOND_TOWER_BOMB_PALETTE, DIAMOND_TOWER_FIRE_PALETTE; a_palettes
+illusion_zone_palettes:
+    db HUD_PALETTE, CIRCUS_PALETTE_1, CIRCUS_PALETTE_2; a_palettes
+    db CIRCUS_PALETTE_3, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
+    db CIRCUS_BOMB_PALETTE, CIRCUS_FIRE_PALETTE;    a_palettes
     db SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
-    db AKA_PALETTE, AO_PALETTE, FREE_PALETTE, WHITE_PALETTE; b_palettes
+    db AKA_PALETTE, AO_PALETTE, BLACK_PALETTE, WHITE_PALETTE; b_palettes
 
-unknown_palettes2:
-    db    HUD_PALETTE, 0x56, 0x57, 0x58, BONUS_PALETTE_1, BONUS_PALETTE_2; a_palettes
-    db 0x59, 0x5A ; a_palettes
-    db SHIRO_PALETTE, KURO_PALETTE, GREEN_BOMB_PALETTE; b_palettes
-    db RED_BOMB_PALETTE, AKA_PALETTE, AO_PALETTE, BLACK_PALETTE;    b_palettes
-    db WHITE_PALETTE ; b_palettes
+arena_zone_palettes:
+    db HUD_PALETTE, ARENA_PALETTE_1, ARENA_PALETTE_2, ARENA_PALETTE_3; a_palettes
+    db BONUS_PALETTE_1, BONUS_PALETTE_2, ARENA_BOMB_PALETTE; a_palettes
+    db ARENA_FIRE_PALETTE; a_palettes
+    db SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
+    db AKA_PALETTE, AO_PALETTE, BLACK_PALETTE, WHITE_PALETTE; b_palettes
 
 duel_zone_palettes:
     db HUD_PALETTE, PARK_PALETTE_1, PARK_PALETTE_2, PARK_PALETTE_3; a_palettes
@@ -446,3 +516,10 @@ power_zone_palettes:
     db POWER_ZONE_FIRE_PALETTE; a_palettes
     db SHIRO_PALETTE, KURO_PALETTE, BOMB_PALETTE, RED_BOMB_PALETTE; b_palettes
     db AKA_PALETTE, AO_PALETTE, BLACK_PALETTE, WHITE_PALETTE; b_palettes
+    
+smoking_zone_palettes:
+    db HUD_PALETTE, DIAMOND_TOWER_PALETTE_1  | PALETTE_INVERT_FLAG, DIAMOND_TOWER_PALETTE_2  | PALETTE_INVERT_FLAG; a_palettes
+    db CASTLE_PALETTE_2 | PALETTE_INVERT_FLAG, BONUS_PALETTE_1  | PALETTE_INVERT_FLAG, BONUS_PALETTE_2  | PALETTE_INVERT_FLAG; a_palettes
+    db DIAMOND_TOWER_BOMB_PALETTE  | PALETTE_INVERT_FLAG, DIAMOND_TOWER_FIRE_PALETTE  | PALETTE_INVERT_FLAG; a_palettes
+    db SHIRO_PALETTE | PALETTE_INVERT_FLAG, KURO_PALETTE | PALETTE_INVERT_FLAG, BOMB_PALETTE | PALETTE_INVERT_FLAG, RED_BOMB_PALETTE | PALETTE_INVERT_FLAG; b_palettes
+    db AKA_PALETTE | PALETTE_INVERT_FLAG, AO_PALETTE | PALETTE_INVERT_FLAG, BLACK_PALETTE | PALETTE_INVERT_FLAG, WHITE_PALETTE | PALETTE_INVERT_FLAG; b_palettes

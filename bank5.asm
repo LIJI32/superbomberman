@@ -59,6 +59,21 @@ battle_menu_number_12_frame:
     frame_oam_tile   -2,   -8, 0x062, 0x24
     frame_oam_tile  -12,   -8, 0x060, 0x24
     .end
+battle_menu_number_13_frame:
+    animation_frame_tile_count
+    frame_oam_tile   -2,   -8, 0x064, 0x24
+    frame_oam_tile  -12,   -8, 0x060, 0x24
+    .end
+battle_menu_number_14_frame:
+    animation_frame_tile_count
+    frame_oam_tile   -2,   -8, 0x066, 0x24
+    frame_oam_tile  -12,   -8, 0x060, 0x24
+    .end
+battle_menu_number_15_frame:
+    animation_frame_tile_count
+    frame_oam_tile   -2,   -8, 0x070, 0x24
+    frame_oam_tile  -12,   -8, 0x060, 0x24
+    .end
 battle_menu_man_frame:
     animation_frame_tile_count
     frame_oam_tile    8,   -8, 0x030, 0x24
@@ -143,6 +158,18 @@ endif
  battle_menu_number_12:
     animation_frame_count
     animation_frame battle_menu_number_12_frame, 0xFF
+    .end
+ battle_menu_number_13:
+    animation_frame_count
+    animation_frame battle_menu_number_13_frame, 0xFF
+    .end
+ battle_menu_number_14:
+    animation_frame_count
+    animation_frame battle_menu_number_14_frame, 0xFF
+    .end
+ battle_menu_number_15:
+    animation_frame_count
+    animation_frame battle_menu_number_15_frame, 0xFF
     .end
  battle_menu_man:
     animation_frame_count
@@ -633,14 +660,151 @@ speed_zone_label_frame:
     frame_oam_tile  -40,    5, ' ', 0x02
     frame_oam_tile  -48,    5, ' ', 0x02
     .end
+illusion_zone_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile   52,  -11, ' ', 0x02
+    frame_oam_tile   44,  -11, ' ', 0x02
+    frame_oam_tile   36,  -11, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -44,  -11, ' ', 0x02
+    frame_oam_tile  -52,  -11, ' ', 0x02
+    frame_oam_tile  -60,  -11, ' ', 0x02
+    
+    frame_oam_tile   52,    5, ' ', 0x02
+    frame_oam_tile   44,    5, ' ', 0x02
+    frame_oam_tile   36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile  -44,    5, ' ', 0x02
+    frame_oam_tile  -52,    5, ' ', 0x02
+    frame_oam_tile  -60,    5, ' ', 0x02
+    
+    frame_oam_tile   52,   -3, ' ', 0x02
+    frame_oam_tile   44,   -3, 'E', 0x02
+    frame_oam_tile   36,   -3, 'N', 0x02
+    frame_oam_tile   28,   -3, 'O', 0x02
+    frame_oam_tile   20,   -3, 'Z', 0x02
+    frame_oam_tile   12,   -3, ' ', 0x02
+    frame_oam_tile    4,   -3, 'N', 0x02
+    frame_oam_tile   -4,   -3, 'O', 0x02
+    frame_oam_tile  -12,   -3, 'I', 0x02
+    frame_oam_tile  -20,   -3, 'S', 0x02
+    frame_oam_tile  -28,   -3, 'U', 0x02
+    frame_oam_tile  -36,   -3, 'L', 0x02
+    frame_oam_tile  -44,   -3, 'L', 0x02
+    frame_oam_tile  -52,   -3, 'I', 0x02
+    frame_oam_tile  -60,   -3, ' ', 0x02
+    .end
+    
+arena_zone_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   40,  -11, ' ', 0x02
+    frame_oam_tile   40,   -3, ' ', 0x02
+    frame_oam_tile   40,    5, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile   32,   -3, 'E', 0x02
+    frame_oam_tile   24,   -3, 'N', 0x02
+    frame_oam_tile   16,   -3, 'O', 0x02
+    frame_oam_tile    8,   -3, 'Z', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    0,   -3, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,   -3, 'A', 0x02
+    frame_oam_tile  -16,   -3, 'N', 0x02
+    frame_oam_tile  -24,   -3, 'E', 0x02
+    frame_oam_tile  -32,   -3, 'R', 0x02
+    frame_oam_tile  -40,   -3, 'A', 0x02
+    frame_oam_tile  -48,   -3, ' ', 0x02
+    frame_oam_tile  -48,  -11, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -48,    5, ' ', 0x02
+    .end
+    
+smoking_zone_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile   48,    5, ' ', 0x02
+    frame_oam_tile   48,  -11, ' ', 0x02
+    frame_oam_tile   40,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   40,    5, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile   48,   -3, ' ', 0x02
+    frame_oam_tile   40,   -3, 'E', 0x02
+    frame_oam_tile   32,   -3, 'N', 0x02
+    frame_oam_tile   24,   -3, 'O', 0x02
+    frame_oam_tile   16,   -3, 'Z', 0x02
+    frame_oam_tile    8,   -3, ' ', 0x02
+    frame_oam_tile    0,   -3, 'G', 0x02
+    frame_oam_tile   -8,   -3, 'N', 0x02
+    frame_oam_tile  -16,   -3, 'I', 0x02
+    frame_oam_tile  -24,   -3, 'K', 0x02
+    frame_oam_tile  -32,   -3, 'O', 0x02
+    frame_oam_tile  -40,   -3, 'M', 0x02
+    frame_oam_tile  -48,   -3, 'S', 0x02
+    frame_oam_tile  -56,  -11, ' ', 0x02
+    frame_oam_tile  -56,   -3, ' ', 0x02
+    frame_oam_tile  -56,    5, ' ', 0x02
+    frame_oam_tile  -48,    5, ' ', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -48,  -11, ' ', 0x02
+    .end
 else
+encode battle_mode_label, "ナ", 2
 encode battle_mode_label, "フツウカステキシロノョメンコハクタホヨャ", 0x80
 encode battle_mode_label, "ルソヘアトモ", 0x96
 encode battle_mode_label, "イ", 0xa8
 encode battle_mode_label, "ヒ", 0xaa
 encode battle_mode_label, "ワ", 0xac
 encode battle_mode_label, "ー", 0xae
-encode battle_mode_label, "リラ", 0xb2
+encode battle_mode_label, "マエリラ", 0xb0
 encode battle_mode_label, " ッケ", 0xb5
 encode battle_mode_label, "゜", 0xbb
 encode battle_mode_label, "゛ム", 0xbd
@@ -1045,6 +1209,99 @@ speed_zone_label_frame:
     frame_oam_tile  -24,   -3, 'タ', 0x02
     frame_oam_tile  -32,   -3, 'イ', 0x02
     .end
+illusion_zone_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile  -19,  -11, '゛', 0x02
+    frame_oam_tile  -40,    5, ' ', 0x02
+    frame_oam_tile  -40,   -3, ' ', 0x02
+    frame_oam_tile  -40,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   32,  -11, ' ', 0x02
+    frame_oam_tile   32,   -3, ' ', 0x02
+    frame_oam_tile   32,    5, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile   24,   -3, 'ト', 0x02
+    frame_oam_tile   16,   -3, 'ン', 0x02
+    frame_oam_tile    8,   -3, 'テ', 0x02
+    frame_oam_tile    0,   -3, 'ノ', 0x02
+    frame_oam_tile   -8,   -3, 'シ', 0x02
+    frame_oam_tile  -16,   -3, 'ロ', 0x02
+    frame_oam_tile  -24,   -3, 'ホ', 0x02
+    frame_oam_tile  -32,   -3, 'マ', 0x02
+    .end
+arena_zone_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile  -24,  -10, '゛', 0x02
+    frame_oam_tile  -36,  -11, ' ', 0x02
+    frame_oam_tile  -36,   -3, ' ', 0x02
+    frame_oam_tile  -36,    5, ' ', 0x02
+    frame_oam_tile   28,    5, ' ', 0x02
+    frame_oam_tile   28,  -11, ' ', 0x02
+    frame_oam_tile   28,   -3, ' ', 0x02
+    frame_oam_tile   20,    5, ' ', 0x02
+    frame_oam_tile   12,    5, ' ', 0x02
+    frame_oam_tile    4,    5, ' ', 0x02
+    frame_oam_tile   -4,    5, ' ', 0x02
+    frame_oam_tile  -12,    5, ' ', 0x02
+    frame_oam_tile  -20,    5, ' ', 0x02
+    frame_oam_tile  -28,    5, ' ', 0x02
+    frame_oam_tile   20,  -11, ' ', 0x02
+    frame_oam_tile   12,  -11, ' ', 0x02
+    frame_oam_tile    4,  -11, ' ', 0x02
+    frame_oam_tile   -4,  -11, ' ', 0x02
+    frame_oam_tile  -12,  -11, ' ', 0x02
+    frame_oam_tile  -20,  -11, ' ', 0x02
+    frame_oam_tile  -28,  -11, ' ', 0x02
+    frame_oam_tile   20,   -3, 'ナ', 0x02
+    frame_oam_tile   12,   -3, 'ー', 0x02
+    frame_oam_tile    4,   -3, 'リ', 0x02
+    frame_oam_tile   -4,   -3, 'ア', 0x02
+    frame_oam_tile  -12,   -3, 'ル', 0x02
+    frame_oam_tile  -20,   -3, 'ト', 0x02
+    frame_oam_tile  -28,   -3, 'ハ', 0x02
+    .end
+smoking_zone_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile   13,  -11, '゛', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    frame_oam_tile   24,   -3, ' ', 0x02
+    frame_oam_tile   16,   -3, 'ョ', 0x02
+    frame_oam_tile    8,   -3, 'シ', 0x02
+    frame_oam_tile    0,   -3, 'ン', 0x02
+    frame_oam_tile   -8,   -3, 'エ', 0x02
+    frame_oam_tile  -16,   -3, 'ツ', 0x02
+    frame_oam_tile  -24,   -3, 'キ', 0x02
+    frame_oam_tile  -32,   -3, ' ', 0x02
+    .end
 endif
 
 encoding raw
@@ -1128,269 +1385,6 @@ animation_frame_C50A0C:
     frame_oam_tile   16,  -26, 0x0b0, 0x22
     frame_oam_tile   -8,   -8, 0x0d0, 0x22
     .end
-animation_frame_C50A26:
-    animation_frame_tile_count
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50A31:
-    animation_frame_tile_count
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d2, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50A41:
-    animation_frame_tile_count
-    frame_oam_tile   40,   -8, 0x0d4, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50A51:
-    animation_frame_tile_count
-    frame_oam_tile   40,   -8, 0x0d6, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50A61:
-    animation_frame_tile_count
-    frame_oam_tile   40,   -8, 0x0c0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50A71:
-    animation_frame_tile_count
-    frame_oam_tile   40,   -8, 0x0c2, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50A81:
-    animation_frame_tile_count
-    frame_oam_tile   56,   -8, 0x0bf, 0x42
-    frame_oam_tile   32,   -8, 0x0bf, 0x02
-    frame_oam_tile   40,  -24, 0x0b0, 0x22
-    frame_oam_tile   40,   -8, 0x0c4, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50AA0:
-    animation_frame_tile_count
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   57,   -8, 0x0bf, 0x42
-    frame_oam_tile   31,   -8, 0x0bf, 0x02
-    frame_oam_tile   40,  -25, 0x0b0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50ABF:
-    animation_frame_tile_count
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50ACF:
-    animation_frame_tile_count
-    frame_oam_tile   64,   -8, 0x0d2, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50AE4:
-    animation_frame_tile_count
-    frame_oam_tile   64,   -8, 0x0d4, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50AF9:
-    animation_frame_tile_count
-    frame_oam_tile   64,   -8, 0x0d6, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50B0E:
-    animation_frame_tile_count
-    frame_oam_tile   64,   -8, 0x0c0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50B23:
-    animation_frame_tile_count
-    frame_oam_tile   64,   -8, 0x0c2, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50B38:
-    animation_frame_tile_count
-    frame_oam_tile   80,   -8, 0x0bf, 0x42
-    frame_oam_tile   56,   -8, 0x0bf, 0x02
-    frame_oam_tile   64,  -24, 0x0b0, 0x22
-    frame_oam_tile   64,   -8, 0x0c4, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50B5C:
-    animation_frame_tile_count
-    frame_oam_tile   64,  -26, 0x0b0, 0x22
-    frame_oam_tile   82,   -8, 0x0bf, 0x42
-    frame_oam_tile   54,   -8, 0x0bf, 0x02
-    frame_oam_tile   64,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50B80:
-    animation_frame_tile_count
-    frame_oam_tile   64,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50B95:
-    animation_frame_tile_count
-    frame_oam_tile    0,  -11, 0x0c6, 0x02
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50BA0:
-    animation_frame_tile_count
-    frame_oam_tile   -8,    3, 0x0ce, 0x02
-    frame_oam_tile    0,  -11, 0x0c7, 0x02
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50BB0:
-    animation_frame_tile_count
-    frame_oam_tile   -8,    3, 0x0cf, 0x02
-    frame_oam_tile    0,  -11, 0x0cf, 0x02
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50BC0:
-    animation_frame_tile_count
-    frame_oam_tile   -8,    2, 0x0c7, 0x02
-    frame_oam_tile    0,  -11, 0x0ce, 0x02
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50BD0:
-    animation_frame_tile_count
-    frame_oam_tile   -8,    3, 0x0c6, 0x02
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50BDB:
-    animation_frame_tile_count
-    frame_oam_tile   24,  -11, 0x0c6, 0x02
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50BEB:
-    animation_frame_tile_count
-    frame_oam_tile   16,    3, 0x0ce, 0x02
-    frame_oam_tile   24,  -11, 0x0c7, 0x02
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C00:
-    animation_frame_tile_count
-    frame_oam_tile   16,    3, 0x0cf, 0x02
-    frame_oam_tile   24,  -11, 0x0cf, 0x02
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C15:
-    animation_frame_tile_count
-    frame_oam_tile   16,    3, 0x0c7, 0x02
-    frame_oam_tile   24,  -11, 0x0ce, 0x02
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C2A:
-    animation_frame_tile_count
-    frame_oam_tile   16,    3, 0x0c6, 0x02
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C3A:
-    animation_frame_tile_count
-    frame_oam_tile   48,  -11, 0x0c6, 0x02
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C4F:
-    animation_frame_tile_count
-    frame_oam_tile   40,    2, 0x0ce, 0x02
-    frame_oam_tile   48,  -11, 0x0c7, 0x02
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C69:
-    animation_frame_tile_count
-    frame_oam_tile   40,    3, 0x0cf, 0x02
-    frame_oam_tile   48,  -10, 0x0cf, 0x02
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C83:
-    animation_frame_tile_count
-    frame_oam_tile   40,    3, 0x0c7, 0x02
-    frame_oam_tile   48,  -11, 0x0ce, 0x02
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50C9D:
-    animation_frame_tile_count
-    frame_oam_tile   40,    3, 0x0c6, 0x02
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50CB2:
-    animation_frame_tile_count
-    frame_oam_tile   72,  -11, 0x0c6, 0x02
-    frame_oam_tile   64,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50CCC:
-    animation_frame_tile_count
-    frame_oam_tile   64,    3, 0x0ce, 0x02
-    frame_oam_tile   72,  -11, 0x0c7, 0x02
-    frame_oam_tile   64,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50CEB:
-    animation_frame_tile_count
-    frame_oam_tile   64,    3, 0x0cf, 0x02
-    frame_oam_tile   72,  -11, 0x0cf, 0x02
-    frame_oam_tile   64,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50D0A:
-    animation_frame_tile_count
-    frame_oam_tile   64,    3, 0x0c7, 0x02
-    frame_oam_tile   72,  -11, 0x0ce, 0x02
-    frame_oam_tile   64,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
-animation_frame_C50D29:
-    animation_frame_tile_count
-    frame_oam_tile   64,    3, 0x0c6, 0x02
-    frame_oam_tile   64,   -8, 0x0d0, 0x22
-    frame_oam_tile   40,   -8, 0x0d0, 0x22
-    frame_oam_tile   16,   -8, 0x0d0, 0x22
-    frame_oam_tile   -8,   -8, 0x0d0, 0x22
-    .end
 ifndef J
 ; Moved up
 animation_frame_C50D43:
@@ -1443,6 +1437,18 @@ warp_zone_label:
 speed_zone_label:
     animation_frame_count
     animation_frame speed_zone_label_frame, 0xFF
+    .end
+illusion_zone_label:
+    animation_frame_count
+    animation_frame illusion_zone_label_frame, 0xFF
+    .end
+arena_zone_label:
+    animation_frame_count
+    animation_frame arena_zone_label_frame, 0xFF
+    .end
+smoking_zone_label:
+    animation_frame_count
+    animation_frame smoking_zone_label_frame, 0xFF
     .end
 ifdef J
 animation_frame_C50D43:
@@ -1898,7 +1904,6 @@ animation_frame_C5147E:
 animation_frame_C51493:
     animation_frame_tile_count
     frame_oam_tile   -4,   -4, 0x0ba, 0x82
-    frame_oam_tile   -8,    0, 0x0b0, 0x00
     .end
 animation_frame_C5149E:
     animation_frame_tile_count
@@ -3397,6 +3402,8 @@ sub_C53E1E:
     BIT #0x40
     BNE .locret_C53E6A
     BIT #0x1000
+    BNE .locret_C53E6A
+    BIT #LEVEL_FLAGS_ARENA_ZONE
     BNE .locret_C53E6A
     CPY #0x2C4
     BCS .locret_C53E6A
@@ -5945,6 +5952,32 @@ create_flower_zone_handler:
     JML nullsub_8
 
 .locret_C55880:
+    RTL
+
+arena_zone_random_bonuses:
+    dw BOMB_UP, FIRE_UP, SPEED_UP, KICK, PUNCH, POISON, BOMB_UP, FULL_FIRE
+    
+create_arena_zone_handler:
+    REP #0x20
+    LDA z:create_bonus_spawner.BONUSES
+    PHA
+    LDA z:create_bonus_spawner.BONUSES + 2
+    PHA
+    LDA #180
+    STA z:create_bonus_spawner.FREQ
+    LDA #addr(arena_zone_random_bonuses)
+    STA z:create_bonus_spawner.BONUSES
+    SEP #0x20
+    LDA #bank(arena_zone_random_bonuses)
+    STA z:create_bonus_spawner.BONUSES + 2
+    JSL create_bonus_spawner
+    REP #0x20
+    PLA
+    STA z:create_bonus_spawner.BONUSES + 2
+    PLA
+    STA z:create_bonus_spawner.BONUSES
+    LDA #2
+    STA a:dynamic_object.execution_priority, Y ; Delete on stage change
     RTL
 
 flower_zone_handler:

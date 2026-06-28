@@ -478,7 +478,7 @@ LEVEL_FLAGS_DUEL_ZONE            = 0x0200 ; Like Western, but allows softblocks 
 LEVEL_FLAGS_LIGHT_ZONE           = 0x0400 ; Used to fix the scoreboard graphics in Light Zone
 LEVEL_FLAGS_TUNNEL_ZONE          = 0x0800 ; Blocks softblocks inside tunnels
 LEVEL_FLAGS_BELT_ZONE            = 0x1000
-; 0x2000 - unknown
+LEVEL_FLAGS_ARENA_ZONE           = 0x2000
 LEVEL_FLAGS_FLOWER_ZONE          = 0x4000 ; Used in Flower Zone, NOT related to flower growth, tractors or clouds
 LEVEL_FLAGS_HARDCODED_HARDBLOCKS = 0x8000 ; For cases where hardblocks can't be automatically inferred from the level structures, like 3_8. Hardcoded to values 0804 and 0808.
 

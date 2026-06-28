@@ -2147,11 +2147,17 @@ endstruct
 create_fog_animator:
     SEP #0x20
     create_object fog_animator
+    SEP #0x20
+    LDA #2
+    STA a:dynamic_object.execution_priority, Y ; Delete on stage change
     REP #0x20
     LDA #CASTLE_PALETTE_2  | PALETTE_INVERT_FLAG
     STA fog_animator.current_palette, Y
     LDA #1
     STA fog_animator.countdown, Y
+    LDA a:addr(level_manager_object.previous_level_representation)
+    CMP #0x67
+    BNE fog_animator.ret
     JML create_random_bomb_drop ; Reached the maximum number of init functions in 6-7, so let's shove it here
 
 fog_animator:
@@ -2159,6 +2165,26 @@ fog_animator:
     LDA a:addr(game_flags)
     BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU
     BNE .ret
+    
+    SEP #0x20
+    LDA #BG2_EN | BG3_EN
+    STA a:addr(main_screen_status)
+    LDA #OBJ_EN | BG1_EN
+    STA a:addr(subscreen_status)
+    LDA #2
+    STA a:addr(color_addition_settings)
+    LDA #0x83
+    STA a:addr(add_subtract_select_and_enable)
+    LDA #0xFF
+    STA a:addr(COLDATA)
+    
+    set_handler .main
+.main
+    REP #0x20
+    LDA a:addr(game_flags)
+    BIT #GAME_FLAGS_SCREEN_TRANSITION | GAME_FLAGS_BATTLE_MENU | GAME_FLAGS_LEVEL_END
+    BNE .ret
+    
     DEC z:fog_animator.countdown, X
     LDA z:fog_animator.countdown, X
     BNE .ret
@@ -2176,4 +2202,269 @@ fog_animator:
 
 .ret:
     RTL
+    
+; Moved from bank 5 for space
+animation_frame_C50A26:
+    animation_frame_tile_count
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50A31:
+    animation_frame_tile_count
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d2, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50A41:
+    animation_frame_tile_count
+    frame_oam_tile   40,   -8, 0x0d4, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50A51:
+    animation_frame_tile_count
+    frame_oam_tile   40,   -8, 0x0d6, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50A61:
+    animation_frame_tile_count
+    frame_oam_tile   40,   -8, 0x0c0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50A71:
+    animation_frame_tile_count
+    frame_oam_tile   40,   -8, 0x0c2, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50A81:
+    animation_frame_tile_count
+    frame_oam_tile   56,   -8, 0x0bf, 0x42
+    frame_oam_tile   32,   -8, 0x0bf, 0x02
+    frame_oam_tile   40,  -24, 0x0b0, 0x22
+    frame_oam_tile   40,   -8, 0x0c4, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50AA0:
+    animation_frame_tile_count
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   57,   -8, 0x0bf, 0x42
+    frame_oam_tile   31,   -8, 0x0bf, 0x02
+    frame_oam_tile   40,  -25, 0x0b0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50ABF:
+    animation_frame_tile_count
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50ACF:
+    animation_frame_tile_count
+    frame_oam_tile   64,   -8, 0x0d2, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50AE4:
+    animation_frame_tile_count
+    frame_oam_tile   64,   -8, 0x0d4, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50AF9:
+    animation_frame_tile_count
+    frame_oam_tile   64,   -8, 0x0d6, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50B0E:
+    animation_frame_tile_count
+    frame_oam_tile   64,   -8, 0x0c0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50B23:
+    animation_frame_tile_count
+    frame_oam_tile   64,   -8, 0x0c2, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50B38:
+    animation_frame_tile_count
+    frame_oam_tile   80,   -8, 0x0bf, 0x42
+    frame_oam_tile   56,   -8, 0x0bf, 0x02
+    frame_oam_tile   64,  -24, 0x0b0, 0x22
+    frame_oam_tile   64,   -8, 0x0c4, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50B5C:
+    animation_frame_tile_count
+    frame_oam_tile   64,  -26, 0x0b0, 0x22
+    frame_oam_tile   82,   -8, 0x0bf, 0x42
+    frame_oam_tile   54,   -8, 0x0bf, 0x02
+    frame_oam_tile   64,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50B80:
+    animation_frame_tile_count
+    frame_oam_tile   64,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50B95:
+    animation_frame_tile_count
+    frame_oam_tile    0,  -11, 0x0c6, 0x02
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50BA0:
+    animation_frame_tile_count
+    frame_oam_tile   -8,    3, 0x0ce, 0x02
+    frame_oam_tile    0,  -11, 0x0c7, 0x02
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50BB0:
+    animation_frame_tile_count
+    frame_oam_tile   -8,    3, 0x0cf, 0x02
+    frame_oam_tile    0,  -11, 0x0cf, 0x02
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50BC0:
+    animation_frame_tile_count
+    frame_oam_tile   -8,    2, 0x0c7, 0x02
+    frame_oam_tile    0,  -11, 0x0ce, 0x02
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50BD0:
+    animation_frame_tile_count
+    frame_oam_tile   -8,    3, 0x0c6, 0x02
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50BDB:
+    animation_frame_tile_count
+    frame_oam_tile   24,  -11, 0x0c6, 0x02
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50BEB:
+    animation_frame_tile_count
+    frame_oam_tile   16,    3, 0x0ce, 0x02
+    frame_oam_tile   24,  -11, 0x0c7, 0x02
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C00:
+    animation_frame_tile_count
+    frame_oam_tile   16,    3, 0x0cf, 0x02
+    frame_oam_tile   24,  -11, 0x0cf, 0x02
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C15:
+    animation_frame_tile_count
+    frame_oam_tile   16,    3, 0x0c7, 0x02
+    frame_oam_tile   24,  -11, 0x0ce, 0x02
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C2A:
+    animation_frame_tile_count
+    frame_oam_tile   16,    3, 0x0c6, 0x02
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C3A:
+    animation_frame_tile_count
+    frame_oam_tile   48,  -11, 0x0c6, 0x02
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C4F:
+    animation_frame_tile_count
+    frame_oam_tile   40,    2, 0x0ce, 0x02
+    frame_oam_tile   48,  -11, 0x0c7, 0x02
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C69:
+    animation_frame_tile_count
+    frame_oam_tile   40,    3, 0x0cf, 0x02
+    frame_oam_tile   48,  -10, 0x0cf, 0x02
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C83:
+    animation_frame_tile_count
+    frame_oam_tile   40,    3, 0x0c7, 0x02
+    frame_oam_tile   48,  -11, 0x0ce, 0x02
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50C9D:
+    animation_frame_tile_count
+    frame_oam_tile   40,    3, 0x0c6, 0x02
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50CB2:
+    animation_frame_tile_count
+    frame_oam_tile   72,  -11, 0x0c6, 0x02
+    frame_oam_tile   64,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50CCC:
+    animation_frame_tile_count
+    frame_oam_tile   64,    3, 0x0ce, 0x02
+    frame_oam_tile   72,  -11, 0x0c7, 0x02
+    frame_oam_tile   64,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50CEB:
+    animation_frame_tile_count
+    frame_oam_tile   64,    3, 0x0cf, 0x02
+    frame_oam_tile   72,  -11, 0x0cf, 0x02
+    frame_oam_tile   64,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50D0A:
+    animation_frame_tile_count
+    frame_oam_tile   64,    3, 0x0c7, 0x02
+    frame_oam_tile   72,  -11, 0x0ce, 0x02
+    frame_oam_tile   64,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
+animation_frame_C50D29:
+    animation_frame_tile_count
+    frame_oam_tile   64,    3, 0x0c6, 0x02
+    frame_oam_tile   64,   -8, 0x0d0, 0x22
+    frame_oam_tile   40,   -8, 0x0d0, 0x22
+    frame_oam_tile   16,   -8, 0x0d0, 0x22
+    frame_oam_tile   -8,   -8, 0x0d0, 0x22
+    .end
 data_end
