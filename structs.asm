@@ -483,7 +483,7 @@ org 0x30
 org 0x40
 endstruct
 
-; These live on their own heap and are only 0x20 bytes long rather than 0x64
+; These live on their own heap and are only 0x20 bytes long rather than 0x40
 struct bomb_object
 .handler
     ds 2 ; Bank is assumed to be C4
@@ -533,8 +533,8 @@ struct bomb_object
 org 0x20
 endstruct
 
-BOMB_FLAGS_UNKNOWN = 0x10
-BOMB_FLAGS_UNKNOWN_2 = 0x20
+BOMB_FLAGS_FORCE_DETONATION = 0x10
+BOMB_FLAGS_UNKNOWN = 0x20
 BOMB_FLAGS_REMOCON = 0x40
 BOMB_FLAGS_RED = 0x80
 
