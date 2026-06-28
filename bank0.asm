@@ -56,7 +56,6 @@ asset graphics/sprites, anzenda_graphic_1
 asset graphics/backgrounds, factory_graphic
 asset graphics/sprites, kinkaru_graphic_0
 asset graphics/sprites, kinkaru_graphic_1
-asset graphics/backgrounds, musical_note_graphic
 data_end
 
 ; Interrupt handlers

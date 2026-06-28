@@ -112,4 +112,5 @@ asset graphics/sprites, denkyun_graphic
 asset graphics/sprites, starnuts_graphic_0
 asset graphics/sprites, starnuts_graphic_1
 asset graphics/sprites, starnuts_graphic_2
+asset graphics/backgrounds, musical_note_graphic
 data_end
