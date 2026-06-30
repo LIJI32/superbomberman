@@ -58,6 +58,8 @@ debug_bgm:
     ds 1
 debug_se:
     ds 1
+loading_demo:
+    ds 1
 
 org 0x7E00BA
 allocator_cyclic_buffer_read_pointer:

@@ -12609,16 +12609,12 @@ sub_C46359:
 
 .loc_C46365:
     SEP #0x20
-    LDA z:0x10,X
-    CMP #0x34
-    BEQ .loc_C46388
-    CMP #0x35
-    BEQ .loc_C46388
-    CMP #0x36
-    BEQ .loc_C46388
     LDA a:addr(current_mode)
     CMP #3
     BNE .loc_C46388
+    LDA a:addr(level_manager_object.spawn_and_flags)
+    BIT #LEVEL_FLAGS_DEMO
+    BNE .loc_C46388    
     LDA z:0x25,X
     CMP #2
     BCS .loc_C46388
@@ -13346,6 +13342,8 @@ i16
     INC z:0x50
     LDX #0xD00
     LDA f:[z:0x50]
+    ORA a:addr(loading_demo)
+    STZ a:addr(loading_demo)
     STA a:addr(level_manager_object.spawn_and_flags)
     JSL reset_graphics_state
     REP #0x20
@@ -13527,6 +13525,11 @@ i16
     LDA a:addr(current_mode)
     CMP #3
     BNE .loc_C46B2A
+    LDA a:addr(level_manager_object.spawn_and_flags)
+    BIT #LEVEL_FLAGS_DEMO
+    BEQ +
+    JSL create_demo_handler
++
     JML sub_C46E2A
 
 .loc_C46B2A:

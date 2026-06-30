@@ -866,9 +866,9 @@ sudden_death_related_data:
 
 ; Moved from bank 5
 password_encryption_key:
-    dw 5, 0, 4, 1, 2, 6, 3, 7
+    dw 2, 6, 5, 0, 7, 1, 4, 3
 password_decryption_key:
-    dw 1, 3, 4, 6, 2, 0, 5, 7
+    dw 3, 5, 0, 7, 6, 2, 1, 4
 
 ; These moves weren't enough to prevent the overflow. :(
 endif

@@ -105,20 +105,16 @@ should_toggle_pause:
     BIT #GAME_FLAGS_LEVEL_END
     BNE .ret_false
     LDA a:addr(current_mode)
-    CMP #GAME_MODE_BATTLE
-    BEQ +
     CMP #GAME_MODE_STORY
+    BEQ +
+    CMP #GAME_MODE_BATTLE
+    BNE .ret_false
+    
+    LDA a:addr(level_manager_object.spawn_and_flags)
+    BIT #LEVEL_FLAGS_DEMO
     BNE .ret_false
 +
 
-    LDA a:addr(level_manager_object.fade_related_)
-    CMP #0x34
-    BEQ .ret_false
-    CMP #0x35
-    BEQ .ret_false
-    CMP #0x36
-    BEQ .ret_false
-    
     LDA #0
     XBA
     LDA #0

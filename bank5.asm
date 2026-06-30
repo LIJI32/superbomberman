@@ -4760,22 +4760,6 @@ create_title_input_handler:
     RTL
 
 title_input_handler:
-    SEP #0x20
-    STZ a:addr(level_manager_object.level_representation)
-    LDA a:addr(level_manager_object.previous_screen)
-    CMP #0x33
-    BEQ .loc_C54E97
-    CMP #0x34
-    BEQ .loc_C54E97
-    CMP #0x35
-    BEQ .loc_C54E97
-    CMP #0x36
-    BEQ .loc_C54E97
-    LDA #0xFF
-    STA a:addr(level_manager_object+0x1F)
-    STZ a:addr(byte_7E0C8F)
-
-.loc_C54E97:
     REP #0x20
     LDA #0x30
     STA z:0xE, X
@@ -5015,14 +4999,18 @@ sub_C55051:
     XBA
     PHX
     LDA a:addr(level_manager_object+0x1F)
-    INC A
-
 .loc_C5507E:
+    INC A
     STA a:addr(level_manager_object+0x1F)
     TAX
-    LDA f:demo_screens_list, X
+    LDA f:demo_screens_list - 1, X
     BEQ .loc_C5507E
     STA a:addr(current_screen)
+    CMP #SCREEN_INTRODUCTION
+    BEQ +
+    LDA #1
+    STA a:addr(loading_demo)
++
     PLX
     set_handler sub_C54FBD
     RTL
@@ -5118,11 +5106,13 @@ sub_C55100:
     RTL
 
 demo_screens_list:
-if SHOW_INTRODUCTION
-     db 0x33,  0x34, 0x33,  0x35, 0x33,  0x36, 0
-else
-     db 0x34, 0x35, 0x36, 0
-endif
+    .INDEX = 12
+rept 15
+    db SCREEN_INTRODUCTION, SCREEN_FIRST_BATTLE_STAGE + .INDEX
+    .INDEX = (.INDEX + 8) % 15
+endr
+    db 0
+    
 tile_animation:
     SEP #0x20
     create_object tile_animator
@@ -8369,9 +8359,9 @@ off_C570FA:
 ifdef J
 ; Moved to bank 3
 password_encryption_key:
-    dw 5, 0, 4, 1, 2, 6, 3, 7
+    dw 2, 6, 5, 7, 0, 1, 4, 3
 password_decryption_key:
-    dw 1, 3, 4, 6, 2, 0, 5, 7
+    dw 4, 5, 0, 7, 6, 2, 1, 3
 endif
 sub_C5710A:
     SEP #0x20

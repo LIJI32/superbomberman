@@ -305,72 +305,9 @@ credits_graphics:
     df menu_graphic_0
 
 light_zone_demo:
-    level 0, GAME_MODE_BATTLE, LEVEL_FLAGS_DEMO | LEVEL_FLAGS_LIGHT_ZONE, 0, 0x200,
-          dome_graphic, bomb_and_explosions_graphic, dome_level_structure, ; graphics
-          empty_tilemap, compressed_spotlight_tilemap, ; overlay
-          0, 55 ; hard/soft blocks
-
-    df create_spotlight
-    df create_demo_handler
-    load_palettes light_zone_palettes
-    load_global_sprites western_zone_graphics
-    tile_animation TILE_SOFTBLOCK, dome_soft_animation
-    tile_animation TILE_SOFTBLOCK_SHADED, dome_shaded_soft_animation
-    init_functions_end
-
-    dw 0
-
-    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP,
-       SPEED_UP, SPEED_UP, SPEED_UP, KICK, KICK, PUNCH, PUNCH, POISON, POISON, POISON,
-       POISON, POISON, POISON, POISON, POISON, 0
-       
-    battle_stage_ppu_regs OBJ_EN | BG2_EN, OBJ_EN | BG1_EN | BG3_EN | BG4_EN,
-                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1 | COLMAT_USE_SUBSCREEN, 0,
-                          128, 128
-
 warp_zone_demo:
-    level 0, GAME_MODE_BATTLE, LEVEL_FLAGS_DEMO | LEVEL_FLAGS_WARP_ZONE, 0, 0x200,
-          warp_zone_graphic, bomb_and_explosions_graphic, warp_zone_level_structure, ; graphics
-          empty_tilemap, empty_tilemap, ; overlay
-          0, 50 ; hard/soft blocks
-
-    df create_demo_handler
-    load_palettes warp_zone_palettes
-    load_global_sprites warp_zone_graphics
-    tile_animation 0x26, warp_animation
-    init_functions_end
-
-    dw 0
-
-    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP,
-       SPEED_UP, SPEED_UP, SPEED_UP, POISON, POISON, KICK, KICK, KICK, PUNCH, PUNCH,
-       PUNCH, FULL_FIRE, FULL_FIRE, 0
-
-    battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
-                          0, 0
-
 jump_zone_demo:
-    level 0, GAME_MODE_BATTLE, LEVEL_FLAGS_DEMO | LEVEL_FLAGS_JUMP_ZONE, 0, 0x200,
-          castle_graphic, bomb_and_explosions_graphic, castle_level_structure, ; graphics
-          trampoline_and_crane_graphic, empty_tilemap, ; overlay
-          0, 55 ; hard/soft blocks
-
-    df create_demo_handler
-    load_palettes jump_zone_palettes
-    load_global_sprites western_zone_graphics
-    tile_animation TILE_SOFTBLOCK, castle_soft_animation
-    tile_animation TILE_SOFTBLOCK_SHADED, castle_soft_animation
-    init_functions_end
-
-    dw 0
-
-    dw BOMB_UP, BOMB_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP, FIRE_UP, FIRE_UP, SPEED_UP, SPEED_UP,
-       SPEED_UP, POISON, POISON, KICK, KICK, KICK, PUNCH, PUNCH, PUNCH, 0
-
-    battle_stage_ppu_regs BG1_EN | BG2_EN | BG3_EN | OBJ_EN, BG1_EN | BG2_EN | BG3_EN | OBJ_EN,
-                          COLMAT_SUBTRACT | COLMAT_BG2 | COLMAT_BG1, 8,
-                          0, 0
+    ; Not used in this hack
 
 continue_screen:
     dw 0, 0, GAME_MODE_MENU
