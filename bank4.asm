@@ -13332,6 +13332,14 @@ i16
     REP #0x20
     LDA z:0x10,X
     AND #0xFF
+    CMP #SCREEN_RANDOM_PLACEHOLDER
+    BNE +
+    LDX #SCREEN_RANDOM_PLACEHOLDER - SCREEN_FIRST_BATTLE_STAGE
+    JSL random
+    REP #0x20
+    CLC
+    ADC #SCREEN_FIRST_BATTLE_STAGE
++
     ASL A
     TAX
     LDA f:screens_table,X
@@ -14465,9 +14473,16 @@ i16
     REP #0x20
     LDA z:0x40
     AND #0xFF
+    CMP #SCREEN_RANDOM_PLACEHOLDER - SCREEN_FIRST_BATTLE_STAGE
+    BNE +
+    LDX #SCREEN_RANDOM_PLACEHOLDER - SCREEN_FIRST_BATTLE_STAGE
+    JSL random
+    REP #0x20
++
     ASL A
     TAX
-    LDA f:screens_table+0x7A,X
+    LDA f:screens_table+(SCREEN_FIRST_BATTLE_STAGE * 2),X
+    STA a:addr(screen_to_load)
     STA z:0x50
     LDA f:[z:0x50]
     STA a:addr(level_manager_object.anonymous_5)
@@ -15684,9 +15699,15 @@ i16
     REP #0x20
     LDA a:addr(level_manager_object.fade_related_)
     AND #0xFF
+    CMP #SCREEN_RANDOM_PLACEHOLDER
+    BEQ +
     ASL A
     TAX
     LDA f:screens_table,X
+    BRA ++
++
+    LDA a:addr(screen_to_load)
+++
     STA z:0x50
     INC z:0x50
     INC z:0x50

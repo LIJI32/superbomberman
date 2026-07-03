@@ -1,3 +1,8 @@
+org 0x7E0000
+loading_demo:
+    ds 2
+screen_to_load:
+    ds 2
 org 0x7E0070
 object_shift_x:
     ds 2
@@ -57,8 +62,6 @@ debug_vs_check:
 debug_bgm:
     ds 1
 debug_se:
-    ds 1
-loading_demo:
     ds 1
 
 org 0x7E00BA

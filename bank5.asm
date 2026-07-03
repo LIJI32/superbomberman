@@ -74,6 +74,13 @@ battle_menu_number_15_frame:
     frame_oam_tile   -2,   -8, 0x070, 0x24
     frame_oam_tile  -12,   -8, 0x060, 0x24
     .end
+battle_menu_number_random_frame:
+    animation_frame_tile_count
+    frame_oam_tile   -8,   -8, 0x062, 0x04
+    frame_oam_tile    0,   -8, 0x063, 0x04
+    frame_oam_tile    0,    0, 0x00b, 0x04
+    frame_oam_tile   -8,    0, 0x00a, 0x04
+    .end
 battle_menu_man_frame:
     animation_frame_tile_count
     frame_oam_tile    8,   -8, 0x030, 0x24
@@ -87,14 +94,6 @@ battle_menu_com_frame:
     frame_oam_tile  -24,   -8, 0x016, 0x26
     .end
 battle_menu_off_frame:
-ifndef J
-    animation_frame_tile_count
-    frame_oam_tile    8,   -8, 0x002, 0x28
-    frame_oam_tile   -8,   -8, 0x002, 0x28
-    frame_oam_tile  -24,   -8, 0x004, 0x28
-    .end
-else
-    ; The Japanese version uses 9 OAM tiles for the OFF label
     animation_frame_tile_count
     frame_oam_tile   13,    0, 0x009, 0x08
     frame_oam_tile    5,    0, 0x008, 0x08
@@ -106,7 +105,6 @@ else
     frame_oam_tile   -8,   -8, 0x020, 0x08
     frame_oam_tile  -24,   -8, 0x004, 0x28
     .end
-endif
  battle_menu_arrow:
     animation_frame_count
     animation_frame battle_menu_arrow_frame, 0xFF
@@ -170,6 +168,10 @@ endif
  battle_menu_number_15:
     animation_frame_count
     animation_frame battle_menu_number_15_frame, 0xFF
+    .end
+ battle_menu_number_random:
+    animation_frame_count
+    animation_frame battle_menu_number_random_frame, 0xFF
     .end
  battle_menu_man:
     animation_frame_count
@@ -796,6 +798,36 @@ smoking_zone_label_frame:
     frame_oam_tile  -40,  -11, ' ', 0x02
     frame_oam_tile  -48,  -11, ' ', 0x02
     .end
+random_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile   24,    5, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile  -32,    5, ' ', 0x02
+    
+    frame_oam_tile   24,   -3, ' ', 0x02
+    frame_oam_tile   16,   -3, 'M', 0x02
+    frame_oam_tile    8,   -3, 'O', 0x02
+    frame_oam_tile    0,   -3, 'D', 0x02
+    frame_oam_tile   -8,   -3, 'N', 0x02
+    frame_oam_tile  -16,   -3, 'A', 0x02
+    frame_oam_tile  -24,   -3, 'R', 0x02
+    frame_oam_tile  -32,   -3, ' ', 0x02
+    
+    frame_oam_tile   24,  -11, ' ', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile  -32,  -11, ' ', 0x02
+
+    .end    
 else
 encode battle_mode_label, "ナ", 2
 encode battle_mode_label, "フツウカステキシロノョメンコハクタホヨャ", 0x80
@@ -1302,6 +1334,28 @@ smoking_zone_label_frame:
     frame_oam_tile  -24,   -3, 'キ', 0x02
     frame_oam_tile  -32,   -3, ' ', 0x02
     .end
+random_label_frame:
+    animation_frame_tile_count
+    frame_oam_tile    5,  -11, '゛', 0x02
+    frame_oam_tile   16,  -11, ' ', 0x02
+    frame_oam_tile    8,  -11, ' ', 0x02
+    frame_oam_tile    0,  -11, ' ', 0x02
+    frame_oam_tile   -8,  -11, ' ', 0x02
+    frame_oam_tile  -16,  -11, ' ', 0x02
+    frame_oam_tile  -24,  -11, ' ', 0x02
+    frame_oam_tile   16,    5, ' ', 0x02
+    frame_oam_tile    8,    5, ' ', 0x02
+    frame_oam_tile    0,    5, ' ', 0x02
+    frame_oam_tile   -8,    5, ' ', 0x02
+    frame_oam_tile  -16,    5, ' ', 0x02
+    frame_oam_tile  -24,    5, ' ', 0x02
+    frame_oam_tile   16,   -3, ' ', 0x02
+    frame_oam_tile    8,   -3, 'ム', 0x02
+    frame_oam_tile    0,   -3, 'ト', 0x02
+    frame_oam_tile   -8,   -3, 'ン', 0x02
+    frame_oam_tile  -16,   -3, 'ラ', 0x02
+    frame_oam_tile  -24,   -3, ' ', 0x02
+    .end
 endif
 
 encoding raw
@@ -1449,6 +1503,10 @@ arena_zone_label:
 smoking_zone_label:
     animation_frame_count
     animation_frame smoking_zone_label_frame, 0xFF
+    .end
+random_label:
+    animation_frame_count
+    animation_frame random_label_frame, 0xFF
     .end
 ifdef J
 animation_frame_C50D43:
@@ -9837,87 +9895,4 @@ i16
     JSL sub_C57F9F
     RTL
 
-sub_C57F51:
-    SEP #0x20
-    LDA #0
-    STA z:0x44
-    LDA z:0
-    STA a:WRDIVL
-    LDA z:0x40
-    STA a:WRDIVH
-    LDA z:0x41
-    BPL .loc_C57F76
-    LDA z:0x40
-    EOR #0xFF
-    INC A
-    STA a:WRDIVH
-    LDA z:0
-    STA a:WRDIVL
-    LDA #1
-    STA z:0x44
-
-.loc_C57F76:
-    LDA z:0x34, X
-    STA a:WRDIVB
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    REP #0x20
-    LDA a:RDDIVL
-    STA z:0x40
-    LDA z:0x44
-    BEQ .locret_C57F9E
-    LDA z:0x40
-    EOR #0xFFFF
-    INC A
-    STA z:0x40
-
-.locret_C57F9E:
-    RTL
-
-sub_C57F9F:
-    REP #0x20
-    LDA z:0x1A, X
-    STA z:0x52
-    LDA z:0x40
-    AND #0xFF
-    ASL A
-    CLC
-    ADC z:0x18, X
-    STA z:0x50
-    LDA f:[z:0x50]
-    STA z:0x50
-    JSL start_animation
-    RTL
-
-off_C58051:
-    dw 0
-    dw 0
-    dw 0
-    da byte_C5617E
-    dw 0
-    da byte_C56176
-    da byte_C5616E
-    da byte_C561AA
-    dw 0
-    da byte_C56166
-    da byte_C5615E
-    da byte_C5619E
-    da byte_C56156
-    da byte_C56192
-    da byte_C56186
-    da byte_C561B6
 data_end

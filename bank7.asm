@@ -2467,4 +2467,88 @@ animation_frame_C50D29:
     frame_oam_tile   16,   -8, 0x0d0, 0x22
     frame_oam_tile   -8,   -8, 0x0d0, 0x22
     .end
+    
+sub_C57F51:
+    SEP #0x20
+    LDA #0
+    STA z:0x44
+    LDA z:0
+    STA a:WRDIVL
+    LDA z:0x40
+    STA a:WRDIVH
+    LDA z:0x41
+    BPL .loc_C57F76
+    LDA z:0x40
+    EOR #0xFF
+    INC A
+    STA a:WRDIVH
+    LDA z:0
+    STA a:WRDIVL
+    LDA #1
+    STA z:0x44
+
+.loc_C57F76:
+    LDA z:0x34, X
+    STA a:WRDIVB
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    REP #0x20
+    LDA a:RDDIVL
+    STA z:0x40
+    LDA z:0x44
+    BEQ .locret_C57F9E
+    LDA z:0x40
+    EOR #0xFFFF
+    INC A
+    STA z:0x40
+
+.locret_C57F9E:
+    RTL
+
+sub_C57F9F:
+    REP #0x20
+    LDA z:0x1A, X
+    STA z:0x52
+    LDA z:0x40
+    AND #0xFF
+    ASL A
+    CLC
+    ADC z:0x18, X
+    STA z:0x50
+    LDA f:[z:0x50]
+    STA z:0x50
+    JSL start_animation
+    RTL
+
+off_C58051:
+    dw 0
+    dw 0
+    dw 0
+    da byte_C5617E
+    dw 0
+    da byte_C56176
+    da byte_C5616E
+    da byte_C561AA
+    dw 0
+    da byte_C56166
+    da byte_C5615E
+    da byte_C5619E
+    da byte_C56156
+    da byte_C56192
+    da byte_C56186
+    da byte_C561B6
 data_end
