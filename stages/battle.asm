@@ -389,7 +389,7 @@ arena_zone:
                           0, 0
                           
 smoking_zone:
-    level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_LIGHT_ZONE, 0, 0x200,
+    level 0x14, GAME_MODE_BATTLE, LEVEL_FLAGS_LIGHT_ZONE | LEVEL_FLAGS_WESTERN, 0, 0x200,
           diamond_tower_tileset_graphic, bomb_and_explosions_graphic, diamond_tower_level_structure, ; graphics
           clouds_graphic, compressed_cloud_pal3_overlay_tilemap, ; overlay
           0, 70 ; hard/soft blocks
