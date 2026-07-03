@@ -2019,13 +2019,14 @@ battle_menu_page_2_flashing_arrow:
     animation_frame animation_frame_C5149E, 2
     .end
     
-encode title_legal_text, "M&cbtd",  0x00
-encode title_legal_text, "Lisyneo", 0x08
+encode title_legal_text, "M&cbtdak",  0x00
+encode title_legal_text, "Lisyneor", 0x08
 encode title_legal_text, "©",       0x54
 encode title_legal_text, "19",      0x56
 encode title_legal_text, "SO",      0x5e
 encode title_legal_text, "3HUD",    0x70
-encode title_legal_text, "NFT",     0x78
+encode title_legal_text, "NFTp",    0x78
+encode title_legal_text, "hl",      0x20
 
 encode title_menu_item, "NORM", 0x10 / 2
 encode title_menu_item, "ALBT", 0x30 / 2
@@ -2037,24 +2038,23 @@ encode title_menu_item, "Y?",   0x74 / 2
 encoding title_legal_text
 licensed_by_frame:
     animation_frame_tile_count
-    frame_oam_tile   66,   -3, 'o', 0x00
-    frame_oam_tile   58,   -3, 'd', 0x00
-    frame_oam_tile   50,   -3, 'n', 0x00
-    frame_oam_tile   42,   -3, 'e', 0x00
-    frame_oam_tile   36,   -3, 't', 0x00
-    frame_oam_tile   28,   -3, 'n', 0x00
-    frame_oam_tile   23,   -3, 'i', 0x00
-    frame_oam_tile  -28,   -3, 'd', 0x00
-    frame_oam_tile  -36,   -3, 'e', 0x00
-    frame_oam_tile  -44,   -3, 's', 0x00
-    frame_oam_tile  -52,   -3, 'n', 0x00
-    frame_oam_tile  -60,   -3, 'e', 0x00
-    frame_oam_tile   16,   -3, 'N', 0x00
-    frame_oam_tile    0,   -2, 'y', 0x00
-    frame_oam_tile   -8,   -3, 'b', 0x00
-    frame_oam_tile  -68,   -3, 'c', 0x00
-    frame_oam_tile  -73,   -3, 'i', 0x00
-    frame_oam_tile  -80,   -3, 'L', 0x00
+    frame_oam_tile   63,   -3, 'n', 0x00
+    frame_oam_tile   55,   -3, 'o', 0x00
+    frame_oam_tile   47,   -3, 'h', 0x00
+    frame_oam_tile   39,   -1, 'p', 0x00
+    frame_oam_tile   34,   -3, 'l', 0x00
+    frame_oam_tile   26,   -3, 'a', 0x00
+    frame_oam_tile   18,   -3, 'H', 0x00
+    frame_oam_tile    3,   -3, 'r', 0x00
+    frame_oam_tile   -5,   -3, 'o', 0x00
+    frame_oam_tile   -9,   -3, 'i', 0x00
+    frame_oam_tile  -16,   -3, 'L', 0x00
+    frame_oam_tile  -32,   -2, 'y', 0x00
+    frame_oam_tile  -40,   -3, 'b', 0x00
+    frame_oam_tile  -56,   -3, 'k', 0x00
+    frame_oam_tile  -64,   -3, 'c', 0x00
+    frame_oam_tile  -72,   -3, 'a', 0x00
+    frame_oam_tile  -80,   -3, 'H', 0x00
     .end
     
 encoding title_menu_item
@@ -2116,7 +2116,7 @@ copyright_text_frame:
     frame_oam_tile  -23,   -8, '9', 0x00
     frame_oam_tile  -31,   -8, '9', 0x00
     frame_oam_tile  -37,   -8, '1', 0x00
-    frame_oam_tile  -48,   -8, '©', 0x00
+    frame_oam_tile  -48,   -8, '©', 0x20
     .end
     
 menu_arrow_frame:
@@ -2178,31 +2178,6 @@ password_digit_7_frame:
     frame_oam_tile   -8,   -8, 0x096, 0x22
     .end
     
-encoding title_legal_text
-copyright_text_frame_j:
-    animation_frame_tile_count
-    frame_oam_tile   58,   -4, 'T', 0x00
-    frame_oam_tile   50,   -4, 'F', 0x00
-    frame_oam_tile   42,   -4, 'O', 0x00
-    frame_oam_tile   34,   -4, 'S', 0x00
-    frame_oam_tile   24,   -4, 'N', 0x00
-    frame_oam_tile   16,   -4, 'O', 0x00
-    frame_oam_tile    8,   -4, 'S', 0x00
-    frame_oam_tile    0,   -4, 'D', 0x00
-    frame_oam_tile   -8,   -4, 'U', 0x00
-    frame_oam_tile  -16,   -4, 'H', 0x00
-    frame_oam_tile  -31,   -4, '3', 0x00
-    frame_oam_tile  -39,   -4, '9', 0x00
-    frame_oam_tile  -47,   -4, '9', 0x00
-    frame_oam_tile  -53,   -4, '1', 0x00
-    
-    ; Broken up ©
-    frame_oam_tile  -56,   -5, '©' + 1, 0x00
-    frame_oam_tile  -64,    3, '©' + 8, 0x00
-    frame_oam_tile  -64,   -5, '©', 0x00
-    .end
-encoding raw
-    
 licensed_by_animation:
     animation_frame_count
     animation_frame licensed_by_frame, 0xFF
@@ -2262,10 +2237,6 @@ password_digit_6_animation:
 password_digit_7_animation:
     animation_frame_count
     animation_frame password_digit_7_frame, 0xFF
-    .end
-copyright_text_animation_j:
-    animation_frame_count
-    animation_frame copyright_text_frame_j, 0xFF
     .end
 diamond_tower_static_frame:
     animation_frame_tile_count
@@ -5017,26 +4988,20 @@ word_C54FC6:
     db 0
     db 0
     db 0
-if TRADEMARK_LINE
     da copyright_text_animation
-else
-    da copyright_text_animation_j
-endif
     db 0x88
     db 0
     db 0xB7
     db 0
     db 0
     db 0
-if DISPLAY_LICENSED_BY
     da licensed_by_animation
-    db 0x8E
+    db 0x8F
     db 0
     db 0xBC
     db 0
     db 0
     db 0
-endif
 
 sub_C54FEA:
     SEP #0x20

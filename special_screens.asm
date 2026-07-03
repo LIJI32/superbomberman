@@ -21,9 +21,7 @@ title_screen:
     create_title_text_object 1
     create_title_text_object 2
     create_title_text_object 3
-if DISPLAY_LICENSED_BY
     create_title_text_object 4
-endif
     init_functions_end
 
 title_graphics:
