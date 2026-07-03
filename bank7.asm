@@ -489,7 +489,7 @@ sound_test_handler:
     LDA #0
     STA z:0x24, X
     REP #0x20
-    start_animation_far byte_C51749
+    start_animation_far menu_arrow_animation
     set_handler .loc_C70667
     JSL sub_C70751
     JSL sub_C707ED

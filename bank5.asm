@@ -2018,223 +2018,256 @@ battle_menu_page_2_flashing_arrow:
     animation_frame animation_frame_C51493, 2
     animation_frame animation_frame_C5149E, 2
     .end
-animation_frame_C51518:
+    
+encode title_legal_text, "M&cbtd",  0x00
+encode title_legal_text, "Lisyneo", 0x08
+encode title_legal_text, "©",       0x54
+encode title_legal_text, "19",      0x56
+encode title_legal_text, "SO",      0x5e
+encode title_legal_text, "3HUD",    0x70
+encode title_legal_text, "NFT",     0x78
+
+encode title_menu_item, "NORM", 0x10 / 2
+encode title_menu_item, "ALBT", 0x30 / 2
+encode title_menu_item, "EPSW", 0x40 / 2
+encode title_menu_item, "G",    0x50 / 2
+encode title_menu_item, "DCIU", 0x60 / 2
+encode title_menu_item, "Y?",   0x74 / 2
+
+encoding title_legal_text
+licensed_by_frame:
     animation_frame_tile_count
-    frame_oam_tile   66,   -3, 0x00e, 0x00
-    frame_oam_tile   58,   -3, 0x005, 0x00
-    frame_oam_tile   50,   -3, 0x00c, 0x00
-    frame_oam_tile   42,   -3, 0x00d, 0x00
-    frame_oam_tile   36,   -3, 0x004, 0x00
-    frame_oam_tile   28,   -3, 0x00c, 0x00
-    frame_oam_tile   23,   -3, 0x009, 0x00
-    frame_oam_tile  -28,   -3, 0x005, 0x00
-    frame_oam_tile  -36,   -3, 0x00d, 0x00
-    frame_oam_tile  -44,   -3, 0x00a, 0x00
-    frame_oam_tile  -52,   -3, 0x00c, 0x00
-    frame_oam_tile  -60,   -3, 0x00d, 0x00
-    frame_oam_tile   16,   -3, 0x078, 0x00
-    frame_oam_tile    0,   -2, 0x00b, 0x00
-    frame_oam_tile   -8,   -3, 0x003, 0x00
-    frame_oam_tile  -68,   -3, 0x002, 0x00
-    frame_oam_tile  -73,   -3, 0x009, 0x00
-    frame_oam_tile  -80,   -3, 0x008, 0x00
+    frame_oam_tile   66,   -3, 'o', 0x00
+    frame_oam_tile   58,   -3, 'd', 0x00
+    frame_oam_tile   50,   -3, 'n', 0x00
+    frame_oam_tile   42,   -3, 'e', 0x00
+    frame_oam_tile   36,   -3, 't', 0x00
+    frame_oam_tile   28,   -3, 'n', 0x00
+    frame_oam_tile   23,   -3, 'i', 0x00
+    frame_oam_tile  -28,   -3, 'd', 0x00
+    frame_oam_tile  -36,   -3, 'e', 0x00
+    frame_oam_tile  -44,   -3, 's', 0x00
+    frame_oam_tile  -52,   -3, 'n', 0x00
+    frame_oam_tile  -60,   -3, 'e', 0x00
+    frame_oam_tile   16,   -3, 'N', 0x00
+    frame_oam_tile    0,   -2, 'y', 0x00
+    frame_oam_tile   -8,   -3, 'b', 0x00
+    frame_oam_tile  -68,   -3, 'c', 0x00
+    frame_oam_tile  -73,   -3, 'i', 0x00
+    frame_oam_tile  -80,   -3, 'L', 0x00
     .end
-animation_frame_C51573:
+    
+encoding title_menu_item
+normal_game_frame:
     animation_frame_tile_count
-    frame_oam_tile   50,   -8, 0x040, 0x20
-    frame_oam_tile   37,   -8, 0x016, 0x20
-    frame_oam_tile   25,   -8, 0x030, 0x20
-    frame_oam_tile   13,   -8, 0x050, 0x20
-    frame_oam_tile   -3,   -8, 0x032, 0x20
-    frame_oam_tile  -15,   -8, 0x030, 0x20
-    frame_oam_tile  -28,   -8, 0x016, 0x20
-    frame_oam_tile  -40,   -8, 0x014, 0x20
-    frame_oam_tile  -52,   -8, 0x012, 0x20
-    frame_oam_tile  -64,   -8, 0x010, 0x20
+    frame_oam_tile   50,   -8, 'E' * 2, 0x20
+    frame_oam_tile   37,   -8, 'M' * 2, 0x20
+    frame_oam_tile   25,   -8, 'A' * 2, 0x20
+    frame_oam_tile   13,   -8, 'G' * 2, 0x20
+    frame_oam_tile   -3,   -8, 'L' * 2, 0x20
+    frame_oam_tile  -15,   -8, 'A' * 2, 0x20
+    frame_oam_tile  -28,   -8, 'M' * 2, 0x20
+    frame_oam_tile  -40,   -8, 'R' * 2, 0x20
+    frame_oam_tile  -52,   -8, 'O' * 2, 0x20
+    frame_oam_tile  -64,   -8, 'N' * 2, 0x20
     .end
-animation_frame_C515A6:
+battle_mode_frame:
     animation_frame_tile_count
-    frame_oam_tile   50,   -8, 0x040, 0x20
-    frame_oam_tile   38,   -8, 0x060, 0x20
-    frame_oam_tile   26,   -8, 0x012, 0x20
-    frame_oam_tile   13,   -8, 0x016, 0x20
-    frame_oam_tile   -4,   -8, 0x040, 0x20
-    frame_oam_tile  -16,   -8, 0x032, 0x20
-    frame_oam_tile  -28,   -8, 0x036, 0x20
-    frame_oam_tile  -40,   -8, 0x036, 0x20
-    frame_oam_tile  -52,   -8, 0x030, 0x20
-    frame_oam_tile  -64,   -8, 0x034, 0x20
+    frame_oam_tile   50,   -8, 'E' * 2, 0x20
+    frame_oam_tile   38,   -8, 'D' * 2, 0x20
+    frame_oam_tile   26,   -8, 'O' * 2, 0x20
+    frame_oam_tile   13,   -8, 'M' * 2, 0x20
+    frame_oam_tile   -4,   -8, 'E' * 2, 0x20
+    frame_oam_tile  -16,   -8, 'L' * 2, 0x20
+    frame_oam_tile  -28,   -8, 'T' * 2, 0x20
+    frame_oam_tile  -40,   -8, 'T' * 2, 0x20
+    frame_oam_tile  -52,   -8, 'A' * 2, 0x20
+    frame_oam_tile  -64,   -8, 'B' * 2, 0x20
     .end
-animation_frame_C515D9:
+password_frame:
     animation_frame_tile_count
-    frame_oam_tile   20,   -8, 0x060, 0x20
-    frame_oam_tile    8,   -8, 0x014, 0x20
-    frame_oam_tile   -4,   -8, 0x012, 0x20
-    frame_oam_tile  -16,   -8, 0x046, 0x20
-    frame_oam_tile  -28,   -8, 0x044, 0x20
-    frame_oam_tile  -40,   -8, 0x044, 0x20
-    frame_oam_tile  -52,   -8, 0x030, 0x20
-    frame_oam_tile  -64,   -8, 0x042, 0x20
+    frame_oam_tile   20,   -8, 'D' * 2, 0x20
+    frame_oam_tile    8,   -8, 'R' * 2, 0x20
+    frame_oam_tile   -4,   -8, 'O' * 2, 0x20
+    frame_oam_tile  -16,   -8, 'W' * 2, 0x20
+    frame_oam_tile  -28,   -8, 'S' * 2, 0x20
+    frame_oam_tile  -40,   -8, 'S' * 2, 0x20
+    frame_oam_tile  -52,   -8, 'A' * 2, 0x20
+    frame_oam_tile  -64,   -8, 'P' * 2, 0x20
     .end
-animation_frame_C51602:
+
+encoding title_legal_text
+copyright_text_frame:
     animation_frame_tile_count
-    frame_oam_tile  -57,   -8, 0x001, 0x00
-    frame_oam_tile  -67,   -8, 0x000, 0x00
-    frame_oam_tile  -75,   -8, 0x07a, 0x00
-    frame_oam_tile   72,   -8, 0x07a, 0x00
-    frame_oam_tile   64,   -8, 0x079, 0x00
-    frame_oam_tile   56,   -8, 0x05f, 0x00
-    frame_oam_tile   48,   -8, 0x05e, 0x00
-    frame_oam_tile   37,   -8, 0x078, 0x00
-    frame_oam_tile   29,   -8, 0x05f, 0x00
-    frame_oam_tile   21,   -8, 0x05e, 0x00
-    frame_oam_tile   13,   -8, 0x073, 0x00
-    frame_oam_tile    5,   -8, 0x072, 0x00
-    frame_oam_tile   -3,   -8, 0x071, 0x00
-    frame_oam_tile  -15,   -8, 0x070, 0x00
-    frame_oam_tile  -23,   -8, 0x057, 0x00
-    frame_oam_tile  -31,   -8, 0x057, 0x00
-    frame_oam_tile  -37,   -8, 0x056, 0x00
-    frame_oam_tile  -48,   -8, 0x054, 0x00
+    frame_oam_tile  -57,   -8, '&', 0x00
+    frame_oam_tile  -67,   -8, 'M', 0x00
+    frame_oam_tile  -75,   -8, 'T', 0x00
+    frame_oam_tile   72,   -8, 'T', 0x00
+    frame_oam_tile   64,   -8, 'F', 0x00
+    frame_oam_tile   56,   -8, 'O', 0x00
+    frame_oam_tile   48,   -8, 'S', 0x00
+    frame_oam_tile   37,   -8, 'N', 0x00
+    frame_oam_tile   29,   -8, 'O', 0x00
+    frame_oam_tile   21,   -8, 'S', 0x00
+    frame_oam_tile   13,   -8, 'D', 0x00
+    frame_oam_tile    5,   -8, 'U', 0x00
+    frame_oam_tile   -3,   -8, 'H', 0x00
+    frame_oam_tile  -15,   -8, '3', 0x00
+    frame_oam_tile  -23,   -8, '9', 0x00
+    frame_oam_tile  -31,   -8, '9', 0x00
+    frame_oam_tile  -37,   -8, '1', 0x00
+    frame_oam_tile  -48,   -8, '©', 0x00
     .end
-animation_frame_C5165D:
+    
+menu_arrow_frame:
     animation_frame_tile_count
     frame_oam_tile   -3,   -6, 0x052, 0x20
     .end
-animation_frame_C51663:
+
+encoding title_menu_item
+continue_text_frame:
     animation_frame_tile_count
-    frame_oam_tile   40,   23, 0x012, 0x20
-    frame_oam_tile   28,   23, 0x010, 0x20
-    frame_oam_tile  -23,   23, 0x044, 0x20
-    frame_oam_tile  -35,   23, 0x040, 0x20
-    frame_oam_tile  -47,   23, 0x074, 0x20
-    frame_oam_tile   42,    2, 0x076, 0x20
-    frame_oam_tile   30,    2, 0x040, 0x20
-    frame_oam_tile   18,    2, 0x066, 0x20
-    frame_oam_tile    6,    2, 0x010, 0x20
-    frame_oam_tile   -4,    2, 0x064, 0x20
-    frame_oam_tile  -14,    2, 0x036, 0x20
-    frame_oam_tile  -25,    2, 0x010, 0x20
-    frame_oam_tile  -37,    2, 0x012, 0x20
-    frame_oam_tile  -49,    2, 0x062, 0x20
+    frame_oam_tile   40,   23, 'O' * 2, 0x20
+    frame_oam_tile   28,   23, 'N' * 2, 0x20
+    frame_oam_tile  -23,   23, 'S' * 2, 0x20
+    frame_oam_tile  -35,   23, 'E' * 2, 0x20
+    frame_oam_tile  -47,   23, 'Y' * 2, 0x20
+    frame_oam_tile   42,    2, '?' * 2, 0x20
+    frame_oam_tile   30,    2, 'E' * 2, 0x20
+    frame_oam_tile   18,    2, 'U' * 2, 0x20
+    frame_oam_tile    6,    2, 'N' * 2, 0x20
+    frame_oam_tile   -4,    2, 'I' * 2, 0x20
+    frame_oam_tile  -14,    2, 'T' * 2, 0x20
+    frame_oam_tile  -25,    2, 'N' * 2, 0x20
+    frame_oam_tile  -37,    2, 'O' * 2, 0x20
+    frame_oam_tile  -49,    2, 'C' * 2, 0x20
     .end
-animation_frame_C516AA:
+
+encoding raw
+
+password_digit_0_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x080, 0x22
     .end
-animation_frame_C516B0:
+password_digit_1_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x082, 0x22
     .end
-animation_frame_C516B6:
+password_digit_2_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x084, 0x22
     .end
-animation_frame_C516BC:
+password_digit_3_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x086, 0x22
     .end
-animation_frame_C516C2:
+password_digit_4_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x090, 0x22
     .end
-animation_frame_C516C8:
+password_digit_5_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x092, 0x22
     .end
-animation_frame_C516CE:
+password_digit_6_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x094, 0x22
     .end
-animation_frame_C516D4:
+password_digit_7_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x096, 0x22
     .end
-animation_frame_C516DA:
+    
+encoding title_legal_text
+copyright_text_frame_j:
     animation_frame_tile_count
-    frame_oam_tile   58,   -4, 0x07a, 0x00
-    frame_oam_tile   50,   -4, 0x079, 0x00
-    frame_oam_tile   42,   -4, 0x05f, 0x00
-    frame_oam_tile   34,   -4, 0x05e, 0x00
-    frame_oam_tile   24,   -4, 0x078, 0x00
-    frame_oam_tile   16,   -4, 0x05f, 0x00
-    frame_oam_tile    8,   -4, 0x05e, 0x00
-    frame_oam_tile    0,   -4, 0x073, 0x00
-    frame_oam_tile   -8,   -4, 0x072, 0x00
-    frame_oam_tile  -16,   -4, 0x071, 0x00
-    frame_oam_tile  -31,   -4, 0x070, 0x00
-    frame_oam_tile  -39,   -4, 0x057, 0x00
-    frame_oam_tile  -47,   -4, 0x057, 0x00
-    frame_oam_tile  -53,   -4, 0x056, 0x00
-    frame_oam_tile  -56,   -5, 0x055, 0x00
-    frame_oam_tile  -64,    3, 0x05c, 0x00
-    frame_oam_tile  -64,   -5, 0x054, 0x00
+    frame_oam_tile   58,   -4, 'T', 0x00
+    frame_oam_tile   50,   -4, 'F', 0x00
+    frame_oam_tile   42,   -4, 'O', 0x00
+    frame_oam_tile   34,   -4, 'S', 0x00
+    frame_oam_tile   24,   -4, 'N', 0x00
+    frame_oam_tile   16,   -4, 'O', 0x00
+    frame_oam_tile    8,   -4, 'S', 0x00
+    frame_oam_tile    0,   -4, 'D', 0x00
+    frame_oam_tile   -8,   -4, 'U', 0x00
+    frame_oam_tile  -16,   -4, 'H', 0x00
+    frame_oam_tile  -31,   -4, '3', 0x00
+    frame_oam_tile  -39,   -4, '9', 0x00
+    frame_oam_tile  -47,   -4, '9', 0x00
+    frame_oam_tile  -53,   -4, '1', 0x00
+    
+    ; Broken up ©
+    frame_oam_tile  -56,   -5, '©' + 1, 0x00
+    frame_oam_tile  -64,    3, '©' + 8, 0x00
+    frame_oam_tile  -64,   -5, '©', 0x00
     .end
-byte_C51730:
+encoding raw
+    
+licensed_by_animation:
     animation_frame_count
-    animation_frame animation_frame_C51518, 0xFF
+    animation_frame licensed_by_frame, 0xFF
     .end
-byte_C51735:
+normal_game_animation:
     animation_frame_count
-    animation_frame animation_frame_C51573, 0xFF
+    animation_frame normal_game_frame, 0xFF
     .end
-byte_C5173A:
+battle_mode_animation:
     animation_frame_count
-    animation_frame animation_frame_C515A6, 0xFF
+    animation_frame battle_mode_frame, 0xFF
     .end
-byte_C5173F:
+password_animation:
     animation_frame_count
-    animation_frame animation_frame_C515D9, 0xFF
+    animation_frame password_frame, 0xFF
     .end
-byte_C51744:
+copyright_text_animation:
     animation_frame_count
-    animation_frame animation_frame_C51602, 0xFF
+    animation_frame copyright_text_frame, 0xFF
     .end
-byte_C51749:
+menu_arrow_animation:
     animation_frame_count
-    animation_frame animation_frame_C5165D, 0xFF
+    animation_frame menu_arrow_frame, 0xFF
     .end
-byte_C5174E:
+continue_text_animation:
     animation_frame_count
-    animation_frame animation_frame_C51663, 0xFF
+    animation_frame continue_text_frame, 0xFF
     .end
-byte_C51753:
+password_digit_0_animation:
     animation_frame_count
-    animation_frame animation_frame_C516AA, 0xFF
+    animation_frame password_digit_0_frame, 0xFF
     .end
-byte_C51758:
+password_digit_1_animation:
     animation_frame_count
-    animation_frame animation_frame_C516B0, 0xFF
+    animation_frame password_digit_1_frame, 0xFF
     .end
-byte_C5175D:
+password_digit_2_animation:
     animation_frame_count
-    animation_frame animation_frame_C516B6, 0xFF
+    animation_frame password_digit_2_frame, 0xFF
     .end
-byte_C51762:
+password_digit_3_animation:
     animation_frame_count
-    animation_frame animation_frame_C516BC, 0xFF
+    animation_frame password_digit_3_frame, 0xFF
     .end
-byte_C51767:
+password_digit_4_animation:
     animation_frame_count
-    animation_frame animation_frame_C516C2, 0xFF
+    animation_frame password_digit_4_frame, 0xFF
     .end
-byte_C5176C:
+password_digit_5_animation:
     animation_frame_count
-    animation_frame animation_frame_C516C8, 0xFF
+    animation_frame password_digit_5_frame, 0xFF
     .end
-byte_C51771:
+password_digit_6_animation:
     animation_frame_count
-    animation_frame animation_frame_C516CE, 0xFF
+    animation_frame password_digit_6_frame, 0xFF
     .end
-byte_C51776:
+password_digit_7_animation:
     animation_frame_count
-    animation_frame animation_frame_C516D4, 0xFF
+    animation_frame password_digit_7_frame, 0xFF
     .end
-byte_C5177B:
+copyright_text_animation_j:
     animation_frame_count
-    animation_frame animation_frame_C516DA, 0xFF
+    animation_frame copyright_text_frame_j, 0xFF
     .end
-animation_frame_C51780:
+diamond_tower_static_frame:
     animation_frame_tile_count
     frame_oam_tile    8,    8, 0x042, 0x00
     frame_oam_tile   -8,    8, 0x040, 0x20
@@ -2243,14 +2276,16 @@ animation_frame_C51780:
     frame_oam_tile    8,  -24, 0x002, 0x20
     frame_oam_tile   -8,  -24, 0x000, 0x20
     .end
-    db 6
-    db 8, 7, 2, 2, 0
-    db 0xF8, 7, 2, 0, 0x20
-    db 8, 0xF7, 0, 0x22, 0x20
-    db 0xF8, 0xF7, 0, 0x20, 0x20
-    db 8, 0xE7, 0, 2, 0x20
-    db 0xF8, 0xE7, 0, 0, 0x20
-animation_frame_C517BE:
+unused_diamond_tower_frame:
+    animation_frame_tile_count
+    frame_oam_tile  8,  7,  0x042, 0x00
+    frame_oam_tile -8,  7,  0x040, 0x20
+    frame_oam_tile  8, -9,  0x012, 0x20
+    frame_oam_tile -8, -9,  0x010, 0x20
+    frame_oam_tile  8, -25, 0x002, 0x20
+    frame_oam_tile -8, -25, 0x000, 0x20
+    .end
+diamond_tower_crumble_frame_1:
     animation_frame_tile_count
     frame_oam_tile    8,    8, 0x042, 0x00
     frame_oam_tile    8,  -24, 0x006, 0x20
@@ -2259,7 +2294,7 @@ animation_frame_C517BE:
     frame_oam_tile    8,   -8, 0x012, 0x20
     frame_oam_tile   -8,   -8, 0x010, 0x20
     .end
-animation_frame_C517DD:
+diamond_tower_crumble_frame_2:
     animation_frame_tile_count
     frame_oam_tile   -8,  -25, 0x073, 0x00
     frame_oam_tile   -8,  -17, 0x07b, 0x00
@@ -2272,7 +2307,7 @@ animation_frame_C517DD:
     frame_oam_tile    8,   -9, 0x012, 0x20
     frame_oam_tile   -8,   -9, 0x010, 0x20
     .end
-animation_frame_C51810:
+diamond_tower_crumble_frame_3:
     animation_frame_tile_count
     frame_oam_tile    8,    8, 0x042, 0x00
     frame_oam_tile    8,  -24, 0x016, 0x20
@@ -2281,7 +2316,7 @@ animation_frame_C51810:
     frame_oam_tile    8,   -8, 0x012, 0x20
     frame_oam_tile   -8,   -8, 0x010, 0x20
     .end
-animation_frame_C5182F:
+diamond_tower_crumble_frame_4:
     animation_frame_tile_count
     frame_oam_tile    8,    7, 0x042, 0x00
     frame_oam_tile    8,  -25, 0x016, 0x20
@@ -2290,7 +2325,7 @@ animation_frame_C5182F:
     frame_oam_tile    8,   -9, 0x012, 0x20
     frame_oam_tile   -8,   -9, 0x010, 0x20
     .end
-animation_frame_C5184E:
+diamond_tower_crumble_frame_5:
     animation_frame_tile_count
     frame_oam_tile    8,    8, 0x042, 0x00
     frame_oam_tile    8,   -8, 0x022, 0x20
@@ -2299,7 +2334,7 @@ animation_frame_C5184E:
     frame_oam_tile   -8,  -24, 0x044, 0x20
     frame_oam_tile   -8,    8, 0x040, 0x20
     .end
-animation_frame_C5186D:
+diamond_tower_crumble_frame_6:
     animation_frame_tile_count
     frame_oam_tile    8,    7, 0x042, 0x00
     frame_oam_tile    8,   -9, 0x022, 0x20
@@ -2308,7 +2343,7 @@ animation_frame_C5186D:
     frame_oam_tile   -8,  -25, 0x044, 0x20
     frame_oam_tile   -8,    7, 0x040, 0x20
     .end
-animation_frame_C5188C:
+diamond_tower_crumble_frame_7:
     animation_frame_tile_count
     frame_oam_tile    8,    8, 0x042, 0x00
     frame_oam_tile    8,  -24, 0x032, 0x20
@@ -2317,7 +2352,7 @@ animation_frame_C5188C:
     frame_oam_tile   -8,   -8, 0x060, 0x20
     frame_oam_tile   -8,    8, 0x040, 0x20
     .end
-animation_frame_C518AB:
+diamond_tower_crumble_frame_8:
     animation_frame_tile_count
     frame_oam_tile    8,    7, 0x042, 0x00
     frame_oam_tile    8,  -25, 0x032, 0x20
@@ -2326,7 +2361,7 @@ animation_frame_C518AB:
     frame_oam_tile   -8,   -9, 0x060, 0x20
     frame_oam_tile   -8,    7, 0x040, 0x20
     .end
-animation_frame_C518CA:
+diamond_tower_crumble_frame_9:
     animation_frame_tile_count
     frame_oam_tile    8,    8, 0x042, 0x00
     frame_oam_tile    8,  -24, 0x026, 0x20
@@ -2335,7 +2370,7 @@ animation_frame_C518CA:
     frame_oam_tile   -8,   -8, 0x034, 0x20
     frame_oam_tile   -8,    8, 0x040, 0x20
     .end
-animation_frame_C518E9:
+diamond_tower_crumble_frame_10:
     animation_frame_tile_count
     frame_oam_tile    8,    7, 0x042, 0x00
     frame_oam_tile    8,  -25, 0x026, 0x20
@@ -2344,7 +2379,7 @@ animation_frame_C518E9:
     frame_oam_tile   -8,   -9, 0x034, 0x20
     frame_oam_tile   -8,    7, 0x040, 0x20
     .end
-animation_frame_C51908:
+diamond_tower_crumble_frame_11:
     animation_frame_tile_count
     frame_oam_tile    8,    8, 0x042, 0x00
     frame_oam_tile    8,  -24, 0x066, 0x20
@@ -2353,7 +2388,7 @@ animation_frame_C51908:
     frame_oam_tile   -8,   -8, 0x050, 0x20
     frame_oam_tile   -8,    8, 0x040, 0x20
     .end
-animation_frame_C51927:
+diamond_tower_crumble_frame_12:
     animation_frame_tile_count
     frame_oam_tile    8,    7, 0x042, 0x00
     frame_oam_tile    8,  -25, 0x066, 0x20
@@ -2362,7 +2397,7 @@ animation_frame_C51927:
     frame_oam_tile   -8,   -9, 0x050, 0x20
     frame_oam_tile   -8,    7, 0x040, 0x20
     .end
-animation_frame_C51946:
+diamond_tower_crumble_frame_13:
     animation_frame_tile_count
     frame_oam_tile    8,   -8, 0x072, 0x00
     frame_oam_tile    8,    0, 0x07a, 0x00
@@ -2372,7 +2407,7 @@ animation_frame_C51946:
     frame_oam_tile   -8,   -8, 0x070, 0x20
     frame_oam_tile   -8,    8, 0x040, 0x20
     .end
-animation_frame_C5196A:
+diamond_tower_crumble_frame_14:
     animation_frame_tile_count
     frame_oam_tile    8,   -9, 0x072, 0x00
     frame_oam_tile    8,   -1, 0x07a, 0x00
@@ -2382,7 +2417,7 @@ animation_frame_C5196A:
     frame_oam_tile   -8,   -9, 0x070, 0x20
     frame_oam_tile   -8,    7, 0x040, 0x20
     .end
-animation_frame_C5198E:
+diamond_tower_crumble_frame_15:
     animation_frame_tile_count
     frame_oam_tile    0,  -16, 0x07d, 0x00
     frame_oam_tile    8,    8, 0x042, 0x00
@@ -2391,7 +2426,7 @@ animation_frame_C5198E:
     frame_oam_tile   -8,   -8, 0x076, 0x20
     frame_oam_tile   -8,    8, 0x040, 0x20
     .end
-animation_frame_C519AD:
+diamond_tower_crumble_frame_16:
     animation_frame_tile_count
     frame_oam_tile    0,  -17, 0x07d, 0x00
     frame_oam_tile    8,    7, 0x042, 0x00
@@ -2400,39 +2435,39 @@ animation_frame_C519AD:
     frame_oam_tile   -8,   -9, 0x076, 0x20
     frame_oam_tile   -8,    7, 0x040, 0x20
     .end
-byte_C519CC:
+diamond_tower_static_animation:
     animation_frame_count
-    animation_frame animation_frame_C51780, 0xFF
+    animation_frame diamond_tower_static_frame, 0xFF
     .end
-byte_C519D1:
+diamond_tower_crumble_animation:
     animation_frame_count
-    animation_frame animation_frame_C517BE, 8
-    animation_frame animation_frame_C517DD, 8
-    animation_frame animation_frame_C51810, 8
-    animation_frame animation_frame_C5182F, 8
-    animation_frame animation_frame_C5184E, 8
-    animation_frame animation_frame_C5186D, 8
-    animation_frame animation_frame_C5188C, 8
-    animation_frame animation_frame_C518AB, 8
-    animation_frame animation_frame_C518CA, 8
-    animation_frame animation_frame_C518E9, 8
-    animation_frame animation_frame_C51908, 8
-    animation_frame animation_frame_C51927, 8
-    animation_frame animation_frame_C51946, 8
-    animation_frame animation_frame_C5196A, 8
-    animation_frame animation_frame_C5198E, 8
-    animation_frame animation_frame_C519AD, 8
+    animation_frame diamond_tower_crumble_frame_1, 8
+    animation_frame diamond_tower_crumble_frame_2, 8
+    animation_frame diamond_tower_crumble_frame_3, 8
+    animation_frame diamond_tower_crumble_frame_4, 8
+    animation_frame diamond_tower_crumble_frame_5, 8
+    animation_frame diamond_tower_crumble_frame_6, 8
+    animation_frame diamond_tower_crumble_frame_7, 8
+    animation_frame diamond_tower_crumble_frame_8, 8
+    animation_frame diamond_tower_crumble_frame_9, 8
+    animation_frame diamond_tower_crumble_frame_10, 8
+    animation_frame diamond_tower_crumble_frame_11, 8
+    animation_frame diamond_tower_crumble_frame_12, 8
+    animation_frame diamond_tower_crumble_frame_13, 8
+    animation_frame diamond_tower_crumble_frame_14, 8
+    animation_frame diamond_tower_crumble_frame_15, 8
+    animation_frame diamond_tower_crumble_frame_16, 8
     .end
-byte_C51A12:
+diamond_tower_collapsed_static_animation:
     animation_frame_count
-    animation_frame animation_frame_C5198E, 0xFF
+    animation_frame diamond_tower_crumble_frame_15, 0xFF
     .end
-byte_C51A17:
+diamond_tower_shaking_animation:
     animation_frame_count
-    animation_frame animation_frame_C517BE, 8
-    animation_frame animation_frame_C517DD, 8
+    animation_frame diamond_tower_crumble_frame_1, 8
+    animation_frame diamond_tower_crumble_frame_2, 8
     .end
-animation_frame_C51A20:
+victory_bomberman_frame:
     animation_frame_tile_count
     frame_oam_tile    0,  -12, 0x046, 0x20
     frame_oam_tile    0,    4, 0x056, 0x20
@@ -2487,7 +2522,7 @@ animation_frame_C51A20:
     frame_oam_tile  -32,  -44, 0x010, 0x20
     frame_oam_tile  -32,  -60, 0x000, 0x20
     .end
-animation_frame_C51B25:
+victory_text_frame:
     animation_frame_tile_count
     frame_oam_tile   80,   -8, 0x027, 0x04
     frame_oam_tile  -80,    8, 0x0b6, 0x24
@@ -2523,33 +2558,33 @@ animation_frame_C51B25:
     frame_oam_tile  -64,   -8, 0x060, 0x24
     frame_oam_tile  -80,   -8, 0x032, 0x24
     .end
-byte_C51BCB:
+victory_bomberman_animation:
     animation_frame_count
-    animation_frame animation_frame_C51A20, 0xFF
+    animation_frame victory_bomberman_frame, 0xFF
     .end
-byte_C51BD0:
+victory_text_animation:
     animation_frame_count
-    animation_frame animation_frame_C51B25, 0xFF
+    animation_frame victory_text_frame, 0xFF
     .end
-animation_frame_C51BD5:
+moving_platform_left_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,    0, 0x002, 0x20
     frame_oam_tile   -8,  -16, 0x000, 0x20
     .end
-animation_frame_C51BE0:
+moving_platform_right_frame:
     animation_frame_tile_count
     frame_oam_tile   -8,    0, 0x002, 0x60
     frame_oam_tile   -8,  -16, 0x000, 0x60
     .end
-byte_C51BEB:
+moving_platform_left_animation:
     animation_frame_count
-    animation_frame animation_frame_C51BD5, 0xFF
+    animation_frame moving_platform_left_frame, 0xFF
     .end
-byte_C51BF0:
+moving_platform_right_animation:
     animation_frame_count
-    animation_frame animation_frame_C51BE0, 0xFF
+    animation_frame moving_platform_right_frame, 0xFF
     .end
-animation_frame_C51BF5:
+flower_zone_tractor_frame_1:
     animation_frame_tile_count
     frame_oam_tile    8,   12, 0x006, 0x00
     frame_oam_tile    0,   12, 0x005, 0x00
@@ -2559,7 +2594,7 @@ animation_frame_C51BF5:
     frame_oam_tile   -8,   -4, 0x010, 0x20
     frame_oam_tile   -5,  -20, 0x000, 0x22
     .end
-animation_frame_C51C19:
+flower_zone_tractor_frame_2:
     animation_frame_tile_count
     frame_oam_tile    3,  -20, 0x003, 0x02
     frame_oam_tile   -5,  -20, 0x002, 0x02
@@ -2575,7 +2610,7 @@ animation_frame_C51C19:
     frame_oam_tile    0,    4, 0x019, 0x00
     frame_oam_tile    0,   -4, 0x011, 0x00
     .end
-animation_frame_C51C5B:
+flower_zone_tractor_frame_3:
     animation_frame_tile_count
     frame_oam_tile    8,   11, 0x00e, 0x00
     frame_oam_tile    0,   11, 0x00d, 0x00
@@ -2591,25 +2626,26 @@ animation_frame_C51C5B:
     frame_oam_tile    3,  -13, 0x009, 0x02
     frame_oam_tile   -5,  -13, 0x008, 0x02
     .end
-byte_C51C9D:
+flower_zone_tractor_animation:
     animation_frame_count
-    animation_frame animation_frame_C51BF5, 4
-    animation_frame animation_frame_C51C19, 2
-    animation_frame animation_frame_C51C5B, 1
-    animation_frame animation_frame_C51C19, 1
+    animation_frame flower_zone_tractor_frame_1, 4
+    animation_frame flower_zone_tractor_frame_2, 2
+    animation_frame flower_zone_tractor_frame_3, 1
+    animation_frame flower_zone_tractor_frame_2, 1
     .end
-animation_frame_C51CAE:
+sudden_death_block_flash_frame_1:
     animation_frame_tile_count
     frame_oam_tile   -8,   -8, 0x050, 0x20
     .end
-byte_C51CB4:
-    db 0
-byte_C51CB5:
-    animation_frame_count
-    animation_frame animation_frame_C51CAE, 2
-    animation_frame byte_C51CB4, 2
+sudden_death_block_flash_frame_2:
+    animation_frame_tile_count
     .end
-animation_frame_C51CBE:
+sudden_death_block_flash_animation:
+    animation_frame_count
+    animation_frame sudden_death_block_flash_frame_1, 2
+    animation_frame sudden_death_block_flash_frame_2, 2
+    .end
+hurry_up_text_frame:
     animation_frame_tile_count
     frame_oam_tile   32,    8, 0x032, 0x24
     frame_oam_tile   16,    8, 0x030, 0x24
@@ -2624,7 +2660,7 @@ animation_frame_C51CBE:
     frame_oam_tile  -32,   -8, 0x002, 0x24
     frame_oam_tile  -48,   -8, 0x000, 0x24
     .end
-animation_frame_C51CFB:
+time_up_text_frame:
     animation_frame_tile_count
     frame_oam_tile  -56,    8, 0x024, 0x04
     frame_oam_tile  -48,    8, 0x025, 0x04
@@ -2645,51 +2681,52 @@ animation_frame_C51CFB:
     frame_oam_tile  -40,   -8, 0x062, 0x24
     frame_oam_tile  -56,   -8, 0x060, 0x24
     .end
-animation_frame_C51D56:
-    db 0
-byte_C51D57:
-    animation_frame_count
-    animation_frame animation_frame_C51CBE, 4
-    animation_frame animation_frame_C51D56, 1
+hurry_up_text_blank_frame:
+    animation_frame_tile_count
     .end
-byte_C51D60:
+hurry_up_text_animation:
     animation_frame_count
-    animation_frame animation_frame_C51CFB, 0xFF
+    animation_frame hurry_up_text_frame, 4
+    animation_frame hurry_up_text_blank_frame, 1
     .end
-animation_frame_C51D65:
+time_up_animation:
+    animation_frame_count
+    animation_frame time_up_text_frame, 0xFF
+    .end
+bonus_pop_frame_1:
     animation_frame_tile_count
     frame_oam_tile    0,    0, 0x040, 0xE0
     frame_oam_tile  -16,    0, 0x040, 0xA0
     frame_oam_tile    0,  -16, 0x040, 0x60
     frame_oam_tile  -16,  -16, 0x040, 0x20
     .end
-animation_frame_C51D7A:
+bonus_pop_frame_2:
     animation_frame_tile_count
     frame_oam_tile    0,    0, 0x042, 0xE0
     frame_oam_tile  -16,    0, 0x042, 0xA0
     frame_oam_tile    0,  -16, 0x042, 0x60
     frame_oam_tile  -16,  -16, 0x042, 0x20
     .end
-animation_frame_C51D8F:
+bonus_pop_frame_3:
     animation_frame_tile_count
     frame_oam_tile    0,    0, 0x044, 0xE0
     frame_oam_tile  -16,    0, 0x044, 0xA0
     frame_oam_tile    0,  -16, 0x044, 0x60
     frame_oam_tile  -16,  -16, 0x044, 0x20
     .end
-animation_frame_C51DA4:
+bonus_pop_frame_4:
     animation_frame_tile_count
     frame_oam_tile    1,    1, 0x046, 0xE0
     frame_oam_tile  -17,    1, 0x046, 0xA0
     frame_oam_tile    1,  -17, 0x046, 0x60
     frame_oam_tile  -17,  -17, 0x046, 0x20
     .end
-byte_C51DB9:
+bonus_pop_animation:
     animation_frame_count
-    animation_frame animation_frame_C51D65, 4
-    animation_frame animation_frame_C51D7A, 5
-    animation_frame animation_frame_C51D8F, 4
-    animation_frame animation_frame_C51DA4, 3
+    animation_frame bonus_pop_frame_1, 4
+    animation_frame bonus_pop_frame_2, 5
+    animation_frame bonus_pop_frame_3, 4
+    animation_frame bonus_pop_frame_4, 3
     .end
     
 macro tile_animation_frame tile, length
@@ -3050,7 +3087,7 @@ sub_C53A07:
     STA z:0xE, X
     LDA #0
     STA z:0x1E, X
-    start_animation #addr(byte_C51DB9)
+    start_animation #addr(bonus_pop_animation)
     set_handler .loc_C53A2F
 
 .loc_C53A2F:
@@ -3196,7 +3233,7 @@ i16
     STA z:sprite.y_position, X
     LDA #0
     STA z:sprite.direction, X ; Not sure why it's needed
-    start_animation #addr(byte_C51D57)
+    start_animation #addr(hurry_up_text_animation)
     set_handler .loc_C53BBA
 
 .loc_C53BBA:
@@ -3249,7 +3286,7 @@ sub_C53C16:
     STA z:0x14, X
     LDA #0
     STA z:0x20, X
-    start_animation #addr(byte_C51D60)
+    start_animation #addr(time_up_animation)
     set_handler .loc_C53C4D
 
 .loc_C53C4D:
@@ -3380,7 +3417,7 @@ sub_C53CA9:
     REP #0x20
     LDA #0x10
     STA z:0x30, X
-    start_animation #addr(byte_C51CB5)
+    start_animation #addr(sudden_death_block_flash_animation)
     set_handler .loc_C53D9E
 
 .loc_C53D9E:
@@ -3600,7 +3637,7 @@ sub_C53F01:
     CLC
     ADC #0x30
     STA z:0x18, X
-    start_animation #addr(byte_C51C9D)
+    start_animation #addr(flower_zone_tractor_animation)
     set_handler .loc_C53F5B
 
 .loc_C53F5B:
@@ -3721,12 +3758,12 @@ create_moving_platforms:
     REP #0x20
     LDA #0x10
     STA z:0x40
-    LDA #addr(byte_C51BEB)
+    LDA #addr(moving_platform_left_animation)
     STA z:0x42
     JSL create_moving_platform
     LDA #0x100
     STA z:0x40
-    LDA #addr(byte_C51BF0)
+    LDA #addr(moving_platform_right_animation)
     STA z:0x42
     JSL create_moving_platform
     RTL
@@ -4835,7 +4872,7 @@ title_input_handler:
     SEC
     SBC #0x48
     STA z:0x11, X
-    start_animation #addr(byte_C51749)
+    start_animation #addr(menu_arrow_animation)
     set_handler .loc_C54EDC
 
 .loc_C54EDC:
@@ -4957,7 +4994,7 @@ sub_C54FBD:
     RTL
     
 off_C54FC2:
-    da byte_C51735
+    da normal_game_animation
 unk_C54FC4:
     db 0x90
     db 0
@@ -4966,14 +5003,14 @@ word_C54FC6:
     db 0
     db 0
     db 0
-    da byte_C5173A
+    da battle_mode_animation
     db 0x90
     db 0
     db 0x98
     db 0
     db 0
     db 0
-    da byte_C5173F
+    da password_animation
     db 0x90
     db 0
     db 0xA6
@@ -4981,9 +5018,9 @@ word_C54FC6:
     db 0
     db 0
 if TRADEMARK_LINE
-    da byte_C51744
+    da copyright_text_animation
 else
-    da byte_C5177B
+    da copyright_text_animation_j
 endif
     db 0x88
     db 0
@@ -4992,7 +5029,7 @@ endif
     db 0
     db 0
 if DISPLAY_LICENSED_BY
-    da byte_C51730
+    da licensed_by_animation
     db 0x8E
     db 0
     db 0xBC
@@ -6820,7 +6857,7 @@ i16
     STA z:0x1E, X
     LDA #0x200
     STA z:0x20, X
-    start_animation #addr(byte_C51BCB)
+    start_animation #addr(victory_bomberman_animation)
     REP #0x20
     LDA a:addr(level_manager_object.anonymous_1+1)
     AND #0xFF
@@ -6959,7 +6996,7 @@ sub_C560A3:
     STA z:0x22, X
     LDA #0
     STA z:0x18, X
-    start_animation #addr(byte_C51BD0)
+    start_animation #addr(victory_text_animation)
     set_handler .loc_C560E4
 
 .loc_C560E4:
@@ -8231,7 +8268,7 @@ i16
     STA z:0x1E, X
     LDA #0
     STA z:0x20, X
-    start_animation #addr(byte_C51749)
+    start_animation #addr(menu_arrow_animation)
     SEP #0x20
     LDA a:addr(level_manager_object.previous_level_representation)
     AND #0xF
@@ -8360,7 +8397,7 @@ sub_C57057:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    start_animation #addr(byte_C5174E)
+    start_animation #addr(continue_text_animation)
     set_handler .loc_C57089
 
 .loc_C57089:
@@ -8397,7 +8434,7 @@ sub_C570CD:
     ASL A
     PHX
     TAX
-    LDA f:off_C570FA, X
+    LDA f:password_digit_animations, X
     STA z:0x50
     PLX
     SEP #0x20
@@ -8411,9 +8448,9 @@ sub_C570CD:
     JSL render_sprite_animated
     RTL
 
-off_C570FA:
-    da byte_C51753, byte_C51758, byte_C5175D, byte_C51762, byte_C51767
-    da byte_C5176C, byte_C51771, byte_C51776
+password_digit_animations:
+    da password_digit_0_animation, password_digit_1_animation, password_digit_2_animation, password_digit_3_animation, password_digit_4_animation
+    da password_digit_5_animation, password_digit_6_animation, password_digit_7_animation
 ifdef J
 ; Moved to bank 3
 password_encryption_key:
@@ -8441,7 +8478,7 @@ sub_C57129:
     STA z:0xE, X
     LDA #8
     STA z:0x1E, X
-    start_animation #addr(byte_C5173F)
+    start_animation #addr(password_animation)
     JSL render_sprite_animated
     RTL
 
@@ -8487,7 +8524,7 @@ sub_C57176:
     STA z:0x30, X
     LDA a:addr(password + 2)
     STA z:0x32, X
-    LDA #addr(byte_C51749)
+    LDA #addr(menu_arrow_animation)
     STA z:0x50
 
 sub_C571C2:
@@ -8750,7 +8787,7 @@ sub_C573C7:
     ASL A
     PHX
     TAX
-    LDA f:off_C570FA, X
+    LDA f:password_digit_animations, X
     STA z:0x50
     PLX
     SEP #0x20
@@ -8782,7 +8819,7 @@ i16
     STA z:0x11, X
     LDA #0x59
     STA z:0x14, X
-    start_animation #addr(byte_C519CC)
+    start_animation #addr(diamond_tower_static_animation)
     SEP #0x20
     LDA a:addr(level_manager_object.previous_level_representation)
     CMP #0x68
@@ -8799,14 +8836,14 @@ i16
     REP #0x20
     LDA #0x180
     STA z:0x20, X
-    start_animation #addr(byte_C51A17)
+    start_animation #addr(diamond_tower_shaking_animation)
     set_handler .loc_C57473
 
 .loc_C57473:
     REP #0x20
     DEC z:0x20, X
     BNE sub_C574A0
-    start_animation #addr(byte_C519D1)
+    start_animation #addr(diamond_tower_crumble_animation)
     set_handler sub_C574A5
     REP #0x20
     LDA #0x90
@@ -8824,7 +8861,7 @@ sub_C574A5:
     REP #0x20
     LDA #0xF0
     STA z:0x20, X
-    start_animation #addr(byte_C51A12)
+    start_animation #addr(diamond_tower_collapsed_static_animation)
     set_handler sub_C574CF
 
 .locret_C574CE:
