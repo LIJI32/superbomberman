@@ -27,4 +27,4 @@ define az2 z
 
 ; Original bug fixes and features
 FIXED_KURO_VICTORY_PALETTE = 0
-FIXED_OVERLAY_PALETTES = 0
+FIXED_OVERLAY_PALETTES = 1
