@@ -4932,7 +4932,7 @@ create_score_popup:
 
 score_popup:
     SEP #0x20
-    LDA #bank(score_popup_related)
+    LDA #bank(score_popup_animations)
     STA z:0x52
     LDA #0xE
     STA z:player.object_priority+1, X
@@ -4950,7 +4950,7 @@ score_popup:
     ASL A
     PHX
     TAX
-    LDA f:score_popup_related, X
+    LDA f:score_popup_animations, X
     STA z:0x50
     PLX
     JSL start_animation
