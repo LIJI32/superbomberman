@@ -622,67 +622,129 @@ asset tilemaps, gameover_tilemap_bottom
 word_C30B2A:
     dw 0x4A0, 0x4A1, 0x4AE, 0x484, 0x484, 0x4A6, 0x484, 0x4AF, 0x482, 0x4A1, 0x4AF, 0x4B0, 0x4B1, 0x4BE, 0x494, 0x494; 0
     dw 0x4A6, 0x494, 0x4BF, 0x492, 0x4B1, 0x4BF; 0x10
-byte_C30B56:
-    db 0x06, 0x06, 0x00, 0x00, 0x10, 0x00, 0x06, 0xF8, 0x00, 0x00
-    db 0x00, 0xFD, 0x00, 0x00, 0x10, 0x00, 0xFD, 0xF8, 0x00, 0x00
-    db 0x00, 0xF5, 0x00, 0x00, 0x11, 0x00, 0xF5, 0xF8, 0x00, 0x01
-    db 0x00
-byte_C30B75:
-    db 6, 0xF4, 0, 0, 0x12, 0, 0xF4, 0xF8, 0, 2
-    db 0, 6, 0, 0, 0x10, 0, 6, 0xF8, 0, 0
-    db 0, 0xFD, 0, 0, 0x10, 0, 0xFD, 0xF8, 0, 0
-    db 0
-byte_C30B94:
-    db 6, 0xF4, 0, 0, 0x14, 0, 0xF4, 0xF8, 0, 4
-    db 0, 6, 0, 0, 0x10, 0, 6, 0xF8, 0, 0
-    db 0, 0xFD, 0, 0, 0x10, 0, 0xFD, 0xF8, 0, 0
-    db 0
-byte_C30BB3:
-    db 6, 0xF4, 0, 0, 0x30, 0, 0xF4, 0xF8, 0, 0x20
-    db 0, 6, 0, 0, 0x10, 0, 6, 0xF8, 0, 0
-    db 0, 0xFD, 0, 0, 0x10, 0, 0xFD, 0xF8, 0, 0
-    db 0
-byte_C30BD2:
-    db 8, 8, 0, 0, 0x10, 0, 8, 0xF8, 0, 0
-    db 0, 0, 0, 0, 0x10, 0, 0, 0xF8, 0, 0
-    db 0, 0xF8, 0, 0, 0x16, 0, 0xF8, 0xF8, 0, 6
-    db 0, 0xF1, 0, 0, 0x11, 0, 0xF1, 0xF8, 0, 1
-    db 0
-byte_C30BFB:
-    db 8, 8, 0, 0, 0x10, 0, 8, 0xF8, 0, 0
-    db 0, 0, 0, 0, 0x10, 0, 0, 0xF8, 0, 0
-    db 0, 0xF8, 0, 0, 0x12, 0, 0xF8, 0xF8, 0, 2
-    db 0, 0xF0, 0, 0, 0x13, 0, 0xF0, 0xF8, 0, 3
-    db 0
-byte_C30C24:
-    db 8, 8, 0xF8, 0, 0, 0, 8, 0, 0, 0x10
-    db 0, 0, 0, 0, 0x10, 0, 0, 0xF8, 0, 0
-    db 0, 0xF8, 0, 0, 0x14, 0, 0xF8, 0xF8, 0, 4
-    db 0, 0xF0, 0, 0, 0x16, 0, 0xF0, 0xF8, 0, 6
-    db 0
-    db 1
-    df byte_C30B56
-    db 0xFF
-    db 1
-    df byte_C30B75
-    db 0xFF
-    db 1
-    df byte_C30B94
-    db 0xFF
-    db 1
-    df byte_C30BB3
-    db 0xFF
-    db 1
-    df byte_C30BD2
-    db 0xFF
-    db 1
-    df byte_C30BFB
-    db 0xFF
-    db 1
-    df byte_C30C24
-    db 0xFF
-score_popup_related:
-    dw 0xC4D, 0xC52, 0xC57, 0xC5C, 0xC61, 0xC66, 0xC6B, 0xC6B, 0xC6B, 0xC6B
+
+score_popup_100_frame:
+    animation_frame_tile_count
+    frame_oam_tile    6,    0, 0x008, 0x00
+    frame_oam_tile    6,   -8, 0x000, 0x00
+    frame_oam_tile   -3,    0, 0x008, 0x00
+    frame_oam_tile   -3,   -8, 0x000, 0x00
+    frame_oam_tile  -11,    0, 0x009, 0x00
+    frame_oam_tile  -11,   -8, 0x001, 0x00
+    .end
+
+score_popup_200_frame:
+    animation_frame_tile_count
+    frame_oam_tile  -12,    0, 0x00A, 0x00
+    frame_oam_tile  -12,   -8, 0x002, 0x00
+    frame_oam_tile    6,    0, 0x008, 0x00
+    frame_oam_tile    6,   -8, 0x000, 0x00
+    frame_oam_tile   -3,    0, 0x008, 0x00
+    frame_oam_tile   -3,   -8, 0x000, 0x00
+    .end
+
+score_popup_400_frame:
+    animation_frame_tile_count
+    frame_oam_tile  -12,    0, 0x00C, 0x00
+    frame_oam_tile  -12,   -8, 0x004, 0x00
+    frame_oam_tile    6,    0, 0x008, 0x00
+    frame_oam_tile    6,   -8, 0x000, 0x00
+    frame_oam_tile   -3,    0, 0x008, 0x00
+    frame_oam_tile   -3,   -8, 0x000, 0x00
+    .end
+
+score_popup_800_frame:
+    animation_frame_tile_count
+    frame_oam_tile  -12,    0, 0x018, 0x00
+    frame_oam_tile  -12,   -8, 0x010, 0x00
+    frame_oam_tile    6,    0, 0x008, 0x00
+    frame_oam_tile    6,   -8, 0x000, 0x00
+    frame_oam_tile   -3,    0, 0x008, 0x00
+    frame_oam_tile   -3,   -8, 0x000, 0x00
+    .end
+
+score_popup_1600_frame:
+    animation_frame_tile_count
+    frame_oam_tile    8,    0, 0x008, 0x00
+    frame_oam_tile    8,   -8, 0x000, 0x00
+    frame_oam_tile    0,    0, 0x008, 0x00
+    frame_oam_tile    0,   -8, 0x000, 0x00
+    frame_oam_tile   -8,    0, 0x00E, 0x00
+    frame_oam_tile   -8,   -8, 0x006, 0x00
+    frame_oam_tile  -15,    0, 0x009, 0x00
+    frame_oam_tile  -15,   -8, 0x001, 0x00
+    .end
+
+score_popup_3200_frame:
+    animation_frame_tile_count
+    frame_oam_tile    8,    0, 0x008, 0x00
+    frame_oam_tile    8,   -8, 0x000, 0x00
+    frame_oam_tile    0,    0, 0x008, 0x00
+    frame_oam_tile    0,   -8, 0x000, 0x00
+    frame_oam_tile   -8,    0, 0x00A, 0x00
+    frame_oam_tile   -8,   -8, 0x002, 0x00
+    frame_oam_tile  -16,    0, 0x00B, 0x00
+    frame_oam_tile  -16,   -8, 0x003, 0x00
+    .end
+    
+score_popup_6400_frame:
+    animation_frame_tile_count
+    frame_oam_tile    8,   -8, 0x000, 0x00
+    frame_oam_tile    8,    0, 0x008, 0x00
+    frame_oam_tile    0,    0, 0x008, 0x00
+    frame_oam_tile    0,   -8, 0x000, 0x00
+    frame_oam_tile   -8,    0, 0x00C, 0x00
+    frame_oam_tile   -8,   -8, 0x004, 0x00
+    frame_oam_tile  -16,    0, 0x00E, 0x00
+    frame_oam_tile  -16,   -8, 0x006, 0x00
+    .end
+
+score_popup_100_animation:
+    animation_frame_count
+    animation_frame score_popup_100_frame, 0xFF
+    .end
+
+score_popup_200_animation:
+    animation_frame_count
+    animation_frame score_popup_200_frame, 0xFF
+    .end
+    
+score_popup_400_animation:
+    animation_frame_count
+    animation_frame score_popup_400_frame, 0xFF
+    .end
+    
+score_popup_800_animation:
+    animation_frame_count
+    animation_frame score_popup_800_frame, 0xFF
+    .end
+    
+score_popup_1600_animation:
+    animation_frame_count
+    animation_frame score_popup_1600_frame, 0xFF
+    .end
+    
+score_popup_3200_animation:
+    animation_frame_count
+    animation_frame score_popup_3200_frame, 0xFF
+    .end
+    
+score_popup_6400_animation:
+    animation_frame_count
+    animation_frame score_popup_6400_frame, 0xFF
+    .end
+
+score_popup_animations:
+    da score_popup_100_animation
+    da score_popup_200_animation
+    da score_popup_400_animation
+    da score_popup_800_animation
+    da score_popup_1600_animation
+    da score_popup_3200_animation
+    da score_popup_6400_animation
+    da score_popup_6400_animation
+    da score_popup_6400_animation
+    da score_popup_6400_animation
     
 transfer_oam:
     SEP #0x20
