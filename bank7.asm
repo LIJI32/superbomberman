@@ -497,11 +497,11 @@ sound_test_handler:
     JSL sub_C7088B
 
 .loc_C70667:
-    JSL sub_C53955
+    JSL any_player_button_pressed
     REP #0x20
     BIT #0x80
     BNE .loc_C7067D
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     REP #0x20
     BIT #0x90
     BEQ .loc_C706B7
@@ -534,7 +534,7 @@ sound_test_handler:
     JSL play_music
 
 .loc_C706B7:
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     SEP #0x20
     STA z:0x48
     BIT #0xC
@@ -545,7 +545,7 @@ sound_test_handler:
     BRA .loc_C70735
 
 .loc_C706CB:
-    JSL sub_C53964
+    JSL any_player_button_down_high
     SEP #0x20
     STA z:0x48
     BIT #3

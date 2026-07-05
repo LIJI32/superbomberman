@@ -2974,28 +2974,28 @@ belt_left_animation:
     tile_animation_sequence 127, 130, 10
     .end
     
-sub_C53955:
+any_player_button_pressed:
 i16
     LDY #addr(joypad_1_pressed)
-    BRA sub_C53967
+    BRA any_player_input
 
-sub_C5395A:
+any_player_button_pressed_high:
 i16
 
     LDY #addr(joypad_1_pressed+1)
-    BRA sub_C53967
+    BRA any_player_input
 
-sub_C5395F:
+any_player_button_down:
 i16
     LDY #addr(joypad_1)
-    BRA sub_C53967
+    BRA any_player_input
 
-sub_C53964:
+any_player_button_down_high:
 i16
     LDY #addr(joypad_1+1)
     ; fallthrough
 
-sub_C53967:
+any_player_input:
     SEP #0x20
     LDA a:0, Y
     ORA a:2, Y
@@ -4020,10 +4020,10 @@ sub_C5421B:
 .loc_C542E8:
 if FORBID_INTRO_SKIP
     SEP #0x20
-    LDA a:addr(word_7E0CAE)
+    LDA a:addr(second_time_in_title_screen)
     BEQ .locret_C54306
 endif
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     SEP #0x20
     BIT #0x10
     BEQ .locret_C54306
@@ -4760,60 +4760,81 @@ sub_C54D7A:
     JSL load_animation_frame
     RTL
 
+struct title_text_object
+    sprite
+    org 0x20
+.text_index
+    ds 2
+    org sprite.sizeof
+endstruct
+
 create_title_text_object:
     SEP #0x20
     create_object title_text_object
     REP #0x20
     LDA f:[z:0x50]
-    STA a:0x20, Y
+    STA a:title_text_object.text_index, Y
     INC z:0x50
     INC z:0x50
     RTL
 
 title_text_object:
+.OBJECT_DEFINITION = 0xDB
     REP #0x20
-    LDA #addr(off_C54FC2)
-    STA z:0xDB
+    LDA #addr(title_text_definitions)
+    STA z:.OBJECT_DEFINITION
     SEP #0x20
-    LDA #bank(off_C54FC2)
-    STA z:0xDD
+    LDA #bank(title_text_definitions)
+    STA z:.OBJECT_DEFINITION + 2
     REP #0x20
     LDA #0x30
-    STA z:0xE, X
+    STA z:title_text_object.object_priority, X
     LDA #8
-    STA z:0x1E, X
-    LDY z:0x20, X
-    LDA f:[z:0xDB], Y
-    STA z:0x50
+    STA z:title_text_object.effective_palette, X
+    LDY z:title_text_object.text_index, X
+    LDA f:[z:.OBJECT_DEFINITION], Y
+    STA z:start_animation.ANIMATION
     INY
     INY
-    LDA f:[z:0xDB], Y
-    STA z:0x11, X
+    LDA f:[z:.OBJECT_DEFINITION], Y
+    STA z:title_text_object.x_position, X
     INY
     INY
-    LDA f:[z:0xDB], Y
-    STA z:0x14, X
+    LDA f:[z:.OBJECT_DEFINITION], Y
+    STA z:title_text_object.y_position, X
     SEP #0x20
     PHK
     PLA
-    STA z:0x52
+    STA z:start_animation.ANIMATION + 2
     JSL start_animation
-    set_handler .loc_C54E31
+    set_handler .wait_animation
 
-.loc_C54E31:
+.wait_animation:
     REP #0x20
     LDA a:addr(bg1_h_scroll)
-    BNE .locret_C54E49
-    set_handler .loc_C54E45
+    BNE .ret
+    set_handler .render
 
-.loc_C54E45:
+.render:
     JSL load_animation_frame
-.locret_C54E49:
+.ret:
     RTL
+    
+struct title_selection_cursor
+    sprite
+    org 0x20
+.current_selection
+    ds 2
+.demo_timeout
+    ds 2
+.input_disabled_countdown
+    ds 2
+    org sprite.sizeof
+endstruct
 
-create_title_input_handler:
+create_title_selection_cursor:
     SEP #0x20
-    create_object title_input_handler
+    create_object title_selection_cursor
     SEP #0x20
     LDA #0
     STA a:addr(player_1.unknown_flags)
@@ -4825,221 +4846,205 @@ create_title_input_handler:
     STA a:addr(player_4.unknown_flags)
     RTL
 
-title_input_handler:
+title_selection_cursor:
+    ; Init
     REP #0x20
     LDA #0x30
-    STA z:0xE, X
+    STA z:title_selection_cursor.object_priority, X
     LDA #8
-    STA z:0x1E, X
-    LDA #0x48
-    STA z:0x11, X
-    LDA #0x87
-    STA z:0x14, X
-    STZ z:0x20, X
-    STZ z:0x22, X
+    STA z:title_selection_cursor.effective_palette, X
+    LDA #72
+    STA z:title_selection_cursor.x_position, X
+    LDA #135
+    STA z:title_selection_cursor.y_position, X
+    STZ z:title_selection_cursor.current_selection, X
+    STZ z:title_selection_cursor.demo_timeout, X
     LDA #0x100
-    STA z:0x24, X
-    LDA f:unk_C54FC4
+    STA z:title_selection_cursor.input_disabled_countdown, X
+    
+    ; Align ourselves to the X position of the first text object
+    LDA f:title_text_definitions + title_text_definition.x
     SEC
-    SBC #0x48
-    STA z:0x11, X
+    SBC #72
+    STA z:title_selection_cursor.x_position, X
+    
     start_animation #addr(menu_arrow_animation)
-    set_handler .loc_C54EDC
+    set_handler .wait_intro
 
-.loc_C54EDC:
+.wait_intro:
     REP #0x20
-    INC z:0x22, X
+    INC z:title_selection_cursor.demo_timeout, X
     LDA a:addr(bg1_h_scroll)
-    BEQ .loc_C54EE9
-    JML title_text_object.locret_C54E49
+    BEQ +
+    JML title_text_object.ret
++
 
-.loc_C54EE9:
 if FORBID_INTRO_SKIP
     SEP #0x20
-    LDA a:addr(word_7E0CAE)
-    BNE .loc_C54F0D
-    INC a:addr(word_7E0CAE)
-    set_handler .loc_C54F01
+    LDA a:addr(second_time_in_title_screen)
+    BNE +
+    INC a:addr(second_time_in_title_screen)
+    set_handler .wait_intro_end
     RTL
 
-.loc_C54F01:
+.wait_intro_end:
     REP #0x20
-    INC z:0x22, X
-    DEC z:0x24, X
-    BEQ .loc_C54F0D
-    JML title_text_object.locret_C54E49
-
-.loc_C54F0D:
+    INC z:title_selection_cursor.demo_timeout, X
+    DEC z:title_selection_cursor.input_disabled_countdown, X
+    BEQ +
+    JML title_text_object.ret
++
 endif
+
     REP #0x20
     LDA #0x460
-    STA z:0x22, X
-    set_handler sub_C54F22
+    STA z:title_selection_cursor.demo_timeout, X
+    set_handler .main
     RTL
 
-sub_C54F22:
-i16
-    JSL sub_C5395A
+.main:
+    JSL any_player_button_pressed_high
     REP #0x20
     AND #0xFF
-    BEQ .loc_C54F42
-    LDA z:0x22, X
+    BEQ .no_input
+    LDA z:title_selection_cursor.demo_timeout, X
     CLC
     ADC #0x140
-    STA z:0x22, X
-    set_handler .loc_C54F42
+    STA z:title_selection_cursor.demo_timeout, X
+    set_handler .no_input
 
-.loc_C54F42:
+.no_input:
     JSL render_sprite_animated
     REP #0x20
     INC z:addr(rng_seed)
     INC z:addr(fast_rng_seed)
-    DEC z:0x22, X
-    BNE .loc_C54F52
-    JML sub_C55051
+    DEC z:title_selection_cursor.demo_timeout, X
+    BNE +
+    JML enter_demo_screen
++
 
-.loc_C54F52:
 ; Sound test access
 if FIX_JOYPAD_5_BUG
 ; Bugfix: the Japanese version did not verify Joypad 5 is connected.
     LDA a:addr(joypad_5_connected)
     AND #0x1F
     CMP #1
-    BNE .loc_C54F69
+    BNE +
 endif
     LDA a:addr(joypad_5)
-    BIT #0x10
-    BEQ .loc_C54F69
-    JML sub_C54FEA
+    BIT #BUTTON_R
+    BEQ +
+    JML enter_sound_test
++
 
-.loc_C54F69:
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     REP #0x20
-    BIT #0x10
-    BEQ .loc_C54F78
-    JML sub_C55006
+    BIT #high(BUTTON_START)
+    BEQ +
+    JML handle_title_start_button
++
 
-.loc_C54F78:
-    BIT #0x2C
-    BEQ sub_C54FBD.locret_C54FC1
-    BIT #0x24
-    BNE .loc_C54F8D
-    DEC z:0x20, X
-    BPL .loc_C54F98
+    BIT #high(BUTTON_SELECT | BUTTON_DOWN | BUTTON_UP)
+    BEQ .ret
+    BIT #high(BUTTON_SELECT | BUTTON_DOWN)
+    BNE .cursor_down
+    DEC z:title_selection_cursor.current_selection, X
+    BPL .move_cursor
+    ; Underflow
     LDA #2
-    STA z:0x20, X
-    BRA .loc_C54F98
+    STA z:title_selection_cursor.current_selection, X
+    BRA .move_cursor
 
-.loc_C54F8D:
-    INC z:0x20, X
-    LDA z:0x20, X
+.cursor_down:
+    INC z:title_selection_cursor.current_selection, X
+    LDA z:title_selection_cursor.current_selection, X
     CMP #3
-    BNE .loc_C54F98
-    STZ z:0x20, X
+    BNE .move_cursor
+    ; Overflow
+    STZ z:title_selection_cursor.current_selection, X
 
-.loc_C54F98:
+.move_cursor:
+.SELECTED_TEXT_DEFINITION = 0xDB
     REP #0x20
-    LDA #addr(word_C54FC6)
-    STA z:0xDB
+    LDA #addr(title_text_definitions + title_text_definition.y)
+    STA z:.SELECTED_TEXT_DEFINITION
     SEP #0x20
-    LDA #bank(word_C54FC6)
-    STA z:0xDD
+    LDA #bank(title_text_definitions)
+    STA z:.SELECTED_TEXT_DEFINITION + 2
     REP #0x20
-    LDA z:0x20, X
+    LDA z:title_selection_cursor.current_selection, X
     ASL A
     ASL A
     ASL A
     TAY
-    LDA f:[z:0xDB], Y
+    LDA f:[z:.SELECTED_TEXT_DEFINITION], Y
     SEC
     SBC #3
-    STA z:0x14, X
+    STA z:title_selection_cursor.y_position, X
     LDY #SOUND_MENU_SELECT
     JSL play_sound
     RTL
 
-sub_C54FBD:
+.render:
     JSL render_sprite_animated
 
-.locret_C54FC1:
+.ret:
     RTL
     
-off_C54FC2:
-    da normal_game_animation
-unk_C54FC4:
-    db 0x90
-    db 0
-word_C54FC6:
-    db 0x8A
-    db 0
-    db 0
-    db 0
-    da battle_mode_animation
-    db 0x90
-    db 0
-    db 0x98
-    db 0
-    db 0
-    db 0
-    da password_animation
-    db 0x90
-    db 0
-    db 0xA6
-    db 0
-    db 0
-    db 0
-    da copyright_text_animation
-    db 0x88
-    db 0
-    db 0xB7
-    db 0
-    db 0
-    db 0
-    da licensed_by_animation
-    db 0x8F
-    db 0
-    db 0xBC
-    db 0
-    db 0
-    db 0
+struct title_text_definition animation, x, y
+.animation
+    da $animation
+.x
+    dw $x
+.y
+    dw $y
+    dw 0 ; Padding
+endstruct
+    
+title_text_definitions:
+    title_text_definition normal_game_animation, 144, 138
+    title_text_definition battle_mode_animation, 144, 152
+    title_text_definition password_animation, 144, 166
+    title_text_definition copyright_text_animation, 136, 183
+    title_text_definition licensed_by_animation, 143, 188
 
-sub_C54FEA:
+enter_sound_test:
     SEP #0x20
-    LDA #0x3C
+    LDA #SCREEN_SOUND_TEST
     STA a:addr(current_screen)
     LDY #SOUND_MENU_CONFIRM
     JSL play_sound
-    set_handler sub_C54FBD
+    set_handler title_selection_cursor.render
     RTL
     
-sub_C55006:
+handle_title_start_button:
     LDY #SOUND_MENU_CONFIRM
     JSL play_sound
     JSL fade_out_music
     SEP #0x20
     LDA z:0x20, X
     CMP #1
-    BEQ .loc_C5503C
+    BEQ .battle_mode
     CMP #2
-    BNE .loc_C55021
-    JML sub_C5509A
+    BNE .normal_game
+    JML enter_password_screen
 
-.loc_C55021:
-    LDA #0x39
+.normal_game:
+    LDA #SCREEN_MAP
     STA a:addr(current_screen)
     JSL sub_C550AF
     JSL sub_C462BA
-    set_handler sub_C54FBD
+    set_handler title_selection_cursor.render
     RTL
 
-.loc_C5503C:
+.battle_mode:
     SEP #0x20
-    LDA #0x32
+    LDA #SCREEN_BATTLE_MENU
     STA a:addr(current_screen)
-    set_handler sub_C54FBD
+    set_handler title_selection_cursor.render
     RTL
     
-sub_C55051:
+enter_demo_screen:
     SEP #0x20
     LDA #0
     STA a:addr(level_manager_object.unknown_flags)
@@ -5058,10 +5063,10 @@ sub_C55051:
     LDA #0
     XBA
     PHX
-    LDA a:addr(level_manager_object+0x1F)
+    LDA a:addr(level_manager_object.demo_screen_index)
 .loc_C5507E:
     INC A
-    STA a:addr(level_manager_object+0x1F)
+    STA a:addr(level_manager_object.demo_screen_index)
     TAX
     LDA f:demo_screens_list - 1, X
     BEQ .loc_C5507E
@@ -5072,14 +5077,14 @@ sub_C55051:
     STA a:addr(loading_demo)
 +
     PLX
-    set_handler sub_C54FBD
+    set_handler title_selection_cursor.render
     RTL
 
-sub_C5509A:
+enter_password_screen:
     SEP #0x20
-    LDA #0x38
+    LDA #SCREEN_PASSWORD
     STA a:addr(current_screen)
-    set_handler sub_C54FBD
+    set_handler title_selection_cursor.render
     RTL
 
 sub_C550AF:
@@ -5653,7 +5658,7 @@ i16
     JML .loc_C5561E
 
 .loc_C55592:
-    JSL sub_C53964
+    JSL any_player_button_down_high
     SEP #0x20
     STA a:addr(level_manager_object.soft_blocks)
     LDA a:addr(level_manager_object.soft_blocks+1)
@@ -5662,7 +5667,7 @@ i16
     JMP a:.loc_C5561E
 
 .loc_C555A6:
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     SEP #0x20
     BIT #0x10
     BEQ .loc_C555B4
@@ -6650,7 +6655,7 @@ sub_C55DC7:
     STZ a:addr(player_2+6)
     STZ a:addr(player_3+6)
     STZ a:addr(player_4+6)
-    LDA #0x3B
+    LDA #SCREEN_VICTORY
     STA a:addr(current_screen)
     RTL
 
@@ -6858,7 +6863,7 @@ i16
     STA z:0x11, X
 
 .loc_C55FD9:
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     REP #0x20
     BIT #0x10
     BNE .loc_C55FF1
@@ -6873,7 +6878,7 @@ i16
 
 .loc_C55FF1:
     SEP #0x20
-    LDA #0x32
+    LDA #SCREEN_BATTLE_MENU
     STA a:addr(current_screen)
     set_handler .loc_C56005
 
@@ -7225,7 +7230,7 @@ sub_C563C4:
     set_handler .loc_C563D8
 
 .loc_C563D8:
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     REP #0x20
     BIT #0x10
     BNE .loc_C563E7
@@ -7366,7 +7371,7 @@ nullsub_C56514:
 
 intro_scene_handler:
 i16
-    JSL sub_C53955
+    JSL any_player_button_pressed
     SEP #0x20
     STA z:0x40
     JSL sub_C56698
@@ -7455,7 +7460,7 @@ i16
     set_handler .loc_C565FB
 
 .loc_C565FB:
-    JSL sub_C53964
+    JSL any_player_button_down_high
     SEP #0x20
     BIT #0x10
     BEQ .loc_C56609
@@ -7506,7 +7511,7 @@ sub_C5664B:
     JML intro_scene_handler.locret_C56632
 
 .loc_C56667:
-    LDA #0x31
+    LDA #SCREEN_TITLE
     STA a:addr(current_screen)
     RTL
 
@@ -8172,7 +8177,7 @@ create_demo_handler:
     RTL
 
 demo_handler:
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     SEP #0x20
     BIT #0x10
     BNE sub_C56EA2
@@ -8185,7 +8190,7 @@ sub_C56E9C:
 
 sub_C56EA2:
     SEP #0x20
-    LDA #0x31
+    LDA #SCREEN_TITLE
     STA a:addr(current_screen)
     JSL delete_object
     JSL fade_out_music
@@ -8263,7 +8268,7 @@ i16
     JSL sub_C5708E
 
 .loc_C56F72:
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     REP #0x20
     BIT #0x10
     BNE .loc_C56FA1
@@ -8337,7 +8342,7 @@ i16
 
 .loc_C57021:
     SEP #0x20
-    LDA #0x31
+    LDA #SCREEN_TITLE
     STA a:addr(current_screen)
     set_handler .loc_C56F9C
     JMP a:.loc_C56F9C
@@ -8511,9 +8516,9 @@ i16
     JSL sub_C57382
 
 .loc_C571F3:
-    JSL sub_C53955
+    JSL any_player_button_pressed
     STA z:0x48
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     STA z:0x49
     SEP #0x20
     LDA z:0x49
@@ -9018,7 +9023,7 @@ map_screen_handler:
     LDA z:0x10, X
     CMP #0x80
     BCC .locret_C576B4
-    JSL sub_C5395A
+    JSL any_player_button_pressed_high
     SEP #0x20
     BIT #0x10
     BEQ .locret_C576B4
@@ -9026,7 +9031,7 @@ map_screen_handler:
 .loc_C5769D:
     SEP #0x20
     LDA a:addr(level_manager_object.previous_screen)
-    CMP #0x31
+    CMP #SCREEN_TITLE
     BNE .loc_C576A8
     LDA #0xFF
 

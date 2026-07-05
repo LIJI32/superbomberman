@@ -6675,7 +6675,7 @@ i16
     CMP #0
     BNE .locret_C43892
     SEP #0x20
-    LDA #0x39
+    LDA #SCREEN_MAP
     STA a:addr(current_screen)
     JSL delete_object
     JSL fade_out_music
@@ -9909,7 +9909,7 @@ bomb_handler:
     JML explode_bomb
 
 .loc_C44F7A:
-    LDA a:addr(word_7E0CAE+1)
+    LDA a:addr(byte_7E0CAF)
     BNE .loc_C44F83
     JML explode_bomb
 
@@ -9922,7 +9922,7 @@ bomb_handler:
     JML explode_bomb
 
 .loc_C44F95:
-    DEC a:addr(word_7E0CAE+1)
+    DEC a:addr(byte_7E0CAF)
     PHX
     LDX #0xB
     JSL random
@@ -12593,7 +12593,7 @@ i16
     JSL stage_related_init
     JSL sub_C462BA
     SEP #0x20
-    LDA #0x31
+    LDA #SCREEN_TITLE
     STA a:addr(current_screen)
     LDA #0x31
     STA a:addr(level_manager_object.fade_related_)
@@ -12958,7 +12958,7 @@ sub_C465EB:
 sub_C46662:
     SEP #0x20
     LDX #addr(level_manager_object)
-    LDA #0x3A
+    LDA #SCREEN_DRAW
     STA a:addr(current_screen)
     STZ a:addr(current_mode)
     REP #0x20
@@ -12985,7 +12985,7 @@ sub_C4667D:
     JML null_versus_initializer
 
 .loc_C46697:
-    LDA #0x37
+    LDA #SCREEN_CONTINUE
     STA a:addr(current_screen)
     JMP a:sub_C463A5
 
@@ -13896,7 +13896,7 @@ sub_C46DF1:
 
 sub_C46E0E:
     SEP #0x20
-    STZ a:addr(word_7E0CAE+1)
+    STZ a:addr(byte_7E0CAF)
     JSL fast_random
     SEP #0x20
     BIT #1
@@ -13905,7 +13905,7 @@ sub_C46E0E:
     SEP #0x20
     AND #1
     INC A
-    STA a:addr(word_7E0CAE+1)
+    STA a:addr(byte_7E0CAF)
 
 .locret_C46E29:
     RTL

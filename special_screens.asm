@@ -16,7 +16,7 @@ title_screen:
     load_palettes title_screen_palettes
     load_global_sprites title_graphics
     df title_screen_init
-    df create_title_input_handler
+    df create_title_selection_cursor
     create_title_text_object 0
     create_title_text_object 1
     create_title_text_object 2
