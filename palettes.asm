@@ -203,9 +203,9 @@ palette backgrounds, spiderer_bg_palette_2 ; 0x79 SPIDERER_BG_PALETTE_3
 dw 0x0000, 0x0000, 0x0c63, 0x14a5
 partial_palette backgrounds, warp_zone_palette_2, 4, 16
 
-empty_palette ; [0x7B]_palette
-empty_palette ; [0x7C]_palette
-empty_palette ; [0x7D]_palette
+palette overlays, credit_image_2_palette_2  ; 0x7b CREDITS_SEPIA_PALETTE_4
+palette overlays, credit_image_1_palette_0  ; 0x7c CREDITS_SEPIA_PALETTE_5
+palette backgrounds, credit_image_4_palette_2  ; 0x7d CREDITS_SEPIA_PALETTE_7
 empty_palette ; [0x7E]_palette
 empty_palette ; [0x7F]_palette
 

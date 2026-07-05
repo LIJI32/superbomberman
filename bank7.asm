@@ -1847,75 +1847,91 @@ sub_C776D4:
     RTL
 
 unk_C776EC:
+    ; Image 1
     db 0
     db 0
     db 0
     db 0
-    db 0x7D
-    db 0
+    dw CREDITS_SEPIA_PALETTE_1
     db 1
     db 0
+    
+    ; Image 3
     db 0
     db 0
     db 0xA0
     db 0
-    db 0x81
-    db 0
+    dw CREDITS_SEPIA_PALETTE_3
     db 5
     db 0
+    
+    ; Image 5
     db 0
     db 0
     db 0x40
     db 1
-    db 0x7E
-    db 0
+    dw CREDITS_SEPIA_PALETTE_5
     db 2
     db 0
+    
+    ; Image 7
     db 0
     db 1
     db 0
     db 0
-    db 0x82
-    db 0
+    dw CREDITS_SEPIA_PALETTE_7
     db 6
     db 0
+    
+    ; Terminator?
     db 0
     db 1
     db 0
     db 1
+    
 byte_C77710:
+    ; Image 2
     db 0
     db 0
     db 0x50
     db 0
-    da CREDITS_SEPIA_PALETTE_2
+    dw CREDITS_SEPIA_PALETTE_2
     db 3
     db 0
+    
+    ; Image 4
     db 0
     db 0
     db 0xF0
     db 0
-    da CREDITS_SEPIA_PALETTE_3
+    dw CREDITS_SEPIA_PALETTE_4
     db 4
     db 0
+    
+    ; Image 6
     db 0
     db 0
     db 0x90
     db 1
-    da CREDITS_SEPIA_PALETTE_1
+    dw CREDITS_SEPIA_PALETTE_1
     db 1
     db 0
+    
+    ; End
     db 0
     db 1
     db 0x50
     db 0
-    da CREDITS_END_PALETTE
+    dw CREDITS_END_PALETTE
     db 7
     db 0
+    
+    ; Terminator?
     db 0
     db 1
     db 0
     db 1
+    
 sub_C77734:
     SEP #0x20
     create_object sub_C7774F
