@@ -171,9 +171,12 @@ SPIDERER_FIRE_BG_PALETTE_3        = 0x77
 UITERU_V_FIRE_PALETTE             = 0x78
 MOOK_AND_CARET_BG_PALETTE         = 0x79
 GARDEN_PALETTE_3_COPY             = 0x7A
-CREDITS_SEPIA_PALETTE_1           = 0x7D
-CREDITS_SEPIA_PALETTE_2           = 0x7F
-CREDITS_SEPIA_PALETTE_3           = 0x80
+CREDITS_SEPIA_PALETTE_1           = 0x7D ; Image 1 & 6
+CREDITS_SEPIA_PALETTE_5           = 0x7E ; Image 5
+CREDITS_SEPIA_PALETTE_2           = 0x7F ; Image 2
+CREDITS_SEPIA_PALETTE_4           = 0x80 ; Image 4
+CREDITS_SEPIA_PALETTE_3           = 0x81 ; Image 3
+CREDITS_SEPIA_PALETTE_7           = 0x82 ; Image 7
 
 ; B Palettes (Sprites)
 UNKNOWN                       = 0
