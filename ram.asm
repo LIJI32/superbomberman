@@ -3,6 +3,9 @@ loading_demo:
     ds 2
 screen_to_load:
     ds 2
+boss_rush_mode:
+    ds 1
+
 org 0x7E0070
 object_shift_x:
     ds 2

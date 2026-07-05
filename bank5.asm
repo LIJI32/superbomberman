@@ -2029,6 +2029,7 @@ encode title_legal_text, "NFTp",    0x78
 encode title_legal_text, "hl",      0x20
 
 encode title_menu_item, "NORM", 0x10 / 2
+encode title_menu_item, "H",    0x22 / 2
 encode title_menu_item, "ALBT", 0x30 / 2
 encode title_menu_item, "EPSW", 0x40 / 2
 encode title_menu_item, "G",    0x50 / 2
@@ -2070,6 +2071,29 @@ normal_game_frame:
     frame_oam_tile  -40,   -8, 'R' * 2, 0x20
     frame_oam_tile  -52,   -8, 'O' * 2, 0x20
     frame_oam_tile  -64,   -8, 'N' * 2, 0x20
+    .end
+story_mode_frame:
+    animation_frame_tile_count
+    frame_oam_tile   37,   -8, 'E' * 2, 0x20
+    frame_oam_tile   25,   -8, 'D' * 2, 0x20
+    frame_oam_tile   13,   -8, 'O' * 2, 0x20
+    frame_oam_tile    0,   -8, 'M' * 2, 0x20
+    frame_oam_tile  -16,   -8, 'Y' * 2, 0x20
+    frame_oam_tile  -28,   -8, 'R' * 2, 0x20
+    frame_oam_tile  -40,   -8, 'O' * 2, 0x20
+    frame_oam_tile  -52,   -8, 'T' * 2, 0x20
+    frame_oam_tile  -64,   -8, 'S' * 2, 0x20
+    .end
+boss_rush_frame:
+    animation_frame_tile_count
+    frame_oam_tile   25,   -8, 'H' * 2, 0x20
+    frame_oam_tile   13,   -8, 'S' * 2, 0x20
+    frame_oam_tile    1,   -8, 'U' * 2, 0x20
+    frame_oam_tile  -11,   -8, 'R' * 2, 0x20
+    frame_oam_tile  -28,   -8, 'S' * 2, 0x20
+    frame_oam_tile  -40,   -8, 'S' * 2, 0x20
+    frame_oam_tile  -52,   -8, 'O' * 2, 0x20
+    frame_oam_tile  -64,   -8, 'B' * 2, 0x20
     .end
 battle_mode_frame:
     animation_frame_tile_count
@@ -2185,6 +2209,14 @@ licensed_by_animation:
 normal_game_animation:
     animation_frame_count
     animation_frame normal_game_frame, 0xFF
+    .end
+story_mode_animation:
+    animation_frame_count
+    animation_frame story_mode_frame, 0xFF
+    .end
+boss_rush_animation:
+    animation_frame_count
+    animation_frame boss_rush_frame, 0xFF
     .end
 battle_mode_animation:
     animation_frame_count
@@ -4834,6 +4866,7 @@ endstruct
 
 create_title_selection_cursor:
     SEP #0x20
+    STZ a:addr(level_manager_object.level_representation)
     create_object title_selection_cursor
     SEP #0x20
     LDA #0
@@ -4946,6 +4979,10 @@ endif
 
     BIT #high(BUTTON_SELECT | BUTTON_DOWN | BUTTON_UP)
     BEQ .ret
+    PHA
+    LDA a:addr(TITLE_MENU_ITEM_3 + title_text_object.handler)
+    BEQ .in_submenu
+    PLA
     BIT #high(BUTTON_SELECT | BUTTON_DOWN)
     BNE .cursor_down
     DEC z:title_selection_cursor.current_selection, X
@@ -4962,6 +4999,12 @@ endif
     BNE .move_cursor
     ; Overflow
     STZ z:title_selection_cursor.current_selection, X
+    BRA .move_cursor
+.in_submenu
+    PLA
+    LDA z:title_selection_cursor.current_selection, X
+    EOR #1
+    STA z:title_selection_cursor.current_selection, X
 
 .move_cursor:
 .SELECTED_TEXT_DEFINITION = 0xDB
@@ -5002,7 +5045,7 @@ struct title_text_definition animation, x, y
 endstruct
     
 title_text_definitions:
-    title_text_definition normal_game_animation, 144, 138
+    title_text_definition story_mode_animation, 144, 138
     title_text_definition battle_mode_animation, 144, 152
     title_text_definition password_animation, 144, 166
     title_text_definition copyright_text_animation, 136, 183
@@ -5016,20 +5059,51 @@ enter_sound_test:
     JSL play_sound
     set_handler title_selection_cursor.render
     RTL
-    
+
+TITLE_MENU_ITEM_1 = 0x7E1140
+TITLE_MENU_ITEM_2 = 0x7E1180
+TITLE_MENU_ITEM_3 = 0x7E11C0
+
 handle_title_start_button:
     LDY #SOUND_MENU_CONFIRM
     JSL play_sound
-    JSL fade_out_music
+    LDA a:addr(TITLE_MENU_ITEM_3 + title_text_object.handler)
+    BEQ handle_title_submenu_start_button
     SEP #0x20
-    LDA z:0x20, X
+    LDA z:title_selection_cursor.current_selection, X
     CMP #1
     BEQ .battle_mode
     CMP #2
-    BNE .normal_game
+    BNE .story_mode
+    JSL fade_out_music
     JML enter_password_screen
 
-.normal_game:
+.story_mode:
+    REP #0x20
+    LDX #addr(TITLE_MENU_ITEM_1)
+    start_animation #addr(normal_game_animation)
+    REP #0x20
+    LDX #addr(TITLE_MENU_ITEM_2)
+    start_animation #addr(boss_rush_animation)
+    LDX #addr(TITLE_MENU_ITEM_3)
+    JML delete_object
+
+.battle_mode:
+    JSL fade_out_music
+    SEP #0x20
+    LDA #SCREEN_BATTLE_MENU
+    STA a:addr(current_screen)
+    set_handler title_selection_cursor.render
+    RTL
+    
+handle_title_submenu_start_button:
+    JSL fade_out_music
+    SEP #0x20
+    LDA z:title_selection_cursor.current_selection, X
+    BEQ +
+    LDA #7
+    STA z:addr(boss_rush_mode)
++
     LDA #SCREEN_MAP
     STA a:addr(current_screen)
     JSL sub_C550AF
@@ -5037,13 +5111,6 @@ handle_title_start_button:
     set_handler title_selection_cursor.render
     RTL
 
-.battle_mode:
-    SEP #0x20
-    LDA #SCREEN_BATTLE_MENU
-    STA a:addr(current_screen)
-    set_handler title_selection_cursor.render
-    RTL
-    
 enter_demo_screen:
     SEP #0x20
     LDA #0
@@ -9009,6 +9076,7 @@ map_screen_handler:
     AND #0xFF
     CMP #0x68
     BNE .loc_C5767D
+    STZ a:addr(boss_rush_mode)
     LDA #0x500
     STA z:0x12, X
 
@@ -9037,6 +9105,7 @@ map_screen_handler:
 
 .loc_C576A8:
     INC A
+    ORA a:addr(boss_rush_mode)
     STA a:addr(current_screen)
     JSL delete_object
     JSL fade_out_music
@@ -9853,53 +9922,5 @@ sub_C57ECC:
 
 word_C57EED:
     dw 0xFA00, 0xFD00, 0xFE00
-sub_C57EF3:
-i16
-    REP #0x20
-    LDA z:0x22, X
-    STA z:0x50
-    LDA z:0x23, X
-    STA z:0x51
-    LDY #6
-    LDA f:[z:0x50], Y
-    LDY #2
-    SEC
-    SBC f:[z:0x50], Y
-    STA z:0x40
-    JSL sub_C57F51
-    LDA z:0x40
-    STA z:0x38, X
-    LDY #8
-    LDA f:[z:0x50], Y
-    LDY #4
-    SEC
-    SBC f:[z:0x50], Y
-    STA z:0x40
-    JSL sub_C57F51
-    LDA z:0x40
-    STA z:0x3A, X
-    LDA z:0x38, X
-    SEC
-    SBC z:0x3A, X
-    BCS .loc_C57F3E
-    LDA #8
-    STA z:0x40
-    LDA z:0x3A, X
-    BMI .loc_C57F4C
-    LDA #4
-    STA z:0x40
-    BRA .loc_C57F4C
-
-.loc_C57F3E:
-    LDA #2
-    STA z:0x40
-    LDA z:0x38, X
-    BMI .loc_C57F4C
-    LDA #1
-    STA z:0x40
-
-.loc_C57F4C:
-    JSL sub_C57F9F
-    RTL
 
 data_end

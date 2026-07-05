@@ -2551,4 +2551,53 @@ off_C58051:
     da byte_C56192
     da byte_C56186
     da byte_C561B6
+
+sub_C57EF3:
+i16
+    REP #0x20
+    LDA z:0x22, X
+    STA z:0x50
+    LDA z:0x23, X
+    STA z:0x51
+    LDY #6
+    LDA f:[z:0x50], Y
+    LDY #2
+    SEC
+    SBC f:[z:0x50], Y
+    STA z:0x40
+    JSL sub_C57F51
+    LDA z:0x40
+    STA z:0x38, X
+    LDY #8
+    LDA f:[z:0x50], Y
+    LDY #4
+    SEC
+    SBC f:[z:0x50], Y
+    STA z:0x40
+    JSL sub_C57F51
+    LDA z:0x40
+    STA z:0x3A, X
+    LDA z:0x38, X
+    SEC
+    SBC z:0x3A, X
+    BCS .loc_C57F3E
+    LDA #8
+    STA z:0x40
+    LDA z:0x3A, X
+    BMI .loc_C57F4C
+    LDA #4
+    STA z:0x40
+    BRA .loc_C57F4C
+
+.loc_C57F3E:
+    LDA #2
+    STA z:0x40
+    LDA z:0x38, X
+    BMI .loc_C57F4C
+    LDA #1
+    STA z:0x40
+
+.loc_C57F4C:
+    JSL sub_C57F9F
+    RTL
 data_end

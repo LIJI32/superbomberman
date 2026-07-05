@@ -12636,6 +12636,13 @@ sub_C46359:
     SEP #0x20
     LDA #bank(sub_C4667D)
     STA z:2,X
+    LDA a:addr(boss_rush_mode)
+    BEQ .ret
+    LDA #0x40
+    STA z:0x35,X
+    LDY #MUSIC_GAME_OVER
+    JSL play_music
+.ret
     RTL
 
 sub_C463A5:
@@ -12985,6 +12992,13 @@ sub_C4667D:
     JML null_versus_initializer
 
 .loc_C46697:
+    LDA a:addr(boss_rush_mode)
+    BEQ +
+    LDA #SCREEN_TITLE
+    STA a:addr(current_screen)
+    STZ a:addr(boss_rush_mode)
+    JMP a:sub_C463A5
++
     LDA #SCREEN_CONTINUE
     STA a:addr(current_screen)
     JMP a:sub_C463A5
