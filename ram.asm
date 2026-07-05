@@ -287,8 +287,10 @@ byte_7E0CA9:
 story_mode_timers:
     ds 2 ; Player 1
     ds 2 ; Player 2
-word_7E0CAE:
-    ds 2
+second_time_in_title_screen:
+    ds 1
+byte_7E0CAF:
+    ds 1
     
 org 0x7E0CE0
 multitap_status:
@@ -382,6 +384,7 @@ level_manager_object:
 .anonymous_5:
     ds 2
     ds 1
+.demo_screen_index
     ds 1
 .anonymous_6:
     ds 2
