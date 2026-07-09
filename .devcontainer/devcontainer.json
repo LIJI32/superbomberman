@@ -1,0 +1,13 @@
+{
+    "name": "Super Bomberman Development Container",
+    "dockerFile": "Dockerfile",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "ms-python.python"
+    ],
+    "forwardPorts": [],
+    "postCreateCommand": "make",
+    "remoteUser": "root"
+}
