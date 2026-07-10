@@ -1067,8 +1067,10 @@ i16
     PHX
     LDX #addr(player_1)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     LDX #addr(player_2)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     PLX
     set_handler .transition_wait
     SEP #0x20

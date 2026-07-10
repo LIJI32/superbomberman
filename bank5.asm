@@ -5099,10 +5099,14 @@ handle_title_start_button:
 handle_title_submenu_start_button:
     JSL fade_out_music
     SEP #0x20
+    LDA #5
+    STA z:0x40
     LDA z:title_selection_cursor.current_selection, X
     BEQ +
     LDA #7
     STA z:addr(boss_rush_mode)
+    LDA #1
+    STA z:0x40
 +
     LDA #SCREEN_MAP
     STA a:addr(current_screen)
@@ -5156,8 +5160,6 @@ enter_password_screen:
 
 sub_C550AF:
     SEP #0x20
-    LDA #5
-    STA z:0x40
     LDA a:addr(byte_7E0C8F)
     BEQ .loc_C550C1
     LDA #9
@@ -8366,6 +8368,8 @@ i16
     BNE .loc_C56FFC
     LDA a:addr(level_manager_object.previous_screen)
     STA a:addr(current_screen)
+    LDA #5
+    STA z:0x40
     JSL sub_C550AF
     JSL sub_C462BA
     SEP #0x20

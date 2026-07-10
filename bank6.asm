@@ -1673,6 +1673,8 @@ extra_life_bonus:
 add_extra_life:
 i16
     SEP #0x20
+    LDA z:player.unknown_flags, X
+    BEQ .ret
     LDA z:player.lives, X
     CMP #9
     BEQ .maxed
@@ -1682,7 +1684,17 @@ i16
     JSL draw_number_of_lives
     LDY #SOUND_EXTRA_LIFE
     JSL play_sound
+.ret
+    REP #0x20
     RTL
+    
+add_extra_life_if_boss_rush:
+    SEP #0x20
+    LDA z:addr(boss_rush_mode)
+    BNE add_extra_life
+    REP #0x20
+    RTL
+    
 
 bomb_pass_bonus:
 i16
@@ -6822,6 +6834,7 @@ vectors_for_speed_and_direction:
     dw 0, 0xFF20, 0xE0,  0, 0, 0xE0,  0xFF20, 0
     dw 0, 0xFE80, 0x180, 0, 0, 0x180, 0xFE80, 0
     dw 0, 0xFF40, 0xC0,  0, 0, 0xC0,  0xFF40, 0
+    dw 0, 0xFF60, 0xA0,  0, 0, 0xA0,  0xFF60, 0
 
 enemy_detect_blast_in_range:
     .LEFT_LIMIT = 0x43 ; Argument

@@ -740,7 +740,7 @@ create_clown_mask:
     RTL
     
 clown_mask_random_bonuses:
-    dw SPEED_UP, SPEED_UP, SPEED_UP, SPEED_UP, EXTRA_TIME, BOMB_UP, BOMB_UP, FIRE_UP
+    dw SPEED_UP, SPEED_UP, SPEED_UP, SPEED_UP, BOMB_UP, BOMB_UP, FIRE_UP, FIRE_UP
 
 clown_mask_init:
 i16
@@ -897,7 +897,7 @@ i16
     ; Vertical Movement
     LDA #5
     STA z:.ACCELERATION
-    LDA #145
+    LDA #130
     STA z:.VELOCITY_LIMIT
     LDA z:clown_mask.y_position, X
     SEC
@@ -906,7 +906,7 @@ i16
     BCC +
     LDA #-5
     STA z:.ACCELERATION
-    LDA #-145
+    LDA #-130
     STA z:.VELOCITY_LIMIT
 +
 
@@ -1264,8 +1264,10 @@ clown_mask_collapse:
     PHX
     LDX #addr(player_1)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     LDX #addr(player_2)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     PLX
 
     set_handler .wait_transition

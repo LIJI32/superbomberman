@@ -30,7 +30,6 @@ create_missile:
     SEP #0x20
     LDA #bank(enemy_creation_functions)
     STA a:enemy.creation_functions_array_ptr + 2, Y
-    SEP #0x20
     LDA #1
     STA a:3, Y
     LDA #0x30
@@ -41,14 +40,24 @@ create_missile:
     STA a:enemy.effective_palette, Y
     LDA #0xC
     STA a:enemy.real_palette, Y
-    LDA #0
+    JSL fast_random
+    REP #0x20
+    AND #0x7
+    PHX
+    TAX
+    SEP #0x20
+    LDA f:missile_bonuses, X
     STA a:enemy.carried_bonus, Y
+    PLX
     LDA #0
     STA a:enemy.flags, Y
     REP #0x20
     LDA #HARD_BLOCK | SOFT_BLOCK | BOMB
     STA a:enemy.collision_mask, Y
     RTL
+    
+missile_bonuses:
+    db FIRE_UP, KICK, PUNCH, 0, 0, 0, 0, 0
 
 create_level_missile:
     REP #0x20
@@ -136,7 +145,7 @@ missile:
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF
     STA z:enemy.animation_direction, X
-    LDA #5
+    LDA #6
     STA z:enemy.speed, X
     set_enemy_score 400
     set_handler .loc_C66E1E

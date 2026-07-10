@@ -3355,6 +3355,9 @@ i16
     INY
 
 .loc_C41C43:
+    SEP #0x20
+    LDA z:addr(boss_rush_mode)
+    BNE locret
     REP #0x20
     LDA z:player.score_digits_12, X
     SEC
@@ -6688,8 +6691,10 @@ i16
     PHX
     LDX #addr(player_1)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     LDX #addr(player_2)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     PLX
     RTL
 
@@ -15002,28 +15007,30 @@ i16
 
 sub_C4774A:
     REP #0x20
-    STZ z:0x30,X
-    STZ z:0x32,X
-    STZ z:0x34,X
-    STZ z:0x36,X
-    STZ z:0x38,X
-    STZ z:0x3A,X
-    STZ z:0x3B,X
+    STZ z:player.bombups,X
+    STZ z:player.speedups,X
+    STZ z:player.trampoline_state,X
+    STZ z:player.invincibility_countdown,X
+    STZ z:player.powerups,X
+    STZ z:player.invisibility_poison_flashing,X
+    STZ z:player.invisibility_poison_flashing + 1,X
     RTL
 
 sub_C4775B:
     SEP #0x20
-    LDA z:0x31,X
+    LDA z:player.fireups,X
     AND #0x7F
-    STA z:0x31,X
-    DEC z:0x32,X
-    BPL .loc_C47769
-    STZ z:0x32,X
+    STA z:player.fireups,X
+    
+    LDA z:player.speedups,X
+    BIT #0xFE
+    BEQ +
+    DEC z:player.speedups,X
++
 
-.loc_C47769:
-    STZ z:0x33,X
-    STZ z:0x38,X
-    STZ z:0x39,X
+    STZ z:player.remote_control,X
+    STZ z:player.powerups,X
+    STZ z:player.powerups + 1,X
     RTL
 
 sub_C47770:

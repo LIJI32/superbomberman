@@ -1207,8 +1207,10 @@ crane_hand_defeat:
     PHX
     LDX #addr(player_1)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     LDX #addr(player_2)
     add_to_score_if_allowed 10000
+    JSL add_extra_life_if_boss_rush
     PLX
     JSL delete_object
 
@@ -1862,10 +1864,18 @@ crane_hand_door:
     ADC #0x40
     STA z:crane_hand_door.missile_countdown, X
     
-    ; Cap at 4 missiles
-    LDA z:crane_hand_door.missile_count, X
-    CMP #4
-    BCS .render
+    ; Cap at 3 to 5 missiles, depending on HP
+    LDA #20
+    SEC
+    LDY z:crane_hand_door.crane_hand, X
+    SBC a:crane_hand.hitpoints, Y
+    LSR A
+    LSR A
+    LSR A
+    CLC
+    ADC #2
+    CMP z:crane_hand_door.missile_count, X
+    BCC .render
     
     ; Pause movement of the main object
     LDY z:crane_hand_door.crane_hand, X
