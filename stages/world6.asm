@@ -85,7 +85,7 @@ stage_6_4:
     load_palettes diamond_tower_palettes
     load_global_sprites standard_level_graphics
     tile_animation TILE_HARDBLOCK, diamond_tower_hard_animation
-    hidden_bonus_object BONUS_COND_SPAWN_ENEMY, ICE_CREAM
+    hidden_bonus_object BONUS_COND_SPAWN_ENEMY, FIRE_EXT
     init_functions_end
 
     df create_level_bigaron
