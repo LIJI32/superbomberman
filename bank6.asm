@@ -2658,7 +2658,7 @@ i16
     STA f:combo_counters & 0xFFFF, X ; Access through bank 0 rather than 7E, for some reason
     INX
     INX
-    CPX #0x10
+    CPX #0x20
     BNE -
     RTL
 
