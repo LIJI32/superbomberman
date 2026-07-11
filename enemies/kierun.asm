@@ -18,7 +18,7 @@ kierun_init:
     STA z:enemy.animation_direction, X
     LDA #0
     STA z:enemy.speed, X
-    set_enemy_score 800
+    set_enemy_score 400
     set_handler kierun
     ; Fallthrough
 sub_C67BE6:

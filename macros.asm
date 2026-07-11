@@ -74,6 +74,11 @@ macro set_enemy_score score
     STA z:enemy.score_index, X
 endmacro
 
+macro set_enemy_score_y score
+    LDA #(ENEMY_SCORE_$score)
+    STA a:enemy.score_index, Y
+endmacro
+
 macro start_animation animation...
     LDA $animation
     STA z:start_animation.ANIMATION

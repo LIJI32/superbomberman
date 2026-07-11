@@ -22,7 +22,7 @@ robocom_init:
     STA z:enemy.animation_direction, X
     LDA #0
     STA z:enemy.speed, X
-    set_enemy_score 800
+    set_enemy_score 3200
     set_handler robocom
     ; Fallthrough
 

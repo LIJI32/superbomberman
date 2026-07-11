@@ -31,7 +31,7 @@ chameleoman_init:
     STA z:0x31, X
     LDA #0
     STA z:0x32, X
-    set_enemy_score 400
+    set_enemy_score 800
     set_handler chameleoman
     ; Fallthrough
 

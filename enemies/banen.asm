@@ -20,7 +20,7 @@ banen_init:
     STA z:enemy.animation_direction, X
     LDA #0
     STA z:enemy.speed, X
-    set_enemy_score 200
+    set_enemy_score 100
     set_handler banen
     ; Fallthrough
 

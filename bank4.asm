@@ -3366,12 +3366,10 @@ i16
     SBC a:0x11a, X
     BCC locret
     SED
-    LDA a:0x11C, X
-    CLC
-    ADC a:0x11C, X
-    STA a:0x11C, X
     LDA a:0x11a, X
-    ADC a:0x11a, X
+    ORA #1
+    CLC
+    ADC #1
     STA a:0x11a, X
     CLD
     JSL add_extra_life
@@ -12535,13 +12533,13 @@ byte_C462B5:
 sub_C462BA:
 i16
     REP #0x20
-    LDA #0x5000
+    LDA #0
     STA a:addr(unk_7E0E5C)
-    LDA #0
+    LDA #1
     STA a:addr(unk_7E0E5A)
-    LDA #0x5000
-    STA a:addr(unk_7E0E9C)
     LDA #0
+    STA a:addr(unk_7E0E9C)
+    LDA #1
     STA a:addr(unk_7E0E9A)
     SEP #0x20
     PHX

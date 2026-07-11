@@ -9,6 +9,8 @@ create_gold_kuwagen:
     REP #0x20
     LDA #0x8
     STA a:enemy.kuwagen_idle_frames, Y
+    SEP #0x20
+    set_enemy_score_y 800
     RTL
 
 create_metal_kuwagen:
@@ -22,6 +24,8 @@ create_metal_kuwagen:
     REP #0x20
     LDA #0x20
     STA a:enemy.kuwagen_idle_frames, Y
+    SEP #0x20
+    set_enemy_score_y 400
     RTL
 
 create_kuwagen:
@@ -36,6 +40,8 @@ create_kuwagen:
     REP #0x20
     LDA #0x20
     STA a:enemy.kuwagen_idle_frames, Y
+    SEP #0x20
+    set_enemy_score_y 200
 create_enemy_ret:
     RTL
 
@@ -46,7 +52,6 @@ kuwagen_init:
     start_animation #addr(kuwagen_animation_down)
     set_enemy_animations kuwagen_animations
     SEP #0x20
-    set_enemy_score 400
     LDA #3
     STA z:enemy.hits_left_for_direction_switch, X
     LDA #0xFF
