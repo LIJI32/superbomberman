@@ -2171,7 +2171,7 @@ create_fog_animator:
     STA fog_animator.current_palette, Y
     LDA #1
     STA fog_animator.countdown, Y
-    LDA a:addr(level_manager_object.previous_level_representation)
+    LDA a:addr(level_manager_object.level_representation)
     CMP #0x67
     BNE fog_animator.ret
     JML create_random_bomb_drop ; Reached the maximum number of init functions in 6-7, so let's shove it here

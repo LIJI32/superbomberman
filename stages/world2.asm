@@ -154,7 +154,7 @@ stage_2_7:
     df create_pakupa
     dw 0
     
-    dw BOMB_UP, SPEED_UP, SPEED_UP, POISON, POISON, POISON, POISON, RANDOM, 0
+    dw BOMB_UP, SPEED_UP, POISON, POISON, POISON, POISON, RANDOM, 0
     
 stage_2_8:
     level 0x28, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_BOSS, 0xE, 0x80,

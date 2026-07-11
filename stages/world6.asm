@@ -139,9 +139,9 @@ stage_6_6:
     df create_level_missile
     df create_level_missile
     df create_level_missile
-    df create_robocom
-    df create_robocom
-    df create_robocom
+    df create_gold_kuwagen
+    df create_gold_kuwagen
+    df create_gold_kuwagen
     dw 0
     
     dw REMOTE_CONTROL, WALL_PASS, SPEED_UP, APPLE, 0
@@ -163,14 +163,14 @@ stage_6_7:
 
     df create_metal_propene
     df create_metal_propene
-    df create_gold_kuwagen
-    df create_gold_kuwagen
-    df create_gold_kuwagen
+    df create_robocom
+    df create_robocom
+    df create_robocom
     df create_yoroisu
     df create_yoroisu
     dw 0
     
-    dw EXTRA_LIFE, RANDOM, FULL_FIRE, BOMB_UP, EXTRA_TIME, EXTRA_TIME, 0
+    dw EXTRA_LIFE, RANDOM, FULL_FIRE, BOMB_UP, BOMB_UP, EXTRA_TIME, EXTRA_TIME, 0
     
 stage_6_8:
     level 0x68, GAME_MODE_STORY, LEVEL_FLAGS_SPAWN_BOSS_ALT, 0xE, 0x90,

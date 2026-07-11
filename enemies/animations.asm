@@ -1563,129 +1563,147 @@ dengurin_animation_left:
     .end
 robocom_frame_down_1:
     animation_frame_tile_count
-    frame_oam_tile    0,    0, 0x017, 0x00
-    frame_oam_tile   -8,    0, 0x016, 0x00
-    frame_oam_tile   -8,  -16, 0x006, 0x20
+    frame_oam_tile    0,  -16, 0x011, 0x00
+    frame_oam_tile   -8,  -16, 0x010, 0x00
+    frame_oam_tile   -8,   -8, 0x006, 0x20
     .end
 robocom_frame_down_2:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x031, 0x00
-    frame_oam_tile   -8,   -1, 0x030, 0x00
-    frame_oam_tile   -8,  -17, 0x020, 0x20
+    frame_oam_tile    0,  -17, 0x011, 0x00
+    frame_oam_tile   -8,  -17, 0x010, 0x00
+    frame_oam_tile   -8,   -9, 0x020, 0x20
     .end
 robocom_frame_down_3:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x033, 0x00
-    frame_oam_tile   -8,   -1, 0x032, 0x00
-    frame_oam_tile   -8,  -17, 0x022, 0x20
+    frame_oam_tile    0,  -17, 0x011, 0x00
+    frame_oam_tile   -8,  -17, 0x010, 0x00
+    frame_oam_tile   -8,   -9, 0x022, 0x20
     .end
 robocom_frame_up_1:
     animation_frame_tile_count
-    frame_oam_tile    0,    0, 0x039, 0x00
-    frame_oam_tile   -8,    0, 0x038, 0x00
+    frame_oam_tile    0,    0, 0x013, 0x00
+    frame_oam_tile   -8,    0, 0x012, 0x00
     frame_oam_tile   -8,  -16, 0x024, 0x20
     .end
 robocom_frame_up_2:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x03b, 0x00
-    frame_oam_tile   -8,   -1, 0x03a, 0x00
+    frame_oam_tile    0,   -1, 0x015, 0x00
+    frame_oam_tile   -8,   -1, 0x014, 0x00
     frame_oam_tile   -8,  -17, 0x026, 0x20
     .end
 robocom_frame_up_3:
     animation_frame_tile_count
     frame_oam_tile   -8,   -1, 0x018, 0x00
     frame_oam_tile    0,   -1, 0x019, 0x00
-    frame_oam_tile   -8,  -17, 0x040, 0x20
+    frame_oam_tile   -8,  -17, 0x030, 0x20
     .end
 robocom_frame_down_4:
     animation_frame_tile_count
-    frame_oam_tile   -8,   -1, 0x012, 0x00
-    frame_oam_tile    0,   -1, 0x013, 0x00
-    frame_oam_tile   -8,  -17, 0x002, 0x20
+    frame_oam_tile   -8,  -17, 0x010, 0x00
+    frame_oam_tile    0,  -17, 0x011, 0x00
+    frame_oam_tile   -8,   -9, 0x002, 0x20
     .end
 robocom_frame_down_5:
     animation_frame_tile_count
-    frame_oam_tile    0,    0, 0x011, 0x00
-    frame_oam_tile   -8,    0, 0x010, 0x00
-    frame_oam_tile   -8,  -16, 0x000, 0x20
+    frame_oam_tile    0,  -16, 0x011, 0x00
+    frame_oam_tile   -8,  -16, 0x010, 0x00
+    frame_oam_tile   -8,   -9, 0x000, 0x20
     .end
 robocom_frame_down_6:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x015, 0x00
-    frame_oam_tile   -8,   -1, 0x014, 0x00
-    frame_oam_tile   -8,  -17, 0x004, 0x20
+    frame_oam_tile    0,  -17, 0x011, 0x00
+    frame_oam_tile   -8,  -17, 0x010, 0x00
+    frame_oam_tile   -8,   -9, 0x004, 0x20
     .end
 robocom_frame_right_1:
     animation_frame_tile_count
-    frame_oam_tile   -8,    0, 0x01a, 0x00
-    frame_oam_tile    0,    0, 0x01b, 0x00
-    frame_oam_tile   -8,  -16, 0x042, 0x20
+    frame_oam_tile   -8,  -16, 0x016, 0x00
+    frame_oam_tile    0,  -16, 0x017, 0x00
+    frame_oam_tile   -8,   -8, 0x032, 0x20
     .end
 robocom_frame_right_2:
     animation_frame_tile_count
-    frame_oam_tile   -8,   -1, 0x01c, 0x00
-    frame_oam_tile    0,   -1, 0x01d, 0x00
-    frame_oam_tile   -8,  -17, 0x044, 0x20
+    frame_oam_tile   -8,  -17, 0x016, 0x00
+    frame_oam_tile    0,  -17, 0x017, 0x00
+    frame_oam_tile   -8,   -9, 0x034, 0x20
     .end
 robocom_frame_right_3:
     animation_frame_tile_count
-    frame_oam_tile   -8,   -1, 0x01e, 0x00
-    frame_oam_tile    0,   -1, 0x01f, 0x00
-    frame_oam_tile   -8,  -17, 0x046, 0x20
+    frame_oam_tile   -8,  -17, 0x016, 0x00
+    frame_oam_tile    0,  -17, 0x017, 0x00
+    frame_oam_tile   -8,   -9, 0x036, 0x20
     .end
 robocom_frame_right_4:
     animation_frame_tile_count
-    frame_oam_tile    0,    0, 0x01b, 0x00
-    frame_oam_tile   -8,    0, 0x01a, 0x00
-    frame_oam_tile   -8,  -16, 0x050, 0x20
+    frame_oam_tile   -8,  -16, 0x016, 0x00
+    frame_oam_tile    0,  -16, 0x017, 0x00
+    frame_oam_tile   -8,    0, 0x03a, 0x00
+    frame_oam_tile    0,    0, 0x03b, 0x00
+    frame_oam_tile   -8,   -8, 0x01a, 0x00
+    frame_oam_tile    0,   -8, 0x01b, 0x00
     .end
 robocom_frame_right_5:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x01d, 0x00
-    frame_oam_tile   -8,   -1, 0x01c, 0x00
-    frame_oam_tile   -8,  -17, 0x034, 0x20
+    frame_oam_tile   -8,  -16, 0x016, 0x00
+    frame_oam_tile    0,  -16, 0x017, 0x00
+    frame_oam_tile   -8,   -1, 0x03c, 0x00
+    frame_oam_tile    0,   -1, 0x03d, 0x00
+    frame_oam_tile   -8,   -9, 0x01c, 0x00
+    frame_oam_tile    0,   -9, 0x01d, 0x00
     .end
 robocom_frame_right_6:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x01f, 0x00
-    frame_oam_tile   -8,   -1, 0x01e, 0x00
-    frame_oam_tile   -8,  -17, 0x036, 0x20
+    frame_oam_tile   -8,  -16, 0x016, 0x00
+    frame_oam_tile    0,  -16, 0x017, 0x00
+    frame_oam_tile   -8,   -1, 0x03e, 0x00
+    frame_oam_tile    0,   -1, 0x03f, 0x00
+    frame_oam_tile   -8,   -9, 0x01e, 0x00
+    frame_oam_tile    0,   -9, 0x01f, 0x00
     .end
 robocom_frame_left_1:
     animation_frame_tile_count
-    frame_oam_tile    0,    0, 0x01a, 0x40
-    frame_oam_tile   -8,    0, 0x01b, 0x40
-    frame_oam_tile   -8,  -16, 0x042, 0x60
+    frame_oam_tile   -8,  -16, 0x017, 0x40
+    frame_oam_tile    0,  -16, 0x016, 0x40
+    frame_oam_tile   -8,   -8, 0x032, 0x60
     .end
 robocom_frame_left_2:
     animation_frame_tile_count
-    frame_oam_tile    0,    0, 0x01a, 0x40
-    frame_oam_tile   -8,    0, 0x01b, 0x40
-    frame_oam_tile   -8,  -16, 0x050, 0x60
+    frame_oam_tile   -8,  -17, 0x017, 0x40
+    frame_oam_tile    0,  -17, 0x016, 0x40
+    frame_oam_tile   -8,   -9, 0x034, 0x60
     .end
 robocom_frame_left_3:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x01c, 0x40
-    frame_oam_tile   -8,   -1, 0x01d, 0x40
-    frame_oam_tile   -8,  -17, 0x044, 0x60
+    frame_oam_tile   -8,  -17, 0x017, 0x40
+    frame_oam_tile    0,  -17, 0x016, 0x40
+    frame_oam_tile   -8,   -9, 0x036, 0x60
     .end
 robocom_frame_left_4:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x01c, 0x40
-    frame_oam_tile   -8,   -1, 0x01d, 0x40
-    frame_oam_tile   -8,  -17, 0x034, 0x60
+    frame_oam_tile   -8, -16, 0x017, 0x40
+    frame_oam_tile    0, -16, 0x016, 0x40
+    frame_oam_tile   -8,   0, 0x03b, 0x40
+    frame_oam_tile    0,   0, 0x03a, 0x40
+    frame_oam_tile   -8,  -8, 0x01b, 0x40
+    frame_oam_tile    0,  -8, 0x01a, 0x40
     .end
 robocom_frame_left_5:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x01e, 0x40
-    frame_oam_tile   -8,   -1, 0x01f, 0x40
-    frame_oam_tile   -8,  -17, 0x046, 0x60
+    frame_oam_tile   -8, -16, 0x017, 0x40
+    frame_oam_tile    0, -16, 0x016, 0x40
+    frame_oam_tile   -8,  -1, 0x03d, 0x40
+    frame_oam_tile    0,  -1, 0x03c, 0x40
+    frame_oam_tile   -8,  -9, 0x01d, 0x40
+    frame_oam_tile    0,  -9, 0x01c, 0x40
     .end
 robocom_frame_left_6:
     animation_frame_tile_count
-    frame_oam_tile    0,   -1, 0x01e, 0x40
-    frame_oam_tile   -8,   -1, 0x01f, 0x40
-    frame_oam_tile   -8,  -17, 0x036, 0x60
+    frame_oam_tile   -8, -16, 0x017, 0x40
+    frame_oam_tile    0, -16, 0x016, 0x40
+    frame_oam_tile   -8,  -1, 0x03f, 0x40
+    frame_oam_tile    0,  -1, 0x03e, 0x40
+    frame_oam_tile   -8,  -9, 0x01f, 0x40
+    frame_oam_tile    0,  -9, 0x01e, 0x40
     .end
 robocom_animation_up:
     animation_frame_count

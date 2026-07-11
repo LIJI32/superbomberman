@@ -1077,7 +1077,6 @@ dengurin_graphics:
 robocom_graphics:
     df robocom_graphic_0
     df robocom_graphic_1
-    df robocom_graphic_2
 moguchan_graphics:
     df moguchan_graphic_0
     df moguchan_graphic_1

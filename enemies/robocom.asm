@@ -3,7 +3,7 @@ create_robocom:
     SEP #0x20
     create_enemy robocom_init
     init_enemy 3
-    allocate_object_graphics robocom_graphics, 3
+    allocate_object_graphics robocom_graphics, 2
     allocate_object_palette ROBOCOM_PALETTE
     RTL
 

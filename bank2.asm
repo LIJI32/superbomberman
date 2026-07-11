@@ -95,7 +95,6 @@ asset graphics/sprites, dengurin_graphic_1
 asset graphics/sprites, dengurin_graphic_2
 asset graphics/sprites, robocom_graphic_0
 asset graphics/sprites, robocom_graphic_1
-asset graphics/sprites, robocom_graphic_2
 if WESTERN_MOGUCHAN_GRAPHIC
 asset graphics/sprites, moguchan_graphic_0
 asset graphics/sprites, moguchan_graphic_1
